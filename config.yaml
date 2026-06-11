@@ -25,3 +25,60 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: agent-error
+      description: 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - keyword: agent trajectory error
+          keyword_cn: 智能体轨迹错误
+          query: detecting errors in agent trajectories
+        - keyword: trajectory anomaly detection
+          keyword_cn: 轨迹异常检测
+          query: anomaly detection in agent trajectories
+        - keyword: agent behavior monitoring
+          keyword_cn: 智能体行为监控
+          query: monitoring agent behavior for errors
+        - keyword: action error detection
+          keyword_cn: 行动错误检测
+          query: detecting action errors in agent trajectories
+        - keyword: path deviation detection
+          keyword_cn: 路径偏差检测
+          query: detecting path deviations in agent trajectories
+        - keyword: reinforcement learning trajectory
+          keyword_cn: 强化学习轨迹
+          query: error detection in reinforcement learning agent trajectories
+      intent_queries:
+        - query: How to detect errors in agent trajectories?
+          query_cn: 如何在智能体轨迹中检测错误？
+          enabled: true
+          source: manual
+          note: ''
+        - query: Methods for anomaly detection in agent trajectories
+          query_cn: 智能体轨迹中的异常检测方法
+          enabled: true
+          source: manual
+          note: ''
+        - query: Error detection in path planning for autonomous agents
+          query_cn: 自主智能体路径规划中的错误检测
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-06-11T07:25:57.724Z'
+source_backends:
+  arxiv:
+    papers_table: arxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_arxiv_papers
+    vector_rpc_exact: match_arxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_arxiv_papers_bm25
+    sync_table: arxiv_sync_status
+    sync_success_value: success
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
