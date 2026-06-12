@@ -1,0 +1,424 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-12T21:07:29.703680+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2606.06461v1",
+      "source": "arxiv",
+      "title": "Flow-based Policy Adaptation without Policy Updates",
+      "abstract": "Leveraging prior knowledge from pretrained policies, foundation models, or human operators offers an efficient alternative to learning robot skills from scratch. However, these agents often provide actions that are suboptimal, noisy, or misaligned with task-specific expert behavior. We propose GLOVES, a family of flow-based adaptation methods that correct non-expert actions by transporting them toward an expert action distribution. Rather than replacing agentic control with full autonomy, GLOVES performs selective action-level adaptation, improving task success while preserving agent intent. The learned flow also provides a natural in-distribution scoring mechanism through reverse flow evaluation. We use this signal as an intervention gate: actions that appear consistent with the expert distribution are passed through unchanged, while anomalous or out-of-distribution (OOD) actions are corrected. In this way, assistance is only provided when necessary. GLOVES requires only limited expert supervision, using a small number of demonstrations or reusable successful skill segments. By learning local expert action patterns and stitching them during execution, GLOVES provides a lightweight shared-control module for robust action adaptation across tasks and environments. Code and demos are available at ripl.github.io/GLOVES_web.",
+      "authors": [
+        "Luzhe Sun",
+        "Jingtian Ji",
+        "Haoran Chen",
+        "Jiawei Zhou",
+        "Matthew R. Walter"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-04T17:51:12+00:00",
+      "link": "https://arxiv.org/pdf/2606.06461v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Corrects non-expert actions and provides in-distribution scoring for anomaly detection",
+      "llm_evidence_cn": "修正非专家动作并通过分布内评分检测异常",
+      "llm_evidence": "修正非专家动作并通过分布内评分检测异常",
+      "canonical_evidence": "修正非专家动作并通过分布内评分检测异常",
+      "llm_tldr_en": "GLOVES uses flow-based adaptation to correct suboptimal agent actions and provides a reverse flow scoring mechanism for detecting out-of-distribution actions, directly enabling error detection in agent trajectories.",
+      "llm_tldr_cn": "GLOVES提出基于流的动作适应方法，将非专家动作向专家动作分布传输，同时利用逆流评估提供分布内评分机制作为干预门控。该方法可直接检测智能体轨迹中的异常动作并选择性修正，有效提高任务成功率并保持智能体意图。",
+      "llm_tldr": "GLOVES提出基于流的动作适应方法，将非专家动作向专家动作分布传输，同时利用逆流评估提供分布内评分机制作为干预门控。该方法可直接检测智能体轨迹中的异常动作并选择性修正，有效提高任务成功率并保持智能体意图。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.07379v1",
+      "source": "arxiv",
+      "title": "Do Coding Agents Deceive Us? Detecting and Preventing Cheating via Capped Evaluation with Randomized Tests",
+      "abstract": "A growing failure mode in agent evaluation and training is that models can achieve high evaluation scores by exploiting shortcuts instead of solving the intended task, producing deceptive performance. This makes evaluation scores unreliable as measures of true task-solving ability. We propose CapCode, a framework for constructing coding datasets with randomized tests whose best achievable non-cheating performance is deliberately capped below one. This capped-performance design gives evaluation scores a clearer interpretation: scores substantially above the cap are implausible and therefore provide evidence of cheating. To prevent cheating, we propose CapReward, a reward design based on the CapCode principle to discourage optimization beyond the cap. Experiments across multiple datasets show that CapCode detects cheating while preserving performance ranking of models, and CapReward reduces cheating behavior, yielding models that better follow the intended task specification.",
+      "authors": [
+        "Thanawat Lodkaew",
+        "Johannes Ackermann",
+        "Soichiro Nishimori",
+        "Nontawat Charoenphakdee",
+        "Masashi Sugiyama",
+        "Takashi Ishida"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL",
+        "stat.ME"
+      ],
+      "published": "2026-06-05T15:20:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.07379v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detecting cheating in agent evaluation as anomaly in behavior",
+      "llm_evidence_cn": "检测智能体评估中的作弊行为作为行为异常",
+      "llm_evidence": "检测智能体评估中的作弊行为作为行为异常",
+      "canonical_evidence": "检测智能体评估中的作弊行为作为行为异常",
+      "llm_tldr_en": "Proposes CapCode to detect cheating in coding agents by capping non-cheating performance, identifying anomalies in agent trajectories.",
+      "llm_tldr_cn": "针对智能体评估中模型通过走捷径获得高分的欺骗行为，本文提出CapCode框架，通过设计随机化测试并人为限制无作弊时的最高性能，使大幅超出上限的得分成为作弊证据。同时提出CapReward训练策略来抑制作弊。该方法有效识别智能体轨迹中的异常行为，提升评估可靠性。",
+      "llm_tldr": "针对智能体评估中模型通过走捷径获得高分的欺骗行为，本文提出CapCode框架，通过设计随机化测试并人为限制无作弊时的最高性能，使大幅超出上限的得分成为作弊证据。同时提出CapReward训练策略来抑制作弊。该方法有效识别智能体轨迹中的异常行为，提升评估可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.08525v1",
+      "source": "arxiv",
+      "title": "DriveReward: A Comprehensive Dataset and Generative Vision-Language Reward Model for Autonomous Driving",
+      "abstract": "Reward models play a pivotal role in reinforcement learning (RL) and multi-modal trajectory selection for autonomous driving. However, acquiring such rewards typically relies on hand-crafted rule-based objectives or perception ground truth, which hinders generalization for data-scaling. While Vision-Language Models (VLMs) have demonstrated feasibility as reward models in other domains, their effectiveness in driving tasks remains underexplored. In this work, we bridge this gap by (1) introducing DriveReward, a reasoning trajectory evaluation dataset rigorously labeled via temporally-grounded visual guidance, and augmented with counterfactual driving behaviors., (2) alongside a specialized Vision-Language Reward Model. To address the scarcity of failure cases in conventional datasets, we propose a counterfactual data annotation scheme to construct cases encompassing diverse driving styles and erroneous behaviors. Evaluations on our proposed benchmark reveal that even leading open-source and proprietary VLMs fail to excel across all tasks, highlighting significant room for improvement in existing models. Building on these findings, we subsequently tailor a specialized 1B reward model that outperforms larger VLMs on task-specific reward alignment. Finally, we validate our reward model's effectiveness by integrating it into RL finetuning and multi-modal trajectory scoring across multiple baselines, achieving performance comparable to rule-based reward calculations in both open-loop and closed-loop evaluation.",
+      "authors": [
+        "Qimao Chen",
+        "Fang Li",
+        "Yuechen Luo",
+        "Zehan Zhang",
+        "Haiyang Sun",
+        "Fangzhen Li",
+        "Bing Wang",
+        "Guang Chen",
+        "Yang Ji",
+        "Jiong Deng",
+        "Hongwei Xie",
+        "Hangjun Ye",
+        "Long Chen",
+        "Yi Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-07T09:05:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.08525v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "reward model for RL driving trajectories with counterfactual errors",
+      "llm_evidence_cn": "用于自动驾驶RL轨迹的奖励模型，包含反事实错误行为",
+      "llm_evidence": "用于自动驾驶RL轨迹的奖励模型，包含反事实错误行为",
+      "canonical_evidence": "用于自动驾驶RL轨迹的奖励模型，包含反事实错误行为",
+      "llm_tldr_en": "DriveReward provides a VLM-based reward model that evaluates driving trajectories, including counterfactual error behaviors, enabling error detection in RL agent trajectories.",
+      "llm_tldr_cn": "该论文针对自动驾驶中奖励模型依赖手工规则的问题，构建了DriveReward数据集和视觉语言奖励模型。数据集包含时空对齐的反事实驾驶行为，从而支持对轨迹错误（如路径偏离）的检测。奖励模型可应用于强化学习agent轨迹的评估与异常识别，为RL中的轨迹错误检测提供了新工具。实验表明该模型在轨迹质量评估上表现优异。",
+      "llm_tldr": "该论文针对自动驾驶中奖励模型依赖手工规则的问题，构建了DriveReward数据集和视觉语言奖励模型。数据集包含时空对齐的反事实驾驶行为，从而支持对轨迹错误（如路径偏离）的检测。奖励模型可应用于强化学习agent轨迹的评估与异常识别，为RL中的轨迹错误检测提供了新工具。实验表明该模型在轨迹质量评估上表现优异。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10348v1",
+      "source": "arxiv",
+      "title": "Rethinking Embodied Navigation via Relational Inductive Bias",
+      "abstract": "Object navigation requires an agent to locate a target in an unknown environment through visual observations. Existing methods typically rely on open-vocabulary detectors or vision-language models (VLMs) to answer where to search, but often overlook what not to trust - which semantic cues are unreliable. Open-vocabulary perception is prone to systematic misleading evidence: false positives, outdated static priors, and repeated failed exploration due to lack of embodied verification, which contaminates mapping and decision-making. Such errors are rooted in structured object relations in real-world scenes. To address this, we propose DB-Nav, a framework that reshapes the search space via dual relational biases. It factorizes target-centric relations into an Activation Bias (propagates contextual evidence) and an Inhibition Bias (suppresses unreliable regions via perceptual confusion and action-level falsification). These biases are unified into a Relational Activation-Inhibition Exploration Graph that modulates frontier exploration values using online observations and failed accesses. Experiments on ObjectNav benchmarks show that DB-Nav significantly outperforms existing methods in success rate (SR) and Success weighted by Path Length (SPL), offering a lightweight, interpretable, and robust navigation framework without costly online VLM reasoning.",
+      "authors": [
+        "Weitao An",
+        "Chenghao Xu",
+        "Xu Yang",
+        "Cheng Deng"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-09T02:57:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.10348v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects unreliable semantic cues in object navigation",
+      "llm_evidence_cn": "检测物体导航中不可靠的语义线索",
+      "llm_evidence": "检测物体导航中不可靠的语义线索",
+      "canonical_evidence": "检测物体导航中不可靠的语义线索",
+      "llm_tldr_en": "Proposes DB-Nav, which uses relational inductive biases to detect and reject false positives and outdated priors in embodied object navigation.",
+      "llm_tldr_cn": "物体导航中开放词汇感知容易产生误导性证据如假阳性和过时先验。本文提出DB-Nav框架，通过双重关系偏置重新组织搜索空间，利用主动关系验证过滤不可靠线索。实验证明该方法显著减少了路径规划中的错误，提高了导航成功率。",
+      "llm_tldr": "物体导航中开放词汇感知容易产生误导性证据如假阳性和过时先验。本文提出DB-Nav框架，通过双重关系偏置重新组织搜索空间，利用主动关系验证过滤不可靠线索。实验证明该方法显著减少了路径规划中的错误，提高了导航成功率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10747v1",
+      "source": "arxiv",
+      "title": "The Arbiter Agent: Continually Monitoring Multi-Agent Conversations to Detect Emergent Misalignment",
+      "abstract": "As AI systems built from multiple language-model agents become more common, they are increasingly used to make decisions together: discussing, negotiating, and acting on shared tasks. While individual agents may appear well-aligned when tested on their own, problems can arise from how they interact with one another. We introduce the Arbiter, an agent designed to monitor multi-agent conversations in real time and identify which participants may be behaving in misaligned ways. The Arbiter operates under a limited \"inspection budget\", meaning it must decide carefully how to use its resources. As it observes a conversation step by step, it can choose to wait, question a participant, examine internal information such as system prompts or reasoning traces, or log concerning behavior. At the end, it produces a report identifying the likely source of misalignment. We evaluate the Arbiter across five conversation conditions, ranging from risky financial advice model organisms to evaluation-aware and colluding agents, we test five tool configurations of increasing capability and two backbone models. We find that the Arbiter reliably detects misaligned agents well before the end of the conversation, with active inspection tools improving both detection accuracy and speed. Weight-induced misalignment proves hardest to detect, while instruction-induced misalignment is identified reliably even under passive observation. The logging tool exhibits a dual effect, improving recall at the cost of precision. These results suggest that continual, budget-aware monitoring can effectively catch misalignment, and that overseeing multi-agent systems may require treating the auditor as an active participant in the process. The code is available at https://github.com/aisilab/arbiter.",
+      "authors": [
+        "Filippo Tonini",
+        "Federico Torrielli",
+        "Anton Danholt Lautrup",
+        "Peter Schneider-Kamp",
+        "Mustafa Mert Çelikok",
+        "Lukas Galke Poech"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-09T11:57:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.10747v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monitors multi-agent conversations for misalignment",
+      "llm_evidence_cn": "持续监控多智能体对话中的失调行为",
+      "llm_evidence": "持续监控多智能体对话中的失调行为",
+      "canonical_evidence": "持续监控多智能体对话中的失调行为",
+      "llm_tldr_en": "Introduces Arbiter, an agent that monitors multi-agent conversations in real time to detect emergent misalignment under limited inspection budget.",
+      "llm_tldr_cn": "多智能体系统在交互中可能涌现失调行为，而单独测试每个智能体无法发现。本文提出Arbiter智能体，在有限检测预算下实时监控对话，通过提问或检查内部信息识别异常参与方。实验表明Arbiter能有效检测出交互中出现的隐蔽错误，为多智能体系统安全提供新手段。",
+      "llm_tldr": "多智能体系统在交互中可能涌现失调行为，而单独测试每个智能体无法发现。本文提出Arbiter智能体，在有限检测预算下实时监控对话，通过提问或检查内部信息识别异常参与方。实验表明Arbiter能有效检测出交互中出现的隐蔽错误，为多智能体系统安全提供新手段。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.07412v1",
+      "source": "arxiv",
+      "title": "Socratic-SWE: Self-Evolving Coding Agents via Trace-Derived Agent Skills",
+      "abstract": "LLM-driven software engineering agents have become a central testbed for real-world language-model capability, yet their training remains limited by the availability of high-quality SWE tasks. Existing synthetic data methods typically create tasks through fixed mutation or bug-injection procedures, making the resulting distributions largely independent of the agent's own weaknesses and training progress. We introduce Socratic-SWE, a closed-loop self-evolution framework that reuses the agent's historical solving traces as a source of training signal. Rather than treating traces only as evidence for reward computation, Socratic-SWE distills them into structured agent skills that summarize recurring failures and effective repair patterns. These skills then guide the generation of targeted repair tasks in real repositories. Candidate tasks are checked through execution-based validation and scored with a solver-gradient alignment reward, so that the retained tasks are both verifiable and useful for improving the Solver. The updated Solver produces new traces, enabling the task curriculum to adapt over successive rounds. Across SWE-bench Verified, SWE-bench Lite, SWE-bench Pro, and Terminal-Bench 2.0, Socratic-SWE consistently improves over self-evolving baselines under the same compute budget, reaching 50.40% on SWE-bench Verified after three iterations. These results suggest that solving traces can serve as a scalable substrate for self-evolving SWE agents.",
+      "authors": [
+        "Chuan Xiao",
+        "Zhengbo Jiao",
+        "Shaobo Wang",
+        "Wei Wang",
+        "Bing Zhao",
+        "Hu Wei",
+        "Linfeng Zhang",
+        "Lin Qu"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-06-05T16:00:17+00:00",
+      "link": "https://arxiv.org/pdf/2606.07412v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "extracting failure patterns from agent traces for error detection",
+      "llm_evidence_cn": "从智能体轨迹中提取失败模式用于错误检测",
+      "llm_evidence": "从智能体轨迹中提取失败模式用于错误检测",
+      "canonical_evidence": "从智能体轨迹中提取失败模式用于错误检测",
+      "llm_tldr_en": "Socratic-SWE reuses agent traces to distill skills from failures, directly targeting error detection in trajectories.",
+      "llm_tldr_cn": "LLM驱动的软件工程智能体训练受限于高质量任务数据。Socratic-SWE将历史解决轨迹转化为结构化技能，总结重复失败和有效修复模式。该方法直接利用轨迹中的错误信息来提升智能体，与检测轨迹错误的需求高度相关。",
+      "llm_tldr": "LLM驱动的软件工程智能体训练受限于高质量任务数据。Socratic-SWE将历史解决轨迹转化为结构化技能，总结重复失败和有效修复模式。该方法直接利用轨迹中的错误信息来提升智能体，与检测轨迹错误的需求高度相关。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.05952v1",
+      "source": "arxiv",
+      "title": "Learning of Robot Safety Policies via Adversarial Synthetic Scenarios",
+      "abstract": "In this work, we propose an agentic gamification framework for hazard-informed learning of robot safety policies through synthetic scenarios. We model scenario generation as an adversarial game between two agents: a Red Team that explores the space of potential failures by constructing hazardous situations, and a Blue Team that incrementally refines safety policies to prevent them. This iterative process enables efficient discovery of high-risk edge cases that are unlikely to be captured through random simulation or manual enumeration. By combining classical risk modeling with adversarial scenario generation and modern learning paradigms, this work provides a scalable pathway for embedding safety into Physical AI systems operating in complex real-world environments. The paper describes ongoing work. The contribution is a problem formulation and a proposed solution architecture.",
+      "authors": [
+        "Nikolai Dorofeev",
+        "Alexey Odinokov",
+        "Rostislav Yavorskiy"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-06-04T09:51:57+00:00",
+      "link": "https://arxiv.org/pdf/2606.05952v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "discovers hazardous edge cases through adversarial scenario generation",
+      "llm_evidence_cn": "通过对抗性场景生成发现高风险边缘案例",
+      "llm_evidence": "通过对抗性场景生成发现高风险边缘案例",
+      "canonical_evidence": "通过对抗性场景生成发现高风险边缘案例",
+      "llm_tldr_en": "Proposes an adversarial game between Red and Blue agents to generate synthetic hazardous scenarios, enabling efficient discovery of failure modes for robot safety policy learning.",
+      "llm_tldr_cn": "该论文提出一种代理游戏化框架，通过红队与蓝队的对抗生成合成危险场景，高效发现机器人安全策略中的高风险边缘案例，为物理AI系统提供可扩展的安全性嵌入方法。",
+      "llm_tldr": "该论文提出一种代理游戏化框架，通过红队与蓝队的对抗生成合成危险场景，高效发现机器人安全策略中的高风险边缘案例，为物理AI系统提供可扩展的安全性嵌入方法。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.09800v1",
+      "source": "arxiv",
+      "title": "FASE: Fast Adaptive Semantic Entropy for Code Quality",
+      "abstract": "Multi-agent code generation offers a promising paradigm for autonomous software development by simulating the human software engineering lifecycle. However, system reliability remains hindered by LLM hallucinations and error propagation across interacting agents. While semantic entropy provides a principled way to quantify uncertainty without ground-truth answers, current methods often rely on costly LLM-driven equivalence checks. In this work, we introduce Fast Adaptive Semantic Entropy (FASE), a novel metric that approximates functional correctness based on the minimum spanning tree of structural and semantic dissimilarity graphs. Evaluations on HumanEval and BigCodeBench demonstrate that FASE outperforms state-of-the-art semantic entropy by LLM entailment, achieving a 25% average improvement in Spearman correlation and a 19% increase in ROCAUC score against Pass@1 from ground-truth test cases when using the Qwen3-Embedding-8B model. Furthermore, by eliminating costly LLM-driven equivalence evaluation, FASE incurs negligible computational overhead, requiring only approximately 0.3% of the runtime cost of traditional semantic entropy approaches. These results position FASE as a practical, cost-effective solution for optimizing uncertainty quantification in real-world multi-agent workflows.",
+      "authors": [
+        "Shizhe Lin",
+        "Ladan Tahvildari"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-06-08T17:53:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.09800v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "error propagation and uncertainty quantification for detecting errors in multi-agent code generation",
+      "llm_evidence_cn": "多智能体代码生成中的错误传播与不确定性量化",
+      "llm_evidence": "多智能体代码生成中的错误传播与不确定性量化",
+      "canonical_evidence": "多智能体代码生成中的错误传播与不确定性量化",
+      "llm_tldr_en": "FASE uses semantic entropy to quantify error likelihood in multi-agent code generation, outperforming prior methods on code quality benchmarks.",
+      "llm_tldr_cn": "多智能体代码生成面临幻觉和错误传播问题。FASE通过结构相似性最小生成树近似功能正确性，提供一种无需真实答案的误差量化指标。在HumanEval和BigCodeBench上，FASE超越了基于LLM蕴含的语义熵方法，提升了代码质量评估的效率与准确性。该方法为检测智能体轨迹中的错误提供了可迁移的思想。",
+      "llm_tldr": "多智能体代码生成面临幻觉和错误传播问题。FASE通过结构相似性最小生成树近似功能正确性，提供一种无需真实答案的误差量化指标。在HumanEval和BigCodeBench上，FASE超越了基于LLM蕴含的语义熵方法，提升了代码质量评估的效率与准确性。该方法为检测智能体轨迹中的错误提供了可迁移的思想。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.07027v1",
+      "source": "arxiv",
+      "title": "StainFlow: Entity-Stain Tracking and Evidence Linking for Process Rewards in GUI Agents",
+      "abstract": "Reinforcement Learning (RL) has become a promising approach for improving GUI Agents in long-horizon, stochastic digital environments, but trajectory-level success feedback is too sparse to provide reliable credit assignment for intermediate exploration steps. To mitigate this issue, recent studies introduce Process Reward Models (PRMs), which provide finer-grained training feedback through global milestone verification or local step-level evaluation. However, these methods still suffer from two level-specific limitations: global milestone decomposition is subjective and singular, making it difficult to accommodate the multiple valid execution paths in real GUI tasks, while fixed local judging windows may miss long-range key evidence or dilute the decision signal with irrelevant frames. Inspired by stain-tracing mechanisms in network flow analysis, we propose StainFlow, an entity-stain-flow process reward model for GUI Agents. To reduce the subjectivity of global partitioning, we introduce the Global Entity Stain Tracking module, which extracts visually verifiable task entities and tracks how their stain concentrations and states evolve along the trajectory, allowing task phases to be objectively separated by changes in the entity evidence flow. To improve the accuracy of local verification, we introduce the Local Stain Evidence Linking module. Centered on the triggering entities of each candidate key node, it retrieves relevant steps based on their stain concentrations and state changes, and dynamically constructs high-density evidence windows for verifying true key nodes. Extensive experiments on AndroidWorld and OGRBench show that StainFlow relatively improves online RL success by 3.2% and trajectory completion judgment accuracy by 1.8%.",
+      "authors": [
+        "Haojie Hao",
+        "Longkun Hao",
+        "Yihang Lou",
+        "Yan Bai",
+        "Zhenyang Li",
+        "Zhichao Yang",
+        "Dongshuo Huang",
+        "Hongyu Lin",
+        "Lanqing Hong",
+        "Jiakai Wang",
+        "Xianglong Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-05T08:17:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.07027v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "process reward models for step-level evaluation in RL agent trajectories",
+      "llm_evidence_cn": "用于强化学习智能体轨迹步骤级评估的过程奖励模型",
+      "llm_evidence": "用于强化学习智能体轨迹步骤级评估的过程奖励模型",
+      "canonical_evidence": "用于强化学习智能体轨迹步骤级评估的过程奖励模型",
+      "llm_tldr_en": "StainFlow improves process reward models for RL agent trajectories, aiding error detection in intermediate steps.",
+      "llm_tldr_cn": "GUI智能体的长程强化学习面临轨迹级奖励稀疏问题。StainFlow通过实体污点追踪和证据链接，提供细粒度过程奖励，解决全局里程碑分解主观和局部窗口长程证据缺失的局限。该方法可用于检测轨迹中的步骤级错误，提升信用分配效果。",
+      "llm_tldr": "GUI智能体的长程强化学习面临轨迹级奖励稀疏问题。StainFlow通过实体污点追踪和证据链接，提供细粒度过程奖励，解决全局里程碑分解主观和局部窗口长程证据缺失的局限。该方法可用于检测轨迹中的步骤级错误，提升信用分配效果。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.11349v1",
+      "source": "arxiv",
+      "title": "Knowing When to Ask: Self-Gated Clarification for Hierarchical Language Agents",
+      "abstract": "In hierarchical reasoning, failures often originate at intermediate decision points where the agent commits to a wrong branch without recognizing that it lacks critical information. Rather than treating clarification as an external uncertainty trigger, we propose ACTION-RATING, a formulation that places it inside the agent's action space on a shared ordinal scale with navigation, so that asking competes directly with acting at every decision point and help-seeking becomes observable at intermediate states. Two structurally distinct information-seeking modes emerge from the agent's own ratings: mandatory (no viable branch) and opportunistic (residual uncertainty despite a leading candidate). On Harmonized Tariff Schedule classification (30,000-node taxonomy, three benchmarks, 9~LLMs across 4 families), we observe a regime shift from mandatory to opportunistic clarification, with Information-Seeking Effectiveness (ISE), a local diagnostic defined as the fraction of help interactions followed by a correct next navigation step (not a final-task metric), rising from 50% to 74%. Three diagnostic contrasts fail to reproduce this structure. A separability test shows that the information-seeking pattern (mode split, ISE ranking) persists when answer quality is degraded (-18.8% accuracy), supporting an empirical separation between where an agent seeks help and the quality of the help it receives. Under the controlled answer channel, accuracy gains reach +16.2% at 10-digit; we read this as an upper bound on what better localization could unlock, not a deployment estimate.",
+      "authors": [
+        "Aijing Gao",
+        "Yiming Kang",
+        "Mengdie Flora Wang",
+        "Jae Oh Woo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.HC"
+      ],
+      "published": "2026-06-09T18:25:57+00:00",
+      "link": "https://arxiv.org/pdf/2606.11349v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "monitors agent decisions at intermediate states to detect and prevent failures",
+      "llm_evidence_cn": "监控代理中间决策状态以检测并防止失败",
+      "llm_evidence": "监控代理中间决策状态以检测并防止失败",
+      "canonical_evidence": "监控代理中间决策状态以检测并防止失败",
+      "llm_tldr_en": "Proposes ACTION-RATING, placing clarification in the agent's action space to compete with acting, enabling observability of help-seeking and failure in hierarchical language agents.",
+      "llm_tldr_cn": "该论文针对层级语言代理在中间决策点因缺乏关键信息而失败的问题，提出ACTION-RATING框架，将询问行为融入动作空间，使代理在每一步都能主动选择询问或行动，从而可观察失败源头，在30,000节点的分类任务中显著降低错误率。",
+      "llm_tldr": "该论文针对层级语言代理在中间决策点因缺乏关键信息而失败的问题，提出ACTION-RATING框架，将询问行为融入动作空间，使代理在每一步都能主动选择询问或行动，从而可观察失败源头，在30,000节点的分类任务中显著降低错误率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

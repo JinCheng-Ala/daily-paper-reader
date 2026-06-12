@@ -6,75 +6,52 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-11
-- 运行时间：2026-06-11 21:27:32 UTC
+- 最新运行日期：2026-06-12
+- 运行时间：2026-06-12 21:14:04 UTC
 - 运行状态：成功
-- 本次总论文数：17
-- 精读区：6
-- 速读区：11
+- 本次总论文数：10
+- 精读区：5
+- 速读区：5
 
 ### 今日简报（AI）
-今日推荐17篇论文，精读6篇，重点聚焦智能体长期任务记忆管理与编码体执行行为可靠性分析。
-
-最值得关注的两大方向：将记忆作为执行状态管理支撑长时任务（9.0分），以及编码体执行轨迹中的预先失效信号检测（9.0分）。
-
-建议优先精读这两篇高分论文，并辅以速读中关于编码体欺骗检测与多智能体合规性的研究，以构建智能体行为风险评估的完整视角。
-- 详情：[/202606/11/README](/202606/11/README)
+今日日报聚焦AI代理的欺骗检测与流式策略适应，同时涵盖代码质量和机器人安全方向。
+最值得精读的是《Flow-based Policy Adaptation without Policy Updates》（9.0分）和《Do Coding Agents Deceive Us?》（8.0分），前者探索无需更新策略的策略适应方法，后者揭示并防御代码代理的作弊行为。
+建议普通读者优先关注代码代理的可靠性风险，并留意无更新策略适应技术对机器人领域的潜在影响。
+- 详情：[/202606/12/README](/202606/12/README)
 
 ### 精读区论文标签
-1. [Beyond Semantic Organization: Memory as Execution State Management for Long-Horizon Agents](/202606/11/2606.06090v1-beyond-semantic-organization-memory-as-execution-state-management-for-long-horizon-agents)  
+1. [Flow-based Policy Adaptation without Policy Updates](/202606/12/2606.06461v1-flow-based-policy-adaptation-without-policy-updates)  
    标签：评分：9.0/10、query:agent-error
-   evidence：错误隔离与状态管理
-2. [Strained Coherence: A Pre-Failure Signal in Coding Agent Execution Trajectories](/202606/11/2606.07889v1-strained-coherence-a-pre-failure-signal-in-coding-agent-execution-trajectories)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：提出‘紧张连贯性’作为编码智能体执行轨迹中的预失败信号
-3. [Silent Failure in LLM Agent Systems: The Entropy Principle and the Inevitable Disorder of Autonomous Agents](/202606/11/2606.08162v1-silent-failure-in-llm-agent-systems-the-entropy-principle-and-the-inevitable-disorder-of-autonomous-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：分析LLM智能体系统中的静默失败并识别检测原理
-4. [Bootstrapped Monitoring: Leveraging Transparent Reasoning to Oversee Stronger AI Agents](/202606/11/2606.11998v1-bootstrapped-monitoring-leveraging-transparent-reasoning-to-oversee-stronger-ai-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：提出引导式监控协议来监督代理行为并检测错误
-5. [Entropy-Based Evaluation of AI Agents: A Lightweight Framework for Measuring Behavioral Patterns](/202606/11/2606.05872v1-entropy-based-evaluation-of-ai-agents-a-lightweight-framework-for-measuring-behavioral-patterns)  
+   evidence：修正非专家动作并通过分布内评分检测异常
+2. [Do Coding Agents Deceive Us? Detecting and Preventing Cheating via Capped Evaluation with Randomized Tests](/202606/12/2606.07379v1-do-coding-agents-deceive-us-detecting-and-preventing-cheating-via-capped-evaluation-with-randomized-tests)  
    标签：评分：8.0/10、query:agent-error
-   evidence：基于熵的框架测量行为模式，包含轨迹熵
-6. [Entropy-Based Evaluation of AI Agents: A Lightweight Framework for Measuring Behavioral Patterns](/202606/11/2606.05872v2-entropy-based-evaluation-of-ai-agents-a-lightweight-framework-for-measuring-behavioral-patterns)  
+   evidence：检测智能体评估中的作弊行为作为行为异常
+3. [DriveReward: A Comprehensive Dataset and Generative Vision-Language Reward Model for Autonomous Driving](/202606/12/2606.08525v1-drivereward-a-comprehensive-dataset-and-generative-vision-language-reward-model-for-autonomous-driving)  
    标签：评分：8.0/10、query:agent-error
-   evidence：基于熵的异常评估方法
+   evidence：用于自动驾驶RL轨迹的奖励模型，包含反事实错误行为
+4. [Rethinking Embodied Navigation via Relational Inductive Bias](/202606/12/2606.10348v1-rethinking-embodied-navigation-via-relational-inductive-bias)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：检测物体导航中不可靠的语义线索
+5. [The Arbiter Agent: Continually Monitoring Multi-Agent Conversations to Detect Emergent Misalignment](/202606/12/2606.10747v1-the-arbiter-agent-continually-monitoring-multi-agent-conversations-to-detect-emergent-misalignment)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：持续监控多智能体对话中的失调行为
 
 ### 速读区论文标签
-1. [Do Coding Agents Deceive Us? Detecting and Preventing Cheating via Capped Evaluation with Randomized Tests](/202606/11/2606.07379v2-do-coding-agents-deceive-us-detecting-and-preventing-cheating-via-capped-evaluation-with-randomized-tests)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：检测agent评估轨迹中的作弊异常行为
-2. [Beyond Goodhart's Law: A Dynamic Benchmark for Evaluating Compliance in Multi-Agent Systems](/202606/11/2606.07805v1-beyond-goodharts-law-a-dynamic-benchmark-for-evaluating-compliance-in-multi-agent-systems)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：评估多智能体系统合规性以检测行为违规
-3. [Cascading Hallucination in Agentic RAG: The CHARM Framework for Detection and Mitigation](/202606/11/2606.04435v1-cascading-hallucination-in-agentic-rag-the-charm-framework-for-detection-and-mitigation)  
+1. [Socratic-SWE: Self-Evolving Coding Agents via Trace-Derived Agent Skills](/202606/12/2606.07412v1-socratic-swe-self-evolving-coding-agents-via-trace-derived-agent-skills)  
    标签：评分：7.0/10、query:agent-error
-   evidence：检测多步智能体RAG管道中的级联幻觉，一种错误传播形式
-4. [Agent Planning Benchmark: A Diagnostic Framework for Planning Capabilities in LLM Agents](/202606/11/2606.04874v1-agent-planning-benchmark-a-diagnostic-framework-for-planning-capabilities-in-llm-agents)  
+   evidence：从智能体轨迹中提取失败模式用于错误检测
+2. [FASE: Fast Adaptive Semantic Entropy for Code Quality](/202606/12/2606.09800v1-fase-fast-adaptive-semantic-entropy-for-code-quality)  
    标签：评分：7.0/10、query:agent-error
-   evidence：规划能力诊断基准，包含故障检测
-5. [TAPO: Tool-Aware Policy Optimization via Credit Transfer for Multimodal Search Agents](/202606/11/2606.05784v1-tapo-tool-aware-policy-optimization-via-credit-transfer-for-multimodal-search-agents)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：失败轨迹中的信用错误分配
-6. [Exploring Agentic Tool-Calling Decisions via Uncertainty-Aligned Reinforcement Learning](/202606/11/2606.06976v1-exploring-agentic-tool-calling-decisions-via-uncertainty-aligned-reinforcement-learning)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：检测次优工具调用决策
-7. [Online Agent-as-a-Judge: Situation-Generating Evaluation for Interactive Agents](/202606/11/2606.08200v1-online-agent-as-a-judge-situation-generating-evaluation-for-interactive-agents)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：通过生成情景评估agent，检测能力缺失
-8. [Autonomous Incident Resolution at Hyperscale: An Agentic AI Architecture for Network Operations](/202606/11/2606.09122v1-autonomous-incident-resolution-at-hyperscale-an-agentic-ai-architecture-for-network-operations)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：网络Agent中的自主事故检测
-9. [SentinelBench: A Benchmark for Long-Running Monitoring Agents](/202606/11/2606.05342v2-sentinelbench-a-benchmark-for-long-running-monitoring-agents)  
+   evidence：多智能体代码生成中的错误传播与不确定性量化
+3. [Learning of Robot Safety Policies via Adversarial Synthetic Scenarios](/202606/12/2606.05952v1-learning-of-robot-safety-policies-via-adversarial-synthetic-scenarios)  
    标签：评分：6.0/10、query:agent-error
-   evidence：针对长时间运行任务中监控agent的基准测试，可检测事件/错误
-10. [Coding with "Enemy": Can Human Developers Detect AI Agent Sabotage?](/202606/11/2606.05647v1-coding-with-enemy-can-human-developers-detect-ai-agent-sabotage)  
+   evidence：通过对抗性场景生成发现高风险边缘案例
+4. [StainFlow: Entity-Stain Tracking and Evidence Linking for Process Rewards in GUI Agents](/202606/12/2606.07027v1-stainflow-entity-stain-tracking-and-evidence-linking-for-process-rewards-in-gui-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：研究人类在编码轨迹中检测AI智能体破坏行为
-11. [Retrospective Harness Optimization: Improving LLM Agents via Self-Preference over Trajectory Rollouts](/202606/11/2606.05922v1-retrospective-harness-optimization-improving-llm-agents-via-self-preference-over-trajectory-rollouts)  
+   evidence：用于强化学习智能体轨迹步骤级评估的过程奖励模型
+5. [Knowing When to Ask: Self-Gated Clarification for Hierarchical Language Agents](/202606/12/2606.11349v1-knowing-when-to-ask-self-gated-clarification-for-hierarchical-language-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：利用轨迹回放的自我验证和自一致性检测异常
+   evidence：监控代理中间决策状态以检测并防止失败
 
 
 <div class="dpr-home-promo-card">
