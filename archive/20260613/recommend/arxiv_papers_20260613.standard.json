@@ -1,0 +1,143 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-13T20:55:40.293062+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.08348v1",
+      "source": "arxiv",
+      "title": "Bayesian-Agent: Posterior-Guided Skill Evolution for LLM Agent Harnesses",
+      "abstract": "LLM agents increasingly rely on external inference conditions: prompts, tools, memory, SOPs, skills, and harness feedback. These assets can improve task execution without changing model weights, but they are often revised by heuristic reflection or by reusing observed successes and failures as if counts alone were reliable belief. We introduce \\textbf{Bayesian-Agent}, a native and cross-harness framework that treats reusable skills and SOPs as hypotheses about whether a frozen model will succeed under a particular prompt, context, and harness environment. Bayesian-Agent records verified trajectory evidence, maintains a feature-conditioned categorical posterior over each skill, and maps posterior state into inspectable actions such as patch, split, compress, retire, and explore. Model-facing prompts receive executable guardrails and failure-mode patches, while posterior summaries remain available for audit. With \\texttt{deepseek-v4-flash}, incremental repair improves SOP-Bench from 80\\% to 95\\%, Lifelong AgentBench from 90\\% to 100\\%, and RealFin-Bench from 45\\% to 65\\%. We further evaluate Bayesian-Agent's native backend and optional GenericAgent, mini-swe-agent, and Claude Code backends. The results include positive, negative, saturated, and case-study settings, suggesting that agent skill evolution is best viewed as posterior-guided harness optimization rather than uncalibrated prompt accumulation. The source code is available at https://github.com/DataArcTech/Bayesian-Agent.",
+      "authors": [
+        "Xiaojun Wu",
+        "Cehao Yang",
+        "Honghao Liu",
+        "Xueyuan Lin",
+        "Wenjie Zhang",
+        "Zhichao Shi",
+        "Xuhui Jiang",
+        "Chengjin Xu",
+        "Jia Li",
+        "Jian Guo"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-06-06T21:40:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.08348v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Bayesian framework using trajectory evidence to detect skill failures",
+      "llm_evidence_cn": "使用轨迹证据的贝叶斯框架，可检测技能失败（异常）",
+      "llm_evidence": "使用轨迹证据的贝叶斯框架，可检测技能失败（异常）",
+      "canonical_evidence": "使用轨迹证据的贝叶斯框架，可检测技能失败（异常）",
+      "llm_tldr_en": "Bayesian-Agent treats reusable skills as hypotheses, uses trajectory evidence to maintain posterior and decide when to patch skills.",
+      "llm_tldr_cn": "LLM代理依赖外部推理条件，但技能调整常基于启发式计数。Bayesian-Agent将可复用技能视为假设，通过记录的轨迹证据维护特征条件后验，并将后验转化为修补、拆分等可检查动作，实现了基于轨迹证据的技能异常检测与演化。",
+      "llm_tldr": "LLM代理依赖外部推理条件，但技能调整常基于启发式计数。Bayesian-Agent将可复用技能视为假设，通过记录的轨迹证据维护特征条件后验，并将后验转化为修补、拆分等可检查动作，实现了基于轨迹证据的技能异常检测与演化。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.07244v1",
+      "source": "arxiv",
+      "title": "Beyond Waypoints: A Trajectory-Centric Waypointing Paradigm for Vision-Language Navigation",
+      "abstract": "Vision-Language Navigation in Continuous Environments (VLN-CE) requires agents to follow natural-language instructions while navigating in real-world-like environments. Most VLN-CE approach\\-es adopt a three-stage framework: a waypoint predictor proposes navigable waypoints, and a navigator selects the best waypoint, with a low-level controller executing the movement to it. However, this decoupled paradigm often leads to unreachable waypoints or inconsistencies between planning and control. In this work, instead of predicting isolated waypoints, we introduce a novel paradigm called Trajectory Waypoint, which grounds each candidate waypoint in an executable trajectory. To realize this, we design a Trajectory Waypoint Predictor formulated as a TSDF-guided diffusion policy, which steers trajectory generation away from obstacles, inherently ensuring the reachability of the predicted waypoints. We further propose a trajectory-enhanced navigator that injects the associated trajectory as additional information for planning, enabling strict consistency between high-level semantic decisions and low-level execution. Extensive experiments on the VLN-CE benchmark show that our Trajectory Waypoint paradigm achieves superior performance over the baselines.",
+      "authors": [
+        "Haoxiang Shi",
+        "Xiang Deng",
+        "Haoyu Zhang",
+        "Qiaohui Chu",
+        "Yaowei Wang",
+        "Liqiang Nie"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-06-05T13:11:39+00:00",
+      "link": "https://arxiv.org/pdf/2606.07244v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "trajectory-centric waypointing paradigm to avoid path deviations and inconsistencies",
+      "llm_evidence_cn": "以轨迹为中心的航点范式，避免路径偏差和不一致",
+      "llm_evidence": "以轨迹为中心的航点范式，避免路径偏差和不一致",
+      "canonical_evidence": "以轨迹为中心的航点范式，避免路径偏差和不一致",
+      "llm_tldr_en": "Beyond Waypoints proposes a trajectory-centric waypointing paradigm that grounds waypoints in executable trajectories, reducing path deviations in VLN-CE.",
+      "llm_tldr_cn": "连续环境中的视觉语言导航（VLN-CE）中，传统解耦的航点预测常导致不可达航点或规划与控制不一致。本文提出轨迹航点范式，将每个候选航点锚定在可执行轨迹上，设计轨迹航点预测器，显著减少路径偏差，提升导航成功率和效率。",
+      "llm_tldr": "连续环境中的视觉语言导航（VLN-CE）中，传统解耦的航点预测常导致不可达航点或规划与控制不一致。本文提出轨迹航点范式，将每个候选航点锚定在可执行轨迹上，设计轨迹航点预测器，显著减少路径偏差，提升导航成功率和效率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.09115v1",
+      "source": "arxiv",
+      "title": "Counterfactual Transport Flows for Offline Conservative Trajectory Refinement",
+      "abstract": "Offline reinforcement learning (RL) offers a path to policy improvement from logged data alone, using historical returns or other measurable outcomes as world feedback. A key difficulty is improving observed behavior without extrapolating beyond what the offline data supports. We propose \\emph{counterfactual transport flows}, a source-conditioned trajectory refinement framework for offline decision-making guided by world feedback. Given a low-feedback candidate trajectory, we construct local preference pairs from offline data by retrieving nearby trajectories in latent trajectory space with higher task-specific feedback, and use them as weak supervision for conservative refinement. The framework learns instance-specific refinement directions: at inference time, a refinement strength parameter controls how far the candidate trajectory is transported, enabling a trade-off between preserving the original behavior and applying stronger improvement. Experiments on D4RL benchmarks, including AntMaze and MuJoCo tasks, show that our method improves behavior from historical returns as world feedback, while providing interpretable trajectory-level refinement paths.",
+      "authors": [
+        "Lena Krieger",
+        "Xuan Zhao",
+        "Zhuo Cao",
+        "Qin Wang",
+        "Hanno Scharr",
+        "Ira Assent"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-06-08T07:11:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.09115v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "offline RL trajectory refinement for improving low-feedback trajectories",
+      "llm_evidence_cn": "离线RL轨迹细化，改进低反馈轨迹",
+      "llm_evidence": "离线RL轨迹细化，改进低反馈轨迹",
+      "canonical_evidence": "离线RL轨迹细化，改进低反馈轨迹",
+      "llm_tldr_en": "Proposes counterfactual transport flows to refine offline RL trajectories by retrieving higher-feedback neighbors for conservative improvement, tackling error-prone trajectories.",
+      "llm_tldr_cn": "离线强化学习中，低反馈轨迹往往包含次优或错误行为。本文提出反事实传输流框架，从离线数据中检索具有更高任务反馈的邻近轨迹构建局部偏好对，用于保守地细化候选轨迹。实验表明该方法能有效提升轨迹质量而避免外推。为轨迹错误修正提供了新的弱监督范式。",
+      "llm_tldr": "离线强化学习中，低反馈轨迹往往包含次优或错误行为。本文提出反事实传输流框架，从离线数据中检索具有更高任务反馈的邻近轨迹构建局部偏好对，用于保守地细化候选轨迹。实验表明该方法能有效提升轨迹质量而避免外推。为轨迹错误修正提供了新的弱监督范式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

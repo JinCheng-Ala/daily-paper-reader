@@ -1,0 +1,54 @@
+{
+  "label": "2026-06-13",
+  "date": "2026-06-13",
+  "generated_at": "2026-06-13T20:57:05",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202606/13/2606.08348v1-bayesian-agent-posterior-guided-skill-evolution-for-llm-agent-harnesses",
+      "section": "quick",
+      "title_en": "Bayesian-Agent: Posterior-Guided Skill Evolution for LLM Agent Harnesses",
+      "authors": "Xiaojun Wu, Cehao Yang, Honghao Liu, Xueyuan Lin, Wenjie Zhang, Zhichao Shi, Xuhui Jiang, Chengjin Xu, Jia Li, Jian Guo",
+      "date": "2026-06-06",
+      "pdf": "https://arxiv.org/pdf/2606.08348v1",
+      "score": "7.0",
+      "evidence": "使用轨迹证据的贝叶斯框架，可检测技能失败（异常）",
+      "tldr": "LLM代理依赖外部条件（提示、工具等）来提升性能，但现有方法依赖启发式反思或简单统计，缺乏可靠信念更新。本文提出Bayesian-Agent框架，将可重用技能与SOP视为特征条件化的后验假设，通过后验状态指导修补、拆分、压缩、退役和探索等操作。在deepseek-v4-flash上，将SOP-Bench从80%提升至95%，Lifelong AgentBench从90%提升至100%，RealFin-Bench从45%提升至65%。该工作表明，代理技能演化应视为后验引导的优化，而非未校准的提示积累。",
+      "tags": "query:agent-error",
+      "abstract_en": "LLM agents increasingly rely on external inference conditions: prompts, tools, memory, SOPs, skills, and harness feedback. These assets can improve task execution without changing model weights, but they are often revised by heuristic reflection or by reusing observed successes and failures as if counts alone were reliable belief. We introduce \\textbf{Bayesian-Agent}, a native and cross-harness framework that treats reusable skills and SOPs as hypotheses about whether a frozen model will succeed under a particular prompt, context, and harness environment. Bayesian-Agent records verified trajectory evidence, maintains a feature-conditioned categorical posterior over each skill, and maps posterior state into inspectable actions such as patch, split, compress, retire, and explore. Model-facing prompts receive executable guardrails and failure-mode patches, while posterior summaries remain available for audit. With \\texttt{deepseek-v4-flash}, incremental repair improves SOP-Bench from 80\\% to 95\\%, Lifelong AgentBench from 90\\% to 100\\%, and RealFin-Bench from 45\\% to 65\\%. We further evaluate Bayesian-Agent's native backend and optional GenericAgent, mini-swe-agent, and Claude Code backends. The results include positive, negative, saturated, and case-study settings, suggesting that agent skill evolution is best viewed as posterior-guided harness optimization rather than uncalibrated prompt accumulation. The source code is available at https://github.com/DataArcTech/Bayesian-Agent.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/13/2606.07244v1-beyond-waypoints-a-trajectory-centric-waypointing-paradigm-for-vision-language-navigation",
+      "section": "quick",
+      "title_en": "Beyond Waypoints: A Trajectory-Centric Waypointing Paradigm for Vision-Language Navigation",
+      "authors": "Haoxiang Shi, Xiang Deng, Haoyu Zhang, Qiaohui Chu, Yaowei Wang, Liqiang Nie",
+      "date": "2026-06-05",
+      "pdf": "https://arxiv.org/pdf/2606.07244v1",
+      "score": "6.0",
+      "evidence": "以轨迹为中心的航点范式，避免路径偏差和不一致",
+      "tldr": "连续环境视觉语言导航(VLN-CE)中，现有三级框架因路径点预测与低层控制解耦，常产生不可达路径点或规划不一致。本文提出轨迹中心路径点范式，将每个候选路径点关联到可执行轨迹，利用TSDF引导的扩散策略生成避障轨迹，并设计轨迹增强导航器融合轨迹信息进行决策。在VLN-CE基准上，该方法显著优于基线，实现了语义规划与运动控制的一致性。",
+      "tags": "query:agent-error",
+      "abstract_en": "Vision-Language Navigation in Continuous Environments (VLN-CE) requires agents to follow natural-language instructions while navigating in real-world-like environments. Most VLN-CE approach\\-es adopt a three-stage framework: a waypoint predictor proposes navigable waypoints, and a navigator selects the best waypoint, with a low-level controller executing the movement to it. However, this decoupled paradigm often leads to unreachable waypoints or inconsistencies between planning and control. In this work, instead of predicting isolated waypoints, we introduce a novel paradigm called Trajectory Waypoint, which grounds each candidate waypoint in an executable trajectory. To realize this, we design a Trajectory Waypoint Predictor formulated as a TSDF-guided diffusion policy, which steers trajectory generation away from obstacles, inherently ensuring the reachability of the predicted waypoints. We further propose a trajectory-enhanced navigator that injects the associated trajectory as additional information for planning, enabling strict consistency between high-level semantic decisions and low-level execution. Extensive experiments on the VLN-CE benchmark show that our Trajectory Waypoint paradigm achieves superior performance over the baselines.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/13/2606.09115v1-counterfactual-transport-flows-for-offline-conservative-trajectory-refinement",
+      "section": "quick",
+      "title_en": "Counterfactual Transport Flows for Offline Conservative Trajectory Refinement",
+      "authors": "Lena Krieger, Xuan Zhao, Zhuo Cao, Qin Wang, Hanno Scharr, Ira Assent",
+      "date": "2026-06-08",
+      "pdf": "https://arxiv.org/pdf/2606.09115v1",
+      "score": "6.0",
+      "evidence": "离线RL轨迹细化，改进低反馈轨迹",
+      "tldr": "离线强化学习利用历史反馈改进策略，但面临外推风险。本文提出反事实运输流，在轨迹隐空间中检索高反馈邻近轨迹构建偏好对，通过弱监督实现保守细化。在D4RL的AntMaze和MuJoCo任务上，该方法有效提升历史回报，并生成可解释的轨迹级改进路径。贡献在于提供了实例特定的细化方向，并可通过强度参数平衡保真与改进。",
+      "tags": "query:agent-error",
+      "abstract_en": "Offline reinforcement learning (RL) offers a path to policy improvement from logged data alone, using historical returns or other measurable outcomes as world feedback. A key difficulty is improving observed behavior without extrapolating beyond what the offline data supports. We propose \\emph{counterfactual transport flows}, a source-conditioned trajectory refinement framework for offline decision-making guided by world feedback. Given a low-feedback candidate trajectory, we construct local preference pairs from offline data by retrieving nearby trajectories in latent trajectory space with higher task-specific feedback, and use them as weak supervision for conservative refinement. The framework learns instance-specific refinement directions: at inference time, a refinement strength parameter controls how far the candidate trajectory is transported, enabling a trade-off between preserving the original behavior and applying stronger improvement. Experiments on D4RL benchmarks, including AntMaze and MuJoCo tasks, show that our method improves behavior from historical returns as world feedback, while providing interpretable trajectory-level refinement paths.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
