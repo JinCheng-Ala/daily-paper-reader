@@ -1,0 +1,386 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-14T21:21:49.105688+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2606.12485v1",
+      "source": "arxiv",
+      "title": "Speculative Rollback Correction for Quality-Diverse Web Agent Imitation",
+      "abstract": "Training interactive web agents through imitation learning from expert trajectories has emerged as a highly effective approach. However, determining the optimal timing for expert intervention presents a critical challenge in this context. Delayed intervention often leads to the accumulation of early-stage errors, pushing the page state into an irrecoverable regime. Conversely, premature or excessive intervention causes the agent to become overly reliant on expert policies, trapping the model in local optima characterized by a single, rigid trajectory. We propose Speculative Rollback Correction (SRC), a branch-level imitation framework for resettable agent environments. Instead of requesting teacher labels at every visited state or correcting only after a completed trajectory, SRC uses fixed-horizon branch review: the student executes a short speculative segment before teacher review, and the teacher localizes the first harmful deviation only when local progress breaks. Rollback preserves useful prefixes, while successful rollouts are filtered by a hard verifier and retained in a lightweight quality-diversity archive. The resulting data supports next-action supervised fine-tuning on both localized corrections and verifier-passing trajectories. On WebArena-Infinity, SRC collects 977 verifier-passing trajectories and 9,183 next-action examples; fixed-horizon review improves the recovery-versus-query tradeoff over step-level review while retaining verifier-passing solution variants. Code is available at https://github.com/LongkunHao/SRC_gui_agent.",
+      "authors": [
+        "Longkun Hao",
+        "Hongyu Lin",
+        "Hao Li",
+        "Zhichao Yang",
+        "Haojie Hao",
+        "Dongshuo Huang",
+        "Haitao Yang",
+        "Hongyu Ge",
+        "Ming jie Xie",
+        "Yanjun Wu",
+        "Zi Hao Yin",
+        "Yan Bai",
+        "Yihang Lou"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-10T08:56:27+00:00",
+      "link": "https://arxiv.org/pdf/2606.12485v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "detects and corrects action errors in web agent trajectories via speculative rollback and imitation learning",
+      "llm_evidence_cn": "通过推测性回滚和模仿学习检测并校正网页智能体轨迹中的行动错误",
+      "llm_evidence": "通过推测性回滚和模仿学习检测并校正网页智能体轨迹中的行动错误",
+      "canonical_evidence": "通过推测性回滚和模仿学习检测并校正网页智能体轨迹中的行动错误",
+      "llm_tldr_en": "Speculative Rollback Correction for web agent imitation learning, detecting and correcting early-stage errors by branching and rolling back in resettable environments, improving trajectory quality.",
+      "llm_tldr_cn": "本文针对网页智能体通过专家轨迹模仿学习中的错误累积问题，提出推测性回滚校正（SRC）框架。SRC在可重置环境中进行分支级模仿，在决策点推测多个分支并回滚到正确状态，而非在每个状态都请求教师标签。该方法有效解决了过早或过晚干预的两难问题，提高了轨迹质量。实验表明，SRC能够检测并纠正行动错误，获得更鲁棒的智能体行为。",
+      "llm_tldr": "本文针对网页智能体通过专家轨迹模仿学习中的错误累积问题，提出推测性回滚校正（SRC）框架。SRC在可重置环境中进行分支级模仿，在决策点推测多个分支并回滚到正确状态，而非在每个状态都请求教师标签。该方法有效解决了过早或过晚干预的两难问题，提高了轨迹质量。实验表明，SRC能够检测并纠正行动错误，获得更鲁棒的智能体行为。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10484v1",
+      "source": "arxiv",
+      "title": "AgentCanary: A Security Evaluation Framework for Autonomous AI Agents in Real Executable Environments",
+      "abstract": "Autonomous AI agents have driven the transition from conversation to task execution, shifting security failures from textual deception to system compromise. Although security evaluation is crucial for proactive risk prevention, prior work is constrained by fundamental bottlenecks, including fragmented risk coverage, static or low-fidelity execution environments, and single-dimensional and coarse-grained assessment metrics. To address these challenges, we propose AgentCanary, a comprehensive security evaluation framework for autonomous AI agents. AgentCanary provides a systematic solution along three contributions. First, comprehensive risk coverage: we introduce an orthogonal Entry $\\times$ Impact risk taxonomy that decouples how adversarial influence enters the agent from what harm it ultimately causes, and instantiate it as a scenario-aligned task suite spanning realistic deployment workflows. Second, a high-fidelity real executable environment: rather than static Q&A or mocked tool responses, agents interact with real tools against dynamically provisioned task artifacts, with persistent state across multi-step interactions that naturally supports long-horizon attack evaluation. Third, trajectory-grounded multi-dimensional evaluation: evaluation consumes the full agent trajectory rather than the reply text or a single tool call, enabling decomposed scoring along three orthogonal dimensions, Outcome Safety, Security Awareness, and Task Utility. We evaluate a broad set of frontier models on AgentCanary against multiple established adversarial attack methods across three agent frameworks. The results reveal that current agents often fail to recognize the attacks they face, particularly under compromised skills, persistent state, and long-horizon execution attacks, and provide a systematic baseline for developing more reliable and secure agent systems.",
+      "authors": [
+        "Peiyang Li",
+        "Songping Wang",
+        "Yi Huang",
+        "Yanhua Shi",
+        "Chenhao Zhang",
+        "Qi Li",
+        "Yueming Lyu",
+        "Caifeng Shan",
+        "Fengting Li",
+        "Chao Feng",
+        "Chuanqun Zhu",
+        "Liang Chen"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR"
+      ],
+      "published": "2026-06-09T06:55:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.10484v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "security evaluation framework that can detect anomalies and errors in agent behavior",
+      "llm_evidence_cn": "安全评估框架，可检测智能体行为中的异常和错误",
+      "llm_evidence": "安全评估框架，可检测智能体行为中的异常和错误",
+      "canonical_evidence": "安全评估框架，可检测智能体行为中的异常和错误",
+      "llm_tldr_en": "Proposes AgentCanary, a security evaluation framework for autonomous AI agents with comprehensive risk coverage, high-fidelity execution environments, and fine-grained metrics, enabling detection of anomalies and errors in agent trajectories.",
+      "llm_tldr_cn": "现有安全评估存在风险覆盖碎片化、环境静态低保真、指标单一粗糙等问题。论文提出AgentCanary框架，通过引入条目×影响风险分类法、高保真可执行环境和细粒度评估指标，系统性检测自主AI智能体的安全异常和行为错误。实验表明框架能有效识别轨迹中的攻击和失误，为部署前风险评估提供工具。",
+      "llm_tldr": "现有安全评估存在风险覆盖碎片化、环境静态低保真、指标单一粗糙等问题。论文提出AgentCanary框架，通过引入条目×影响风险分类法、高保真可执行环境和细粒度评估指标，系统性检测自主AI智能体的安全异常和行为错误。实验表明框架能有效识别轨迹中的攻击和失误，为部署前风险评估提供工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13317v1",
+      "source": "arxiv",
+      "title": "SkillCAT: Contrastive Assessment and Topology-Aware Skill Self-Evolution for LLM Agents",
+      "abstract": "Skill self-evolution methods for LLM agents aim to turn execution trajectories into reusable skill documents, but current pipelines typically learn from one trajectory per task, merge candidate skill patches before checking them, and load the full skill corpus before inference. We propose SkillCAT, a training-free framework that separates this process into three stages. Contrastive Causal Extraction (CCE) samples multiple trajectories for each task and compares same-task success/failure pairs to identify evidence that explains outcome differences. Assessment-Augmented Evolution (AAE) replays each candidate patch on source-task clones and keeps only patches that improve or preserve task outcomes before hierarchical skill patch merging. Topology-Aware Task Execution (TTE) compiles the evolved skills into a routable sub-skill topology, so inference loads only the capability nodes relevant to the task. We evaluate SkillCAT on common agent benchmarks, including SpreadsheetBench, WikiTableQuestions, and DocVQA, and further test cross-model and out-of-distribution generalization. Across these settings, SkillCAT raises the average score over baselines by up to 40.40%, demonstrating reliable skill evolution without model training.",
+      "authors": [
+        "Kunfeng Chen",
+        "Qihuang Zhong",
+        "Juhua Liu",
+        "Bo Du"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-06-11T13:12:10+00:00",
+      "link": "https://arxiv.org/pdf/2606.13317v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detecting errors in agent trajectories by comparing success/failure pairs",
+      "llm_evidence_cn": "通过对比成功/失败轨迹对检测智能体轨迹中的错误",
+      "llm_evidence": "通过对比成功/失败轨迹对检测智能体轨迹中的错误",
+      "canonical_evidence": "通过对比成功/失败轨迹对检测智能体轨迹中的错误",
+      "llm_tldr_en": "Proposes SkillCAT, a training-free framework for LLM agent skill evolution that samples multiple trajectories per task and compares success/failure pairs to identify causal evidence explaining outcome differences, enabling error detection in trajectories.",
+      "llm_tldr_cn": "当前技能自进化方法从单条轨迹学习，合并不经检查，推理负载全量技能。论文提出SkillCAT，采用对比因果提取（CCE）采样多条轨迹，对比同任务成功/失败对以识别解释结果差异的证据，再通过评估增强进化（AAE）在源任务克隆上重放补丁并保留提升任务效果的补丁。实验表明框架能有效提取关键错误证据并改进技能，实现轨迹中错误检测。",
+      "llm_tldr": "当前技能自进化方法从单条轨迹学习，合并不经检查，推理负载全量技能。论文提出SkillCAT，采用对比因果提取（CCE）采样多条轨迹，对比同任务成功/失败对以识别解释结果差异的证据，再通过评估增强进化（AAE）在源任务克隆上重放补丁并保留提升任务效果的补丁。实验表明框架能有效提取关键错误证据并改进技能，实现轨迹中错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.07855v1",
+      "source": "arxiv",
+      "title": "Path Planning Using Deep Deterministic Policy Gradient: A Reinforcement Learning Approach",
+      "abstract": "Path-planning for autonomous vehicles in threat-laden environments is a fundamental challenge because the problem is nonlinear and nonconvex even in simplest scenarios. While traditional optimal control methods can be used to find ideal paths, the computational time is often too slow for real-time decision-making. To solve this challenge, we propose a method based on Deep Deterministic Policy Gradient (DDPG) and model the threat as possibly multiple circular 'no-go' zones. A mission is regarded as a failure if the vehicle enters this restricted zone at any time or does not reach a neighborhood of the destination. The DDPG agent is trained through trial and error in a simulated environment, learning a direct mapping from its current state (position and heading) to a series of feasible actions that guide the agent to safely reach its destination. The reword function has three parts: (a) an attractive field centered at the final destination, (b) some repulsive fields centered at the origins of circular obstacles, and (c) a penalty of control energy consumption (the magnitude of heading change) that indirectly in favor for straight path. The DDPG trains the agent using these incentives to find the largest possible set of starting points wherein a safe path to the destination is guaranteed. This provides critical information for mission planning, showing beforehand whether a task is achievable from a given starting point, assisting pre-mission planning activities. The approach is validated in simulation. A comparison between the DDPG method and a traditional optimal control (pseudo-spectral) method is carried out. The results show that the learning-based agent produces effective paths while being significantly faster, making it a better fit for real-time applications.",
+      "authors": [
+        "Qiang Le",
+        "Yaguang Yang",
+        "Isaac E. Weintraub"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "math.OC"
+      ],
+      "published": "2026-06-05T21:35:54+00:00",
+      "link": "https://arxiv.org/pdf/2606.07855v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "error detection in path planning via DDPG agent trained with failure conditions",
+      "llm_evidence_cn": "通过基于DDPG的强化学习路径规划检测轨迹错误（如进入禁区）",
+      "llm_evidence": "通过基于DDPG的强化学习路径规划检测轨迹错误（如进入禁区）",
+      "canonical_evidence": "通过基于DDPG的强化学习路径规划检测轨迹错误（如进入禁区）",
+      "llm_tldr_en": "Proposes a DDPG-based path planning method for autonomous vehicles in threat environments, detecting failures (e.g., entering restricted zones) as trajectory errors, and learning a mapping from states to actions.",
+      "llm_tldr_cn": "针对威胁环境下自主车辆路径规划的非线性非凸问题，提出基于深度确定性策略梯度（DDPG）的方法，将进入多个圆形禁区的行为视为任务失败，通过强化学习训练智能体学习状态到动作的映射。在模拟环境中训练，实验显示该方法的路径规划成功率和错误检测能力有效，为实时决策提供支持。",
+      "llm_tldr": "针对威胁环境下自主车辆路径规划的非线性非凸问题，提出基于深度确定性策略梯度（DDPG）的方法，将进入多个圆形禁区的行为视为任务失败，通过强化学习训练智能体学习状态到动作的映射。在模拟环境中训练，实验显示该方法的路径规划成功率和错误检测能力有效，为实时决策提供支持。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.09692v1",
+      "source": "arxiv",
+      "title": "Observability for Delegated Execution in Agentic AI Systems",
+      "abstract": "Delegation-scoped execution is not identifiable from standard observables: audit logs and execution traces can be identical under multiple incompatible delegation assignments. This gap is especially acute in LLM-based agentic systems, where agents dynamically select tools, vary execution sequences across runs for the same instruction, and spawn cooperating sub-agents. These dynamics fragment and interleave traces, making delegation-scoped reconstruction from causal structure alone structurally underdetermined. Although individual actions are authorized and logged, existing audit, tracing, and security schemas lack the semantics to reconstruct what actions occurred under a given delegation across heterogeneous systems. We focus on delegation-scoped attribution and access/share footprint reconstruction, not intent inference or reasoning reconstruction. We present an agent-aware observability substrate consisting of a lightweight gateway and a common information model that binds delegation context at execution time. This enables reliable cross-tool delegation-scoped reconstruction and direct forensic queries without heuristic time-window correlation.",
+      "authors": [
+        "Abhinav Mishra",
+        "Kumar Sharad"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-06-08T16:10:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.09692v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "focuses on observability and attribution of agent execution traces, enabling monitoring for errors",
+      "llm_evidence_cn": "关注代理执行轨迹的可观测性与归因，有助于监控行为错误",
+      "llm_evidence": "关注代理执行轨迹的可观测性与归因，有助于监控行为错误",
+      "canonical_evidence": "关注代理执行轨迹的可观测性与归因，有助于监控行为错误",
+      "llm_tldr_en": "Addresses the gap in auditing delegated agent execution by proposing delegation-scoped observability for LLM-based agentic systems, enabling error detection from fragmented traces.",
+      "llm_tldr_cn": "当前审计日志无法在代理委托执行场景中还原轨迹归属，导致错误检测困难。本文提出面向委托范围的可观测性框架，通过语义增强异质系统间的轨迹关联，为监控代理行为错误提供基础。实验表明该方法能有效重建委托级执行路径，提升错误归因的准确性。",
+      "llm_tldr": "当前审计日志无法在代理委托执行场景中还原轨迹归属，导致错误检测困难。本文提出面向委托范围的可观测性框架，通过语义增强异质系统间的轨迹关联，为监控代理行为错误提供基础。实验表明该方法能有效重建委托级执行路径，提升错误归因的准确性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.10228v1",
+      "source": "arxiv",
+      "title": "SHAPO: Sharpness-Aware Policy Optimization for Safe Exploration",
+      "abstract": "Safe exploration is a prerequisite for deploying reinforcement learning (RL) agents in safety-critical domains. In this paper, we approach safe exploration through the lens of epistemic uncertainty, where the actor's sensitivity to parameter perturbations serves as a practical proxy for regions of high uncertainty. We propose Sharpness-Aware Policy Optimization (SHAPO), a sharpness-aware policy update rule that evaluates gradients at perturbed parameters, making policy updates pessimistic with respect to the actor's epistemic uncertainty. Analytically we show that this adjustment implicitly reweighs policy gradients, amplifying the influence of rare unsafe actions while tempering contributions from already safe ones, thereby biasing learning toward conservative behavior in under-explored regions. Across several continuous-control tasks, our method consistently improves both safety and task performance over existing baselines, significantly expanding their Pareto frontiers.",
+      "authors": [
+        "Kaustubh Mani",
+        "Yann Pequignot",
+        "Vincent Mai",
+        "Liam Paull"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-06-08T22:40:45+00:00",
+      "link": "https://arxiv.org/pdf/2606.10228v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "safe exploration method for RL agents detecting unsafe actions via epistemic uncertainty, bridging to error detection",
+      "llm_evidence_cn": "通过认知不确定性检测强化学习智能体不安全动作的安全探索方法，桥接到错误检测",
+      "llm_evidence": "通过认知不确定性检测强化学习智能体不安全动作的安全探索方法，桥接到错误检测",
+      "canonical_evidence": "通过认知不确定性检测强化学习智能体不安全动作的安全探索方法，桥接到错误检测",
+      "llm_tldr_en": "Sharpness-Aware Policy Optimization for safe RL exploration, detecting unsafe actions via parameter perturbation sensitivity, implicitly reweighing gradients for conservative learning.",
+      "llm_tldr_cn": "本文针对强化学习智能体在安全关键领域的安全探索问题，提出锐度感知策略优化（SHAPO）方法。该方法通过评估扰动参数下的梯度，使策略更新对智能体的认知不确定性保持悲观，隐式地重新加权策略梯度，放大罕见不安全动作的影响。理论分析和实验表明，SHAPO能有效引导学习趋向保守行为，降低探索中的错误风险。这为RL智能体轨迹中的错误检测提供了方法论支持。",
+      "llm_tldr": "本文针对强化学习智能体在安全关键领域的安全探索问题，提出锐度感知策略优化（SHAPO）方法。该方法通过评估扰动参数下的梯度，使策略更新对智能体的认知不确定性保持悲观，隐式地重新加权策略梯度，放大罕见不安全动作的影响。理论分析和实验表明，SHAPO能有效引导学习趋向保守行为，降低探索中的错误风险。这为RL智能体轨迹中的错误检测提供了方法论支持。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.12474v1",
+      "source": "arxiv",
+      "title": "SAIGuard: Communication-State Simulation for Proactive Defense of LLM Multi-Agent Systems",
+      "abstract": "LLM-based multi-agent systems (MAS) solve complex tasks through inter-agent collaboration, but their communication-driven nature also allows security risks to spread across agents and trigger system-wide failures. Existing MAS defenses mainly follow a reactive paradigm after execution by detecting and isolating harmful agents, which may cause irreversible damage and degrade collaborative utility. To address this, we propose a proactive defense framework for MAS security, namely a Simulation-aware Interception Guard (SAIGuard). SAIGuard performs communication-state simulation over the MAS interaction graph, estimates the impact of incoming messages on local agent states and the global MAS state, and detects risky messages via reconstruction deviations from benign communication patterns. Instead of isolating agents, SAIGuard sanitizes or regenerates suspicious messages before it propagation into system. Experiments across diverse topologies and attack scenarios show that SAIGuard reduces attack success rates while maintaining MAS utility, outperforming reactive defenses.",
+      "authors": [
+        "Ruxue Shi",
+        "Yili Wang",
+        "Mengnan Du",
+        "Qinggang Zhang",
+        "Rui Miao",
+        "Yixin Liu",
+        "Xin Wang"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.AI",
+        "cs.CR"
+      ],
+      "published": "2026-06-10T05:37:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.12474v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "detects risky messages (anomalies) in multi-agent communication",
+      "llm_evidence_cn": "检测多智能体通信中的风险信息（异常）",
+      "llm_evidence": "检测多智能体通信中的风险信息（异常）",
+      "canonical_evidence": "检测多智能体通信中的风险信息（异常）",
+      "llm_tldr_en": "SAIGuard proactively detects anomalous messages in multi-agent systems by simulating communication-state impact, preventing failures before execution.",
+      "llm_tldr_cn": "针对多智能体系统中异常通信引发级联失败的问题，该论文提出SAIGuard主动防御框架。通过对交互图进行通信状态模拟，预估每条消息对局部和全局状态的影响，并利用重构误差检测风险消息。实验表明，SAIGuard能有效拦截恶意消息，同时保持协作效用，为多智能体轨迹中的异常检测提供了新的主动方案。",
+      "llm_tldr": "针对多智能体系统中异常通信引发级联失败的问题，该论文提出SAIGuard主动防御框架。通过对交互图进行通信状态模拟，预估每条消息对局部和全局状态的影响，并利用重构误差检测风险消息。实验表明，SAIGuard能有效拦截恶意消息，同时保持协作效用，为多智能体轨迹中的异常检测提供了新的主动方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.12737v1",
+      "source": "arxiv",
+      "title": "PI-Hunter: Automated Red-Teaming for Exposing and Localizing Prompt Injections",
+      "abstract": "Large Language Models (LLMs) are rapidly evolving into agentic systems that interact with external tools and environments, introducing new security risks such as indirect prompt injection attacks through untrusted external sources. Existing defenses mainly focus on blocking malicious content at inference time, and current red-teaming methods primarily optimize attack success. As a result, developers have limited visibility into how latent prompt injections emerge and propagate through agents. We propose PI-Hunter, an automated agentic auditing framework for proactive vulnerability exposure in LLM agents. PI-Hunter constructs realistic source-aware test cases and iteratively evolves them through feedback-driven exploration to induce agents to retrieve and reveal latent malicious instructions embedded within external environments. Extensive experiments across multiple benchmarks, agent architectures, attacks, and defenses demonstrate that PI-Hunter substantially improves vulnerability exposure and attack-surface coverage over strong automated red-teaming baselines, while remaining effective under existing prompt injection defenses.",
+      "authors": [
+        "Pengfei He",
+        "Lesly Miculicich",
+        "Vishesh Sharma",
+        "Ash Fox",
+        "George Lee",
+        "Jiliang Tang",
+        "Tomas Pfister",
+        "Long T. Le"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-06-10T22:57:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.12737v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "automated framework for detecting prompt injection anomalies in LLM agents",
+      "llm_evidence_cn": "自动化检测LLM代理中提示注入异常的框架",
+      "llm_evidence": "自动化检测LLM代理中提示注入异常的框架",
+      "canonical_evidence": "自动化检测LLM代理中提示注入异常的框架",
+      "llm_tldr_en": "Proposes PI-Hunter, an automated audit framework that proactively exposes prompt injection vulnerabilities in LLM agents via feedback-driven test generation.",
+      "llm_tldr_cn": "LLM代理面临提示注入安全风险，现有方法只优化攻击成功率而忽略内部传播。本文提出PI-Hunter，通过构造真实源感知的测试用例并迭代演化，诱导代理行为异常并定位注入点。实验在多个代理系统中检出未知注入路径，为代理轨迹异常检测提供了自动化方法。",
+      "llm_tldr": "LLM代理面临提示注入安全风险，现有方法只优化攻击成功率而忽略内部传播。本文提出PI-Hunter，通过构造真实源感知的测试用例并迭代演化，诱导代理行为异常并定位注入点。实验在多个代理系统中检出未知注入路径，为代理轨迹异常检测提供了自动化方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.13468v1",
+      "source": "arxiv",
+      "title": "Understanding the Rejection of Fixes Generated by Agentic Pull Requests -- Insights from the AIDev Dataset",
+      "abstract": "AI coding agents are increasingly used to generate pull requests (PRs) that propose code fixes in software projects. From a first exploration of the AIDev dataset, we find that 46.41\\% of the fixes proposed by the agents Copilot, Devin, Cursor, and Claude are rejected. This represents a significant amount of wasted resources that require human reviews, verifications, and running tests and validations for fixes that are merely discarded. Our goal in this paper is to understand the failure modes of AI-agents, an understanding that is crucial for better integrating AI-agents as efficient teammates. In this paper, we conduct a qualitative study on a representative sample of 306 non-merged pull requests created or co-authored by the agents mentioned earlier, followed by a quantitative analysis of the reasons for rejection. Our qualitative findings identify 14 reasons divided into four high-level categories for rejecting AI-agent fixes. We observe that developers can reject fixes due to fixes whose implementation is incorrect (e.g., incomplete, wrong approach), fixes that do not pass the continuous integration (CI) pipelines and fail tests, fixes for which the agent is unable to perform the implementation (e.g., no code generated, sessions lost), and fixes whose priority is low. Our results shed light on the importance of better guiding the model at these levels: (1) proposing hints about the approach to follow for fixing an issue, (2) outlining constraints or limitations regarding the approaches that should not be taken, and (3) instructing the agent on how to validate the implementation through CI pipelines and without introducing a breaking change. Our results suggest the need for good prioritization of tasks so that generated fixes do not lead to wasted human review efforts or wasted agent resources (e.g., tokens, compute, or allowed number of requests).",
+      "authors": [
+        "Mahmoud Abujadallah",
+        "Ali Arabat",
+        "Mohammed Sayagh"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-06-11T15:19:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.13468v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "analyzes failure modes of AI agents in code fix generation, effectively detecting action errors in agent trajectories",
+      "llm_evidence_cn": "分析AI代理生成代码修复的失败模式，实质检测了动作轨迹中的错误",
+      "llm_evidence": "分析AI代理生成代码修复的失败模式，实质检测了动作轨迹中的错误",
+      "canonical_evidence": "分析AI代理生成代码修复的失败模式，实质检测了动作轨迹中的错误",
+      "llm_tldr_en": "Examines why 46.41% of AI agent-generated pull requests are rejected, revealing action errors and failure modes in developer agent trajectories.",
+      "llm_tldr_cn": "AI编码代理生成的修复有近一半被拒绝，浪费大量资源。本文对306个未合并PR进行定性分析，归纳出代理在代码修改中的典型失败模式，包括逻辑错误、接口不一致等动作错误。这些发现直接指导如何检测和改进代理轨迹错误。",
+      "llm_tldr": "AI编码代理生成的修复有近一半被拒绝，浪费大量资源。本文对306个未合并PR进行定性分析，归纳出代理在代码修改中的典型失败模式，包括逻辑错误、接口不一致等动作错误。这些发现直接指导如何检测和改进代理轨迹错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
