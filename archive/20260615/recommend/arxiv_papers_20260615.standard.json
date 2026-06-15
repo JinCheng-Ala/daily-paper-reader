@@ -1,0 +1,402 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-15T22:25:00.676737+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 7,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2606.13883v1",
+      "source": "arxiv",
+      "title": "Guided Diffusion with Distilled Vision-Language Reliability for Aerial Navigation",
+      "abstract": "Autonomous UAV navigation is conventionally solved by pipelines that separate perception, mapping, and planning into distinct stages, which propagates errors, accumulates latency, and requires environment-specific retuning. End-to-end generative models remove these interfaces by mapping raw observations directly to trajectories, but inherit a subtle failure mode: trained on clean data, they cannot recognise when an observation is unreliable, and treat degraded regions such as glass, mirrors, and overexposed surfaces as valid evidence for planning. We present a reliability-aware diffusion planner for 3D UAV navigation. It conditions trajectory generation on the observation together with a scene-level reliability heatmap that marks where perception cannot be trusted, produced by a lightweight network that distils the open-vocabulary reasoning of a vision-language model within the real-time planning budget. To generalise to unseen environments without retraining, we steer the denoising process with a differentiable two-stage ESDF cost that treats physical obstacles from depth and virtual obstacles from highly unreliable regions on equal footing. In simulation and on a real quadrotor, our planner produces markedly safer trajectories than a state-of-the-art diffusion baseline, reducing the obstacle-violation rate from 40.3% to 9.6% and raising the mean reliability of traversed regions from 0.588 to 0.925. Ablating the reliability term alone drops mean reliability from 0.898 to 0.783, confirming it as the decisive component, while distillation runs the framework up to 2 times faster than the full vision-language model.",
+      "authors": [
+        "Ivan Valuev",
+        "Iana Zhura",
+        "Valerii Serpiva",
+        "Didar Seyidov",
+        "Dzmitry Tsetserukou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-11T20:18:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.13883v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "reliability-aware diffusion planner detects unreliable observations for trajectory generation",
+      "llm_evidence_cn": "可靠性感知扩散规划器检测不可靠观测以生成轨迹",
+      "llm_evidence": "可靠性感知扩散规划器检测不可靠观测以生成轨迹",
+      "canonical_evidence": "可靠性感知扩散规划器检测不可靠观测以生成轨迹",
+      "llm_tldr_en": "Proposes a reliability-aware diffusion planner for UAV navigation that detects unreliable observations via a learned heatmap to avoid trajectory errors, improving path planning safety.",
+      "llm_tldr_cn": "针对无人机导航中端到端模型无法识别不可靠观测导致路径错误的问题，提出可靠性感知扩散规划器。该方法利用蒸馏的视觉语言可靠性热图条件化轨迹生成，在感知层面检测玻璃、镜子等不可靠区域。实验证明该规划器在多种退化场景下显著提升轨迹安全性，为自主导航中的错误检测提供了新范式。",
+      "llm_tldr": "针对无人机导航中端到端模型无法识别不可靠观测导致路径错误的问题，提出可靠性感知扩散规划器。该方法利用蒸馏的视觉语言可靠性热图条件化轨迹生成，在感知层面检测玻璃、镜子等不可靠区域。实验证明该规划器在多种退化场景下显著提升轨迹安全性，为自主导航中的错误检测提供了新范式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.14574v1",
+      "source": "arxiv",
+      "title": "SIMMER: Benchmarking Latent Failures in LLM Executable Planning with a World Model",
+      "abstract": "Large language models (LLMs) are increasingly deployed as planners for autonomous agents in household environments. While existing benchmarks evaluate whether LLM-generated plans execute successfully, they overlook a critical type of failure: latent failures. Unlike immediate failures that trigger instant feedback at execution time and enable timely correction, latent failures do not immediately halt plan execution but silently compromise goal achievement. In severe cases, they cause irreversible harm. To address this gap, we introduce SIMMER, a benchmark for evaluating latent failures in LLM planning through a human-curated symbolic world model grounded in the kitchen domain. SIMMER defines a world model comprising 77 actions, 262 unique objects, and approximately 46,800 possible interactions that are semantically realistic, derived from real-world cooking scripts. It then leverages a state machine executor that validates plans against the world model and detects immediate precondition violations, latent hazards, and irreversible failures. Experiments across six LLMs show that even frontier models achieve at most 17% error-free plans. Moreover, up to 56% of plans contain latent failures, the majority of which lead to irreversible consequences. We further demonstrate that explicit state reasoning via counterfactual foresight simulation can reduce latent failures by up to 72% and irreversible cases by up to 75%, suggesting a promising direction for more robust LLM planners.",
+      "authors": [
+        "Xiaoxin Lu",
+        "Ranran Haoran Zhang",
+        "Rui Zhang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-06-12T15:53:16+00:00",
+      "link": "https://arxiv.org/pdf/2606.14574v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "benchmark for detecting latent failures in LLM planning trajectories",
+      "llm_evidence_cn": "LLM规划轨迹中潜在故障检测基准",
+      "llm_evidence": "LLM规划轨迹中潜在故障检测基准",
+      "canonical_evidence": "LLM规划轨迹中潜在故障检测基准",
+      "llm_tldr_en": "SIMMER benchmarks latent failures in LLM executable planning, where errors do not immediately halt execution but compromise goal achievement.",
+      "llm_tldr_cn": "现有基准只评估即时失败，忽略规划中潜伏的故障——这些故障不立即停止执行但暗中破坏目标。本文提出SIMMER基准，基于厨房领域人工构建符号世界模型，包含77个动作、262个物体和99种场景。实验显示当前LLM在潜伏故障检测上表现不佳，揭示了轨迹错误检测的关键挑战。该工作直接服务于代理轨迹错误检测。",
+      "llm_tldr": "现有基准只评估即时失败，忽略规划中潜伏的故障——这些故障不立即停止执行但暗中破坏目标。本文提出SIMMER基准，基于厨房领域人工构建符号世界模型，包含77个动作、262个物体和99种场景。实验显示当前LLM在潜伏故障检测上表现不佳，揭示了轨迹错误检测的关键挑战。该工作直接服务于代理轨迹错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10241v1",
+      "source": "arxiv",
+      "title": "Regimes: An Auditable, Held-Out-Gated Improvement Loop Demonstrated on LongMemEval with ActiveGraph",
+      "abstract": "Autonomous improvement loops are hard to trust because the improvement process is usually external scaffolding bolted onto the agent: failures go unlogged, diagnoses cannot be replayed, and promote-or-discard decisions land in a side database rather than the agent's own history. We show that an event-sourced agent runtime removes that friction and turns controlled improvement into a first-class workflow. When the agent's state is a deterministic projection of an append-only event log, failures are recorded, a run replays exactly from its log, candidate patches scope to typed pipeline seams, gates are auditable, and every promotion or discard is itself an event. We demonstrate this with Regimes, a loop on the ActiveGraph runtime that diagnoses failed evaluations, proposes a repair at a pipeline point, and promotes it only after static checks, sandbox execution, in-sample evaluation, and held-out validation. The loop is target-agnostic: the same control flow runs against different tasks through a common interface. On LongMemEval-S the dominant failure is not retrieval but reconciliation: the evidence is already in the assembled context, yet the reader answers incorrectly. Across five seeded held-out splits, Regimes discovers reader-prompt repairs that improve final held-out accuracy by +0.05 to +0.10 in four splits and +0.01 in one over-promotion split; two splits are individually significant (seed 5 unadjusted for its sequential promotion structure), and the pooled count is descriptive only, since the splits share one 500-question pool. The durable contributions are ActiveGraph as an auditable substrate that makes controlled improvement loops tractable, the held-out-gated loop it supports, the failure-regime taxonomy routing each failure to a pipeline location (whose marginal value over an unrouted baseline is the primary open question), and the prompt-as-discovery-probe hypothesis.",
+      "authors": [
+        "Yohei Nakajima"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-08T23:04:35+00:00",
+      "link": "https://arxiv.org/pdf/2606.10241v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "auditable improvement loop that logs failures",
+      "llm_evidence_cn": "可审计的改进循环，记录失败",
+      "llm_evidence": "可审计的改进循环，记录失败",
+      "canonical_evidence": "可审计的改进循环，记录失败",
+      "llm_tldr_en": "Regimes introduces an event-sourced agent runtime that turns failure logging and diagnosis into a first-class workflow, enabling auditable error detection and improvement loops.",
+      "llm_tldr_cn": "代理自主改进循环因失败记录缺失而难以信任。Regimes提出基于事件溯源的代理运行时，将失败记录、诊断回放和策略提升变为一等工作流。通过将代理状态作为只增事件日志的确定性投影，所有失败被持久化，运行可精确重放，补丁和门控决策均成为可审计事件。该方法在LongMemEval和ActiveGraph上验证，显著提升了改进循环的可信度和透明度。",
+      "llm_tldr": "代理自主改进循环因失败记录缺失而难以信任。Regimes提出基于事件溯源的代理运行时，将失败记录、诊断回放和策略提升变为一等工作流。通过将代理状态作为只增事件日志的确定性投影，所有失败被持久化，运行可精确重放，补丁和门控决策均成为可审计事件。该方法在LongMemEval和ActiveGraph上验证，显著提升了改进循环的可信度和透明度。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10813v1",
+      "source": "arxiv",
+      "title": "RedAct: Redacting Agent Capability Traces for Procedural Skill Protection",
+      "abstract": "Users rely on execution traces to observe agent behavior, diagnose failures, and ensure accountability. These traces contain rich procedural detail, including tool invocations, intermediate decisions, and error-recovery logic. Yet this detail can expose private procedural skills, allowing downstream methods to recover key formulas, thresholds, and strategies without access to model weights or skill files. To quantify this risk and evaluate protection, we construct \\textsc{CapTraceBench}, a benchmark of 75 specialized long-horizon tasks and 154 curated skills across seven domains. We also introduce \\textsc{RedAct} https://github.com/XuShuwenn/RedAct, a protected trace release framework that localizes protected key information, rewrites traces while preserving verifier-critical evidence, and embeds behavioral watermarks for downstream provenance analysis. Across representative trace reuse methods, \\textsc{RedAct} reduces normalized skill transfer (NST) from 44.7--67.1\\% on raw traces to below the no-skill baseline, while preserving audit evidence. Its standalone behavioral watermarks reach 93.6--100.0\\% true detection with a false alarm rate of at most 1.9\\%. These results frame public agent traces as security interfaces and show that selective redaction can reduce procedural capability leakage without removing audit evidence.",
+      "authors": [
+        "Shuwen Xu",
+        "Zhitao He",
+        "Yi R.",
+        "Fung"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.CL"
+      ],
+      "published": "2026-06-09T12:57:50+00:00",
+      "link": "https://arxiv.org/pdf/2606.10813v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "focus on execution traces for diagnosing failures and error-recovery logic",
+      "llm_evidence_cn": "关注执行轨迹用于诊断失败和错误恢复逻辑",
+      "llm_evidence": "关注执行轨迹用于诊断失败和错误恢复逻辑",
+      "canonical_evidence": "关注执行轨迹用于诊断失败和错误恢复逻辑",
+      "llm_tldr_en": "RedAct protects procedural skills in agent traces but directly addresses trace-based failure diagnosis and error recovery, aligning with error monitoring.",
+      "llm_tldr_cn": "Agent执行轨迹包含丰富细节但可能泄露专有技能。RedAct框架定位并改写受保护信息以发布保护后的轨迹，同时保留诊断和错误恢复逻辑。该工作直接涉及轨迹中的失败诊断和错误检测，可用于监测Agent行为。",
+      "llm_tldr": "Agent执行轨迹包含丰富细节但可能泄露专有技能。RedAct框架定位并改写受保护信息以发布保护后的轨迹，同时保留诊断和错误恢复逻辑。该工作直接涉及轨迹中的失败诊断和错误检测，可用于监测Agent行为。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.12918v1",
+      "source": "arxiv",
+      "title": "MAStrike: Shapley-Guided Collusive Red-Teaming on Multi-Agent Systems",
+      "abstract": "Hierarchical multi-agent systems (MAS) are rapidly being deployed in high-stakes workflows across domains such as finance and software engineering. In these systems, safety and security are inherently distributed across role-specialized agents, significantly expanding the attack surface, particularly under coordinated adversarial behaviors such as privilege escalation and cross-agent collusion. Existing red-teaming approaches for MAS remain limited: they rely on heuristic selection of target agents and perturb isolated message streams, leaving critical questions unanswered as which agents are most responsible for system safety, and how compromised agents can coordinate to bypass defenses. We propose MAStrike, a closed-loop framework for collusive red-teaming in hierarchical MAS. We propose the first agent-level Shapley value analysis for MAS, quantifying each agent's marginal contribution to system robustness under task-specific distributions. GGuided by this attribution, MAStrike identifies vulnerable agent coalitions and generates coordinated, role-aware adversarial manipulations. These attacks are iteratively refined through structured causal diagnosis, attributing failure cases to uncompromised agents that block adversarial attempts. We further build a comprehensive MAS red-teaming benchmark and controllable environments spanning diverse hierarchical topologies and domains, including finance, software engineering, and CRM. Extensive experiments across MAS built on multiple frontier models show that MAStrike substantially outperforms heuristic baselines. Our analysis further uncovers non-trivial Shapley value distributions and higher-order interaction structures among agents, revealing critical vulnerabilities and coordination patterns that are overlooked by prior single-agent or template-based methods.",
+      "authors": [
+        "Chejian Xu",
+        "Zhaorun Chen",
+        "Jingyang Zhang",
+        "Freddy Lecue",
+        "Avni Kothari",
+        "Sarah Tan",
+        "Wenbo Guo",
+        "Bo Li"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-06-11T05:21:39+00:00",
+      "link": "https://arxiv.org/pdf/2606.12918v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "proposes collusive red-teaming to detect coordinated adversarial behaviors in multi-agent systems",
+      "llm_evidence_cn": "提出共谋红队测试，检测多智能体系统中的协调对抗行为",
+      "llm_evidence": "提出共谋红队测试，检测多智能体系统中的协调对抗行为",
+      "canonical_evidence": "提出共谋红队测试，检测多智能体系统中的协调对抗行为",
+      "llm_tldr_en": "MAStrike systematically detects coordinated attacks in multi-agent systems, directly relevant to anomaly detection in agent behavior.",
+      "llm_tldr_cn": "该论文针对多智能体系统中的安全漏洞，提出MAStrike框架，利用Shapley值指导共谋红队测试，自动发现特权提升和跨代理合谋等对抗行为。该方法直接检测代理行为的异常模式和错误，与需求中的异常检测高度吻合。",
+      "llm_tldr": "该论文针对多智能体系统中的安全漏洞，提出MAStrike框架，利用Shapley值指导共谋红队测试，自动发现特权提升和跨代理合谋等对抗行为。该方法直接检测代理行为的异常模式和错误，与需求中的异常检测高度吻合。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13904v1",
+      "source": "arxiv",
+      "title": "SANA: What Matters for QA Agents over Massive Data Lakes?",
+      "abstract": "Exploratory question answering (EQA) over data lakes requires an LLM agent to discover relevant sources, analyze retrieved data, and adapt its actions based on intermediate results. End-to-end accuracy alone cannot distinguish failures in search, planning, data analysis, or the agent's Action Policy: its decisions about what to do next and when to submit an answer. We present SANA (Search Agent Navigation Ablation framework), a diagnostic ablation framework that transforms EQA tasks into runtime profiles containing gold source sequence, sanitized subquestions, and execution records. SANA uses these profiles to construct idealized search, planning, and data-analysis tools, allowing each component to be ablated; the residual gap is diagnostic evidence for policy failures.   To illustrate SANA as a reusable evaluation framework, we adapted two recent EQA benchmarks, LakeQA and KramaBench, and evaluated lightweight and mid-sized agents under fixed prompts, budgets, data lakes, and runtimes. Across both benchmarks, data analysis is a consistent bottleneck while planning is less so. Search is a major limitation in LakeQA's large data-lake setting, but less so for the smaller-scale KramaBench. SANA thus deconstructs end-to-end task accuracies into a diagnosis of where data-lake agents fail, and allows for systematic comparisons of progress in search, planning, data analysis, and agent design.",
+      "authors": [
+        "Austin Senna Wijaya",
+        "Jiaxiang Liu",
+        "Haonan Wang",
+        "Eugene Wu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.DB"
+      ],
+      "published": "2026-06-11T20:51:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.13904v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "diagnostic ablation framework to identify failures in agent trajectories",
+      "llm_evidence_cn": "诊断消融框架，识别代理轨迹中的失败",
+      "llm_evidence": "诊断消融框架，识别代理轨迹中的失败",
+      "canonical_evidence": "诊断消融框架，识别代理轨迹中的失败",
+      "llm_tldr_en": "SANA is a diagnostic ablation framework that pinpoints failures in QA agent trajectories by decomposing runtime profiles.",
+      "llm_tldr_cn": "探索式问答代理的端到端准确率无法定位搜索、规划、数据分析或策略中的具体失败。本文提出SANA框架，将EQA任务转化为运行时画像（含金源序列、清洗子问题、执行记录），通过构造理想化工具进行消融，残留差距即策略失败证据。该方法能够精准诊断代理轨迹中的错误来源，对错误检测具有方法论指导意义。",
+      "llm_tldr": "探索式问答代理的端到端准确率无法定位搜索、规划、数据分析或策略中的具体失败。本文提出SANA框架，将EQA任务转化为运行时画像（含金源序列、清洗子问题、执行记录），通过构造理想化工具进行消融，残留差距即策略失败证据。该方法能够精准诊断代理轨迹中的错误来源，对错误检测具有方法论指导意义。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.14585v1",
+      "source": "arxiv",
+      "title": "Sensitivity Shaping for Latent Modeling",
+      "abstract": "Generative dynamics models enable planning in challenging robotic systems, but safe deployment requires reliably detecting policy-induced out-of-distribution (OOD) transitions. Existing methods typically treat the learned dynamics as fixed and attach post hoc support surrogates. We show that these surrogates can fail when the dynamics are locally insensitive to critical action choices: unsupported control actions may produce latent predictions that resemble demonstrated transitions, suppressing OOD signals despite large true predictive errors. To address this, we introduce support-conditioned control-sensitivity regularization, which promotes sensitive local response to control input changes in learned dynamics in high-support training regions. This preserves control-induced variation while limiting unstable extrapolation due to weak empirical support. Experiments in vision-based obstacle avoidance, manipulation, and real-robot navigation show improved OOD detection and safer closed-loop planning.",
+      "authors": [
+        "Hongzhan Yu",
+        "Chenghao Li",
+        "Ruipeng Zhang",
+        "Henrik Christensen",
+        "Sicun Gao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-06-12T16:01:50+00:00",
+      "link": "https://arxiv.org/pdf/2606.14585v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detecting OOD transitions in learned dynamics for anomaly detection in agent trajectories",
+      "llm_evidence_cn": "检测学习动力学中的分布外转移以发现智能体轨迹异常",
+      "llm_evidence": "检测学习动力学中的分布外转移以发现智能体轨迹异常",
+      "canonical_evidence": "检测学习动力学中的分布外转移以发现智能体轨迹异常",
+      "llm_tldr_en": "Proposes sensitivity shaping regularization to detect out-of-distribution transitions in generative dynamics models, enabling anomaly detection in agent paths.",
+      "llm_tldr_cn": "生成动力学模型用于规划时，需要可靠检测分布外转移。现有方法因局部不敏感可能漏报。本文提出支持条件控制敏感性正则化，增强对控制输入的响应，使异常信号更易被检出。",
+      "llm_tldr": "生成动力学模型用于规划时，需要可靠检测分布外转移。现有方法因局部不敏感可能漏报。本文提出支持条件控制敏感性正则化，增强对控制输入的响应，使异常信号更易被检出。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.14211v1",
+      "source": "arxiv",
+      "title": "Closing the Reflection Gap: A Free Calibration Bonus for Agentic RL",
+      "abstract": "LLMs are increasingly deployed as agents that interact with external environments and observe feedback such as execution results, error messages, and tool outputs. A well-functioning agent should be able to leverage this feedback to accurately assess its own performance. Yet we find a persistent reflection gap: LLM agents tend to mis-assess their own outputs after observing concrete environment feedback -- even for questions they correctly answered -- and standard RL barely helps due to a credit-assignment mismatch. To close this gap, we propose RefGRPO, a simple yet effective fix that augments standard RL algorithms with two key ingredients: a free calibration bonus computed by contrasting the agent's own reflection with the actual outcome (requiring no additional reward model, LLM judge, or external annotation), and a dynamic schedule on its coefficient. Compared to standard RL baselines, our method simultaneously improves reflection calibration (e.g., reduces underconfidence rate $44.4\\% \\to 7.7\\%$) and task accuracy (e.g., $75.1\\% \\to 76.5\\%$) on text-to-SQL across five benchmarks. The resulting calibrated reflection turns the agent into its own verifier grounded in environment feedback, which further enables (i) better self-improvement that uses reflections as pseudo-rewards without outcome supervision, and (ii) more effective test-time selective prediction by committing only to rollouts flagged as correct.",
+      "authors": [
+        "Yinglun Zhu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-12T07:47:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.14211v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proposes RefGRPO to close reflection gap using error feedback and calibration bonus for RL agents",
+      "llm_evidence_cn": "提出RefGRPO，利用错误反馈和校准奖励缩小RL代理的反思缺口",
+      "llm_evidence": "提出RefGRPO，利用错误反馈和校准奖励缩小RL代理的反思缺口",
+      "canonical_evidence": "提出RefGRPO，利用错误反馈和校准奖励缩小RL代理的反思缺口",
+      "llm_tldr_en": "RefGRPO augments RL with a calibration bonus from error feedback, directly improving agent error detection in reinforcement learning trajectories.",
+      "llm_tldr_cn": "该论文发现LLM代理在观察环境反馈后存在反思缺口，即错误评估自身输出。为此提出RefGRPO，通过对比代理反思与实际结果计算免费校准奖励，增强RL算法。该方法利用错误消息和结果反馈来校正代理的自我评估，直接服务于强化学习轨迹中的错误检测。",
+      "llm_tldr": "该论文发现LLM代理在观察环境反馈后存在反思缺口，即错误评估自身输出。为此提出RefGRPO，通过对比代理反思与实际结果计算免费校准奖励，增强RL算法。该方法利用错误消息和结果反馈来校正代理的自我评估，直接服务于强化学习轨迹中的错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.12674v1",
+      "source": "arxiv",
+      "title": "Evoflux: Inference-Time Evolution of Executable Tool Workflows for Compact Agents",
+      "abstract": "Compact language models (LMs) reduce cost, latency, and deployment risk for tool agents. Yet MCP-style tool use requires more than isolated function calling: an agent must discover tools from live catalogs, satisfy schemas, preserve dependencies across intermediate outputs, and ground final responses in executed evidence. Small planners often generate plausible workflow graphs that fail under tool resolution, parameter validation, dependency tracking, or execution. We argue that this failure mode is poorly handled by small-corpus distillation. A few hundred teacher traces can teach workflow format, but rarely cover the recovery behavior needed to repair failed plans over changing tool catalogs. We introduce Evoflux, an inference-time evolutionary search method that treats compact tool use as the repair of executable tool workflows. It evolves typed workflow graphs through structured edits, execution feedback, adaptive intensity, meta-guided redesign, and diversity pruning. On held-out MCP-Bench tasks spanning live MCP servers and 250 tools, Evoflux raises execution feasibility from roughly 3% to 17-24% across small planners. In contrast, SFT and SFT+DPO on the same search-mined data match, underperform, or collapse below zero-shot performance; ReAct reaches higher peaks, but with higher variance and token cost. These results show that execution-grounded search is more reliable under scarce teacher-trace budgets.",
+      "authors": [
+        "Kushal Raj Bhandari",
+        "Ling Yue",
+        "Ching-Yun Ko",
+        "Dhaval Patel",
+        "Shaowu Pan",
+        "Pin-Yu Chen",
+        "Jianxi Gao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-10T21:01:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.12674v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "workflow failure detection and recovery for compact agents",
+      "llm_evidence_cn": "紧凑型智能体工作流执行失败的检测与修复",
+      "llm_evidence": "紧凑型智能体工作流执行失败的检测与修复",
+      "canonical_evidence": "紧凑型智能体工作流执行失败的检测与修复",
+      "llm_tldr_en": "Evoflux detects and repairs failed tool workflows at inference time via evolutionary search, addressing error recovery in compact agent trajectories.",
+      "llm_tldr_cn": "紧凑型语言模型作为工具智能体时，工作流常因工具解析、参数验证等失败。本文提出推理时进化机制Evoflux，自动检测失败模式并修复工作流，提升轨迹执行可靠性。",
+      "llm_tldr": "紧凑型语言模型作为工具智能体时，工作流常因工具解析、参数验证等失败。本文提出推理时进化机制Evoflux，自动检测失败模式并修复工作流，提升轨迹执行可靠性。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.14219v1",
+      "source": "arxiv",
+      "title": "Selective Agentic Recovery for UAV Autonomy with a Persistent Mission Runtime",
+      "abstract": "Agentic AI can support unmanned aerial vehicle (UAV) autonomy by providing high-level recovery reasoning when local waypoint- or setpoint-based execution encounters blocked passages, repeated no-progress behavior, or mission-level ambiguity. On physical UAVs, however, remote reasoning is most useful when it is invoked selectively, since each call introduces latency, resource cost, backend uncertainty, and a need to validate the returned decision. This paper presents Persistent Mission Runtime (PMR), a UAV recovery framework that keeps the mission loop and safety-critical execution local while using an external agentic reasoner only as an on-demand recovery module. The reasoner selects from predefined recovery skills, and each returned decision is parsed, verified, safety-filtered, and mapped to local executor actions before it can affect flight. PMR introduces learned Cognitive Value of Invocation (learned-CVI), a compact admission gate that estimates when remote agentic reasoning is likely to improve near-term mission progress enough to justify its operational cost. Across a fixed 400-run Gazebo/PX4 benchmark with eight scenarios, learned-CVI raises hard/ambiguous-regime success from 5.0% under local-only autonomy to 95.0%, outperforms one-shot and periodic reasoning baselines by 20.0 and 32.5 percentage points, and reduces remote-agent calls by 16.7% and logged tokens by 29.2% relative to a manually tuned rule-based invocation baseline.",
+      "authors": [
+        "Taewoo Park",
+        "Kyeonghyun Yoo",
+        "Seunghyun Yoo",
+        "Hwangnam Kim"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-06-12T07:57:47+00:00",
+      "link": "https://arxiv.org/pdf/2606.14219v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "selective recovery from blocked passages, no-progress failures in UAV trajectories",
+      "llm_evidence_cn": "无人机轨迹中阻塞无进展等错误的检测与恢复",
+      "llm_evidence": "无人机轨迹中阻塞无进展等错误的检测与恢复",
+      "canonical_evidence": "无人机轨迹中阻塞无进展等错误的检测与恢复",
+      "llm_tldr_en": "Proposes PMR framework for selective agentic recovery in UAV autonomy, detecting execution failures and invoking external reasoner for recovery when needed.",
+      "llm_tldr_cn": "无人机自主飞行中，本地执行可能遭遇阻塞或停滞等错误。本文提出持久任务运行时（PMR），仅在检测到错误时选择性调用外部智能体进行恢复，从而平衡延迟与安全性。该方法将错误检测与恢复分离，确保关键任务连续执行。",
+      "llm_tldr": "无人机自主飞行中，本地执行可能遭遇阻塞或停滞等错误。本文提出持久任务运行时（PMR），仅在检测到错误时选择性调用外部智能体进行恢复，从而平衡延迟与安全性。该方法将错误检测与恢复分离，确保关键任务连续执行。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

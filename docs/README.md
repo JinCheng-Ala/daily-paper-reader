@@ -6,49 +6,52 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-14
-- 运行时间：2026-06-14 21:28:32 UTC
+- 最新运行日期：2026-06-15
+- 运行时间：2026-06-15 22:31:24 UTC
 - 运行状态：成功
-- 本次总论文数：9
-- 精读区：3
-- 速读区：6
+- 本次总论文数：10
+- 精读区：6
+- 速读区：4
 
 ### 今日简报（AI）
-今日共处理9篇论文，精读3篇，重点推荐《Speculative Rollback Correction for Quality-Diverse Web Agent Imitation》（9.0分）和《AgentCanary》（8.0分）两篇高分工作。  
-最值得关注的结论：高质量Web Agent模仿学习中引入推测回滚修正策略可提升多样性，同时自主AI Agent安全评估框架AgentCanary提供了真实可执行环境下的评估方法。  
-建议普通读者优先阅读AgentCanary，了解当前AI Agent在安全部署中的关键风险与评估实践，为后续实践建立基线认知。
-- 详情：[/202606/14/README](/202606/14/README)
+今日精读聚焦无人机导航与LLM规划两大方向，其中扩散模型结合视觉语言可靠性的方法以及世界模型基准测试尤为亮眼。  
+最值得关注的是《Guided Diffusion with Distilled Vision-Language Reliability for Aerial Navigation》（9.0分）和《SIMMER: Benchmarking Latent Failures in LLM Executable Planning with a World Model》（9.0分），分别揭示了视觉语言引导下的避障新思路和LLM规划中隐藏的故障模式。  
+建议普通读者优先精读这两篇高分论文，理解其方法论在真实场景中的适用性；速读部分可留意潜变量建模的敏感度塑形及智能体强化学习的免费校准技巧。
+- 详情：[/202606/15/README](/202606/15/README)
 
 ### 精读区论文标签
-1. [Speculative Rollback Correction for Quality-Diverse Web Agent Imitation](/202606/14/2606.12485v1-speculative-rollback-correction-for-quality-diverse-web-agent-imitation)  
+1. [Guided Diffusion with Distilled Vision-Language Reliability for Aerial Navigation](/202606/15/2606.13883v1-guided-diffusion-with-distilled-vision-language-reliability-for-aerial-navigation)  
    标签：评分：9.0/10、query:agent-error
-   evidence：通过推测性回滚和模仿学习检测并校正网页智能体轨迹中的行动错误
-2. [AgentCanary: A Security Evaluation Framework for Autonomous AI Agents in Real Executable Environments](/202606/14/2606.10484v1-agentcanary-a-security-evaluation-framework-for-autonomous-ai-agents-in-real-executable-environments)  
+   evidence：可靠性感知扩散规划器检测不可靠观测以生成轨迹
+2. [SIMMER: Benchmarking Latent Failures in LLM Executable Planning with a World Model](/202606/15/2606.14574v1-simmer-benchmarking-latent-failures-in-llm-executable-planning-with-a-world-model)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：LLM规划轨迹中潜在故障检测基准
+3. [Regimes: An Auditable, Held-Out-Gated Improvement Loop Demonstrated on LongMemEval with ActiveGraph](/202606/15/2606.10241v1-regimes-an-auditable-held-out-gated-improvement-loop-demonstrated-on-longmemeval-with-activegraph)  
    标签：评分：8.0/10、query:agent-error
-   evidence：安全评估框架，可检测智能体行为中的异常和错误
-3. [SkillCAT: Contrastive Assessment and Topology-Aware Skill Self-Evolution for LLM Agents](/202606/14/2606.13317v1-skillcat-contrastive-assessment-and-topology-aware-skill-self-evolution-for-llm-agents)  
+   evidence：可审计的改进循环，记录失败
+4. [RedAct: Redacting Agent Capability Traces for Procedural Skill Protection](/202606/15/2606.10813v1-redact-redacting-agent-capability-traces-for-procedural-skill-protection)  
    标签：评分：8.0/10、query:agent-error
-   evidence：通过对比成功/失败轨迹对检测智能体轨迹中的错误
+   evidence：关注执行轨迹用于诊断失败和错误恢复逻辑
+5. [MAStrike: Shapley-Guided Collusive Red-Teaming on Multi-Agent Systems](/202606/15/2606.12918v1-mastrike-shapley-guided-collusive-red-teaming-on-multi-agent-systems)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：提出共谋红队测试，检测多智能体系统中的协调对抗行为
+6. [SANA: What Matters for QA Agents over Massive Data Lakes?](/202606/15/2606.13904v1-sana-what-matters-for-qa-agents-over-massive-data-lakes)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：诊断消融框架，识别代理轨迹中的失败
 
 ### 速读区论文标签
-1. [Path Planning Using Deep Deterministic Policy Gradient: A Reinforcement Learning Approach](/202606/14/2606.07855v1-path-planning-using-deep-deterministic-policy-gradient-a-reinforcement-learning-approach)  
+1. [Sensitivity Shaping for Latent Modeling](/202606/15/2606.14585v1-sensitivity-shaping-for-latent-modeling)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：检测学习动力学中的分布外转移以发现智能体轨迹异常
+2. [Closing the Reflection Gap: A Free Calibration Bonus for Agentic RL](/202606/15/2606.14211v1-closing-the-reflection-gap-a-free-calibration-bonus-for-agentic-rl)  
    标签：评分：7.0/10、query:agent-error
-   evidence：通过基于DDPG的强化学习路径规划检测轨迹错误（如进入禁区）
-2. [Observability for Delegated Execution in Agentic AI Systems](/202606/14/2606.09692v1-observability-for-delegated-execution-in-agentic-ai-systems)  
+   evidence：提出RefGRPO，利用错误反馈和校准奖励缩小RL代理的反思缺口
+3. [Selective Agentic Recovery for UAV Autonomy with a Persistent Mission Runtime](/202606/15/2606.14219v1-selective-agentic-recovery-for-uav-autonomy-with-a-persistent-mission-runtime)  
    标签：评分：7.0/10、query:agent-error
-   evidence：关注代理执行轨迹的可观测性与归因，有助于监控行为错误
-3. [SHAPO: Sharpness-Aware Policy Optimization for Safe Exploration](/202606/14/2606.10228v1-shapo-sharpness-aware-policy-optimization-for-safe-exploration)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：通过认知不确定性检测强化学习智能体不安全动作的安全探索方法，桥接到错误检测
-4. [SAIGuard: Communication-State Simulation for Proactive Defense of LLM Multi-Agent Systems](/202606/14/2606.12474v1-saiguard-communication-state-simulation-for-proactive-defense-of-llm-multi-agent-systems)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：检测多智能体通信中的风险信息（异常）
-5. [PI-Hunter: Automated Red-Teaming for Exposing and Localizing Prompt Injections](/202606/14/2606.12737v1-pi-hunter-automated-red-teaming-for-exposing-and-localizing-prompt-injections)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：自动化检测LLM代理中提示注入异常的框架
-6. [Understanding the Rejection of Fixes Generated by Agentic Pull Requests -- Insights from the AIDev Dataset](/202606/14/2606.13468v1-understanding-the-rejection-of-fixes-generated-by-agentic-pull-requests----insights-from-the-aidev-dataset)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：分析AI代理生成代码修复的失败模式，实质检测了动作轨迹中的错误
+   evidence：无人机轨迹中阻塞无进展等错误的检测与恢复
+4. [Evoflux: Inference-Time Evolution of Executable Tool Workflows for Compact Agents](/202606/15/2606.12674v1-evoflux-inference-time-evolution-of-executable-tool-workflows-for-compact-agents)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：紧凑型智能体工作流执行失败的检测与修复
 
 
 <div class="dpr-home-promo-card">
