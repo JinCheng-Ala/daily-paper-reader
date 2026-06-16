@@ -1,0 +1,565 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-16T21:49:12.938533+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 8,
+    "quick_skim_target": 11,
+    "quick_selected": 8
+  },
+  "deep_dive": [
+    {
+      "id": "2606.14805v1",
+      "source": "arxiv",
+      "title": "Knowledge-Based Zero-Replay Debugging of Multi-Agent LLM Traces",
+      "abstract": "Reliable operation of multi-agent large language model (LLM) systems depends on debugging long execution traces, where the few causally decisive events are buried in unstructured logs of messages, routes, memory writes, and tool calls. The standard tool is counterfactual replay (rewind, edit, and re-run the trajectory to measure each event's effect), but its cost grows linearly with the number of candidate events, making exhaustive replay infeasible at scale. We frame trace debugging as a knowledge-based decision-support problem. Each trace is compiled into a structured event knowledge graph over routing, memory, tool-use, uncertainty, and latent evidence, and a calibrated predictor decides where a scarce replay budget should be spent. We do not propose a new replay oracle; we propose a method to predict its results without paying the replay cost. We formulate zero-replay counterfactual-effect prediction: given a trace under a fixed budget, predict which events the oracle would mark high-effect before any replay is performed. BranchPoint-Latent is a lightweight predictor over observable, structural, uncertainty, and latent features of the knowledge graph. Calibrated against a deterministic replay oracle across 37 trace families, a single learning-to-rank gradient-boosted predictor raises per-trace localization (Branch Recall@5) from 0.73 to 0.93 on held-out families at zero oracle-replay cost. Rather than claiming universal dominance, we characterize when cheap graph centrality suffices and when learned evidence is necessary. The result is an auditable, cost-efficient decision-support system for AI-reliability debugging, positioned explicitly on the cost-accuracy frontier with reproducible artifacts.",
+      "authors": [
+        "Dong Ho Kang",
+        "Hyeonjeong Cha",
+        "Daein Weon"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-06-11T22:34:39+00:00",
+      "link": "https://arxiv.org/pdf/2606.14805v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "detecting errors in agent trajectories via knowledge-based zero-replay debugging",
+      "llm_evidence_cn": "通过基于知识的零重放调试检测代理轨迹中的错误",
+      "llm_evidence": "通过基于知识的零重放调试检测代理轨迹中的错误",
+      "canonical_evidence": "通过基于知识的零重放调试检测代理轨迹中的错误",
+      "llm_tldr_en": "Knowledge-Based Zero-Replay Debugging compiles multi-agent LLM traces into knowledge graphs to identify causally decisive events, enabling efficient error detection without exhaustive replay.",
+      "llm_tldr_cn": "该工作针对多代理LLM系统轨迹调试中因果事件难以定位的问题，提出将轨迹编译为结构化事件知识图，包括路由、记忆、工具使用等维度。通过校准的预测器确定重放预算分配，在无需穷举重放的情况下高效找到关键错误事件。实验表明该方法大幅降低了定位错误的成本。",
+      "llm_tldr": "该工作针对多代理LLM系统轨迹调试中因果事件难以定位的问题，提出将轨迹编译为结构化事件知识图，包括路由、记忆、工具使用等维度。通过校准的预测器确定重放预算分配，在无需穷举重放的情况下高效找到关键错误事件。实验表明该方法大幅降低了定位错误的成本。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.15034v1",
+      "source": "arxiv",
+      "title": "OSGuard: A Benchmark for Safety in Computer-Use Agents",
+      "abstract": "Computer-use agents are increasingly evaluated by whether they complete realistic desktop and web tasks. However, task success alone can miss failures in which an agent reaches the nominal goal through an unsafe shortcut. We introduce OSGuard, a dual-granularity benchmark suite for evaluating safety in computer-use agents under benign, unchanged user instructions. OSGuard contains an action-level benchmark for local guardrail decisions and a risk-augmented execution suite for end-to-end evaluation. The action-level benchmark consists of contextualized proposed actions labeled as allowed, unrelated, or unsafe, each judged relative to the original instruction and current interface state. The execution suite contains manually constructed OSWorld-derived task variants in which the original task remains achievable, but the environment is modified to introduce latent hazards such as destructive overwrites, etc. Each variant is paired with augmented evaluators that retain the original task-success criterion while adding explicit state-based safety invariants, allowing us to distinguish safe completions from unsafe completions that satisfy the nominal task objective. Our experimental results on OSGuard show that current multimodal guardrails can perform well on isolated action judgments, while risk-augmented execution exposes remaining gaps between local oversight and reliable end-to-end safety. This dual-granularity design enables more precise diagnosis of whether models can both recognize unsafe proposed actions and improve full-task safety when deployed as guardrails.",
+      "authors": [
+        "Mina Mohammadmirzaei",
+        "Jeffrey Flanigan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-13T00:32:24+00:00",
+      "link": "https://arxiv.org/pdf/2606.15034v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Detects unsafe actions in computer-use agent trajectories",
+      "llm_evidence_cn": "检测计算机使用代理轨迹中的不安全动作",
+      "llm_evidence": "检测计算机使用代理轨迹中的不安全动作",
+      "canonical_evidence": "检测计算机使用代理轨迹中的不安全动作",
+      "llm_tldr_en": "OSGuard detects unsafe shortcuts and action-level errors in computer-use agent trajectories via dual-granularity benchmarks.",
+      "llm_tldr_cn": "针对计算机使用代理虽然完成任务但可能采用不安全捷径的问题，OSGuard构建了双粒度安全基准：动作级基准标注允许/无关/不安全动作，执行级基准包含风险增强任务。通过详细的动作级标注，OSGuard能精确检测轨迹中的不安全行为，避免因单一任务成功指标而遗漏危险操作，为代理行为错误监测提供了标准化评估工具。",
+      "llm_tldr": "针对计算机使用代理虽然完成任务但可能采用不安全捷径的问题，OSGuard构建了双粒度安全基准：动作级基准标注允许/无关/不安全动作，执行级基准包含风险增强任务。通过详细的动作级标注，OSGuard能精确检测轨迹中的不安全行为，避免因单一任务成功指标而遗漏危险操作，为代理行为错误监测提供了标准化评估工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.16313v1",
+      "source": "arxiv",
+      "title": "Is Your Trajectory Displacement Safe in Long-tail?",
+      "abstract": "Long-tail scenarios remain a major bottleneck for autonomous driving evaluation, even as datasets grow by orders of magnitude. Existing evaluation pipelines are rarely human-aligned, safety-aware, verifiable, and explainable at the same time: closed-loop metrics often saturate among strong planners, while unstructured human ratings can be noisy without a carefully designed protocol. We formulate planning evaluation as additional-threat detection: given a planner trajectory and an expert reference, does the planner's displacement introduce new unsafe driving behavior? We propose FluidTest, an evaluation pipeline with three components: a pairwise WebUI protocol for reliable human annotation; a taxonomy of 32 semantic threats with evidence-grounded decision graphs; and a three-agent verification system with reflection for precision and auditability. Experiments on the WOD-E2E dataset show that FluidTest produces consistent labels among trained annotators and identifies additional threats in 65% of Poutine trajectories and 51% of RAP trajectories. These results show that state-of-the-art planners can still exhibit substantial safety-relevant failures despite high Rater Feedback Scores (RFS) and low Average Displacement Error (ADE). Additional details, guidance, and code are available at https://fluidtest.web.app.",
+      "authors": [
+        "Qiao Sun",
+        "Weicheng Zheng",
+        "Yixin Huang",
+        "Hang Zhao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-06-15T07:19:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.16313v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "detects path displacement threats in autonomous driving, directly related to detecting path deviations in agent trajectories",
+      "llm_evidence_cn": "检测自动驾驶中的轨迹偏移威胁，直接关联agent轨迹路径偏差检测",
+      "llm_evidence": "检测自动驾驶中的轨迹偏移威胁，直接关联agent轨迹路径偏差检测",
+      "canonical_evidence": "检测自动驾驶中的轨迹偏移威胁，直接关联agent轨迹路径偏差检测",
+      "llm_tldr_en": "This paper formulates planning evaluation as additional-threat detection, proposing FluidTest to identify unsafe path deviations in autonomous driving trajectories, directly addressing error detection in agent trajectories.",
+      "llm_tldr_cn": "本文将规划评估转化为额外威胁检测问题，提出FluidTest管道，通过配对WebUI协议、32种语义威胁决策图和阈值嵌入来识别轨迹偏移中的不安全行为。实验表明，该方法比传统指标更有效地检测路径偏差错误。",
+      "llm_tldr": "本文将规划评估转化为额外威胁检测问题，提出FluidTest管道，通过配对WebUI协议、32种语义威胁决策图和阈值嵌入来识别轨迹偏移中的不安全行为。实验表明，该方法比传统指标更有效地检测路径偏差错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10314v1",
+      "source": "arxiv",
+      "title": "Mobility Anomaly Generation using LLM-Driven Behavior with Kinematic Constraints",
+      "abstract": "Although the study of human trajectory anomalies is critical for advancing spatial data mining, empirical research remains severely hindered by a pervasive lack of ground-truth datasets. Despite the availability of several real-world and simulated human trajectory collections, these datasets exclusively capture normal mobility patterns and lack annotated anomalies. This specific scarcity is fundamentally driven by the inherent statistical rarity of anomalous events, precluding the feasibility of conventional observational methods. Compounding this challenge, the systematic acquisition of large-scale mobility data is strictly bottlenecked by prohibitive costs and stringent privacy regulations. To overcome these fundamental limitations and establish a reliable human trajectory anomalies dataset with annotated ground truth, we introduce a novel, end-to-end generative framework designed to synthesize realistic trajectory anomalies at scale. Our architecture bridges the gap between purely synthetic mobility data and complex real-world physical constraints by operating directly on baseline simulated trajectories. We employ Large Language Model (LLM) agents to systematically inject semantically meaningful behavioral anomalies such as irregular out-of-distribution check-ins and skipped routine visits. To ensure rigorous spatial validity, the system leverages map-constrained routing reconstruction to recalculate the physical transitions between these LLM agent-modified staypoints. Moreover, to narrow the simulation-to-reality gap, we augment the resulting trajectories with a context-aware spatial noise model, parameterized by environmental and location-specific variables, to accurately emulate heterogeneous GPS sensor degradation.",
+      "authors": [
+        "Yueyang Liu",
+        "Joon-Seok Kim",
+        "Andreas Züfle"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-09T02:09:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.10314v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Generates anomalous human trajectories using LLM behavior with kinematic constraints",
+      "llm_evidence_cn": "使用LLM行为生成带运动约束的异常轨迹",
+      "llm_evidence": "使用LLM行为生成带运动约束的异常轨迹",
+      "canonical_evidence": "使用LLM行为生成带运动约束的异常轨迹",
+      "llm_tldr_en": "Mobility Anomaly Generation creates ground-truth anomaly datasets for human trajectories, directly enabling supervised detection in agent-like mobility settings.",
+      "llm_tldr_cn": "针对轨迹异常研究中缺乏标注真实数据的问题，该工作利用LLM模拟异常行为并施加运动学约束，生成包含多种类型异常（如绕路、入侵）的合成轨迹数据集。生成的轨迹具有语义合理性且标注准确，为基于监督学习的轨迹异常检测提供了可靠训练资源。该方法虽以人类轨迹为对象，但其生成范式可推广至一般代理轨迹的异常检测任务，弥补了数据稀缺瓶颈。",
+      "llm_tldr": "针对轨迹异常研究中缺乏标注真实数据的问题，该工作利用LLM模拟异常行为并施加运动学约束，生成包含多种类型异常（如绕路、入侵）的合成轨迹数据集。生成的轨迹具有语义合理性且标注准确，为基于监督学习的轨迹异常检测提供了可靠训练资源。该方法虽以人类轨迹为对象，但其生成范式可推广至一般代理轨迹的异常检测任务，弥补了数据稀缺瓶颈。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.14106v1",
+      "source": "arxiv",
+      "title": "Naive Visual Memory is Not Enough: A Failure-Mode Study of GUI Agents",
+      "abstract": "Graphical User Interface (GUI) agents are increasingly used to automate complex computer tasks across applications, websites, and operating systems. To improve their reliability, recent work has introduced experiential memory, where agents retrieve prior trajectories to guide decision-making in similar states. More recent approaches further extend this idea to visual memory by storing and retrieving screenshots from past interactions, providing agents with richer contextual information than text-only memories. However, the effect of visual memory in GUI agents remains insufficiently understood: it is unclear which failures visual memory mitigates, or which failures it exacerbates. To systematically analyze the effect of visual memory, we introduce a taxonomy of four GUI agent failures (i.e., cognitive failure, visual state misunderstanding, hidden operation blindness, and grounding error) that map to distinct stages of the perception-reasoning-action pipeline. We find that prepending full-image memory has a divergent effect on the failure distribution: it reduces state-level failures but worsens action-level ones, and increases hidden operation blindness and grounding error. Motivated by this finding, we propose Action-Grounded Visual Memory (AGMem), an action-grounded memory framework for GUI agents. The core idea of AGMem is to store image crops that capture the local GUI region closely related to a successful action or a recovery, rather than storing full screenshots. Experiments on OSWorld show that AGMem improves task success rates by 33.3 % over full-image memory. These results demonstrate that AGMem is an effective representation for visual memory in GUI agents.",
+      "authors": [
+        "Seoyoung Choi",
+        "Minseok Ko",
+        "Hyunseok Lee",
+        "Kunwoong Kim",
+        "Woomin Song",
+        "Chanseok Jeon",
+        "Jinwoo Shin"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.CV"
+      ],
+      "published": "2026-06-12T04:39:01+00:00",
+      "link": "https://arxiv.org/pdf/2606.14106v1",
+      "tags": [
+        "keyword:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Directly studies failure modes (errors) in GUI agent trajectories, providing taxonomy for error detection",
+      "llm_evidence_cn": "直接研究GUI智能体轨迹中的故障模式（错误），提供了错误检测的分类",
+      "llm_evidence": "直接研究GUI智能体轨迹中的故障模式（错误），提供了错误检测的分类",
+      "canonical_evidence": "直接研究GUI智能体轨迹中的故障模式（错误），提供了错误检测的分类",
+      "llm_tldr_en": "Naive Visual Memory is Not Enough systematically analyzes failure modes of visual memory in GUI agents, providing a taxonomy that directly informs error detection in agent trajectories.",
+      "llm_tldr_cn": "针对GUI智能体视觉记忆的失效问题，论文系统分类了轨迹中的错误类型，包括视觉记忆引入的偏差和原有的错误。该分类法为智能体轨迹错误检测提供了直接指导，揭示了哪些错误可被缓解、哪些会加剧。",
+      "llm_tldr": "针对GUI智能体视觉记忆的失效问题，论文系统分类了轨迹中的错误类型，包括视觉记忆引入的偏差和原有的错误。该分类法为智能体轨迹错误检测提供了直接指导，揭示了哪些错误可被缓解、哪些会加剧。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.15116v1",
+      "source": "arxiv",
+      "title": "Graph of Trace: Visualizing Execution Traces of Scientific Agent",
+      "abstract": "Scientific AI agents can autonomously carry out complex research workflows, yet these unfolded workflows often remain difficult for humans to inspect and review, limiting interpretable, controllable and effective human-AI collaboration. To address this challenge, we present a monitoring and visualization framework that records fine-grained execution events and organizes them into a directed graph that makes agent workflows explicit as they proceed. The system records intermediate steps (e.g. tool calls and code executions), and renders them as real-time updated visual traces that expose workflow structure. This allows users to examine how results are produced, identify where failures emerge, and better understand agent behavior across different stages of the research process. We conduct an evaluation on complex research tasks with domain experts of interdisciplinary backgrounds in AI, neuroscience, and biology. Experts report that structured traces visualization improves understanding of agent workflows, perceived interpretability, and usability for analysis and further interaction.",
+      "authors": [
+        "Tianci Gao",
+        "Haoxuan Li",
+        "Jianhe Li",
+        "Tianxiang Zhao",
+        "Runze Shi",
+        "Weiran Wang",
+        "Zezhao Wu",
+        "Lu Mi"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC"
+      ],
+      "published": "2026-06-13T05:09:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.15116v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monitors execution traces of scientific agents to expose workflow structure and identify failures",
+      "llm_evidence_cn": "监测科学代理的执行轨迹以揭示工作流结构并定位故障",
+      "llm_evidence": "监测科学代理的执行轨迹以揭示工作流结构并定位故障",
+      "canonical_evidence": "监测科学代理的执行轨迹以揭示工作流结构并定位故障",
+      "llm_tldr_en": "Graph of Trace visualizes execution traces of scientific AI agents as a dynamic directed graph, enabling humans to monitor and detect errors in real-time.",
+      "llm_tldr_cn": "针对科学AI代理工作流难以审查的问题，本文提出执行轨迹可视化框架Graph of Trace。该系统将细粒度执行事件组织为有向图，实时展示代理行为，支持用户查看结果产生过程并识别故障节点。实验显示该框架能显著提升代理行为的可解释性与错误定位效率。",
+      "llm_tldr": "针对科学AI代理工作流难以审查的问题，本文提出执行轨迹可视化框架Graph of Trace。该系统将细粒度执行事件组织为有向图，实时展示代理行为，支持用户查看结果产生过程并识别故障节点。实验显示该框架能显著提升代理行为的可解释性与错误定位效率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.11349v2",
+      "source": "arxiv",
+      "title": "Knowing When to Ask: Self-Gated Clarification for Hierarchical Language Agents",
+      "abstract": "In hierarchical reasoning, failures often originate at intermediate decision points where the agent commits to a wrong branch without recognizing that it lacks critical information. Rather than treating clarification as an external uncertainty trigger, we propose ACTION-RATING, a formulation that places it inside the agent's action space on a shared ordinal scale with navigation, so that asking competes directly with acting at every decision point and help-seeking becomes observable at intermediate states. Two structurally distinct information-seeking modes emerge from the agent's own ratings: mandatory (no viable branch) and opportunistic (residual uncertainty despite a leading candidate). On Harmonized Tariff Schedule classification (30,000-node taxonomy, three benchmarks, 9~LLMs across 4 families), we observe a regime shift from mandatory to opportunistic clarification, with Information-Seeking Effectiveness (ISE), a local diagnostic defined as the fraction of help interactions followed by a correct next navigation step (not a final-task metric), rising from 50% to 74%. Three diagnostic contrasts fail to reproduce this structure. A separability test shows that the information-seeking pattern (mode split, ISE ranking) persists when answer quality is degraded (-18.8% accuracy), supporting an empirical separation between where an agent seeks help and the quality of the help it receives. Under the controlled answer channel, accuracy gains reach +16.2% at 10-digit; we read this as an upper bound on what better localization could unlock, not a deployment estimate.",
+      "authors": [
+        "Aijing Gao",
+        "Yiming Kang",
+        "Mengdie Flora Wang",
+        "Jae Oh Woo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.HC"
+      ],
+      "published": "2026-06-09T18:25:57+00:00",
+      "link": "https://arxiv.org/pdf/2606.11349v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "addresses failures at intermediate decision points where agent commits to wrong branch, relates to detecting action errors",
+      "llm_evidence_cn": "关注中间决策点处的失败，与检测动作错误相关",
+      "llm_evidence": "关注中间决策点处的失败，与检测动作错误相关",
+      "canonical_evidence": "关注中间决策点处的失败，与检测动作错误相关",
+      "llm_tldr_en": "Proposes ACTION-RATING for self-gated clarification in hierarchical agents, helping detect when agent commits to wrong branch at intermediate states.",
+      "llm_tldr_cn": "本文针对层级语言代理在中间决策点选择错误分支的失败问题，提出ACTION-RATING方法。该方法将请求澄清纳入代理的动作空间，与导航动作在同一序数尺度上竞争，使得求助行为在中间状态可观察。实验表明该机制能有效减少因信息不足导致的错误决策，为检测代理轨迹中的中间步骤错误提供了新思路。",
+      "llm_tldr": "本文针对层级语言代理在中间决策点选择错误分支的失败问题，提出ACTION-RATING方法。该方法将请求澄清纳入代理的动作空间，与导航动作在同一序数尺度上竞争，使得求助行为在中间状态可观察。实验表明该机制能有效减少因信息不足导致的错误决策，为检测代理轨迹中的中间步骤错误提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.12587v1",
+      "source": "arxiv",
+      "title": "Strategic Decision Support for AI Agents",
+      "abstract": "Traditionally, decision support studies how humans use machine learning models to make better decisions. In modern agentic systems, this division of roles is increasingly reversed: AI agents act on behalf of users, while humans and tools becomes support mechanisms around them. This role reversal brings reliability concerns to the forefront, since agentic errors can be consequential and agent behavior must remain aligned with human goals and constraints. Departing from the classical view of decision support, we revisit its two basic principles, the cost--value tradeoff of seeking support and the role of uncertainty quantification, in a setting where AI agents are the central actors. We propose a framework for strategic decision support for AI agents through an optimization problem that minimizes support usage subject to controlling a counterfactual missed-support error: the probability that the agent acts alone on instances where support would have materially improved its output. At the population level, we show that the optimal policy is a threshold rule on the value of support. Building on this structure, we develop an online algorithm that adaptively thresholds such a score and uses randomized exploration to control missed-support error without distributional assumptions. We further introduce a calibration-on-the-fly method that reduces unnecessary support calls online. We instantiate this framework across diverse scenarios, including information gathering, human--AI collaboration, and tool use, showing how each can be modeled through the same strategic decision-support lens. Experiments across these settings show that our method reliably controls the target error while substantially reducing support usage in practice.",
+      "authors": [
+        "Shayan Kiyani",
+        "Sima Noorani",
+        "George Pappas",
+        "Hamed Hassani"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.HC"
+      ],
+      "published": "2026-06-10T18:34:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.12587v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "monitoring agent behavior for errors through decision support framework focusing on reliability",
+      "llm_evidence_cn": "通过关注可靠性的决策支持框架监控代理行为错误",
+      "llm_evidence": "通过关注可靠性的决策支持框架监控代理行为错误",
+      "canonical_evidence": "通过关注可靠性的决策支持框架监控代理行为错误",
+      "llm_tldr_en": "Strategic Decision Support reframes decision support for AI agents, emphasizing error monitoring and alignment to ensure reliable agent behavior.",
+      "llm_tldr_cn": "该论文重新审视了决策支持在AI代理作为中心参与者时的角色，将成本-价值权衡和不确定性量化应用于代理环境。它强调代理错误可能产生严重后果，并提出了优化框架来监测代理行为，确保其与人类目标对齐，从而检测和预防错误。",
+      "llm_tldr": "该论文重新审视了决策支持在AI代理作为中心参与者时的角色，将成本-价值权衡和不确定性量化应用于代理环境。它强调代理错误可能产生严重后果，并提出了优化框架来监测代理行为，确保其与人类目标对齐，从而检测和预防错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.14239v1",
+      "source": "arxiv",
+      "title": "SkillAudit: Ground-Truth-Free Skill Evolution via Paired Trajectory Auditing",
+      "abstract": "Agent skills are structured procedural packages that guide frozen LLM agents in specialized workflows. Skills rarely remain sufficient after deployment: edge cases, API changes, and deployment constraints become visible only through use, making skill evolution a practical necessity. Existing methods depend on privileged feedback such as held-out validation scores, hidden test outcomes, or environment rewards -- signals often unavailable when a practitioner has only a task description and workspace data. We introduce SkillAudit, a framework for evolving agent skills without ground-truth feedback. The key idea is paired trajectory auditing: at each iteration, the same task is executed with and without the candidate skill, isolating how the skill changes agent behavior without external labels. To turn behavioral differences into edit guidance, SkillAudit uses Process-Aligned Contrastive Evaluation (PACE), a cluster of evaluators that maps trajectory divergences to diagnostic signals linked to specific passages in the skill document. A structural verifier, compiled once from the task specification and then fixed, checks task constraints and rolls back harmful updates. SkillAudit routes edits through two pipelines: Refine removes noisy or irrelevant guidance from broadly useful skills, while Repair replaces passages that conflict with the task. Across 89 containerized tasks spanning 8 professional domains, SkillAudit achieves 73.9% average task reward, outperforming an agent without skills (40.9%) and the static expert skill (56.7%). These gains are obtained without accessing hidden tests, reference solutions, or external scoring functions during evolution.",
+      "authors": [
+        "Haowen Gao",
+        "Haoran Chen",
+        "Can Wang",
+        "Shasha Guo",
+        "Liang Pang",
+        "Zhaoyang Liu",
+        "Huawei Shen",
+        "Xueqi Cheng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-12T08:20:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.14239v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "pa trajectory auditing method to detect skill-induced changes and errors without ground truth",
+      "llm_evidence_cn": "通过成对轨迹审计检测技能引入的变化和错误，无需真实标签",
+      "llm_evidence": "通过成对轨迹审计检测技能引入的变化和错误，无需真实标签",
+      "canonical_evidence": "通过成对轨迹审计检测技能引入的变化和错误，无需真实标签",
+      "llm_tldr_en": "SkillAudit evolves agent skills by comparing paired trajectories with/without candidate skills, isolating effects and detecting errors without ground-truth feedback.",
+      "llm_tldr_cn": "针对代理技能演化需特权反馈的问题，本文提出SkillAudit框架。核心思路是成对轨迹审计：在同一任务上执行带技能和不带技能的轨迹，通过对比隔离技能影响并检测异常。该方法能在无真值反馈条件下有效发现部署中的错误和失败案例，为技能自动化演进提供新范式。",
+      "llm_tldr": "针对代理技能演化需特权反馈的问题，本文提出SkillAudit框架。核心思路是成对轨迹审计：在同一任务上执行带技能和不带技能的轨迹，通过对比隔离技能影响并检测异常。该方法能在无真值反馈条件下有效发现部署中的错误和失败案例，为技能自动化演进提供新范式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16871v1",
+      "source": "arxiv",
+      "title": "Human-on-the-Bridge: Scalable Evaluation for AI Agents",
+      "abstract": "AI agents must be evaluated as behavioral systems, not as isolated response generators. They reason across turns, call tools, preserve context, follow policies, and act under uncertainty. Existing methods provide useful but fragmented signals: benchmarks measure fixed capabilities, Human-in-the-Loop review preserves expert judgment but does not scale easily, LLM-as-judge methods depend on evaluator design, red teaming is often episodic, and trace auditing requires explicit evidence rules. This paper introduces Human-on-the-Bridge (HOB), a scalable evaluation paradigm for agentic AI. HOB places human expertise upstream, where experts curate reusable evaluation intelligence before testing begins, including domain context, Red-Team Traps, Juror Personas, scoring guidelines, audit rules, and fallback policies. ProofAgent Harness then executes this curated intelligence repeatedly through multi-turn adversarial evaluations, trace capture, multi-juror scoring, and evidence-linked reporting. We evaluate HOB through symmetric and cost-efficient asymmetric settings across frontier LLM-based agents and Harness LLM tiers. The study covers 23,500 agent turns and produces evidence-linked findings across finance, healthcare, and code generation. The results show that HOB can amplify evaluation quality without requiring equally large evaluator models, allowing smaller Harness LLMs to challenge agents built on frontier LLM backbones. The evaluation surfaces failures often missed by static benchmarks and single-evaluator scoring, including phantom tool-call claims, missing mandatory tool calls, policy drift, manipulation paths, and safe but non-resolving refusals. These findings support HOB as a paradigm for scaling human-curated evaluation intelligence, where expert judgment is encoded upfront and reused across repeated agent evaluations rather than applied manually inside every run.",
+      "authors": [
+        "Fouad Bousetouane"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-06-15T15:47:52+00:00",
+      "link": "https://arxiv.org/pdf/2606.16871v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Evaluation paradigm that includes trace auditing for behavior errors",
+      "llm_evidence_cn": "包含轨迹审计的评估范式，可检测行为错误",
+      "llm_evidence": "包含轨迹审计的评估范式，可检测行为错误",
+      "canonical_evidence": "包含轨迹审计的评估范式，可检测行为错误",
+      "llm_tldr_en": "Human-on-the-Bridge provides a scalable evaluation paradigm for AI agents, including trace auditing to detect behavioral errors in trajectories.",
+      "llm_tldr_cn": "针对AI代理评估信号碎片化的问题，Human-on-the-Bridge提出将专家经验提前编译为可复用的评估智能，涵盖领域上下文、红队陷阱、评分指南等，其中轨迹审计组件能系统性地检测代理决策过程中的错误行为。该方法在多个代理任务上平衡了评估深度与扩展性，为错误检测提供了可定制的审计框架。",
+      "llm_tldr": "针对AI代理评估信号碎片化的问题，Human-on-the-Bridge提出将专家经验提前编译为可复用的评估智能，涵盖领域上下文、红队陷阱、评分指南等，其中轨迹审计组件能系统性地检测代理决策过程中的错误行为。该方法在多个代理任务上平衡了评估深度与扩展性，为错误检测提供了可定制的审计框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.15866v1",
+      "source": "arxiv",
+      "title": "STRIDE: Strategic Trajectory Reasoning via Discriminative Estimation for Verifiable Reinforcement Learning",
+      "abstract": "Reinforcement Learning with Verifiable Rewards (RLVR) has become an effective post-training paradigm for improving the reasoning abilities of large language models. However, existing RLVR methods typically rely on final-answer correctness to assign trajectory-level rewards, providing sparse supervision and treating all tokens uniformly regardless of their actual contribution to reasoning. Although recent studies introduce intermediate signals such as process rewards, high-entropy tokens, and semantic uncertainty, these signals are often not inherently verifiable and may fail to distinguish beneficial strategic patterns from harmful ones. To address this limitation, we propose STRIDE (Strategic Trajectory Reasoning with Discriminative Estimation), a fine-grained RLVR framework that derives strategic reasoning supervision from verifiable outcomes. STRIDE contrasts successful and failed trajectories within each response group to estimate the outcome-discriminative preference of each $n$-gram strategic pattern, and further combines this signal with reasoning saliency entropy to identify decision-relevant strategic patterns. These patterns are assigned differentiated advantage values during RL optimization, enabling more precise credit assignment while preserving the verifiability of RLVR. Extensive experiments demonstrate that STRIDE consistently improves reasoning performance across diverse models, tasks, and extended settings, including VLMs and agent-based systems.",
+      "authors": [
+        "Qinjian Zhao",
+        "Zhihao Dou",
+        "Dinggen Zhang",
+        "Xiangyu Li",
+        "Chaoda Song",
+        "Zhongwei Wan",
+        "Xinpeng Li",
+        "Yanyan Zhang",
+        "Kaijie Chen",
+        "Qingtao Pan",
+        "Chengcheng Feng",
+        "Zhiqiang Gao",
+        "Xiaoyu Xia"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-14T15:37:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.15866v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proposes discriminative estimation to distinguish beneficial from harmful trajectory patterns in RLVR",
+      "llm_evidence_cn": "提出判别性估计以区分RLVR中有益与有害的轨迹模式",
+      "llm_evidence": "提出判别性估计以区分RLVR中有益与有害的轨迹模式",
+      "canonical_evidence": "提出判别性估计以区分RLVR中有益与有害的轨迹模式",
+      "llm_tldr_en": "Proposes STRIDE for RLVR using discriminative estimation to distinguish beneficial from harmful trajectory patterns, improving reward signal.",
+      "llm_tldr_cn": "本文针对RLVR中轨迹级奖励稀疏、无法区分有益与有害模式的问题，提出STRIDE方法。通过判别性估计在轨迹层面识别有害模式，提供更细粒度的监督信号。实验表明该方法能有效提升推理能力，间接支持检测RL代理轨迹中的错误模式。",
+      "llm_tldr": "本文针对RLVR中轨迹级奖励稀疏、无法区分有益与有害模式的问题，提出STRIDE方法。通过判别性估计在轨迹层面识别有害模式，提供更细粒度的监督信号。实验表明该方法能有效提升推理能力，间接支持检测RL代理轨迹中的错误模式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16000v1",
+      "source": "arxiv",
+      "title": "GRACE-DS: a Guarded Reward-guided Agent Correction Environment in Data Science",
+      "abstract": "We introduce GRACE-DS, a Guarded Reward-guided Agent Correction Environment in Data Science for pre-deployment evaluation of LLM-powered AutoML agents. GRACE-DS is a set of evaluation metrics in an isolated environment that can be applied to tabular ML tasks specific to a particular organization. It exposes agents to realistic workflow stages, from planning and data inspection through feature engineering, model development, validation, and code repair to final submission, while hidden executable validators measure not only final predictive performance but also leakage avoidance, reproducibility, protocol validity, correction behavior, and reward alignment. The strongest structured regime, flexible iterative interaction (our approach), achieves higher end-to-end normalized hidden-test quality than single-shot generation, unstructured interaction, and restart-based baselines, while also improving protocol-valid completion. Validated across more than 7,000 episodes, these results establish GRACE-DS as a robust platform for assessing the capacity of LLM-based AutoML agents to execute machine learning workflows under production-like conditions and in accordance with organization-specific requirements.",
+      "authors": [
+        "Aleksandr Tsymbalov",
+        "Danis Zaripov",
+        "Artem Epifanov",
+        "Anastasya Palienko"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-06-14T19:58:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.16000v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "monitoring agent behavior for errors via evaluation metrics and correction detection",
+      "llm_evidence_cn": "通过评估指标和纠正检测监控代理行为",
+      "llm_evidence": "通过评估指标和纠正检测监控代理行为",
+      "canonical_evidence": "通过评估指标和纠正检测监控代理行为",
+      "llm_tldr_en": "GRACE-DS provides pre-deployment evaluation metrics for LLM-powered AutoML agents, measuring correction behavior and reward alignment to detect errors in realistic workflow stages.",
+      "llm_tldr_cn": "GRACE-DS是一个针对LLM驱动的AutoML代理的预部署评估环境。它通过隐藏的可执行验证器，在真实工作流阶段（从规划到代码修复）测量代理的泄露避免、协议有效性、纠正行为和奖励对齐，从而监控和检测代理错误。该环境为组织特定的表格ML任务提供隔离测试，有助于在部署前发现轨迹中的错误。",
+      "llm_tldr": "GRACE-DS是一个针对LLM驱动的AutoML代理的预部署评估环境。它通过隐藏的可执行验证器，在真实工作流阶段（从规划到代码修复）测量代理的泄露避免、协议有效性、纠正行为和奖励对齐，从而监控和检测代理错误。该环境为组织特定的表格ML任务提供隔离测试，有助于在部署前发现轨迹中的错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16409v1",
+      "source": "arxiv",
+      "title": "PathRouter: Aligning Rewards with Retrieval Quality in Agentic Graph Retrieval-Augmented Generation",
+      "abstract": "Agentic GraphRAG trains language-model agents to iteratively retrieve and reason over graph-structured evidence, enabling more accurate and context-aware decision-making by efficiently navigating complex information networks. However, outcome-only reinforcement learning suffers from \\textit{\\textbf{answer-path reward aliasing}}, where correct answers may come from shortcuts rather than useful evidence paths. It also exhibits \\textit{\\textbf{search-update ambiguity}}, as scalar trajectory-level feedback does not indicate which retrieval actions to adjust. To mitigate these shortcomings, we present PathRouter, a path-aware training framework for agentic GraphRAG. PathRouter jointly evaluates each trajectory along answer correctness and evidence-path overlap, yielding four trajectory categories with differentiated GRPO advantage scaling that suppresses shortcut reinforcement while preserving evidence-seeking behavior. For evidence-poor trajectories, a frozen gold-evidence teacher provides token-level KL guidance on reasoning and search-query tokens, excluding answer tokens to avoid direct response imitation. Experiments on six QA benchmarks across three model sizes show that PathRouter consistently improves answer F1 and evidence-path overlap, achieving average F1 gains of 3.1 on 3B and 4.9 on 7B models compared to a strong baseline.",
+      "authors": [
+        "Bo Wang",
+        "Heyan Huang",
+        "Yaolin Li",
+        "Wei Tang",
+        "Yuan Zhang",
+        "Wenbo Li",
+        "Mingze Gao",
+        "Ge Shi",
+        "Chong Feng"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-06-15T08:48:04+00:00",
+      "link": "https://arxiv.org/pdf/2606.16409v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "detecting path deviations in agent trajectories via path-aware training to correct reward aliasing",
+      "llm_evidence_cn": "通过路径感知训练纠正奖励混叠，检测代理轨迹中的路径偏差",
+      "llm_evidence": "通过路径感知训练纠正奖励混叠，检测代理轨迹中的路径偏差",
+      "canonical_evidence": "通过路径感知训练纠正奖励混叠，检测代理轨迹中的路径偏差",
+      "llm_tldr_en": "PathRouter addresses answer-path reward aliasing in agentic GraphRAG by jointly evaluating trajectories along answer correctness and retrieval path quality, enabling detection of deviating paths.",
+      "llm_tldr_cn": "PathRouter针对智能体图RAG中结果-路径奖励混叠问题，提出路径感知训练框架。它不仅评估答案正确性，还考虑检索路径质量，从而区分正确答案来自有用路径还是捷径。通过联合评估轨迹，框架能检测到代理在检索过程中路径偏离正确方向的情况，减少搜索更新歧义。",
+      "llm_tldr": "PathRouter针对智能体图RAG中结果-路径奖励混叠问题，提出路径感知训练框架。它不仅评估答案正确性，还考虑检索路径质量，从而区分正确答案来自有用路径还是捷径。通过联合评估轨迹，框架能检测到代理在检索过程中路径偏离正确方向的情况，减少搜索更新歧义。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16478v1",
+      "source": "arxiv",
+      "title": "Tensor-Coord: Algebraic Decomposition of Joint Plan Tensors for Conflict-Free Multi-Agent LLM Planning",
+      "abstract": "Large language models (LLMs) remain limited in multi-agent planning because independently generated plans can create coordination failures such as spatial collisions, resource contention, and temporal deadlocks. We introduce Tensor-Coord, a multilinear algebra framework that represents the joint plan of N agents as a third-order tensor \\(T \\in R^{N \\times H \\times A}\\) over agents, timesteps, and actions. Canonical Polyadic (CP) and Tucker decompositions are used to identify latent coordination structure. The minimal epsilon-approximate CP rank R* defines a computable coordination complexity measure, with \\(CC(Pi)=(R*-N)/N\\). We prove that R*=N is necessary and sufficient for plan independence. The residual \\(E=T-T_{R*}\\) defines a conflict score over agent pairs, timesteps, and actions, localizing failures without domain-specific rules. Tucker factors provide interpretable agent roles, temporal phases, and action clusters that are converted into natural language constraints for iterative LLM replanning. Experiments on multi-robot delivery tasks across Easy (2 agents, 5x5 grid), Medium (3 agents, 5x5 grid), and Hard (4 agents, 5x5 grid) settings show convergence to conflict-free plans in 100% of 2-agent cases within 1.4 iterations on average, 80% of 3-agent cases within 3.2 iterations, and 60% of 4-agent cases within 4.0 iterations. CP rank scaled approximately linearly as \\(R*(N) = 3.9N + 0.5\\), supporting its use as a predictor of coordination complexity.",
+      "authors": [
+        "Mudit Rastogi"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-15T09:44:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.16478v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "detecting path deviations and coordination failures in multi-agent planning via tensor decomposition",
+      "llm_evidence_cn": "通过张量分解检测多代理规划中的路径偏差和协调失败",
+      "llm_evidence": "通过张量分解检测多代理规划中的路径偏差和协调失败",
+      "canonical_evidence": "通过张量分解检测多代理规划中的路径偏差和协调失败",
+      "llm_tldr_en": "Tensor-Coord uses tensor decomposition to detect coordination failures like collisions and resource contention in multi-agent LLM planning, enabling error detection in joint trajectories.",
+      "llm_tldr_cn": "Tensor-Coord提出将多代理联合计划表示为三阶张量，通过CP和Tucker分解识别潜在协调结构，并计算协调复杂度。该方法能检测空间碰撞、资源争用、时间死锁等失败模式，有效识别规划中的路径偏差和错误。",
+      "llm_tldr": "Tensor-Coord提出将多代理联合计划表示为三阶张量，通过CP和Tucker分解识别潜在协调结构，并计算协调复杂度。该方法能检测空间碰撞、资源争用、时间死锁等失败模式，有效识别规划中的路径偏差和错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
