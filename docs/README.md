@@ -6,62 +6,49 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-16
-- 运行时间：2026-06-16 22:00:02 UTC
+- 最新运行日期：2026-06-17
+- 运行时间：2026-06-17 22:15:05 UTC
 - 运行状态：成功
-- 本次总论文数：14
-- 精读区：6
-- 速读区：8
+- 本次总论文数：9
+- 精读区：3
+- 速读区：6
 
 ### 今日简报（AI）
-今日精选14篇论文，聚焦多智能体LLM调试与智能体安全基准。最值得关注的是两项9.0分精读成果：多智能体LLM轨迹的无重放调试方法，以及计算机使用智能体的安全基准测试。建议普通读者优先阅读这两篇，把握智能体可靠性与安全评估的前沿方向。
-- 详情：[/202606/16/README](/202606/16/README)
+今日聚焦多智能体系统中的虚假信息传播与模型行为轨迹解析，共阅读9篇论文，精读2篇高分研究。  
+最值得关注：多智能体良性环境下的谣言传播机制（8.0分）和通过智能体轨迹剖析模型行为的方法（8.0分），两者均触及AI安全与可解释性前沿。  
+建议后续优先阅读这两篇精读，并关注离线偏好轨迹评估（7.0分）以扩展对智能体行为理解的工具链。
+- 详情：[/202606/17/README](/202606/17/README)
 
 ### 精读区论文标签
-1. [Knowledge-Based Zero-Replay Debugging of Multi-Agent LLM Traces](/202606/16/2606.14805v1-knowledge-based-zero-replay-debugging-of-multi-agent-llm-traces)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：通过基于知识的零重放调试检测代理轨迹中的错误
-2. [OSGuard: A Benchmark for Safety in Computer-Use Agents](/202606/16/2606.15034v1-osguard-a-benchmark-for-safety-in-computer-use-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：检测计算机使用代理轨迹中的不安全动作
-3. [Is Your Trajectory Displacement Safe in Long-tail?](/202606/16/2606.16313v1-is-your-trajectory-displacement-safe-in-long-tail)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：检测自动驾驶中的轨迹偏移威胁，直接关联agent轨迹路径偏差检测
-4. [Mobility Anomaly Generation using LLM-Driven Behavior with Kinematic Constraints](/202606/16/2606.10314v1-mobility-anomaly-generation-using-llm-driven-behavior-with-kinematic-constraints)  
+1. [Misinformation Propagation in Benign Multi-Agent Systems](/202606/17/2606.16710v1-misinformation-propagation-in-benign-multi-agent-systems)  
    标签：评分：8.0/10、query:agent-error
-   evidence：使用LLM行为生成带运动约束的异常轨迹
-5. [Naive Visual Memory is Not Enough: A Failure-Mode Study of GUI Agents](/202606/16/2606.14106v1-naive-visual-memory-is-not-enough-a-failure-mode-study-of-gui-agents)  
+   evidence：研究多智能体轨迹中错误传播，揭示错误信息如何持续存在
+2. [Dissecting model behavior through agent trajectories](/202606/17/2606.17454v1-dissecting-model-behavior-through-agent-trajectories)  
    标签：评分：8.0/10、query:agent-error
-   evidence：直接研究GUI智能体轨迹中的故障模式（错误），提供了错误检测的分类
-6. [Graph of Trace: Visualizing Execution Traces of Scientific Agent](/202606/16/2606.15116v1-graph-of-trace-visualizing-execution-traces-of-scientific-agent)  
+   evidence：检测智能体轨迹中的意图-执行差异
+3. [StepGuard: Guarding Web Navigation via Single-Step Calibration](/202606/17/2606.17871v1-stepguard-guarding-web-navigation-via-single-step-calibration)  
    标签：评分：8.0/10、query:agent-error
-   evidence：监测科学代理的执行轨迹以揭示工作流结构并定位故障
+   evidence：web导航代理的单步错误校准
 
 ### 速读区论文标签
-1. [Knowing When to Ask: Self-Gated Clarification for Hierarchical Language Agents](/202606/16/2606.11349v2-knowing-when-to-ask-self-gated-clarification-for-hierarchical-language-agents)  
+1. [Evoflux: Inference-Time Evolution of Executable Tool Workflows for Compact Agents](/202606/17/2606.12674v1-evoflux-inference-time-evolution-of-executable-tool-workflows-for-compact-agents)  
    标签：评分：7.0/10、query:agent-error
-   evidence：关注中间决策点处的失败，与检测动作错误相关
-2. [SkillAudit: Ground-Truth-Free Skill Evolution via Paired Trajectory Auditing](/202606/16/2606.14239v1-skillaudit-ground-truth-free-skill-evolution-via-paired-trajectory-auditing)  
+   evidence：通过推理时进化检测并修复工具工作流错误
+2. [Offline Preference-Based Trajectory Evaluation](/202606/17/2606.17541v1-offline-preference-based-trajectory-evaluation)  
    标签：评分：7.0/10、query:agent-error
-   evidence：通过成对轨迹审计检测技能引入的变化和错误，无需真实标签
-3. [STRIDE: Strategic Trajectory Reasoning via Discriminative Estimation for Verifiable Reinforcement Learning](/202606/16/2606.15866v1-stride-strategic-trajectory-reasoning-via-discriminative-estimation-for-verifiable-reinforcement-learning)  
+   evidence：基于轨迹感知偏好的离线评估，通过部分进度比较实现异常检测
+3. [EvolveNav: Proactive Preflection and Self-Evolving Memory for Zero-Shot Object Goal Navigation](/202606/17/2606.18235v1-evolvenav-proactive-preflection-and-self-evolving-memory-for-zero-shot-object-goal-navigation)  
    标签：评分：7.0/10、query:agent-error
-   evidence：提出判别性估计以区分RLVR中有益与有害的轨迹模式
-4. [GRACE-DS: a Guarded Reward-guided Agent Correction Environment in Data Science](/202606/16/2606.16000v1-grace-ds-a-guarded-reward-guided-agent-correction-environment-in-data-science)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：通过评估指标和纠正检测监控代理行为
-5. [PathRouter: Aligning Rewards with Retrieval Quality in Agentic Graph Retrieval-Augmented Generation](/202606/16/2606.16409v1-pathrouter-aligning-rewards-with-retrieval-quality-in-agentic-graph-retrieval-augmented-generation)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：通过路径感知训练纠正奖励混叠，检测代理轨迹中的路径偏差
-6. [Tensor-Coord: Algebraic Decomposition of Joint Plan Tensors for Conflict-Free Multi-Agent LLM Planning](/202606/16/2606.16478v1-tensor-coord-algebraic-decomposition-of-joint-plan-tensors-for-conflict-free-multi-agent-llm-planning)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：通过张量分解检测多代理规划中的路径偏差和协调失败
-7. [Strategic Decision Support for AI Agents](/202606/16/2606.12587v1-strategic-decision-support-for-ai-agents)  
+   evidence：通过历史轨迹记忆减少导航中的重复错误
+4. [Arbor: Tree Search as a Cognition Layer for Autonomous Agents](/202606/17/2606.12563v1-arbor-tree-search-as-a-cognition-layer-for-autonomous-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：通过关注可靠性的决策支持框架监控代理行为错误
-8. [Human-on-the-Bridge: Scalable Evaluation for AI Agents](/202606/16/2606.16871v1-human-on-the-bridge-scalable-evaluation-for-ai-agents)  
+   evidence：将失败视为轨迹探索的诊断信号
+5. [Agent trajectories as programs: fingerprinting and programming coding-agent behavior](/202606/17/2606.16988v1-agent-trajectories-as-programs-fingerprinting-and-programming-coding-agent-behavior)  
    标签：评分：6.0/10、query:agent-error
-   evidence：包含轨迹审计的评估范式，可检测行为错误
+   evidence：从代理轨迹中提取程序指纹用于行为比较
+6. [Scaling Enterprise Agent Routing: Degradation, Diagnosis, and Recovery](/202606/17/2606.17519v1-scaling-enterprise-agent-routing-degradation-diagnosis-and-recovery)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：研究agent系统中的路由性能下降与诊断
 
 
 <div class="dpr-home-promo-card">
