@@ -1,0 +1,358 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-18T22:17:11.307196+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.17482v1",
+      "source": "arxiv",
+      "title": "SPHINX: First Explain, Then Explore",
+      "abstract": "Generating adversarial driving scenarios is critical for evaluating and improving autonomous vehicle decision-making systems in simulation. Recent approaches, such as ChatScene and LLM-Attacker, rely primarily on the prior knowledge of Large Language Models and Vision-Language Models to generate driving scenarios procedurally. We argue that adversarial scenes should be generated based on the failure diagnosis (e.g., indecisiveness, multi-frame inconsistency) of the driving policy to specifically address the policy's weaknesses instead of relying on prior assumptions. In this paper, we propose SPHINX, a closed-loop framework for adversarial scenario synthesis guided by a simple principle: first explain, then explore. Beyond blindly exploring the scenario space, SPHINX leverages explainable artificial intelligence methods to analyze the policy, identifying key visual concepts and their influence on policy outputs, and the uncertainty of the decisions. Given the interpretable evidence extracted from the policy's own decision process, we use a vision language model to rationalize and criticize failure modes of the current policy. These critics are then used to generate targeted adversarial scenarios for policy retraining and improvement. We demonstrate that SPHINX can highlight an interpretable account of policy failures while other adversarial scene generation cannot. Across the evaluated benchmarks and test suites, SPHINX can be applied to diverse state-of-the-art autonomous vehicle architectures and yields consistent robustness improvements over existing scenario-generation methods.",
+      "authors": [
+        "Nguyen Do",
+        "Tue M. Cao",
+        "Tien Van Do",
+        "András Hajdu",
+        "Tamás Bérczes",
+        "My T. Thai"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-16T03:48:27+00:00",
+      "link": "https://arxiv.org/pdf/2606.17482v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "failure diagnosis of driving policy",
+      "llm_evidence_cn": "驾驶策略失败诊断",
+      "llm_evidence": "驾驶策略失败诊断",
+      "canonical_evidence": "驾驶策略失败诊断",
+      "llm_tldr_en": "SPHINX generates adversarial driving scenarios based on failure diagnosis (indecisiveness, multi-frame inconsistency) to address policy weaknesses, directly detecting errors in autonomous agent path planning.",
+      "llm_tldr_cn": "本文提出SPHINX框架，先通过可解释性分析诊断驾驶策略的失败模式（如优柔寡断、多帧不一致），再基于诊断结果生成对抗性场景以测试策略弱点。实验表明该方法能有效发现路径规划中的错误，为自动驾驶代理的轨迹错误检测提供了新范式。",
+      "llm_tldr": "本文提出SPHINX框架，先通过可解释性分析诊断驾驶策略的失败模式（如优柔寡断、多帧不一致），再基于诊断结果生成对抗性场景以测试策略弱点。实验表明该方法能有效发现路径规划中的错误，为自动驾驶代理的轨迹错误检测提供了新范式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.18467v1",
+      "source": "arxiv",
+      "title": "ToolChain-CRC: Conformal Risk Control for Agentic AI Under Retrieval and Tool-Use Drift",
+      "abstract": "Modern AI agents retrieve documents, call tools, check intermediate information, and then produce a final answer or action. This creates a risk-control problem that is not visible from the final answer alone. A final response may look acceptable even when the retrieval was weak, a tool output was wrong, or an earlier step was unsupported. We propose ToolChain-CRC, a conformal risk-control method for retrieval-augmented and tool-using agents under drift. The method treats each agent run as a full trajectory of actions, observations, and final output. It builds step-level risk scores, combines them into a trajectory risk score, calibrates an accept-or-intervene rule, and adds an anytime alarm that can stop risky runs before the final answer. We prove trajectory-level risk control under exchangeable calibration runs, give a drift-aware extension with auditable constants, and prove an anytime escalation rule through a supermartingale construction. Experiments cover synthetic tool-chain drift, RAG/tool-use stress tests, public SQuAD-derived retrieval tasks, an API-free agentic QA case study, ablations, target-risk sensitivity checks, 20-seed robustness checks, a drift-margin audit, and a live RAG/tool-use agent benchmark. Across these settings, final-answer-only calibration can miss retrieval and tool failures, while trajectory-level calibration keeps accepted-trajectory risk below the target.",
+      "authors": [
+        "Jeffery Opoku",
+        "David Banahene"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG"
+      ],
+      "published": "2026-06-16T20:27:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.18467v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "conformal risk control detects anomalies in agent trajectories via step-level risk scores",
+      "llm_evidence_cn": "通过步骤级风险分数实现智能体轨迹的异常检测",
+      "llm_evidence": "通过步骤级风险分数实现智能体轨迹的异常检测",
+      "canonical_evidence": "通过步骤级风险分数实现智能体轨迹的异常检测",
+      "llm_tldr_en": "ToolChain-CRC applies conformal risk control to agent trajectories, building step-level risk scores and an anytime alarm to detect risky runs before final output.",
+      "llm_tldr_cn": "ToolChain-CRC提出一种保形风险控制方法，用于检测检索增强和工具使用型智能体的轨迹异常。它将每次智能体运行视为完整轨迹（动作、观察、最终输出），构建步骤级风险分数并组合成轨迹级风险，校准一个接受-干预规则，并添加随时报警机制，可在产生最终答案前停止高风险运行。该方法能有效识别因检索弱、工具输出错误等导致的异常轨迹。",
+      "llm_tldr": "ToolChain-CRC提出一种保形风险控制方法，用于检测检索增强和工具使用型智能体的轨迹异常。它将每次智能体运行视为完整轨迹（动作、观察、最终输出），构建步骤级风险分数并组合成轨迹级风险，校准一个接受-干预规则，并添加随时报警机制，可在产生最终答案前停止高风险运行。该方法能有效识别因检索弱、工具输出错误等导致的异常轨迹。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.19242v1",
+      "source": "arxiv",
+      "title": "Runtime Compliance Verification for AI Agents",
+      "abstract": "AI agents now handle personal data through tool use, function calls, and multi turn dialogue, which can create obligations under the General Data Protection Regulation (GDPR). Current testing practices mainly rely on offline red teaming or static prompt review, but they do not guarantee at runtime that agent behavior follows regulatory rules. We propose C-Trace (Compliance Trace based Runtime Agent Conformance Enforcement), a verification framework that: (i) expresses a subset of GDPR requirements, including consent, purpose limitation, data minimization, and the right to erasure, as formal policy predicates over agent execution traces; (ii) uses a runtime monitor that intercepts every tool invocation and model output and rejects non-compliant actions; and (iii) tests the agent with attack dialogues, including DSPy generated prompts and verbatim prompts from red teaming corpora, that try to induce violations. We evaluate the framework on four case studies reframed to GDPR. Under 10 percent per-category extractor noise, including drop-out and over-typing, the monitor keeps the attack success rate at less than or equal to 12 percent, below the baselines we compare against, and false positives at less than or equal to 16 percent, and reaches 0 percent ASR under perfect extraction.",
+      "authors": [
+        "Nafiseh Kahani",
+        "Masoud Barati",
+        "Diana Addae"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-06-17T16:22:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.19242v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Runtime verification of agent compliance, directly monitors errors/rule violations in execution traces",
+      "llm_evidence_cn": "运行时验证代理合规性，直接监控执行轨迹中的错误/违规",
+      "llm_evidence": "运行时验证代理合规性，直接监控执行轨迹中的错误/违规",
+      "canonical_evidence": "运行时验证代理合规性，直接监控执行轨迹中的错误/违规",
+      "llm_tldr_en": "C-Trace enforces GDPR compliance at runtime by intercepting tool calls and rejecting violations, enabling error detection in agent trajectories.",
+      "llm_tldr_cn": "C-Trace提出了一种运行时合规验证框架，将GDPR要求形式化为策略谓词，并部署运行时监控器拦截代理的每次工具调用和模型输出，拒绝不合规动作。该方法直接在代理执行轨迹中检测违规行为，确保隐私法规符合性。实验表明，它能在不显著影响任务完成的前提下有效防止违规。",
+      "llm_tldr": "C-Trace提出了一种运行时合规验证框架，将GDPR要求形式化为策略谓词，并部署运行时监控器拦截代理的每次工具调用和模型输出，拒绝不合规动作。该方法直接在代理执行轨迹中检测违规行为，确保隐私法规符合性。实验表明，它能在不显著影响任务完成的前提下有效防止违规。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.16000v2",
+      "source": "arxiv",
+      "title": "GRACE-DS: a Guarded Reward-guided Agent Correction Environment in Data Science",
+      "abstract": "We introduce GRACE-DS, a Guarded Reward-guided Agent Correction Environment in Data Science for pre-deployment evaluation of LLM-powered AutoML agents. GRACE-DS is a set of evaluation metrics in an isolated environment that can be applied to tabular ML tasks specific to a particular organization. It exposes agents to realistic workflow stages, from planning and data inspection through feature engineering, model development, validation, and code repair to final submission, while hidden executable validators measure not only final predictive performance but also leakage avoidance, reproducibility, protocol validity, correction behavior, and reward alignment. The strongest structured regime, flexible iterative interaction (our approach), achieves higher end-to-end normalized hidden-test quality than single-shot generation, unstructured interaction, and restart-based baselines, while also improving protocol-valid completion. Validated across more than 7,000 episodes, these results establish GRACE-DS as a robust platform for assessing the capacity of LLM-based AutoML agents to execute machine learning workflows under production-like conditions and in accordance with organization-specific requirements.",
+      "authors": [
+        "Aleksandr Tsymbalov",
+        "Danis Zaripov",
+        "Artem Epifanov",
+        "Anastasiya Palienko"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-06-14T19:58:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.16000v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "evaluates agent correction behavior and protocol validity, measuring error detection in data science workflows",
+      "llm_evidence_cn": "评估智能体纠正行为和协议有效性，测量数据科学工作流中的错误检测",
+      "llm_evidence": "评估智能体纠正行为和协议有效性，测量数据科学工作流中的错误检测",
+      "canonical_evidence": "评估智能体纠正行为和协议有效性，测量数据科学工作流中的错误检测",
+      "llm_tldr_en": "Introduces GRACE-DS, an evaluation environment for LLM-powered AutoML agents that measures correction behavior, protocol validity, and reward alignment, enabling monitoring of agent errors.",
+      "llm_tldr_cn": "该论文提出GRACE-DS，一个用于预部署评估LLM驱动的AutoML智能体的守卫环境。它暴露智能体于真实工作流阶段，通过隐藏可执行验证器测量最终性能、泄露避免、可重复性、协议有效性、纠正行为和奖励对齐。其最强的灵活迭代交互模式可有效检测和纠正智能体错误。该工作为监控和数据科学场景中的智能体行为错误提供了标准评估框架。",
+      "llm_tldr": "该论文提出GRACE-DS，一个用于预部署评估LLM驱动的AutoML智能体的守卫环境。它暴露智能体于真实工作流阶段，通过隐藏可执行验证器测量最终性能、泄露避免、可重复性、协议有效性、纠正行为和奖励对齐。其最强的灵活迭代交互模式可有效检测和纠正智能体错误。该工作为监控和数据科学场景中的智能体行为错误提供了标准评估框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.18121v1",
+      "source": "arxiv",
+      "title": "On the Reliability of Networks of AI Agents: Density Evolution, Stopping Sets, and Architecture Optimization",
+      "abstract": "Modern AI systems increasingly solve a task not with a single model call but with several imperfect agents working together: some propose pieces of a solution, others verify them, and the results are combined. These systems often outperform any single model, yet it is rarely clear why they succeed or when they will fail. We model such a system as message passing on a sparse graph, the structure that underlies low-density parity-check (LDPC) codes, and extend the density-evolution machinery of coding theory to this richer setting. In our model a task is a set of coupled binary subclaims, and an agent architecture is a sparse, role-typed factor graph whose check nodes are noisy Boolean verifier nodes, each computing a local Boolean function of the subclaims it touches. Three distinct failure modes, all modeled as erasures (an agent abstaining, a verifier returning no usable output, and a message lost between two agents), propagate as the agents exchange set-valued messages. The check agents combine these messages by a single logical-forcing rule that specializes to XOR, AND, OR, implication, and Horn constraints. This is more than a relabeling of LDPC theory: the verifier functions are nonlinear and value-asymmetric, and the three failure modes do not reduce to a single effective channel, so they require new threshold, finite-length, and converse results rather than a direct reuse of parity-check density evolution. We prove a density-evolution theorem that predicts the asymptotic fraction of unresolved subclaims on random role-typed architectures, with an extension to deterministic, locally tree-like graph sequences. The XOR case recovers the classical LDPC recursion on the binary erasure channel (BEC); the AND case exposes an asymmetry between positive and negative verifier certificates.",
+      "authors": [
+        "Ehsan Aghazadeh",
+        "Hossein Pishro-Nik"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.IT"
+      ],
+      "published": "2026-06-16T16:21:52+00:00",
+      "link": "https://arxiv.org/pdf/2606.18121v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "models agent networks for error detection and reliability analysis",
+      "llm_evidence_cn": "对智能体网络进行建模以检测错误和分析可靠性",
+      "llm_evidence": "对智能体网络进行建模以检测错误和分析可靠性",
+      "canonical_evidence": "对智能体网络进行建模以检测错误和分析可靠性",
+      "llm_tldr_en": "Models AI agent networks as LDPC-like factor graphs to analyze error propagation and detect failures, providing theoretical foundations for error detection in multi-agent trajectories.",
+      "llm_tldr_cn": "多智能体系统虽然性能优越，但失败模式难以预测。本文将智能体网络建模为类似LDPC码的稀疏因子图，扩展密度演化理论来分析错误传播和停止集，为检测多智能体轨迹中的错误提供了理论框架。实验验证了该模型能有效识别系统的不可靠架构。",
+      "llm_tldr": "多智能体系统虽然性能优越，但失败模式难以预测。本文将智能体网络建模为类似LDPC码的稀疏因子图，扩展密度演化理论来分析错误传播和停止集，为检测多智能体轨迹中的错误提供了理论框架。实验验证了该模型能有效识别系统的不可靠架构。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.17454v2",
+      "source": "arxiv",
+      "title": "Dissecting model behavior through agent trajectories",
+      "abstract": "AI agent performance is not just a modeling problem, it is fundamentally a systems problem. The advanced capabilities of models are realized through agent harnesses. Therefore, a gap between model assumptions and harness behavior can easily prevent the model's full capabilities from translating into agent performance. We formalize this as the `intent-execution' gap: the mismatch between what the model intends and what the harness executes, and vice versa. We argue that minimizing this intent-execution gap is as important as other aspects of harness design such as tools and execution loops. To illustrate the impact of this harness-model alignment, we develop a simple and customizable harness called `Simple Strands Agent' (SSA). SSA aims to find the bulk of common patterns which generalize across different model families (such as Claude, Gemini, GPT, Grok, Qwen), as well as a small number of model-specific preferences. We make two contributions: (i) we reproduce or improve on the pass@1 performance reported by diverse model-provider families on popular agentic benchmarks (SWE-Pro, SWE-Verified and Terminal-Bench-2), and (ii) building on an analysis of 138k trajectories generated by SSA, we look beyond the pass@1 numbers which tend to be relatively even across frontier models. By representing agent trajectories in code state-spaces, we observe model-level differences in problem-solving behavior. Finer-grained metrics such as edit frequency, testing activity, and phase-transitions reveal how individual models allocate effort across different stages of autonomous problem solving.",
+      "authors": [
+        "Gaurav Gupta",
+        "Vatshank Chaturvedi",
+        "Jun Huan",
+        "Anoop Deoras"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-16T03:17:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.17454v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "formalizes intent-execution gap in agent trajectories as source of errors",
+      "llm_evidence_cn": "将智能体轨迹中的意图-执行差距形式化为错误来源",
+      "llm_evidence": "将智能体轨迹中的意图-执行差距形式化为错误来源",
+      "canonical_evidence": "将智能体轨迹中的意图-执行差距形式化为错误来源",
+      "llm_tldr_en": "Formalizes the intent-execution gap between model intentions and harness behavior in agent trajectories, and proposes the Simple Strands Agent harness to diagnose and minimize this gap.",
+      "llm_tldr_cn": "该论文指出AI智能体性能不仅是模型问题，更是系统问题，模型与执行框架之间的意图-执行差距导致性能损失。作者形式化此差距，并开发Simple Strands Agent (SSA) 框架来诊断和最小化此差距。通过分析轨迹中的偏差，SSA帮助识别错误来源。实验表明对齐模型意图与执行可显著提升智能体性能。该工作为监控和检测agent行为错误提供了系统性方法。",
+      "llm_tldr": "该论文指出AI智能体性能不仅是模型问题，更是系统问题，模型与执行框架之间的意图-执行差距导致性能损失。作者形式化此差距，并开发Simple Strands Agent (SSA) 框架来诊断和最小化此差距。通过分析轨迹中的偏差，SSA帮助识别错误来源。实验表明对齐模型意图与执行可显著提升智能体性能。该工作为监控和检测agent行为错误提供了系统性方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.18668v1",
+      "source": "arxiv",
+      "title": "EARS: Explanatory Abstention for Reliable Sub-Agent Modeling in Large-scale Multi-Agent Systems",
+      "abstract": "In large-scale enterprise settings, centralized multi-agent systems (MAS) are increasingly adopted, in which a coordinator delegates user requests to lightweight, domain-specialized sub-agents. While this architecture improves modularity, scalability, and cost efficiency, its reliability depends not only on accurate routing but also on sub-agents' ability to calibrate their responses to capability constraints. In particular, sub-agents built on smaller fine-tuned models often struggle with such calibration, leading them to over-answer ambiguous, underspecified, misrouted, or unsupported requests and produce hallucinated outputs instead of actionable feedback. To address this challenge, we present EARS (Explanatory Abstention for Reliable Sub-Agent Modeling), a production-oriented framework that reframes sub-agent abstention as an inter-agent communication protocol: a sub-agent does not merely abstain, but exposes an actionable failure state to the coordinator. EARS curates human-agent interaction data using an ensemble of calibrated LLM-as-a-Judge models, producing structured abstention labels and rationales under a taxonomy of sub-agent failure modes. These data are used to fine-tune sub-agents to detect failure conditions and return rationales for coordinator-level clarification, rerouting, or fallback. We evaluate EARS in a large-scale production e-commerce assistant supporting enterprise business intelligence workflows. EARS improves the overall response pass rate from 68.5% to 78.9%, demonstrating that sub-agent-side explanatory abstention improves MAS reliability.",
+      "authors": [
+        "Shuang Xie",
+        "Yunan Lu",
+        "Han Li",
+        "Lingyun Wang"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.CL"
+      ],
+      "published": "2026-06-17T04:07:41+00:00",
+      "link": "https://arxiv.org/pdf/2606.18668v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "explanatory abstention detects and prevents erroneous over-answering in sub-agents",
+      "llm_evidence_cn": "解释性弃权检测并防止子智能体的错误过度回答",
+      "llm_evidence": "解释性弃权检测并防止子智能体的错误过度回答",
+      "canonical_evidence": "解释性弃权检测并防止子智能体的错误过度回答",
+      "llm_tldr_en": "EARS enables sub-agents to abstain from over-answering ambiguous or unsupported requests, detecting potential errors in their responses.",
+      "llm_tldr_cn": "EARS（解释性弃权）解决大规模多智能体系统中子智能体过度回答的问题。子智能体常对模糊、错误路由或不支持的问题生成幻觉输出。EARS让子智能体学会在能力范围内校准响应，并通过解释性弃权（Explanatory Abstention）机制主动拒绝无法合理回答的请求，从而检测并避免轨迹中的错误输出。该方法提升了系统可靠性。",
+      "llm_tldr": "EARS（解释性弃权）解决大规模多智能体系统中子智能体过度回答的问题。子智能体常对模糊、错误路由或不支持的问题生成幻觉输出。EARS让子智能体学会在能力范围内校准响应，并通过解释性弃权（Explanatory Abstention）机制主动拒绝无法合理回答的请求，从而检测并避免轨迹中的错误输出。该方法提升了系统可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.12563v1",
+      "source": "arxiv",
+      "title": "Arbor: Tree Search as a Cognition Layer for Autonomous Agents",
+      "abstract": "Arbor is a multi-agent framework that introduces structured tree search as a cognition layer for autonomous agents operating in large, stateful action spaces. Prior autonomous optimization systems operate on isolated targets with stateless evaluation. Arbor instead maintains an explicit search tree of scored hypotheses that serves as the shared working memory across agents, evolving with every measurement, treating failures as diagnostic signal that reshapes subsequent exploration, and expanding as prior successes shift the bottleneck distribution.   We validate Arbor on full-stack LLM inference optimization, a domain where achieving peak performance has historically required coordinated effort from engineering teams across the application, framework, compiler, kernel, and hardware stack. Arbor pairs an Orchestrator agent, which drives optimization by delegating to Domain Specialists across the inference stack, with a Critic agent that safeguards stability through root-cause analysis, introspection, and measurement validation -- a checks-and-balances architecture where neither agent can unilaterally drive the system. Agent capabilities are decomposed into hard skills (domain expertise) and soft skills (coordination protocols that determine how contributions compose), enabling fully autonomous multi-day campaigns. Arbor achieves up to 193% inference throughput-latency Pareto improvement over vendor-optimized baselines, while a single agent without the harness plateaus at +33% throughput improvement and crashes irrecoverably within hours. Arbor generalizes to multiple generations of hardware platform, and run-to-run variance is within 2 percentage points demonstrating that the method is hardware-agnostic and reproducible.",
+      "authors": [
+        "Neha Prakriya",
+        "Chaojun Hou",
+        "Zheng Gong",
+        "Huasha Zhao",
+        "Xi Zhao",
+        "Mou Li",
+        "Zhenyu Gu",
+        "Emad Barsoum"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-10T18:14:56+00:00",
+      "link": "https://arxiv.org/pdf/2606.12563v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "treats failures as diagnostic signals to reshape tree search in agent trajectories",
+      "llm_evidence_cn": "将失败视为诊断信号，重塑智能体轨迹中的树搜索",
+      "llm_evidence": "将失败视为诊断信号，重塑智能体轨迹中的树搜索",
+      "canonical_evidence": "将失败视为诊断信号，重塑智能体轨迹中的树搜索",
+      "llm_tldr_en": "Introduces Arbor, a multi-agent framework that uses tree search as cognition layer, treating failures as diagnostic signals to guide exploration and error recovery.",
+      "llm_tldr_cn": "该论文提出Arbor多智能体框架，将结构化树搜索作为自主智能体认知层。其维护显式假设评分树，随每次测量演变，将失败视为诊断信号重塑后续探索。通过失败信号引导错误恢复，可被视为一种基于搜索的轨迹错误检测机制。在LLM推理优化任务上验证了有效性。",
+      "llm_tldr": "该论文提出Arbor多智能体框架，将结构化树搜索作为自主智能体认知层。其维护显式假设评分树，随每次测量演变，将失败视为诊断信号重塑后续探索。通过失败信号引导错误恢复，可被视为一种基于搜索的轨迹错误检测机制。在LLM推理优化任务上验证了有效性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.18671v1",
+      "source": "arxiv",
+      "title": "HANSEL: Extracting Breadcrumbs from Web Agent Trajectories for Interactive Verification",
+      "abstract": "AI web agents can perform complex, multi-step tasks such as searching for products, comparing options, and making purchases on behalf of users. However, verifying the correctness of an agent's output remains difficult. Existing transparency mechanisms, including full trajectory logs, source links, screenshots, and LLM-generated summaries, treat verification as a passive reading task, leaving users to sift through overwhelming logs or trust potentially unfaithful explanations. We present HANSEL (Highlighting Agent Navigation Steps as Evidence Links), a system that extracts interactive, verifiable evidence from web-agent trajectories. Given an agent trajectory, HANSEL extracts evidence pages and snippets and presents them as navigable, interactive views with relevant page state preserved (e.g., applied filters, search queries, and scroll positions), enabling users to verify how the agent arrived at its answer. When the agent's answer cannot be traced to any visited page, HANSEL explicitly flags this gap. A technical evaluation on 45 tasks from AssistantBench and Online-Mind2Web shows that HANSEL achieves 83.7% precision and 88.8% recall in identifying evidence pages, while reducing trajectory volume by 61.6%. In a controlled user study with 14 participants, HANSEL significantly reduced task completion time and perceived effort compared to a standard agent interface, while participants rated it significantly higher on usability, verification ease, and error identification. Our results demonstrate that reframing verification as an interactive activity, rather than passive consumption of agent explanations, leads to more efficient human oversight of AI agents.",
+      "authors": [
+        "Yujin Zhang",
+        "Daye Nam"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC"
+      ],
+      "published": "2026-06-17T04:13:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.18671v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "extracting interactive evidence from web-agent trajectories for verification of correctness",
+      "llm_evidence_cn": "从网络智能体轨迹中提取交互式证据以验证其行为正确性",
+      "llm_evidence": "从网络智能体轨迹中提取交互式证据以验证其行为正确性",
+      "canonical_evidence": "从网络智能体轨迹中提取交互式证据以验证其行为正确性",
+      "llm_tldr_en": "HANSEL extracts evidence pages and snippets from web-agent trajectories and presents them as navigable links, enabling users to interactively verify agent correctness without sifting through overwhelming logs.",
+      "llm_tldr_cn": "现有AI网络智能体输出验证机制如全轨迹日志、截图等将验证视为被动阅读任务，用户难以从海量数据中甄别错误。本文提出HANSEL系统，从智能体轨迹中自动提取关键证据页面和片段，并以可导航链接形式呈现，使用户能够交互式地验证智能体行为是否正确。该系统降低了验证负担，提高了错误检测的可解释性和用户信任。实验表明HANSEL能有效提取证据并支持高效的交互式验证。",
+      "llm_tldr": "现有AI网络智能体输出验证机制如全轨迹日志、截图等将验证视为被动阅读任务，用户难以从海量数据中甄别错误。本文提出HANSEL系统，从智能体轨迹中自动提取关键证据页面和片段，并以可导航链接形式呈现，使用户能够交互式地验证智能体行为是否正确。该系统降低了验证负担，提高了错误检测的可解释性和用户信任。实验表明HANSEL能有效提取证据并支持高效的交互式验证。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

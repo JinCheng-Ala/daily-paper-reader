@@ -6,49 +6,49 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-17
-- 运行时间：2026-06-17 22:15:05 UTC
+- 最新运行日期：2026-06-18
+- 运行时间：2026-06-18 22:26:11 UTC
 - 运行状态：成功
 - 本次总论文数：9
-- 精读区：3
-- 速读区：6
+- 精读区：6
+- 速读区：3
 
 ### 今日简报（AI）
-今日聚焦多智能体系统中的虚假信息传播与模型行为轨迹解析，共阅读9篇论文，精读2篇高分研究。  
-最值得关注：多智能体良性环境下的谣言传播机制（8.0分）和通过智能体轨迹剖析模型行为的方法（8.0分），两者均触及AI安全与可解释性前沿。  
-建议后续优先阅读这两篇精读，并关注离线偏好轨迹评估（7.0分）以扩展对智能体行为理解的工具链。
-- 详情：[/202606/17/README](/202606/17/README)
+今日9篇论文聚焦AI智能体推理与风险控制，其中2篇精读获9.0高分。  
+最值得关注SPHINX的“先解释后探索”逻辑和ToolChain-CRC的检索工具漂移下的置信风险控制。  
+建议优先阅读这两篇精读，并关注速读中多智能体解释性弃权（EARS）和网页轨迹验证（HANSEL）的实践方法。
+- 详情：[/202606/18/README](/202606/18/README)
 
 ### 精读区论文标签
-1. [Misinformation Propagation in Benign Multi-Agent Systems](/202606/17/2606.16710v1-misinformation-propagation-in-benign-multi-agent-systems)  
+1. [SPHINX: First Explain, Then Explore](/202606/18/2606.17482v1-sphinx-first-explain-then-explore)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：驾驶策略失败诊断
+2. [ToolChain-CRC: Conformal Risk Control for Agentic AI Under Retrieval and Tool-Use Drift](/202606/18/2606.18467v1-toolchain-crc-conformal-risk-control-for-agentic-ai-under-retrieval-and-tool-use-drift)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：通过步骤级风险分数实现智能体轨迹的异常检测
+3. [Runtime Compliance Verification for AI Agents](/202606/18/2606.19242v1-runtime-compliance-verification-for-ai-agents)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：运行时验证代理合规性，直接监控执行轨迹中的错误/违规
+4. [GRACE-DS: a Guarded Reward-guided Agent Correction Environment in Data Science](/202606/18/2606.16000v2-grace-ds-a-guarded-reward-guided-agent-correction-environment-in-data-science)  
    标签：评分：8.0/10、query:agent-error
-   evidence：研究多智能体轨迹中错误传播，揭示错误信息如何持续存在
-2. [Dissecting model behavior through agent trajectories](/202606/17/2606.17454v1-dissecting-model-behavior-through-agent-trajectories)  
+   evidence：评估智能体纠正行为和协议有效性，测量数据科学工作流中的错误检测
+5. [Dissecting model behavior through agent trajectories](/202606/18/2606.17454v2-dissecting-model-behavior-through-agent-trajectories)  
    标签：评分：8.0/10、query:agent-error
-   evidence：检测智能体轨迹中的意图-执行差异
-3. [StepGuard: Guarding Web Navigation via Single-Step Calibration](/202606/17/2606.17871v1-stepguard-guarding-web-navigation-via-single-step-calibration)  
+   evidence：将智能体轨迹中的意图-执行差距形式化为错误来源
+6. [On the Reliability of Networks of AI Agents: Density Evolution, Stopping Sets, and Architecture Optimization](/202606/18/2606.18121v1-on-the-reliability-of-networks-of-ai-agents-density-evolution-stopping-sets-and-architecture-optimization)  
    标签：评分：8.0/10、query:agent-error
-   evidence：web导航代理的单步错误校准
+   evidence：对智能体网络进行建模以检测错误和分析可靠性
 
 ### 速读区论文标签
-1. [Evoflux: Inference-Time Evolution of Executable Tool Workflows for Compact Agents](/202606/17/2606.12674v1-evoflux-inference-time-evolution-of-executable-tool-workflows-for-compact-agents)  
+1. [EARS: Explanatory Abstention for Reliable Sub-Agent Modeling in Large-scale Multi-Agent Systems](/202606/18/2606.18668v1-ears-explanatory-abstention-for-reliable-sub-agent-modeling-in-large-scale-multi-agent-systems)  
    标签：评分：7.0/10、query:agent-error
-   evidence：通过推理时进化检测并修复工具工作流错误
-2. [Offline Preference-Based Trajectory Evaluation](/202606/17/2606.17541v1-offline-preference-based-trajectory-evaluation)  
+   evidence：解释性弃权检测并防止子智能体的错误过度回答
+2. [HANSEL: Extracting Breadcrumbs from Web Agent Trajectories for Interactive Verification](/202606/18/2606.18671v1-hansel-extracting-breadcrumbs-from-web-agent-trajectories-for-interactive-verification)  
    标签：评分：7.0/10、query:agent-error
-   evidence：基于轨迹感知偏好的离线评估，通过部分进度比较实现异常检测
-3. [EvolveNav: Proactive Preflection and Self-Evolving Memory for Zero-Shot Object Goal Navigation](/202606/17/2606.18235v1-evolvenav-proactive-preflection-and-self-evolving-memory-for-zero-shot-object-goal-navigation)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：通过历史轨迹记忆减少导航中的重复错误
-4. [Arbor: Tree Search as a Cognition Layer for Autonomous Agents](/202606/17/2606.12563v1-arbor-tree-search-as-a-cognition-layer-for-autonomous-agents)  
+   evidence：从网络智能体轨迹中提取交互式证据以验证其行为正确性
+3. [Arbor: Tree Search as a Cognition Layer for Autonomous Agents](/202606/18/2606.12563v1-arbor-tree-search-as-a-cognition-layer-for-autonomous-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：将失败视为轨迹探索的诊断信号
-5. [Agent trajectories as programs: fingerprinting and programming coding-agent behavior](/202606/17/2606.16988v1-agent-trajectories-as-programs-fingerprinting-and-programming-coding-agent-behavior)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：从代理轨迹中提取程序指纹用于行为比较
-6. [Scaling Enterprise Agent Routing: Degradation, Diagnosis, and Recovery](/202606/17/2606.17519v1-scaling-enterprise-agent-routing-degradation-diagnosis-and-recovery)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：研究agent系统中的路由性能下降与诊断
+   evidence：将失败视为诊断信号，重塑智能体轨迹中的树搜索
 
 
 <div class="dpr-home-promo-card">
