@@ -6,49 +6,49 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-18
-- 运行时间：2026-06-18 22:26:11 UTC
+- 最新运行日期：2026-06-19
+- 运行时间：2026-06-19 21:57:12 UTC
 - 运行状态：成功
 - 本次总论文数：9
-- 精读区：6
-- 速读区：3
+- 精读区：4
+- 速读区：5
 
 ### 今日简报（AI）
-今日9篇论文聚焦AI智能体推理与风险控制，其中2篇精读获9.0高分。  
-最值得关注SPHINX的“先解释后探索”逻辑和ToolChain-CRC的检索工具漂移下的置信风险控制。  
-建议优先阅读这两篇精读，并关注速读中多智能体解释性弃权（EARS）和网页轨迹验证（HANSEL）的实践方法。
-- 详情：[/202606/18/README](/202606/18/README)
+今日精选9篇论文，精读4篇聚焦智能体可信与安全，速读涵盖运动预测与机器人学习。
+最值得关注的两篇高分精读：可信多智能体溯源知识图谱（9.0）与编码智能体失败缓解框架（9.0），指向智能体可靠性核心方向。
+建议普通读者优先精读这两篇，了解如何提升智能体系统的可追溯性与故障防御能力。
+- 详情：[/202606/19/README](/202606/19/README)
 
 ### 精读区论文标签
-1. [SPHINX: First Explain, Then Explore](/202606/18/2606.17482v1-sphinx-first-explain-then-explore)  
+1. [Trust-Aware Multi-Agent Traceability: Confidence-Calibrated Knowledge Graphs for Consistent Software Artifact Management](/202606/19/2606.17203v1-trust-aware-multi-agent-traceability-confidence-calibrated-knowledge-graphs-for-consistent-software-artifact-management)  
    标签：评分：9.0/10、query:agent-error
-   evidence：驾驶策略失败诊断
-2. [ToolChain-CRC: Conformal Risk Control for Agentic AI Under Retrieval and Tool-Use Drift](/202606/18/2606.18467v1-toolchain-crc-conformal-risk-control-for-agentic-ai-under-retrieval-and-tool-use-drift)  
+   evidence：检测智能体管道中的低置信度决策以防止错误传播
+2. [AgentArmor: A Framework, Evaluation, \& Mitigation of Coding Agent Failures](/202606/19/2606.19380v1-agentarmor-a-framework-evaluation--mitigation-of-coding-agent-failures)  
    标签：评分：9.0/10、query:agent-error
-   evidence：通过步骤级风险分数实现智能体轨迹的异常检测
-3. [Runtime Compliance Verification for AI Agents](/202606/18/2606.19242v1-runtime-compliance-verification-for-ai-agents)  
+   evidence：评估和缓解编码智能体失败的框架，包含框架错误
+3. [Human-on-the-Loop Orchestration for AI-Assisted Legal Discovery](/202606/19/2606.19812v1-human-on-the-loop-orchestration-for-ai-assisted-legal-discovery)  
    标签：评分：9.0/10、query:agent-error
-   evidence：运行时验证代理合规性，直接监控执行轨迹中的错误/违规
-4. [GRACE-DS: a Guarded Reward-guided Agent Correction Environment in Data Science](/202606/18/2606.16000v2-grace-ds-a-guarded-reward-guided-agent-correction-environment-in-data-science)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：评估智能体纠正行为和协议有效性，测量数据科学工作流中的错误检测
-5. [Dissecting model behavior through agent trajectories](/202606/18/2606.17454v2-dissecting-model-behavior-through-agent-trajectories)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：将智能体轨迹中的意图-执行差距形式化为错误来源
-6. [On the Reliability of Networks of AI Agents: Density Evolution, Stopping Sets, and Architecture Optimization](/202606/18/2606.18121v1-on-the-reliability-of-networks-of-ai-agents-density-evolution-stopping-sets-and-architecture-optimization)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：对智能体网络进行建模以检测错误和分析可靠性
+   evidence：直接研究LLM智能体轨迹中的错误级联问题
+4. [GroundControl: Anticipating Navigation Failures in Vision-Language Agents via Trajectory-Consistent Uncertainty Estimates](/202606/19/2606.20479v1-groundcontrol-anticipating-navigation-failures-in-vision-language-agents-via-trajectory-consistent-uncertainty-estimates)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：轨迹一致性不确定性估计器预测导航失败
 
 ### 速读区论文标签
-1. [EARS: Explanatory Abstention for Reliable Sub-Agent Modeling in Large-scale Multi-Agent Systems](/202606/18/2606.18668v1-ears-explanatory-abstention-for-reliable-sub-agent-modeling-in-large-scale-multi-agent-systems)  
+1. [Driving, Fast or Slow? Neuro-Symbolic Guidance for Motion Prediction in Multi-Modal Ground Mobility](/202606/19/2606.15251v1-driving-fast-or-slow-neuro-symbolic-guidance-for-motion-prediction-in-multi-modal-ground-mobility)  
    标签：评分：7.0/10、query:agent-error
-   evidence：解释性弃权检测并防止子智能体的错误过度回答
-2. [HANSEL: Extracting Breadcrumbs from Web Agent Trajectories for Interactive Verification](/202606/18/2606.18671v1-hansel-extracting-breadcrumbs-from-web-agent-trajectories-for-interactive-verification)  
+   evidence：神经符号学框架通过合规性塑造检测路径偏差
+2. [SAGE-OPD: Selective Agent-Guided Intervention for Multi-Turn On-Policy Distillation](/202606/19/2606.19659v1-sage-opd-selective-agent-guided-intervention-for-multi-turn-on-policy-distillation)  
    标签：评分：7.0/10、query:agent-error
-   evidence：从网络智能体轨迹中提取交互式证据以验证其行为正确性
-3. [Arbor: Tree Search as a Cognition Layer for Autonomous Agents](/202606/18/2606.12563v1-arbor-tree-search-as-a-cognition-layer-for-autonomous-agents)  
+   evidence：处理多轮代理轨迹中的早期错误，选择性干预
+3. [Playful Agentic Robot Learning](/202606/19/2606.19419v1-playful-agentic-robot-learning)  
    标签：评分：6.0/10、query:agent-error
-   evidence：将失败视为诊断信号，重塑智能体轨迹中的树搜索
+   evidence：诊断失败并通过步骤级反馈重试
+4. [Before the Pull Request: Mining Multi-Agent Coordination](/202606/19/2606.19616v1-before-the-pull-request-mining-multi-agent-coordination)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：多智能体协调，在PR前检测冲突，与错误/冲突检测相关
+5. [Efficient and Sound Probabilistic Verification for AI Agents](/202606/19/2606.20510v1-efficient-and-sound-probabilistic-verification-for-ai-agents)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：概率验证方法可检测策略违规作为错误
 
 
 <div class="dpr-home-promo-card">

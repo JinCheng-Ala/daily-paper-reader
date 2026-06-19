@@ -1,0 +1,149 @@
+Title: Before the Pull Request: Mining Multi-Agent Coordination
+
+URL Source: https://arxiv.org/pdf/2606.19616v1
+
+Published Time: Fri, 19 Jun 2026 00:15:27 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# Before the Pull Request: Mining Multi-Agent Coordination 
+
+Dipankar Sarkar 
+
+Arizona State University 
+
+dsarkar3@asu.edu 
+
+Abstract. Autonomous coding agents now open millions of pull re-quests, yet large-scale studies find their PRs are produced faster but accepted less often—a coordination and trust gap that pull-request-level telemetry cannot explain. We argue the missing signal lives before the PR, in how concurrent agents claim, divide, and collide over shared work. We study this process through grite , our open-source coordination sub-strate that needs no central server and stores its records inside git itself, so its append-only, signed event log captures the coordination process directly. We show that (i) this shared substrate reduces duplicate and conflicting work at bounded overhead—the share of work that merely re-does a teammate’s task falls from 78% to 0% while useful through-put more than triples; (ii) every agent’s copy of the log converges to the same state with no write silently dropped, where a file-based tracker loses concurrent writes; and (iii) the log is a mineable artefact from which concrete failure modes—conflicting edits, lock starvation, redundant re-discovery, race-to-close—are automatically recoverable with provenance, several invisible in pull-request history. We release the dataset, harness, and mining toolkit. 
+
+Keywords: AI for software engineering · multi-agent coordination ·
+
+repository mining · CRDTs · human–AI collaboration · coding agents 
+
+# 1 Introduction 
+
+Autonomous coding agents have moved from autocomplete to teammates. Sys-tems such as OpenAI Codex, Devin, GitHub Copilot, Cursor, and Claude Code now open, review, and merge code at scale: the AIDev dataset records over 456,000 pull requests authored by five such agents across 61,000 repositories [9]. Yet the same large-scale analysis surfaces a tension: agent pull requests are pro-duced faster than human ones but are accepted less often [9]. Most explanations for this gap look inside the pull request—code quality, test coverage, reviewer load. We argue that an important part of the answer lies 
+
+before the pull request, in a layer current datasets cannot see: the coordination process by which concurrent agents claim, divide, and collide over shared work. When several agents operate on one codebase, two may pick the same task, edit the same issue, or duplicate a fix a teammate already landed. None of this  
+
+> arXiv:2606.19616v1 [cs.SE] 17 Jun 2026 2Dipankar Sarkar
+
+survives in commit or PR history—an abandoned duplicate never becomes a PR; a task two agents raced to close leaves only the winner’s trace—so the process that produces redundant and conflicting work is invisible precisely where we most need to study it. To study that process we built grite , our own open-source coordination sub-strate for AI agents (Section 3); this paper makes grite both the object and the instrument of study. It is server-less —there is no central coordination service; agents coordinate by reading and writing shared task records—and git-native —those records live inside git refs, not a working-tree file or external database, so they travel with the code on ordinary git fetch and push . Each coordina-tion action is one entry in an append-only, content-addressed, optionally signed event log, and per-agent copies are reconciled with conflict-free replicated data type (CRDT) semantics [11] plus advisory leases for mutual exclusion. This gives the paper two things at once: because coordination state is shared and conflict-free we can measure how the substrate changes outcomes, and because every action is a typed, provenance-bearing event the log is itself a mineable software-engineering artefact —the pre-PR telemetry that PR-outcome datasets lack. 
+
+Contributions. The paper contributes (1) grite , our open-source server-less git-native coordination substrate for concurrent coding agents; (2) a controlled, reproducible measurement of how such a substrate changes coordination out-comes; and (3) a mineable pre-PR coordination dataset and mining toolkit that recover failure modes invisible to PR-outcome datasets. We frame these as three claims, each backed by one experiment. C1 (coordination efficiency): ad-visory leases plus shared task state reduce duplicate and conflicting work at bounded overhead—the duplicate-work rate (the share of completed work that merely re-does a teammate’s task) falls from 0 .78 to 0 .00 while goodput (dis-tinct tasks per round) more than triples. C2 (convergence without data loss): replicas receiving the same events in any order converge to byte-identical state, and concurrent writes are preserved where a file-based tracker silently loses them. C3 (a mineable process): the log admits automatic detection of concrete failure modes—conflicting edits, redundant rediscovery, lock starvation, race-to-close—with provenance, several unrecoverable from PR history; mining also shows advisory leases alone do not prevent redundant rediscovery, whereas leases plus shared state do. We release the dataset, harness, and toolkit, repro-ducible from a pinned commit and fixed seeds. 
+
+# 2 Background and Related Work 
+
+grite (Section 3) stores an agent issue tracker as an append-only event log in git refs, rebuilds issue state by CRDT merge, and adds advisory leases for mutual exclusion. We position it against four lines of work. 
+
+Mining what agents produce. Empirical SE increasingly mines the output of agents and bots. AIDev characterises hundreds of thousands of agent pull re-Before the Pull Request: Mining Multi-Agent Coordination 3
+
+quests and reports the speed–acceptance gap that motivates this paper [9]. It builds on a longer line of mining-software-repositories work that identifies and studies bots committing code [3]. Both operate on outcomes —merged or rejected PRs, landed commits. Neither can observe the coordination that happens before 
+
+a PR exists, which is the process we study. 
+
+Agent memory and multi-agent frameworks. Most agent “memory” today is re-trieval. The Model Context Protocol exposes external stores to an agent [1], and retrieval-augmented generation conditions an agent on fetched context [8]. These provide recall, not coordination: they offer no mutual exclusion and no shared, provenance-bearing write history. Multi-agent frameworks such as Auto-Gen orchestrate several agents within one process or session [13], which assumes a shared runtime rather than decentralised agents that synchronise through a repository. Single-agent SE benchmarks and agents—SWE-bench [6] and SWE-agent [14]—evaluate task resolution by one agent, not coordination between many. 
+
+Git-native and repository-embedded trackers. Embedding issues in the repository itself is established practice. Fossil keeps tickets in the same versioned store as the code [5]; git-bug stores issues as native git objects [10]; and Beads is a recent git-backed dependency-graph tracker aimed at agents [15]. These share grite’s offline-first stance, and Beads is the closest comparison. They differ in their reconciliation model: none combines a formal CRDT projection of issue state, advisory leases for mutual exclusion, and a signed, content-addressed log in one substrate. 
+
+Consistency and integrity foundations. grite composes well-understood build-ing blocks. CRDTs give strong eventual consistency without a coordinating server [11], in contrast to operational transformation, which historically relied on a central server to order edits [4]; local-first principles motivate grite’s offline-first design [7]. For mutual exclusion, lease services such as Chubby require a consensus protocol [2]; grite instead uses advisory leases over git refs and obtains convergence from CRDT merge, so it needs no server and no agreement round. Two gaps remain. First, no prior system unifies conflict-free concurrent agent edits, advisory leases, and a signed, content-addressed, mineable history in a server-less git substrate: server-based trackers (e.g. GitHub Issues) are neither offline nor conflict-free, file-based git trackers lack a formal CRDT and leases, and retrieval memory offers neither mutual exclusion nor a provenance-bearing log. Second, no prior dataset exposes the pre-PR agent coordination process for empirical study. 
+
+# 3 grite: A Git-Native Coordination Substrate 
+
+grite represents an issue tracker as an append-only event log living in git refs (refs/grite/wal ), with a materialised view (an embedded key–value store) re-built from that log for fast queries. Nothing is written to the working tree, 4 Dipankar Sarkar 
+
+so coordination state travels with the code through ordinary git fetch and 
+
+push . We summarise the four mechanisms below. Each populates fields of the exported coordination log—one row per event, with fields event id , actor id ,
+
+ts ms , issue id , kind , conflict , duplicate , and lock outcome . For example, a state changed event by actor 0e on issue 6 with conflict=1 (a cross-actor overwrite) and lock outcome=denied . The full schema is in data/SCHEMA.md ;our three claims each rest on a subset of these fields, noted with each mechanism. 
+
+Typed, content-addressed, signed events. Every coordination action is an event with a kind (issue created/updated, comment, label add/remove, state change, dependency add/remove, and others), an actor identifier, and a millisecond timestamp. The event identifier is a BLAKE2b hash of its canonical encod-ing, so any tampering invalidates the id, and events may additionally be signed (Ed25519). This is what makes the log a mineable artefact with verifiable origin rather than a mutable database, and the basis for the provenance the mining toolkit reports (C3). 
+
+CRDT projection. The materialised state of an issue is a projection over its events. Scalar fields (title, body, state) use last-writer-wins keyed on the to-tal order ( timestamp , actor , event id ); sets (labels, assignees, dependencies) are commutative; comments and links are append-only. Because the rebuild applies events in this canonical order, two replicas that have seen the same events com-pute identical state regardless of delivery order. This is the convergence prop-erty behind claim C2. We instrument the projection to record, per applied event, whether it resolved a cross-actor conflict (a last-writer-wins overwrite of, or by, a different actor’s value); this records the conflict field and is the conflicting-edit signal behind C1 and C3. 
+
+Advisory leases. Agents coordinate exclusive work through TTL-bounded leases stored under refs/grite/locks . A lease is acquired before working a resource, renewed while work continues, and released on completion; expiry bounds the damage of a crashed or stalled agent. Each acquire, renew, release, expiry, or denial is recorded in the lock outcome field, so the lease stream is itself mineable; denied acquisitions are the starvation/overhead signal behind C1 and C3. Leases are advisory —an agent may ignore one—which is itself a measurable behaviour we return to when discussing partial compliance. 
+
+Dependency graph and sync. Issues carry typed edges ( blocks , depends on , re-lated to ) with cycle detection, letting agents plan ordered work. Synchronisation is a plain fetch/push of the grite refs followed by a CRDT merge; the design is offline-first, with no central server and no consensus round (contrast Chubby [2]). The git WAL is the source of truth, the CRDT projection a materialised view over it. Before the Pull Request: Mining Multi-Agent Coordination 5
+
+# 4 Experimental Methodology 
+
+Independent variable: the coordination arm. The one variable we manipulate is the coordination arm —how much coordination machinery the agents are given. We compare three. Under no-coord , agents pick tasks freely; nothing prevents two from working, and re-completing, the same task (the default for independent agents today). Under locks-only , an agent takes an exclusive advisory lease before working a task, so no two agents work it at the same instant, but there is no shared record of what is already done. Under locks+state , agents additionally consult shared task state and skip a task a teammate has already completed. 
+
+Agents and the task pool. For clean causal claims we use deterministic, seeded 
+
+tier-T1 agents rather than LLMs. The task pool is an abstract set of independent work units—not real source files—which lets us control contention precisely and removes code-quality confounds; several tasks overlap, so more than one agent may select the same one. Each agent repeats a loop: select a candidate task; in the lease arms, try to acquire its lease and back off on denial; then “work” it by emitting real grite events ( select , issue updated , state changed to closed) through the instrumented CRDT projection. Because these are genuine events on grite’s data model, the conflict and duplicate flags are computed by the substrate, not modelled. We sweep N ∈ { 2, 4, 8, 16 , 32 } over seeds with pool size fixed, so contention rises with N .
+
+Dependent variables. We report four metrics, each computed directly from the event log. Duplicate-work rate is completions of an already-completed task over total completions—the fraction of finishing work that re-does a teammate’s task. 
+
+Conflicting edits is the count of cross-actor last-writer-wins overwrites (events whose conflict flag is set by apply tracked ). Goodput is distinct tasks com-pleted per round. Lock denials is the number of denied lease acquisitions, a proxy for coordination overhead and starvation. 
+
+Dataset and path to real agents. The analysis runs on the tidy, one-row-per-event coordination log ( data/coordination-log.csv ; schema in data/SCHEMA.md ), emitted directly by the harness. All quantitative results here are tier-T1 (syn-thetic). The same detectors in mine/ are agnostic to the log’s origin: grite export --format coordination-log flattens a real repository’s log into the same schema, so they run unchanged on real LLM-agent logs ( tier-T2 ). Collect-ing a T2 dataset is future work (Section 7); we are explicit that the magnitudes here are from synthetic agents. 
+
+Verifying convergence (C2) and reproducibility. Claim C2 is verified , not sam-pled: property-based tests generate large random event sets and delivery orders and assert that two replicas rebuild to byte-identical projections (no comment loss) and that re-delivery is idempotent. We contrast against a file-based baseline reconciling whole-issue records by file-level last-writer-wins—the failure mode of a JSONL-in-worktree tracker. All randomness is seeded; one make figures step 6 Dipankar Sarkar 
+
+Table 1: Coordination outcomes at N = 32 concurrent agents (mean over seeds). Conflicting edits are counted by grite’s apply tracked CRDT instrumentation, not modelled.            
+
+> Arm ( N= 32) Dup-work rate Conflicting edits Goodput No coordination 0.78 410 2.33 Locks only 0.64 138 3.84 Locks + shared state 0.00 48 8.00
+
+regenerates every figure and table from the raw CSVs, with the grite commit, seeds, and dataset version pinned in MANIFEST.toml .
+
+# 5 Results 
+
+We report measurements for the three claims; we interpret them against the claims in Section 6. The two tables come from different runs: Table 1 is the N =32 point of the seeded agent-count sweep (C1); Table 2 is a separate, deliberately high-contention run used to surface failure modes (C3). Their absolute counts are therefore not meant to match; read each within its own run. 
+
+5.1 C1: Coordination efficiency 
+
+Table 1 reports the three arms at N = 32 agents. Without coordination, 78% of completions are redundant and the run accumulates several hundred conflicting edits. Advisory leases alone cut conflicting edits sharply and lift goodput from 2.33 to 3 .84 tasks per round. Adding shared task state drives the duplicate-work rate to zero and goodput to 8 .00. The effect is monotone: the duplicate-work rate rises with N under no coordination but stays at zero under locks+state ,and the overhead surfaces as lock denials rather than lost throughput, so the coordinated arms dominate the baseline. 
+
+5.2 C2: Convergence without data loss 
+
+Across hundreds of generated event sets and random delivery orders (Section 4), two replicas always rebuild to byte-identical projections, with zero comment loss and idempotent re-delivery [11]. This matters because the obvious alternative loses data: under two agents each setting the title and adding a distinct label, grite’s commutative set keeps both labels, whereas the file-based last-writer-wins baseline keeps one agent’s record and silently discards the other’s. 
+
+5.3 C3: Mining the coordination log 
+
+The log is itself a mineable artefact (Section 3). We define a small set of pre-registered detectors—fixed before measurement to avoid post-hoc tuning. Three Before the Pull Request: Mining Multi-Agent Coordination 7
+
+Table 2: Failure modes mined from the coordination log, by arm (tier-T1 run). Counts are detected events; “invisible in PRs” marks modes that leave no trace in PR history. Auto-generated by mine/run.py .             
+
+> Failure mode No-coord Locks Locks+state Invisible in PRs Conflicting edits 104 192 12 ✓
+> Redundant rediscovery 36 180 0partial Lock starvation 0128 12 ✓
+
+are reported in Table 2: a conflicting edit (cross-actor last-writer-wins over-write), a redundant rediscovery (completing an already-completed task), and 
+
+lock starvation (a run of denied acquisitions). The toolkit defines others simi-larly (abandoned claims, deadlock attempts, race-to-close). Two findings stand out. The failure modes are real and frequent: without coordination the log ex-poses hundreds of conflicting edits and dozens of redundant rediscoveries. And 
+
+advisory leases alone do not solve the problem —the locks-only arm has the high-est redundant-rediscovery count, because a lease stops two agents from working a task simultaneously but, lacking shared completion state, does nothing to stop one from re-doing a task a teammate finished earlier. Only locks+state drives it to zero. 
+
+# 6 Discussion and Threats to Validity 
+
+6.1 Interpretation against the claims 
+
+The results support C1, and the mining adds a design lesson the headline num-bers do not convey: mutual exclusion and conflict-free shared state are jointly 
+
+necessary—leases alone leave redundant rediscovery untouched (the locks-only 
+
+arm has the highest count), and only the combination drives the failure modes to zero. We treat C2 as a reliability floor, not a novelty claim: its role is to es-tablish that the substrate we measure on does not itself lose coordination data, a precondition for trusting the mined log. C3 ties back to the AIDev speed– acceptance gap [9]: conflicting edits, lock starvation, and race-to-close leave no trace in PR history (a denied claim never becomes a commit; a raced task shows only the winner), so a PR-restricted analysis cannot recover them. Part of the “faster but rejected” gap may therefore sit upstream of the pull request. 
+
+6.2 Threats to validity 
+
+We organise threats following Wohlin et al. [12]. Conclusion: results are from de-terministic, seeded agents averaged over seeds, so the means are stable; we report no significance tests because the only variance is from seeding, and we release the raw CSVs for re-analysis. Internal: the coordination arm is the only manipulated variable—task pool, agent loop, seeds, and pool size are fixed across arms—so 8 Dipankar Sarkar 
+
+metric differences are attributable to the arm; the conflict and duplicate flags come from grite’s production apply tracked path rather than a separate mea-surement model. Construct: the metrics are proxies—duplicate-work rate misses partial overlap, goodput ignores task difficulty, lock denials conflate overhead with starvation—so we define each explicitly (Section 4). External: the main limitation—the agents are synthetic op-generators on an abstract task pool, so absolute magnitudes will differ for real agents on real repositories; the produc-tion exporter makes the identical toolkit runnable on real logs, and generalising the magnitudes is what the tier-T2 study (Section 7) targets. 
+
+6.3 Limitations 
+
+grite’s leases are advisory: a substrate cannot enforce coordination on an unco-operative agent. We view this as observable rather than fatal—lease-ignoring is itself a mineable failure mode—so partial compliance is something the log lets us study directly, though we have not yet measured it. The study also covers a single task-pool model; the released harness and exporter let others re-run these measurements on their own agents and codebases. 
+
+# 7 Conclusion 
+
+Autonomous coding agents are faster than humans yet trusted less, and mining pull requests and commits cannot see why. We argued that an important part of the answer lives in the pre-PR coordination process , and made that process measurable and mineable through grite. A conflict-free shared substrate reduces duplicate and conflicting agent work to near zero at bounded overhead (C1) and converges without the data loss a file-based tracker suffers (C2); its signed, append-only log is an artefact from which concrete failure modes—several in-visible in PR history—are automatically recoverable (C3); and mining shows mutual exclusion and shared state are jointly necessary. The released artefacts are intended to help others study agent coordination , not only agent output. 
+
+Future work. The clearest next step is a tier-T2 dataset: at least two LLM-agent vendors working concurrently on real OSS repositories through grite, exported with the same schema and mined by the same detectors, to test whether the synthetic magnitudes carry over. We also plan a benchmark over real git re-motes with many diverging clones (ecological validity for C2); a study of lease compliance under uncooperative agents; and a correlation of pre-PR coordination signals with downstream PR-acceptance outcomes in datasets such as AIDev [9]. 
+
+Artefact availability. grite is our own open-source system, released at https: //github.com/neul-labs/grite ; we note this affiliation in the interest of trans-parency. We release the coordination-log dataset, the benchmark harness and instrumentation, and the mining toolkit alongside it. Every figure and table is regenerated from raw data by a single make figures step over a pinned commit and fixed seeds. Before the Pull Request: Mining Multi-Agent Coordination 9
+
+# References 
+
+1. Anthropic: Model context protocol. https://modelcontextprotocol.io (2024), open standard for connecting AI assistants to data/tools; JSON-RPC 2.0 2. Burrows, M.: The Chubby lock service for loosely-coupled distributed systems. In: 7th USENIX Symposium on Operating Systems Design and Implementation (OSDI). pp. 335–350 (2006) 3. Dey, T., Mousavi, S., Ponce, E., Fry, T., Vasilescu, B., Filippova, A., Mockus, A.: Detecting and characterizing bots that commit code. In: Proceedings of the 17th International Conference on Mining Software Repositories (MSR). pp. 209–219 (2020). https://doi.org/10.1145/3379597.3387478, arXiv:2003.03172 4. Ellis, C.A., Gibbs, S.J.: Concurrency control in groupware systems. In: Proceedings of the 1989 ACM SIGMOD International Conference on Management of Data. pp. 399–407 (1989). https://doi.org/10.1145/67544.66963 5. Hipp, D.R.: Fossil SCM: The ticket system. https://fossil-scm.org/home/doc/ tip/www/tickets.wiki (2024) 6. Jimenez, C.E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., Narasimhan, K.: SWE-bench: Can language models resolve real-world GitHub issues? In: Interna-tional Conference on Learning Representations (ICLR) (2024) 7. Kleppmann, M., Wiggins, A., van Hardenberg, P., McGranaghan, M.: Local-first software: You own your data, in spite of the cloud. In: Proceedings of the 2019 ACM SIGPLAN International Symposium on New Ideas, New Paradigms, and Reflections on Programming and Software (Onward!). pp. 154–178 (2019). https://doi.org/10.1145/3359591.3359737 8. Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., K¨ uttler, H., Lewis, M., Yih, W.t., Rockt¨ aschel, T., Riedel, S., Kiela, D.: Retrieval-augmented generation for knowledge-intensive NLP tasks. In: Advances in Neural Information Processing Systems (NeurIPS) (2020) 9. Li, H., Zhang, H., Hassan, A.E.: The rise of AI teammates in software engineer-ing (SE) 3.0: How autonomous coding agents are reshaping software engineering (2025), introduces the AIDev dataset (456K+ agent pull requests). Replication package: SAILResearch/AI Teammates in SE3 10. Mur´ e, M.: git-bug: Distributed, offline-first bug tracker embedded in git. https: //github.com/git-bug/git-bug (2024) 11. Shapiro, M., Pregui¸ ca, N., Baquero, C., Zawirski, M.: Conflict-free replicated data types. In: Stabilization, Safety, and Security of Distributed Systems (SSS). LNCS, vol. 6976, pp. 386–400. Springer (2011). https://doi.org/10.1007/978-3-642-24550-3˙29 12. Wohlin, C., Runeson, P., H¨ ost, M., Ohlsson, M.C., Regnell, B., Wessl´ en, A.: Experimentation in Software Engineering. Springer, 2 edn. (2012). https://doi.org/10.1007/978-3-642-29044-2 13. Wu, Q., Bansal, G., Zhang, J., Wu, Y., Li, B., Zhu, E., Jiang, L., Zhang, X., Zhang, S., Liu, J., Awadallah, A.H., White, R.W., Burger, D., Wang, C.: AutoGen: Enabling next-gen LLM applications via multi-agent conversation (2023) 14. Yang, J., Jimenez, C.E., Wettig, A., Lieret, K., Yao, S., Narasimhan, K., Press, O.: SWE-agent: Agent-computer interfaces enable automated software engineering. In: Advances in Neural Information Processing Systems (NeurIPS) (2024) 15. Yegge, S.: Beads: A coding agent memory system. https://github.com/ steveyegge/beads (2025), git-backed, dependency-graph issue tracker for coding agents; documented JSONL concurrency considerations
