@@ -1,0 +1,24 @@
+{
+  "label": "2026-06-20",
+  "date": "2026-06-20",
+  "generated_at": "2026-06-20T20:45:01",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202606/20/2606.16813v1-gist-cmtf-goal-state-inference-for-causal-minimal-tool-filtering-in-llm-agents",
+      "section": "deep",
+      "title_en": "GIST-CMTF: Goal-State Inference for Causal Minimal Tool Filtering in LLM Agents",
+      "authors": "Rahul Suresh Babu, Rohit Shukla",
+      "date": "2026-06-15",
+      "pdf": "https://arxiv.org/pdf/2606.16813v1",
+      "score": "8.0",
+      "evidence": "通过目标状态推理检测LLM智能体轨迹中的错误目标执行错误",
+      "tldr": "工具增强LLM代理需运行时过滤工具，但因果最小工具过滤（CMTF）假设请求已映射到确定目标状态，含糊请求会导致错误目标执行。GIST-CMTF增加目标状态推理层，预测候选目标并估计模糊性，必要时将澄清作为因果动作。在7个模型、120任务上，任务成功率97.0%，优于CMTF的80.1%，错误目标执行从19.4%降至2.5%。表明可靠代理需在暴露外部动作前校验目标状态，而不仅是工具相关性。",
+      "tags": "query:agent-error",
+      "abstract_en": "Tool-augmented LLM agents rely on runtime filtering to decide which tools should be visible at each step. Causal Minimal Tool Filtering (CMTF) reduces tool-choice confusion by exposing only the next causally necessary tool frontier, but it assumes that the user request has already been mapped to a symbolic goal state. In practice, requests such as \"handle my appointment\" or \"take care of this email\" may correspond to multiple possible goals. This creates wrong-goal execution, where an agent follows a valid causal tool path for an unintended objective. We introduce GIST-CMTF, a goal-state inference layer that predicts candidate symbolic goals over the same state-transition vocabulary used by CMTF, estimates ambiguity, and either applies CMTF or exposes clarification as a causal action that produces missing goal or state variables. We evaluate GIST-CMTF across seven model backends, six filtering methods, and 120 controlled tool-use tasks. GIST-CMTF achieves 97.0% task success, compared with 80.1% for top-goal CMTF and 82.9% for semantic-goal CMTF. It reduces wrong-goal execution from 19.4% under top-goal CMTF to 2.5%, while preserving the one-tool exposure of causal filtering and using substantially fewer tokens than all-tools exposure. These results suggest that reliable tool-augmented agents should validate goal state, not only tool relevance, before exposing external actions.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

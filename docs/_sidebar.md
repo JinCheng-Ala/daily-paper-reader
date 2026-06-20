@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-06-20 <!--dpr-date:20260620-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/20/2606.16813v1-gist-cmtf-goal-state-inference-for-causal-minimal-tool-filtering-in-llm-agents" data-sidebar-item="{&quot;title&quot;: &quot;GIST-CMTF: Goal-State Inference for Causal Minimal Tool Filtering in LLM Agents&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.16813v1-gist-cmtf-goal-state-inference-for-causal-minimal-tool-filtering-in-llm-agents&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;agent-error&quot;}], &quot;evidence&quot;: &quot;通过目标状态推理检测LLM智能体轨迹中的错误目标执行错误&quot;}">GIST-CMTF: Goal-State Inference for Causal Minimal Tool Filtering in LLM Agents</a>
   * 2026-06-19 <!--dpr-date:20260619-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/19/2606.17203v1-trust-aware-multi-agent-traceability-confidence-calibrated-knowledge-graphs-for-consistent-software-artifact-management" data-sidebar-item="{&quot;title&quot;: &quot;Trust-Aware Multi-Agent Traceability: Confidence-Calibrated Knowledge Graphs for Consistent Software Artifact Management&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.17203v1-trust-aware-multi-agent-traceability-confidence-calibrated-knowledge-graphs-for-consistent-software-artifact-management&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;agent-error&quot;}], &quot;evidence&quot;: &quot;检测智能体管道中的低置信度决策以防止错误传播&quot;}">Trust-Aware Multi-Agent Traceability: Confidence-Calibrated Knowledge Graphs for Consistent Software Artifact Management</a>
