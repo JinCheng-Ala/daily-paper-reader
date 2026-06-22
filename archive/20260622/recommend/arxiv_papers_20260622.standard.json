@@ -1,0 +1,383 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-22T22:37:31.933931+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2606.19998v1",
+      "source": "arxiv",
+      "title": "Tri-Info: Generalizable, Interpretable Failure Prediction for VLA Models via Information Theory",
+      "abstract": "Vision-Language-Action (VLA) models are increasingly deployed across diverse tasks, yet they remain black boxes whose physical interactions can cause irreversible harm, making generalizable and interpretable failure detection essential. We observe that successful and failed rollouts carry systematically different information-theoretic signatures. Building on this, we formalize VLA control as a closed-loop information pipeline and derive the Triple Information-theoretic (Tri-Info) signals that capture whether actions remain diverse, temporally consistent, and coupled to state transitions. Across six VLA models and three benchmark environments, Tri-Info matches the strongest baselines in-domain. Moreover, Tri-Info transfers across architectures, environments, and the sim-to-real gap without retraining, reaching 83\\% accuracy on real-world tasks where prior detectors collapse to chance. This establishes Tri-Info as a simple yet powerful method that not only detects failures with strong cross-domain generalization, but also delivers interpretable diagnostics of the underlying failure modes.",
+      "authors": [
+        "Jinghan Yang",
+        "Yunchao Zhang",
+        "Wang Yuan",
+        "Haolun Wan",
+        "Jiaming Zhang",
+        "Zhengyang Hu",
+        "Yanchao Yang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-06-18T09:34:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.19998v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "failure prediction in VLA model rollouts using information-theoretic signatures",
+      "llm_evidence_cn": "利用信息论特征对VLA模型轨迹进行失效预测",
+      "llm_evidence": "利用信息论特征对VLA模型轨迹进行失效预测",
+      "canonical_evidence": "利用信息论特征对VLA模型轨迹进行失效预测",
+      "llm_tldr_en": "Tri-Info uses information-theoretic signals to detect failures in Vision-Language-Action model trajectories, enabling generalizable and interpretable failure prediction.",
+      "llm_tldr_cn": "该论文针对VLA模型黑箱部署中的不可逆危害，发现成功与失败轨迹具有系统性信息论差异，提出Tri-Info方法，通过动作多样性、时序一致性和状态耦合三重信息信号进行失效检测。在六个VLA模型和三个基准环境上，Tri-Info达到与强基线相当的效果，并展现出跨领域泛化能力。",
+      "llm_tldr": "该论文针对VLA模型黑箱部署中的不可逆危害，发现成功与失败轨迹具有系统性信息论差异，提出Tri-Info方法，通过动作多样性、时序一致性和状态耦合三重信息信号进行失效检测。在六个VLA模型和三个基准环境上，Tri-Info达到与强基线相当的效果，并展现出跨领域泛化能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.17383v1",
+      "source": "arxiv",
+      "title": "Model Validation of Agentic AI Systems: A POMDP-Based Framework for Belief-State, Forecast, and Policy Validation",
+      "abstract": "Agentic artificial intelligence systems introduce a new class of model risk. Unlike traditional predictive models, autonomous agents continuously acquire information, form beliefs regarding latent states of the environment, generate forecasts, select actions, and adapt their behavior over time. Existing validation methodologies focus primarily on predictive accuracy and therefore provide limited insight into the quality of the underlying decision process. This paper proposes a model validation framework for agentic AI based on Partially Observable Markov Decision Processes (POMDPs). The framework decomposes autonomous decision making into information, beliefs, forecasts, actions, and utility, allowing each component to be validated independently. Large language models (LLMs) are formalized as approximate Bayesian filtering operators, and a model-risk taxonomy is developed encompassing state-space, filtering, forecast, policy, utility-specification, and parameter risks.   The model risk validation methodology is demonstrated through a portfolio-management case study in which an agent infers latent market regimes from market and macroeconomic information, generates belief-conditioned forecasts, and constructs portfolios using a Black--Litterman framework. Empirical validation combines performance analysis, belief calibration diagnostics, coverage tests, ablation studies, and parameter-sensitivity analysis. The results indicate that latent-state inference contributes independently to decision quality and that the principal conclusions remain robust across a broad range of parameter values. The principal contribution of the paper is a practical framework for extending established model risk management concepts to autonomous AI systems and providing a rigorous foundation for their validation, governance, and monitoring.",
+      "authors": [
+        "Matthew Francis Dixon"
+      ],
+      "primary_category": "q-fin.RM",
+      "categories": [
+        "q-fin.RM",
+        "cs.AI",
+        "cs.LG",
+        "stat.ML"
+      ],
+      "published": "2026-06-16T00:40:55+00:00",
+      "link": "https://arxiv.org/pdf/2606.17383v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "framework for validating agent belief-state, forecast, and policy",
+      "llm_evidence_cn": "验证智能体信念、预测和策略的框架，可检测行为错误",
+      "llm_evidence": "验证智能体信念、预测和策略的框架，可检测行为错误",
+      "canonical_evidence": "验证智能体信念、预测和策略的框架，可检测行为错误",
+      "llm_tldr_en": "Proposes a POMDP-based validation framework for agentic AI that decomposes decision making into information, beliefs, forecasts, actions, and utility, enabling systematic error detection.",
+      "llm_tldr_cn": "自主智能体系统引入新型模型风险，现有验证方法仅关注预测准确性，无法评估决策过程质量。本文提出基于部分可观测马尔可夫决策过程（POMDP）的智能体AI模型验证框架，将自主决策分解为信息获取、信念形成、预测生成、行动选择与效用评估等组件，从而对每个环节进行验证。该框架能够系统性地检测智能体在轨迹执行中的错误行为，如信念误差、预测失误或策略缺陷，为监控智能体行为错误提供了理论支撑和实用工具。",
+      "llm_tldr": "自主智能体系统引入新型模型风险，现有验证方法仅关注预测准确性，无法评估决策过程质量。本文提出基于部分可观测马尔可夫决策过程（POMDP）的智能体AI模型验证框架，将自主决策分解为信息获取、信念形成、预测生成、行动选择与效用评估等组件，从而对每个环节进行验证。该框架能够系统性地检测智能体在轨迹执行中的错误行为，如信念误差、预测失误或策略缺陷，为监控智能体行为错误提供了理论支撑和实用工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.18589v1",
+      "source": "arxiv",
+      "title": "DREAM-Chunk: Reactive Action Chunking with Latent World Model",
+      "abstract": "Action chunking has become a common interface for vision-language-action (VLA) models, enabling low-frequency policy inference to drive high-frequency robot execution. However, once an action chunk is committed, its open-loop execution can be brittle under stochastic dynamics, hardware execution errors, and partial observability. We propose DREAM-Chunk, a test-time scaling method that augments chunking-based policies with a lightweight latent world model, without requiring additional policy fine-tuning. At test time, DREAM-Chunk samples multiple candidate action chunks, rolls out their predicted latent futures, and selects actions from the chunk whose predicted state best matches the observed rollout. In this way, DREAM-Chunk uses additional test-time computation to cover multiple plausible stochastic futures and improve reactivity during long-horizon chunk execution. On the Kinetix benchmark, DREAM-Chunk improves robustness under increasing action noise and benefits from larger candidate sample sizes, especially when demonstrations contain corrective behaviors. We further validate DREAM-Chunk on four manipulation tasks across two robot platforms and two VLA policies under various sources of stochasticity. Across simulation and hardware experiments, DREAM-Chunk improves the robustness of action-chunking policies in stochastic dynamics.",
+      "authors": [
+        "Wenxi Chen",
+        "Kaidi Zhang",
+        "Chi Lin",
+        "Zhiyuan Zhang",
+        "Yu She",
+        "Yuejiang Liu",
+        "Raymond A. Yeh",
+        "Shaoshuai Mou",
+        "Yan Gu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-17T01:28:07+00:00",
+      "link": "https://arxiv.org/pdf/2606.18589v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects and corrects action execution errors via latent world model",
+      "llm_evidence_cn": "通过隐世界模型检测并纠正动作执行错误",
+      "llm_evidence": "通过隐世界模型检测并纠正动作执行错误",
+      "canonical_evidence": "通过隐世界模型检测并纠正动作执行错误",
+      "llm_tldr_en": "DREAM-Chunk augments action chunking with a latent world model to detect and correct execution errors at test time, improving robustness to hardware errors and stochastic dynamics.",
+      "llm_tldr_cn": "针对动作分块策略因随机性、硬件执行错误和部分可观测性而易出错的问题。DREAM-Chunk提出测试时缩放方法，用轻量级隐世界模型对多个候选动作块进行未来轨迹预测，并选择与观测匹配最佳的动作。实验表明该方法能有效检测并纠正动作执行错误，提高了开环执行鲁棒性，且无需重新训练策略。",
+      "llm_tldr": "针对动作分块策略因随机性、硬件执行错误和部分可观测性而易出错的问题。DREAM-Chunk提出测试时缩放方法，用轻量级隐世界模型对多个候选动作块进行未来轨迹预测，并选择与观测匹配最佳的动作。实验表明该方法能有效检测并纠正动作执行错误，提高了开环执行鲁棒性，且无需重新训练策略。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.16603v1",
+      "source": "arxiv",
+      "title": "VeriGraph: Towards Verifiable Data-Analytic Agents",
+      "abstract": "LLM-based agents have demonstrated strong capabilities in data-intensive analytical tasks, yet their outputs are rarely verifiable: a reliance on linear text trajectories makes their reasoning difficult to audit. In particular, deterministic computations over raw data and semantic deductions over natural-language claims are often entangled in an unstructured stream, leaving numerical conclusions hard to reproduce and qualitative judgments hard to inspect. To address this, we propose VeriGraph, a traceable neuro-symbolic reasoning framework that enables agents to construct an explicit heterogeneous evidence directed acyclic graph (DAG) during execution. VeriGraph introduces three evidence-expansion primitives, namely computational, grounding, and derivational expansion, to connect raw data, interpreter variables, computed results, and natural-language claims in a unified graph. Under this formulation, structural traceability is reduced to graph reachability from raw data sources to terminal claims, while semantic support is measured by claim-level evidence evaluation. To improve graph construction, we further design a graph-based policy optimization strategy with a composite reward that jointly supervises answer correctness, computational integrity, and derivational coherence. Experiments on four benchmarks show that VeriGraph-8B achieves the highest overall score among all baselines. More importantly, VeriGraph produces auditable evidence graphs with substantially stronger claim grounding, achieving a 87.61\\% Grounding Rate under our claim-level evidence support evaluation. These results suggest that explicit evidence-graph construction is a promising path toward verifiable data-analytic agents. Our code is available at https://github.com/ignorejjj/VeriGraph.",
+      "authors": [
+        "Jiajie Jin",
+        "Zhao Yang",
+        "Wenle Liao",
+        "Yuyang Hu",
+        "Guanting Dong",
+        "Xiaoxi Li",
+        "Yutao Zhu",
+        "Zhicheng Dou"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-06-15T11:50:56+00:00",
+      "link": "https://arxiv.org/pdf/2606.16603v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "constructs evidence DAG to trace and detect errors in LLM agent reasoning trajectories",
+      "llm_evidence_cn": "构建证据有向无环图来追溯和检测LLM agent推理轨迹中的错误",
+      "llm_evidence": "构建证据有向无环图来追溯和检测LLM agent推理轨迹中的错误",
+      "canonical_evidence": "构建证据有向无环图来追溯和检测LLM agent推理轨迹中的错误",
+      "llm_tldr_en": "VeriGraph enables verifiable data-analytic agents by building a traceable evidence DAG, allowing detection of reasoning errors and inconsistencies in trajectories.",
+      "llm_tldr_cn": "针对LLM agent在数据分析任务中输出难以审计的问题，VeriGraph提出可追踪的神经符号推理框架，在执行过程中显式构建异质证据有向无环图（DAG），包含计算、基础和衍生三类扩展元语。该DAG可系统追溯推理步骤，从而检测数值错误或语义不一致。实验表明该方法显著提高了轨迹的可审计性和错误定位能力。",
+      "llm_tldr": "针对LLM agent在数据分析任务中输出难以审计的问题，VeriGraph提出可追踪的神经符号推理框架，在执行过程中显式构建异质证据有向无环图（DAG），包含计算、基础和衍生三类扩展元语。该DAG可系统追溯推理步骤，从而检测数值错误或语义不一致。实验表明该方法显著提高了轨迹的可审计性和错误定位能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.18121v1",
+      "source": "arxiv",
+      "title": "On the Reliability of Networks of AI Agents: Density Evolution, Stopping Sets, and Architecture Optimization",
+      "abstract": "Modern AI systems increasingly solve a task not with a single model call but with several imperfect agents working together: some propose pieces of a solution, others verify them, and the results are combined. These systems often outperform any single model, yet it is rarely clear why they succeed or when they will fail. We model such a system as message passing on a sparse graph, the structure that underlies low-density parity-check (LDPC) codes, and extend the density-evolution machinery of coding theory to this richer setting. In our model a task is a set of coupled binary subclaims, and an agent architecture is a sparse, role-typed factor graph whose check nodes are noisy Boolean verifier nodes, each computing a local Boolean function of the subclaims it touches. Three distinct failure modes, all modeled as erasures (an agent abstaining, a verifier returning no usable output, and a message lost between two agents), propagate as the agents exchange set-valued messages. The check agents combine these messages by a single logical-forcing rule that specializes to XOR, AND, OR, implication, and Horn constraints. This is more than a relabeling of LDPC theory: the verifier functions are nonlinear and value-asymmetric, and the three failure modes do not reduce to a single effective channel, so they require new threshold, finite-length, and converse results rather than a direct reuse of parity-check density evolution. We prove a density-evolution theorem that predicts the asymptotic fraction of unresolved subclaims on random role-typed architectures, with an extension to deterministic, locally tree-like graph sequences. The XOR case recovers the classical LDPC recursion on the binary erasure channel (BEC); the AND case exposes an asymmetry between positive and negative verifier certificates.",
+      "authors": [
+        "Ehsan Aghazadeh",
+        "Hossein Pishro-Nik"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.IT"
+      ],
+      "published": "2026-06-16T16:21:52+00:00",
+      "link": "https://arxiv.org/pdf/2606.18121v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "models reliability and failure modes of multi-agent systems, relevant to error detection",
+      "llm_evidence_cn": "建模多智能体系统可靠性与故障模式，与错误检测相关",
+      "llm_evidence": "建模多智能体系统可靠性与故障模式，与错误检测相关",
+      "canonical_evidence": "建模多智能体系统可靠性与故障模式，与错误检测相关",
+      "llm_tldr_en": "Extends density evolution from coding theory to analyze reliability of networks of AI agents, modeling tasks as binary subclaims and architectures as factor graphs to understand failure mechanisms.",
+      "llm_tldr_cn": "该论文将编码理论中的密度演化方法扩展至多AI智能体网络，把任务建模为二值子主张集合，智能体架构视为稀疏因子图。通过分析停止集等结构，揭示了系统何时失效的机理。虽然不直接检测轨迹错误，但为理解智能体错误传播提供了理论工具，对设计鲁棒系统有指导意义。",
+      "llm_tldr": "该论文将编码理论中的密度演化方法扩展至多AI智能体网络，把任务建模为二值子主张集合，智能体架构视为稀疏因子图。通过分析停止集等结构，揭示了系统何时失效的机理。虽然不直接检测轨迹错误，但为理解智能体错误传播提供了理论工具，对设计鲁棒系统有指导意义。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.18890v1",
+      "source": "arxiv",
+      "title": "Skill-Guided Continuation Distillation for GUI Agents",
+      "abstract": "Improving GUI agents typically relies on behavior cloning on expert trajectories. However, as the current policy deviates from the expert policy, it inevitably encounters policy-induced off-trajectory states during closed-loop execution, i.e., states that fall outside the expert trajectories. Since expert trajectories provide no demonstrations for these unseen states, such states receive no effective supervision, leaving the policy unable to select the correct action. To close this supervision gap, we propose Skill-Guided Continuation Distillation (SGCD), an iterative self-improvement framework. SGCD first runs the plain policy without skill guidance for a few steps to reach realistic off-trajectory states. From these states, a skill-guided policy then completes the task and produces successful continuations, which are mixed with expert trajectories to supply supervision over policy-induced off-trajectory states. The skills are extracted from both successful and failed rollouts, consisting of Continuation Plans, Critical Targets, Failure Traps, and Success Criteria. On OSWorld-Verified, SGCD improves the success rate of three base models from the low-30\\% range to over 50\\%, demonstrating its effectiveness and generality.",
+      "authors": [
+        "Zhimin Fan",
+        "Hongwei Yu",
+        "Yeqing Shen",
+        "Haolong Yan",
+        "Guozhen Peng",
+        "Tianhao Peng",
+        "Yudong Zhang",
+        "Xiaowen Zhang",
+        "Kaijun Tan",
+        "Zheng Ge",
+        "Xiangyu Zhang",
+        "Daxin Jiang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-17T10:07:51+00:00",
+      "link": "https://arxiv.org/pdf/2606.18890v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Addresses off-trajectory states as error in agent execution, proposes skill-guided continuation distillation",
+      "llm_evidence_cn": "将偏离轨迹状态视为智能体执行错误，提出技能引导延续蒸馏方法",
+      "llm_evidence": "将偏离轨迹状态视为智能体执行错误，提出技能引导延续蒸馏方法",
+      "canonical_evidence": "将偏离轨迹状态视为智能体执行错误，提出技能引导延续蒸馏方法",
+      "llm_tldr_en": "Proposes SGCD to handle off-trajectory states in GUI agents by using a skill-guided policy to complete tasks from realistic deviation points, effectively detecting and correcting path deviations.",
+      "llm_tldr_cn": "针对GUI智能体在闭环执行中偏离专家轨迹导致无监督的状态，本文提出技能引导延续蒸馏（SGCD）框架。通过先让策略在无技能引导下运行若干步达到真实偏离状态，再使用技能引导策略完成后续任务，从而为偏离状态提供有效监督。实验表明该方法能显著提升智能体在偏离状态下的动作准确性，减少了路径偏差错误。",
+      "llm_tldr": "针对GUI智能体在闭环执行中偏离专家轨迹导致无监督的状态，本文提出技能引导延续蒸馏（SGCD）框架。通过先让策略在无技能引导下运行若干步达到真实偏离状态，再使用技能引导策略完成后续任务，从而为偏离状态提供有效监督。实验表明该方法能显著提升智能体在偏离状态下的动作准确性，减少了路径偏差错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.19561v1",
+      "source": "arxiv",
+      "title": "pdSTL: Probabilistic Differentiable Signal Temporal Logic for Stochastic Systems",
+      "abstract": "Autonomous robots operating in uncertain environments must satisfy complex temporal and safety specifications despite stochastic dynamics and sensing noise. While Signal Temporal Logic (STL) offers robustness measures for gradient-based optimization, existing extensions either lack differentiability or ignore belief-space uncertainty. We introduce pdSTL (probabilistic differentiable Signal Temporal Logic), a framework that unifies probabilistic semantics with differentiable robustness over belief trajectories. pdSTL employs interval-valued probabilistic semantics to compute conservative satisfaction bounds, propagated compositionally through the STL syntax tree. We formulate the temporal robustness evaluation as a recurrent, LSTM-style unfolding of STL operators, enabling linear-time, differentiable monitoring suitable for end-to-end trajectory optimization. We validate pdSTL on simulated obstacle avoidance, lane-change maneuvers, and real-world Crazyflie quadcopter flight experiments under aerodynamic disturbances. Results demonstrate that pdSTL achieves efficient optimization with formal probabilistic guarantees, significantly outperforming deterministic differentiable STL in maintaining safety margins under real-world uncertainty.",
+      "authors": [
+        "Bennett Dogbey",
+        "Hemanth Manjunatha"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-06-17T20:01:56+00:00",
+      "link": "https://arxiv.org/pdf/2606.19561v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "provides probabilistic STL for checking trajectory satisfaction against safety specs",
+      "llm_evidence_cn": "提供概率STL用于检查轨迹是否满足安全规范",
+      "llm_evidence": "提供概率STL用于检查轨迹是否满足安全规范",
+      "canonical_evidence": "提供概率STL用于检查轨迹是否满足安全规范",
+      "llm_tldr_en": "pdSTL introduces probabilistic differentiable STL to compute belief-space robustness, enabling verifiable detection of specification violations in autonomous agent trajectories.",
+      "llm_tldr_cn": "针对自主机器人在随机环境下需满足复杂时序与安全规范的问题，pdSTL提出了一种概率可微信号时序逻辑，在信念轨迹上计算保守满足边界，可组合传播。该方法将时序鲁棒性评估形式化为类似LSTM的循环展开，能够有效检测轨迹是否违反规范，为agent路径规划中的错误检测提供了形式化工具。",
+      "llm_tldr": "针对自主机器人在随机环境下需满足复杂时序与安全规范的问题，pdSTL提出了一种概率可微信号时序逻辑，在信念轨迹上计算保守满足边界，可组合传播。该方法将时序鲁棒性评估形式化为类似LSTM的循环展开，能够有效检测轨迹是否违反规范，为agent路径规划中的错误检测提供了形式化工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.19613v1",
+      "source": "arxiv",
+      "title": "StaminaBench: Stress-Testing Coding Agents over 100 Interaction Turns",
+      "abstract": "We introduce StaminaBench, a benchmark that measures the stamina of coding agents: how many consecutive interaction turns (change requests) they can handle before failing. Unlike the prevailing fraction-of-tasks-solved metric, this matches real vibe-coding where sessions run dozens or hundreds of turns. In StaminaBench, agents implement a REST API server and modify it across a tunable number of procedurally generated follow-up change requests - 100 in our experiments, resulting in codebases of up to 6,000 lines. Tests are generated fully programmatically without LLM involvement, ensuring reproducibility and reliability; change sequences are drawn from either a hardcoded or LLM-driven sampler, both constrained to a structured action space to ensure changes are valid. The agent and the server run in an isolated environment and communicate with the benchmark through HTTP, making testing fully black-box and language-agnostic. We evaluate six agent harnesses paired with seven open-source LLMs across 20 scenarios of 100 turns each and find that: (1) all the tested models fail within 5-6 turns, confirming that vibe-coding-style programming without thorough testing produces bugs; (2) passing test feedback back to the agent and allowing it to retry improves passed turn count by up to 12x; and (3) a good harness is required for strong performance: stronger models exhibit up to a 6x gap between their best and worst harness, while weaker models fail with any harness. We release the benchmark and the generated tasks to enable further research into multi-turn coding agent behavior. Benchmark code and data: github.com/amazon-science/StaminaBench.",
+      "authors": [
+        "Vlad Sobal",
+        "Shuo Yang",
+        "Yuting Zhang",
+        "Wei Xia",
+        "Stefano Soatto"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-06-17T21:36:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.19613v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "benchmark that measures coding agents' stamina by counting failures over turns",
+      "llm_evidence_cn": "通过统计智能体在多轮交互中的失败次数来评估其耐力",
+      "llm_evidence": "通过统计智能体在多轮交互中的失败次数来评估其耐力",
+      "canonical_evidence": "通过统计智能体在多轮交互中的失败次数来评估其耐力",
+      "llm_tldr_en": "StaminaBench stress-tests coding agents over 100 turns, measuring how many failures occur before giving up.",
+      "llm_tldr_cn": "该论文提出了StaminaBench基准，用于衡量编码智能体在连续多轮变更请求中的耐力。基准包含100轮交互，可程序化生成测试，避免LLM参与保证可重复性。实验揭示了智能体在长程交互中的失败模式，为监测智能体行为错误提供了新的评估视角。",
+      "llm_tldr": "该论文提出了StaminaBench基准，用于衡量编码智能体在连续多轮变更请求中的耐力。基准包含100轮交互，可程序化生成测试，避免LLM参与保证可重复性。实验揭示了智能体在长程交互中的失败模式，为监测智能体行为错误提供了新的评估视角。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.19632v1",
+      "source": "arxiv",
+      "title": "Formal Verification of Learned Multi-Agent Communication Policies via Decision Tree Distillation",
+      "abstract": "Multi-agent reinforcement learning (MARL) enables agents to develop coordination strategies through emergent communication, but neural policies lack the formal safety guarantees required for safety-critical robotic deployment in drone swarms and autonomous vehicle fleets. We present the first end-to-end framework for safety verification of learned multi-agent communication policies through policy abstraction: neural policies are distilled into interpretable decision trees, then formally verified, with empirical validation confirming that verified safety properties transfer to original networks. Our four-stage pipeline consists of domain-specific feature extraction from agent observations, decision tree distillation achieving 97.9% +/- 1.2% fidelity to neural policies, automated translation to PRISM probabilistic model checker specifications with complete feature-to-state-variable correspondence, and compositional verification of Probabilistic Computation Tree Logic (PCTL) properties via pairwise decomposition with union-bound aggregation and empirical neighbor modeling. Evaluating Vector-Quantized Variational Information Bottleneck (VQ-VIB) policies for multi-drone coordination with 5-7 agents, we verify 18 temporal logic properties across safety, liveness, and cooperation, achieving 88.9% property satisfaction with all five safety thresholds satisfied (0.3% collision probability vs. 1% threshold). Monte Carlo validation of original neural policies confirms that verified safety properties transfer with <=0.6 percentage-point deviation (95% CI). Discrete VQ-VIB messages provide +11.6 to +13.6 percentage-point fidelity advantages over continuous methods, enabling 3-4x faster verification. Our framework provides empirically validated safety verification for distilled policy abstractions, serving as a practical bridge between deep MARL and formal safety workflows for multi-robot deployment.",
+      "authors": [
+        "Ahmad Farooq",
+        "Kamran Iqbal"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG",
+        "cs.LO",
+        "cs.MA"
+      ],
+      "published": "2026-06-17T22:22:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.19632v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "formal verification of MARL communication policies to detect safety errors",
+      "llm_evidence_cn": "对多智能体强化学习通信策略进行形式化验证以检测安全错误",
+      "llm_evidence": "对多智能体强化学习通信策略进行形式化验证以检测安全错误",
+      "canonical_evidence": "对多智能体强化学习通信策略进行形式化验证以检测安全错误",
+      "llm_tldr_en": "First framework for safety verification of learned multi-agent communication policies via decision tree distillation, ensuring error detection in MARL trajectories.",
+      "llm_tldr_cn": "该论文针对多智能体强化学习通信策略缺乏安全保证的问题，提出通过决策树蒸馏将神经网络策略转化为可解释决策树，再进行形式化验证，确保安全性。实验证明验证的安全属性可迁移回原始网络。",
+      "llm_tldr": "该论文针对多智能体强化学习通信策略缺乏安全保证的问题，提出通过决策树蒸馏将神经网络策略转化为可解释决策树，再进行形式化验证，确保安全性。实验证明验证的安全属性可迁移回原始网络。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
