@@ -1,0 +1,911 @@
+Title: Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention
+
+URL Source: https://arxiv.org/pdf/2606.21399v1
+
+Published Time: Tue, 23 Jun 2026 01:14:11 GMT
+
+Number of Pages: 29
+
+Markdown Content:
+# Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Chubin Zhang 1, Zhenglin Wan 2, Xingrui Yu 3,4‡, Jingxuan Wu 5, Qi Wen 2, Pengfei Zhou 2, Wangbo Zhao 2, Ivor Tsang 1,3,4        
+
+> 1Nanyang Technological University, Singapore
+> 2National University of Singapore, Singapore
+> 3CFAR, Agency for Science, Technology and Research, Singapore
+> 4IHPC, Agency for Science, Technology and Research, Singapore
+> 5Department of Statistics and Operations Research, UNC-Chapel Hill, United States
+> #yu_xingrui@a-star.edu.sg ‡Corresponding author.
+
+Abstract Runtime oversight for LLM agents is commonly framed as scalar risk prediction: estimate failure likelihood, confidence, or uncertainty, then intervene once the score crosses a threshold. We argue that this framing targets the wrong object for control. The relevant question is not how likely the agent is to fail if it continues, but whether an available intervention would improve the outcome. Two trajectory prefixes can have the same risk estimate while requiring different actions, because one remains recoverable and the other does not. We formalize this mismatch as target error and identify intervention advantage , the expected utility gain from intervening rather than continuing, as the decision object for oversight. To measure this mismatch, we introduce prefix branching , a same-prefix counterfactual protocol that executes candidate actions from identical trajectory states. Across four benchmarks, action-conditioned control yields regime-dependent gains over scalar routing. In a calibration decomposition, recalibrating the same scalar score improves prediction metrics but leaves control regret unchanged, showing that calibration alone does not repair target error. A simple prefix-only action-conditioned controller substantially reduces regret in the strongest interactive regime, from 
+
+0.506 to 0.110 on ALFWorld. Gains shrink when interventions are weak or when scalar routing already preserves intervention-relevant information. These results suggest that LLM-agent oversight should move from calibrated risk scoring toward action-conditioned value estimation. 
+
+# 1. Introduction 
+
+As LLM agents move from single-turn generation to multi-step interaction, oversight systems must make online control decisions rather than merely evaluate final outputs. At each intermediate state, the system may let the agent continue, ask for verification, defer to a stronger policy, repair the trajectory, or stop. A common way to operationalize this decision is scalar risk prediction: map the trajectory prefix to a single score, such as failure probability, uncertainty, or confidence, and intervene when the score crosses a threshold [Farquhar et al., 2024, Kadavath et al., 2022, Ren et al., 2023, Xuan et al., 2026, Zhang et al., 2026]. This framing has encouraged progress on making risk and confidence estimates more accurate and better calibrated. Yet calibration alone does not make a risk score a control target. A risk score answers a one-action question: what is likely to happen if the agent continues? Runtime oversight must answer a different question: which available action would lead to the best downstream outcome? This distinction matters because high risk does not imply that intervention is useful. Consider two trajectory prefixes with the same failure-risk estimate. In one state, the task is difficult but still recoverable, so deferring to an 
+
+> arXiv:2606.21399v1 [cs.AI] 19 Jun 2026
+
+# Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Figure 1 | Overview of the target mismatch. Scalar-risk oversight predicts what is likely to happen if the agent continues and applies a threshold rule. Yet states with the same continuation risk can differ in recoverability and require different actions. We instead frame oversight as action-conditioned control: compare the downstream value of available actions and select the action with highest expected utility. expert would rescue the episode. In another, the task is equally high-risk but no longer recoverable, so even the best available intervention would fail and quitting is preferable. A controller that routes both states through the same scalar must treat them identically, even though their optimal actions differ. Thus, the score can be perfectly calibrated for predicting failure under continuation while remaining blind to the control-relevant distinction: whether the trajectory can still be rescued. This mismatch is not a peculiarity of the example; it exposes a general failure mode. Continuation risk describes the expected outcome of one action, namely letting the agent proceed. Oversight, however, must compare the consequences of multiple actions. The control-relevant quantity is therefore intervention advantage : the expected utility gain from intervening rather than continuing. A failure score may correlate with this quantity, but it need not preserve the decision boundary because recoverability depends on how the current state interacts with the available intervention. Consequently, improving or recalibrating the same score cannot recover information that the score never represented. We call this failure mode target error : the scalar is accurate for one predictive target but insufficient for the downstream control decision. In Section 2, we formalize the corresponding requirement as control sufficiency .Crucially, target error does not imply that scalar routing will always fail in deployment. Its practical cost depends on two conditions. First, the available intervention must have enough value to change the downstream outcome; if intervention is no better than continuing, a richer controller has little room to help. Second, the scalar must discard information relevant to intervention advantage; if the scalar already separates states with different optimal actions, threshold routing can remain adequate despite its compression. Thus, the question is not whether scalar risk is lossless in principle, but when its abstraction loss becomes consequential for control. To study when this abstraction loss matters, we need both a formal criterion and counterfactual evidence. We first formalize control sufficiency for arbitrary scalar summaries and quantify the loss 
+
+# 2Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+incurred when a scalar merges states that require different actions (Section 2). However, the size of this loss cannot be read from ordinary logged trajectories: a trajectory reveals only the outcome of the action that was actually taken, not what would have happened under an alternative intervention from the same state. We therefore introduce prefix branching , a same-prefix counterfactual protocol that replays an agent to a decision prefix and executes each candidate action from that identical state (Section 3). This lets us measure oracle actions, scalar abstraction loss, and controller regret without granting any controller access to future information. We apply this protocol across four benchmarks to compare scalar routing with action-conditioned control (Section 5) and to identify the regimes in which the richer decision target actually improves oversight. This perspective separates our work from calibration-centered approaches to agent oversight. Prior work has improved confidence or failure prediction for language models and agents, and several recent studies in agent oversight show that accurate failure prediction need not imply effective failure prevention [Farquhar et al., 2024, Kadavath et al., 2022, Vasudev et al., 2026, Zhang et al., 2026]. We ask a prior question: before calibrating a scalar, is that scalar the right target for the control decision it is meant to support? Our results show that the answer depends not only on predictive accuracy, but on whether the scalar preserves intervention-relevant information. We make the following contributions: 
+
+• We identify a target error in scalar-risk oversight: calibrated continuation risk can fail to preserve recoverability or the sign of intervention advantage. 
+
+• We formalize control sufficiency and scalar abstraction loss , and introduce prefix branching , a same-prefix counterfactual protocol for measuring intervention advantage and evaluating controllers without lookahead. 
+
+• Across four benchmarks, we show that action-conditioned control yields gains in the regimes where interventions remain valuable and scalar scores hide recoverability; a calibration decomposition further shows that improving prediction metrics for the same scalar does not repair control regret. 
+
+# 2. When is a scalar sufficient for control? 
+
+The introduction identified a target mismatch: a scalar can be well calibrated for prediction yet insufficient for choosing interventions. This section makes that mismatch precise. We characterize what a scalar must preserve for lossless intervention control, how much value is lost when it fails, and why scalar routing can still remain adequate in finite-data regimes. 
+
+2.1. Prediction targets and control targets 
+
+Consider an LLM agent executing a multi-step trajectory in an interactive environment. At each prefix state ℎ ∈ H , an external controller observes the trajectory so far and chooses between continue and candidate actions 𝑎 1, . . . , 𝑎 𝐾 . The action continue lets the agent proceed, while 𝑎 1, . . . , 𝑎 𝐾 denote possible non-continue actions such as expert handoff, tool use, verification, repair, or stopping. We begin with the binary abstraction A = {continue , intervene }, where intervene denotes the best available non-continue action, including stopping when stopping is available. This abstraction is not meant to remove action selection from the full oversight problem. Rather, it isolates the first-order control question: whether any available non-continue action has positive value relative to letting the agent continue. We return to multi-action selection in Section 4.1. To separate prediction from control, we define one quantity for the risk of continuing and another for the value of intervening. Let 𝑈 𝑎 (ℎ) denote the random downstream utility obtained after choosing 
+
+# 3Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+action 𝑎 ∈ A at prefix state ℎ, and write 𝑐 = continue and 𝑖 = intervene . We define 
+
+EU 𝑎 (ℎ) = 𝔼 [𝑈 𝑎 (ℎ) | ℎ], 𝑝 fail (ℎ) = ℙ(𝑈 𝑐 (ℎ) ≤ 0 | ℎ), 𝜏 (ℎ) = EU 𝑖 (ℎ) − EU 𝑐 (ℎ), 𝐴 ∗ (ℎ) = arg max 
+
+> 𝑎 ∈ A
+
+EU 𝑎 (ℎ).
+
+(1) Here, 𝑝 fail (ℎ) is a prediction target: it asks whether continuation is likely to fail. By contrast, 𝜏 (ℎ) is a control target: it asks whether intervention improves expected utility relative to continuation. This distinction formalizes the recoverability issue from the introduction. Distinguishing recoverable from irrecoverable high-risk states does not require a more accurate estimate of the same continuation-failure probability; it requires information about how an intervention would change the outcome. The key question is therefore whether a scalar signal can preserve enough information to recover the optimal action. 
+
+Definition 1 (𝑔 -sufficiency for intervention) . For a fixed scalar signal 𝑔 (ℎ) available at prefix state ℎ,we say that 𝑔 is sufficient for intervention if there exists a measurable selector 𝑑 such that 
+
+Pr  
+
+> ℎ∼D
+
+[𝑑 (𝑔 (ℎ)) ∈ 𝐴 ∗ (ℎ)] = 1. (2) In words, a scalar is sufficient if conditioning on that scalar never forces the controller to collapse states whose optimal actions differ. This definition applies to any candidate scalar. The dominant special case in current oversight pipelines is failure-trigger routing, where the controller bases its decision only on a continuation-failure estimate. 
+
+Definition 2 (Failure-trigger controller) . A failure-trigger controller is any deterministic policy 𝜋 such that 𝜋 (ℎ) = 𝑓 ( 𝑝 fail (ℎ)) for some measurable function 𝑓 : [0, 1] → A .
+
+Throughout, for any fixed scalar, we refer to the strongest controller that depends only on that scalar as the best controller measurable with respect to that scalar .
+
+2.2. When is a candidate scalar sufficient? 
+
+Can a scalar carry enough information for lossless intervention routing? Definition 1 says that this is possible only if the scalar preserves the information needed to choose the optimal action. The following proposition makes that requirement explicit. 
+
+Proposition 1 (Lossless routing and intervention advantage) . Under the binary action set A =
+
+{continue , intervene }, a fixed scalar signal 𝑔 supports lossless routing if and only if the sign of intervention advantage can be recovered from 𝑔 , up to the tie case 𝜏 (ℎ) = 0. Equivalently, there exists a 
+
+> 𝑔
+
+-measurable intervention region 𝐸 such that, up to D-null sets, 
+
+{ℎ : 𝜏 (ℎ) > 0} ⊆ 𝐸 ⊆ { ℎ : 𝜏 (ℎ) ≥ 0}. (3) 
+
+Equivalently, within each level set of 𝑔 , one cannot mix states where continue is uniquely optimal with states where intervene is uniquely optimal. 
+
+The proof appears in Appendix A; the proposition isolates the quantity that governs intervention decisions: intervention is worthwhile exactly when 𝜏 (ℎ) > 0. Thus, a scalar need not represent the full trajectory state to be useful, but it must preserve the decision boundary induced by intervention advantage. If one further restricts attention to threshold policies on 𝑔 , an additional monotonicity condition on the intervention region is needed. 
+
+# 4Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+This condition explains why failure risk can be predictive yet insufficient. Intervention advantage depends not only on how likely continuation is to fail, but also on recoverability, intervention cost, and how the intervention changes the downstream trajectory; a schematic decomposition appears in Appendix A.3. Therefore, 𝑝 fail (ℎ) can correlate with 𝜏 (ℎ) without determining its sign. Two states can share the same continuation risk while still requiring opposite actions, which is the mismatch illustrated schematically in Figure 1. Proposition 1 is still an all-or-nothing statement: it tells us whether a scalar can be lossless, but not how much value is lost when it cannot. The next subsection quantifies that loss. 
+
+2.3. How much is lost when sufficiency fails? 
+
+When sufficiency fails, the relevant quantity is the value lost by restricting the controller to a scalar summary. Let  
+
+> 𝑉 ∗
+
+= 𝔼 
+
+
+
+max  
+
+> 𝑎 ∈ A
+
+EU 𝑎 (ℎ)
+
+  
+
+> ,𝑉 𝑔
+
+= 𝔼 
+
+
+
+max  
+
+> 𝑎 ∈ A
+
+𝔼 [EU 𝑎 (ℎ) | 𝑔 (ℎ)] 
+
+
+
+> ,
+
+denote the value of the fully informed optimal controller and the best controller measurable with respect to 𝑔 . We define the scalar abstraction loss as Gap (𝑔 ) = 𝑉 ∗ − 𝑉 𝑔 .This loss separates abstraction error from estimation error. The fully informed controller chooses the best action before averaging over states, whereas the scalar controller first averages together all states with the same scalar value and only then chooses an action. Thus, even with perfect conditional expectations, routing through 𝑔 incurs loss whenever 𝑔 merges states whose optimal actions disagree. In the special case 𝑔 (ℎ) = 𝑝 fail (ℎ), a perfectly calibrated failure score can still be lossy for control because it need not preserve the sign of 𝜏 (ℎ). The full expression for Gap (𝑔 ) and the zero-loss condition are given in Appendix A. 
+
+2.4. When can scalar routing remain adequate? 
+
+Control insufficiency does not imply that scalar routing is always poor in practice. Scalar routing can remain competitive when intervention value is low, when scalar mismatch is small, or when finite data make richer action-conditioned controllers harder to estimate. This is why scalar routing is not a strawman: whether structural loss or estimation variance dominates is regime-dependent. The next section introduces prefix branching to determine, from same-prefix counterfactual evidence, when the structural benefit of action-conditioned control outweighs its additional complexity. 
+
+# 3. Measuring intervention advantage with prefix branching 
+
+The theory above identifies when scalar routing can lose control-relevant information, but it does not tell us whether that loss matters in a particular regime. To answer that empirical question, we need counterfactual evidence from the same decision state. A logged trajectory only reveals what happened after the action that was actually taken; it does not reveal whether continuing, intervening, or quitting would have produced higher utility from that same prefix. Offline relabeling is therefore insufficient, because the utility of an intervention depends on the downstream branch induced by that intervention. We address this problem with prefix branching : collect base trajectories, select decision prefixes, and execute every candidate action from each selected prefix; Figure 3 in the appendix illustrates the protocol. Each branch yields a realized downstream utility, so the same prefix provides action-conditioned outcomes for continue , the deployed intervention, and quit . These outcomes let us 
+
+# 5Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+compute oracle actions, controller utility, and regret under scalar routing. Prefix branching is not itself a deployment policy or an online learning algorithm. It is a development-time evaluation protocol for exposing same-prefix action differences that ordinary logs cannot identify. The key design choice is that all comparisons are made from the same reconstructed prefix state. This avoids comparing controllers on different trajectories and isolates the value of the decision made at that prefix. On interactive benchmarks, we replay each prefix into the exact environment state reached by the base trajectory, verify step-by-step agreement, and discard any mismatch; the retained data have a replay match rate of 100% . We then split prefixes into train, validation, and test sets. To avoid leakage when multiple prefixes are sampled from the same base trajectory, all prefixes from the same base trajectory are assigned to the same split. Controllers are trained on the train split, hyperparameters are selected on validation, and all reported results use held-out test prefixes. Prefix branching therefore supplies the empirical objects used throughout the rest of the paper: oracle actions, realized controller utilities 𝑈 (𝜋 ), control regret, and diagnostic measures of scalar mismatch. 
+
+# 4. Action-conditioned control: witness and setup 
+
+4.1. A conservative witness controller 
+
+Given branched data, we need a controller that targets action-conditioned value rather than routing through a scalar risk score. Our goal is not to introduce a new controller architecture. Instead, we use a deliberately simple witness to test whether the decision target matters: if a prefix-only action-conditioned controller improves over scalar routing, the gain is evidence for targeting intervention advantage rather than for a sophisticated modeling choice. To keep the comparison focused on information access rather than lookahead, the witness uses only prefix-available information, the same information available to the scalar baseline. A preview-aware variant appears only as an auxiliary ablation. The witness evaluates each candidate action at the current prefix, not just the continuation branch. For each action 𝑎 , it predicts per-action success, ˆ𝑝 𝑎 (ℎ) ≈ ℙ(success | ℎ, 𝑎 ), from prefix-available features. On our tasks, the utility of action 𝑎 can be written in terms of an action-specific success utility 𝑟 + 
+
+> 𝑎
+
+and failure utility 𝑟 − 
+
+> 𝑎
+
+. We therefore convert predicted success into predicted expected utility: 
+
+cEU 𝑎 (ℎ) = ˆ𝑝 𝑎 (ℎ)𝑟 + 
+
+> 𝑎
+
++  1 − ˆ𝑝 𝑎 (ℎ)𝑟 −  
+
+> 𝑎 .
+
+(4) Because richer control can incur higher estimation variance in finite data, we make the witness conservative. Specifically, we use a lower confidence bound that penalizes uncertain actions, following the broader logic of pessimistic decision-making under uncertainty [Jin et al., 2025, Kumar et al., 2020]: 
+
+ˆ𝑝 LCB  
+
+> 𝑎
+
+(ℎ) = ˆ𝑝 𝑎 (ℎ) − 𝛽 𝑎 ˆ𝜎 𝑎 (ℎ), cEU LCB  
+
+> 𝑎
+
+(ℎ) = ˆ𝑝 LCB  
+
+> 𝑎
+
+(ℎ)𝑟 + 
+
+> 𝑎
+
++  1 − ˆ𝑝 LCB  
+
+> 𝑎
+
+(ℎ)𝑟 −  
+
+> 𝑎 .
+
+(5) The controller selects arg max 𝑎 cEU LCB  
+
+> 𝑎
+
+(ℎ). We implement the witness with a random forest because it provides per-tree variance estimates for the confidence bound while keeping the estimator simple and tuning-light. Alternative variants, including value , explicit-EU , and two-stage controllers, are compared in Appendix D. 
+
+4.2. Benchmarks, interventions, and baselines 
+
+We choose benchmarks to span oversight regimes rather than to maximize average gains. ALF-World [Shridhar et al., 2020] and ScienceWorld [Wang et al., 2022a] are interactive environments 
+
+# 6Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+where intervention can change the downstream environment state. GSM8K [Cobbe et al., 2021] and HotpotQA [Yang et al., 2018] are supporting reasoning benchmarks where intervention changes the reasoning branch but not a persistent environment state. This mix lets us test whether action-conditioned control helps only in strongly interactive settings or also when oversight operates over reasoning trajectories. All four settings share the same three-way decision structure: continue , a benchmark-specific inter-vention, or quit . The deployed interventions are defer-to-expert in ALFWorld, gold-prefix handoff in ScienceWorld, and same-model verify/re-answer in GSM8K and HotpotQA. These interventions intentionally vary in strength, which lets us test the regime prediction from Section 2.4: richer control should help most when intervention remains valuable and the scalar hides recoverability. We use base agents spanning multiple capability tiers: Qwen2.5-7B-Instruct [Yang et al., 2024], Llama-3.1-8B-Instruct [Grattafiori et al., 2024], Qwen2.5-72B-Instruct [Yang et al., 2024], and GPT-5.4 accessed through the public OpenAI API using the gpt-5.4 model identifier [OpenAI, 2026]. For the cross-benchmark comparison, we hold base capability roughly fixed at the 7–8B tier so that differences are driven by oversight regime rather than raw model strength. We use ALFWorld for the model-scale analysis because it is the benchmark where the control gap is largest. GPT-5.4 is included only in the model-scale analysis, with implementation details deferred to Appendix B.4. The core scalar baseline is failure-trigger , which instantiates the scalar-routing paradigm studied in Section 2: it estimates 𝑝 fail (ℎ) and routes through that single scalar. Additional ablations, including alternative action-conditioned witnesses and scalar summaries, are deferred to Appendix D. 
+
+4.3. Evaluation metrics 
+
+For each controller 𝜋 , we compute realized utility 𝑈 (𝜋 ) on the branched test prefixes and the corresponding control regret ,
+
+Regret (𝜋 ) = 𝑈 (𝜋 oracle ) − 𝑈 (𝜋 ), (6) where 𝜋 oracle selects the best realized branch at each prefix. Lower regret means that the controller is closer to the same-prefix oracle induced by the branched outcomes. This is the operational counterpart of the theory: scalar abstraction loss appears as regret when a scalar controller merges states that require different actions. All significance tests use paired bootstrap over run-level differences with 
+
+10 ,000 resamples and report 95% confidence intervals. 
+
+# 5. Results 
+
+The results address the paper’s central question: when does forcing intervention decisions through a single scalar become consequential? We show that scalar routing can incur substantial regret, that recalibrating the same scalar does not fix the problem, and that the gap appears in predictable regimes: interventions must retain downstream value, and the scalar must hide information relevant to recoverability. 
+
+5.1. Action-conditioned control can reduce regret 
+
+We first compare the two decision targets under matched information access. Both controllers operate on the same branched data and use only prefix-available information. The scalar baseline routes through a failure score, while the action-conditioned witness estimates the value of candidate actions at the prefix. Because each benchmark uses its own deployed intervention, absolute regret levels 
+
+# 7Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Table 1 | Comparator-aligned fork test under each benchmark’s deployed intervention. Lower regret is better. Δ denotes regret reduction relative to scalar routing; bold Δ values have paired bootstrap 
+
+95% CIs that exclude zero.                          
+
+> Benchmark Scalar Action-cond. (prefix) ΔRegret 95% CI ALFWorld 0.506 0.110 0.396 [0.310 ,0.488 ]
+> ScienceWorld 0.245 0.169 0.076 [0.030 ,0.130 ]
+> GSM8K 0.423 0.394 0.029 [0.006 ,0.053 ]
+> HotpotQA 0.436 0.417 0.019 [− 0.020 ,0.061 ]
+
+Table 2 | Calibration decomposition on ALFWorld. Recalibration improves prediction metrics but does not improve control regret under threshold routing. These regret values are computed on the calibration evaluation pool and are not directly comparable to Table 1.                       
+
+> Scalar Method ECE Brier Control regret Confidence Raw 0.463 0.397 0.318
+> Platt 0.006 0.110 0.318
+> Isotonic 0.022 0.110 0.318
+> Failure score Raw 0.060 0.096 0.358
+> Platt 0.047 0.094 0.358
+> Isotonic 0.098 0.103 0.462
+
+are most meaningful within a benchmark; across benchmarks, the relevant comparison is whether action-conditioned control improves over scalar routing. Table 1 shows a clear but regime-dependent pattern. ALFWorld is the strongest positive regime: replacing scalar routing with the prefix-only action-conditioned controller reduces regret from 0.506 
+
+to 0.110 . ScienceWorld also shows a reliable but smaller gain, reducing regret from 0.245 to 0.169 .The reasoning benchmarks sit near the low-gain boundary: GSM8K improves slightly, while HotpotQA is compatible with zero improvement. This pattern is not explained by giving the controller a more flexible function class. On ALFWorld, replacing thresholding with the same RF+LCB family on the one-dimensional 𝑝 fail (ℎ) input reduces regret only from 0.506 to 0.449 , still far above the full-prefix witness at 0.110 (Appendix Table 5). The effect also persists across model scales on ALFWorld: the gain narrows as the base model improves, but remains positive from 7–8B models through GPT-5.4 (Appendix D.5). The low-gain reasoning benchmarks therefore raise the central regime question: are their interventions too weak to expose a latent gap, or is scalar routing already close to adequate? 
+
+5.2. Recalibrating the same scalar does not improve control 
+
+A natural objection is that scalar routing might fail only because the scalar is miscalibrated. We test this directly by applying Platt scaling and isotonic regression to two candidate scalars, confidence and failure score, and measuring both prediction quality and control regret under the same threshold-routing policy. Table 2 separates calibration error from target error. If the scalar were the right control target but merely miscalibrated, recalibration should improve both prediction metrics and control regret. Instead, it improves only the former. For confidence, Platt scaling nearly eliminates calibration error, reducing ECE from 0.463 to 0.006 , yet regret remains fixed at 0.318 . Failure score shows the same qualitative pattern: Platt scaling slightly improves ECE and Brier score, but regret remains 
+
+# 8Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+0.358 . Isotonic regression can even worsen regret by creating ties among previously distinct scores. Thus, calibration improves the score as a predictor, but not as a controller: the missing ingredient is intervention-relevant information that the scalar does not represent. 
+
+5.3. When does the gap matter? Intervention value and scalar mismatch 
+
+The preceding results show that action-conditioned control can help, but not uniformly. This is exactly what the theory predicts. A richer controller has room to improve only when two conditions hold: the intervention can still change the downstream outcome, and the scalar discards information relevant to intervention advantage. The regimes below show how these conditions separate strong positive cases from low-gain boundary cases. 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0      
+
+> Failure score (continuation risk)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Intervention success rate
+> Spearman ρ= − 0.34
+> n= 568
+> Recoverable
+> Irrecoverable
+> Quit Continue Intervene
+
+Figure 2 | Same risk, different actions in ALFWorld. Similar failure scores can require opposite actions. 
+
+A strong positive regime. ALFWorld pro-vides the clearest case where both con-ditions hold. Its defer-to-expert interven-tion creates many recoverable-but-failing states: the agent is headed toward fail-ure, but expert intervention would res-cue the episode. Failure scores identify these states as high-risk, but they do not distinguish recoverable from irrecoverable high-risk states (Figure 2). This produces the large gain in Table 1. The result is also robust to utility choices: across a 
+
+5×5 sweep of intervention cost and wrong-answer penalty, all 25 /25 cells remain pos-itive (Table 6). 
+
+Positive gains without a privileged ex-pert. The ALFWorld result does not rely only on an oracle expert. Replacing defer-to-expert with a stronger-model handoff still produces a positive regime: the 7B agent generates the base prefix, and GPT-5.4 takes over the repair branch from that state. This intervention is weaker than the oracle expert but substantially stronger than prompt-only self-repair. Its branch success is 0.30 , and the prefix-only witness still reduces regret by 
+
+0.316 .
+
+Strong intervention is not sufficient. ScienceWorld shows that intervention value alone does not determine the size of the gap. Its gold-prefix intervention is strong enough to produce a reliable gain, but the improvement is smaller than on ALFWorld. The natural interpretation is that ScienceWorld has less scalar mismatch: failure risk and intervention advantage are not identical, but they are more aligned than in the strongest positive regime. A supplementary cost sweep is consistent with this picture, with 23 /25 ScienceWorld cells remaining positive under utility perturbations (Table 6). 
+
+Small deployed gains have different causes. The reasoning benchmarks both show small gains under their deployed same-model verify intervention, but the oracle intervention probe reveals different reasons. We replace the verify branch with a gold-answer upper bound and recompute controllers on the counterfactual data (Appendix D.6). On the oracle-probe subset, GSM8K’s gain rises from 0.028 to 0.127 , revealing a latent gap masked by weak intervention. HotpotQA barely changes on the same probe ( 0.043 → 0.052 ), indicating that scalar routing is already close to adequate in that regime. 
+
+# 9Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+When intervention itself has little value. At the opposite end of the ALFWorld spectrum, non-privileged prompt-only same-model repair does not create a useful control regime. Even the strongest variant achieves verify-branch success of only 0.125 on a pilot of 8 prefixes, and all learned controllers collapse to quit (full breakdown in Table 7). This is a degenerate case where the routing rule is not the bottleneck: the intervention itself has too little value at the states where it would be applied. This is consistent with prior observations that prompt-only self-correction often fails because the correction process lacks enough value to rescue the trajectory [Kamoi et al., 2024]. Taken together, these regimes give a simple boundary condition. Intervention value is necessary: if intervention cannot improve the outcome, richer routing has little room to help. Scalar mismatch is the second condition: once intervention remains valuable, richer control pays off only when the deployed scalar also hides recoverability. This explains why ALFWorld is a strong positive case, ScienceWorld is weaker but still positive, GSM8K reveals a masked latent gap once intervention quality improves, and HotpotQA remains near the low-gain boundary. A compact summary of these regimes appears in Appendix Table 4. 
+
+5.4. Exploitability can anticipate useful regimes 
+
+The regime boundary can also be diagnosed from branched validation data. We define exploitability beyond scalar as the held-out improvement in oracle-action prediction obtained by adding prefix features to a scalar-only predictor. Across 84 regimes, this diagnostic correlates with deployable gain (𝑟 = 0.716 ), and the relationship remains visible within ALFWorld ( 𝑟 = 0.604 ). Cross-model transfer on matched ALFWorld splits gives the same qualitative picture: exploitability computed on Qwen-7B data predicts Llama-8B gains ( 𝑟 = 0.752 ), and Llama-8B exploitability predicts Qwen-7B gains (𝑟 = 0.563 ). Thus, exploitability is not a pre-data oracle, but a development-time indicator of whether prefix information beyond the scalar is likely to matter for control. Full definitions, dependence-robust checks, and scalar-candidate ablations appear in Appendix D.11. 
+
+Intervention-aligned summaries. Additional scalar-summary experiments confirm that the deficit is target choice, not scalar routing per se. Under the pooled protocol of Appendix D.12, the best deployable scalar on ALFWorld reduces regret from 0.451 for the failure score to 0.152 , and a compact intervention-aligned multi-scalar summary further reduces regret to 0.057 ; the prefix-only witness reaches 0.015 . Thus, our claim is not that no scalar can ever be useful, but that continuation-risk scalars are insufficient unless they preserve intervention advantage. 
+
+# 6. Related work 
+
+Runtime oversight and calibration. Runtime-oversight work for language-model agents often uses scalar signals such as confidence, uncertainty, or failure risk to decide when to intervene [Ding et al., 2026, Ren et al., 2023, Vasudev et al., 2026, Xuan et al., 2026, Zhang et al., 2026]. Closest to our setting, Vasudev et al. [2026] identify a prediction–prevention gap: accurate failure prediction need not imply effective failure prevention. We sharpen this distinction as target error . A scalar failure score can be accurate for predicting continuation risk while still insufficient for choosing interventions, because the control-relevant object is intervention advantage. Thus, recalibrating or improving the same score can improve prediction quality without recovering the missing intervention-relevant information. This distinguishes our work from trajectory-level calibration methods [Zhang et al., 2026], which improve confidence estimates but do not by themselves change the decision target. 
+
+Selective prediction, deferral, and reasoning-time control. Selective prediction and learning-to-defer study when a model should abstain or hand off to an expert, typically using confidence or risk 
+
+# 10 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+as the routing signal [Geifman and El-Yaniv, 2017, 2019, Joshi et al., 2021, Madras et al., 2018, Mao et al., 2023, Mozannar and Sontag, 2020, Verma and Nalisnick, 2022, Verma et al., 2023, Wen et al., 2025, Zhang et al., 2024]. Reasoning-time methods select among sampled, searched, or verified branches [Jinnai et al., 2025, Snell et al., 2024, Wang et al., 2022b, Yao et al., 2023], and process-level verifiers use intermediate signals richer than a final confidence score [Choudhury, 2025, Gandhi et al., 2025, Lightman et al., 2023, Uesato et al., 2022, Wang et al., 2024]. Our focus is complementary: we ask when compressing a trajectory prefix into a scalar changes the downstream control decision, formalize the corresponding sufficiency condition, and measure the mismatch with same-prefix counterfactuals. 
+
+# 7. Conclusion 
+
+Runtime oversight for LLM agents is fundamentally a decision problem, not merely a prediction problem. This paper shows that the central limitation of scalar-risk oversight is not calibration quality alone, but the decision target being summarized. A failure score can be well calibrated for continuation risk while still discarding information needed to decide whether intervention would improve the outcome. The control-relevant object is therefore intervention advantage : richer control helps when interventions retain downstream value and scalar scores hide recoverability. More broadly, LLM-agent oversight should move from calibrated risk scoring toward action-conditioned value estimation. 
+
+Limitations and future work. We isolate whether intervention has value, rather than the broader problem of selecting among many structured interventions. Our witness controller is intentionally simple and prefix-only, so its gains should be read as evidence for the decision target rather than for an optimal controller architecture. Prefix branching is also an offline, single-rollout evaluation protocol; repeated branching suggests this is not the dominant error source (Appendix B.7). Future work should extend this framework to stronger interventions, richer controllers, and online action-conditioned policies. 
+
+# References 
+
+Brandon Amos and J Zico Kolter. Optnet: Differentiable optimization as a layer in neural networks. In International conference on machine learning , pages 136–145. PMLR, 2017. Sanjiban Choudhury. Process reward models for llm agents: Practical framework and directions. arXiv preprint arXiv:2502.10325 , 2025. Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser, Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, et al. Training verifiers to solve math word problems. arXiv preprint arXiv:2110.14168 , 2021. Wenxuan Ding, Nicholas Tomlin, and Greg Durrett. Calibrate-then-act: Cost-aware exploration in llm agents. arXiv preprint arXiv:2602.16699 , 2026. Adam N Elmachtoub and Paul Grigas. Smart “predict, then optimize”. Management Science , 68(1): 9–26, 2022. Sebastian Farquhar, Jannik Kossen, Lorenz Kuhn, and Yarin Gal. Detecting hallucinations in large language models using semantic entropy. Nature , 630(8017):625–630, 2024. Shubham Gandhi, Jason Tsay, Jatin Ganhotra, Kiran Kate, and Yara Rizk. When agents go astray: Course-correcting swe agents with prms. arXiv preprint arXiv:2509.02360 , 2025. 
+
+# 11 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Yonatan Geifman and Ran El-Yaniv. Selective classification for deep neural networks. Advances in neural information processing systems , 30, 2017. Yonatan Geifman and Ran El-Yaniv. Selectivenet: A deep neural network with an integrated reject option. In International conference on machine learning , pages 2151–2159. PMLR, 2019. Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Alex Vaughan, et al. The llama 3 herd of models. arXiv preprint arXiv:2407.21783 , 2024. Ying Jin, Zhuoran Yang, and Zhaoran Wang. Is pessimism provably efficient for offline reinforcement learning? Mathematics of Operations Research , 50(4):2738–2793, 2025. Yuu Jinnai, Tetsuro Morimura, Kaito Ariu, and Kenshi Abe. Regularized best-of-n sampling with minimum bayes risk objective for language model alignment. In Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers) , pages 9321–9347, 2025. Shalmali Joshi, Sonali Parbhoo, and Finale Doshi-Velez. Learning-to-defer for sequential medical decision-making under uncertainty. arXiv preprint arXiv:2109.06312 , 2021. Saurav Kadavath, Tom Conerly, Amanda Askell, Tom Henighan, Dawn Drain, Ethan Perez, Nicholas Schiefer, Zac Hatfield-Dodds, Nova DasSarma, Eli Tran-Johnson, et al. Language models (mostly) know what they know. arXiv preprint arXiv:2207.05221 , 2022. Ryo Kamoi, Yusen Zhang, Nan Zhang, Jiawei Han, and Rui Zhang. When can llms actually correct their own mistakes. A critical survey of self-correction of LLMs , 2024. Aviral Kumar, Aurick Zhou, George Tucker, and Sergey Levine. Conservative q-learning for offline reinforcement learning. Advances in neural information processing systems , 33:1179–1191, 2020. Hunter Lightman, Vineet Kosaraju, Yuri Burda, Harrison Edwards, Bowen Baker, Teddy Lee, Jan Leike, John Schulman, Ilya Sutskever, and Karl Cobbe. Let’s verify step by step. In The twelfth international conference on learning representations , 2023. David Madras, Toni Pitassi, and Richard Zemel. Predict responsibly: improving fairness and accuracy by learning to defer. Advances in neural information processing systems , 31, 2018. Anqi Mao, Christopher Mohri, Mehryar Mohri, and Yutao Zhong. Two-stage learning to defer with multiple experts. Advances in neural information processing systems , 36:3578–3606, 2023. Hussein Mozannar and David Sontag. Consistent estimators for learning to defer to an expert. In 
+
+International conference on machine learning , pages 7076–7087. PMLR, 2020. OpenAI. Gpt-5.4 thinking system card, March 2026. URL https://openai.com/index/ gpt-5-4-thinking-system-card/ .Allen Z Ren, Anushri Dixit, Alexandra Bodrova, Sumeet Singh, Stephen Tu, Noah Brown, Peng Xu, Leila Takayama, Fei Xia, Jake Varley, et al. Robots that ask for help: Uncertainty alignment for large language model planners. arXiv preprint arXiv:2307.01928 , 2023. Mohit Shridhar, Xingdi Yuan, Marc-Alexandre Côté, Yonatan Bisk, Adam Trischler, and Matthew Hausknecht. Alfworld: Aligning text and embodied environments for interactive learning. arXiv preprint arXiv:2010.03768 , 2020. 
+
+# 12 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Charlie Snell, Jaehoon Lee, Kelvin Xu, and Aviral Kumar. Scaling llm test-time compute optimally can be more effective than scaling model parameters. arXiv preprint arXiv:2408.03314 , 2024. Jonathan Uesato, Nate Kushman, Ramana Kumar, Francis Song, Noah Siegel, Lisa Wang, Antonia Creswell, Geoffrey Irving, and Irina Higgins. Solving math word problems with process-and outcome-based feedback. arXiv preprint arXiv:2211.14275 , 2022. Rakshith Vasudev, Melisa Russak, Dan Bikel, and Waseem Alshikh. Accurate failure prediction in agents does not imply effective failure prevention. arXiv preprint arXiv:2602.03338 , 2026. Rajeev Verma and Eric Nalisnick. Calibrated learning to defer with one-vs-all classifiers. In International Conference on Machine Learning , pages 22184–22202. PMLR, 2022. Rajeev Verma, Daniel Barrejón, and Eric Nalisnick. Learning to defer to multiple experts: Consistent surrogate losses, confidence calibration, and conformal ensembles. In International Conference on Artificial Intelligence and Statistics , pages 11415–11434. PMLR, 2023. Peiyi Wang, Lei Li, Zhihong Shao, Runxin Xu, Damai Dai, Yifei Li, Deli Chen, Yu Wu, and Zhifang Sui. Math-shepherd: Verify and reinforce llms step-by-step without human annotations. In Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) ,pages 9426–9439, 2024. Ruoyao Wang, Peter Jansen, Marc-Alexandre Côté, and Prithviraj Ammanabrolu. Scienceworld: Is your agent smarter than a 5th grader? In Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing , pages 11279–11298, 2022a. Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le, Ed Chi, Sharan Narang, Aakanksha Chowdhery, and Denny Zhou. Self-consistency improves chain of thought reasoning in language models. arXiv preprint arXiv:2203.11171 , 2022b. Bingbing Wen, Jihan Yao, Shangbin Feng, Chenjun Xu, Yulia Tsvetkov, Bill Howe, and Lucy Lu Wang. Know your limits: A survey of abstention in large language models. Transactions of the Association for Computational Linguistics , 13:529–556, 2025. Bryan Wilder, Bistra Dilkina, and Milind Tambe. Melding the data-decisions pipeline: Decision-focused learning for combinatorial optimization. In Proceedings of the AAAI conference on artificial intelligence , volume 33, pages 1658–1665, 2019. Weihao Xuan, Qingcheng Zeng, Heli Qi, Yunze Xiao, Junjue Wang, and Naoto Yokoya. The con-fidence dichotomy: Analyzing and mitigating miscalibration in tool-use agents. arXiv preprint arXiv:2601.07264 , 2026. An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, Haoran Wei, et al. Qwen2. 5 technical report. arXiv e-prints , pages arXiv–2412, 2024. Zhilin Yang, Peng Qi, Saizheng Zhang, Yoshua Bengio, William Cohen, Ruslan Salakhutdinov, and Christopher D Manning. Hotpotqa: A dataset for diverse, explainable multi-hop question answering. In Proceedings of the 2018 conference on empirical methods in natural language processing , pages 2369–2380, 2018. Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Tom Griffiths, Yuan Cao, and Karthik Narasimhan. Tree of thoughts: Deliberate problem solving with large language models. Advances in neural information processing systems , 36:11809–11822, 2023. 
+
+# 13 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Hanning Zhang, Shizhe Diao, Yong Lin, Yi Fung, Qing Lian, Xingyao Wang, Yangyi Chen, Heng Ji, and Tong Zhang. R-tuning: Instructing large language models to say ‘i don’t know’. In Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers) , pages 7113–7139, 2024. Jiaxin Zhang, Caiming Xiong, and Chien-Sheng Wu. Agentic confidence calibration. arXiv preprint arXiv:2601.15778 , 2026. 
+
+# 14 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+# Appendix 
+
+# A. Theoretical details and proofs 
+
+Throughout this appendix, we assume a finite action set and integrable downstream utilities, so all conditional expectations below are well defined. Equalities and inclusions involving prefix states are understood up to D-null sets. 
+
+A.1. Proof of Proposition 1 
+
+Proof. Fix a scalar signal 𝑔 .First suppose that 𝑔 is sufficient in the sense of Definition 1. Then there exists a measurable selector 𝑑 
+
+such that 𝑑 (𝑔 (ℎ)) ∈ 𝐴 ∗ (ℎ) almost surely. The induced 𝑔 -routed controller 𝜋 𝑔 (ℎ) = 𝑑 (𝑔 (ℎ)) therefore selects an optimal action almost surely and is lossless. Conversely, suppose that no such measurable selector exists. Then every controller of the form  
+
+> 𝜋 𝑔
+
+(ℎ) = 𝑑 (𝑔 (ℎ)) fails to lie in 𝐴 ∗ (ℎ) on a set of positive probability, so no policy measurable with respect to 𝑔 can be lossless. It remains to specialize this condition to the binary action set A = {continue , intervene }. Let  
+
+> 𝐸
+
+= {ℎ : 𝑑 (𝑔 (ℎ)) = intervene }
+
+be the intervention region induced by a 𝑔 -routed selector. Since 
+
+> 𝜏
+
+(ℎ) = EU intervene (ℎ) − EU continue (ℎ),
+
+intervention is uniquely optimal when 𝜏 (ℎ) > 0, continuation is uniquely optimal when 𝜏 (ℎ) < 0, and both actions are optimal when 𝜏 (ℎ) = 0. Therefore losslessness requires 
+
+{ℎ : 𝜏 (ℎ) > 0} ⊆ 𝐸 ⊆ { ℎ : 𝜏 (ℎ) ≥ 0}.
+
+Conversely, any 𝑔 -measurable set 𝐸 satisfying this inclusion defines a lossless binary selector: intervene on 𝐸 and continue outside 𝐸 . Thus, under the binary abstraction, lossless scalar routing is possible exactly when the sign of intervention advantage is recoverable from 𝑔 , up to tie states where 𝜏 (ℎ) = 0.If one further restricts the controller to threshold policies on 𝑔 , then the intervention region must additionally be representable as a threshold set in 𝑔 . This is the monotonicity restriction mentioned in the main text. □
+
+A.2. Derivation of the abstraction-loss identity 
+
+The main text defines the value of the fully informed optimal controller as  
+
+> 𝑉 ∗
+
+= 𝔼 
+
+
+
+max  
+
+> 𝑎 ∈ A
+
+EU 𝑎 (ℎ)
+
+
+
+> ,
+
+and the value of the best controller measurable with respect to 𝑔 as  
+
+> 𝑉 𝑔
+
+= 𝔼 
+
+
+
+max  
+
+> 𝑎 ∈ A
+
+𝔼 [EU 𝑎 (ℎ) | 𝑔 (ℎ)] 
+
+
+
+> .
+
+This subsection derives the corresponding abstraction-loss expression. 
+
+# 15 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Proof. By the tower property,  
+
+> 𝑉 ∗
+
+= 𝔼 
+
+
+
+max  
+
+> 𝑎 ∈ A
+
+EU 𝑎 (ℎ)
+
+
+
+= 𝔼 
+
+
+
+𝔼 
+
+
+
+max  
+
+> 𝑎 ∈ A
+
+EU 𝑎 (ℎ) 𝑔 (ℎ)
+
+  
+
+> .
+
+A controller that only observes 𝑔 (ℎ) must choose a single action for each scalar value. Therefore, at each value of 𝑔 , its optimal choice is the action with largest conditional expected utility, giving  
+
+> 𝑉 𝑔
+
+= 𝔼 
+
+
+
+max  
+
+> 𝑎 ∈ A
+
+𝔼 [EU 𝑎 (ℎ) | 𝑔 (ℎ)] 
+
+
+
+> .
+
+The scalar abstraction loss is therefore 
+
+Gap (𝑔 ) = 𝔼 
+
+
+
+𝔼 
+
+
+
+max  
+
+> 𝑎 ∈ A
+
+EU 𝑎 (ℎ) 𝑔 (ℎ)
+
+
+
+− max  
+
+> 𝑎 ∈ A
+
+𝔼 [EU 𝑎 (ℎ) | 𝑔 (ℎ)] 
+
+
+
+> .
+
+This is the identity used in the main text. The expression is always nonnegative because choosing the best action after observing the full prefix cannot be worse than first averaging all prefixes with the same scalar value and then choosing a single action. Moreover, Gap (𝑔 ) = 0 exactly when there exists a 𝑔 -measurable selector that chooses an element of 𝐴 ∗ (ℎ) almost surely. In other words, zero abstraction loss is equivalent to 𝑔 -sufficiency. □
+
+A.3. A schematic decomposition of intervention advantage 
+
+The main text uses 𝜏 (ℎ) only as the expected utility gain from intervening rather than continuing. For intuition, it is useful to decompose this gain into three schematic forces: 
+
+> 𝜏
+
+(ℎ) = 𝑟 (ℎ) − 𝑑 (ℎ) − 𝑐 (ℎ),
+
+where 𝑟 (ℎ) denotes recovery gain, 𝑑 (ℎ) disruption loss, and 𝑐 (ℎ) intervention cost. This decomposition is not a benchmark-specific identity. Rather, it clarifies why continuation failure risk and intervention advantage can diverge. Failure probability tracks how risky continuation is. Intervention advantage additionally depends on what the intervention can recover, how much it disrupts the current trajectory, and what it costs. Thus, two prefixes can have the same continuation-failure probability while having different signs of 𝜏 (ℎ).
+
+A.4. Conflict-set lower bound 
+
+The abstraction-loss identity above is exact but sometimes abstract. The following lower bound gives a simple sufficient condition for positive loss: if a scalar cell contains two non-negligible sets of states with different uniquely optimal actions, then any scalar-routed controller must make mistakes on at least one of them. 
+
+Proposition 2 (Conflict-set lower bound) . Let 𝑔 be fixed. Suppose there exists a measurable subset 𝐶 of the range of 𝑔 , actions 𝑎 ≠ 𝑏 , and disjoint state sets  
+
+> 𝑆 𝑎 , 𝑆 𝑏
+
+⊆ { ℎ : 𝑔 (ℎ) ∈ 𝐶 }
+
+such that, for some 𝛾 > 0,
+
+EU 𝑎 (ℎ) ≥ EU 𝑐 (ℎ) + 𝛾 for all 𝑐 ≠ 𝑎, ℎ ∈ 𝑆 𝑎 , EU 𝑏 (ℎ) ≥ EU 𝑐 (ℎ) + 𝛾 for all 𝑐 ≠ 𝑏, ℎ ∈ 𝑆 𝑏 .
+
+Let 𝑞 𝑎 = ℙ(𝑆 𝑎 | 𝑔 (ℎ) ∈ 𝐶 ) and 𝑞 𝑏 = ℙ(𝑆 𝑏 | 𝑔 (ℎ) ∈ 𝐶 ). Then any policy routed only through 𝑔 incurs regret at least 
+
+ℙ(𝑔 (ℎ) ∈ 𝐶 ) 𝛾 min {𝑞 𝑎 , 𝑞 𝑏 }.
+
+# 16 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Proof. Fix any policy 𝜋 𝑔 measurable with respect to 𝑔 . On the scalar cell 𝐶 , the policy must choose a single action. If it chooses 𝑎 , then it is suboptimal by at least 𝛾 on every state in 𝑆 𝑏 . If it chooses 𝑏 , then it is suboptimal by at least 𝛾 on every state in 𝑆 𝑎 . If it chooses any third action 𝑐 ∉ {𝑎, 𝑏 }, then by assumption both 𝑎 
+
+and 𝑏 dominate 𝑐 by at least 𝛾 on 𝑆 𝑎 and 𝑆 𝑏 , respectively, so the policy incurs regret at least 𝛾 on all of  
+
+> 𝑆 𝑎
+
+∪ 𝑆 𝑏 .Therefore, conditional on 𝑔 (ℎ) ∈ 𝐶 , any 𝑔 -routed policy incurs regret at least  
+
+> 𝛾
+
+min {𝑞 𝑎 , 𝑞 𝑏 }.
+
+Multiplying by ℙ(𝑔 (ℎ) ∈ 𝐶 ) yields the stated lower bound. □
+
+# B. Prefix branching protocol and experimental setup 
+
+B.1. Prefix branching protocol 
+
+Figure 3 | Prefix branching protocol. A chosen prefix is replayed and checked against the original run; mismatches are discarded. The validated prefix state ℎ is then branched over all candidate actions to obtain realized downstream utilities, enabling oracle-action computation, controller evaluation, and mismatch diagnostics from the same prefix state. Here intervene denotes the benchmark-specific non-continue intervention. Prefix branching evaluates candidate actions from the same reconstructed prefix state. For interactive environments, we replay the base trajectory to the selected prefix, verify step-by-step agreement with the original run, and discard any mismatch. The retained interactive data have a replay match rate of 
+
+100% . Each validated prefix is then branched over the available actions, yielding realized downstream utilities for continue , the deployed intervention, and quit . These branched outcomes define the same-prefix oracle action and allow controller regret to be measured without comparing policies on different trajectories. 
+
+B.2. Reward structure 
+
+Each benchmark uses a three-action control set. The utility of action 𝑎 at prefix state ℎ is  
+
+> 𝑈 𝑎
+
+(ℎ) =
+
+(
+
+> 𝑢
+
+(ℎ, 𝑎 ) − 𝑐 𝑎 − 𝑠 𝑚 (ℎ, 𝑎 ), 𝑎 ≠ quit ,
+
+0, 𝑎 = quit ,
+
+# 17 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Table 3 | Utility parameters per benchmark.                        
+
+> Benchmark Wrong penalty 𝑤 Intervention cost 𝑐 𝑎 Step cost 𝑠 Intervention ALFWorld 1.00.05 0.01 Defer to expert ScienceWorld —0.05 0.01 Defer to gold prefix GSM8K 0.50.10 —Verify / re-answer HotpotQA 0.50.10 —Verify / re-answer
+
+where 𝑢 (ℎ, 𝑎 ) is the outcome score, 𝑚 (ℎ, 𝑎 ) is the branch length, 𝑐 𝑎 is a fixed intervention cost, and 𝑠 
+
+is a per-step cost. For binary-outcome tasks, 𝑢 (ℎ, 𝑎 ) is 1 for a correct outcome and −𝑤 for an incorrect one. For GSM8K and HotpotQA, there are no step costs because these are single-turn reasoning tasks. For ScienceWorld, the environment returns a continuous score rather than a binary outcome, so there is no separate wrong-answer penalty; utility is the environment score minus costs. Quit always yields utility zero. These asymmetries are intentional: intervention has a positive cost, so a controller cannot improve trivially by always intervening. 
+
+B.3. Data splits and pooling 
+
+This subsection records the units underlying the main pooled comparisons, the model-scale analysis, and the exploitability diagnostic. The bookkeeping matters because significance tests operate at the run level, while multiple cost or scalar analyses may reuse the same branched trajectories. The original interactive suite used an 8/4/8 train/validation/test split measured in prefix states per model–seed combination, with all prefixes from the same base trajectory assigned to the same split to avoid leakage. The enlarged within-model suite adds 20 /10 /20 splits for later seeds. For the supporting benchmarks, GSM8K and HotpotQA use 48 /24 /48 train/validation/test splits; the same grouping rule is used when multiple prefixes originate from the same base trajectory. The primary comparator-aligned within-model suite pools across seeds and both agent models as follows: 
+
+• ALFWorld: 26 runs at the 7–8B tier, pooling the original 8/4/8 suite and enlarged 20 /10 /20 
+
+suite. 
+
+• ScienceWorld: 16 runs in the within-model suite, with 𝑛 test = 364 pooled test prefixes. 
+
+• GSM8K: 6 runs ( 3 seeds × 2 models), with 𝑛 test = 288 pooled test prefixes. 
+
+• HotpotQA: 6 runs ( 3 seeds × 2 models), with 𝑛 test = 288 pooled test prefixes. The model-scale analysis (Appendix D.5) adds Qwen2.5-72B and GPT-5.4 on ALFWorld, each with 4
+
+seeds using the same 20 /10 /20 split per seed. The augmented exploitability analysis additionally includes 30 ALFWorld intervention-quality ladder runs, yielding 56 ALFWorld runs and 84 total regimes. Multiple scalar and cost sweeps reuse these same branched trajectories; they create additional 
+
+regime points , not additional environment rollouts. 
+
+B.4. Models and API configuration 
+
+We use four instruction-tuned models spanning three capability tiers: 
+
+• Qwen2.5-7B-Instruct [Yang et al., 2024]: a 7B-parameter model from the Qwen family. 
+
+• Llama-3.1-8B-Instruct [Grattafiori et al., 2024]: an 8B-parameter model from the Llama family. 
+
+• Qwen2.5-72B-Instruct [Yang et al., 2024]: a 72B-parameter model from the Qwen family. 
+
+• GPT-5.4 [OpenAI, 2026]: a frontier-tier model from the GPT-5 family, accessed through the 
+
+# 18 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+public OpenAI API using the model identifier gpt-5.4 .The 7–8B models are used across all benchmarks; the 72B and frontier models are evaluated on ALFWorld for the model-scale analysis (Appendix D.5). All models are accessed via standard inference without any benchmark-specific fine-tuning. The controller is trained on trajectory-level features extracted from the agent’s interaction history. 
+
+GPT-5.4 API configuration. GPT-5.4 experiments were run through the public OpenAI API around April 20, 2026 using the model identifier gpt-5.4 . We used temperature 0.0 for all calls. We did not pass a reasoning.effort field. The API payload did not include tools, tool choice, browsing, or web search. Per-step generation budgets were set by the experiment scripts: for ALFWorld, 24 tokens for action generation, 8 for confidence generation, and 24 for verification; for cross-model repair, 
+
+24 for action generation and 8 for confidence generation. The wrapper first passed max_tokens ; if required by the API, it retried with max_completion_tokens .
+
+Compute resources. Open-weight 7–8B inference was run with local vLLM workers on a server with 4 NVIDIA RTX A5000 GPUs (24 GB each), an AMD EPYC 7443P CPU (24 cores / 48 hardware threads), and 188 GiB RAM. Each local vLLM worker used a single GPU; controller training used CPU-based scikit-learn random forests and was lightweight relative to LLM inference and environment rollouts. GPT-5.4 experiments were run through the public OpenAI API, so the remote hardware configuration is not available to us. The main suite contains 54 runs and 3,784 retained branched-prefix rows; including the ALFWorld intervention-quality ladder gives 84 runs and 4,984 retained rows. Exact aggregate token counts and total GPU-hours were not logged. 
+
+Assets, licenses, and terms. We use existing benchmarks and models with attribution: ALFWorld, ScienceWorld, GSM8K, HotpotQA, Qwen2.5, and Llama-3.1. We use these assets through their documented access mechanisms and terms of use, and we do not redistribute benchmark assets or model weights in this submission. 
+
+B.5. Feature representation 
+
+At each prefix state, the controller observes a fixed-length feature vector extracted from the agent’s trajectory so far. Our primary comparator-aligned analyses use only prefix-available features for both scalar routing and the action-conditioned witness. This keeps the information available to the compared controllers symmetric. Auxiliary preview-aware variants append intervention-output features after explicitly treating preview as additional information rather than as part of the base comparison. 
+
+Feature categories. All benchmarks share several common feature families: length statistics of the task description, observation, and model response; progress indicators such as step index and history length; and the agent’s self-reported confidence score, normalized to [0, 1]. Benchmark-specific features are summarized below. 
+
+• GSM8K. Continue branch: question and response lengths, count of numbers in the question, answer-format indicators (has final answer tag, decimal, negative), numeric magnitude features (answer value, max/min/mean of question numbers), range-check flags, hedging-word indicator, 
+
+12 math-keyword indicators, and confidence. Intervention branch (additional): verify-expression length, tool-execution success flag, verify answer value, continue–verify agreement, answer gap and gap ratio, range-check flags for both answers, answer-in-question flags, and 6 arithmetic-operator indicators. 
+
+• HotpotQA. Continue branch: question and response lengths, answer token count, answer-present flag, answer-in-question overlap, yes/no question and answer indicators, topic-keyword 
+
+# 19 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Figure 4 | Grouped feature importance for pooled interactive-benchmark models in the auxiliary preview-aware analysis. Failure and continue models depend mostly on trajectory-progress and state-shape signals, whereas preview-aware intervention models additionally rely on intervention-branch features. indicators, 7 wh-word indicators, and confidence. Intervention branch (additional): search-query length, evidence length, retrieval-success flag, top and mean retrieval scores, number of unique retrieved titles, query–question overlap, continue–verify agreement, answer-in-evidence flags, yes/no flags, and answer lengths. 
+
+• ALFWorld. Continue branch: step index, history length, task/observation lengths, number of admissible commands, action word count, 10 action-type indicators, “nothing happens” flag, 
+
+7-dimensional task-type one-hot, and confidence. Intervention branch (additional): step index, admissible-command count, intervention-action word count, continue–intervention agreement, 
+
+8 intervention action-type indicators, observation state flags, and task-type one-hot. 
+
+• ScienceWorld. Continue branch: step index, task-description length, observation length, number of valid actions, action word count, history length, 7 action-type indicators, look around 
+
+flag, observation flags, and confidence. Intervention branch (additional): step index, valid-action count, continue–intervention agreement, action-length difference, action-type flags, and observation flags. The prefix-only feature dimensionalities are GSM8K ( 32 ), HotpotQA ( 19 ), ALFWorld ( 26 ), and ScienceWorld ( 17 ). For the auxiliary preview-aware variants, the intervention branch appends additional features, yielding GSM8K ( 56 verify), HotpotQA ( 35 ), ALFWorld ( 40 ), and ScienceWorld (25 ). 
+
+Classifier. All controllers use a RandomForestClassifier from scikit-learn with 200 estimators, maximum depth 6, and minimum samples per leaf 2. For the conservative witness variant, per-tree prediction variance provides the uncertainty estimate used in the lower confidence bound. 
+
+Feature importance. To check that the controller is not relying on opaque feature-engineering artifacts, we refit pooled interactive-benchmark models and inspect grouped random-forest feature importance. Figure 4 should be read as an auxiliary preview-analysis figure: failure and continue models rely mostly on trajectory-progress and state-shape signals, while preview-aware intervention models place additional weight on intervention-branch features. 
+
+# 20 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+B.6. Statistical testing 
+
+All significance tests use paired bootstrap with 10 ,000 resamples at the run level. Each resample draws run-level differences with replacement and computes the mean difference. A comparison is marked significant if the 95% confidence interval excludes zero. This choice treats a run, rather than an individual prefix, as the statistical unit and therefore respects dependence among prefixes collected within the same rollout configuration. Because each branched action from a prefix is executed once, the realized branch utility is a single-rollout estimate of action value. Appendix B.7 provides a stability check on an exact-replayable subset. 
+
+B.7. Repeated branching on an exact-replayable shallow subset 
+
+The saved ALFWorld rows store a truncated history string rather than the full trajectory. As a result, exact replay from cached rows is only possible for shallow prefixes whose full history fits in that serialization window. We therefore constructed a repeated-branching probe on the subset with step index at most 4 and reran each of continue , the intervention branch, and quit twice per prefix. Using 24 such prefixes, repeated reruns preserved the original oracle action and the sign of intervention advantage on all prefixes (oracle-action match = 1.0, 𝜏 -sign match = 1.0), while both repeated branch utilities had zero within-action standard deviation. The resulting repeated-subset regrets were 0.485 for the original failure-based action and 0.009 for the original value-based action. We view this as a limited but useful stability check: within the exact-replayable shallow subset, the main conclusions are not driven by repeated-sampling noise, while deeper prefixes still rely on the single-rollout evaluation described above. 
+
+# C. Simulation validation 
+
+To validate the theoretical quantities in a controlled setting where the data-generating process is known, we construct a synthetic environment in which continuation failure risk and recoverability can be varied separately. This lets us compute the failure-score special case of the scalar abstraction loss exactly. For brevity, we denote this appendix-only quantity by NMG .
+
+C.1. Simulation design 
+
+We generate 𝑛 = 50 ,000 prefix states, each characterized by a latent difficulty and recoverability profile. The action utilities are chosen so that the sufficiency condition of Proposition 1 fails by construction: two states can share the same 𝑝 fail (ℎ) yet require different optimal actions, because one is hard but recoverable while the other is hard and unrecoverable .
+
+Core experiment: binary action set. The action set is {continue , intervene }. We compute the true NMG by binning states on true 𝑝 fail using 200 bins and comparing the oracle utility, which chooses the best action per state, to the best failure-trigger utility, which chooses the best action per bin: 
+
+NMG binned = 1
+
+> 𝑛
+> 𝑛
+
+∑︁ 
+
+> 𝑖 =1
+
+max  
+
+> 𝑎
+
+EU 𝑎 (ℎ𝑖 ) − 1
+
+> 𝑛
+> 𝑛
+
+∑︁ 
+
+> 𝑖 =1
+
+EU 𝑎 ∗ 
+
+> bin (𝑖 )
+
+(ℎ𝑖 ) = 0.0383 .
+
+The action disagreement rate between the oracle and the best failure-trigger policy is 18 .1% , indicating that nearly one in five states receives the wrong action under scalar routing. 
+
+# 21 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+We also compute an isotonic-regression monotone-routing baseline, which fits a monotone mapping from 𝑝 fail to actions. Because threshold policies are a restricted monotone family, this quantity should be read as a monotone-routing comparison point rather than as the unconstrained scalar abstraction loss: 
+
+NMG isotonic = 0.0395 ≥ NMG binned = 0.0383 .
+
+Three-action experiment. We extend the action set to {continue , verify , quit } with a catas-trophic penalty for incorrect continuation ( 𝑐 = −1.25 ). The NMG increases to 0.0670 , because the additional action creates more opportunity for failure-trigger misrouting. The oracle action distribution is continue 58 .1% , verify 20 .1% , and quit 21 .8% .
+
+C.2. Key validation Failure-score abstraction loss predicts observed regret. We train a failure-trigger controller with a learned failure model, using logistic regression on noisy observed features with observation noise  
+
+> 𝜎
+
+= 0.35 , and measure its regret. The learned failure-trigger achieves regret 0.0388 , and the NMG provides a tight lower bound: 
+
+NMG = 0.0383 ≤ 0.0388 .
+
+The remaining gap, 0.0005 , is estimation error from the learned failure model rather than additional abstraction loss. 
+
+Noise sensitivity. The NMG is a population quantity that depends only on the true joint distribution, not on observation noise. To verify this, we vary observation noise 𝜎 from 0 to 1.0. Across all noise levels, NMG = 0.0383 remains constant, as expected, while learned regret fluctuates slightly due to estimation quality, ranging from 0.037 to 0.039 . In all cases, NMG ≤ learned regret holds. 
+
+# D. Additional results and ablations 
+
+D.1. Regime summary 
+
+Table 4 summarizes the regimes discussed in the main text. The table is intended as a compact map of the boundary conditions rather than as a replacement for the comparator-aligned fork test in Table 1. 
+
+Table 4 | Regime summary. Large gains require both intervention value and scalar mismatch. Low deployed gain can therefore reflect different causes: weak intervention can mask a latent gap, while scalar adequacy leaves little room for richer control.                                      
+
+> Regime Deployed intervention Gain Probe / robustness Diagnosis ALFWorld Oracle defer-to-expert 0.396 25 /25 cost-sweep cells positive High intervention value and high scalar mis-match ALFWorld repair GPT-5.4 cross-model re-pair
+> 0.316 Branch success 0.30 Positive regime without privileged expert ScienceWorld Gold-prefix handoff 0.076 23 /25 cost-sweep cells positive Valuable intervention, weaker mismatch GSM8K Same-model verify/re-answer Small Oracle probe 0.028 →
+> 0.127
+> Weak intervention masks latent gap HotpotQA Same-model verify/re-answer Near zero Oracle probe 0.043 →
+> 0.052
+> Scalar close to adequate Prompt-only repair Same-model repair None Best pilot success 0.125
+> on 8prefixes Intervention value too low
+
+# 22 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Table 7 | ALFWorld prompt-only same-model repair probes. These low-value interventions serve as boundary evidence rather than main positive results.     
+
+> Intervention Rows Verify wins Oracle verify Oracle quit
+
+reflect-retry (Qwen) 8 0 0.000 0.750 
+
+reflect-retry (Llama) 8 0 0.000 0.750 
+
+replan-h3 (Qwen) 8 1 0.125 0.625 
+
+plan+replan-h3 (Qwen) 8 0 0.000 0.750 
+
+D.2. Function-class ablation on the same failure score 
+
+A natural concern is that the main ALFWorld comparison changes both the decision target and the function class: the scalar baseline thresholds a one-dimensional failure score, whereas the witness uses an RF-based action-conditioned controller. Table 5 isolates the function-class contribution by keeping the input fixed to the same one-dimensional 𝑝 fail (ℎ) scalar and replacing thresholding with the same RF+LCB family used by the witness. The resulting improvement is modest ( 0.506 → 0.449 ), indicating that most of the main ALFWorld gain comes from leaving the failure-score abstraction rather than from classifier flexibility alone. 
+
+Table 5 | ALFWorld function-class ablation on the same failure score. The middle row keeps the input fixed to the same one-dimensional 𝑝 fail (ℎ) scalar and changes only the controller family.             
+
+> Controller Input Regret Threshold baseline 𝑝 fail (ℎ)(1D) 0.506
+> RF-on-𝑝 fail 𝑝 fail (ℎ)(1D) 0.449
+> Full-prefix witness Full prefix (26D) 0.110
+
+D.3. Interactive-benchmark cost sensitivity 
+
+This table summarizes how sensitive the deployable gain is to utility parameters on the interactive benchmarks. These values come from supplementary sensitivity sweeps and should be read as robustness analyses, not as direct replacements for the comparator-aligned numbers in Table 1. The point is not to retune the task after the fact, but to show that ALFWorld remains robustly positive across the full sweep and that ScienceWorld remains mostly positive under the same style of perturbation. 
+
+Table 6 | Interactive-benchmark cost-sensitivity summary under the supplementary sensitivity sweeps. Gains are failure-trigger regret minus prefix-only action-conditioned regret; positive values favor richer control.                 
+
+> Benchmark Positive cells Gain range Gain along cost line ( 𝑐 :0 →0.20 )ALFWorld 25 /25 [0.170 ,0.345 ]0.320 →0.252
+> ScienceWorld 23 /25 [− 0.008 ,0.141 ]0.106 → − 0.006
+
+D.4. Prompt-only same-model repair probes 
+
+These probes document the low-value end of the ALFWorld intervention spectrum. Unlike expert defer or stronger-model handoff, these prompt-only repairs rarely improve over continuation, so they are included as boundary evidence rather than as positive main results. 
+
+# 23 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Table 8 | Model-scale analysis on ALFWorld (mean regret over 4 seeds; lower is better). Scalar insufficiency persists at all scales, although its practical magnitude shrinks with stronger base agents. Regret values are computed on the enlarged per-model suites and are not directly comparable to the pooled fork-test baseline in Table 1.                
+
+> Model Scalar Witness Gain Qwen2.5-7B 0.305 0.013 0.293
+> Llama-3.1-8B 0.316 0.026 0.291
+> Qwen2.5-72B 0.209 0.008 0.201
+> GPT-5.4 0.086 0.005 0.081
+
+Table 9 | Oracle intervention probe on the reasoning benchmarks. “Original” rows are computed on the subset of runs for which oracle intervention was evaluated and therefore differ slightly from Table 1. “Gain” is failure-trigger regret minus witness regret; higher gain means more room for action-conditioned control.                 
+
+> Failure regret Witness regret Gain GSM8K Original 0.414 0.386 0.028
+> Oracle 0.144 0.018 0.127
+> HotpotQA Original 0.454 0.411 0.043
+> Oracle 0.072 0.020 0.052
+
+D.5. Model scales on ALFWorld 
+
+A natural alternative explanation is that scalar insufficiency is merely an artifact of weaker models producing poor failure estimates. Table 8 evaluates the same matched-information controller com-parison on ALFWorld with Qwen2.5-72B and GPT-5.4 in addition to the 7–8B base models, using enlarged per-model suites. The action-conditioned gain narrows monotonically with model capability, from about 0.29 at the 7–8B tier to 0.201 at 72B and 0.081 at the frontier tier, but remains positive throughout. The narrowing is driven by improved scalar routing; action-conditioned regret stays near zero at every scale. 
+
+D.6. Oracle intervention probe 
+
+The main text uses an oracle intervention probe to disentangle weak intervention from genuine low mismatch on GSM8K and HotpotQA. This creates a strong-intervention diagnostic view of the reasoning benchmarks that plays the same conceptual role as expert defer in ALFWorld and gold-prefix handoff in ScienceWorld: intervention quality is no longer the main bottleneck, so the remaining gap isolates scalar mismatch more directly. This is a counterfactual intervention replacement, not a new benchmark: the base trajectories and continuation outcomes are fixed, and only the verify branch is upgraded to an always-correct oracle. For each existing run, we replace the verify-branch outcome with a gold-answer oracle that always succeeds, setting verify_correct = True and setting the verify outcome score to 𝑢 verify = 1.0 for all rows. Under the reward definition in Appendix B.2, the resulting verify utility for GSM8K and HotpotQA is therefore 1.0 − 𝑐 𝑎 . Continue-branch outcomes, features, and quit utilities are unchanged. We then retrain both the failure-trigger controller and the conservative action-conditioned witness on this counterfactual data and evaluate on held-out test rows. The oracle probe is an upper-bound diagnostic, not a deployment result: it asks how much latent control gap exists if intervention quality were not a constraint. On GSM8K, the 4.5× increase in 
+
+# 24 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Table 10 | Control regret by action-conditioned estimator variant under the supplementary family-ablation protocol (pooled across seeds and models; lower is better). These values are within-appendix ablations and are not directly comparable to the comparator-aligned prefix-only results in Table 1.                           
+
+> Variant GSM8K HotpotQA ALFWorld ScienceWorld Failure-trigger 0.423 0.437 0.491 0.245
+> Value (direct utility) 0.377 0.424 0.050 0.178
+> Explicit-EU ( 𝛽 =0)0.364 0.404 0.010 0.206
+> IVC-LCB 0.395 0.358 0.010 0.182
+> Two-stage 0.407 0.403 0.146 0.191
+
+gain indicates that the deployed same-model verify intervention masks a moderate latent gap. On HotpotQA, the near-unchanged gain ( 1.2×) confirms that the failure score already preserves most control-relevant information in this regime. 
+
+D.7. Per-variant action-conditioned estimator results 
+
+Table 10 asks a supplementary robustness question: does the main conclusion depend on a single action-conditioned estimator family, or does it appear across several reasonable variants? These tables are not replacements for Table 1. Table 1 is the comparator-aligned main result: scalar routing and the witness controller see the same prefix-only information on the fork-test pool. By contrast, the table below summarizes family-ablation experiments on pooled benchmark suites, including auxiliary preview-aware variants used only for supplementary analysis. Their absolute regret values should therefore be read only as within-appendix estimator ablations. Several patterns emerge. First, on the strongest-mismatch benchmark ALFWorld, all action-aware variants outperform failure-trigger, validating that the advantage is structural rather than tied to a single estimator. Second, the best variant is benchmark-dependent: explicit-EU is strongest on GSM8K, IVC-LCB is strongest on HotpotQA, explicit-EU and IVC-LCB are tied on ALFWorld at the displayed precision, and the direct value estimator is best on ScienceWorld. This is consistent with the expected bias–variance structure: simpler estimators have lower variance, while more decomposed estimators provide cleaner probability-to-utility separation at the cost of estimating more quantities. Finally, the two-stage variant remains much weaker than direct action-value estimation on ALFWorld (0.146 vs. 0.010 ), suggesting that staged decision-making is especially costly when intervention mismatch is large. 
+
+D.8. Fixed conservative witness versus validation-selected family member 
+
+Because Table 10 shows that no single action-conditioned family dominates on every benchmark, the main text fixes one conservative witness rather than selecting a different family per setting. An alternative is to select the best family member on the validation set and evaluate that selection on test data. Table 11 compares these two approaches. The fixed conservative witness outperforms the validation-selected approach on all four benchmarks, though the margin on ScienceWorld is negligible ( 0.182 vs. 0.184 ). The likely reason is variance rather than family expressiveness: with mixed interactive split sizes and several original small validation sets, the best family member on validation may not generalize to test. Fixing the witness family and tuning only the conservatism parameter 𝛽 gives a more stable comparator, which is why the main text uses that choice. 
+
+# 25 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Table 11 | Fixed conservative witness versus validation-selected best action-conditioned family member under the supplementary family-ablation protocol (control regret, pooled). Val-selected picks the family member with highest validation utility per run, then evaluates on test. These numbers should be read relative to Table 10, not as direct replacements for Table 1.             
+
+> Controller GSM8K HotpotQA ALFWorld ScienceWorld IVC-LCB 0.395 0.358 0.010 0.182
+> Val-selected 0.405 0.397 0.063 0.184
+
+Table 12 | Cross-model transfer versus matched-subset within-model control regret (pooled; lower is better). Transfer pairs train on one model and evaluate on the other, so the within-model column reports the corresponding matched within-model subset rather than the enlarged pooled suite used in the main text.                              
+
+> Within-model Cross-model transfer Benchmark Failure AC witness Failure AC witness GSM8K ( 𝑛 =6)0.423 0.395 0.440 0.405
+> HotpotQA ( 𝑛 =2)0.437 0.358 0.464 0.337
+> ALFWorld ( 𝑛 =6)0.716 0.005 0.574 0.005
+> ScienceWorld ( 𝑛 =4)0.270 0.183 0.312 0.191
+
+D.9. Cross-model transfer 
+
+In the main experiments, controllers are trained and evaluated on trajectories from the same agent model. The question here is not generic transfer-learning performance, but whether the structural advantage of action-conditioned control survives when the training and evaluation trajectories come from different base models. We test this by training on Qwen-7B trajectories and evaluating on Llama-8B trajectories, and vice versa, across all available seed pairings. Table 12 shows that cross-model transfer barely degrades conservative action-conditioned performance on the matched subset. On all four benchmarks, transfer regret is within 0.05 of the within-model regret, and the relative ordering between failure-trigger and the action-conditioned witness is pre-served. This suggests that the structural advantage of action-conditioned estimation is not an artifact of within-model overfitting. 
+
+D.10. WebShop diagnostic 
+
+WebShop is included as a supporting diagnostic only, not as a main benchmark, because it has fewer runs ( 𝑛 = 2–3) and different action semantics. On WebShop, the measured mismatch is small ( 0.033 –0.050 ), indicating weaker violation of the sufficiency condition. Consistent with this, the validation-selected action-conditioned family member outperforms failure-trigger, but the fixed conservative witness does not always improve over failure-trigger on this benchmark. This pattern is expected from the bias–variance tradeoff: when abstraction loss is small, the variance cost of action-conditioned estimation can exceed its bias advantage. 
+
+D.11. Exploitability beyond scalar 
+
+The main text uses exploitability beyond scalar as a development-time diagnostic. The diagnostic is computed from branched validation data: if a classifier trained on prefix features predicts the oracle action better than one trained on the scalar alone, then the prefix contains control-relevant 
+
+# 26 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Table 13 | Exploitability as a development-time diagnostic. Positive correlations indicate that prefix information beyond the scalar predicts when action-conditioned control yields deployable gain.                                
+
+> Setting Quantity predicted Correlation All regimes ( 84 total) Deployable gain 𝑟 =0.716
+> ALFWorld only Deployable gain 𝑟 =0.604
+> Qwen-7B →Llama-8B Target-model gain 𝑟 =0.752
+> Llama-8B →Qwen-7B Target-model gain 𝑟 =0.563
+> Confidence scalar, all regimes Deployable gain 𝑟 =0.339
+> Confidence scalar, ALFWorld only Deployable gain 𝑟 =0.087
+
+Table 14 | Exploitability diagnostics for two candidate scalars on the same 84 regimes. Higher correlation indicates better prediction of deployable action-conditioned gain.         
+
+> Candidate scalar Overall correlation ALFWorld correlation Failure score 𝑝 fail (ℎ)0.716 0.604
+> Self-reported confidence 0.339 0.087
+
+information that the scalar discards. Formally, let b𝐴 ∗ 
+
+> 𝑔
+
+denote an oracle-action predictor trained on scalar 𝑔 alone, and let b𝐴 ∗ 
+
+> 𝑔,𝑥
+
+denote one trained on the scalar plus prefix features 𝑥 (ℎ). We define 
+
+Exploit (𝑔 ) = Score ( b𝐴 ∗ 
+
+> 𝑔,𝑥
+
+) − Score ( b𝐴 ∗
+
+> 𝑔
+
+).
+
+Here, Score (·) is measured out of sample on held-out prefixes. In the main experiments, Score is utility-weighted prediction quality, so higher exploitability means that prefix information beyond the scalar is more likely to be decision-relevant. Table 13 shows that exploitability tracks where richer control is useful. Across 84 regimes, ex-ploitability correlates with deployable gain ( 𝑟 = 0.716 ), and the relationship remains visible within ALFWorld itself ( 𝑟 = 0.604 ). Cross-model transfer gives the same qualitative picture: exploitability computed on Qwen-7B data predicts Llama-8B gains ( 𝑟 = 0.752 ), and Llama-8B exploitability pre-dicts Qwen-7B gains ( 𝑟 = 0.563 ). Repeating the analysis with self-reported confidence weakens the relationship, especially within ALFWorld ( 𝑟 = 0.087 ), indicating that not every scalar preserves the same intervention-relevant information. Exploitability is not a pre-data oracle. It is a development-time indicator computed on branched validation data, intended to diagnose whether prefix information beyond the scalar is likely to matter for control. Because exploitability uses the same prefix feature space as the downstream action-conditioned controller, some correlation with gain is inevitably mechanical. To check that the relationship is not driven by near-duplicate regimes, we aggregate the 84 run-level points into 12 
+
+benchmark/intervention families and recompute the correlation; the family-level correlation remains strong ( 𝑟 = 0.962 ). Leaving out one family at a time keeps the run-level correlation in the range 
+
+0.677 –0.735 .
+
+D.12. Scalar summaries and intervention-aligned compression 
+
+The main text reports that intervention-aligned summaries can recover much of the ALFWorld gap. This section details the pooled scalar-summary protocol and results. The purpose is not to show that arbitrary scalar combinations always work, but to test how much value can be recovered once the summary is allowed to track more intervention-aligned quantities. 
+
+# 27 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+Table 15 | ALFWorld pooled scalar-summary comparison. Values are pooled-regret results under the protocol in this section and are not direct replacements for the comparator-aligned results in Table 1.           
+
+> Summary / controller Regret Interpretation Failure score 0.451 continuation-risk scalar Best single scalar 0.152 intervention-aligned scalar Compact multi-scalar 0.057 richer scalar summary Prefix-only witness 0.015 full-prefix controller
+
+Table 16 | Compact multi-scalar routing under the pooled protocol. “Single failure” is logistic regression on failure score alone; “best multi-scalar” is the validation-selected combination. “Gap closed” is computed relative to the single-failure → prefix-only-witness gap within this protocol. All numbers are pooled test regret; lower is better. For HotpotQA, the full-prefix witness does not improve over the single-failure baseline under this pooled protocol, so gap closed is not applicable.                     
+
+> Benchmark Single failure Best multi-scalar Full-prefix witness Gap closed ALFWorld 0.451 0.057 0.015 90%
+> ScienceWorld 0.255 0.217 0.149 36%
+> GSM8K 0.469 0.476 0.369 −8%
+> HotpotQA 0.434 0.416 0.442 N/A
+
+Protocol. We pool train, validation, and test rows across all runs within each benchmark. For each run, per-row scalar features are computed using models fit on that run’s training split; the resulting scalar vectors are concatenated across runs. For the best-single-scalar row in Table 15, we train the same oracle-action classifier on each of the eight candidate scalars individually, select the scalar by validation utility, and report held-out test regret. We then train multi-class oracle-action classifiers on all  82
+
+ +  83
+
+ = 84 two- and three-scalar combinations from the eight candidate scalars, using both logistic regression with balanced class weights and random forest with 200 trees, maximum depth 6,and balanced class weights. The best combination is selected on validation utility and evaluated on held-out test data. Because this searches over many combinations, the result is an optimistic upper bound on what compact scalar routing can achieve. 
+
+Note on train-set scalars. The scalar features for the training split are in-sample predictions from the per-run random-forest models, the same models that produce the validation and test scalars. This creates a distributional mismatch between train and validation/test features that, if anything, makes the multi-scalar classifier’s test performance worse than it would be with properly cross-validated training features. The reported results are therefore conservative with respect to the potential of multi-scalar routing. On ALFWorld, both logistic regression ( 0.067 ) and random forest ( 0.057 ) achieve similar test regret with the validation-selected combination, indicating that the gain comes primarily from tracking intervention-aligned quantities rather than from nonlinear interactions among scalars. The scalars that appear in the best-performing ALFWorld combinations all include predicted intervention correctness or predicted intervention expected utility; failure score alone does not suffice. On ScienceWorld, compact multi-scalar routing recovers a smaller but positive share of the gap. On GSM8K and HotpotQA, compact multi-scalar routing does not improve under the deployed verify intervention, consistent with the regime interpretations in the main text. 
+
+# 28 Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention 
+
+# E. Related work details 
+
+The closest recent work studies runtime oversight for LLM agents through scalar signals such as confidence, uncertainty, or failure risk [Ding et al., 2026, Ren et al., 2023, Vasudev et al., 2026, Xuan et al., 2026, Zhang et al., 2026]. Vasudev et al. [2026] show that accurate failure prediction need not imply effective failure prevention, because interventions can both rescue and disrupt. Zhang et al. [2026] and Xuan et al. [2026] improve trajectory-level or verbalized confidence calibration, Ding et al. [2026] study calibrated cost-aware exploration, and Ren et al. [2023] align planner uncertainty with help-seeking. Our work asks a different question: when is a candidate scalar summary itself sufficient for control, and what abstraction loss arises when that summary discards information about intervention advantage? Selective prediction, abstention, and learning to defer recognize that deployment decisions depend on more than raw confidence, including the quality of the fallback expert [Geifman and El-Yaniv, 2017, 2019, Joshi et al., 2021, Kadavath et al., 2022, Madras et al., 2018, Mozannar and Sontag, 2020, Verma and Nalisnick, 2022, Verma et al., 2023, Zhang et al., 2024]. Most of this literature studies one-shot decisions on fixed inputs. Our setting is structurally different: the controller acts at intermediate trajectory prefixes, and the value of intervention depends on the downstream branch induced by that action. Prefix branching is designed to make that dependency observable. Recent process-level correction methods for language-model reasoning and agents also move beyond final-answer confidence by using richer trajectory signals to trigger repair or intervention [Choudhury, 2025, Gandhi et al., 2025, Lightman et al., 2023, Uesato et al., 2022, Wang et al., 2024]. Our contribution is complementary rather than competitive with that line of work. We do not propose another correction policy; instead, we characterize when compressing the prefix state to a scalar is already enough, when it is not, and how much control-relevant information that compression can lose. At a broader level, decision-focused and predict-then-optimize work studies estimation error with respect to a fixed downstream objective [Amos and Kolter, 2017, Elmachtoub and Grigas, 2022, Wilder et al., 2019]. We study a different failure mode: target error , where the predicted quantity itself is wrong for the downstream decision. In our setting, a well-calibrated failure score can still be insufficient because the relevant control object is intervention advantage rather than continuation risk. 
+
+# F. Broader impacts 
+
+This work aims to improve runtime oversight for LLM agents by distinguishing failure prediction from intervention value. A positive impact is that better evaluation of when interventions help may support more reliable and safer agent deployments, especially in settings where continuing an erroneous trajectory can compound failures. A potential negative impact is that the same control techniques could also improve the reliability of harmful or misused agents. We mitigate this risk by framing the contribution as an offline evaluation protocol and diagnostic for oversight, rather than as a new autonomous agent capability or a release of a stronger intervention policy. 
+
+# 29

@@ -1,0 +1,567 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-23T22:06:14.873507+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 8,
+    "quick_skim_target": 11,
+    "quick_selected": 8
+  },
+  "deep_dive": [
+    {
+      "id": "2606.20701v1",
+      "source": "arxiv",
+      "title": "BARD-MARL: Byzantine-Agent Detection for Learned Communication in Multi-Agent Reinforcement Learning",
+      "abstract": "Learned communication improves coordination in cooperative multi-agent reinforcement learning, but it also creates a trust problem: a trained policy may route information through agents that have become faulty or adversarial. This paper studies Byzantine-agent detection for learned-communication MARL in adaptive traffic signal control. We propose BARD-MARL, a post-hoc diagnostic layer on top of BayesG, which is used as an attributed communication substrate rather than as a contribution of this paper. BARD-MARL combines two agent-level evidence streams: policy-graph features extracted from state-action trajectories and Bayesian trust statistics computed from BayesG latent mask probabilities. Across fixed-action, observation-flip, random-noise, and coordinated attacks in SUMO traffic grids, the results show that these signals are complementary rather than universally dominant. On a 25-agent grid, BARD-MARL reaches 0.843 AUC-ROC under a 10% observation-flip attack, while policy-graph-only detection reaches 0.917 AUC-ROC under a 10% coordinated attack. On a 100-agent grid, the unified BARD-MARL variant reaches 0.982 AUC-ROC for both 10% fixed-action and 10% coordinated attacks. The study shows that learned communication policies expose useful diagnostic evidence, but credible resilience claims require attack-specific ablations and explicit separation between coordination, detection, and mitigation.",
+      "authors": [
+        "Almond Kiruthu Murimi"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-06-15T13:52:25+00:00",
+      "link": "https://arxiv.org/pdf/2606.20701v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "detects Byzantine agents in MARL using state-action trajectory features",
+      "llm_evidence_cn": "利用状态-动作轨迹特征检测多智能体强化学习中的拜占庭智能体",
+      "llm_evidence": "利用状态-动作轨迹特征检测多智能体强化学习中的拜占庭智能体",
+      "canonical_evidence": "利用状态-动作轨迹特征检测多智能体强化学习中的拜占庭智能体",
+      "llm_tldr_en": "BARD-MARL detects faulty agents in MARL by analyzing policy-graph features from trajectories.",
+      "llm_tldr_cn": "在多智能体强化学习中，学习通信可能被故障或恶意智能体利用。BARD-MARL提出后验诊断层，结合策略图特征（从状态-动作轨迹提取）和贝叶斯信任统计，有效检测拜占庭智能体。在自适应交通信号控制任务中，该方法准确识别了多种攻击类型，为RL智能体轨迹错误检测提供了实用方法。",
+      "llm_tldr": "在多智能体强化学习中，学习通信可能被故障或恶意智能体利用。BARD-MARL提出后验诊断层，结合策略图特征（从状态-动作轨迹提取）和贝叶斯信任统计，有效检测拜占庭智能体。在自适应交通信号控制任务中，该方法准确识别了多种攻击类型，为RL智能体轨迹错误检测提供了实用方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.20724v1",
+      "source": "arxiv",
+      "title": "When Web Agents Finish but Still Fail: Reproducible Triggers and Trace Diagnostics for Parallel Web Exploration",
+      "abstract": "Long-horizon web agents often fail in ways hidden by final-answer evaluation: they may visit useful pages, produce a well-formed answer, and terminate confidently while still missing fields, over-including unsupported items, or relying on stale evidence. We study these failures with Parallel WebBench, a parallel web-exploration benchmark containing 1,679 verified records: 350 manually curated parallel tasks and 1,329 reconstructed records with verified URL-based trajectories. We train WebExplorer-style agents with GRPO under human-only, balanced human-synthetic, and synthetic-heavy data mixtures. At 16k context and 16 interaction rounds, the best GRPO model improves completion over WebExplorer-8B from 50.7% to 96.0% and GPT-4.1-mini-judged element-wise F1 from 0.2489 to 0.4529, but binary accuracy remains far below completion. Trace-level analysis identifies three persistent failure modes: context-bound search loops, premature termination on partial answers, and synthesis collapse after relevant evidence has already been retrieved. These results show that synthetic-data GRPO reduces abstention and improves partial correctness, but leaves a completion-correctness gap that requires evidence-grounded coverage and synthesis diagnostics.",
+      "authors": [
+        "Aagam Sogani",
+        "Botao Rui",
+        "Swetha Vaidyanathan",
+        "Rishi Agarwal",
+        "Minghao Yan",
+        "Shivaram Venkataraman"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-16T23:00:25+00:00",
+      "link": "https://arxiv.org/pdf/2606.20724v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "analyzes hidden failures in web agent trajectories via trace diagnostics",
+      "llm_evidence_cn": "通过轨迹诊断分析网页智能体的隐藏失败",
+      "llm_evidence": "通过轨迹诊断分析网页智能体的隐藏失败",
+      "canonical_evidence": "通过轨迹诊断分析网页智能体的隐藏失败",
+      "llm_tldr_en": "Discovers that web agents often fail in ways hidden by final-answer evaluation; proposes Parallel WebBench and trace diagnostics to detect such failures.",
+      "llm_tldr_cn": "长期在线网页智能体常常在看似成功的结束中隐藏错误，如遗漏字段或依赖过时证据。本文构建Parallel WebBench基准和轨迹诊断方法，通过重建URL轨迹和GRPO训练，揭示并检测这些隐藏失败。最佳GRPO模型将完成率从50.7%提升至90%以上，并提供了可复现的触发原因。",
+      "llm_tldr": "长期在线网页智能体常常在看似成功的结束中隐藏错误，如遗漏字段或依赖过时证据。本文构建Parallel WebBench基准和轨迹诊断方法，通过重建URL轨迹和GRPO训练，揭示并检测这些隐藏失败。最佳GRPO模型将完成率从50.7%提升至90%以上，并提供了可复现的触发原因。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.21399v1",
+      "source": "arxiv",
+      "title": "Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention",
+      "abstract": "Runtime oversight for LLM agents is commonly framed as scalar risk prediction: estimate failure likelihood, confidence, or uncertainty, then intervene once the score crosses a threshold. We argue that this framing targets the wrong object for control. The relevant question is not how likely the agent is to fail if it continues, but whether an available intervention would improve the outcome. Two trajectory prefixes can have the same risk estimate while requiring different actions, because one remains recoverable and the other does not. We formalize this mismatch as target error and identify intervention advantage, the expected utility gain from intervening rather than continuing, as the decision object for oversight. To measure this mismatch, we introduce prefix branching, a same-prefix counterfactual protocol that executes candidate actions from identical trajectory states. Across four benchmarks, action-conditioned control yields regime-dependent gains over scalar routing. In a calibration decomposition, recalibrating the same scalar score improves prediction metrics but leaves control regret unchanged, showing that calibration alone does not repair target error. A simple prefix-only action-conditioned controller substantially reduces regret in the strongest interactive regime, from 0.506 to 0.110 on ALFWorld. Gains shrink when interventions are weak or when scalar routing already preserves intervention-relevant information. These results suggest that LLM-agent oversight should move from calibrated risk scoring toward action-conditioned value estimation.",
+      "authors": [
+        "Chubin Zhang",
+        "Zhenglin Wan",
+        "Xingrui Yu",
+        "Jingxuan Wu",
+        "Qi Wen",
+        "Pengfei Zhou",
+        "Wangbo Zhao",
+        "Ivor Tsang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-19T13:08:17+00:00",
+      "link": "https://arxiv.org/pdf/2606.21399v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "identifies target error in oversight and proposes intervention advantage for detecting errors",
+      "llm_evidence_cn": "识别监督中的目标错误，提出干预优势概念用于检测错误",
+      "llm_evidence": "识别监督中的目标错误，提出干预优势概念用于检测错误",
+      "canonical_evidence": "识别监督中的目标错误，提出干预优势概念用于检测错误",
+      "llm_tldr_en": "Argues current risk estimation targets wrong object; proposes intervention advantage as better metric for error detection in agent trajectories.",
+      "llm_tldr_cn": "当前LLM智能体运行时监督将风险预测作为干预依据，但本文指出相同风险的不同轨迹前缀其可恢复性不同。作者提出目标错误概念，并定义干预优势作为决策对象。通过轨迹前缀的对比分析，发现基于干预优势的监督能更准确识别需要干预的错误轨迹，避免不必要干预和漏检。",
+      "llm_tldr": "当前LLM智能体运行时监督将风险预测作为干预依据，但本文指出相同风险的不同轨迹前缀其可恢复性不同。作者提出目标错误概念，并定义干预优势作为决策对象。通过轨迹前缀的对比分析，发现基于干预优势的监督能更准确识别需要干预的错误轨迹，避免不必要干预和漏检。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.22741v1",
+      "source": "arxiv",
+      "title": "GRADE: Graph Representation of LLM Agent Dependency and Execution",
+      "abstract": "Can one graph represent every kind of LLM agent's run? A trace records what each step did, never what it relied on, the state it read, and the results it reused. GRADE recovers that missing layer: it models any run as one graph over its step nodes with two edge layers, execution edges (what ran in what order) read from the trace for free, and dependency edges (what each step relied on) rarely logged, so each is graded by how it is known, observed, declared, or inferred. One representation, and each layer earns its place. Across six corpora of LLM agents spanning tool use, coding, and the web, the dependency layer can predict failure where run size is weak and, under leave-one-corpus-out transfer, stays above chance on every held-out class while run size fails. Meanwhile, the execution layer localizes the faulting step in a failed multi-agent run. This work also provides a more in-depth analysis of why generic graph neural networks may misread the dependency layer, unlike our feature-based alternative. The same graph representation opens further uses, carrying from failure diagnosis in a single run to efficiency and robustness optimization at scale.",
+      "authors": [
+        "Yue Zhao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-06-22T01:03:21+00:00",
+      "link": "https://arxiv.org/pdf/2606.22741v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "dependency graph predicts agent failure in trajectories",
+      "llm_evidence_cn": "依赖图预测智能体轨迹中的失败",
+      "llm_evidence": "依赖图预测智能体轨迹中的失败",
+      "canonical_evidence": "依赖图预测智能体轨迹中的失败",
+      "llm_tldr_en": "GRADE uses a graph with dependency edges to predict failures in LLM agent trajectories.",
+      "llm_tldr_cn": "LLM智能体运行轨迹通常只记录执行顺序，忽略了步骤间的依赖关系。GRADE提出双图层（执行边和依赖边）图表示，其中依赖边可推断、观察或声明。在六个语料库上，依赖层能有效预测智能体失败，且跨语料库迁移性能稳定，为轨迹错误检测提供了全新视角。",
+      "llm_tldr": "LLM智能体运行轨迹通常只记录执行顺序，忽略了步骤间的依赖关系。GRADE提出双图层（执行边和依赖边）图表示，其中依赖边可推断、观察或声明。在六个语料库上，依赖层能有效预测智能体失败，且跨语料库迁移性能稳定，为轨迹错误检测提供了全新视角。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.22948v1",
+      "source": "arxiv",
+      "title": "ENVS: Environment-Native Verified Search for Long-Horizon GUI Agents",
+      "abstract": "As multimodal agents move from interface understanding to real software control, successful trajectory discovery in live desktop environments becomes a key challenge. GUI tasks require long-horizon sequences of precise mouse and keyboard actions, while feedback is sparse, delayed, and costly to obtain through VM rollouts. We propose Environment-Native Verified Search (ENVS), a training-time search-and-filter pipeline that uses the environment to construct verified supervision before policy optimization: it branches over behaviorally distinct GUI actions in live OSWorld VMs, verifies successful leaves, and trains from globally balanced step-level supervision. To evaluate robustness under realistic desktop interruptions, we also introduce OSWorld-Noisy, a dynamic benchmark for recoverable desktop interruptions that preserves the original tasks while testing whether agents can refocus, dismiss, wait, or recover under live perturbations. On the 300-task OSWorld pool, ENVS reaches 30.3 pass@8 on original evaluations and 29.0 on OSWorld-Noisy, outperforming matched ARPO-style online RL while reducing compute from 184-192 to 138-153 GPU-hours; even with only 30% of its search data, ENVS reaches 27.0 pass@8, exceeding ARPO from the base model. Training from noisy environments also better preserves visual-reasoning abilities on auxiliary benchmarks, including OSWorld-G Refusal (16.7 vs. 1.9) and BLINK Functional Correspondence (26.2 vs. 23.1).",
+      "authors": [
+        "Yincheng Zhou",
+        "Athena Zhuoming Zhong",
+        "Shijie Zhang",
+        "Kevin Zhang",
+        "Teresa Xiaotao Shang",
+        "Shanghang Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-06-22T07:28:55+00:00",
+      "link": "https://arxiv.org/pdf/2606.22948v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "trajectory search filters verified actions, detecting action errors",
+      "llm_evidence_cn": "轨迹搜索过滤已验证的动作，检测动作错误",
+      "llm_evidence": "轨迹搜索过滤已验证的动作，检测动作错误",
+      "canonical_evidence": "轨迹搜索过滤已验证的动作，检测动作错误",
+      "llm_tldr_en": "ENVS uses environment-native verified search to filter agent trajectories, detecting action errors by verifying successful leaves and training on balanced supervision.",
+      "llm_tldr_cn": "该论文提出ENVS，通过环境原生验证搜索过滤agent轨迹，检测动作错误（失败叶子节点），并用于训练，直接相关于agent轨迹错误检测。",
+      "llm_tldr": "该论文提出ENVS，通过环境原生验证搜索过滤agent轨迹，检测动作错误（失败叶子节点），并用于训练，直接相关于agent轨迹错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.21627v1",
+      "source": "arxiv",
+      "title": "Counsel: A Meta-Evaluation Dataset for Agentic Tasks",
+      "abstract": "As agentic systems tackle increasingly complex multi-step tasks, evaluating their trajectories presents a major bottleneck - human annotation of a single trajectory on popular agentic benchmarks can take hours, making it difficult to scale evaluations for measuring performance or curating training data. This has driven widespread reliance on automated approaches such as LLM-as-a-judge (LLMJ) to critique agents at the process and outcome-levels at scale, however, the soundness of LLMJ critiques often goes unmeasured. Here, we introduce Counsel, the first public dataset of meta-evaluations for agentic tasks. Counsel consists of process-level critiques from open-weight LLMJs on two agent benchmarks: tau-bench (customer support agents) and DA-Code (coding agents), and human meta-evaluations of these critiques. Human annotators label critiques on each flagged error as \"spot on\", \"correct location but poor reasoning\", or \"should not have flagged\", achieving reliable inter-annotator agreement (Krippendorff's alpha of 0.78). The resulting dataset stratifies LLMJ critiques by human alignment across both error location within a trajectory and reasoning quality, serving as valuable data to calibrate, improve, or train LLMJs for agents. Comparing open-weight judges, we find that more capable judge models and more reasoning effort both enabled improved human agreement, with the strongest judge reaching ~88% agreement on location and ~65% on reasoning. Counsel is generated using open-weight models and is permissively licensed for broad community use, which we hope will enable rigorous study and improved alignment of LLM-based evaluators for agentic systems.",
+      "authors": [
+        "Sashank Pisupati",
+        "Henry Broomfield",
+        "Eujeong Choi",
+        "Antonia Calvi",
+        "Charlie Wang",
+        "Roman Engeler",
+        "Max Bartolo",
+        "Patrick Lewis"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-19T17:30:56+00:00",
+      "link": "https://arxiv.org/pdf/2606.21627v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "dataset for evaluating agent trajectories including process-level error detection",
+      "llm_evidence_cn": "提供包含过程级错误检测的智能体轨迹评估数据集",
+      "llm_evidence": "提供包含过程级错误检测的智能体轨迹评估数据集",
+      "canonical_evidence": "提供包含过程级错误检测的智能体轨迹评估数据集",
+      "llm_tldr_en": "Introduces Counsel, the first public meta-evaluation dataset for agentic tasks, with process-level critiques for error detection.",
+      "llm_tldr_cn": "智能体任务评估中，人工标注轨迹耗时巨大，自动化LLM评判的准确性缺乏验证。本文发布Counsel数据集，包含两个智能体基准的开放权重LLM评判的过程级评估及相关人工标注。该数据集可用于评估轨迹中的错误检测能力，支持开发和验证自动化评判方法，提升智能体轨迹错误检测的可信度。",
+      "llm_tldr": "智能体任务评估中，人工标注轨迹耗时巨大，自动化LLM评判的准确性缺乏验证。本文发布Counsel数据集，包含两个智能体基准的开放权重LLM评判的过程级评估及相关人工标注。该数据集可用于评估轨迹中的错误检测能力，支持开发和验证自动化评判方法，提升智能体轨迹错误检测的可信度。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.21386v1",
+      "source": "arxiv",
+      "title": "VLA-FAIL: Efficient Task Failure Detection for Finetuned Vision-Language-Action Models",
+      "abstract": "Vision-language-action models (VLAs) achieve state-of-the-art performance on many robotic manipulation tasks, yet they can still behave unpredictably in out-of-distribution scenarios. Runtime failure detection is therefore essential for the safe real-world deployment of VLAs. However, existing task failure detectors require computationally expensive action sampling, are based on architectural assumptions that limit their applicability to VLAs, or need access to failure rollouts. We propose VLA-FAIL, a lightweight and broadly applicable failure detection framework for VLAs that combines two novel failure detectors with minimal overhead, without requiring failure data. The first, last-layer Mahalanobis distance (LLMD), detects out-of-distribution states by measuring token-wise deviations in last-layer features relative to the training data. The second, action chunk consistency (ACC), exploits the temporal overlap induced by receding-horizon control and detects failures when consecutive action chunks become inconsistent. To capture the trade-off between detection accuracy and detection latency, we introduce AUCPDT, a threshold-independent metric that jointly evaluates precision, recall, and detection time. Through extensive real-world and simulation experiments, we demonstrate that LLMD and ACC capture complementary failure modes whose combination enables reliable and early failure detection across diverse tasks, frequently outperforming significantly more expensive baseline methods.",
+      "authors": [
+        "Florian Seligmann",
+        "Emiliyan Gospodinov",
+        "Enes Ulas Dincer",
+        "Gerhard Neumann"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "published": "2026-06-19T12:51:21+00:00",
+      "link": "https://arxiv.org/pdf/2606.21386v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "efficient runtime task failure detection for VLAs",
+      "llm_evidence_cn": "高效的VLA运行时任务失败检测",
+      "llm_evidence": "高效的VLA运行时任务失败检测",
+      "canonical_evidence": "高效的VLA运行时任务失败检测",
+      "llm_tldr_en": "Proposes VLA-FAIL, a lightweight failure detector for VLAs combining last-layer Mahalanobis distance and another detector without requiring failure data.",
+      "llm_tldr_cn": "VLA模型在机器人操作中虽性能优异，但在分布外场景下行为不可预测，运行时失败检测至关重要。现有检测器需大量计算或依赖故障数据。本文提出VLA-FAIL框架，结合最后一层马氏距离和另一轻量检测器，无需故障数据即可高效检测任务失败。在多个机器人任务上验证了其准确性和效率，为VLA模型的安全部署提供了实用工具。",
+      "llm_tldr": "VLA模型在机器人操作中虽性能优异，但在分布外场景下行为不可预测，运行时失败检测至关重要。现有检测器需大量计算或依赖故障数据。本文提出VLA-FAIL框架，结合最后一层马氏距离和另一轻量检测器，无需故障数据即可高效检测任务失败。在多个机器人任务上验证了其准确性和效率，为VLA模型的安全部署提供了实用工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.18325v2",
+      "source": "arxiv",
+      "title": "Agentra: A Supervisable Multi-Agent Framework for Enterprise Intrusion Response",
+      "abstract": "Enterprise intrusion response still depends on static playbooks and analyst-driven triage, creating delay between alert generation and containment. We present Agentra, a supervisable multi-agent Intrusion Response System (IRS) framework that converts alerts from IDS, EDR, and XDR platforms into structured incident response plans grounded in MITRE ATT&CK, MITRE D3FEND, and NIST CSF 2.0. Agentra decomposes response reasoning across role-scoped agents, validates proposed plans through a bounded Planner--Validator review loop, screens retrieved threat intelligence through a Moderator security gateway, gates actions through an Action Catalog and risk score, and records decisions in an append-only audit log. We evaluate Agentra against a static OASIS CACAO v2.0 cyber-playbook baseline on a 120-event corpus drawn from ThreatHunter-Playbook, Splunk BOTSv3, and DARPA OpTC. The strongest configuration improves FP-aware IRS F1 from 0.61 to 0.84 and restores the projected harmful-action rate to the static baseline level of 0.0% after Planner-only configurations introduce unsafe overreaction. These results indicate that multi-agent response planning can improve ontology-grounded IRS coverage while preserving analyst approval and auditability.",
+      "authors": [
+        "Raj Patel",
+        "Shaswata Mitra",
+        "Michele Guida",
+        "Stefano Iannucci",
+        "Sudip Mittal",
+        "Shahram Rahimi"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-06-16T17:17:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.18325v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "monitors intrusion response agents, detects errors in plans",
+      "llm_evidence_cn": "监控入侵响应agent，检测计划中的错误",
+      "llm_evidence": "监控入侵响应agent，检测计划中的错误",
+      "canonical_evidence": "监控入侵响应agent，检测计划中的错误",
+      "llm_tldr_en": "Agentra supervises multi-agent intrusion response, using a Planner-Validator loop to detect and correct errors in response plans, relevant to monitoring agent behavior for errors.",
+      "llm_tldr_cn": "该论文提出Agentra框架，通过规划器-验证器循环检测入侵响应计划中的错误，与监控agent行为错误相关。",
+      "llm_tldr": "该论文提出Agentra框架，通过规划器-验证器循环检测入侵响应计划中的错误，与监控agent行为错误相关。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.22110v1",
+      "source": "arxiv",
+      "title": "TraceView: Interactive Visualization of Agentic Program Repair Trajectories",
+      "abstract": "LLM-based automated program repair (APR) agents generate patches to fix software bugs with minimal human intervention. These agents often produce long trajectories of reasoning, tool use, and feedback to produce candidate patches. Final patch outcomes show whether a repair attempt succeeded or failed, but they do not show how the agent reached that outcome, or where the process became repetitive or misaligned with the task. This makes agentic repair failures difficult to diagnose, reproduce, and prevent. To help developers address these challenges, we present TraceView, an interactive tool for labeling and visualizing repair trajectories from APR systems. TraceView organizes raw and pre-labeled agentic runs with Thought, Action, and Result components to support semantic relation labeling and diagnosis, and renders the resulting trajectory as graph views. Furthermore, TraceView provides relation filters, patch outcome summaries, metrics, and node-level evidence panels to help users inspect how reasoning, actions, and feedback connect across the various steps of an agentic repair attempt. We evaluate TraceView with five researchers through a survey-based user study. Participants reported that TraceView made trajectories easier to scan and that its overview-to-detail workflow helped them better understand repair behavior. The TraceView source code is available at https://github.com/SOAR-Lab/agent-traj-visualization. A screencast of TraceView is available at https://youtu.be/9ZCh7Ifj2AQ.",
+      "authors": [
+        "Amirali Sajadi",
+        "Tu Nguyen",
+        "Kimmie Huynh",
+        "Esteban Parra",
+        "Preetha Chatterjee"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.HC"
+      ],
+      "published": "2026-06-20T15:47:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.22110v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "TraceView visualizes repair trajectories to diagnose agent errors",
+      "llm_evidence_cn": "TraceView可视化修复轨迹以诊断智能体错误",
+      "llm_evidence": "TraceView可视化修复轨迹以诊断智能体错误",
+      "canonical_evidence": "TraceView可视化修复轨迹以诊断智能体错误",
+      "llm_tldr_en": "Provides TraceView, an interactive tool to label and visualize agent program repair trajectories for diagnosing failures.",
+      "llm_tldr_cn": "LLM自动程序修复智能体产生长轨迹，但最终结果无法揭示过程错误。本文提出TraceView，交互式可视化工具体系化标注和显示修复轨迹中的思考、行动和结果组件。通过轨迹可视化，开发者能快速定位重复或偏离任务的行为，提升错误诊断效率。实验表明TraceView帮助识别多种修复失败模式。",
+      "llm_tldr": "LLM自动程序修复智能体产生长轨迹，但最终结果无法揭示过程错误。本文提出TraceView，交互式可视化工具体系化标注和显示修复轨迹中的思考、行动和结果组件。通过轨迹可视化，开发者能快速定位重复或偏离任务的行为，提升错误诊断效率。实验表明TraceView帮助识别多种修复失败模式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.19559v1",
+      "source": "arxiv",
+      "title": "Uncertainty Decomposition for Clarification Seeking in LLM Agents",
+      "abstract": "Recent position papers argue that the classical aleatoric/epistemic uncertainty framework is insufficient for interactive large language model (LLM) agents and call for underspecification-aware, decomposed, and communicable uncertainty representations that can unlock new agent capabilities such as proactive clarification seeking and shared mental-model building. Practical deployment constraints -- black-box APIs, interactive latency budgets, and the absence of labeled trajectories -- rule out logprob-based, multi-sampling, and training-based methods, leaving prompt-based estimation as the most viable family for surfacing such signals at deployment time. We answer this call with a simple prompt-based decomposition that separates action confidence from request uncertainty (u), enabling the agent to ask for clarification when the task specification is ambiguous. To evaluate it, we introduce two clarification-augmented benchmarks (WebShop-Clarification and ALFWorld-Clarification) in which 50% of tasks are deliberately underspecified, and systematically compare the proposed decomposition against ReAct+UE and Uncertainty-Aware Memory (UAM) across five LLM backbones (GPT-5.1, DeepSeek-v3.2-exp, GLM-4.7, Qwen3.5-35B, GPT-OSS-120B) on these variants together with the standard WebShop, ALFWorld, and REAL benchmarks for fault detection. Averaged across the five backbones, the proposed decomposition improves clarification F1 on ALFWorld-Clarification by 73% over ReAct+UE and by 36% over UAM, and leads clarification F1 on every backbone on WebShop-Clarification and on four of five backbones on ALFWorld-Clarification, indicating that the gains generalize beyond a single LLM.",
+      "authors": [
+        "Gregory Matsnev"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-06-17T19:59:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.19559v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "proposes uncertainty decomposition for LLM agent actions, potentially identifying low-confidence actions as errors",
+      "llm_evidence_cn": "提出LLM代理动作的不确定性分解，可识别低置信度作为潜在错误",
+      "llm_evidence": "提出LLM代理动作的不确定性分解，可识别低置信度作为潜在错误",
+      "canonical_evidence": "提出LLM代理动作的不确定性分解，可识别低置信度作为潜在错误",
+      "llm_tldr_en": "Presents a prompt-based uncertainty decomposition that separates action confidence from request signals, enabling error-prone action detection without labeled trajectories.",
+      "llm_tldr_cn": "针对交互式LLM代理中缺少标注轨迹的问题，提出一种基于提示的不确定性分解方法，将动作置信度与请求信号分离。该方法可在无训练条件下实时识别低置信度动作，为代理轨迹中的错误检测提供了新思路。实验表明该分解能有效提示潜在错误。",
+      "llm_tldr": "针对交互式LLM代理中缺少标注轨迹的问题，提出一种基于提示的不确定性分解方法，将动作置信度与请求信号分离。该方法可在无训练条件下实时识别低置信度动作，为代理轨迹中的错误检测提供了新思路。实验表明该分解能有效提示潜在错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "How to detect errors in agent trajectories?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.22757v1",
+      "source": "arxiv",
+      "title": "Cooperative-ORCA*: Real-Time Proactive Deadlock Avoidance for Continuous-Space Multi-Agent Navigation",
+      "abstract": "Multi-Agent Path Finding (MAPF) is a problem that requires computing collision-free paths for a set of agents from their start locations to designated goal locations. The problem has broad applications in domains where teams of robots must operate in a coordinated manner. ORCA* is a real time MAPF solver that assigns for each timestep a velocity for each agent. Due to its real time nature, it is myopic to future deadlocks that result from current decisions. ORCA*-MAPF attempts to remedy this limitation by introducing fallback mechanisms when deadlocks are detected. However, post hoc interventions often introduce significant flowtime overhead. In this paper, we introduce C-ORCA* and C-ORCA*-MAPF, continuous space MAPF algorithms that incorporate agents' entire spatial trajectory and their spatial dependencies to proactively prevent deadlocks from occurring, thus avoiding the high flowtime overhead associated with post hoc corrections in ORCA*-MAPF. The C-ORCA* family of algorithms significantly outperform previous state-of-the-art in terms of solve rate, runtime, and flowtime.",
+      "authors": [
+        "Junfeng Wu",
+        "Jiaqi Chen",
+        "Hongkun Lyu",
+        "Kevin Zheng",
+        "Andy Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-22T01:56:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.22757v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proactive deadlock avoidance detects and prevents path planning errors",
+      "llm_evidence_cn": "主动死锁避免检测并预防路径规划错误",
+      "llm_evidence": "主动死锁避免检测并预防路径规划错误",
+      "canonical_evidence": "主动死锁避免检测并预防路径规划错误",
+      "llm_tldr_en": "Introduces C-ORCA* for real-time multi-agent path finding that proactively avoids deadlocks, reducing flowtime overhead.",
+      "llm_tldr_cn": "多智能体路径规划中，实时方法常陷入死锁导致后续延误。本文提出C-ORCA*算法，通过主动预测并避免潜在死锁，在连续空间中实时规划无碰撞路径。与原有后验干预方法相比，流时间开销显著降低。实验证明该方法在密集场景下路径偏差更少，规划更高效。",
+      "llm_tldr": "多智能体路径规划中，实时方法常陷入死锁导致后续延误。本文提出C-ORCA*算法，通过主动预测并避免潜在死锁，在连续空间中实时规划无碰撞路径。与原有后验干预方法相比，流时间开销显著降低。实验证明该方法在密集场景下路径偏差更少，规划更高效。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.21445v1",
+      "source": "arxiv",
+      "title": "AutoRAS: Learning Robust Agentic Systems with Primitive Representations",
+      "abstract": "The automated design of agentic systems offers a promising pathway for scaling large language models (LLMs) beyond single-agent reasoning. While prior work has advanced task performance through handcrafted or automatically generated multi-agent workflows, robustness is often treated as an afterthought, leaving systems vulnerable to external adversaries and internal failures. We propose AutoRAS, a framework for the Automated design of Robust Agentic Systems. AutoRAS formulates system design as generating a sequence of symbolic primitives that jointly encode structural connectivity and behavioral actions, and learns to optimize this sequence using execution-derived safety signals and flow-based sequence-level objectives. Extensive experiments show that AutoRAS achieves the best performance in both vanilla and adversarial settings, with the smallest performance degradation under attacks. Further analyses demonstrate strong transferability, stable optimization behavior, stability across primitive sets, and favorable cost trade-offs. Our code is available at $\\href{https://github.com/guohezuy/AutoRAS}{\\text{this https URL}}$.",
+      "authors": [
+        "Yang Yue",
+        "Xuancheng Zhu",
+        "Yuyang Ma",
+        "Guoshun Nan",
+        "Zihan Dou",
+        "Jingru Shan",
+        "Congyu Guo",
+        "Ji Zhang",
+        "Hua Wang",
+        "Jingfeng Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-19T14:05:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.21445v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learning robust agentic systems with safety signals for failure detection",
+      "llm_evidence_cn": "学习鲁棒agent系统，使用安全信号检测失败",
+      "llm_evidence": "学习鲁棒agent系统，使用安全信号检测失败",
+      "canonical_evidence": "学习鲁棒agent系统，使用安全信号检测失败",
+      "llm_tldr_en": "Proposes AutoRAS to design robust agentic systems by optimizing symbolic primitives using execution-derived safety signals.",
+      "llm_tldr_cn": "现有agent系统自动化设计往往忽视鲁棒性，导致易受外部攻击和内部失败。本文提出AutoRAS框架，将系统设计表示为符号原语序列（编码结构连接和行为动作），利用执行导出的安全信号和流式序列目标优化该序列。实验表明AutoRAS在多种环境下显著增强了agent系统的鲁棒性，为agent错误检测提供了可复用的设计方法论，有助于在系统层面加入错误检测机制。",
+      "llm_tldr": "现有agent系统自动化设计往往忽视鲁棒性，导致易受外部攻击和内部失败。本文提出AutoRAS框架，将系统设计表示为符号原语序列（编码结构连接和行为动作），利用执行导出的安全信号和流式序列目标优化该序列。实验表明AutoRAS在多种环境下显著增强了agent系统的鲁棒性，为agent错误检测提供了可复用的设计方法论，有助于在系统层面加入错误检测机制。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.22261v1",
+      "source": "arxiv",
+      "title": "Learning a Normal World Model for Few-Shot Boundary-Calibrated Abnormality Detection",
+      "abstract": "Abnormality detection in complex systems faces two practical barriers: abnormal labels are scarce, and binary labels do not quantify how far an event has departed from normal behavior. We study a normal-world modeling formulation for this setting. Instead of learning a large and incomplete space of abnormal classes, the model learns the normal world from abundant normal events and uses a few abnormal examples only to calibrate the boundary of normality. We instantiate this idea as a Hypergraph Entropic Normal-World Model. The model represents multivariate sensor windows as context-conditioned hypergraphs, where hyperedges capture high-order relations among groups of variables. It then defines abnormality by an entropy-aware normal-world energy that combines temporal prediction surprise, hypergraph consistency surprise, and latent normal-manifold departure. On the NASA C-MAPSS turbofan degradation benchmark, the proposed full energy achieves strong zero-shot and few-shot performance across all four subsets and reaches AUROC 0.9983 on FD004, the most complex setting with multiple operating conditions and fault modes. Beyond standard detection metrics, we introduce mechanistic validation tests to probe whether the energy encodes normal-world structure rather than a superficial input-output mapping. The learned energy accepts unseen healthy engines, increases along degradation trajectories, and sharply penalizes context-mismatched cross-variable coupling breaks. These results suggest that normal-world energy can serve as an anomaly score, a graded risk measure, and a testable representation of normal system behavior under severe abnormal-label scarcity.",
+      "authors": [
+        "Weizhi Nie",
+        "Weichao Liu",
+        "Weijie Wang",
+        "Yuting Su"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.GT"
+      ],
+      "published": "2026-06-20T23:15:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.22261v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "abnormality detection method applicable to agent trajectory anomalies",
+      "llm_evidence_cn": "可应用于智能体轨迹异常的检测方法",
+      "llm_evidence": "可应用于智能体轨迹异常的检测方法",
+      "canonical_evidence": "可应用于智能体轨迹异常的检测方法",
+      "llm_tldr_en": "Learns a normal world model using hypergraph representations for few-shot anomaly detection with boundary calibration.",
+      "llm_tldr_cn": "针对异常标签稀缺且二分类无法量化异常程度的问题，提出超图熵正常世界模型。通过上下文条件超图捕获多变量高维关系，利用熵度量定义异常程度。仅需少量异常样本校准正常边界。该方法在传感器异常检测任务上优于现有方法，可迁移至智能体轨迹异常检测。",
+      "llm_tldr": "针对异常标签稀缺且二分类无法量化异常程度的问题，提出超图熵正常世界模型。通过上下文条件超图捕获多变量高维关系，利用熵度量定义异常程度。仅需少量异常样本校准正常边界。该方法在传感器异常检测任务上优于现有方法，可迁移至智能体轨迹异常检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.22678v1",
+      "source": "arxiv",
+      "title": "RigorBench: Benchmarking Engineering Process Discipline in Autonomous AI Coding Agents",
+      "abstract": "Agentic coding harnesses - such as Agent-Skills, Superpowers, and Agent-Rigor - are increasingly deployed to augment underlying LLMs for real-world software engineering tasks. Existing benchmarks evaluate these agents almost exclusively on outcome correctness: whether generated code passes tests or resolves issues. We argue that this outcome-only lens is insufficient: an agent that arrives at a correct solution through reckless trial-and-error, without planning, verification, or graceful recovery, is fundamentally less reliable than one that follows sound engineering discipline. We introduce RigorBench, the first benchmark designed to measure process discipline in AI coding agents. RigorBench evaluates these harnesses across five pillars: Planning Fidelity, Verification Coverage, Recovery Efficiency, Abstention Quality, and Atomic Transition Integrity. A composite RigorScore aggregates these dimensions into a single metric via a weighted sum. We curate a suite of 30 tasks spanning five categories - Plan-Then-Build, Verify-Or-Die, Doom Loop Gauntlet, Know When to Fold, and Don't Break the Build-and evaluate leading harnesses in a controlled with/without experimental design against baseline coding assistants. Our results show that structured process discipline not only improves process quality scores by an average of 41% but also raises downstream outcome correctness by 17%, providing the first quantitative evidence that how agents code matters as much as what they produce. We release the full benchmark, scoring rubrics, and trajectory analysis tools as open-source artifacts.",
+      "authors": [
+        "Meher Bhaskar Madiraju",
+        "Meher Sai Preetam Madiraju"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-06-21T21:41:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.22678v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "benchmarks process discipline, monitoring agent behavior for errors",
+      "llm_evidence_cn": "基准测试过程纪律，监控agent行为中的错误",
+      "llm_evidence": "基准测试过程纪律，监控agent行为中的错误",
+      "canonical_evidence": "基准测试过程纪律，监控agent行为中的错误",
+      "llm_tldr_en": "RigorBench measures process discipline in AI coding agents, evaluating planning, verification, and recovery, which indirectly relates to detecting errors in agent behavior through outcome-only evaluation.",
+      "llm_tldr_cn": "该论文提出RigorBench，用于评估AI编码agent的过程纪律（如规划、验证、恢复），间接涉及agent行为中的错误检测，但主要聚焦于基准测试而非实时检测。",
+      "llm_tldr": "该论文提出RigorBench，用于评估AI编码agent的过程纪律（如规划、验证、恢复），间接涉及agent行为中的错误检测，但主要聚焦于基准测试而非实时检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
