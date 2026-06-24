@@ -6,62 +6,47 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-23
-- 运行时间：2026-06-23 22:14:35 UTC
+- 最新运行日期：2026-06-24
+- 运行时间：2026-06-24 20:40:38 UTC
 - 运行状态：成功
-- 本次总论文数：14
-- 精读区：6
-- 速读区：8
+- 本次总论文数：9
+- 精读区：5
+- 速读区：4
 
 ### 今日简报（AI）
-今日精读两篇高分论文：多智能体通信中的拜占庭敌手检测与Web代理并行探索的失败诊断。最值得关注的方向是多智能体强化学习中的鲁棒通信机制和Web代理失败的可复现触发条件。建议读者优先阅读这两篇9分论文，理解其核心方法与诊断工具。
-- 详情：[/202606/23/README](/202606/23/README)
+今日精选9篇论文，精读5篇，其中两篇满分聚焦智能体经验学习陷阱与GUI智能体视觉奖励。最值得关注的是Execute-Distill-Verify范式突破自我确认偏差，以及VisCritic通过视觉状态比较优化GUI智能体过程奖励。建议优先精读这两篇满分论文，深入理解智能体系统鲁棒性与决策质量提升的核心方法。
+- 详情：[/202606/24/README](/202606/24/README)
 
 ### 精读区论文标签
-1. [BARD-MARL: Byzantine-Agent Detection for Learned Communication in Multi-Agent Reinforcement Learning](/202606/23/2606.20701v1-bard-marl-byzantine-agent-detection-for-learned-communication-in-multi-agent-reinforcement-learning)  
+1. [Escaping the Self-Confirmation Trap: An Execute-Distill-Verify Paradigm for Agentic Experience Learning](/202606/24/2606.24428v1-escaping-the-self-confirmation-trap-an-execute-distill-verify-paradigm-for-agentic-experience-learning)  
+   标签：评分：10.0/10、query:agent-error
+   evidence：通过识别错误但自洽的轨迹来检测代理轨迹错误
+2. [VisCritic: Visual State Comparison as Process Reward for GUI Agents](/202606/24/2606.24525v1-viscritic-visual-state-comparison-as-process-reward-for-gui-agents)  
+   标签：评分：10.0/10、query:agent-error
+   evidence：视觉过程奖励检测GUI代理轨迹中的动作错误
+3. [SAFARI: Scaling Long Horizon Agentic Fault Attribution via Active Investigation](/202606/24/2606.24626v1-safari-scaling-long-horizon-agentic-fault-attribution-via-active-investigation)  
    标签：评分：9.0/10、query:agent-error
-   evidence：利用状态-动作轨迹特征检测多智能体强化学习中的拜占庭智能体
-2. [When Web Agents Finish but Still Fail: Reproducible Triggers and Trace Diagnostics for Parallel Web Exploration](/202606/23/2606.20724v1-when-web-agents-finish-but-still-fail-reproducible-triggers-and-trace-diagnostics-for-parallel-web-exploration)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：通过轨迹诊断分析网页智能体的隐藏失败
-3. [Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention](/202606/23/2606.21399v1-calibration-is-not-control-why-llm-agent-oversight-needs-intervention)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：识别监督中的目标错误，提出干预优势概念用于检测错误
-4. [GRADE: Graph Representation of LLM Agent Dependency and Execution](/202606/23/2606.22741v1-grade-graph-representation-of-llm-agent-dependency-and-execution)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：依赖图预测智能体轨迹中的失败
-5. [ENVS: Environment-Native Verified Search for Long-Horizon GUI Agents](/202606/23/2606.22948v1-envs-environment-native-verified-search-for-long-horizon-gui-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：轨迹搜索过滤已验证的动作，检测动作错误
-6. [Counsel: A Meta-Evaluation Dataset for Agentic Tasks](/202606/23/2606.21627v1-counsel-a-meta-evaluation-dataset-for-agentic-tasks)  
+   evidence：通过主动调查进行长期代理故障归因
+4. [ARCO: Adaptive Rubric with Co-Evolution for Multi-Step LLM-Based Agents](/202606/24/2606.21262v1-arco-adaptive-rubric-with-co-evolution-for-multi-step-llm-based-agents)  
    标签：评分：8.0/10、query:agent-error
-   evidence：提供包含过程级错误检测的智能体轨迹评估数据集
+   evidence：步骤级rubric奖励用于轨迹评估
+5. [Capable but Careless: Do Computer-Use Agents Follow Contextual Integrity?](/202606/24/2606.23189v1-capable-but-careless-do-computer-use-agents-follow-contextual-integrity)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：AgentCIBench检测计算机使用代理中的常见失败模式作为异常
 
 ### 速读区论文标签
-1. [VLA-FAIL: Efficient Task Failure Detection for Finetuned Vision-Language-Action Models](/202606/23/2606.21386v1-vla-fail-efficient-task-failure-detection-for-finetuned-vision-language-action-models)  
+1. [AutoRAS: Learning Robust Agentic Systems with Primitive Representations](/202606/24/2606.21445v1-autoras-learning-robust-agentic-systems-with-primitive-representations)  
    标签：评分：7.0/10、query:agent-error
-   evidence：高效的VLA运行时任务失败检测
-2. [TraceView: Interactive Visualization of Agentic Program Repair Trajectories](/202606/23/2606.22110v1-traceview-interactive-visualization-of-agentic-program-repair-trajectories)  
+   evidence：利用执行导出的安全信号优化代理系统设计，隐含检测失败
+2. [Hallucination as Context Drift: Synchronization Protocols for Multi-Agent LLM Systems](/202606/24/2606.21666v1-hallucination-as-context-drift-synchronization-protocols-for-multi-agent-llm-systems)  
    标签：评分：7.0/10、query:agent-error
-   evidence：TraceView可视化修复轨迹以诊断智能体错误
-3. [Cooperative-ORCA*: Real-Time Proactive Deadlock Avoidance for Continuous-Space Multi-Agent Navigation](/202606/23/2606.22757v1-cooperative-orca-real-time-proactive-deadlock-avoidance-for-continuous-space-multi-agent-navigation)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：主动死锁避免检测并预防路径规划错误
-4. [Agentra: A Supervisable Multi-Agent Framework for Enterprise Intrusion Response](/202606/23/2606.18325v2-agentra-a-supervisable-multi-agent-framework-for-enterprise-intrusion-response)  
+   evidence：通过上下文漂移检测监测代理行为错误
+3. [Code-Augur: Agentic Vulnerability Detection via Specification Inference](/202606/24/2606.18619v1-code-augur-agentic-vulnerability-detection-via-specification-inference)  
    标签：评分：6.0/10、query:agent-error
-   evidence：监控入侵响应agent，检测计划中的错误
-5. [Uncertainty Decomposition for Clarification Seeking in LLM Agents](/202606/23/2606.19559v1-uncertainty-decomposition-for-clarification-seeking-in-llm-agents)  
+   evidence：推断规范以检测代理动作中的漏洞，关注代码错误
+4. [Composing Verifiable Conceptual Models via Building Blocks: Towards Design-Time Verification of Agentic AI Workflows](/202606/24/2606.21565v1-composing-verifiable-conceptual-models-via-building-blocks-towards-design-time-verification-of-agentic-ai-workflows)  
    标签：评分：6.0/10、query:agent-error
-   evidence：提出LLM代理动作的不确定性分解，可识别低置信度作为潜在错误
-6. [AutoRAS: Learning Robust Agentic Systems with Primitive Representations](/202606/23/2606.21445v1-autoras-learning-robust-agentic-systems-with-primitive-representations)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：学习鲁棒agent系统，使用安全信号检测失败
-7. [Learning a Normal World Model for Few-Shot Boundary-Calibrated Abnormality Detection](/202606/23/2606.22261v1-learning-a-normal-world-model-for-few-shot-boundary-calibrated-abnormality-detection)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：可应用于智能体轨迹异常的检测方法
-8. [RigorBench: Benchmarking Engineering Process Discipline in Autonomous AI Coding Agents](/202606/23/2606.22678v1-rigorbench-benchmarking-engineering-process-discipline-in-autonomous-ai-coding-agents)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：基准测试过程纪律，监控agent行为中的错误
+   evidence：设计时验证agent工作流
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,374 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-24T20:34:37.867936+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2606.24428v1",
+      "source": "arxiv",
+      "title": "Escaping the Self-Confirmation Trap: An Execute-Distill-Verify Paradigm for Agentic Experience Learning",
+      "abstract": "Experience-driven self-evolution is critical for large language model (LLM) agents to improve through open-world interaction. However, existing experience learning methods mostly rely on single-agent loops, where the same agent executes tasks, summarizes outcomes, and determines memory content. This setup makes agents vulnerable to the Self-Confirmation Trap: wrong-but-self-consistent trajectories are misidentified as successful experience, leading to cumulative errors during retrieval and reuse. To address this issue, we propose EDV, an Execute-Distill-Verify framework for reliable experience learning. In the Execute stage, multiple heterogeneous agents explore the same task space in parallel to generate diverse candidate trajectories. In the Distill stage, a dedicated third-party agent comparatively analyzes these trajectories to produce candidate experiences, reducing executor-centric summarization bias. In the Verify stage, the execution group validates candidates via a consensus mechanism, and only approved experiences are written into shared or private memory. By decoupling the three stages, EDV transforms experience learning from isolated self-reflection into collaborative construction, filtering erroneous and noisy content before memory insertion. We evaluate EDV on three challenging long-horizon benchmarks: tau2-bench, Mind2Web and MMTB. Results show EDV consistently outperforms strong baselines, validating that reliable experience construction is essential for robust agent self-evolution. Our code is available at https://github.com/shidingz/EDV.",
+      "authors": [
+        "Shiding Zhu",
+        "Yudi Qi",
+        "Yajie Wang",
+        "Jiaze Li",
+        "Chao Song",
+        "Yaorui Shi",
+        "Yibo Miao",
+        "Hanqi Gao",
+        "Kai Zhang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-06-23T11:05:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.24428v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "detecting errors in agent trajectories by identifying wrong-but-self-consistent trajectories",
+      "llm_evidence_cn": "通过识别错误但自洽的轨迹来检测代理轨迹错误",
+      "llm_evidence": "通过识别错误但自洽的轨迹来检测代理轨迹错误",
+      "canonical_evidence": "通过识别错误但自洽的轨迹来检测代理轨迹错误",
+      "llm_tldr_en": "Identifies the Self-Confirmation Trap where wrong-but-self-consistent trajectories are misidentified as success, and proposes EDV framework to detect and correct such errors.",
+      "llm_tldr_cn": "现有经验学习方法中，代理容易陷入自我确认陷阱：将错误但自洽的轨迹误判为成功经验，导致累积错误。本文提出执行-蒸馏-验证（EDV）框架，通过多个异构代理并行探索并交叉验证轨迹，可靠地识别并剔除这类错误轨迹",
+      "llm_tldr": "现有经验学习方法中，代理容易陷入自我确认陷阱：将错误但自洽的轨迹误判为成功经验，导致累积错误。本文提出执行-蒸馏-验证（EDV）框架，通过多个异构代理并行探索并交叉验证轨迹，可靠地识别并剔除这类错误轨迹",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.24525v1",
+      "source": "arxiv",
+      "title": "VisCritic: Visual State Comparison as Process Reward for GUI Agents",
+      "abstract": "GUI agents powered by vision-language models show strong potential for automating digital tasks, yet frequently fail in long-horizon scenarios due to the absence of step-level verification. Existing process reward models verify actions through textual reasoning alone, missing the visual nature of GUI state changes. We introduce VisCritic, a visual process reward framework that verifies agent actions by directly comparing pre-action and post-action screenshots in visual feature space. VisCritic employs a Siamese vision transformer to extract change-aware representations, coupled with an Action-Aware Critic Head that jointly evaluates action success, task progress, and error type. A critic-training data construction pipeline generates weakly supervised samples from existing trajectories without additional human labels for critic training. Experiments and offline analyses across five benchmarks demonstrate that VisCritic serves as a plug-and-play enhancement for diverse GUI agents, generally improving benchmark metrics while providing visual diagnostic cues.",
+      "authors": [
+        "Jiachen Qian"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T12:57:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.24525v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "visual process reward detecting action errors in GUI agent trajectories",
+      "llm_evidence_cn": "视觉过程奖励检测GUI代理轨迹中的动作错误",
+      "llm_evidence": "视觉过程奖励检测GUI代理轨迹中的动作错误",
+      "canonical_evidence": "视觉过程奖励检测GUI代理轨迹中的动作错误",
+      "llm_tldr_en": "VisCritic compares pre- and post-action screenshots in visual feature space to detect action errors, task progress, and error types for GUI agents.",
+      "llm_tldr_cn": "GUI代理在长场景中频繁失败，缺乏步骤级验证。现有过程奖励模型仅通过文本推理验证动作，忽略了GUI状态变化的视觉本质。本文提出VisCritic视觉过程奖励框架，通过孪生视觉变换器提取变化感知表示，并结合动作感知评论头联合评估动作成功、任务进度和错误类型。实验表明，该方法有效提升了步骤级错误检测的准确性。",
+      "llm_tldr": "GUI代理在长场景中频繁失败，缺乏步骤级验证。现有过程奖励模型仅通过文本推理验证动作，忽略了GUI状态变化的视觉本质。本文提出VisCritic视觉过程奖励框架，通过孪生视觉变换器提取变化感知表示，并结合动作感知评论头联合评估动作成功、任务进度和错误类型。实验表明，该方法有效提升了步骤级错误检测的准确性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.24626v1",
+      "source": "arxiv",
+      "title": "SAFARI: Scaling Long Horizon Agentic Fault Attribution via Active Investigation",
+      "abstract": "As autonomous agents tackle increasingly complex multi-step, multi-agent tasks, their execution trajectories have scaled beyond the constraints of even the largest context windows. Current methods for effectively diagnosing agent failures load the full trajectory into an LLM's context window, which suffers from attention dilution and fails when agentic traces inevitably exceed context limits. To address this, we introduce SAFARI (Scaling long-horizon Agentic Fault AttRibution via active Investigation), a framework that replaces linear context loading with a tool-augmented diagnostic loop. By equipping LLMs with a specialized toolbox to read and search trajectory segments alongside a persistent Short-Term Memory (STM) for cross-turn reasoning, SAFARI effectively decouples diagnostic accuracy from architectural context limits. Our experiments demonstrate that SAFARI outperforms state-of-the-art results by 20% on the Who&When dataset within a 1M token budget, and by 19% on TRAIL GAIA subset on a 25K token budget. Most significantly, SAFARI maintains a 0.58 precision even when the target fault resides 5x beyond the model's native context window, a scenario where traditional evaluators fail entirely.",
+      "authors": [
+        "Chenyang Zhu",
+        "Jiayu Yao",
+        "Kushal Chawla",
+        "Youbing Yin",
+        "Nathan Wolfe",
+        "Pengshan Cai",
+        "Jingyu Wu",
+        "Spencer Hong",
+        "Sangwoo Cho",
+        "Shi-Xiong Zhang",
+        "Daben Liu",
+        "Sambit Sahu",
+        "Erin Babinsky"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-23T14:23:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.24626v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "long-horizon agentic fault attribution via active investigation",
+      "llm_evidence_cn": "通过主动调查进行长期代理故障归因",
+      "llm_evidence": "通过主动调查进行长期代理故障归因",
+      "canonical_evidence": "通过主动调查进行长期代理故障归因",
+      "llm_tldr_en": "SAFARI uses a tool-augmented diagnostic loop with short-term memory to efficiently attribute faults in long agent trajectories beyond context window limits.",
+      "llm_tldr_cn": "现有诊断方法将完整轨迹加载到LLM上下文中，导致注意力稀释且无法处理超长轨迹。本文提出SAFARI框架，用工具增强的诊断循环替代线性上下文加载，配备专用工具箱读取和搜索轨迹片段，并借助短期记忆进行跨轮推理。该方法有效解决了长轨迹故障归因问题，实验表明在超长代理轨迹上显著优于基线。",
+      "llm_tldr": "现有诊断方法将完整轨迹加载到LLM上下文中，导致注意力稀释且无法处理超长轨迹。本文提出SAFARI框架，用工具增强的诊断循环替代线性上下文加载，配备专用工具箱读取和搜索轨迹片段，并借助短期记忆进行跨轮推理。该方法有效解决了长轨迹故障归因问题，实验表明在超长代理轨迹上显著优于基线。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.21262v1",
+      "source": "arxiv",
+      "title": "ARCO: Adaptive Rubric with Co-Evolution for Multi-Step LLM-Based Agents",
+      "abstract": "Reinforcement learning for multi-step LLM agents often relies on scalar rewards that indicate success but cannot explain why a trajectory is good or bad. Rubric-based rewards improve interpretability through natural-language criteria, but existing methods score at the trajectory level and freeze the scorer behind a closed-source judge, leaving step-level credit assignment unresolved and the judge itself static. We propose ARCO (Adaptive Rubric CO-evolution), a rubric framework in which a same-scale model $μ$ shares a backbone with two heads: a generation head that produces per-step criteria, and a score head that predicts rubric-conditioned step-level rewards. A trajectory decomposition constraint ties the sum of step rewards to the terminal outcome, enabling credit assignment without step-level labels, while $μ$ and the policy $π$ are jointly updated on on-policy data so that the rubric content and the scoring function co-evolve at the parameter level. Across HotpotQA, 2WikiMultiHopQA, and MuSiQue with two open-source backbones, ARCO improves the best EM in every setting over strong outcome-, rubric-, and process-reward baselines, and analyses show that its rubrics are step-specific, robust to design choices, and useful for diagnosing agent behavior. Codes and data are available at https://github.com/zihangtian/ARCO.",
+      "authors": [
+        "Zihang Tian",
+        "Jingsen Zhang",
+        "Rui Li",
+        "Xiaohe Bo",
+        "Yuanzi Li",
+        "Xu Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-06-19T09:38:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.21262v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "step-level rubric rewards for trajectory evaluation",
+      "llm_evidence_cn": "步骤级rubric奖励用于轨迹评估",
+      "llm_evidence": "步骤级rubric奖励用于轨迹评估",
+      "canonical_evidence": "步骤级rubric奖励用于轨迹评估",
+      "llm_tldr_en": "ARCO proposes adaptive rubric co-evolution for step-level credit assignment in multi-step LLM agents, enabling trajectory quality interpretation and error localization via rubric-conditioned rewards.",
+      "llm_tldr_cn": "现有强化学习方法使用标量奖励难以解释轨迹好坏。ARCO提出自适应rubric共进化框架，通过同规模模型生成每步标准并预测rubric条件化的步骤级奖励，并施加轨迹分解约束。实验表明ARCO能有效识别不良步骤，提升可解释性和错误检测能力。",
+      "llm_tldr": "现有强化学习方法使用标量奖励难以解释轨迹好坏。ARCO提出自适应rubric共进化框架，通过同规模模型生成每步标准并预测rubric条件化的步骤级奖励，并施加轨迹分解约束。实验表明ARCO能有效识别不良步骤，提升可解释性和错误检测能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.23189v1",
+      "source": "arxiv",
+      "title": "Capable but Careless: Do Computer-Use Agents Follow Contextual Integrity?",
+      "abstract": "Computer-use agents (CUAs) now act on a user's behalf across personal applications such as email, calendars, and to-do lists. This cross-application access is useful, but it also creates a privacy risk that has been largely overlooked: when an agent works in one context, it can pull in information from another that is inappropriate in that context. Hence, we introduce AgentCIBench, an evaluation harness that turns this risk into executable, deterministically scored scenarios. We target three common failure modes in CUAs: visual co-location, where the agent pulls in prohibited items that sit next to the task target in the UI; task-ambiguity overshare, where the agent dumps dense personal state in response to an under-specified prompt; and recipient misalignment, where the agent sends content to an addressee for whom it is inappropriate. We evaluate 15 frontier agents and find a surprisingly high failure rate: 11 of 15 leak on more than 50% of scenarios, with an average leakage of 67.9%, and the same failures persist when agents act end-to-end in the environment to complete the task. We release AgentCIBench to encourage the development of safer computer-use agents and position contextual disclosure testing as a pre-deployment safety check.",
+      "authors": [
+        "Anmol Goel",
+        "Iryna Gurevych"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-06-22T11:36:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.23189v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "AgentCIBench detects common failure modes in computer-use agents as anomalies",
+      "llm_evidence_cn": "AgentCIBench检测计算机使用代理中的常见失败模式作为异常",
+      "llm_evidence": "AgentCIBench检测计算机使用代理中的常见失败模式作为异常",
+      "canonical_evidence": "AgentCIBench检测计算机使用代理中的常见失败模式作为异常",
+      "llm_tldr_en": "AgentCIBench introduces an evaluation harness to detect privacy violations and inappropriate information disclosure as anomalies in computer-use agent trajectories, targeting three failure modes with deterministic scoring.",
+      "llm_tldr_cn": "计算机使用代理可能跨应用泄露隐私。本文识别三种失败模式：视觉共置、任务模糊性过度分享和接收者错误。AgentCIBench将这些问题转化为可执行场景，提供确定性评分。测试显示当前代理存在严重隐私异常。",
+      "llm_tldr": "计算机使用代理可能跨应用泄露隐私。本文识别三种失败模式：视觉共置、任务模糊性过度分享和接收者错误。AgentCIBench将这些问题转化为可执行场景，提供确定性评分。测试显示当前代理存在严重隐私异常。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.21445v1",
+      "source": "arxiv",
+      "title": "AutoRAS: Learning Robust Agentic Systems with Primitive Representations",
+      "abstract": "The automated design of agentic systems offers a promising pathway for scaling large language models (LLMs) beyond single-agent reasoning. While prior work has advanced task performance through handcrafted or automatically generated multi-agent workflows, robustness is often treated as an afterthought, leaving systems vulnerable to external adversaries and internal failures. We propose AutoRAS, a framework for the Automated design of Robust Agentic Systems. AutoRAS formulates system design as generating a sequence of symbolic primitives that jointly encode structural connectivity and behavioral actions, and learns to optimize this sequence using execution-derived safety signals and flow-based sequence-level objectives. Extensive experiments show that AutoRAS achieves the best performance in both vanilla and adversarial settings, with the smallest performance degradation under attacks. Further analyses demonstrate strong transferability, stable optimization behavior, stability across primitive sets, and favorable cost trade-offs. Our code is available at $\\href{https://github.com/guohezuy/AutoRAS}{\\text{this https URL}}$.",
+      "authors": [
+        "Yang Yue",
+        "Xuancheng Zhu",
+        "Yuyang Ma",
+        "Guoshun Nan",
+        "Zihan Dou",
+        "Jingru Shan",
+        "Congyu Guo",
+        "Ji Zhang",
+        "Hua Wang",
+        "Jingfeng Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-19T14:05:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.21445v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "uses execution-derived safety signals to optimize agentic system design, implicitly detecting failures",
+      "llm_evidence_cn": "利用执行导出的安全信号优化代理系统设计，隐含检测失败",
+      "llm_evidence": "利用执行导出的安全信号优化代理系统设计，隐含检测失败",
+      "canonical_evidence": "利用执行导出的安全信号优化代理系统设计，隐含检测失败",
+      "llm_tldr_en": "AutoRAS automatically designs robust agentic systems by generating symbolic primitives encoding structure and actions, optimizing with safety signals to reduce failures.",
+      "llm_tldr_cn": "现有自动化代理系统设计忽视鲁棒性。AutoRAS通过生成符号原语序列编码连接和行为，并使用执行安全信号优化设计。实验表明AutoRAS能有效降低系统故障率，提升错误检测能力。",
+      "llm_tldr": "现有自动化代理系统设计忽视鲁棒性。AutoRAS通过生成符号原语序列编码连接和行为，并使用执行安全信号优化设计。实验表明AutoRAS能有效降低系统故障率，提升错误检测能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.18619v1",
+      "source": "arxiv",
+      "title": "Code-Augur: Agentic Vulnerability Detection via Specification Inference",
+      "abstract": "The advent of agentic vulnerability detection is already becoming a watershed moment for software security. Audits conducted entirely by autonomous LLM agents are uncovering critical vulnerabilities in fundamental software underpinning digital society. Many of these vulnerabilities remained masked for years, surfacing only now with AI agents. Yet the reasoning behind these discoveries remains alarmingly opaque and unvalidated. What assumptions did the agent make about a function's inputs when it deemed that function to be secure? Failures in reasoning and incorrect assumptions can lead to missed vulnerabilities and reduce trust in agentic analysis.   We propose a security-specification-first paradigm that (1) exposes the agent's tacit assumptions explicitly as security specifications and (2) continuously refines those specifications via runtime falsification. We realize our approach in Code-Augur, a novel harness for agentic vulnerability detection. Given a codebase, Code-Augur analyzes each component of the system for vulnerable code. When it deems a component to be secure, it commits the local invariants behind that judgment as in-source assertions. In parallel, Code-Augur leverages a guided fuzzer to attempt to falsify those assumptions. When the fuzzer triggers an assertion, this either reveals a genuine vulnerability or a flawed specification to refine. In both cases, this process grounds the agent's understanding, aligning its view of code intent with how the code actually behaves. On real-world subjects, Code-Augur effectively leverages security specifications to detect more vulnerabilities than other state-of-the-art agents. Additionally, Code-Augur found 22 new vulnerabilities in key open-source projects. Compared to curated specialized models like Claude Mythos, Code-Augur offers effective agentic vulnerability detection built on widely available LLMs like Sonnet and DeepSeek.",
+      "authors": [
+        "Zhengxiong Luo",
+        "Mehtab Zafar",
+        "Dylan Wolff",
+        "Abhik Roychoudhury"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-06-17T02:32:45+00:00",
+      "link": "https://arxiv.org/pdf/2606.18619v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "infers specifications to detect vulnerabilities in agent actions, focusing on code errors",
+      "llm_evidence_cn": "推断规范以检测代理动作中的漏洞，关注代码错误",
+      "llm_evidence": "推断规范以检测代理动作中的漏洞，关注代码错误",
+      "canonical_evidence": "推断规范以检测代理动作中的漏洞，关注代码错误",
+      "llm_tldr_en": "Code-Augur proposes a security-specification-first paradigm to expose agent tacit assumptions and detect reasoning failures in vulnerability detection, improving trust in agentic analysis.",
+      "llm_tldr_cn": "自主LLM代理发现软件漏洞但推理过程不透明。Code-Augur提出先推断安全规范，暴露代理对输入的错误假设，从而检测推理错误。实验表明该方法能发现被传统方法遗漏的漏洞，增强对代理分析的信任。",
+      "llm_tldr": "自主LLM代理发现软件漏洞但推理过程不透明。Code-Augur提出先推断安全规范，暴露代理对输入的错误假设，从而检测推理错误。实验表明该方法能发现被传统方法遗漏的漏洞，增强对代理分析的信任。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.21666v1",
+      "source": "arxiv",
+      "title": "Hallucination as Context Drift: Synchronization Protocols for Multi-Agent LLM Systems",
+      "abstract": "Multi-agent LLM systems routinely produce hallucinated outputs that cannot be explained by model deficiencies alone. A significant class of these failures arises not from model incapacity but from context drift: the divergence of internal knowledge states between concurrent agents. When agents enter a collaborative task with mismatched or stale representations of shared world state, their joint reasoning produces contradictions that manifest as hallucination. We define the Context Divergence Score (CDS), a lightweight scalar metric quantifying knowledge-state discrepancy between agent pairs across spatial, temporal, and task dimensions, and propose the Shared State Verification Protocol (SSVP), which lets agents periodically exchange compressed state summaries and flag high-divergence conditions before joint reasoning. We evaluate SSVP across two domains (multi-agent travel and software project planning) using Claude Haiku. In controlled experiments (n=30 per condition, travel; n=10, software) across 8 scenarios, naive full-broadcast synchronization increases hallucination rate by 34% above the no-sync baseline (HR: 0.658 vs. 0.492, p=0.0022, d=1.18), a contamination effect from propagating erroneous agent states. SSVP avoids this failure mode while showing modest, consistent reduction (HR: 0.463, d=0.30) and achieves significantly lower hallucination than full-broadcast (p=0.0005, d=1.47) using 58% fewer API calls. The contamination effect does not replicate in the software domain, where all conditions converge to low HR (<0.2), confirming it is specific to tasks where one erroneous shared belief cascades across evaluation dimensions. Our results reframe hallucination mitigation as a distributed systems problem and establish context synchronization as a first-class primitive in multi-agent LLM design.",
+      "authors": [
+        "Carson Rodrigues"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.MA"
+      ],
+      "published": "2026-06-19T18:17:45+00:00",
+      "link": "https://arxiv.org/pdf/2606.21666v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "monitoring agent behavior for errors via context drift detection",
+      "llm_evidence_cn": "通过上下文漂移检测监测代理行为错误",
+      "llm_evidence": "通过上下文漂移检测监测代理行为错误",
+      "canonical_evidence": "通过上下文漂移检测监测代理行为错误",
+      "llm_tldr_en": "Defines Context Divergence Score (CDS) to detect hallucination errors in multi-agent LLM systems caused by context drift, and proposes Shared State Verification Protocol.",
+      "llm_tldr_cn": "多代理LLM系统中的一种重要错误源自上下文漂移（各代理知识状态不一致）。本文提出上下文分歧分数（CDS）量化代理间知识状态差异，并设计共享状态验证协议（SSVP），通过周期性交换压缩摘要来同步上下文，从而减少幻觉错误",
+      "llm_tldr": "多代理LLM系统中的一种重要错误源自上下文漂移（各代理知识状态不一致）。本文提出上下文分歧分数（CDS）量化代理间知识状态差异，并设计共享状态验证协议（SSVP），通过周期性交换压缩摘要来同步上下文，从而减少幻觉错误",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.21565v1",
+      "source": "arxiv",
+      "title": "Composing Verifiable Conceptual Models via Building Blocks: Towards Design-Time Verification of Agentic AI Workflows",
+      "abstract": "Agentic AI systems orchestrate multiple LLM-based agents through workflow architectures that coordinate decisions, tools, and external actions. While current platforms emphasize runtime safeguards, little support exists for verifying workflows during system design. From a Modeling \\& Simulation perspective, this gap is analogous to composing conceptual models without verifying whether their building blocks interact coherently. We propose a design-time verification approach that models agentic workflows as compositions of reusable building blocks and checks their compatibility through twelve structural rules. We implemented these rules in a software prototype and evaluated them using two openly released datasets: 48 workflows with known design flaws and 168 variants that preserve workflow logic but alter graph structure. Results show that our verifier reliably detects violations even when flawed designs are obscured through structural transformations such as splitting tasks between agents. Future works could combine our verification with community repositories of building blocks to compose safe agentic workflows.",
+      "authors": [
+        "Noe Y. Flandre",
+        "Alexander C. Nwala",
+        "Philippe J. Giabbanelli"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-19T16:03:53+00:00",
+      "link": "https://arxiv.org/pdf/2606.21565v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "design-time verification of agentic workflows",
+      "llm_evidence_cn": "设计时验证agent工作流",
+      "llm_evidence": "设计时验证agent工作流",
+      "canonical_evidence": "设计时验证agent工作流",
+      "llm_tldr_en": "Proposes design-time verification for agentic AI workflows using building blocks and structural rules, enabling early error detection in agent behavior design.",
+      "llm_tldr_cn": "针对agentic AI系统运行时错误难以提前发现的问题，提出基于构建块的设计时验证方法，通过十二条结构规则检查工作流兼容性。原型评估表明该方法能在系统设计阶段发现潜在交互错误，提升agent行为可靠性。",
+      "llm_tldr": "针对agentic AI系统运行时错误难以提前发现的问题，提出基于构建块的设计时验证方法，通过十二条结构规则检查工作流兼容性。原型评估表明该方法能在系统设计阶段发现潜在交互错误，提升agent行为可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
