@@ -1,0 +1,1363 @@
+Title: Beyond Function Calling: Benchmarking Tool-Using Agents under Tool-Environment Unreliability
+
+URL Source: https://arxiv.org/pdf/2606.25819v1
+
+Published Time: Thu, 25 Jun 2026 01:22:42 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+# Beyond Function Calling: Benchmarking Tool-Using Agents under Tool-Environment Unreliability 
+
+Yang Tian ∗, Zhengpeng Shi ∗, Bo Zhao 
+
+School of AI, Shanghai Jiao Tong University 
+
+Abstract 
+
+Large language models are increasingly deployed as agents that solve tasks by interacting with external tool environments. Although recent tool-use benchmarks increasingly cover com-plex task settings, they still largely assume clean, stable, and trustworthy tool environments, leaving tool-environment un-reliability insufficiently examined. We introduce ToolBench-X, a benchmark for evaluating agents under recoverable relia-bility hazards. ToolBench-X contains executable multi-step tasks across diverse domains and sequential, parallel, and mixed workflows, each paired with deterministic tools and a canonical final answer for automatic evaluation. Starting from clean tool environments, ToolBench-X injects five structured hazard types: Specification Drift, Invocation Error, Execu-tion Failure, Output Drift, and Cross-source Conflict. Cru-cially, each injected instance remains solvable through at least one valid recovery path, such as retrying, fallback, verifi-cation, or cross-checking. Experiments reveal a substantial reliability gap: agents that perform well with reliable tools often fail under recoverable hazards. Further analysis shows that failures are driven less by tool-use volume or inference budget than by limited hazard diagnosis and ineffective re-covery. Targeted recovery hints recover many failed tasks, while test-time scaling yields more limited gains. These re-sults suggest that tool-use evaluation should move beyond function-call accuracy toward task completion under unre-liable tool environments. The code and data is available at https://github.com/Foreverskyou/ToolBench-X. 
+
+Introduction 
+
+Large language models (LLMs) are advancing at an unprece-dented pace, and the development of agents built upon them has emerged as a promising direction in AI research (Liu et al. 2024; Yang et al. 2025). These agents interact with the real world through diverse tools, thereby unlocking novel oppor-tunities for practical applications. Consequently, establishing robust benchmarks to reliably evaluate the tool-use capabil-ities of LLMs has become increasingly critical (Huang et al. 2024a; Du, Wei, and Zhang 2024b; Yao et al. 2024; Guo et al. 2025). However, correct function calling is only a necessary con-dition for reliable tool use. In real-world systems, tools are rarely perfectly specified, perfectly stable, or perfectly trust-worthy. API documentation may become stale; expected fields may be renamed or wrapped; services may timeout; 
+
+> ∗
+
+These authors contributed equally. 
+
+returned values may be incomplete, non-canonical, or se-mantically shifted; and different tools may provide conflict-ing evidence. Even when a correct answer remains reachable, an agent may fail by trusting a suspicious intermediate re-sult, retrying the wrong call, inventing missing arguments, or finishing before the required evidence is complete. These fail-ures are not captured well by evaluations that assume clean tool contracts and focus primarily on whether the model se-lected the right function with the right arguments. This work posits that advancing the evaluation of tool-using agents requires moving beyond mere function invoca-tion: from assessing isolated call correctness to evaluating robust task completion under conditions of structured tool uncertainty. A competent tool agent should not only execute tools correctly but also recognize when tool outputs are un-reliable, validate incomplete or contradictory results, recover from runtime errors, and ultimately generate a benchmark-consistent final answer. In other words, evaluating tool use should go beyond asking “Can the model invoke the tool?” to also consider “Can the model accomplish the task when the tool environment is uncertain?” To investigate this question, we introduce a challenging benchmark for evaluating tool-using agents under struc-tured Reliability Hazards. The benchmark defines executable multi-step tool tasks spanning sequential, parallel, and mixed workflows. Each task is associated with Python tools and a canonical final answer, enabling automatic execution and precise exact-match evaluation. We then convert previously successful baseline tools into uncertainty-injected versions according to a controlled taxonomy of five uncertainty types: specification uncertainty, invocation uncertainty, exe-cution uncertainty, output uncertainty, and cross-source un-certainty. These categories encompass common real-world failure modes, including contract drift, argument ambiguity, service failures, schema or surface-form drift, and conflicting evidence across multiple tools. A central design principle of our framework is that in-jected failures should be both disruptive and recoverable. Consequently, we avoid merely corrupting tools to create un-solvable tasks. Instead, each injected task maintains at least one viable recovery path, which may involve retrying, fall-back strategies, cross-checking, normalization, or evidence verification. Our experiments indicate that executing tasks in environments subject to reliability hazards is challenging: all                                                                                                                  
+
+> arXiv:2606.25819v1 [cs.CL] 24 Jun 2026 Benchmark #Tasks #Tools Specification Drift Invocation Errors Execution Failures Output Drift Cross-Source Conflict Sequential Tool-Use Parallel Tool-Use Mixed Tool-Use ToolBench-X 1106 4956 ✓✓✓✓✓✓✓✓
+> BFCL v3 (Patil et al. 2025) 1,000 N/R ××××××✓×
+> BFCL v2 (Patil et al. 2025) 2,251 N/R ××××××✓×
+> BFCL v1 (Patil et al. 2025) 2,000 N/R ××××××✓×
+> ToolBench (Qin et al. 2024) 126,486 16,464 APIs ×××××✓××
+> AnyToolBench (Du, Wei, and Zhang 2024a) 400 >16,000 APIs ×××××✓××
+> τ2-bench (Barres et al. 2025) 279 48 ×××××✓××
+> τ-bench (Yao et al. 2024) 165 28 ×××××✓××
+> T-EVAL (Chen et al. 2024) 553 15 ×××××✓××
+> UltraTool (Huang et al. 2024a) 5,824 2,032 ×××××✓××
+> AgentNoiseBench (Wang et al. 2026) ––××✓✓×✓××
+
+Table 1: Comparative analysis of ToolBench-X against representative tool-use benchmarks. evaluated models achieved success rates below 60%. We further observe that providing targeted hints when the model encounters difficulty can substantially increase its task completion success rate. Moreover, our failure-triggered, test-time scaling experiments demonstrate that allowing the model to reflect on its failures and engage in additional rea-soning rounds also improves performance. This suggests that some recovery capabilities can emerge from extended inference-time computation. Collectively, these findings in-dicate that many failures are not attributable to inherently unsolvable tasks, but rather to insufficient failure diagno-sis, inadequate evidence verification, and limited recovery strategies. In summary, this work advances the study of tool-using agents along three key dimensions. First, we develop a scal-able framework that conceptualizes reliable tool use as the successful completion of tasks under five distinct sources of uncertainty, thereby extending evaluation beyond sim-ple function-call scenarios. Second, we introduce a rigor-ous benchmark comprising executable tasks, systematically injected uncertainties, and recovery mechanisms, which en-ables precise assessment of agent robustness in real-world settings. Third, our empirical results demonstrate that current tool-using agents remain highly fragile under runtime uncer-tainty; however, structured guidance and test-time recovery strategies can substantially enhance task success rates. 
+
+Related Work 
+
+Large language models agents. Large language models are increasingly studied not only as text generators, but as agents that perceive task context, plan intermediate steps, take actions, observe feedback, and update their behavior over time. This agentic paradigm has been explored across a wide range of domains. For example, WebArena (Zhou et al. 2023) and Mind2Web (Deng et al. 2023) evaluate agents that operate over realistic websites and user instructions; SWE-bench (Jimenez et al. 2023) evaluates agents on resolving real GitHub issues by editing code and interacting with exe-cution environments; Voyager (Wang et al. 2023) studies an embodied lifelong-learning agent in Minecraft; and Agent-Bench (Liu et al. 2023) evaluates LLM agents across diverse interactive environments. These works show that modern agents are expected to complete tasks through interaction with external environments rather than by producing a single static response. Across these settings, tool use is a foun-dational capability. Whether an agent queries a database, calls a web API, executes code, searches documents, edits files, or invokes a domain-specific simulator, it must decide which external operation to perform, provide valid inputs, interpret the returned observation, and incorporate that ob-servation into subsequent reasoning. Tool use therefore acts as an atomic action interface between language models and the external world. Improvements in tool use directly affect broader agent reliability, because higher-level planning and reasoning depend on the correctness and trustworthiness of these low-level interactions. 
+
+Benchmarks for tool-using agents. Existing benchmarks have made important progress in evaluating tool-use abil-ity. T-EVAL (Chen et al. 2024), UltraTool (Huang et al. 2024a), and MetaTool (Huang et al. 2024b) assess various sub-capabilities of tool-use, but treat tool invocation as a simple question-answering task, which fails to capture the multi-turn interactive nature of the LLM agent loop. On the other hand, BFCL-V1 (Patil et al. 2025) and BFCL-V2 (Patil et al. 2025) pioneered the evaluation of parallel tool-use but were still limited to single-turn scenarios. BFCL-V3 (Patil et al. 2025) introduced multi-turn evaluation and assessed the sequential multi-step capabilities of LLMs. Beyond eval-uating whether agents can use tools correctly, assessing their robustness to imperfect or unreliable tool environments is also an important research direction (Wang et al. 2026; Xi et al. 2026). However, prior studies largely focus on shal-low tool perturbations, simple tool-call chains, or single-type untrusted tool environments. In contrast, our work sys-tematically evaluates agents under realistic and unexpected tool-environment uncertainties that may emerge throughout a complete, complex task-execution cycle, assessing their abil-ity to complete task progress in unreliable yet recoverable tool environments. 
+
+ToolBench-X 
+
+Problem Formulation 
+
+A tool-using agent can be formalized as a sequential decision-making process. At each step, the agent observes the task context along with previous tool outputs, and selects an action such as invoking a tool with specific arguments, retrying an operation, switching tools, verifying evidence, or producing Figure 1: Benchmark construction pipeline. We first define seven topic categories, generate diverse task scenarios for each topic, synthesize executable tools and canonical answers, inject structured reliability hazards while preserving a valid recovery path, and finally conduct human review to ensure task validity, tool correctness, hazard consistency, and answer reliability. a final answer. Formally, this can be represented as a Markov Decision Process (MDP): 
+
+M = ( S, A, P )
+
+where S is the state space of environment, A contains tool calls and the transition kernel P (st+1 | st, a t) characterizes how the external tool environment responds to the agent. Ex-isting function-calling benchmarks largely evaluate agents under a clean transition kernel P0, in which a valid function call call_tool (f, x ) reliably returns a documented out-put Tf (st, x ). Under this assumption, the primary challenge lies in action correctness: selecting the appropriate function and providing the correct arguments. In practice, however, real-world tool environments often violate this assumption. Runtime failures, outdated schemas, output drift, missing fields, and inconsistencies across tools introduce perturba-tions, resulting in a modified transition kernel Ph such that 
+
+Ph(st+1 | st, a t)̸ = P0(st+1 | st, a t)
+
+Since tool-use tasks are inherently multi-step, even lo-calized perturbations can propagate through subsequent ar-gument generation, evidence aggregation, and final answer synthesis. For a fixed policy π, the key metric is therefore not only its nominal performance V πP0 , but also the degradation 
+
+V πP0 − V πPh induced by unreliable tools environment. This is crucial, as it better reflects the model’s true capabilities in real-world scenarios. Furthermore, an environment with unreliable tools is partially observable. The agent cannot directly determine whether a returned field is stale, whether an exception re-flects a transient failure, or whether conflicting outputs stem from corrupted sources. As a result, the optimal policy under 
+
+Ph may differ substantially from that under P0, leading to degraded decision quality when the agent relies on incom-plete, inconsistent, or unreliable tool observations. This dis-tinction highlights the limitations of conventional function-calling benchmark as a measure of reliable tool-agent per-formance. A model may perform strongly under P0 yet ex-hibit substantial degradation under Ph, because traditional benchmarks rarely capture the reliability hazards present in tool-environment interactions. Our work addresses this gap by explicitly constructing hazards and evaluating both the resulting performance degradation under Ph and the perfor-mance improvements enabled by additional reliability sig-nals. Table 1 shows the comparison of ToolBench-X and other representative tools using benchmarks. 
+
+Benchmark Construction 
+
+We construct the benchmark using a multi-stage pipeline designed to generate diverse, executable, and recoverable tool-use tasks. Our aim is not merely to produce tool-calling problems, but also to introduce controlled reliability hazards that still allow a correct final answer to be reached. The detailed pipeline is illustrated in Fig. 1. 
+
+Topic and Scenario Generation. We begin by defining seven broad topic categories to encompass a wide range of real-world tool-use topics. These topics are designed to capture variations in task intent, information structure, and interaction patterns. For each topic, we prompt a large lan-guage model to generate multiple realistic scenarios in which an agent must leverage external tools to fulfill a user request. The resulting scenarios include sequential workflows, paral-lel workflows, and mixture workflows that incorporate both sequential and parallel processes. 
+
+Task and Tool Construction. For each scenario, A large language model is employed to produce both detailed task specifications and the Python toolset required for task com-pletion. Each tool is accompanied by a natural language de-scription, input schema, executable implementation, and de-1.4%  
+
+> 21.2%
+> 19.4%
+> 17.4%
+> 15.6%
+> 12.6%
+> 12.5%
+> Task
+> Topics
+> Information &
+> Communication Commerce &
+> Transactions
+> Entertainment &
+> Media
+> Health &
+> Wellness
+> Government &
+> Public Services
+> Finance &
+> Economics
+> Data &
+> Analytics
+
+(a) Task domain distribution. N=1,106          
+
+> Anomaly Tools
+> Anomaly Type
+> Cross-Source 263 (23.8%)
+> Execution 265 (24.0%)
+> Invocation 173 (15.6%)
+> Output 264 (23.9%)
+> Specification 141 (12.7%)
+> Tool-Call Type
+> Mixture 370 (33.5%)
+> Parallel 358 (32.4%)
+> Sequential 378 (34.2%)
+
+(b) Reliability Hazard types. 0200 400 600 800  
+
+> 0.1%
+> 2
+> 9.3%
+> 3
+> 75.0%
+> 4
+> 11.5%
+> 5
+> 3.2%
+> 6
+> 0.7%
+> 7
+> 0.3%
+> 8
+> Tools per task Tasks
+
+(c) Number of tools per task. 
+
+Figure 2: Overview of the benchmark distribution across task domains, reliability hazard types, and number of tools per task, showing broad topical coverage, diverse reliability challenges, and varied multi-tool complexity. terministic output behavior. Additionally, we provide a clean result for each task, in which the task can be successfully solved through correct tool selection, parameter specifica-tion, execution, and answer synthesis. 
+
+Reliability Hazard Injection. Starting from the clean tools, We define five types of tool uncertainty according to where the mismatch between expected and observed tool be-havior occurs. In all cases, the ground-truth answer is fixed by the original benchmark expected answer and the deter-ministic no-injection tool path; exception injection perturbs only the agent’s observable interaction with tools, not the underlying task answer. Specification Drift occurs when the documented tool con-tract differs from the runtime contract, such as renamed fields, changed types, altered output shapes, or shifted units. It models stale documentation or API version drift. The cor-rect answer is recovered by mapping the observed runtime behavior back to the intended contract. Invocation Error occurs when the agent selects the right tool, but the intended call is not faithfully delivered to or inter-preted by the tool. Arguments or wrapper-mediated payloads may be dropped, renamed, coerced, defaulted, truncated, or rejected at the tool boundary. It models failures in adapters, middleware, parameter binding, or request construction. The correct answer is recovered by verifying required inputs, re-constructing a valid call, and avoiding downstream use of incomplete or misbound arguments. Execution Failure occurs after a valid call has reached the tool, but the tool execution is unstable due to timeouts, connection errors, runtime exceptions, or parsing failures. It models unreliable services or execution environments. The correct answer is recovered through bounded retry, fallback, and refusal to finish from partial execution evidence. Output Drift occurs when the tool result is available but its returned surface form is unstable, such as wrapped values, added units, nested fields, aliases, or non-canonical answer formats. It models formatting and serialization drift. The correct answer is recovered by extracting the underlying value and canonicalizing it to the benchmark-required form. Cross-source Conflict occurs when the answer depends on multiple tools or evidence branches that may be incomplete, inconsistent, or differently formatted. It models multi-source aggregation and verification. The correct answer is not se-lected by voting among sources; it is the original benchmark answer, recovered by checking branch completeness, nor-malizing source outputs, resolving contradictions, and prop-agating only reconciled evidence. A key constraint in our construction is recoverability. We do not inject arbitrary corruptions that make the task unsolv-able. Instead, every uncertainty-injected instance preserves at least one valid path to the canonical answer. Depending on the uncertainty type, the recovery path may require retrying a failed call, selecting a fallback tool, normalizing a changed output format, checking multiple sources, or verifying sus-picious evidence before producing the final answer. 
+
+Human Validation. Finally, all generated instances un-dergo rigorous human review. This process verifies that each task is well-posed, the associated tools are executable, the baseline answer is correct, the injected hazard aligns with its intended uncertainty category, and the recovery path is valid. Instances exhibiting ambiguous instructions, multiple plausible final answers, irrecoverable failures, inconsistent tool behavior, or answer leakage through the prompt are ei-ther revised or removed. This human-in-the-loop validation ensures that benchmark failures reflect genuine limitations of agent reliability rather than artifacts arising from dataset construction. 
+
+Statistics of ToolBench-X Figure 2 presents an overview of the benchmark composition. The tasks span seven di-verse real-world domains. Reliability hazards are represented across all five uncertainty types, with cross-source, execu-tion, and output uncertainty comprising the largest cate-gories, while invocation and specification uncertainty pro-vide complementary coverage. The benchmark further in-corporates a balanced mix of sequential, parallel, and hybrid workflow structures. Most tasks involve multi-step tool us-age, predominantly concentrated around four-tool workflows, with additional variability in the length of tool chains. 
+
+Experiments 
+
+Experimental Setup 
+
+We conduct a comprehensive evaluation on ToolBench-X by benchmarking twelve prominent large language models, cov-Models Task Type Exception Type Overall 
+
+Parallel Sequential Mixture Cross-Source Execution Invocation Output Specification DeepSeek-V4-Pro (DeepSeek-AI 2026) 0.469 0.397 0.411 0.335 0.355 0.272 0.663 0.468 0.425 GPT-5.4 (Singh et al. 2025) 0.472 0.450 0.438 0.350 0.358 0.283 0.727 0.518 0.453 Doubao-Seed-2.0-Lite (ByteDance 2026) 0.587 0.439 0.516 0.460 0.457 0.353 0.750 0.468 0.513 
+
+Claude-Sonnet-4.6 (Anthropic 2026) 0.425 0.402 0.405 0.312 0.332 0.272 0.655 0.454 0.410 Gemini-3.1-Flash (Google 2026) 0.528 0.339 0.386 0.354 0.396 0.301 0.572 0.418 0.416 GLM-5.1 (Zeng et al. 2026) 0.511 0.357 0.395 0.373 0.411 0.318 0.557 0.390 0.420 GPT-4o (Singh et al. 2025) 0.352 0.386 0.338 0.300 0.291 0.249 0.527 0.418 0.359 MiniMax-M2.7 (Chen et al. 2026) 0.257 0.243 0.246 0.186 0.181 0.179 0.402 0.291 0.249 Kimi-K2.6 (Team et al. 2026) 0.170 0.262 0.200 0.137 0.177 0.127 0.330 0.298 0.212 Qwen-3.0-30B-A3B-Instruct (Yang et al. 2025) 0.411 0.405 0.395 0.354 0.306 0.243 0.617 0.475 0.403 Qwen-3.5-35B-A3B (Yang et al. 2025) 0.394 0.360 0.362 0.319 0.291 0.225 0.572 0.426 0.372 Qwen-3.5-35B-A3B-Thinking (Yang et al. 2025) 0.475 0.368 0.416 0.350 0.362 0.301 0.602 0.454 0.419 
+
+Table 2: Main Results on ToolBench-X. Bold text indicates the best result in each category, while underlined text indicates the second-best result. ering both proprietary and open-source systems. The com-plete list of evaluated models is provided in Table 7. We re-port final-task accuracy as the primary metric. A task is con-sidered correct if the execution state recorded by the backend at task completion matches the ground truth, or if the model’s final response explicitly contains the ground-truth answer. 
+
+Main Result 
+
+Table 2 reports the performance of twelve representative LLMs on ToolBench-X. The results show that robust tool use under exceptions remains highly challenging. Even the best-performing model, Doubao-Seed-2.0-Lite, solves only slightly more than half of the cases. Other frontier models also remain below the 0.50 accuracy threshold, with GPT-5.4 achieving 0.453, followed by DeepSeek-V4-Pro, GLM-5.1, Gemini-3.1-Flash, and Claude-Sonnet-4.6. This suggests that no proprietary model family has yet addressed exception-aware tool use in unreliable tool-use environments. Open-source models substantially narrow this gap. Qwen-3.5-35B-A3B-Thinking reaches an accuracy of 0.419, out-performing GPT-4o and approaching several closed-source systems. Comparisons within the Qwen family further sug-gest that explicit reasoning is more effective than parame-ter scaling alone: the thinking-enabled 35B model improves over its non-thinking counterpart by 4.7 percentage points, while the non-thinking 35B model underperforms the smaller Qwen-3.0-30B-A3B-Instruct. Task-level results reveal that Parallel tasks are the easiest, with an average accuracy of 0.421, followed by Mixture and Sequential tasks. The performance gap reaches as much as fifteen percentage points for stronger models, confirming that errors accumulate when tool calls depend on previous out-puts. Exception-level results show even sharper disparities. Output exceptions are handled relatively well, with an aver-age accuracy of 0.581, whereas Specification exceptions are only moderately addressed. Execution, Cross-Source, and especially Invocation exceptions remain the dominant fail-ure modes. The gap of more than thirty percentage points between Output and Invocation exceptions suggests that cur-rent LLMs are considerably better at post-hoc interpretation of tool results than at proactively generating correct tool calls under unreliable environments. 0% 20% 40% 60% 80% 100%   
+
+> Trajectories (%)
+> Doubao-Seed-2.0-Lite
+> DeepSeek-V4-Pro
+> GPT-4o
+> Qwen3.5-35B-A3B
+> GPT-5.4
+> Kimi-K2.6
+> MiniMax-M2.7
+> GLM-5.1
+> Claude-Sonnet-4.6
+> Gemini-3.1-Flash-Lite
+> 76.4%
+> 72.4%
+> 70.9%
+> 70.8%
+> 65.9%
+> 60.5%
+> 56.4%
+> 51.2%
+> 47.7%
+> 44.1%
+> 22.4%
+> 22.2%
+> 26.7%
+> 22.7%
+> 33.2%
+> 31.3%
+> 38.5%
+> 43.8%
+> 46.5%
+> 43.6%
+> 5.4%
+> 6.5%
+> 8.2%
+> 5.1%
+> 5.0%
+> 5.9%
+> 12.3%
+> Retry the same tool Switch to a different tool Terminate with final answer
+
+Figure 3: Post-error behaviors after the first failed tool re-sponse. Overall, model rankings are relatively stable across task types but fluctuate markedly across exception types, while no model achieves an overall score above 0.60. Moreover, large-scale closed-source models do not exhibit a clear advantage over open-source counterparts. These results indicate that robust task execution in untrusted tool environments is a capability that must be explicitly targeted, rather than an ability that can be obtained through parameter scaling alone. 
+
+Further Analysis 
+
+Post-Failure Recovery Behavior. Aggregate accuracy alone does not explain why agents fail. We therefore examine the action immediately following the first failed tool call. Fig-ure 3 shows that retrying the same tool dominates across all models, accounting for 44% to 76% of post-failure trajec-tories, while direct termination remains below 12%. How-ever, this behavior pattern is only weakly associated with overall accuracy in Table 2. High retry rates appear in both the strongest model, Doubao-Seed-2.0-Lite with accu-racy 0.513, and weaker models such as GPT-4o with accu-racy 0.359. Similarly, switch-heavy models such as Claude-Sonnet-4.6 and Gemini-3.1-Flash achieve only mid-level ac-curacy. These results indicate that recovery quality depends not on retrying or switching, but on whether the action matches the underlying hazard. Failures mainly reflect in-accurate hazard diagnosis, demonstrating that diagnosis is Claude-Sonnet-4.6            
+
+> DeepSeek-V4-Flash
+> Doubao-Seed-2.0-Mini
+> Gemini-3.1-Flash-Lite
+> GPT-5.4-Mini
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> Accuracy (%)
+> 42.0 40.0
+> 45.0 46.0 48.5
+> 53.5
+> 48.5
+> 53.5 55.0 52.0
+> 77.5
+> 71.0 70.5 73.5
+> 84.0
+> 94.5
+> 87.0 85.5
+> 80.5
+> 96.5
+> Baseline Test-time scaling Hint Oracle
+
+Figure 4: Overall accuracy on the 200-task subset across five models. Baseline is the exception-injected setting, Oracle is the clean upper bound, and Test-time scaling and Hint are recovery strategies. the central bottleneck. 
+
+Are failures unrecoverable, or merely undiagnosed? 
+
+Agents fail substantially under tool exceptions, but aggregate accuracy alone cannot explain why. Low scores may reflect cases that become intrinsically unsolvable under a corrupted tool environment, or cases that remain solvable but require the agent to diagnose the tool environment hazard and adapt its strategy. To obtain credible conclusions while keeping evaluation cost manageable, we uniformly sample a subset of 200 tasks from the full benchmark as our evaluation pool, preserving the original distribution of task types and excep-tion categories. The standard setting with injected exceptions on this subset serves as the Baseline . We further introduce three diagnostic settings. In Hint , after the agent fails a task, the model is informed of the current problem in the tool environment. In Test Time Scaling (TTS), after the agent fails a task, the model is given an additional budget of 10 interaction rounds to retry without any hint. In Oracle , the same tasks are evaluated in the original clean tool environ-ment without exception injection, providing an upper bound on achievable performance. The gap between Baseline and Oracle measures the performance loss caused by tool excep-tions, while the relative positions of Hint and TTS within this gap help distinguish failures caused by poor diagnosis from those caused by insufficient compute. 
+
+Diagnosis is the dominant bottleneck. Figure 4 reveals a sizable gap of roughly 35 to 50 points between Baseline and Oracle, confirming that exception injection is a substantive source of failure rather than a minor perturbation. Hint close the bulk of this gap. Hint lifts Baseline accuracy by 25.5 to 35.5 absolute points, recovering roughly 60 to 80 percent of the lost accuracy across all five models. The improvement is consistent across capability tiers, from DeepSeek-V4-Flash to GPT-5.4-Mini, indicating that diagnosis is a uniformly limiting factor rather than a weakness specific to smaller models. Although each hint provides only a brief explana-tion of the anomaly in the tool environment, this signal alone is sufficient to turn most failures into successes. Most no-hint failures are therefore not on irrecoverable tasks but on tasks where the agent cannot identify the hazard on its own. Nev-
+
+MLLMs Tools per Task Overall 
+
+≤ 3 4 ≥ 5
+
+DeepSeek-V4-Pro 0.413 0.432 0.399 0.425 GPT-5.4 0.442 0.461 0.422 0.453 Doubao-Seed-2.0-Lite 0.577 0.515 0.462 0.513 Claude-Sonnet-4.6 0.442 0.414 0.376 0.410 Gemini-3.1-Flash-Lite 0.442 0.433 0.318 0.416 GLM-5.1 0.490 0.428 0.335 0.420 GPT-4o 0.423 0.363 0.301 0.359 MiniMax-M2.7 0.269 0.251 0.225 0.249 Kimi-K2.6 0.269 0.203 0.220 0.212 Qwen-3.0-30B-A3B-Instruct 0.404 0.415 0.347 0.403 Qwen-3.5-35B-A3B 0.404 0.370 0.358 0.372 Qwen-3.5-35B-A3B-Thinking 0.471 0.425 0.358 0.419 
+
+N 104 829 173 1106 Table 3: Overall accuracy on the full benchmark by tool-count complexity. Tasks are grouped into low-complexity ( ≤
+
+3 tools), medium-complexity (4 tools), and high-complexity (≥ 5 tools) buckets. ertheless, a residual gap between Hint and Oracle remains, suggesting that certain hazards require adaptive recovery be-haviors that current models still fail to execute reliably. 
+
+Compute alone does not explain the Hint gain. TTS isolates the effect of additional compute by granting extra inference rounds while withholding any information about anomalies in the tool environment. Thus, any remaining ad-vantage of Hint over TTS can be attributed to diagnostic infor-mation rather than to additional reasoning steps. The results indicate that compute alone is a weak intervention: TTS im-proves Baseline accuracy by only 3.5–11.5 percentage points, while Hint consistently outperforms TTS by 24–32 points. This gap persists even among the strongest models in our evaluation. GPT-5.4-Mini achieves 0.840 accuracy with Hint but only 0.520 with TTS, while Claude-Sonnet-4.6 reaches 0.775 versus 0.535. Taken together with the strong Hint performance, these findings identify diagnosis, rather than recovery, as the primary bottleneck. Once an agent knows which hazard it faces, it can often recover effectively. Robust exception handling therefore requires hazard-aware sensing and self-diagnosis, rather than simply scaling the inference budget. 
+
+Do longer tool chains compound exception hazards? Anatural concern is that the failures we observe are amplified by task length: each additional tool call introduces another point of potential exception, another intermediate observa-tion that must be checked, and another opportunity for errors to propagate downstream. We therefore examine how reli-ability scales with the number of tools required by a task. Because exact tool-count bins are unevenly populated, we group tasks into three buckets — low (≤ 3 tools), medium 
+
+(4 tools), and high (≥ 5 tools), which preserves statistical power in each bucket while exposing the trend across com-plexity levels. Table 3 reports accuracy under this grouping. Most models show a clear decline from low- to high-complexity tasks. For example, Doubao-Seed-2.0-Lite drops from 0.577 to 0.462 ,0.61 0.65 0.69 0.73 0.77 0.81 0.85 0.89 0.93 0.97 1.00  
+
+> Average Call Expansion Ratio
+> 0.20
+> 0.25
+> 0.30
+> 0.35
+> 0.40
+> 0.45
+> 0.50
+> 0.55
+> Accuracy
+> Doubao-Seed-2.0-Lite
+> GPT-5.4
+> DeepSeek-V4-Pro
+> GLM-5.1
+> Qwen3.5-35B-A3B-Thinking
+> Gemini-3.1-Flash-Lite
+> Claude-Sonnet-4.6
+> Qwen3-30B-A3B-Instruct
+> Qwen3.5-35B-A3B GPT-4o
+> MiniMax-M2.7
+> Kimi-K2.6
+> Pearson r = 0.326
+
+Figure 5: Process efficiency versus accuracy on the full benchmark. Gemini-3.1-Flash-Lite from 0.442 to 0.318 , GLM-5.1 from 
+
+0.490 to 0.335 , and GPT-4o from 0.423 to 0.301 . These declines indicate that exception handling becomes harder as agents must coordinate longer chains of tool calls. The trend is not perfectly monotonic across all models, suggesting that tool count is not the only source of diffi-culty. Exception type, workflow structure, and dependencies between calls also affect robustness. Nevertheless, the over-all pattern supports a compounding-risk interpretation: as tool chains grow longer, a single mishandled exception is more likely to corrupt subsequent reasoning. Reliable agent behavior under tool uncertainty therefore requires robust per-call diagnosis and recovery, not merely stronger final-answer generation. 
+
+Does robustness come from more calls, or better calls? Anatural hypothesis is that the more accurate models in Table 2 simply call tools more aggressively. To test this, we measure each model’s tool-invocation intensity using the Average Call Expansion Ratio: 
+
+R = 1
+
+|T | 
+
+X
+
+t∈T 
+
+Ct
+
+Kt
+
+,
+
+where Ct denotes the number of tool calls made on task t,and Kt denotes the number of tools specified by that task. We use R as a process-level diagnostic rather than a capability score. Figure 5 compares accuracy with R across models. The association is weak, with a descriptive model-level Pearson 
+
+r = 0 .326 computed from each model’s average perfor-mance over 1,106 tasks. The ordering of several models fur-ther contradicts a volume-based explanation. Doubao-Seed-2.0-Lite achieves the highest accuracy of 0.513 with a rel-atively low expansion ratio of 0.773 , whereas GPT-4o and Qwen-3.0-30B-A3B-Instruct invoke tools more frequently, with expansion ratios of 0.948 and 0.950 , yet obtain lower accuracy. These results indicate that robustness is not primar-ily explained by invocation volume. Effective agents recover by using additional observations to revise their reasoning, rather than by merely increasing the number of tool calls. 0 20 40 60 80 100    
+
+> Failure behavior proportion (%)
+> Qwen3-30B-A3B-Instruct
+> GPT-4o
+> GPT-5.4
+> MiniMax-M2.7
+> DeepSeek-V4-Pro
+> Qwen3.5-35B-A3B-Thinking
+> Claude-Sonnet-4.6
+> Qwen3.5-35B-A3B
+> GLM-5.1
+> Kimi-K2.6
+> Doubao-Seed-2.0-Lite
+> Gemini-3.1-Flash-Lite
+> 5.2%
+> 10.3%
+> 22.3%
+> 13.1%
+> 18.2%
+> 31.1%
+> 35.3%
+> 16.1%
+> 47.7%
+> 29.0%
+> 57.9%
+> 45.2%
+> 78.9%
+> 73.3%
+> 62.8%
+> 57.4%
+> 54.2%
+> 45.9%
+> 43.3%
+> 40.6%
+> 38.8%
+> 30.4%
+> 28.4%
+> 28.3%
+> 2.7%
+> 3.2%
+> 3.0%
+> 13.4%
+> 9.3%
+> 8.1%
+> 11.5%
+> 18.4%
+> 5.8%
+> 29.5%
+> 7.4%
+> 15.0%
+> 13.2%
+> 13.1%
+> 11.9%
+> 16.1%
+> 18.2%
+> 14.9%
+> 10.0%
+> 24.9%
+> 7.8%
+> 11.1%
+> 6.3%
+> 11.5%
+> Early Abandonment Ineffective Continuation Under-Utilization Synthesis Failure
+
+Figure 6: Failure behavior taxonomy by model. 
+
+Error Analysis 
+
+Final-answer accuracy indicates whether an agent succeeds, but not how failure unfolds. To diagnose failed no-hint trajec-tories, we use four observable signals: final-answer validity, whether tool use continues after the first error, the number of post-error calls At, and the call expansion ratio Rt. With me-dian thresholds of At = 3 and Rt = 1 .00 , we group failures into four behaviors: Ineffective Continuation , where agents keep using tools intensively but fail to recover; Early Aban-donment , where agents stop early or return invalid answers; 
+
+Under-utilization , where tool coverage remains insufficient; and Answer Synthesis Failure , where agents use tools but fail to produce the correct final answer. Figure 6 shows that Ineffective Continuation is the dom-inant failure mode, accounting for 48 .6% of failed trajecto-ries, followed by Early Abandonment at 26 .7% . This indi-cates that many failures arise not from immediate stopping, but from unproductive recovery attempts after tool errors. The model-level breakdown further reveals that similar final accuracies can hide distinct failure mechanisms. Qwen-3.0-30B-A3B-Instruct and GPT-4o show large shares of Ineffec-tive Continuation , suggesting repeated but poorly adapted retries, whereas Kimi-K2.6 shows more Under-utilization ,indicating insufficient tool exploration. These patterns moti-vate trajectory-level diagnostics beyond aggregate accuracy. 
+
+Conclusion 
+
+This work introduces ToolBench-X, a benchmark for evalu-ating tool-using agents under recoverable tool-environment unreliability. By incorporating structured hazards into oth-erwise solvable tasks, ToolBench-X shifts evaluation from task completion with reliable tools to agents’ ability to diag-nose unreliable tool behavior, adapt their strategies, recover from failures, and ultimately complete the task. Experiments show that current agents remain fragile, with failures driven more by limited anomaly awareness and ineffective recovery than by tool-use volume or inference budget. These findings suggest that robust tool use requires reliability-aware agent design, including better uncertainty estimation, verification, fallback, and recovery mechanisms. ToolBench-X provides a foundation for systematically evaluating and developing trustworthy, resilient tool-using agents in real-world settings. References 
+
+Anthropic. 2026. Claude Sonnet 4.6 System Card. Barres, V.; Dong, H.; Ray, S.; Si, X.; and Narasimhan, K. 2025. τ 2-Bench: Evaluating Conversational Agents in a Dual-Control Environment. arXiv preprint arXiv:2506.07982 .ByteDance. 2026. Doubao-Seed-2.0-Lite. Model/API doc-umentation. Chen, A.; Li, A.; Zhou, B.; Gong, B.; Jiang, B.; Dan, B.; Yu, C.; Wang, C.; Ma, C.; Zhong, C.; et al. 2026. The minimax-m2 series: Mini activations unleashing max real-world intelligence. arXiv preprint arXiv:2605.26494 .Chen, Z.; Du, W.; Zhang, W.; Liu, K.; Liu, J.; Zheng, M.; Zhuo, J.; Zhang, S.; Lin, D.; Chen, K.; and Zhao, F. 2024. T-Eval: Evaluating the Tool Utilization Capability of Large Language Models Step by Step. In Ku, L.; Martins, A.; and Srikumar, V., eds., Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), ACL 2024, Bangkok, Thailand, August 11-16, 2024 , 9510–9529. Association for Computational Linguis-tics. DeepSeek-AI. 2026. DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence. Deng, X.; Gu, Y.; Zheng, B.; Chen, S.; Stevens, S.; Wang, B.; Sun, H.; and Su, Y. 2023. Mind2web: Towards a gen-eralist agent for the web. Advances in Neural Information Processing Systems , 36: 28091–28114. Du, Y.; Wei, F.; and Zhang, H. 2024a. AnyTool: Self-Reflective, Hierarchical Agents for Large-Scale API Calls. In 
+
+Forty-first International Conference on Machine Learning, ICML 2024, Vienna, Austria, July 21-27, 2024 . OpenRe-view.net. Du, Y.; Wei, F.; and Zhang, H. 2024b. Anytool: Self-reflective, hierarchical agents for large-scale api calls. arXiv preprint arXiv:2402.04253 .Google. 2026. Gemini API: Models. Guo, D.; Yang, D.; Zhang, H.; Song, J.; Wang, P.; Zhu, Q.; Xu, R.; Zhang, R.; Ma, S.; Bi, X.; et al. 2025. Deepseek-r1: Incentivizing reasoning capability in llms via reinforcement learning. arXiv preprint arXiv:2501.12948 .Huang, S.; Zhong, W.; Lu, J.; Zhu, Q.; Gao, J.; Liu, W.; Hou, Y.; Zeng, X.; Wang, Y.; Shang, L.; Jiang, X.; Xu, R.; and Liu, Q. 2024a. Planning, Creation, Usage: Benchmark-ing LLMs for Comprehensive Tool Utilization in Real-World Complex Scenarios. In Ku, L.; Martins, A.; and Srikumar, V., eds., Findings of the Association for Computational Lin-guistics, ACL 2024, Bangkok, Thailand and virtual meeting, August 11-16, 2024 , 4363–4400. Association for Computa-tional Linguistics. Huang, Y.; Shi, J.; Li, Y.; Fan, C.; Wu, S.; Zhang, Q.; Liu, Y.; Zhou, P.; Wan, Y.; Gong, N.; et al. 2024b. Metatool benchmark for large language models: Deciding whether to use tools and which to use. In International Conference on Learning Representations , volume 2024, 42978–43007. Jimenez, C. E.; Yang, J.; Wettig, A.; Yao, S.; Pei, K.; Press, O.; and Narasimhan, K. 2023. Swe-bench: Can lan-guage models resolve real-world github issues?, 2024. URL https://arxiv. org/abs/2310.06770 , 7. Liu, A.; Feng, B.; Xue, B.; Wang, B.; Wu, B.; Lu, C.; Zhao, C.; Deng, C.; Zhang, C.; Ruan, C.; et al. 2024. Deepseek-v3 technical report. arXiv preprint arXiv:2412.19437 .Liu, X.; Yu, H.; Zhang, H.; Xu, Y.; Lei, X.; Lai, H.; Gu, Y.; and Ding, H. 2023. Kaiwen Men, Kejuan Yang, et al. 2023b. Agentbench: Evaluating llms as agents. arXiv preprint arXiv:2308.03688 .Patil, S. G.; Mao, H.; Cheng-Jie Ji, C.; Yan, F.; Suresh, V.; Stoica, I.; and E. Gonzalez, J. 2025. The Berkeley Function Calling Leaderboard (BFCL): From Tool Use to Agentic Evaluation of Large Language Models. In Forty-second In-ternational Conference on Machine Learning .Qin, Y.; Liang, S.; Ye, Y.; Zhu, K.; Yan, L.; Lu, Y.; Lin, Y.; Cong, X.; Tang, X.; Qian, B.; Zhao, S.; Hong, L.; Tian, R.; Xie, R.; Zhou, J.; Gerstein, M.; Li, D.; Liu, Z.; and Sun, M. 2024. ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs. In The Twelfth Interna-tional Conference on Learning Representations, ICLR 2024, Vienna, Austria, May 7-11, 2024 . OpenReview.net. Singh, A.; Fry, A.; Perelman, A.; Tart, A.; Ganesh, A.; El-Kishky, A.; McLaughlin, A.; Low, A.; Ostrow, A.; Anan-thram, A.; et al. 2025. Openai gpt-5 system card. arXiv preprint arXiv:2601.03267 .Team, K.; Bai, T.; Bai, Y.; Bao, Y.; Cai, S.; Cao, Y.; Charles, Y.; Che, H.; Chen, C.; Chen, G.; et al. 2026. Kimi K2. 5: Vi-sual Agentic Intelligence. arXiv preprint arXiv:2602.02276 .Wang, G.; Xie, Y.; Jiang, Y.; Mandlekar, A.; Xiao, C.; Zhu, Y.; Fan, L.; and Anandkumar, A. 2023. Voyager: An open-ended embodied agent with large language models. arXiv preprint arXiv:2305.16291 .Wang, R.; Chen, Y.; Wang, Y.; Wu, C.; Fang, J.; Cai, X.; Gu, Q.; Su, H.; Zhang, A.; Wang, X.; et al. 2026. Agentnoisebench: Benchmarking robustness of tool-using llm agents under noisy condition. arXiv preprint arXiv:2602.11348 .Xi, Z.; Liang, S.; Liu, Q.; Zhang, J.; Peng, L.; Nan, F.; Nayim, M.; Zhang, T.; Mundada, R.; Qin, L.; et al. 2026. ToolGym: an Open-world Tool-using Environment for Scalable Agent Testing and Data Curation. arXiv preprint arXiv:2601.06328 .Yang, A.; Li, A.; Yang, B.; Zhang, B.; Hui, B.; Zheng, B.; Yu, B.; Gao, C.; Huang, C.; Lv, C.; et al. 2025. Qwen3 technical report. arXiv preprint arXiv:2505.09388 .Yao, S.; Shinn, N.; Razavi, P.; and Narasimhan, K. 2024. 
+
+τ -bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains. International Conference on Learning Representations .Zeng, A.; Lv, X.; Hou, Z.; Du, Z.; Zheng, Q.; Chen, B.; Yin, D.; Ge, C.; Huang, C.; Xie, C.; et al. 2026. Glm-5: from vibe coding to agentic engineering. arXiv preprint arXiv:2602.15763 .Zhou, S.; Xu, F. F.; Zhu, H.; Zhou, X.; Lo, R.; Sridhar, A.; and Cheng, X. 2023. Tianyue Ou, Yonatan Bisk, Daniel Fried, et al. 2023. Webarena: A realistic web environment for building autonomous agents. arXiv preprint arXiv:2307.13854 .
+
+Human Validation and Quality Control 
+
+We validate each generated benchmark instance through a multi-stage human review process. The review team consists of five reviewers, each of whom is either a Ph.D. student or a Ph.D. degree holder. The review spans 20 working days, with an 8-hour schedule per day, for a total of 800 person-hours. Each reviewer is paid at least the applicable local minimum hourly wage. 
+
+Review process. Each candidate instance is assigned to a primary reviewer, who examines the task specification, tool implementation, injected reliability exception, reference an-swer, and recovery path. If an instance passes the initial review but contains ambiguous instructions, non-trivial re-covery behavior, cross-source evidence, or possible answer leakage, it is sent to a second reviewer for independent vali-dation. Disagreements are resolved through discussion by at least two reviewers. Instances without consensus are removed from the benchmark. 
+
+Review criteria. For each candidate instance, reviewers verify that the user task is clear and has a unique expected answer, that all associated Python tools run deterministically in a clean environment, that the reference answer is consistent with the tool path without exception injection, and that the injected exception matches its intended category, including specification drift, invocation error, execution failure, output drift, or cross-source conflict. These five hazards mark differ-ent points at which a task can fail, so we do not apply every hazard type to every task. We assign a hazard only when it fits the task structure and when the original reference answer can still be reached through at least one valid recovery path. Re-viewers also verify that the injected instance retains at least one valid recovery path, that the required recovery behav-ior can be achieved through retry, fallback, normalization, validation, or cross-checking, that the prompt, tool names, tool descriptions, hints, and metadata do not directly reveal the final answer, and that exact-match evaluation agrees with human semantic judgment. 
+
+Automatic recovery-path validation. For each candidate instance, we automatically execute both the clean path with-out exception injection and the expected recovery path in the injected tool environment. An instance passes this check only if the clean path produces the reference answer and the injected environment still contains a valid recovery path to the same answer. 
+
+Answer-leakage check. We use both automatic and human checks for answer leakage. The automatic checker searches the user prompt, tool descriptions, tool metadata, exception messages, and recovery hints for exact and normalized forms of the reference answer. Normalization includes lowercase conversion, whitespace removal, punctuation removal, unit stripping, and common numeric format conversion. Human reviewers further check whether the final answer can be in-ferred without executing the tools. Instances with direct leak-age are revised or removed. 
+
+Candidate-instance statistics. The initial generation stage produces 2,610 raw task items. We first apply preliminary screening for task validity, duplication, tool executability, and deterministic clean-path execution, yielding 1,250 candi-date instances across 84 subtopics and three workflow types. At most five candidates are retained for each combination of task type and subtopic. These candidates then undergo human review and automatic validation. Among the 1,250 candidates, 1,142 pass the automatic recovery-path check, and 1,196 pass the answer-leakage check. Candidates that fail either check are manually inspected and are revised, re-generated, or removed depending on whether the issue can be fixed without changing the task intent. After this process, the final benchmark contains 1,106 instances, including 378 sequential, 358 parallel, and 370 mixture tasks. The overall retention rate is 88.5% over the candidate pool. According to the review logs, 996 instances are retained without substan-tive changes (79.7%), 72 are retained after revision (5.8%), 38 are retained after regeneration (3.0%), and 144 are re-moved (11.5%). 
+
+Double review and agreement. A total of 200 instances are independently reviewed by two reviewers, covering 18.1% of the retained benchmark. Before discussion, re-viewer agreement is measured based on accept, revise, or remove decisions and the assigned exception categories. The initial agreement rate is 91.5%. After discussion and correc-tion, all retained instances receive consensus approval. 
+
+Agreement between exact match and semantic judgment. 
+
+To test whether exact-match evaluation rejects semantically correct answers, we draw a stratified random sample of 100 retained instances and compare the backend exact-match re-sults with independent human semantic judgments. The two criteria agree in 97 cases, giving an agreement rate of 97.0%. Disagreements are manually inspected. If an exact-match tar-get is too brittle or allows multiple valid surface forms, we revise the reference-answer format and recheck the instance. 
+
+Additional Dataset Statistics Details 
+
+Tables 4 and 5 report the hierarchical composition of the final dataset by task type, main topic, and subtopic. The dataset contains 1,106 retained tasks, including 378 sequential, 358 parallel, and 370 mixture tasks. Overall, it covers 7 main topics and 84 unique subtopics. Each table entry gives the number of retained tasks for a particular task-type–subtopic combination. Although up to five tasks were initially generated for each combination, the final counts vary because tasks that did not satisfy the benchmark validation and executability requirements were excluded. Across all task types, the largest topic groups are Commerce & Transactions (234 tasks), Entertainment & Me-dia (215), and Health & Wellness (192). 
+
+Detailed Experimental Settings 
+
+We conduct a comprehensive evaluation on seven commer-cial models and seven representative open-source large lan-guage models. The complete list of models evaluated is pro-vided in Table 7. All models were accessed via a unified OpenAI-compatible API and used their default tem-perature. We allowed 10 rounds per task, 8 parallel workers, a maximum of 8,192 output tokens, and a 120-second timeout per request. To preserve diagnostic granularity and recovery observability, at most one tool call, retry, fallback, or finish was permitted per round. Each task required a single definite output (e.g., amount, date, count); accordingly, we adopted a strict exact-match criterion: after stripping whitespace, the model output must be identical to the answer string. API requests were retried up to three times with exponential backoff (2–10 seconds); persistent failures were recorded as task failures. 
+
+Case Studies 
+
+We present six representative no-hint trajectory pairs from the matched 200-task subset in Fig. 7. Each pair uses the same task and injected tool implementation, comparing a model that reaches the canonical benchmark answer with one that fails under the same hazard. Hazard labels are assigned according to the semantic location of the failure and the recovery path required to reach the answer, rather than the surface Python exception alone. Thus, the same exception type may require different recovery behaviors across cases. 
+
+Prompt Templates 
+
+Task Generation Prompts 
+
+Table 8 to 10 show the prompt for task generation. 
+
+Tool Generation Prompts 
+
+Table 11 shows the prompt for tool generation. 
+
+Hazard Injection and Hint Generation Prompts. 
+
+Table 12 shows the prompt for reliability hazard injection and hint generation. 
+
+Policy Decision Prompts 
+
+Table 13 shows the prompt for policy decision. 
+
+Tool Arguments Prompts 
+
+Table 14 shows the prompt for policy decision. 
+
+Final-Answer Fallback Prompts 
+
+Table 15 shows the prompt for final-answer fallback. 
+
+Test-Time Scaling Prompts 
+
+Table 16 shows the prompt for test-time scaling. Table 4: Number of retained tasks for each task-type, main-topic, and subtopic combination. S, P, and M denote sequen-tial, parallel, and mixture tasks. 
+
+Main Topic / Subtopic S P M Total Commerce & Transactions 
+
+Cart and checkout issue resolution 3 5 5 13 Cart and checkout issue support 5 5 5 15 Coupon and discount lookup 5 5 5 15 Gift purchase coordination 4 4 3 11 Invoice and receipt organization 5 4 4 13 Invoice and receipt retrieval 5 5 5 15 Online order tracking 5 5 5 15 Price drop monitoring 5 1 5 11 Product search and comparison 5 5 4 14 Return and refund handling 5 4 5 14 Return and refund management 5 4 5 14 Service booking and payment follow-up 5 4 5 14 Shipping status tracking 5 5 5 15 Subscription plan review 5 5 5 15 Subscription purchase decisions 4 5 5 14 Vendor and marketplace comparison 5 4 5 14 Vendor and marketplace selection 5 3 4 12 
+
+Subtotal 81 73 80 234 Data & Analytics 
+
+Customer feedback categorization 5 4 5 14 Dashboard metric tracking 5 4 5 14 Data entry validation and error checking 5 5 5 15 Inventory data monitoring 4 5 4 13 KPI comparison across time periods 4 4 4 12 Report generation and scheduling 5 5 5 15 Sales data summarization 5 5 5 15 Spreadsheet cleanup and formatting 4 4 4 12 Survey response analysis 5 4 5 14 Trend identification in business data 4 5 5 14 
+
+Subtotal 46 45 47 138 Entertainment & Media 
+
+Book and reading list management 3 4 4 11 Content release date tracking 5 2 5 12 Event and show discovery 4 5 5 14 Event and ticket planning 5 5 3 13 Family-friendly content filtering 5 5 3 13 Game selection by mood or group size 5 4 5 14 Gaming session planning 5 5 4 14 Media release date tracking 5 4 5 14 Media subscription comparison 5 5 5 15 Movie and TV recommendation planning 5 4 5 14 Music playlist organization 5 5 5 15 Photo and video library organization 5 5 4 14 Podcast discovery by interest 5 5 5 15 Streaming subscription management 5 3 5 13 Streaming watchlist management 4 2 5 11 Watchlist and reading list organization 3 5 5 13 
+
+Subtotal 74 68 73 215 Table 5: Number of retained tasks by task type, main topic, and subtopic (continued). 
+
+Main Topic / Subtopic S P M Total Finance & Economics 
+
+Bank transaction monitoring 5 4 5 14 Basic investment portfolio tracking 4 2 5 11 Bill payment planning 4 5 3 12 Credit card usage monitoring 5 4 5 14 Currency conversion for spending 4 5 3 12 Expense categorization and review 1 5 5 11 Household cost comparison 3 5 3 11 Loan payment estimation 3 4 3 10 Personal budget tracking 4 5 5 14 Savings goal planning 5 4 4 13 Savings goal tracking 2 2 4 8Tax document organization 4 2 3 9
+
+Subtotal 44 47 48 139 Government & Public Services 
+
+Court and civic appointment reminders 5 5 4 14 Emergency service and alert information 5 3 4 12 License and ID renewal tracking 5 5 5 15 Local government service requests 4 5 5 14 Permit and license application tracking 5 4 5 14 Public benefit application support 2 5 5 12 Public health advisory lookup 5 4 5 14 Public records request preparation 5 5 3 13 Public transit service updates 5 5 4 14 School district and enrollment information 5 1 4 10 Tax filing deadline reminders 5 5 5 15 Utility service setup or transfer 3 2 5 10 Voter registration and election reminders 5 5 5 15 
+
+Subtotal 59 54 59 172 Health & Wellness 
+
+Appointment scheduling and follow-up 5 5 4 14 Exercise routine planning 5 5 5 15 Fitness routine planning 4 4 3 11 Habit building for healthy routines 5 5 5 15 Meal and nutrition tracking 4 4 3 11 Medication schedule reminders 5 5 5 15 Mental wellness check-ins 5 5 3 13 Nutrition and meal planning 3 5 4 12 Preventive care reminders 5 5 5 15 Recovery and rehabilitation tracking 5 5 3 13 Sleep habit monitoring 5 5 5 15 Stress management support 5 5 5 15 Symptom logging and monitoring 5 5 5 15 Wellness goal check-ins 5 4 4 13 
+
+Subtotal 66 67 59 192 Information & Communication 
+
+Announcement and newsletter drafting 4 2 4 10 Calendar invite coordination 4 2 0 6
+
+Subtotal 8 4 4 16 Overall Total 378 358 370 1,106 
+
+Table 6: Exact counts of mutually exclusive heuristic failure-behavior categories among failed no-hint trajectories. Each failed trajectory is assigned to exactly one category. EA: early abandonment; IC: ineffective continuation; UU: under-utilization; SF: synthesis failure. Model Failed EA IC UU SF DeepSeek-V4-Pro 636 116 345 59 116 GPT-5.4 605 135 380 18 72 Qwen3-30B-A3B-Instruct 660 34 521 18 87 Qwen3.5-35B-A3B 695 112 282 128 173 Qwen3.5-35B-A3B-Thinking 643 200 295 52 96 Doubao-Seed-2.0-Lite 539 312 153 40 34 Claude-Sonnet-4.6 652 230 282 75 65 Gemini-3.1-Flash-Lite 646 292 183 97 74 GLM-5.1 642 306 249 37 50 GPT-4o 709 73 520 23 93 MiniMax-M2.7 831 109 477 111 134 Kimi-K2.6 872 253 265 257 97 
+
+Total 8,130 2,172 3,952 915 1,091  
+
+> Model Type Models
+> Proprietary LLMs GPT-5.4, GPT-5.4-Mini, GPT-4o Gemini-3.1-Flash, Claude-Sonnet-4.6 Doubao-Seed-2.0-Lite, Doubao-Seed-2.0-Mini Open-source LLMs DeepSeek-V4-Pro, DeepSeek-V4-Flash GLM-5.1, MiniMax-M2.7, Kimi-K2.6 Qwen3.0-30B-A3B-Instruct, Qwen-3.5-35B-A3B
+
+Table 7: Evaluated large language models. Sequential Output Drift ◎ Target = R006 
+
+Case S -OD · Survey -response selection 
+
+1 Task & Sequential Dependencies 
+
+Task summary 
+
+Validate six survey responses, deduplicate by 
+
+email using the earliest timestamp, then 
+
+return the respondent_id of the alphabetically 
+
+last remaining accepted email .
+
+Dependency graph 
+
+This task is sequential: each stage depends on the 
+
+contract quality of the previous stage. 
+
+The parser returns no usable rows, but the agent treats this as a recoverable contract failure and 
+
+continues with downstream validation, deduplication, and final selection .
+
+······································ Evidence reconstructed by the agent ········································ 
+
+2 Recovered trajectory · Claude -Sonnet -4.6 
+
+The model does not treat the empty parser output as a recoverable specification failure and instead 
+
+finalizes on unstable manual reasoning, producing the wrong respondent_id .
+
+Key difference An empty tool field should not be equated with empty task data when the original request still contains recoverable evidence. 
+
+Failure trajectory · Gemini -3.1 -Flash -Lite 3
+
+parse_survey_rows 
+
+validate_email_timestamp _
+
+age_consent 
+
+deduplicate_by_email _
+
+earliest_timestamp 
+
+select_record_by_email_sort 
+
+final answer 
+
+valid 
+
+R001, R002, R006 
+
+reject R003 
+
+age < 18 
+
+reject R004 
+
+invalid email 
+
+reject R005 
+
+invalid consent 
+
+after dedup 
+
+R002, R006 → 
+
+R006 
+
+parse_survey_rows 
+
+✕
+
+row_count = 0 
+
+empty rows 
+
+⚠
+
+unstable 
+
+manual reasoning 
+
+✕
+
+final answer = R002 
+
+Expected: R006 
+
+parse_survey_rows 
+
+✕
+
+row_count = 0 
+
+empty rows 
+
+validate_email _
+
+timestamp_age_cons 
+
+ent 
+
+✓
+
+deduplicate_by_ema 
+
+il_ 
+
+earliest_timestamp 
+
+✓
+
+select_record_by_ 
+
+email_sort 
+
+✓
+
+final answer = R006 
+
+✓
+
+> recover from
+> original request
+
+(a) Sequential output drift Sequential Specification Drift ◎ Target = 3 valid rows 
+
+Case S -SD · Survey -response selection 
+
+1 Task & Sequential Dependencies 
+
+Task summary 
+
+Count the product -catalog rows that remain 
+
+valid after normalizing each SKU, rejecting 
+
+invalid normalized SKUs, and rejecting rows 
+
+whose category is not approved. 
+
+Dependency graph 
+
+This case is sequential: later validation depends on 
+
+the consistency of the upstream normalization rule. 
+
+After the normalizer times out, the agent continues through downstream validators. The final checker 
+
+preserves rule consistency and returns the exact valid -row count. 
+
+······································ Evidence reconstructed by the agent ········································ 
+
+2 Recovered trajectory · Doubao -Seed -2.0 -Mini 
+
+The model bypasses the validator chain and applies the normalization rule inconsistently, overcounting 
+
+the number of valid rows. 
+
+Key difference In sequential validation tasks, robust recovery keeps the downstream rule -checking pipeline intact; 
+
+ad -hoc manual normalization after an upstream failure can cause specification drift and a wrong final count. 
+
+Failure trajectory · Gemini -3.1 -Flash -Lite 3
+
+sku_normalizer 
+
+sku_pattern_validator 
+
+category_approval_checker 
+
+final answer 
+
+valid rows = 3 keep SKU -001 / office keep SKU -004 / home keep SKU -006 / tech 
+
+sku_normalizer 
+
+✕
+
+TimeoutError 
+
+⚠
+
+unstable 
+
+manual normalization 
+
+✕
+
+final answer = 4
+
+Expected: 3
+
+sku_normalizer 
+
+✕
+
+TimeoutError 
+
+category_approval_check 
+
+er 
+
+✓
+
+valid_row_count = 3 
+
+sku_pattern_validator 
+
+✓
+
+fallback validation 
+
+final answer= 3
+
+✓
+
+> recover
+
+reject SKU003: 
+
+invalid pattern 
+
+reject SKU002: 
+
+invalid pattern 
+
+reject SKU -005: 
+
+garden not approved 
+
+(b) Sequential specification drift Parallel Execution Failure ◎ Target = 619 kcal 
+
+Case P -EF · Meal calorie aggregation 
+
+1 Task & Parallel Dependencies 
+
+Task summary 
+
+Compute total meal calories using nutrition 
+
+facts for grilled chicken breast, cooked 
+
+brown rice, steamed broccoli, and avocado 
+
+for portions of 150 g, 185 g, 90 g, and 70 g.
+
+Dependency graph 
+
+All four ingredient branches are independent, but 
+
+the task still requires cross -source aggregation into 
+
+one meal -level answer .
+
+Even with rice and broccoli branches missing, the agent preserves the verified chicken evidence and 
+
+uses the avocado call to reconstruct missing branch contributions from the original gram quantities .
+
+······································ Evidence reconstructed by the agent ········································ 
+
+2 Recovered trajectory · Doubao -Seed -2.0 -Mini 
+
+> get_food_nutrition _
+> grilled_chicken_breast
+> ✓
+> local contribution
+> = 247.5
+
+get_food_nutrition _
+
+cooked_brown_rice 
+
+✕
+
+RuntimeError 
+
+get_food_nutrition _
+
+steamed_broccoli 
+
+✕
+
+RuntimeError 
+
+> ⚠
+
+no aggregation / 
+
+premature 
+
+finalization 
+
+✕
+
+final answer 
+
+= 247.5 
+
+Expected: 619 
+
+The model stops with a single -branch local value and mistakes a partial contribution for the meal -level 
+
+aggregate. 
+
+Key difference Explicit missing -branch recovery matters in parallel tasks; without aggregation across branches, a local value can be mistaken 
+
+for the global answer. 
+
+Failure trajectory · DeepSeek -V4 -Flash 3
+
+get_food_nutrition _
+
+grilled_chicken_breast 
+
+get_food_nutrition _
+
+cooked_brown_rice 
+
+get_food_nutrition _
+
+steamed_broccoli 
+
+get_food_nutrition _
+
+avocado 
+
+aggregate total 
+
+meal calories 
+
+final answer 
+
+chicken 
+
+150 g 
+
+rice 
+
+185 g 
+
+broccoli 
+
+90 g 
+
+avocado 
+
+70 g 
+
+total 
+
+= 619 
+
+> get_food_nutrition_
+> grilled_chicken_breast
+> ✓
+> verified branch
+
+get_food_nutrition_ 
+
+cooked_brown_rice 
+
+✕
+
+RuntimeError 
+
+get_food_nutrition_ 
+
+steamed_broccoli 
+
+✕
+
+RuntimeError 
+
+get_food_nutrition_ 
+
+avocado 
+
+✓
+
+final answer 
+
+= 619 
+
+✓
+
+> recovery +
+> aggregation
+
+(c) Parallel execution failure Parallel Cross -Source Conflict ◎ Target = SAVE10 
+
+Case P -CC · Discount coupon intersection across merchants 
+
+1 Task & Parallel Dependencies 
+
+Task summary 
+
+Using the discounts available for merchant 
+
+accounts M-104 , M-208 , M-319 , and M-440 ,
+
+return the alphabetically earliest coupon code 
+
+valid for all four merchants .
+
+Dependency graph 
+
+Four independent merchant coupon sources are 
+
+queried in parallel, then intersected to obtain the 
+
+earliest common coupon code .
+
+Although M -104 and M -440 fail, the agent intersects the two visible source sets and verifies that the only 
+
+available common coupon is SAVE10. 
+
+······································ Evidence reconstructed by the agent ········································ 
+
+2 Recovered trajectory · Gemini -3.1 -Flash -Lite 
+
+Only M -104 succeeds. The model prematurely returns the alphabetically earliest coupon from a local 
+
+source instead of checking validity across all four merchants. 
+
+Key difference Parallel sources are independent; robust agents must reconstruct and verify the common intersection before finalizing. 
+
+Returning the earliest local coupon produces a wrong answer. 
+
+Failure trajectory · Doubao -Seed -2.0 -Mini 3
+
+get_merchant _
+
+coupons_m104() 
+
+get_merchant _
+
+coupons_m208() 
+
+get_merchant _
+
+coupons_m319() 
+
+get_merchant _
+
+coupons_m440() 
+
+compute_ 
+
+intersection() 
+
+final answer 
+
+M-208: {SAVE10, 
+
+SPRING, WELCOME} 
+
+M-319: {SAVE10, VIP20, 
+
+WINTER} Intersection = {SAVE10} Earliest = SAVE10 
+
+get_merchant _
+
+coupons_m208() 
+
+✓
+
+SAVE10, 
+
+SPRING, 
+
+WELCOME 
+
+get_merchant _
+
+coupons_m104() 
+
+✕
+
+Injected failure 
+
+get_merchant _
+
+coupons_m440() 
+
+✕
+
+Injected failure 
+
+compute_ 
+
+intersection() 
+
+from available 
+
+sources 
+
+✓
+
+final answer 
+
+= SAVE10 
+
+✓
+
+> recovery
+
+get_merchant _
+
+coupons_m319() 
+
+✓
+
+SAVE10, VIP20, 
+
+WINTER 
+
+get_merchant _
+
+coupons_m208() 
+
+✕
+
+Injected failure 
+
+> get_merchant _
+> coupons_m104()
+> ✓
+> DEAL5, SAVE10,
+> WELCOME
+
+get_merchant _
+
+coupons_m440() 
+
+✕
+
+Injected failure 
+
+⚠
+
+premature 
+
+finalization 
+
+final answer 
+
+= DEAL5 
+
+✕
+
+Expected: 
+
+SAVE10 
+
+get_merchant _
+
+coupons_m319() 
+
+✕
+
+Injected failure 
+
+(d) Parallel cross-source conflict Mixture Execution Failure ◎ Target = 360.00 USD 
+
+Case M -EF · Subscription plan review 
+
+1 Task & Required Dependencies 
+
+Task summary 
+
+Compute the total annual savings for 
+
+workspace WS -314 when switching all 
+
+active seats from monthly billing to annual 
+
+billing .
+
+Dependency graph 
+
+get_active_seat_count 
+
+get_monthly_seat_price get_annual_seat_price 
+
+calculate_annual_savings 
+
+final answer 
+
+The task requires collecting seat count + two prices, 
+
+then composing them into the final savings .
+
+get_active_ 
+
+seat_count 
+
+✕
+
+ConnectionError 
+
+get_monthly_ 
+
+seat_price 
+
+✕
+
+ConnectionError 
+
+get_annual_ 
+
+seat_price 
+
+✕
+
+ConnectionError 
+
+calculate_ 
+
+annual_savings 
+
+(workspace_id=WS -
+
+314) 
+
+✓
+
+final answer 
+
+= 360.00 
+
+✓
+
+After three prerequisite failures, the agent switches to an integrated calculator that reconstructs the 
+
+missing dependency and returns the exact final value .
+
+······································ Evidence reconstructed by the agent ········································ 
+
+active seats = 12 monthly = 30.0 annual = 27.5 annual savings = 360.0 
+
+2 Recovered trajectory · GPT -5.4 -Mini 
+
+recovery 
+
+get_active_ 
+
+seat_count 
+
+✓
+
+returns 12 
+
+get_monthly_ 
+
+seat_price 
+
+✕
+
+ConnectionError 
+
+get_annual_ 
+
+seat_price 
+
+✕
+
+ConnectionError 
+
+> ⚠
+
+premature 
+
+finalization 
+
+✕
+
+final answer 
+
+= 12 
+
+Expected: 360.00 
+
+The model collects only partial evidence and incorrectly treats the intermediate seat count as the final 
+
+savings answer .
+
+Key difference Source collection alone is insufficient; robust behavior requires semantic composition, recovery from missing dependencies, 
+
+and final -value verification. 
+
+Failure trajectory · DeepSeek -V4 -Flash 3(e) Mixture execution failure Mixture Invocation Error ◎ Target = 31 g 
+
+Case M -IE · Breakfast protein calculation 
+
+1 Task & Required Dependencies 
+
+Task summary 
+
+Compute total breakfast protein by parsing a
+
+breakfast log, deduplicating repeated foods, 
+
+looking up protein references, converting 
+
+servings to grams, and aggregating total 
+
+protein .
+
+Dependency graph 
+
+fetch_breakfast_log_text 
+
+deduplicate_food_log fetch_food_protein_refer 
+
+ence 
+
+convert_servings_to_grams 
+
+final answer              
+
+> This task is mixture -structured :it combines sequential preprocessing with
+> cross -source composition before the final calculation .
+
+After the malformed invocation fails, the agent repairs the argument structure, joins the deduplicated 
+
+breakfast items with the unpacked protein reference, and recovers the exact final value .
+
+······································ Evidence reconstructed by the agent ········································ 
+
+deduplicated 
+
+foods ready 
+
+protein 
+
+reference loaded 
+
+repaired 
+
+invocation 
+
+total protein 
+
+= 31 g 
+
+2 Recovered trajectory · Gemini -3.1 -Flash -Lite 
+
+The same malformed invocation is not repaired; the joined computation breaks and the final output 
+
+remains invalid. 
+
+Key difference In mixture tasks, robust behavior repairs malformed tool invocations and preserves the joined computation pipeline; without 
+
+argument repair, a single invocation error can derail the final protein calculation. 
+
+Failure trajectory · DeepSeek -V4 -Flash 3
+
+deduplicate_ 
+
+food_log 
+
+✓
+
+fetch_breakfast 
+
+_log_text 
+
+✓
+
+convert_servings _
+
+to_grams 
+
+> ✕
+
+InvocationError :
+
+'list' object has no 
+
+attribute 'get' 
+
+call 
+
+calculate_total 
+
+protein 
+
+final answer 
+
+= 31 
+
+✓
+
+repair 
+
+arguments 
+
+fetch_food _
+
+protein_referen 
+
+ce 
+
+✓
+
+fetch_food _
+
+protein_referen 
+
+ce 
+
+✓
+
+fetch_breakfast 
+
+_log_text 
+
+✓
+
+> convert_servings _
+> to_grams
+> ✕
+> InvocationError :
+> 'list' object has no
+> attribute 'get'
+
+⚠
+
+no argument 
+
+repair 
+
+final answer 
+
+= {'value': None} 
+
+Expected: 31 
+
+> ✕
+
+deduplicate_foo 
+
+d_log 
+
+✓
+
+calculate_total_protein 
+
+(f) Mixture invocation error Figure 7: Representative failure and recovery trajectories under structured tool uncertainty. Table 8: Prompt for sequential task generation. 
+
+# Role You are an autonomous AI assistant that executes tool-based workflows. # Task: Generate Tool-Calling Evaluation Data Your task is to generate data for evaluating an agent’s tool-calling capabilities. You will create specific tool-calling tasks based on a main topic and its subtopics. Each task must require sequential, dependent tool calls. **Important constraint:** All tools must not involve image processing, image generation, or any visual content. Tools should test text-based operations. ## Main Topic {main_topic} ## Subtopics - {subtopic} ## Requirements ### General Requirements - You MUST generate **exactly five distinct tasks**. - Each task must be solvable **only through a sequence of tool calls**. - Each task must include **explicit dependencies between tools** (i.e., outputs from earlier tools are required by later tools). - Tools must be **relevant to the topic and subtopics**. ### User Prompt Constraints - user_prompt must **explicitly instruct the model what to answer**. - user_prompt **must not contain multiple questions**; the agent should produce **a single final answer**. - It **MUST NOT**: Reveal execution steps, Suggest intermediate procedures, and Indicate tool usage or order ### Answer Constraints - Each task must produce a final answer that is: **Programmatically verifiable**, OR ** A single, objectively correct value** - final_answer must be: **Concise** AND **Result-only** (no explanation, no steps) ### Diversity Requirement - The five tasks must be **diverse in scenario and complexity**. ## Output Format Return a valid JSON object: {"tasks": [{"id": "task_1", "user_prompt": "string", "tools_used": ["tool_name_1", "tool_name_2"], "final_answer": "string" }]}
+
+Table 9: Prompt for parallel task generation. 
+
+# Role You are an autonomous AI assistant that executes tool-based workflows. # Task: Generate Parallel Tool-Calling Evaluation Data Your task is to generate data for evaluating an agent’s **parallel tool-calling capabilities**. You will create specific tasks based on a main topic and its subtopics. Each task must require **all tools to be used**, but **no tool may depend on the output of another** (true parallel execution). **Important constraint:** All tools must **not involve image processing, image generation, or any visual content**. Tools should test text-based operations. ## Main Topic {main_topic} ## Subtopics - {subtopic} ## Requirements ### General Requirements - You MUST generate **exactly five distinct tasks**. - Each task must require **all listed tools to be used**. - Tools must be **independent**: No tool’s output may be used as input to another tool. - Tools must be **relevant to the topic and subtopics**. ### User Prompt Constraints - user_prompt must **explicitly instruct the model what to answer**. - user_prompt **must not contain multiple questions**; the agent should produce **a single final answer**. - It **MUST NOT**: Reveal execution steps, Suggest intermediate procedures, and Indicate tool usage or order ### Answer Constraints - Each task must produce a final answer that is: **Programmatically verifiable**, OR ** A single, objectively correct value** - final_answer must be: **Concise** AND **Result-only** (no explanation, no steps) ### Diversity Requirement - The five tasks must be **diverse in scenario and complexity**. ## Output Format Return a valid JSON object: {"tasks": [{"id": "task_1", "user_prompt": "string", "tools_used": ["tool_name_1", "tool_name_2"], "final_answer": "string" }]}Table 10: Prompt for mixture task generation. 
+
+# Role You are an autonomous AI assistant that executes tool-based workflows. # Task: Generate Mixed Tool-Calling Evaluation Data Your task is to generate data for evaluating an agent’s **mixed tool-calling capabilities**. Each task must include **both sequential (dependent) and parallel (independent) tool calls**. All tools must be used to complete the task. **Important constraint:** All tools must **not involve image processing, image generation, or any visual content**. Tools should test text-based operations. ## Main Topic {main_topic} ## Subtopics - {subtopic} ## Requirements ### General Requirements - You MUST generate **exactly five distinct tasks**. - Each task must include **all listed tools**. - Tools may be a mix of: **Sequential**: some tools must be called in order (output of one used as input to the next), **Parallel**: some tools are independent and can be called in any order - Tools must be **relevant to the topic and subtopics**. ### User Prompt Constraints - user_prompt must **explicitly instruct the model what to answer**. - user_prompt **must not contain multiple questions**; the agent should produce **a single final answer**. - It **MUST NOT**: Reveal execution steps, Suggest intermediate procedures, and Indicate tool usage or order ### Answer Constraints - Each task must produce a final answer that is: **Programmatically verifiable**, OR ** A single, objectively correct value** - final_answer must be: **Concise** AND **Result-only** (no explanation, no steps) ### Diversity Requirement - The five tasks must be **diverse in scenario and complexity**. ## Output Format Return a valid JSON object: {"tasks": [{"id": "task_1", "user_prompt": "string", "tools_used": ["tool_name_1", "tool_name_2"], "final_answer": "string" }]}
+
+Table 11: Prompt for tool generation. 
+
+# Role You are a Python Tool Implementation Engineer for agent-tool evaluation. # Mission Generate executable Python tool functions for the given task. The tools must generalize across valid inputs rather than overfit to a single example. For the benchmark context, the composed tool chain must reproduce ‘expected_answer‘, or ‘final_answer‘ when ‘expected_answer‘ is absent. For unseen inputs, return results derived from the implemented tool logic. # Data to Process {"task_type": "<sequential|parallel|mixture>", "main_topic": "<main topic>", "subtopic": "<subtopic>", "id": "<task id>", "user_prompt": "<user request>", "tools_used": ["<tool_1>", "..."], "expected_answer": "<benchmark answer>", "final_answer": "<fallback answer>" }# Core Requirements 1. Generate exactly one function for each name in ‘tools_used‘. 2. Function names must exactly match the requested tool names. Do not add unrelated functions, classes, or helpers. 3. Use Python 3.9-compatible syntax and ensure that all outputs are deterministic and JSON-serializable. 4. Respect the specified ‘sequential‘, ‘parallel‘, or ‘mixture‘ workflow and maintain compatible data contracts across tools. 5. Derive outputs from function inputs and handle unseen but valid inputs through general logic and deterministic fallbacks. 6. Preserve a guarded benchmark-context path that reproduces the benchmark answer exactly without forcing that answer for unrelated inputs. 7. When external information is required, prefer public no-key sources and provide deterministic fallback behavior. 8. Include provenance, confidence, evidence, fallback, and error information where applicable. 9. Ensure that each downstream required parameter can be obtained from an upstream output or the original user request. [... omitted: standardized return schemas, robust input normalization, benchmark-context detection, external-data policies, inter-tool contracts, canonicalization rules, and validation checks ...] # Output Requirements Return Python code only. Do not include explanations, Markdown fences, execution logs, or additional text. # Repair Instruction 1. Fix only the failing parts. 2. Preserve function names and signatures unless required for correctness. 3. Return corrected Python code only. Table 12: Prompt for hazard injection and hint generation. 
+
+# Role You are a Reliability Stress-Test Prompt Engineer for agent-tool evaluation. # Mission Patch an existing successful Python module in place by adding deterministic reliability hazards. Preserve its function names, signatures, schemas, and original behavior when injection is disabled. Do not regenerate its business logic. # Evaluation Objectives 1. When injection is disabled, the patched module must preserve its original benchmark-correct behavior and output schema. 2. ‘strict_no_hint_profile‘ must introduce an observable and meaningful failure or behavior drift. 3. ‘guided_with_hint_profile‘ must retain the same fault schedule and may provide diagnostic information about the observed failure to support recovery, without revealing the final answer. 4. At least one reachable and verifiable path to the correct answer must remain available. # Hazard Categories Assign exactly one category to each task: Specification, Invocation, Execution, Output, or Cross-Source Uncertainty. All failpoints and hints within the task must use this category. # Core Requirements 1. Select failpoints deterministically using task identity, tool name, call slot, failpoint, and ‘FAIL_SEED‘. 2. Record observable injection events without overwriting the original business payload. 3. Do not silently swallow exceptions or represent hard failures as successful results. 4. Block premature completion when evidence is incomplete or contradictory, and require final-answer canonicalization before ‘FINISH‘. 5. Keep the injected fault schedule reproducible across no-hint and with-hint conditions to support controlled comparison. [... omitted: activation schemas, failure families, event contracts, recovery rules, and anti-regression checks ...] # Runtime Input {"task_type": "<workflow type>", "id": "<task id>", "user_prompt": "<user request>", "tools_used": ["<tool_1>", "..."], "final_answer": "<benchmark answer>", "target_exception_category": "<one of five>", "existing_tool_code": "<complete clean module>" }# Output Requirements Return only the complete modified Python module. Do not change existing callable identities or provide explanations, Markdown fences, or execution logs. 
+
+Table 13: Prompt for evaluation-time policy decisions. 
+
+# Role You are a tool-orchestration policy model. # Output Format Return ONLY JSON with this schema: {"action": "call_tool" | "retry" |"fallback" | "finish", "tool_name": "<tool name or empty>", "final_answer": "<non-empty only for finish>", "reason": "<short reason>" }# Rules - Use only allowed tools. - Finish only when available tool outputs are sufficient. - If a tool fails, retry it or use another available tool. - When finishing, return the exact raw scalar supported by successful tool outputs; prefer fields such as ‘final_value‘, ‘final_answer‘, ‘value‘, or ‘result‘. - Treat ‘success=false‘, ‘ok=false‘, missing fields, and explicit errors as unresolved evidence. - If ‘ORACLE_HAZARD_LABEL‘ is present, use it only as diagnostic context; it provides neither a recovery procedure nor an answer. - Without recovery hints, allow at most one unguided retry per failed tool. - Return no Markdown or explanatory text. # Runtime Context ## User Request {user_prompt} ## Allowed Tools {allowed_tools} ## Round {round_index} ## Previous Action History {action_history} ## Current Tool Results {tool_results} ## Last Error {last_error_or_None} {optional_recovery_or_oracle_context} Table 14: Prompt for tool-argument generation. 
+
+# Task You must call the provided function tool using valid arguments. # Runtime Context ## User Request {user_prompt} ## Previous Tool Results {previous_results_or_None} # Operational Rules - Use only evidence in the user request or previous tool results. - Never invent missing arguments, IDs, paths, amounts, dates, ZIP codes, or enum values. - Reuse verified values exactly unless a hint explicitly requires normalization. - Do not copy incomplete fields from failed or ‘ok=false‘ results. - Generate arguments that support a correct downstream scalar rather than a plausible guess. - Required inputs for the selected tool: {schema- and hint-required fields}. # API Constraint The request includes the selected function’s description and JSON parameter schema, with ‘tool_choice‘ forced to that function. # JSON Fallback If forced tool-call arguments are invalid, return exactly one JSON object using only schema-permitted keys. Do not invent missing values or include Markdown. 
+
+Table 15: Fallback prompt for final-answer synthesis. 
+
+# Task Based on the tool execution results, return the exact final scalar answer to the user’s request. # Runtime Context ## User Request {user_prompt} ## Tool Execution Results {tool_results} # Instructions - Return ONLY the raw final scalar value without Markdown, prose, labels, or explanation. - Use successful tool outputs as the sole source of truth; do not fabricate unsupported values. - Prefer canonical fields such as ‘final_value‘, ‘final_answer‘, ‘final_total‘, ‘answer‘, ‘value‘, or ‘result‘. - Remove currency wrappers when a numeric scalar is required. - If results conflict, return only the best-supported scalar from successful outputs. 
+
+Table 16: Prompt for failure-triggered test-time scaling. 
+
+{original_user_prompt} [TEST_TIME_SCALING_CONTEXT] The previous no-hint attempt for this benchmark task failed. Re-run the task by calling the available tool(s); do not answer from memory alone. Use the prior failed trajectory only to understand what went wrong, then gather fresh evidence with tool calls in this run. Do not use or ask for the hidden expected answer. Return only the exact final scalar/string requested by the original task. Task metadata: {task_metadata_without_expected_answer} Previous no-hint trajectory, with answer-bearing fields redacted: {redacted_no_hint_trajectory} [/TEST_TIME_SCALING_CONTEXT]

@@ -1,0 +1,180 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-25T21:03:19.606323+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.21579v1",
+      "source": "arxiv",
+      "title": "The Unreasonable Effectiveness of VLMs for Zero-shot Procedural Mistake Detection",
+      "abstract": "Procedural mistake detection is important for quality control and user assistance across many disciplines. Recent work in this field has achieved significant gains by using the reasoning capabilities of Video-Language Models (VLMs) as components within multi-stage pipelines, which consist of separate modules for supervised temporal action segmentation, error detection, and explainability. Consequently, they remain dependent on tailored training datasets and require task-specific training, limiting their wider applicability. To remedy this, we introduce zero-shot procedural mistake detection and propose a unified Zero-shot Procedural Mistake detection (ZeProM) framework that jointly solves procedural mistake detection and temporal action segmentation with a single pre-trained VLM. By evaluating our framework on two canonical mistake detection benchmarks, EgoPER and CaptainCook4D, we find that ZeProM can perform these tasks successfully, while approaching, or even outperforming, the performance of fully supervised methods. For instance, we achieve a 4.4 point improvement in EDA and a 2.0 point improvement in F1@.5 on average over all five EgoPER tasks compared to the strongest supervised methods. Overall, our results show the potential of unified methods for procedural mistake detection, and we hope this will steer the field away from highly complex pipelines and toward more generally applicable solutions.",
+      "authors": [
+        "Serdar Ozsoy",
+        "Lars Doorenbos",
+        "Federico Spurio",
+        "Gianpiero Francesca",
+        "Juergen Gall"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-19T16:31:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.21579v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "zero-shot detection of procedural mistakes in agent actions",
+      "llm_evidence_cn": "零样本检测代理动作中的程序性错误",
+      "llm_evidence": "零样本检测代理动作中的程序性错误",
+      "canonical_evidence": "零样本检测代理动作中的程序性错误",
+      "llm_tldr_en": "ZeProM enables zero-shot procedural mistake detection using VLMs, jointly solving temporal segmentation and error detection.",
+      "llm_tldr_cn": "程序性错误检测对质量控制和用户辅助至关重要，但现有方法依赖监督训练。本文提出零样本程序性错误检测框架 ZeProM，利用视频语言模型的推理能力，无需任务特定训练即可同时完成时间动作分割和错误检测。实验表明，该方法在多个基准上超越有监督基线。该工作为代理动作错误检测提供了实用的零样本方案。",
+      "llm_tldr": "程序性错误检测对质量控制和用户辅助至关重要，但现有方法依赖监督训练。本文提出零样本程序性错误检测框架 ZeProM，利用视频语言模型的推理能力，无需任务特定训练即可同时完成时间动作分割和错误检测。实验表明，该方法在多个基准上超越有监督基线。该工作为代理动作错误检测提供了实用的零样本方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.23927v1",
+      "source": "arxiv",
+      "title": "RIFT-Bench: Dynamic Red-teaming For Agentic AI Systems",
+      "abstract": "Agentic AI systems powered by large language models (LLMs) are rapidly evolving into autonomous decision-making systems, exposing attack vectors beyond those of traditional LLM vulnerabilities. Existing security evaluations are often tied to specific implementations or domains, limiting unified comparison across heterogeneous systems. To address this gap, we introduce RIFT-Bench, a graph representation-driven methodology for dynamic red-teaming that enables unified evaluations across diverse agentic architectures. Building on a novel hierarchical representation, RIFT-Bench operates in two automated phases: Discovery, which extracts system structure, and Scanning, which deploys adaptive adversarial attacks and produces a comprehensive evaluation report. It evaluates the examined system itself, leveraging a broad set of dynamically adaptable adversarial probes across diverse attack vectors and objectives. We demonstrate the effectiveness of the proposed evaluation pipeline across 45 agentic systems spanning a diverse range of implementations, showing that the approach generalizes effectively to heterogeneous agentic architectures. Beyond systems and attacks, RIFT-Bench also supports direct evaluation of mitigation strategies. These key capabilities make RIFT-Bench a scalable foundation for security evaluation of agentic AI systems.",
+      "authors": [
+        "Yarin Yerushalmi Levi",
+        "Roy Betser",
+        "Amit Giloni",
+        "Lidor Erez",
+        "Itay Gershon",
+        "Oren Rachmil",
+        "Sindhu Padakandla",
+        "Roman Vainshtein"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-22T20:46:56+00:00",
+      "link": "https://arxiv.org/pdf/2606.23927v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "dynamic red-teaming for detecting security anomalies in agent systems",
+      "llm_evidence_cn": "动态红队测试检测代理系统中的安全异常",
+      "llm_evidence": "动态红队测试检测代理系统中的安全异常",
+      "canonical_evidence": "动态红队测试检测代理系统中的安全异常",
+      "llm_tldr_en": "Introduces RIFT-Bench, a graph-driven dynamic red-teaming methodology for unified security evaluation of agentic AI systems; uses adaptive adversarial attacks to expose vulnerabilities.",
+      "llm_tldr_cn": "该论文提出了RIFT-Bench，一个基于图表示驱动的动态红队测试框架，用于跨不同代理架构的统一安全评估。它通过自动化的结构发现和自适应对抗攻击生成评估报告，能够发现代理在复杂任务中的异常行为和安全漏洞。该方法直接支持对代理行为中错误的监测与检测。",
+      "llm_tldr": "该论文提出了RIFT-Bench，一个基于图表示驱动的动态红队测试框架，用于跨不同代理架构的统一安全评估。它通过自动化的结构发现和自适应对抗攻击生成评估报告，能够发现代理在复杂任务中的异常行为和安全漏洞。该方法直接支持对代理行为中错误的监测与检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.24245v2",
+      "source": "arxiv",
+      "title": "AutoSpec: Safety Rule Evolution for LLM Agents via Inductive Logic Programming",
+      "abstract": "Large language model (LLM) agents increasingly automate complex tasks by integrating language models with external tools and environments. However, their autonomy poses significant safety risks: agents may execute destructive commands, leak sensitive data, or violate domain constraints. Existing safety approaches face a fundamental tradeoff: hand-crafted rules are interpretable but brittle, with overly conservative rules blocking safe operations (high false positives) while permissive rules miss unsafe behaviors (high false negatives). Neural classifiers lack the interpretability required for safety-critical deployments.   We present AutoSpec, a framework that automatically evolves deployed expert-designed safety rules from user safe/unsafe annotations through counterexample-guided inductive synthesis (CEGIS) guided by inductive logic programming (ILP). Starting from the expert rules and a stream of annotated traces, AutoSpec iteratively evaluates rules, mines false-positive and false-negative counterexamples, uses ILP to learn which predicates discriminate them, generates candidate rule edits, and verifies candidates to select the best revision. The key insight is that ILP efficiently identifies predicates that appear frequently in false negatives but rarely in false positives (or vice versa), dramatically pruning the exponential search space of rule edits. This continues until convergence, producing interpretable rules that balance precision and recall.   We evaluate AutoSpec on 291 execution traces spanning code execution and embodied agent domains. AutoSpec raises rule F1 to 0.98 and 0.93 across the two domains, achieving up to 94% false positive reduction while maintaining high recall, and converges within 4-5 iterations. The ILP-guided approach achieves up to 4.8x higher F1 than heuristic CEGIS. The learned rules are human-readable, auditable, and generalize to unseen scenarios.",
+      "authors": [
+        "Pingchuan Ma",
+        "Zhaoyu Wang",
+        "Zimo Ji",
+        "Yuguang Zhou",
+        "Zhantong Xue",
+        "Zongjie Li",
+        "Shuai Wang",
+        "Xiaoqin Zhang"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.CR"
+      ],
+      "published": "2026-06-23T07:31:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.24245v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "automates safety rule evolution for detecting unsafe agent behavior",
+      "llm_evidence_cn": "自动演化安全规则以检测代理的不安全行为",
+      "llm_evidence": "自动演化安全规则以检测代理的不安全行为",
+      "canonical_evidence": "自动演化安全规则以检测代理的不安全行为",
+      "llm_tldr_en": "Presents AutoSpec, a framework that automatically evolves safety rules for LLM agents from user annotations using inductive logic programming, enabling detection of unsafe actions.",
+      "llm_tldr_cn": "该论文提出AutoSpec，利用归纳逻辑编程从用户标注的安全/不安全示例中自动演化专家设计的安全规则，用于检测LLM代理在工具交互中的不安全行为。它平衡了人工规则的准确性与可解释性，能适应新环境并降低误报和漏报。该方法直接支持对代理行为中错误的监测，为轨迹错误检测提供了规则演化的思路。",
+      "llm_tldr": "该论文提出AutoSpec，利用归纳逻辑编程从用户标注的安全/不安全示例中自动演化专家设计的安全规则，用于检测LLM代理在工具交互中的不安全行为。它平衡了人工规则的准确性与可解释性，能适应新环境并降低误报和漏报。该方法直接支持对代理行为中错误的监测，为轨迹错误检测提供了规则演化的思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.25819v1",
+      "source": "arxiv",
+      "title": "Beyond Function Calling: Benchmarking Tool-Using Agents under Tool-Environment Unreliability",
+      "abstract": "Large language models are increasingly deployed as agents that solve tasks by interacting with external tool environments. Although recent tool-use benchmarks increasingly cover complex task settings, they still largely assume clean, stable, and trustworthy tool environments, leaving tool-environment unreliability insufficiently examined. We introduce ToolBench-X, a benchmark for evaluating agents under recoverable reliability hazards. ToolBench-X contains executable multi-step tasks across diverse domains and sequential, parallel, and mixed workflows, each paired with deterministic tools and a canonical final answer for automatic evaluation. Starting from clean tool environments, ToolBench-X injects five structured hazard types: Specification Drift, Invocation Error, Execution Failure, Output Drift, and Cross-source Conflict. Crucially, each injected instance remains solvable through at least one valid recovery path, such as retrying, fallback, verification, or cross-checking. Experiments reveal a substantial reliability gap: agents that perform well with reliable tools often fail under recoverable hazards. Further analysis shows that failures are driven less by tool-use volume or inference budget than by limited hazard diagnosis and ineffective recovery. Targeted recovery hints recover many failed tasks, while test-time scaling yields more limited gains. These results suggest that tool-use evaluation should move beyond function-call accuracy toward task completion under unreliable tool environments. The code and data is available at https://github.com/Foreverskyou/ToolBench-X.",
+      "authors": [
+        "Yang Tian",
+        "Zhengpeng Shi",
+        "Bo Zhao"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.SE"
+      ],
+      "published": "2026-06-24T13:34:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.25819v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "benchmark for evaluating agents under tool unreliability, enabling error detection",
+      "llm_evidence_cn": "评估工具不可靠环境下代理的基准，支持错误检测",
+      "llm_evidence": "评估工具不可靠环境下代理的基准，支持错误检测",
+      "canonical_evidence": "评估工具不可靠环境下代理的基准，支持错误检测",
+      "llm_tldr_en": "Introduces ToolBench-X, a benchmark that injects reliability hazards into tool environments to evaluate agent robustness, providing a testbed for detecting agent trajectory errors.",
+      "llm_tldr_cn": "现有工具使用基准假设环境稳定可靠，忽略了工具环境不可靠性。本文提出ToolBench-X，一个可执行的多步骤基准，通过注入五种结构化故障类型来评估代理在工具不可靠情况下的表现，为检测代理轨迹中的错误提供了标准化测试环境。",
+      "llm_tldr": "现有工具使用基准假设环境稳定可靠，忽略了工具环境不可靠性。本文提出ToolBench-X，一个可执行的多步骤基准，通过注入五种结构化故障类型来评估代理在工具不可靠情况下的表现，为检测代理轨迹中的错误提供了标准化测试环境。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

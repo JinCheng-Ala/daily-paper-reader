@@ -1,0 +1,69 @@
+{
+  "label": "2026-06-25",
+  "date": "2026-06-25",
+  "generated_at": "2026-06-25T21:07:05",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202606/25/2606.21579v1-the-unreasonable-effectiveness-of-vlms-for-zero-shot-procedural-mistake-detection",
+      "section": "deep",
+      "title_en": "The Unreasonable Effectiveness of VLMs for Zero-shot Procedural Mistake Detection",
+      "authors": "Serdar Ozsoy, Lars Doorenbos, Federico Spurio, Gianpiero Francesca, Juergen Gall",
+      "date": "2026-06-19",
+      "pdf": "https://arxiv.org/pdf/2606.21579v1",
+      "score": "9.0",
+      "evidence": "零样本检测代理动作中的程序性错误",
+      "tldr": "过程性错误检测依赖监督训练和多阶段流水线，限制了泛化。本文提出零样本框架ZeProM，利用单个预训练视频语言模型联合完成错误检测与时间动作分割，无需任务特定训练。在EgoPER和CaptainCook4D基准上，ZeProM超越或匹敌全监督方法，平均EDA提升4.4点，F1@.5提升2.0点。该工作展示了统一零样本方法的有效性，推动更通用解决方案。",
+      "tags": "query:agent-error",
+      "abstract_en": "Procedural mistake detection is important for quality control and user assistance across many disciplines. Recent work in this field has achieved significant gains by using the reasoning capabilities of Video-Language Models (VLMs) as components within multi-stage pipelines, which consist of separate modules for supervised temporal action segmentation, error detection, and explainability. Consequently, they remain dependent on tailored training datasets and require task-specific training, limiting their wider applicability. To remedy this, we introduce zero-shot procedural mistake detection and propose a unified Zero-shot Procedural Mistake detection (ZeProM) framework that jointly solves procedural mistake detection and temporal action segmentation with a single pre-trained VLM. By evaluating our framework on two canonical mistake detection benchmarks, EgoPER and CaptainCook4D, we find that ZeProM can perform these tasks successfully, while approaching, or even outperforming, the performance of fully supervised methods. For instance, we achieve a 4.4 point improvement in EDA and a 2.0 point improvement in F1@.5 on average over all five EgoPER tasks compared to the strongest supervised methods. Overall, our results show the potential of unified methods for procedural mistake detection, and we hope this will steer the field away from highly complex pipelines and toward more generally applicable solutions.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/25/2606.23927v1-rift-bench-dynamic-red-teaming-for-agentic-ai-systems",
+      "section": "deep",
+      "title_en": "RIFT-Bench: Dynamic Red-teaming For Agentic AI Systems",
+      "authors": "Yarin Yerushalmi Levi, Roy Betser, Amit Giloni, Lidor Erez, Itay Gershon, Oren Rachmil, Sindhu Padakandla, Roman Vainshtein",
+      "date": "2026-06-22",
+      "pdf": "https://arxiv.org/pdf/2606.23927v1",
+      "score": "8.0",
+      "evidence": "动态红队测试检测代理系统中的安全异常",
+      "tldr": "针对大型语言模型驱动的智能体AI系统面临的新型攻击面，现有安全评估方法因实现或领域受限而难以统一比较。为此提出了RIFT-Bench，一种基于图表示的动态红队测试框架，通过自动发现系统结构并部署自适应对抗攻击，实现对异构智能体架构的统一安全评估。在45个系统上的实验验证了其通用性和有效性，同时支持对缓解策略的直接评估，为智能体AI系统安全提供了可扩展的基础。",
+      "tags": "query:agent-error",
+      "abstract_en": "Agentic AI systems powered by large language models (LLMs) are rapidly evolving into autonomous decision-making systems, exposing attack vectors beyond those of traditional LLM vulnerabilities. Existing security evaluations are often tied to specific implementations or domains, limiting unified comparison across heterogeneous systems. To address this gap, we introduce RIFT-Bench, a graph representation-driven methodology for dynamic red-teaming that enables unified evaluations across diverse agentic architectures. Building on a novel hierarchical representation, RIFT-Bench operates in two automated phases: Discovery, which extracts system structure, and Scanning, which deploys adaptive adversarial attacks and produces a comprehensive evaluation report. It evaluates the examined system itself, leveraging a broad set of dynamically adaptable adversarial probes across diverse attack vectors and objectives. We demonstrate the effectiveness of the proposed evaluation pipeline across 45 agentic systems spanning a diverse range of implementations, showing that the approach generalizes effectively to heterogeneous agentic architectures. Beyond systems and attacks, RIFT-Bench also supports direct evaluation of mitigation strategies. These key capabilities make RIFT-Bench a scalable foundation for security evaluation of agentic AI systems.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/25/2606.24245v2-autospec-safety-rule-evolution-for-llm-agents-via-inductive-logic-programming",
+      "section": "quick",
+      "title_en": "AutoSpec: Safety Rule Evolution for LLM Agents via Inductive Logic Programming",
+      "authors": "Pingchuan Ma, Zhaoyu Wang, Zimo Ji, Yuguang Zhou, Zhantong Xue, Zongjie Li, Shuai Wang, Xiaoqin Zhang",
+      "date": "2026-06-23",
+      "pdf": "https://arxiv.org/pdf/2606.24245v2",
+      "score": "7.0",
+      "evidence": "自动演化安全规则以检测代理的不安全行为",
+      "tldr": "LLM代理在自动化任务中存在安全风险，现有规则方法存在假阳性和假阴性权衡且缺乏可解释性。AutoSpec利用归纳逻辑编程（ILP）引导的反例驱动归纳合成（CEGIS）自动演化安全规则，从专家规则和用户注释中迭代修复规则。在代码执行和具身代理两个领域的291个执行轨迹上，规则F1达到0.98和0.93，假阳性减少94%，收敛仅需4-5轮。相比启发式CEGIS，F1提升4.8倍，学到的规则可读且泛化。",
+      "tags": "query:agent-error",
+      "abstract_en": "Large language model (LLM) agents increasingly automate complex tasks by integrating language models with external tools and environments. However, their autonomy poses significant safety risks: agents may execute destructive commands, leak sensitive data, or violate domain constraints. Existing safety approaches face a fundamental tradeoff: hand-crafted rules are interpretable but brittle, with overly conservative rules blocking safe operations (high false positives) while permissive rules miss unsafe behaviors (high false negatives). Neural classifiers lack the interpretability required for safety-critical deployments.   We present AutoSpec, a framework that automatically evolves deployed expert-designed safety rules from user safe/unsafe annotations through counterexample-guided inductive synthesis (CEGIS) guided by inductive logic programming (ILP). Starting from the expert rules and a stream of annotated traces, AutoSpec iteratively evaluates rules, mines false-positive and false-negative counterexamples, uses ILP to learn which predicates discriminate them, generates candidate rule edits, and verifies candidates to select the best revision. The key insight is that ILP efficiently identifies predicates that appear frequently in false negatives but rarely in false positives (or vice versa), dramatically pruning the exponential search space of rule edits. This continues until convergence, producing interpretable rules that balance precision and recall.   We evaluate AutoSpec on 291 execution traces spanning code execution and embodied agent domains. AutoSpec raises rule F1 to 0.98 and 0.93 across the two domains, achieving up to 94% false positive reduction while maintaining high recall, and converges within 4-5 iterations. The ILP-guided approach achieves up to 4.8x higher F1 than heuristic CEGIS. The learned rules are human-readable, auditable, and generalize to unseen scenarios.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/25/2606.25819v1-beyond-function-calling-benchmarking-tool-using-agents-under-tool-environment-unreliability",
+      "section": "quick",
+      "title_en": "Beyond Function Calling: Benchmarking Tool-Using Agents under Tool-Environment Unreliability",
+      "authors": "Yang Tian, Zhengpeng Shi, Bo Zhao",
+      "date": "2026-06-24",
+      "pdf": "https://arxiv.org/pdf/2606.25819v1",
+      "score": "6.0",
+      "evidence": "评估工具不可靠环境下代理的基准，支持错误检测",
+      "tldr": "现有工具使用基准假设环境稳定可靠，忽略了可恢复的可靠性危害。本文提出ToolBench-X基准，包含规范漂移、调用错误、执行失败、输出漂移和跨源冲突五种危害类型，每个实例可恢复。实验发现代理在可靠工具下表现良好，但在可恢复危害下性能显著下降，失败主因是危害诊断和恢复能力不足。恢复提示可有效恢复失败任务。贡献在于推动评估从函数调用准确性转向不可靠环境下的任务完成。",
+      "tags": "query:agent-error",
+      "abstract_en": "Large language models are increasingly deployed as agents that solve tasks by interacting with external tool environments. Although recent tool-use benchmarks increasingly cover complex task settings, they still largely assume clean, stable, and trustworthy tool environments, leaving tool-environment unreliability insufficiently examined. We introduce ToolBench-X, a benchmark for evaluating agents under recoverable reliability hazards. ToolBench-X contains executable multi-step tasks across diverse domains and sequential, parallel, and mixed workflows, each paired with deterministic tools and a canonical final answer for automatic evaluation. Starting from clean tool environments, ToolBench-X injects five structured hazard types: Specification Drift, Invocation Error, Execution Failure, Output Drift, and Cross-source Conflict. Crucially, each injected instance remains solvable through at least one valid recovery path, such as retrying, fallback, verification, or cross-checking. Experiments reveal a substantial reliability gap: agents that perform well with reliable tools often fail under recoverable hazards. Further analysis shows that failures are driven less by tool-use volume or inference budget than by limited hazard diagnosis and ineffective recovery. Targeted recovery hints recover many failed tasks, while test-time scaling yields more limited gains. These results suggest that tool-use evaluation should move beyond function-call accuracy toward task completion under unreliable tool environments. The code and data is available at https://github.com/Foreverskyou/ToolBench-X.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
