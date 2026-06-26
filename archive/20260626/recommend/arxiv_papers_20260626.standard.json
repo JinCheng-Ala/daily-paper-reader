@@ -1,0 +1,423 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-26T21:28:50.155677+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2606.24633v1",
+      "source": "arxiv",
+      "title": "Beyond Monotonic Progress: Retry-Supervised Value Learning for Robot Imitation",
+      "abstract": "Human demonstrations for robot imitation learning often contain mistakes and corrective behaviors, such as imprecise grasps, object misalignment, unstable contact, and repeated attempts. While these segments are commonly treated as noisy or suboptimal data, they provide valuable evidence about when execution deviates from a desirable path and how task feasibility can be restored. However, existing reward and value models often rely on monotonic progress assumptions, which capture coarse task advancement but may overlook local execution errors and corrective behaviors in imperfect demonstrations. In this work, we propose ReTVL (ReTry-Supervised Value Learning), a framework for learning mistake-sensitive value functions from mixed-quality robot demonstrations by leveraging retry events as sparse supervision. ReTVL captures the local degradation-and-recovery structure around mistakes by combining global progress calibration with local pairwise preference learning induced by sparsely annotated retry keypoints. The learned value model is then used to reweight demonstration chunks for downstream behavior cloning, reducing the influence of harmful execution errors while preserving useful corrective behaviors. Experiments on real-robot manipulation tasks show that ReTVL produces more fine-grained value estimates than progress-based baselines and improves imitation learning from imperfect demonstrations.",
+      "authors": [
+        "Xinyao Qin",
+        "Junjie Lu",
+        "Kaixin Wang",
+        "Chuheng Zhang",
+        "Sinjae Kang",
+        "Kimin Lee",
+        "Min Xu",
+        "Bin Liang",
+        "Jun Yang",
+        "Li Zhao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-23T14:27:10+00:00",
+      "link": "https://arxiv.org/pdf/2606.24633v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "learns mistake-sensitive value functions that detect execution errors in robot demonstrations",
+      "llm_evidence_cn": "从机器人演示中学习对错误敏感的价值函数以检测执行误差",
+      "llm_evidence": "从机器人演示中学习对错误敏感的价值函数以检测执行误差",
+      "canonical_evidence": "从机器人演示中学习对错误敏感的价值函数以检测执行误差",
+      "llm_tldr_en": "Proposes ReTVL to learn value functions sensitive to local execution errors and corrective behaviors from imperfect robot demonstrations, enabling error detection in agent trajectories.",
+      "llm_tldr_cn": "针对机器人模仿学习中演示数据包含错误和纠正行为的问题，提出ReTVL框架。通过重试监督信号学习对局部执行错误敏感的价值函数，避免传统单调进步假设的局限性。实验证明该方法能有效识别轨迹中的异常行为，并在下游任务中提升策略鲁棒性。",
+      "llm_tldr": "针对机器人模仿学习中演示数据包含错误和纠正行为的问题，提出ReTVL框架。通过重试监督信号学习对局部执行错误敏感的价值函数，避免传统单调进步假设的局限性。实验证明该方法能有效识别轨迹中的异常行为，并在下游任务中提升策略鲁棒性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.21777v1",
+      "source": "arxiv",
+      "title": "CalVerT: Augmenting Agents with Calibrated Verifier Telemetry Improves Action and Learning in Knowledge-Intensive Tasks",
+      "abstract": "LLM agents in knowledge intensive question answering take retrieval and reasoning actions with incomplete knowledge about whether their current answer is uncertain, unsupported, or already complete. This produces two failure modes: committing to confident but unsupported answers, which hurts accuracy, and over-retrieving when the evidence in hand already suffices, resulting in wasted compute. To give agents a more complete picture of the state space they are operating in, we introduce calibrated verifier telemetry (CalVerT), which augments the agent's state with additional telemetry: a calibrated self-confidence score and a grounding verifier score. We show that CalVerT can improve agents in both training-free and training-based settings. On four QA benchmarks, we find that CalVerT raises F1 by triggering retrieval in cases where agents over-rely on parametric knowledge, while cutting redundant retrieval in cases where agents have sufficient context to answer. We show that CalVerT can augment existing QA frameworks without training. Moreover, CalVerT also improves trained systems: by simply augmenting an agent's state with telemetry, we observe improvements after reinforcement learning, as compared to an agent with identical training but no CalVerT telemetry.",
+      "authors": [
+        "Ashwin Vinod",
+        "Ying Ding",
+        "Elias Stengel-Eskin"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-06-19T21:50:35+00:00",
+      "link": "https://arxiv.org/pdf/2606.21777v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monitors agent behavior by augmenting state with calibrated verifier telemetry to detect errors in retrieval and reasoning actions",
+      "llm_evidence_cn": "通过校准验证器遥测增强智能体状态，监控其检索和推理动作中的错误",
+      "llm_evidence": "通过校准验证器遥测增强智能体状态，监控其检索和推理动作中的错误",
+      "canonical_evidence": "通过校准验证器遥测增强智能体状态，监控其检索和推理动作中的错误",
+      "llm_tldr_en": "Augments LLM agents with calibrated verifier telemetry (self-confidence and grounding scores) to detect and prevent unsupported answers and over-retrieval errors.",
+      "llm_tldr_cn": "针对知识密集型问答中智能体两种失败模式（自信但无依据的答案和过度检索），提出校准验证器遥测（CalVerT），在智能体状态中加入校准的自信心分数和接地验证分数。该技术使智能体能够实时检测自身输出的不确定性，从而减少错误决策。实验表明在多个基准上提高了准确率并节省了计算资源。",
+      "llm_tldr": "针对知识密集型问答中智能体两种失败模式（自信但无依据的答案和过度检索），提出校准验证器遥测（CalVerT），在智能体状态中加入校准的自信心分数和接地验证分数。该技术使智能体能够实时检测自身输出的不确定性，从而减少错误决策。实验表明在多个基准上提高了准确率并节省了计算资源。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.24101v1",
+      "source": "arxiv",
+      "title": "NavWM: A Unified Navigation World Model for Foresight-Driven Planning",
+      "abstract": "Conventional visual navigation policies often struggle with myopic decision-making and mode collapse in complex environments. While world models offer a promising alternative, existing paradigms typically isolate perception, generation, and control, failing to capture their shared spatio-temporal dynamics. In this paper, we propose NavWM, a unified navigation world model that seamlessly integrates latent world reasoning, multimodal action prediction, and controllable visual generation. At its core, NavWM leverages latent world tokens to distill geometric and semantic priors, endowing the agent with robust structural understanding. To overcome the limitations of deterministic policies, we introduce an anchor-based multimodal trajectory forecasting framework that generates a diverse action space. This inherent diversity explicitly empowers the generative world model to act as a robust closed-loop planner, utilizing visual foresight to evaluate and select the optimal path. Extensive experiments across diverse robotics datasets demonstrate that NavWM significantly advances the state-of-the-art, delivering remarkable improvements in both high-fidelity future state generation and zero-shot navigation success.",
+      "authors": [
+        "Yanghong Mei",
+        "Longteng Guo",
+        "Ming-Ming Yu",
+        "Guiyu Zhao",
+        "Xingjian He",
+        "Jing Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-06-23T03:30:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.24101v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects path deviations in agent navigation through foresight-driven planning and trajectory forecasting",
+      "llm_evidence_cn": "通过前瞻规划与轨迹预测检测智能体导航中的路径偏差",
+      "llm_evidence": "通过前瞻规划与轨迹预测检测智能体导航中的路径偏差",
+      "canonical_evidence": "通过前瞻规划与轨迹预测检测智能体导航中的路径偏差",
+      "llm_tldr_en": "A unified navigation world model that integrates world reasoning, action prediction, and visual generation to detect and avoid path deviations via multimodal trajectory forecasting.",
+      "llm_tldr_cn": "针对传统视觉导航策略短视和模式崩溃的问题，提出统一导航世界模型NavWM，融合潜在世界推理、多模态动作预测和可控视觉生成。通过锚点多模态轨迹预测框架，使智能体能够前瞻性地检测并避免路径偏差。实验表明该模型在复杂环境中显著提升了导航成功率，减少了轨迹偏离。",
+      "llm_tldr": "针对传统视觉导航策略短视和模式崩溃的问题，提出统一导航世界模型NavWM，融合潜在世界推理、多模态动作预测和可控视觉生成。通过锚点多模态轨迹预测框架，使智能体能够前瞻性地检测并避免路径偏差。实验表明该模型在复杂环境中显著提升了导航成功率，减少了轨迹偏离。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.22673v1",
+      "source": "arxiv",
+      "title": "AgentLens: Interpretable Safety Steering via Mechanistic Subspaces for Multi-Turn Coding Agent",
+      "abstract": "Coding agents based on large language models (LLMs) demonstrate remarkable autonomous capabilities, but they also introduce significant safety and misuse risks during multi-turn interactions with external environments. Existing safety mechanisms mainly rely on external guardrails, which have a limited ability to perform fine-grained behavioral control during execution. Meanwhile, recent mechanistic interpretability methods for LLM safety are mostly confined to single-turn or jailbreak-style QA settings, limiting their ability to capture the evolving risk dynamics of multi-turn agent execution. In this paper, we investigate the safety of multi-turn coding agents from an internal perspective. We propose AgentLens (Mechanistic Subspace Intervention and Steering), a white-box defense framework that performs runtime safety detection and representation-level mitigation for coding agents. Unlike conventional agent guardrails, AgentLens detect harmful execution states from step-level hidden representations and mitigate unsafe behavior by intervening in a 10-dimensional subspace within a single layer. To support this research, we introduce the Mechanistic Agent Safety (MAS) benchmark, comprising comprehensively annotated multi-turn execution trajectories across 194 tasks using LLaMA-3.1-8B, Qwen-2.5-7B, and Gemma-2-9B. Extensive experiments show that AgentLens achieves strong safety detection performance, provides preliminary evidence for lookahead risk anticipation, and substantially reduces harmful actions of the coding agent, establishing a foundation for applying mechanistic interpretability to dynamic LLM agent safety. The code is available at: https://github.com/EddyLuo1232/AgentLens",
+      "authors": [
+        "Weidi Luo",
+        "Qiming Zhang",
+        "Yihao Quan",
+        "Mingyu Jin",
+        "Jie Cai",
+        "Chaowei Xiao",
+        "Jingcheng Niu",
+        "Zhen Xiang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-06-21T21:13:55+00:00",
+      "link": "https://arxiv.org/pdf/2606.22673v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "monitors multi-turn coding agent behavior for safety risks and errors",
+      "llm_evidence_cn": "监控多轮编码智能体行为以识别安全风险和错误",
+      "llm_evidence": "监控多轮编码智能体行为以识别安全风险和错误",
+      "canonical_evidence": "监控多轮编码智能体行为以识别安全风险和错误",
+      "llm_tldr_en": "Proposes AgentLens to interpret and steer coding agent behavior by identifying mechanistic subspaces that capture safety-relevant actions, effectively detecting errors.",
+      "llm_tldr_cn": "针对多轮编码智能体的安全风险，提出AgentLens框架。从内部机理角度分析智能体行为，识别与安全相关的子空间，实现对执行过程中错误的细粒度检测和干预。实验表明该方法能有效捕捉动态风险，优于外部护栏方法。",
+      "llm_tldr": "针对多轮编码智能体的安全风险，提出AgentLens框架。从内部机理角度分析智能体行为，识别与安全相关的子空间，实现对执行过程中错误的细粒度检测和干预。实验表明该方法能有效捕捉动态风险，优于外部护栏方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.24462v1",
+      "source": "arxiv",
+      "title": "Varying Bundle Size Reactive Multi-Task Assignment using Selective Cost Estimation for Multi-Agent Systems",
+      "abstract": "This paper presents a scalable framework for multi-robot task allocation in complex environments where estimating task execution costs is computationally expensive. While combinatorial auction-based approaches offer reliable solutions, the exponential complexity of bundle generation typically renders them intractable for real-time reactive applications, particularly when accurate path planning is required for cost validation. We address this through a distributed, two-stage multi-fidelity bundle generation approach. Agents utilize a local search tree guided by a low-fidelity heuristic (such as euclidean distance) to rapidly explore the bundle space, applying high-fidelity path planning only to the most promising candidates in a best-first manner. These refined bids are then submitted to a central coordinator that solves a set packing problem to ensure global feasibility and maximize the overall utility. Simulation results in multiple environments demonstrate that the framework is able to improve the performance of reactive auction-based task allocation. Overall, the presented framework is shown to enable reactive task allocation with dynamic bundle sizes in multiple settings without exposing the agents' state and internal cost estimation models.",
+      "authors": [
+        "Niklas Dahlquist",
+        "Shridhar Velhal",
+        "George Nikolakopoulos"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-23T11:55:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.24462v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "addresses path planning for autonomous agents, with cost estimation for path deviations",
+      "llm_evidence_cn": "涉及自主智能体路径规划中的成本估计与偏差检测",
+      "llm_evidence": "涉及自主智能体路径规划中的成本估计与偏差检测",
+      "canonical_evidence": "涉及自主智能体路径规划中的成本估计与偏差检测",
+      "llm_tldr_en": "A multi-agent task allocation framework uses selective cost estimation to plan paths, enabling efficient detection of costly path deviations in real-time multi-robot systems.",
+      "llm_tldr_cn": "针对多机器人任务分配中路径规划计算成本高的问题，提出一种分布式两阶段多保真度组合生成方法。利用低保真启发式快速搜索空间，仅对最有希望的候选者应用高保真路径规划，从而在实时反应式应用中有效检测代价高昂的路径偏差。实验表明该方法在保证路径质量的同时显著降低了计算开销。",
+      "llm_tldr": "针对多机器人任务分配中路径规划计算成本高的问题，提出一种分布式两阶段多保真度组合生成方法。利用低保真启发式快速搜索空间，仅对最有希望的候选者应用高保真路径规划，从而在实时反应式应用中有效检测代价高昂的路径偏差。实验表明该方法在保证路径质量的同时显著降低了计算开销。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.23416v1",
+      "source": "arxiv",
+      "title": "Detecting Malicious Agent Skills in the Wild using Attention",
+      "abstract": "LLM agents increasingly load skills, file-based packages of natural-language instructions written by third parties and distributed through marketplaces, that execute with the user's privileges. A single malicious skill can exfiltrate data, hijack the agent, or persist as a supply-chain foothold, which turns the skill marketplace into a new attack surface for agentic systems. Prompt-injection defenses do not carry over to this setting. They rely on a boundary between trusted instructions and untrusted data, whereas a skill is itself a body of instructions, so an injected command sits among many legitimate ones and inherits their authority. We present Locate-and-Judge, a two-stage detector designed for this regime. A lightweight locator scores the structural spans of a skill by the instruction-following attention each span draws and retains only the top-K. A judge then examines the retained spans in detail. Concentrating the costly judgment on a few high-attention spans lets the detector audit an entire marketplace instead of a sample. Compared to direct LLM-based scanning, this approach offers an order-of-magnitude cost reduction, dramatically increasing its scalability at a small cost to recall, and it dominates keyword and regex baselines at comparable expense. Deployed at marketplace scale and at negligible cost, Locate-and-Judge flags skills with high precision, the majority of which we manually confirmed as malicious, surfacing dozens of live malicious skills, including several disguised as benign functionality and many that SkillSpector and Cisco Skill Scanner fail to detect. We release the resulting labeled dataset.",
+      "authors": [
+        "Bacem Etteib",
+        "Daniele Lunghi",
+        "Tégawendé F. Bissyandé"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-06-22T14:41:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.23416v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Anomaly detection in agent skills (malicious behaviors)",
+      "llm_evidence_cn": "代理技能中的异常检测（恶意行为）",
+      "llm_evidence": "代理技能中的异常检测（恶意行为）",
+      "canonical_evidence": "代理技能中的异常检测（恶意行为）",
+      "llm_tldr_en": "Locate-and-Judge: two-stage detector for malicious LLM agent skills, detecting anomalies in skill instructions that cause agent errors.",
+      "llm_tldr_cn": "LLM代理从市场加载第三方技能，恶意技能可导致代理行为异常。本文提出Locate-and-Judge两阶段检测器，先定位可疑结构跨度再判断恶意性，有效检测代理技能中的异常。实验表明该方法能准确识别恶意技能，防止代理错误执行，为agent异常检测提供了新思路。",
+      "llm_tldr": "LLM代理从市场加载第三方技能，恶意技能可导致代理行为异常。本文提出Locate-and-Judge两阶段检测器，先定位可疑结构跨度再判断恶意性，有效检测代理技能中的异常。实验表明该方法能准确识别恶意技能，防止代理错误执行，为agent异常检测提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.24453v1",
+      "source": "arxiv",
+      "title": "Bayesian control for coding agents",
+      "abstract": "Modern coding agents pair LLM generators with various tools, including cheap diagnostics and expensive verifiers. The tool-use decisions are typically governed by orchestrators that often use fixed rules and ignore uncertainty. We formulate orchestration as cost-sensitive sequential hypothesis testing: a Bayesian controller maintains a belief over candidate correctness and dynamically decides whether to gather more evidence, refine the candidate, verify it, or stop. Across six generators and nine coding benchmarks, Bayesian control proves to be most valuable when verification is costly and critics are informative but imperfect. Beyond control, the belief state yields an interpretable correctness score that outperforms token-probability and raw tool-success baselines for uncertainty quantification.",
+      "authors": [
+        "Theodore Papamarkou",
+        "Vladislav Smirnov",
+        "Viktor Mazanov",
+        "Artem Vazhentsev",
+        "Preslav Nakov",
+        "Timothy Baldwin",
+        "Artem Shelmanov"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-06-23T11:41:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.24453v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Bayesian controller detects errors in coding agent tool-use decisions and provides uncertainty quantification for anomaly detection",
+      "llm_evidence_cn": "贝叶斯控制器检测编码智能体工具使用决策中的错误，并提供不确定性量化用于异常检测",
+      "llm_evidence": "贝叶斯控制器检测编码智能体工具使用决策中的错误，并提供不确定性量化用于异常检测",
+      "canonical_evidence": "贝叶斯控制器检测编码智能体工具使用决策中的错误，并提供不确定性量化用于异常检测",
+      "llm_tldr_en": "A Bayesian controller for coding agents that dynamically detects errors in tool-use decisions and provides interpretable correctness scores for anomaly detection.",
+      "llm_tldr_cn": "针对现代编码智能体工具使用决策固定规则忽略不确定性的问题，提出贝叶斯控制方法，将编排建模为成本敏感序列假设检验。贝叶斯控制器维护候选正确性的信念，动态决策收集证据、细化、验证或停止，从而在结果中检测错误。实验证明该方法在验证昂贵且批评不完美时最有价值，且信念状态提供的可解释正确性分数优于传统基线，为智能体轨迹异常检测提供了新途径。",
+      "llm_tldr": "针对现代编码智能体工具使用决策固定规则忽略不确定性的问题，提出贝叶斯控制方法，将编排建模为成本敏感序列假设检验。贝叶斯控制器维护候选正确性的信念，动态决策收集证据、细化、验证或停止，从而在结果中检测错误。实验证明该方法在验证昂贵且批评不完美时最有价值，且信念状态提供的可解释正确性分数优于传统基线，为智能体轨迹异常检测提供了新途径。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.25189v1",
+      "source": "arxiv",
+      "title": "ActPlane: Programmable OS-Level Policy Enforcement for Agent Harnesses",
+      "abstract": "AI agents increasingly run in production through harnesses, the software around the LLM, including an engine that enforces safety and effectiveness policies, e.g., 'run tests before committing.' Enforcing these policies requires bridging a semantic gap: policy intent is expressed in underspecified natural language, while enforcement must act on concrete system actions, e.g., which test to run. Many policies also define event ordering or data flow actions. Yet existing approaches fall short. Tool-call guardrails miss system actions that bypass the tool layer, while OS sandboxes control resource access instead of actions, returning opaque errors that confuse the agent. Our key insight is that policy context lives within the agent closest to the task, while enforcement must happen at the OS to cover all execution paths. We introduce ActPlane, a policy engine that lets agents declare policies and enforces them in the OS kernel with semantic feedback and isolation. ActPlane uses a simple information-flow control (IFC) DSL to support cross-event policies. We implement ActPlane with eBPF and evaluate it on policies from the empirical study, coding-task benchmarks, and safety benchmarks. ActPlane improves policy compliance, including on indirect execution paths that tool-call interception cannot observe, with 1.9%-8.4% overhead. ActPlane is at https://github.com/eunomia-bpf/ActPlane",
+      "authors": [
+        "Yusheng Zheng",
+        "Tianyuan Wu",
+        "Quanzhi Fu",
+        "Tong Yu",
+        "Wenan Mao",
+        "Wei Wang",
+        "Dan Williams",
+        "Andi Quinn"
+      ],
+      "primary_category": "cs.OS",
+      "categories": [
+        "cs.OS"
+      ],
+      "published": "2026-06-23T21:33:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.25189v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "OS-level policy enforcement for agent harnesses to detect and report errors",
+      "llm_evidence_cn": "代理框架的OS级策略执行以检测并报告错误",
+      "llm_evidence": "代理框架的OS级策略执行以检测并报告错误",
+      "canonical_evidence": "代理框架的OS级策略执行以检测并报告错误",
+      "llm_tldr_en": "ActPlane: programmable OS-level policy enforcement that bridges the semantic gap, enabling error detection and opaque error translation for agent harnesses.",
+      "llm_tldr_cn": "AI代理运行时策略执行存在语义鸿沟：自然语言策略与系统动作不匹配。本文提出ActPlane，在OS层编程执行策略，将抽象策略映射到具体系统动作，并返回清晰错误信息。它能够检测违反策略的行为（如未运行测试即提交），并将OS级的模糊错误转换为agent可理解的反馈，有效支持代理行为监控和错误检测。",
+      "llm_tldr": "AI代理运行时策略执行存在语义鸿沟：自然语言策略与系统动作不匹配。本文提出ActPlane，在OS层编程执行策略，将抽象策略映射到具体系统动作，并返回清晰错误信息。它能够检测违反策略的行为（如未运行测试即提交），并将OS级的模糊错误转换为agent可理解的反馈，有效支持代理行为监控和错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.25629v1",
+      "source": "arxiv",
+      "title": "Event-Adaptive Motion Planning with Distilled Vision-Language Model in Safety-Critical Situations",
+      "abstract": "Robot navigation in safety-critical scenarios faces significant challenges from unforeseen semantic events, where collisions arise primarily from the unpredictable behaviors of dynamic agents rather than unseen objects. While large vision-language models (VLMs) offer remarkable capabilities in commonsense reasoning, frequently invoking them within the continuous control loop introduces severe computational latency, fundamentally destabilizing physical execution. To address these challenges, we propose event-adaptive motion planning (EAMP), an efficient framework for VLM-based robot navigation. Specifically, a prompt-configurable semantic event trigger (PC-SET) selectively activates semantic intervention by continuously monitoring short temporal clips for behavioral anomalies. Upon triggering, an event-triggered distilled SemNav-VLM, fine-tuned via physically verified semantic distillation, maps detected anomalies into discrete strategy-level decisions. Subsequently, a semantic model predictive control (SMPC) module translates these strategies into dynamic reconfigurations of optimization objectives and geometric references. Extensive experiments in safety-critical logistics scenarios demonstrate that EAMP effectively aligns high-level reasoning with low-level control, significantly improving dynamic safety margins over existing baselines while preserving real-time efficiency.",
+      "authors": [
+        "Zhenwei Huang",
+        "Changsheng You",
+        "Shuai Wang",
+        "Chao Zhou",
+        "Wei Xu",
+        "Yi Gong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SP"
+      ],
+      "published": "2026-06-24T09:35:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.25629v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "monitors dynamic agents for unpredictable behaviors and adapts motion planning",
+      "llm_evidence_cn": "监控动态智能体的不可预测行为并自适应调整运动规划",
+      "llm_evidence": "监控动态智能体的不可预测行为并自适应调整运动规划",
+      "canonical_evidence": "监控动态智能体的不可预测行为并自适应调整运动规划",
+      "llm_tldr_en": "Proposes a VLM-based framework that monitors dynamic agents to trigger semantic event intervention, addressing error detection in path planning for autonomous navigation.",
+      "llm_tldr_cn": "面向安全关键场景的机器人导航，提出事件自适应运动规划（EAMP）框架。通过可配置语义事件触发器（PC-SET）持续监控动态智能体的异常行为，仅在必要时激活大模型推理。实验表明该方法在保证安全的同时显著降低计算延迟，为路径规划中的错误检测提供了新思路。",
+      "llm_tldr": "面向安全关键场景的机器人导航，提出事件自适应运动规划（EAMP）框架。通过可配置语义事件触发器（PC-SET）持续监控动态智能体的异常行为，仅在必要时激活大模型推理。实验表明该方法在保证安全的同时显著降低计算延迟，为路径规划中的错误检测提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.26524v1",
+      "source": "arxiv",
+      "title": "VIGIL: Runtime Enforcement of Behavioral Specifications in AI Agent Skills",
+      "abstract": "Agentic systems increasingly act through third-party skills, allowing model-generated decisions to affect files, communication channels, and cyber-physical devices. These skills often include natural-language specifications that define access permissions, disclosure limits, execution privileges, and required preconditions. Although such specifications describe the intended boundaries of skill behavior, they do not by themselves provide executable runtime enforcement. Enforcing them raises a contextual granularity challenge: even when a policy is written for a particular task context, a monitor must still decide which events to observe, what state to retain, how far across the execution to reason, and where to intervene. Choosing the wrong granularity can either block benign executions or miss violations that emerge only across multiple actions. Most existing enforcement mechanisms, however, assume a fixed event model or enforcement point.   In this work, we present VIGIL, an end-to-end runtime enforcement framework for agentic systems. VIGIL checks an agent's actual execution trace against behavioral policies from skill specifications, operator-defined constraints, and global rules spanning multiple skills. To make such policies executable, VIGIL introduces a policy language that captures context-specific enforcement requirements over agent-tool events, including temporal dependencies, argument constraints, and value-flow conditions. The language is paired with symbolic evaluation rules that translate policies into SMT constraints over finite traces, allowing VIGIL to detect violations that depend on event order, argument relationships, or cross-call value flow rather than relying on fixed single-call filters. On real LLM-agent runs spanning office-document, operational, and engineering tasks, VIGIL detects policy violations with over 95% recall and a false-positive rate below 10%.",
+      "authors": [
+        "Ying Li",
+        "Yanju Chen",
+        "Hongbo Wen",
+        "Bosi Zhang",
+        "Hanzhi Liu",
+        "Peiran Wang",
+        "Yu Feng",
+        "Yuan Tian"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR"
+      ],
+      "published": "2026-06-25T01:58:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.26524v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "runtime enforcement of behavioral specifications monitors agent skill execution for violations",
+      "llm_evidence_cn": "运行时执行行为规范，监控智能体技能执行中的违规行为",
+      "llm_evidence": "运行时执行行为规范，监控智能体技能执行中的违规行为",
+      "canonical_evidence": "运行时执行行为规范，监控智能体技能执行中的违规行为",
+      "llm_tldr_en": "A framework that enforces natural-language behavioral specifications at runtime, monitoring AI agent skill executions for policy violations.",
+      "llm_tldr_cn": "针对智能体系统通过第三方技能执行时可能违反自然语言行为规范的问题，提出VIGIL运行时强制框架。该框架解决了上下文粒度挑战，通过选择合适的事件观察、状态保留和干预点，实时监控智能体动作并根据规范进行干预。实验表明VIGIL能有效检测并阻止越权操作等违规行为，确保技能执行安全。",
+      "llm_tldr": "针对智能体系统通过第三方技能执行时可能违反自然语言行为规范的问题，提出VIGIL运行时强制框架。该框架解决了上下文粒度挑战，通过选择合适的事件观察、状态保留和干预点，实时监控智能体动作并根据规范进行干预。实验表明VIGIL能有效检测并阻止越权操作等违规行为，确保技能执行安全。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
