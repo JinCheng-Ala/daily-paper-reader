@@ -1,0 +1,377 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-27T20:48:47.905126+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2606.22936v1",
+      "source": "arxiv",
+      "title": "When Agents Commit Too Soon: Diagnosing Premature Commitment in LLM Agents",
+      "abstract": "Long-horizon LLM agents can fail quietly: they settle on one reading of the evidence early, then spend the rest of the run defending it. We call this premature commitment. Final-answer scoring misses the failure mode because it sees only the answer, not whether the process has already collapsed to a stable path. We define representational commitment as cross-run hidden-state convergence at a fixed reasoning step, and use it as an early diagnostic of trajectory consistency. On Llama-3.1-70B running ReAct on HotpotQA, step-4 hidden-state similarity predicts downstream behavioral consistency (r = -0.35, partial r = -0.45), with a localized temporal and layer-wise signature. The signal replicates across Qwen-2.5-72B and Phi-3-14B, and on StrategyQA (r = -0.83). It does not track correctness: committed-wrong and committed-correct questions are not separable in activation similarity. That boundary is central to the claim. Commitment tells us whether an agent has settled, not whether it is right. A runtime monitor detects inconsistent trajectories from hidden states at AUROC up to 0.97 (0.85--0.88 under a stricter split), and a prompting intervention cuts behavioral variance by 28% against a token-matched control while leaving accuracy statistically unchanged. We also test whether the signal can route self-consistency compute; on a harder benchmark it helps only modestly and is matched by a simpler output-based baseline. The result is a diagnostic for a hidden process failure, with clear limits rather than a general accuracy lever.",
+      "authors": [
+        "Aman Mehta"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-22T07:13:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.22936v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "diagnoses premature commitment failure mode in LLM agent trajectories",
+      "llm_evidence_cn": "诊断LLM代理轨迹中的过早承诺失败模式",
+      "llm_evidence": "诊断LLM代理轨迹中的过早承诺失败模式",
+      "canonical_evidence": "诊断LLM代理轨迹中的过早承诺失败模式",
+      "llm_tldr_en": "Defines representational commitment as hidden-state convergence to diagnose premature commitment in LLM agents; predicts behavioral consistency from step-4 similarity.",
+      "llm_tldr_cn": "大型语言模型代理在长周期任务中会过早锁定某个证据解读，导致后续行为固化而失败。本文定义表征承诺为跨运行隐藏状态在固定推理步骤的收敛，并利用该信号作为轨迹一致性的早期诊断指标。在HotpotQA等基准上，步骤4的隐藏状态相似性可显著预测代理的行为一致性，该信号在多个模型和数据集上得到复现。该工作为代理轨迹错误检测提供了新的视角和工具。",
+      "llm_tldr": "大型语言模型代理在长周期任务中会过早锁定某个证据解读，导致后续行为固化而失败。本文定义表征承诺为跨运行隐藏状态在固定推理步骤的收敛，并利用该信号作为轨迹一致性的早期诊断指标。在HotpotQA等基准上，步骤4的隐藏状态相似性可显著预测代理的行为一致性，该信号在多个模型和数据集上得到复现。该工作为代理轨迹错误检测提供了新的视角和工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.23085v1",
+      "source": "arxiv",
+      "title": "Foresight: Failure Detection for Long-Horizon Robotic Manipulation with Action-Conditioned World Model Latents",
+      "abstract": "Long-horizon tasks are common in real-world robotic deployments, yet failure detection for such tasks remains underexplored. Detecting failures in long-horizon robotic tasks is particularly challenging because failure onset is often ambiguous and dense temporal annotations are typically unavailable. We present Foresight, a failure detection framework that monitors manipulation trajectories using latent representations from an action-conditioned world model. Foresight is trained using only final task-level success or failure labels. By leveraging predictive world-model embeddings, our method provides a unified framework for failure detection across different policies. We further use functional conformal prediction (FCP) to calibrate detection thresholds adaptively. We evaluate Foresight with state-of-the-art vision-language-action policies in simulation on LIBERO-Long, ManiSkill-Long, and BEHAVIOR-1K, compare it against state-of-the-artfailure detection methods, and validate it on real robots with three long-horizon tasks on a ReactorX-200 arm and one task on a Franka arm. Our results suggest that action-conditioned world-model embeddings provide a scalable representation for reliable failure monitoring in long-horizon manipulation.",
+      "authors": [
+        "Haoran Zhang",
+        "Yifu Lu",
+        "Boyang Wang",
+        "Xuhui Kang",
+        "Yen-Ling Kuo",
+        "Zezhou Cheng",
+        "Mengdi Wang",
+        "Odest Chadwicke Jenkins"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-22T09:32:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.23085v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "failure detection for long-horizon robotic manipulation trajectories using world model latents",
+      "llm_evidence_cn": "使用世界模型潜变量检测长周期机器人操作轨迹中的失败",
+      "llm_evidence": "使用世界模型潜变量检测长周期机器人操作轨迹中的失败",
+      "canonical_evidence": "使用世界模型潜变量检测长周期机器人操作轨迹中的失败",
+      "llm_tldr_en": "Foresight monitors manipulation trajectories using action-conditioned world model latents, trained only on final success/failure labels, for failure detection.",
+      "llm_tldr_cn": "长周期机器人任务中失败检测面临模糊起始和缺乏密集标注的挑战。Foresight框架利用动作条件世界模型的潜变量表示监测操作轨迹，仅需最终任务级成功/失败标签进行训练。通过预测性世界模型嵌入，统一了不同策略下的失败检测。结合函数化共形预测提供可靠的不确定性估计。该方法直接适用于智能体轨迹错误检测，是核心匹配工作。",
+      "llm_tldr": "长周期机器人任务中失败检测面临模糊起始和缺乏密集标注的挑战。Foresight框架利用动作条件世界模型的潜变量表示监测操作轨迹，仅需最终任务级成功/失败标签进行训练。通过预测性世界模型嵌入，统一了不同策略下的失败检测。结合函数化共形预测提供可靠的不确定性估计。该方法直接适用于智能体轨迹错误检测，是核心匹配工作。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.26661v1",
+      "source": "arxiv",
+      "title": "LAMP: Lane-Aligned Motion Primitives for Feasible Trajectory Prediction",
+      "abstract": "Motion forecasting is essential for autonomous driving systems to enable safe decision-making and planning in complex driving scenarios. While existing predictors excel at minimizing standard displacement errors, they often overlook the adherence to lane topology of multimodal predictions, particularly for lower-probability modes. Consequently, predicted trajectories may violate physical and logical constraints, making the prediction set unreliable for safety-critical planning. In this paper, we propose LAMP (Lane-Aligned Motion Primitives), a topology-aware forecasting framework that anchors multimodal prediction to structured motion primitives aligned with lane topology. Specifically, we use a VQ-VAE to learn shape-aware motion primitives as discrete intention queries, capturing spatiotemporal patterns beyond endpoint-based intentions. We further introduce a feasibility-aware intention selector trained with a lane-topology prior for filtering unreachable intention queries, guiding the decoder to prioritize topology-consistent intentions while preserving behavioral diversity. Extensive experiments on the Argoverse 2 dataset demonstrate that LAMP achieves prediction accuracy comparable to state-of-the-art baselines while outperforming them in feasibility and diversity metrics.",
+      "authors": [
+        "Sangjin Han",
+        "Hoseong Jung",
+        "Jeongtae Her",
+        "Changhyun Choi",
+        "H. Jin Kim"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-06-25T06:52:17+00:00",
+      "link": "https://arxiv.org/pdf/2606.26661v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects path deviations in trajectory prediction by enforcing lane topology adherence",
+      "llm_evidence_cn": "通过强制车道拓扑一致性检测轨迹预测中的路径偏差",
+      "llm_evidence": "通过强制车道拓扑一致性检测轨迹预测中的路径偏差",
+      "canonical_evidence": "通过强制车道拓扑一致性检测轨迹预测中的路径偏差",
+      "llm_tldr_en": "LAMP anchors multimodal trajectory predictions to lane-aligned motion primitives, detecting and filtering predictions that violate physical and logical constraints, thus addressing path deviations.",
+      "llm_tldr_cn": "该论文提出LAMP框架，用于自动驾驶中的轨迹预测。传统预测方法可能生成违反车道拓扑的不可行轨迹。LAMP通过将预测锚定到形状感知的运动基元上，确保预测轨迹符合物理约束。它能够有效检测并排除那些偏离车道结构的轨迹，从而减少路径偏差错误。该方法直接针对路径规划中的错误检测，与需求高度吻合。",
+      "llm_tldr": "该论文提出LAMP框架，用于自动驾驶中的轨迹预测。传统预测方法可能生成违反车道拓扑的不可行轨迹。LAMP通过将预测锚定到形状感知的运动基元上，确保预测轨迹符合物理约束。它能够有效检测并排除那些偏离车道结构的轨迹，从而减少路径偏差错误。该方法直接针对路径规划中的错误检测，与需求高度吻合。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.21963v1",
+      "source": "arxiv",
+      "title": "Holmes: Multimodal Agentic Diagnosis for Mixed-Language Mobile Crashes at Industrial Scale",
+      "abstract": "Diagnosing mobile crashes in ultra-large-scale industrial applications is a formidable challenge due to the sheer volume of code, the complexity of mixed-language environments, and the inability to reproduce failures locally. Traditional static analysis struggles with scalability, while existing LLM-based agents often rely on reproducible environments unavailable in post-mortem scenarios. We present Holmes, a multi-agent system that automates root cause analysis by synthesizing multimodal runtime signals--stack traces, logs, and thread states--to reconstruct failure contexts without reproduction. Holmes introduces a hierarchical Retrieve-Explore-Reason architecture that leverages low-level artifacts (e.g., registers, assembly) to bridge the semantic gap between open-source business logic and closed-source system frameworks. By dynamically compressing the search space using runtime clues, Holmes precisely navigates 70-million-line codebases to identify non-local defects. Evaluated on real-world crashes from WeChat, Holmes achieves 87.6% accuracy in function-level fault localization and reduces average investigation time by over 98% (to ~77 seconds), demonstrating its effectiveness in transforming labor-intensive debugging into an efficient verification workflow.",
+      "authors": [
+        "Jia Li",
+        "Wenyuan Ma",
+        "Ting Peng",
+        "Haibin Zheng",
+        "Yuetang Deng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-06-20T09:31:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.21963v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multimodal agentic diagnosis for mobile crashes, detecting errors in agent execution trajectories",
+      "llm_evidence_cn": "多模态智能体诊断移动崩溃，检测智能体执行轨迹中的错误",
+      "llm_evidence": "多模态智能体诊断移动崩溃，检测智能体执行轨迹中的错误",
+      "canonical_evidence": "多模态智能体诊断移动崩溃，检测智能体执行轨迹中的错误",
+      "llm_tldr_en": "Holmes is a multi-agent system that automates root cause analysis of mobile crashes by synthesizing runtime signals, effectively detecting errors in the execution trajectory leading to failure.",
+      "llm_tldr_cn": "该论文提出Holmes多智能体系统，用于移动应用的崩溃诊断。它通过综合堆栈跟踪、日志和线程状态等运行时信号，在不重现故障的情况下重构失败上下文。采用层次化检索-探索-推理架构，逐层分析直到汇编代码。该方法直接从执行轨迹中检测错误根源，与错误检测需求一致。",
+      "llm_tldr": "该论文提出Holmes多智能体系统，用于移动应用的崩溃诊断。它通过综合堆栈跟踪、日志和线程状态等运行时信号，在不重现故障的情况下重构失败上下文。采用层次化检索-探索-推理架构，逐层分析直到汇编代码。该方法直接从执行轨迹中检测错误根源，与错误检测需求一致。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.22330v1",
+      "source": "arxiv",
+      "title": "Hypothesis-Driven Skill Optimization for LLM Agents",
+      "abstract": "External skills can improve action-oriented LLM agents without changing model weights, but persistent skill updates are risky when they are distilled from sparse or noisy trajectories. A plausible reflection may encode a useful procedure, a spurious shortcut, or a rule that the target executor cannot reliably follow. We propose Hypothesis-Driven Skill Optimization (HDSO), a train-free framework in which both the skill curator and the agent executor are frozen inference endpoints. The curator observes executor traces, proposes a falsifiable hypothesis with an explicit validation plan, instantiates the hypothesis as a candidate skill package, validates the package through paired control/treatment executions, reviews behavior differences, and consolidates only supported candidates into an approved repository. The executor consumes approved skills through progressive disclosure, preserving the executor-only path when no skill is selected. On ALFWorld, HDSO improves executor-only baselines by +6.9 Avg. SR points for Qwen3-8B and +4.0 points for Qwen3.6-27B. Under 20% randomly flipped success/failure feedback during skill discovery and validation, HDSO preserves a +7.1-point gain for Qwen3-8B. Transfer and heterogeneous-pair diagnostics further show that validated repositories can be useful beyond the run that produced them, but cross-model curation succeeds only when curator diagnosis, executor capability, and validation evidence align. HDSO provides an auditable skill lifecycle for frozen action agents rather than an unconstrained memory accumulation procedure.",
+      "authors": [
+        "Fangxin Shang",
+        "Yehui Yang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-06-21T04:43:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.22330v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "detects spurious shortcuts and unreliable patterns in LLM agent traces via hypothesis testing",
+      "llm_evidence_cn": "通过假设检验检测LLM智能体轨迹中的虚假捷径和不可靠模式",
+      "llm_evidence": "通过假设检验检测LLM智能体轨迹中的虚假捷径和不可靠模式",
+      "canonical_evidence": "通过假设检验检测LLM智能体轨迹中的虚假捷径和不可靠模式",
+      "llm_tldr_en": "HDSO uses a train-free framework to detect spurious shortcuts and unreliable rules in agent traces by proposing falsifiable hypotheses and validating them through controlled executions, enabling error detection in agent trajectories.",
+      "llm_tldr_cn": "该论文提出HDSO框架，用于检测LLM智能体轨迹中的错误模式。其核心思想是：技能策展者观察智能体执行轨迹，提出可证伪的假设（例如某行为是有效流程还是虚假捷径），并通过对照实验验证。这种方法能够识别出轨迹中的异常或不一致之处，从而发现潜在错误。由于它直接针对轨迹中的不可靠模式进行检测，因此与需求高度相关。",
+      "llm_tldr": "该论文提出HDSO框架，用于检测LLM智能体轨迹中的错误模式。其核心思想是：技能策展者观察智能体执行轨迹，提出可证伪的假设（例如某行为是有效流程还是虚假捷径），并通过对照实验验证。这种方法能够识别出轨迹中的异常或不一致之处，从而发现潜在错误。由于它直接针对轨迹中的不可靠模式进行检测，因此与需求高度相关。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.23404v1",
+      "source": "arxiv",
+      "title": "ReasoningLens: Hierarchical Visualization and Diagnostic Auditing for Large Reasoning Models",
+      "abstract": "The emergence of Large Reasoning Models has introduced exceptionally long Chain-of-Thought traces, creating a transparency burden where critical logic is often buried under massive procedural text. To address this, we present ReasoningLens, an open-source framework designed for the hierarchical visualization and diagnostic auditing of complex reasoning chains. ReasoningLens addresses information necropsy by: (1) structuring traces into interactive hierarchies that separate high-level strategy from low-level execution; (2) leveraging an agentic auditor for automated error detection and tool-augmented verification; and (3) synthesizing systemic reasoning profiles to reveal model-specific blind spots. By transforming unstructured walls of text into actionable insights, ReasoningLens provides a modular foundation for interpreting, debugging, and optimizing the next generation of reasoning-centric AI.",
+      "authors": [
+        "Jun Zhang",
+        "Jiasheng Zheng",
+        "Boxi Cao",
+        "Yaojie Lu",
+        "Hongyu Lin",
+        "Jia Zheng",
+        "Xianpei Han",
+        "Le Sun"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-06-22T14:28:35+00:00",
+      "link": "https://arxiv.org/pdf/2606.23404v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Framework for diagnostic auditing and automated error detection in reasoning traces, applicable to agent trajectories",
+      "llm_evidence_cn": "推理链诊断审计和自动错误检测框架，可应用于代理轨迹",
+      "llm_evidence": "推理链诊断审计和自动错误检测框架，可应用于代理轨迹",
+      "canonical_evidence": "推理链诊断审计和自动错误检测框架，可应用于代理轨迹",
+      "llm_tldr_en": "ReasoningLens provides hierarchical visualization and diagnostic auditing for large reasoning models, with automated error detection and tool-augmented verification, applicable to monitoring agent behavior.",
+      "llm_tldr_cn": "大型推理模型的长推理链中关键逻辑常被掩盖，缺乏有效的错误审计手段。本文提出ReasoningLens，一个开源框架，通过交互式层次化分解、代理审计器自动错误检测和工具增强验证，将非结构化的推理轨迹转化为可诊断的结构。实验表明其能有效揭示模型系统性盲点，支持监控代理行为中的错误。",
+      "llm_tldr": "大型推理模型的长推理链中关键逻辑常被掩盖，缺乏有效的错误审计手段。本文提出ReasoningLens，一个开源框架，通过交互式层次化分解、代理审计器自动错误检测和工具增强验证，将非结构化的推理轨迹转化为可诊断的结构。实验表明其能有效揭示模型系统性盲点，支持监控代理行为中的错误。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.24010v1",
+      "source": "arxiv",
+      "title": "Safe and Generalizable Hierarchical Multi-Agent RL via Constraint Manifold Control",
+      "abstract": "Multi-agent systems are widely used in safety-critical applications that require coordinated behavior under strict safety constraints. Existing approaches face a fundamental trade-off: learning-based methods achieve strong empirical performance but lack theoretical safety guarantees, while control-theoretic methods enforce safety but often lead to overly conservative and inefficient behaviors. We propose a hierarchical multi-agent reinforcement learning framework that enforces hard safety constraints under mild assumptions at low level via a constraint manifold, while enabling effective coordination through high-level policy learning. Our approach provides theoretical safety guarantees in the multi-agent setting and yields stationary learning dynamics, thereby enabling stable and efficient training. Empirically, our method achieves competitive performance while maintaining nearly perfect safety rates, and generalizes effectively to varying numbers of agents and obstacles.",
+      "authors": [
+        "Zihao Guo",
+        "Jianing Zhao",
+        "Ling Li",
+        "Hao Liang",
+        "Giuseppe Loianno",
+        "Yali Du"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-22T23:32:23+00:00",
+      "link": "https://arxiv.org/pdf/2606.24010v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "safe multi-agent RL with hard safety constraints relevant to error detection in RL trajectories",
+      "llm_evidence_cn": "安全多智能体强化学习中的硬约束与轨迹错误检测相关",
+      "llm_evidence": "安全多智能体强化学习中的硬约束与轨迹错误检测相关",
+      "canonical_evidence": "安全多智能体强化学习中的硬约束与轨迹错误检测相关",
+      "llm_tldr_en": "Proposes hierarchical multi-agent RL enforcing hard safety constraints via constraint manifold, providing theoretical safety guarantees for agent trajectories.",
+      "llm_tldr_cn": "现有方法在安全多智能体系统中面临性能与保证的权衡。本文提出层次化多智能体强化学习框架，通过低层约束流形施加硬安全约束，高层策略学习实现协调。理论保证了多智能体场景下的安全性，实验表明该方法在保持安全性的同时提升了学习效率，为轨迹错误预防提供了新思路。",
+      "llm_tldr": "现有方法在安全多智能体系统中面临性能与保证的权衡。本文提出层次化多智能体强化学习框架，通过低层约束流形施加硬安全约束，高层策略学习实现协调。理论保证了多智能体场景下的安全性，实验表明该方法在保持安全性的同时提升了学习效率，为轨迹错误预防提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.25317v1",
+      "source": "arxiv",
+      "title": "ESTANet: Efficient Online Error Detection in Procedural Videos via Prediction Inconsistency",
+      "abstract": "An efficient and accurate system for detecting errors in procedural tasks is crucial for supporting human needs in daily life, as it can provide instant notifications and guide people to correct mistakes. In this work, we study real-time online error detection in procedural videos from a simple but overlooked perspective: the prediction behavior of action detectors themselves. Instead of designing complex architectures or specialized supervision, we observe that action detectors naturally exhibit different prediction characteristics depending on their sensitivity to input dynamics and temporal context. We therefore propose ESTANet (Error-Sensitive and Temporally-vArying Network), a lightweight framework that detects errors by exploiting inconsistencies among action predictions produced by a small set of action detectors. We construct standard and error-sensitive action detectors that behave similarly on correct executions but respond differently when errors occur. Meanwhile, detectors operating with different temporal contexts further amplify prediction inconsistencies when the procedure deviates from the intended sequence. During inference, we detect errors by aggregating mismatches between standard and error-sensitive predictions through majority voting to flag frames that contain errors. Extensive experiments on EgoPER, Assembly-101-O, and EPIC-Tent-O demonstrate that ESTANet achieves state-of-the-art performance in online error detection while maintaining real-time efficiency with a lightweight architecture. Our results highlight that leveraging the intrinsic properties of action detectors can yield a powerful and practical solution for online error detection without increasing architectural design complexity.",
+      "authors": [
+        "Shih-Po Lee",
+        "Reza Ghoddoosian",
+        "Faizan Siddiqui",
+        "Enna Sachdeva",
+        "Behzad Dariush"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-24T02:29:57+00:00",
+      "link": "https://arxiv.org/pdf/2606.25317v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "detects action errors in procedural videos via prediction inconsistency",
+      "llm_evidence_cn": "通过预测不一致性检测程序性视频中的动作错误",
+      "llm_evidence": "通过预测不一致性检测程序性视频中的动作错误",
+      "canonical_evidence": "通过预测不一致性检测程序性视频中的动作错误",
+      "llm_tldr_en": "Proposes ESTANet for online error detection in procedural videos by exploiting action detectors' prediction inconsistency, without complex architectures.",
+      "llm_tldr_cn": "程序性任务中的实时错误检测对日常生活辅助至关重要。本文从动作检测器自身预测行为出发，发现其对输入动态和时间上下文的敏感度差异可用于识别错误。ESTANet轻量框架利用这种预测不一致性实现在线错误检测，无需复杂架构或专门监督。该方法可迁移至智能体轨迹错误检测任务，为基于动作预测不一致性的错误定位提供了新思路。",
+      "llm_tldr": "程序性任务中的实时错误检测对日常生活辅助至关重要。本文从动作检测器自身预测行为出发，发现其对输入动态和时间上下文的敏感度差异可用于识别错误。ESTANet轻量框架利用这种预测不一致性实现在线错误检测，无需复杂架构或专门监督。该方法可迁移至智能体轨迹错误检测任务，为基于动作预测不一致性的错误定位提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.27251v1",
+      "source": "arxiv",
+      "title": "Advancing Omnimodal Embodied Agents from Isolated Skills to Everyday Physical Autonomy",
+      "abstract": "Building persistent embodied agents in unstructured environments demands unified orchestration of heterogeneous tools spanning both cyber (APIs, IoT) and physical (manipulation, navigation) domains, coupled with autonomous recovery from physical failures that inevitably arise over extended operation. Existing systems treat these as separate problems: VLM-based planners lack a unified cyber-physical action space, agent frameworks accumulate unbounded context that degrades temporal coherence, and VLA policies execute open-loop without detecting their own failures. We argue that persistent autonomy requires not a monolithic model but a hierarchical asynchronous architecture with explicit separation of planning, memory, and verification. To this end, we present OmniAct, a framework integrating a multimodal semantic planner for skill routing across unified action spaces, an adaptive hierarchical memory with event-boundary-driven compression for sub-linear context growth, and an asynchronous visual preemption engine that closes the semantic loop during physical execution. Across 40 real-world long-horizon tasks on two robotic platforms coordinating four IoT devices, OmniAct achieves consistent improvements in end-to-end success across all complexity levels, maintains near-flat token consumption over under 100k+ accumulated interaction tokens, and elevates mid-scale open-weight models to proprietary-level performance.",
+      "authors": [
+        "Junhao Shi",
+        "Zezheng Huai",
+        "Siyin Wang",
+        "Jia Chen",
+        "Yubang Wang",
+        "Zhaoye Fei",
+        "Hechang Chen",
+        "Jingjing Gong",
+        "Xipeng Qiu",
+        "Yu-Gang Jiang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-06-25T16:36:35+00:00",
+      "link": "https://arxiv.org/pdf/2606.27251v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Proposes hierarchical asynchronous architecture with explicit verification component to detect and recover from physical failures in embodied agents",
+      "llm_evidence_cn": "提出具有显式验证组件的分层异步架构，用于检测和恢复具身智能体的物理故障",
+      "llm_evidence": "提出具有显式验证组件的分层异步架构，用于检测和恢复具身智能体的物理故障",
+      "canonical_evidence": "提出具有显式验证组件的分层异步架构，用于检测和恢复具身智能体的物理故障",
+      "llm_tldr_en": "Argues for a hierarchical asynchronous architecture separating planning, memory, and verification to enable persistent autonomy in embodied agents, including failure detection and recovery.",
+      "llm_tldr_cn": "现有具身智能体系统在处理长周期操作时缺乏统一框架，且VLA策略开环执行无法检测自身故障。本文提出分层的异步架构，明确分离规划、记忆和验证组件，使智能体能在非结构化环境中自主检测物理故障并恢复。实验表明该架构在持久自主性任务中优于现有基线方法。该工作为监控和检测智能体行为错误提供了系统级设计思路。",
+      "llm_tldr": "现有具身智能体系统在处理长周期操作时缺乏统一框架，且VLA策略开环执行无法检测自身故障。本文提出分层的异步架构，明确分离规划、记忆和验证组件，使智能体能在非结构化环境中自主检测物理故障并恢复。实验表明该架构在持久自主性任务中优于现有基线方法。该工作为监控和检测智能体行为错误提供了系统级设计思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
