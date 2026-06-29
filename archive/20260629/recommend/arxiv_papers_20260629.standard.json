@@ -1,0 +1,288 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-29T21:31:11.842866+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.28011v1",
+      "source": "arxiv",
+      "title": "From Detection to Action: Using LLM Agents for Fault-Tolerant Control",
+      "abstract": "We propose an agentic Large Language Model (LLM) framework for active Fault-Tolerant Control (FTC) that transforms fault detection outputs into constraint-aware recovery actions grounded in plant-specific knowledge. The approach couples (i) a multi-agent workflow that decomposes operator duties into monitoring, planning, action synthesis, simulation, validation, and reprompting; (ii) a Digital Process Plant Twin (DPPT) that exposes plant data, models, and a simulation service for pre-execution testing; and (iii) a Graph Retrieval-Augmented Generation (Graph RAG) layer built on the CPSMod ontology, which organizes plant knowledge (structure, function, hybrid dynamics, control context, and fault semantics) into a graph that supports relation-aware, multi-hop retrieval for the agents. Corrective actions are generated as minimal-risk state-machine recovery paths and corresponding discrete commands or continuous setpoint adaptations, then validated deterministically against interlocks, envelopes, and dynamic feasibility before any actuation. If no acceptable plan is found within a bounded time window, control is handed to a safety fallback. The framework is evaluated in simulation on two representative benchmarks: a discrete batch Mixing Module and a Continuous Stirred-Tank Reactor (CSTR) under closed-loop PID regulation. Results with lightweight LLMs (GPT-4o-mini and GPT-4.1-mini) show that semantically grounded agents can derive valid recovery decisions within latency budgets compatible with the respective process dynamics, demonstrating a practical pathway from detection to validated corrective action across both discrete and continuous FTC tasks.",
+      "authors": [
+        "Javal Vyas",
+        "Milapji Singh Gill",
+        "Artan Markaj",
+        "Felix Gehlhoff",
+        "Mehmet Mercangöz"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "cs.LG"
+      ],
+      "published": "2026-06-26T12:13:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.28011v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "uses LLM agents for fault-tolerant control, detecting faults and generating recovery actions",
+      "llm_evidence_cn": "使用LLM智能体进行容错控制，检测故障并生成恢复行动",
+      "llm_evidence": "使用LLM智能体进行容错控制，检测故障并生成恢复行动",
+      "canonical_evidence": "使用LLM智能体进行容错控制，检测故障并生成恢复行动",
+      "llm_tldr_en": "Proposes agentic LLM framework for active fault-tolerant control that transforms fault detection into constraint-aware recovery actions.",
+      "llm_tldr_cn": "提出基于LLM智能体的主动容错控制框架，将故障检测转化为约束感知的恢复行动，结合数字孪生和知识图谱实现智能体轨迹错误的检测与修复。",
+      "llm_tldr": "提出基于LLM智能体的主动容错控制框架，将故障检测转化为约束感知的恢复行动，结合数字孪生和知识图谱实现智能体轨迹错误的检测与修复。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.25760v1",
+      "source": "arxiv",
+      "title": "Uncertainty Quantification for Computer-Use Agents: A Benchmark across Vision-Language Models and GUI Grounding Datasets",
+      "abstract": "Computer-use agents turn vision-language model (VLM) predictions into executable GUI clicks, so reliable uncertainty estimates are essential for rejection, calibration, miss-severity ranking, and spatial safety regions. Yet evidence on post-hoc uncertainty quantification (UQ) for these agents is fragmented across isolated model and dataset pairs, leaving it unclear whether UQ rankings stay stable when the agent, benchmark, or observable interface changes. We present Argus, a cross-regime benchmark for post-hoc UQ in single-step executable GUI grounding: a 27-method open-weight matrix over 4 VLM agents and 4 datasets, plus an 8-method closed-source matrix across 3 frontier vendors where logits, hidden states, and attention maps are unavailable. Evaluated methods span logit-based scores, sampling and consistency measures, hidden-state and density estimators (Mahalanobis, SAPLMA), attention-based scores, P(True) and verbalised-confidence prompting, and split-conformal prediction. The main finding is selective transfer: UQ rankings are stable across datasets for a fixed model, but degrade across model classes and observable interfaces. Hidden-state and density methods are the most stable open-weight family, while CoCoA-1MCA, Focus, sampling-based scores, and verbalised self-assessment win in specific regimes. Within-model ranking transfer is strong (Spearman rho up to 0.969), but cross-tier transfer to closed-source vendors averages only +0.08, so closed-source UQ should be reranked on the target rather than extrapolated. Conformal click regions show score-level discrimination is not enough for deployment: locally weighted disks shrink radii by 40-60% when the plug-in UQ is calibrated, but coverage degrades under calibration-test or interface mismatch. We release per-item records, calibration/test splits, UQ scores, and analysis scripts for regime-aware UQ selection in GUI agents.",
+      "authors": [
+        "Divake Kumar",
+        "Sina Tayebati",
+        "Devashri Naik",
+        "Amanda Sofie Rios",
+        "Nilesh Ahuja",
+        "Omesh Tickoo",
+        "Ranganath Krishnan",
+        "Amit Ranjan Trivedi"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL",
+        "cs.CV"
+      ],
+      "published": "2026-06-24T12:34:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.25760v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "uncertainty quantification for computer-use agents enables error detection via rejection and calibration",
+      "llm_evidence_cn": "计算机使用智能体的不确定性量化可通过拒绝和校正实现错误检测",
+      "llm_evidence": "计算机使用智能体的不确定性量化可通过拒绝和校正实现错误检测",
+      "canonical_evidence": "计算机使用智能体的不确定性量化可通过拒绝和校正实现错误检测",
+      "llm_tldr_en": "Argus benchmark evaluates post-hoc UQ methods for GUI agents, enabling error detection through uncertainty estimates.",
+      "llm_tldr_cn": "Argus基准评估了GUI智能体的后验不确定性量化方法，通过不确定性估计实现错误检测，为监测智能体行为提供了工具。",
+      "llm_tldr": "Argus基准评估了GUI智能体的后验不确定性量化方法，通过不确定性估计实现错误检测，为监测智能体行为提供了工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27609v1",
+      "source": "arxiv",
+      "title": "Training Observable Control Policies to Expose Agent State Through Actions",
+      "abstract": "Physical or operational constraints often impose communications limitations on autonomous agents. Such limitations complicate monitoring or multiagent coordination. Even when strong communications are absent, some information may still be available. The remainder of the relevant agent state may be reconstructed via estimation. The actions taken by an agent are a potential source of information -- as the agent interacts with the environment, these actions may be observed even in the absence of explicit communication. We investigate using actions to estimate the state of an agent, using reinforcement learning to develop policies which make the estimation problem more tractable. Policy observability is encouraged through the training reward and is analyzed using simulation of the trained agent. In an aircraft tracking problem a policy with enhanced observability is found that has minimal impact on nominal task performance.",
+      "authors": [
+        "Andres Enriquez Fernandez",
+        "John J. Bird"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "eess.SY"
+      ],
+      "published": "2026-06-25T23:50:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.27609v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "makes agent state observable via actions for monitoring",
+      "llm_evidence_cn": "通过动作暴露代理状态以辅助监测",
+      "llm_evidence": "通过动作暴露代理状态以辅助监测",
+      "canonical_evidence": "通过动作暴露代理状态以辅助监测",
+      "llm_tldr_en": "Uses RL to train policies that expose agent state through actions, aiding monitoring and error detection in agent behavior.",
+      "llm_tldr_cn": "本文针对物理约束下代理状态难以监测的问题，提出通过强化学习训练可观测控制策略，使代理的动作能暴露其内部状态。该方法在无需直接通信的情况下，利用动作信息进行状态估计，为代理行为错误监测提供了新途径。实验验证了策略可观测性在多个任务上的有效性。",
+      "llm_tldr": "本文针对物理约束下代理状态难以监测的问题，提出通过强化学习训练可观测控制策略，使代理的动作能暴露其内部状态。该方法在无需直接通信的情况下，利用动作信息进行状态估计，为代理行为错误监测提供了新途径。实验验证了策略可观测性在多个任务上的有效性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27780v1",
+      "source": "arxiv",
+      "title": "Understanding Rollout Error in Graph World Models",
+      "abstract": "World models are often used for planning by rolling learned dynamics forward. Many planning environments, however, are not vectors or images; they are graphs of agents, tools, skills, routes, and dependencies. In these settings, a local prediction error may stay local or spread through the graph, and the failure mode changes again when edges are predicted rather than fixed. This paper studies long-horizon rollout error in Graph World Models (GWMs). We formulate a unified fixed-edge and dynamic-edge GWM framework with action nodes for node-, edge-, and graph-level decisions. We develop graph-valued rollout bounds that separate topology-induced amplification from model-induced amplification, and we introduce a joint node-edge operator for dynamic-edge rollouts. Guided by the analysis, we propose Error-Aware GWM, which combines spectral regularization, rollout consistency, and critical-node weighting. Across synthetic topologies and heterogeneous agent-graph testbeds, rollout error and planning regret grow with horizon, dynamic-edge training is needed when structure evolves, and Error-Aware GWM prevents long-horizon divergence while preserving prediction accuracy. Real-world graph benchmarks clarify the scope of GWMs: they are most useful for dynamic graph rollout and agent planning, while specialized graph models remain strong on static or sparse prediction tasks.",
+      "authors": [
+        "Xinyuan Song",
+        "Zekun Cai"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-26T07:11:29+00:00",
+      "link": "https://arxiv.org/pdf/2606.27780v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "studies rollout error in graph world models used for agent planning trajectories",
+      "llm_evidence_cn": "研究用于代理规划轨迹的图世界模型中的展开误差",
+      "llm_evidence": "研究用于代理规划轨迹的图世界模型中的展开误差",
+      "canonical_evidence": "研究用于代理规划轨迹的图世界模型中的展开误差",
+      "llm_tldr_en": "This paper studies long-horizon rollout error in Graph World Models, separating topology-induced from model-induced amplification, providing bounds and a joint node-edge operator.",
+      "llm_tldr_cn": "本文研究图世界模型中的长时域展开误差，首次将拓扑引起的放大与模型引起的放大分离，推导了图值展开界，并引入联合节点-边算子用于动态边展开。通过理论分析和实验验证，该方法有助于理解和检测代理轨迹规划中的预测误差，为轨迹错误检测提供理论基础。",
+      "llm_tldr": "本文研究图世界模型中的长时域展开误差，首次将拓扑引起的放大与模型引起的放大分离，推导了图值展开界，并引入联合节点-边算子用于动态边展开。通过理论分析和实验验证，该方法有助于理解和检测代理轨迹规划中的预测误差，为轨迹错误检测提供理论基础。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.27669v1",
+      "source": "arxiv",
+      "title": "When Search Agents Should Ask: DiscoBench for Clarification-Aware Deep Search",
+      "abstract": "Search agents powered by large language models (LLMs) are increasingly used to solve complex information-seeking tasks, requiring multi-step retrieval and reasoning to fulfill user goals. However, existing benchmarks often assume that user queries are complete and explicit, overlooking the fact that real-world search requests are frequently vague, underspecified, or even factually incorrect. In deep search scenarios, such ambiguity can propagate along multi-step reasoning chains and lead agents toward incorrect search trajectories. To address this gap, we introduce DiscoBench, a benchmark for clarification-aware deep search, designed to evaluate whether search agents can proactively identify ambiguity, ask effective clarification questions, and recover correct reasoning paths through user interaction. DiscoBench contains 211 samples and 463 ambiguity instances across 11 real-world domains, covering four ambiguity types. We further design a user simulator for multi-turn interaction and evaluate model performance from four perspectives: task utility, ambiguity detection, interaction strategy, and cost efficiency. Experiments on representative LLMs show that ambiguity detection and effective clarification are distinct capabilities, and that repeatedly searching instead of asking for clarification often performs worse than direct guessing, highlighting a critical gap between retrieval ability and interactive problem-solving in current search agents.",
+      "authors": [
+        "Yiling Tao",
+        "Shihan Deng",
+        "Meiling Tao",
+        "Pengzhi Wei",
+        "Zhichao Hu",
+        "Zhihao Zhu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-06-26T02:57:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.27669v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "addresses incorrect search trajectories due to ambiguity",
+      "llm_evidence_cn": "处理由歧义导致的错误搜索轨迹",
+      "llm_evidence": "处理由歧义导致的错误搜索轨迹",
+      "canonical_evidence": "处理由歧义导致的错误搜索轨迹",
+      "llm_tldr_en": "Introduces DiscoBench to evaluate if search agents detect ambiguity and avoid incorrect search trajectories, relevant to path deviation detection.",
+      "llm_tldr_cn": "本文针对搜索代理在多步推理中因歧义导致错误轨迹的问题，提出了DiscoBench基准。该基准评估代理主动识别歧义、提出澄清问题的能力。实验表明，当前代理在避免错误搜索路径方面仍有不足。该工作为检测代理轨迹中的路径偏差提供了评估工具。",
+      "llm_tldr": "本文针对搜索代理在多步推理中因歧义导致错误轨迹的问题，提出了DiscoBench基准。该基准评估代理主动识别歧义、提出澄清问题的能力。实验表明，当前代理在避免错误搜索路径方面仍有不足。该工作为检测代理轨迹中的路径偏差提供了评估工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.26649v1",
+      "source": "arxiv",
+      "title": "Autoformalization of Agent Instructions into Policy-as-Code",
+      "abstract": "Agent safety in high-stakes domains requires formal policy enforcement, but most existing approaches either rely on probabilistic guardrails (fine-tuned classifiers, prompt-based steering) that offer no formal guarantees, or on hand-coded symbolic enforcement that does not scale to the breadth of real policy specifications. We present an autoformalization pipeline that translates agent prompts, MCP tool descriptions, and natural language policy documents into formally verified policies using an LLM-based generator-critic loop. The resulting policies are written in the Cedar Policy Language. On the MedAgentBench benchmark, our autoformalized policies cover substantially more of the source natural-language specification than the hand-coded symbolic enforcement in prior work.",
+      "authors": [
+        "Adam Mondl",
+        "Matthew Maisel",
+        "John H. Brock"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CR"
+      ],
+      "published": "2026-06-25T06:23:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.26649v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "formal policy enforcement for monitoring agent behavior",
+      "llm_evidence_cn": "形式化策略执行用于代理行为监测",
+      "llm_evidence": "形式化策略执行用于代理行为监测",
+      "canonical_evidence": "形式化策略执行用于代理行为监测",
+      "llm_tldr_en": "Autoformalizes natural language policies into formally verified code to enforce agent behavior, enabling error detection.",
+      "llm_tldr_cn": "本文针对代理行为形式化策略执行难以扩展的问题，提出了自动形式化管道，将自然语言策略转换为经过验证的代码。该方法使用LLM生成-评判循环，在医学代理基准上显著提高策略覆盖率。该工作为代理错误监测提供了可验证的规则基础，有助于检测违反策略的行为。",
+      "llm_tldr": "本文针对代理行为形式化策略执行难以扩展的问题，提出了自动形式化管道，将自然语言策略转换为经过验证的代码。该方法使用LLM生成-评判循环，在医学代理基准上显著提高策略覆盖率。该工作为代理错误监测提供了可验证的规则基础，有助于检测违反策略的行为。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.28187v1",
+      "source": "arxiv",
+      "title": "GBC: Gradient-Based Connections for Optimizing Multi-Agent Systems",
+      "abstract": "Multi-agent systems (MAS) built on large language models (LLMs) provide a promising framework for solving complex tasks through role specialization and structured interaction. However, their performance is often limited by miscoordination and, more fundamentally, the lack of fine-grained credit assignment across agents. Existing approaches typically rely on coarse-grained feedback, making it difficult to identify which agents or interaction steps are responsible for errors. We propose Gradient-Based Connections (GBC), an approach for fine-grained attribution and optimization of multi-agent systems. GBC models a MAS as a computational graph and introduces gradient-based connection weights to quantify the influence of each agent's output on downstream agents at the token level. By constructing an attribution graph and propagating task-specific loss signals backward, our method enables precise identification of error sources and targeted prompt optimization. We further develop AgentChord, an efficient implementation that leverages prefix-based gradient computation. Experiments on MultiWOZ and τ-bench show that GBC improves multi-agent performance and outperforms strong single-agent and multi-agent baselines, and higher attribution quality is associated with greater optimization effectiveness. Code is available at: https://github.com/yxc-cyber/AgentChord.",
+      "authors": [
+        "Xiaocheng Yang",
+        "Abdulrahman Alrabah",
+        "Dilek Hakkani-Tür",
+        "Gokhan Tur"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-06-26T15:32:33+00:00",
+      "link": "https://arxiv.org/pdf/2606.28187v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "error attribution in multi-agent systems via gradient-based weights",
+      "llm_evidence_cn": "通过基于梯度的权重进行多智能体系统错误归因",
+      "llm_evidence": "通过基于梯度的权重进行多智能体系统错误归因",
+      "canonical_evidence": "通过基于梯度的权重进行多智能体系统错误归因",
+      "llm_tldr_en": "Gradient-Based Connections models multi-agent systems as computational graphs and uses gradient weights to attribute errors to specific agents and interaction steps, enabling fine-grained error detection.",
+      "llm_tldr_cn": "该论文针对多智能体系统缺乏细粒度错误归因的问题，提出梯度连接（GBC）方法，将系统建模为计算图，通过梯度权重量化每个智能体输出对下游的影响，从而定位错误来源。实验证明，该方法能有效识别导致错误的智能体和交互步骤，提升系统优化效率。",
+      "llm_tldr": "该论文针对多智能体系统缺乏细粒度错误归因的问题，提出梯度连接（GBC）方法，将系统建模为计算图，通过梯度权重量化每个智能体输出对下游的影响，从而定位错误来源。实验证明，该方法能有效识别导致错误的智能体和交互步骤，提升系统优化效率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
