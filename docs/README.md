@@ -6,49 +6,47 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-30
-- 运行时间：2026-06-30 21:40:56 UTC
+- 最新运行日期：2026-07-01
+- 运行时间：2026-07-01 20:37:38 UTC
 - 运行状态：成功
 - 本次总论文数：9
-- 精读区：6
-- 速读区：3
+- 精读区：4
+- 速读区：5
 
 ### 今日简报（AI）
-今日共解析9篇论文，精读6篇，重点聚焦空中视觉语言导航自验证推理与多智能体运行时错误监控。  
-最值得关注的两大方向：CLOSER-VLN的自验证检索增强机制，以及通过运行时监控阻断多智能体错误传播的系统设计。  
-建议优先精读两篇9分论文，深入理解闭环验证与动态监控的核心逻辑，再结合7分速读中反事实信用分配与自演化世界模型的扩展思路。
-- 详情：[/202606/30/README](/202606/30/README)
+今日推荐聚焦AI代理的失败学习与自主改进，精读两篇9.0高分论文。最值得关注的方向是“从失败中自我改进的计算代理”与“基于失败的深度强化学习测试”。普通读者可优先了解代理系统的自我迭代机制及其安全治理方法。
+- 详情：[/202607/01/README](/202607/01/README)
 
 ### 精读区论文标签
-1. [CLOSER-VLN: Closed-Loop Self-Verified Retrieval-Augmented Reasoning for Aerial Vision-Language Navigation](/202606/30/2606.28397v1-closer-vln-closed-loop-self-verified-retrieval-augmented-reasoning-for-aerial-vision-language-navigation)  
+1. [Learning from Failure: Inference-Time Self-Improvement for Computer-Use Agents](/202607/01/2606.31270v1-learning-from-failure-inference-time-self-improvement-for-computer-use-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：通过闭环验证检测并修正空中视觉语言导航中的轨迹偏差
-2. [Preventing Error Propagation in Multi-Agent AI through Runtime Monitoring](/202606/30/2606.29026v1-preventing-error-propagation-in-multi-agent-ai-through-runtime-monitoring)  
+   evidence：从失败轨迹中学习以检测并改进
+2. [Failure-Based Testing for Deep Reinforcement Learning Agents](/202607/01/2606.31372v1-failure-based-testing-for-deep-reinforcement-learning-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：运行时监控防止多代理通信中的错误传播
-3. [REPAIR-Bench: A Benchmark for Robot Error Perception And Interaction Recovery](/202606/30/2606.29937v1-repair-bench-a-benchmark-for-robot-error-perception-and-interaction-recovery)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：机器人错误感知与故障检测基准，覆盖交互会话中的纵向错误检测
-4. [Forensic Trajectory Signatures for Agent Memory Poisoning Detection](/202606/30/2606.30566v1-forensic-trajectory-signatures-for-agent-memory-poisoning-detection)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：基于轨迹法医特征的智能体轨迹异常检测
-5. [Critical Interval MSE: Toward Reliable Offline Validation for Robot Manipulation Policies](/202606/30/2606.29898v1-critical-interval-mse-toward-reliable-offline-validation-for-robot-manipulation-policies)  
+   evidence：基于故障的DRL智能体测试以检测关键失败
+3. [ReGRPO: Reflection-Augmented Policy Optimization for Tool-Using Agents](/202607/01/2606.31392v1-regrpo-reflection-augmented-policy-optimization-for-tool-using-agents)  
    标签：评分：8.0/10、query:agent-error
-   evidence：通过任务关键区段验证检测机器人操作轨迹中的动作错误
-6. [Entity Binding Failures in Tool-Augmented Agents](/202606/30/2606.30531v1-entity-binding-failures-in-tool-augmented-agents)  
+   evidence：学习在智能体轨迹中工具失败后的反思引导纠正
+4. [Ask the World Before Acting: Budgeted Environment Probing for World-Model Calibration](/202607/01/2606.31422v1-ask-the-world-before-acting-budgeted-environment-probing-for-world-model-calibration)  
    标签：评分：8.0/10、query:agent-error
-   evidence：研究工具增强代理中的实体绑定失败作为动作错误
+   evidence：通过世界模型校准在动作前检测潜在失败
 
 ### 速读区论文标签
-1. [CRAFT: Counterfactual Credit Assignment from Free Sibling Rollouts for Self-Distilled Agentic Reinforcement Learning](/202606/30/2606.29476v1-craft-counterfactual-credit-assignment-from-free-sibling-rollouts-for-self-distilled-agentic-reinforcement-learning)  
+1. [Experience Graphs: The Data Foundation for Self-Improving Agents](/202607/01/2606.29823v1-experience-graphs-the-data-foundation-for-self-improving-agents)  
    标签：评分：7.0/10、query:agent-error
-   evidence：反事实信用分配识别强化学习轨迹中有害的教师动作
-2. [MAS-Lab: A Specification-Driven Validation Framework for Reliable Multi-Agent Systems](/202606/30/2606.30546v1-mas-lab-a-specification-driven-validation-framework-for-reliable-multi-agent-systems)  
+   evidence：捕获失败和因果谱系用于轨迹分析
+2. [AgentBound: Verifiable Behavioral Governance for Autonomous AI Agents](/202607/01/2606.30970v1-agentbound-verifiable-behavioral-governance-for-autonomous-ai-agents)  
    标签：评分：7.0/10、query:agent-error
-   evidence：多智能体系统验证框架支持行为监控和错误检测
-3. [Self-Evolving World Models for LLM Agent Planning](/202606/30/2606.30639v1-self-evolving-world-models-for-llm-agent-planning)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：利用预测-观测不匹配提取启发式规则用于错误检测
+   evidence：运行时治理框架通过权威评估每个动作以实现行为监督
+3. [NQS-Agent: Health-Aware Agentic Hyperparameter Optimization for Neural-Network Quantum States](/202607/01/2606.30464v1-nqs-agent-health-aware-agentic-hyperparameter-optimization-for-neural-network-quantum-states)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：优化轨迹中的异常检测
+4. [Verification-Gated Agentic Mission-State Governance for Intelligent Industrial Multi-Robot Systems](/202607/01/2606.31339v1-verification-gated-agentic-mission-state-governance-for-intelligent-industrial-multi-robot-systems)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：验证门控治理以维护任务依赖和安全保持
+5. [QVal: Cheaply Evaluating Dense Supervision Signals for Long-Horizon LLM Agents](/202607/01/2606.32034v1-qval-cheaply-evaluating-dense-supervision-signals-for-long-horizon-llm-agents)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：评估密集监督信号以识别长轨迹中的不良中间动作
 
 
 <div class="dpr-home-promo-card">
