@@ -1,0 +1,528 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-02T20:26:23.676700+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 8,
+    "quick_skim_target": 11,
+    "quick_selected": 8
+  },
+  "deep_dive": [
+    {
+      "id": "2606.27136v1",
+      "source": "arxiv",
+      "title": "Joint Learning of Experiential Rules and Policies for Large Language Model Agents",
+      "abstract": "For LLM agents in multi-step interactive environments, a key challenge is to make effective use of accumulated interaction experience. Existing work has typically separated two uses of such experience: keeping it outside the model as natural-language rules for later prompting, or using trajectories and feedback to update the model parameters. The former is easy to interpret but can fall out of sync with the evolving policy; the latter improves the policy more broadly but provides only limited correction for local mistakes in sparse-reward settings. We present Joint Learning of Experiential Rules and Policies for LLM Agents (JERP), which updates a long-term experiential-rule pool and the policy from the same interaction trajectories. At decision time, JERP retrieves task-relevant rules and conditions the agent on them together with the interaction history. After each episode, it uses the collected trajectories both to optimize the policy and to revise the rule pool by comparing current rollouts with reference successful trajectories. This coupling keeps the rule pool aligned with the evolving policy while allowing stable and effective behaviors to be gradually absorbed into the model itself. Experiments on AlfWorld and WebShop show that JERP yields consistent gains in decision performance for complex interactive tasks.",
+      "authors": [
+        "Shicheng Ye",
+        "Chao Yu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-25T15:11:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.27136v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "jointly learns rules and policies to correct local mistakes in agent trajectories",
+      "llm_evidence_cn": "联合学习规则和策略以纠正智能体轨迹中的局部错误",
+      "llm_evidence": "联合学习规则和策略以纠正智能体轨迹中的局部错误",
+      "canonical_evidence": "联合学习规则和策略以纠正智能体轨迹中的局部错误",
+      "llm_tldr_en": "JERP jointly learns experiential rules and policies from LLM agent trajectories, enabling correction of local mistakes in sparse-reward settings.",
+      "llm_tldr_cn": "针对LLM智能体在多步交互环境中难以有效利用经验来纠正局部错误的问题，本文提出JERP框架，从同一交互轨迹中联合更新经验规则库和策略。该方法在稀疏奖励场景下能更有效地修正局部错误，同时保持策略的整体改进。实验表明JERP在多种任务上提升了智能体的表现，为智能体错误检测与修正提供了新思路。",
+      "llm_tldr": "针对LLM智能体在多步交互环境中难以有效利用经验来纠正局部错误的问题，本文提出JERP框架，从同一交互轨迹中联合更新经验规则库和策略。该方法在稀疏奖励场景下能更有效地修正局部错误，同时保持策略的整体改进。实验表明JERP在多种任务上提升了智能体的表现，为智能体错误检测与修正提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27669v2",
+      "source": "arxiv",
+      "title": "When Search Agents Should Ask: DiscoBench for Clarification-Aware Deep Search",
+      "abstract": "Search agents powered by large language models (LLMs) are increasingly used to solve complex information-seeking tasks, requiring multi-step retrieval and reasoning to fulfill user goals. However, existing benchmarks often assume that user queries are complete and explicit, overlooking the fact that real-world search requests are frequently vague, underspecified, or even factually incorrect. In deep search scenarios, such ambiguity can propagate along multi-step reasoning chains and lead agents toward incorrect search trajectories. To address this gap, we introduce DiscoBench, a benchmark for clarification-aware deep search, designed to evaluate whether search agents can proactively identify ambiguity, ask effective clarification questions, and recover correct reasoning paths through user interaction. DiscoBench contains 211 samples and 463 ambiguity instances across 11 real-world domains, covering four ambiguity types. We further design a user simulator for multi-turn interaction and evaluate model performance from four perspectives: task utility, ambiguity detection, interaction strategy, and cost efficiency. Experiments on representative LLMs show that ambiguity detection and effective clarification are distinct capabilities, and that repeatedly searching instead of asking for clarification often performs worse than direct guessing, highlighting a critical gap between retrieval ability and interactive problem-solving in current search agents.",
+      "authors": [
+        "Yiling Tao",
+        "Shihan Deng",
+        "Meiling Tao",
+        "Pengzhi Wei",
+        "Zhichao Hu",
+        "Zhihao Zhu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-06-26T02:57:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.27669v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "benchmark that evaluates how search agents detect and correct incorrect trajectories due to query ambiguity",
+      "llm_evidence_cn": "基准测试评估搜索智能体如何检测并纠正因查询歧义导致的错误轨迹",
+      "llm_evidence": "基准测试评估搜索智能体如何检测并纠正因查询歧义导致的错误轨迹",
+      "canonical_evidence": "基准测试评估搜索智能体如何检测并纠正因查询歧义导致的错误轨迹",
+      "llm_tldr_en": "DiscoBench evaluates search agents' ability to detect and correct erroneous search trajectories by identifying query ambiguity proactively.",
+      "llm_tldr_cn": "现有搜索智能体基准假设查询完整明确，忽略了歧义导致错误轨迹的问题。本文提出DiscoBench基准，专门评估智能体在深度搜索中主动识别歧义、提出澄清问题并纠正搜索轨迹的能力。实验发现多数智能体难以有效检测轨迹错误，突显了该领域改进方向。",
+      "llm_tldr": "现有搜索智能体基准假设查询完整明确，忽略了歧义导致错误轨迹的问题。本文提出DiscoBench基准，专门评估智能体在深度搜索中主动识别歧义、提出澄清问题并纠正搜索轨迹的能力。实验发现多数智能体难以有效检测轨迹错误，突显了该领域改进方向。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "How to detect errors in agent trajectories?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.00035v1",
+      "source": "arxiv",
+      "title": "Making Failure Safe: A Constrained, Verifiable Agent Framework for Open-Web Data Collection",
+      "abstract": "LLMs and agents can generate web scrapers from natural-language requirements, but direct generation remains unreliable because of dependency errors, broken selectors, schema mismatches, and heterogeneous page structures. We propose a constrained, verifiable agent framework that shifts LLM output from free-form code to typed JSON collector configurations, combining a six-type collector taxonomy, template and utility-function constraints, static Airflow DAG execution, rule-based quality checking, and structured feedback correction. Experiments on 138 tasks show that the taxonomy supports description-based requirement typing, while confirming that stable instantiation requires completing source, field, and execution constraints beyond the initial description. On 80 independently source-verified tasks, the framework runs with zero execution-stage LLM tokens and the lowest average wall-clock time, trading moderate one-shot quality for a reusable, deterministic, and verifiable execution path suited to repeated scheduled collection. These results position the framework as a reusable, low-cost, and verifiable execution path for repeated open-web data collection.",
+      "authors": [
+        "Bo Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-25T14:05:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.00035v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "constrained verifiable agent framework that detects and corrects various errors in web scraping agent trajectories",
+      "llm_evidence_cn": "约束可验证代理框架，检测并纠正网页爬取代理轨迹中的多种错误",
+      "llm_evidence": "约束可验证代理框架，检测并纠正网页爬取代理轨迹中的多种错误",
+      "canonical_evidence": "约束可验证代理框架，检测并纠正网页爬取代理轨迹中的多种错误",
+      "llm_tldr_en": "Making Failure Safe proposes a constrained verifiable agent framework that shifts LLM output to typed JSON configurations and uses rule-based checking to detect errors in open-web data collection.",
+      "llm_tldr_cn": "LLM直接生成网页爬虫代码容易出错，如依赖错误、选择器断裂等。本文提出一个约束可验证框架，将LLM输出转化为类型化JSON配置，结合规则质量检查和结构化反馈来检测和纠正错误。在138个任务上验证了框架能有效识别各类错误，提高了数据收集的可靠性。该方法为代理轨迹中错误检测提供了实用方案，特别是针对执行阶段的各类异常。",
+      "llm_tldr": "LLM直接生成网页爬虫代码容易出错，如依赖错误、选择器断裂等。本文提出一个约束可验证框架，将LLM输出转化为类型化JSON配置，结合规则质量检查和结构化反馈来检测和纠正错误。在138个任务上验证了框架能有效识别各类错误，提高了数据收集的可靠性。该方法为代理轨迹中错误检测提供了实用方案，特别是针对执行阶段的各类异常。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.00334v1",
+      "source": "arxiv",
+      "title": "Managed Autonomy at Runtime: Gear-Based Safety and Governance for Single- and Multi-Agent Cyber-Physical Systems",
+      "abstract": "Autonomous agents, whether LLM-driven software agents or robotic physical agents, face a common class of failure modes when operating without continuous human oversight: safety violations from unverified actions, behavioral instability from unconstrained loops, and continuity loss from unhandled error states. We develop \\system{}, a discrete-time control system that combines five execution gears (\\Gobs{}, \\Gsug{}, \\Gplan{}, \\Gexec{}, \\Gint{}) with utility-gated dispatch and event-driven fallback. For the single-agent case, we prove monotonic stability, execution safety, eventual stabilization, fallback completeness, and equivalence to a gear-constrained Markov decision process. For multi-agent cyber-physical systems (CPS), we apply the established \\smart{} managed-autonomy lifecycle and map runtime evidence into its four governance states (\\Stable{}/\\Meta{}/\\Assisted{}/\\Regulated{}). Consensus gating, swarm-level Lyapunov analysis, per-agent gear authority, and rendezvous control provide distributed safety and stability guarantees, including zero collision under the stated assumptions. We evaluate the resulting runtime on a three-agent UR5 robotic assembly cell using fault magnitudes calibrated from the NIST \\emph{Degradation Measurement of Robot Arm Position Accuracy} dataset across 10,000 Monte Carlo episodes. It achieves a 99.6\\% anomaly detection rate versus 2.1\\% for the single-agent baseline, reduces detection latency by $3.5\\times$, and supplies a formal physical-workspace safety certificate. The execution gears act as micro-level permissions beneath the \\smart{} runtime governance states, separating action control from autonomy governance.",
+      "authors": [
+        "Srini Ramaswamy",
+        "Wang Miaosheng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-01T02:21:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.00334v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "runtime monitoring and fallback for agent errors using gear-based control",
+      "llm_evidence_cn": "使用基于档位的运行时监控和回退机制处理智能体错误",
+      "llm_evidence": "使用基于档位的运行时监控和回退机制处理智能体错误",
+      "canonical_evidence": "使用基于档位的运行时监控和回退机制处理智能体错误",
+      "llm_tldr_en": "Managed Autonomy provides runtime safety for agents via gear-based monitoring and fallback, detecting and handling errors in single and multi-agent systems.",
+      "llm_tldr_cn": "自主智能体在无人监督时易出现安全违规、行为不稳定等错误。本文提出基于档位的运行时控制系统，通过五种执行档位与事件驱动回退机制，实时监测并处理单/多智能体系统中的错误。理论证明系统能保证执行安全与最终稳定，为智能体行为监控与错误处理提供了形式化保障。",
+      "llm_tldr": "自主智能体在无人监督时易出现安全违规、行为不稳定等错误。本文提出基于档位的运行时控制系统，通过五种执行档位与事件驱动回退机制，实时监测并处理单/多智能体系统中的错误。理论证明系统能保证执行安全与最终稳定，为智能体行为监控与错误处理提供了形式化保障。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.01111v1",
+      "source": "arxiv",
+      "title": "FAR: Failure-Aware Retry for Test-Time Recovery and Continual Policy Improvement",
+      "abstract": "Robot policies inevitably encounter failures when deployed in real environments. Naive retries often repeat the same mistakes, while many existing recovery methods rely on human intervention. In this paper, we propose Failure-Aware Retry (FAR), a framework that enables robots to learn from previous failures at test time, adapt their behavior accordingly, and eventually complete the task autonomously. FAR combines Failure-Contrastive Preference Adaptation, which constructs preference learning data from failures to steer the policy away from previously unsuccessful behaviors, with lightweight action perturbations during retries to encourage local exploration. We further incorporate successful recovery trajectories into a training loop for continual policy improvement. Experiments in both simulation and real-world manipulation tasks show that FAR substantially improves success rates and robustness, with average gains of 17.6% over the standard diffusion policy in simulation and 11.7% in the real world. In addition, FAR significantly improves data efficiency under both reset and timestep budgets during continual policy improvement by exploiting informative failure cases.",
+      "authors": [
+        "Haoran Hao",
+        "Shahram Najam Syed",
+        "Jeffrey Ichnowski",
+        "Jeff Schneider"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-01T16:01:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.01111v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects failures in robot policy trajectories and enables test-time recovery",
+      "llm_evidence_cn": "检测机器人策略轨迹中的故障并实现测试时恢复",
+      "llm_evidence": "检测机器人策略轨迹中的故障并实现测试时恢复",
+      "canonical_evidence": "检测机器人策略轨迹中的故障并实现测试时恢复",
+      "llm_tldr_en": "FAR enables robots to detect and learn from failures at test time, combining preference adaptation with action perturbations for error-aware retry.",
+      "llm_tldr_cn": "机器人在真实部署中必然遇到失败。FAR通过故障对比偏好适应和轻量动作扰动，使机器人能在测试时检测失败，调整行为，并自主完成任务。实验证明该方法显著提高任务完成率，并为代理轨迹错误检测提供了一个通用框架。",
+      "llm_tldr": "机器人在真实部署中必然遇到失败。FAR通过故障对比偏好适应和轻量动作扰动，使机器人能在测试时检测失败，调整行为，并自主完成任务。实验证明该方法显著提高任务完成率，并为代理轨迹错误检测提供了一个通用框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.29745v1",
+      "source": "arxiv",
+      "title": "ECHO: Learning Epistemically Adaptive Language Agents with Turn-Level Credit",
+      "abstract": "What does it mean for a language agent to be adaptive? Effective multi-turn agents must decide what information to seek, how to use new evidence, and when they are certain enough to act. We introduce Epistemic Decision Processes (EDPs), a belief-state formulation of multi-turn information seeking in which actions produce external observations that update the agent's posterior over a latent task variable. EDPs make epistemic adaptivity explicit: good policies choose actions that are useful under the current belief, not merely those that correlate with eventual success. We prove that belief-agnostic policies can suffer errors that compound exponentially over the horizon, and that aggregate trajectory returns can fail to identify the per-turn Bayesian advantage needed for epistemic credit. We then introduce ECHO (Epistemic Credit for History-Conditioned Optimization), a practical clipped policy-gradient objective that assigns turn-level credit using posterior-sensitive rewards. In the Clue Selector Game, a novel controlled evidence-seeking benchmark, we show that ECHO substantially improves resolution, information gain, and efficiency over trajectory-level GRPO, and matches or exceeds frontier baselines on epistemic metrics such as grounding, recovery, and calibration while producing almost no visible reasoning text.",
+      "authors": [
+        "Abhijnan Nath",
+        "Nikhil Krishnaswamy"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-06-29T03:42:01+00:00",
+      "link": "https://arxiv.org/pdf/2606.29745v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proves belief-agnostic policies suffer errors that compound exponentially; proposes epistemic decision processes to detect per-turn errors via belief state",
+      "llm_evidence_cn": "证明了信念无关策略会导致错误指数级增长；提出认知决策过程通过信念状态检测每步错误",
+      "llm_evidence": "证明了信念无关策略会导致错误指数级增长；提出认知决策过程通过信念状态检测每步错误",
+      "canonical_evidence": "证明了信念无关策略会导致错误指数级增长；提出认知决策过程通过信念状态检测每步错误",
+      "llm_tldr_en": "ECHO introduces Epistemic Decision Processes for multi-turn language agents to detect and avoid per-turn errors via belief-state credit assignment, showing that belief-agnostic policies suffer exponentially compounding errors.",
+      "llm_tldr_cn": "多轮语言代理需要自适应决策，但现有方法难以检测每步错误。本文提出认知决策过程（EDP），将代理信念状态形式化，使策略能根据当前信念判断行动是否得当。理论证明信念无关策略会导致错误指数级累积，而EDP能有效识别每回合的贝叶斯错误。这为代理轨迹错误检测提供了理论基础和方法，有助于理解误差来源。",
+      "llm_tldr": "多轮语言代理需要自适应决策，但现有方法难以检测每步错误。本文提出认知决策过程（EDP），将代理信念状态形式化，使策略能根据当前信念判断行动是否得当。理论证明信念无关策略会导致错误指数级累积，而EDP能有效识别每回合的贝叶斯错误。这为代理轨迹错误检测提供了理论基础和方法，有助于理解误差来源。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "How to detect errors in agent trajectories?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.26294v2",
+      "source": "arxiv",
+      "title": "The Red Queen Gödel Machine: Co-Evolving Agents and Their Evaluators",
+      "abstract": "Self-improving agents are state-of-the-art (SOTA) on agentic coding benchmarks and have recently been extended to general domains. However, their search methods generally assume a stationary evaluation criterion: a fixed verifier, benchmark, or labeled dataset that remains valid as the agent improves. This ignores a central feature of evolution: species adapt as their environments change with them. We aim to bring the same principle to recursive self-improvement, making evaluation part of the improvement loop and opening search to evolving evaluators, adversarial objectives, and dynamic utilities that may surpass static benchmarks. We introduce the Red Queen Godel Machine (RQGM), an evolutionary framework for recursive self-improvement under non-stationary utilities. The RQGM makes this possible through controlled utility evolution: search is organized into epochs with a fixed within-epoch evaluation criterion, while the utility can be updated at epoch boundaries, so self-improvement guarantees hold per epoch as the objective evolves across them. We begin by showing that even on verifiable coding tasks, the RQGM improves test pass rate over the prior SOTA by adding a complementary agent-as-a-judge code-review signal. This signal is cheaper and the RQGM uses 1.35x-1.72x fewer tokens. We then turn to scientific paper writing and reviewing, and Olympiad-level proof writing and grading, where the RQGM improves performance over prior self-improving agents: co-evolved writers reach 1.78x-1.86x higher acceptance rates under a diverse agent-as-a-judge panel, while co-evolved graders reach 9% higher ground-truth accuracy. In paper reviewing, the strongest baseline reviewer over-accepts AI-generated papers at up to 1.91x the human rate. The RQGM corrects this by introducing an adversarial objective that discovers reviewers equally stringent on AI and human work.",
+      "authors": [
+        "Alex Iacob",
+        "Andrej Jovanović",
+        "William F. Shen",
+        "Daniel Burkhardt",
+        "Meghdad Kurmanji",
+        "Nurbek Tastan",
+        "Lorenzo Sani",
+        "Niccolò Alberto Elia Venanzi",
+        "Ambroise Odonnat",
+        "Zeyu Cao",
+        "Bill Marino",
+        "Xinchi Qiu",
+        "Nicholas D. Lane"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.MA",
+        "cs.NE"
+      ],
+      "published": "2026-06-24T18:38:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.26294v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "introduces co-evolving evaluators for self-improving agents, enabling adaptive error detection",
+      "llm_evidence_cn": "提出共同进化的评估器用于自改进智能体，实现自适应错误检测",
+      "llm_evidence": "提出共同进化的评估器用于自改进智能体，实现自适应错误检测",
+      "canonical_evidence": "提出共同进化的评估器用于自改进智能体，实现自适应错误检测",
+      "llm_tldr_en": "RQGM introduces co-evolving evaluators for recursive self-improvement, enabling adaptive detection of agent errors in non-stationary settings.",
+      "llm_tldr_cn": "现有自改进智能体依赖固定评估标准，无法适应环境变化。本文提出红皇后哥德尔机器（RQGM），将评估器纳入进化循环，允许评估标准随智能体共同进化。该方法在非平稳环境下能更有效地识别智能体错误并引导改进，为动态错误检测提供新范式。",
+      "llm_tldr": "现有自改进智能体依赖固定评估标准，无法适应环境变化。本文提出红皇后哥德尔机器（RQGM），将评估器纳入进化循环，允许评估标准随智能体共同进化。该方法在非平稳环境下能更有效地识别智能体错误并引导改进，为动态错误检测提供新范式。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.31227v1",
+      "source": "arxiv",
+      "title": "Securing the AI Agent: A Unified Framework for Multi-Layer Agent Red Teaming",
+      "abstract": "The fast growth of open-source AI infrastructure, from model serving engines and agent platforms to the Model Context Protocol (MCP) ecosystem and the language models themselves, has outpaced the security tooling available to defend it. We present AI-Infra-Guard, an open-source framework that organizes AI red teaming around a single observation: the attack surface of an AI agent is stratified across layers (infrastructure, protocol/tool, agent behavior, and model), and no single detection paradigm fits all of them. The framework therefore matches a paradigm to each layer, from deterministic rule matching over 75+ AI components and 1{,}400+ vulnerability rules, through LLM-driven agentic auditing of MCP servers and agent-skill packages and multi-turn black-box agent red teaming, to a jailbreak harness with 26+ attack operators over sixteen datasets. To our knowledge it is the only open-source framework to span all of these, including supply-chain auditing of the agent skills that increasingly extend AI agents. We release AI-Infra-Guard as open source so that \\emph{layer-paradigm matching} can serve as a practical foundation for agent security and a shared base for the community to build on.",
+      "authors": [
+        "Yong Yang",
+        "Xing Zheng",
+        "Huiyu Wu",
+        "Huangsheng Cheng",
+        "Xiaorong Shi",
+        "Jing Guo",
+        "Bo Yang",
+        "Yi Zhou",
+        "Xiangfan Wu",
+        "Zonghao Ying"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR"
+      ],
+      "published": "2026-06-30T07:06:56+00:00",
+      "link": "https://arxiv.org/pdf/2606.31227v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "framework for multi-layer agent red teaming includes detection of anomalous agent behaviors",
+      "llm_evidence_cn": "多层代理红队框架包含检测代理行为异常的方法",
+      "llm_evidence": "多层代理红队框架包含检测代理行为异常的方法",
+      "canonical_evidence": "多层代理红队框架包含检测代理行为异常的方法",
+      "llm_tldr_en": "AI-Infra-Guard is a unified framework for red teaming AI agents across infrastructure, protocol, agent behavior, and model layers, enabling effective detection of vulnerabilities and anomalies.",
+      "llm_tldr_cn": "随着AI基础设施快速发展，安全工具相对滞后。本文提出AI-Infra-Guard框架，将代理攻击面分层（基础设施、协议/工具、代理行为、模型），并为每层匹配不同检测范式（规则匹配、LLM驱动的审计等）。该框架覆盖75+AI组件和1400+漏洞规则，能全面检测代理行为异常和安全漏洞，为代理行为监控和错误检测提供系统化方法。",
+      "llm_tldr": "随着AI基础设施快速发展，安全工具相对滞后。本文提出AI-Infra-Guard框架，将代理攻击面分层（基础设施、协议/工具、代理行为、模型），并为每层匹配不同检测范式（规则匹配、LLM驱动的审计等）。该框架覆盖75+AI组件和1400+漏洞规则，能全面检测代理行为异常和安全漏洞，为代理行为监控和错误检测提供系统化方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.28733v1",
+      "source": "arxiv",
+      "title": "Agentic Abstention: Do Agents Know When to Stop Instead of Act?",
+      "abstract": "LLM agents are expected to act over multiple turns, using search, browsing interfaces, and terminal tools to complete user goals. Yet not every goal is well specified or achievable in the available environment. In such cases, a reliable agent should recognize that further interaction is unlikely to help and abstain from additional tool calls. We define Agentic Abstention, the problem of deciding when an agent should stop acting under uncertainty. Unlike standard LLM abstention, which is usually evaluated as a single-turn answer-or-abstain decision, agentic abstention is a sequential decision problem: an agent can answer, abstain, or gather more information at each turn, and the need to abstain may only become clear after interacting with the environment. We study this problem across web shopping, terminal environments, and question answering, evaluating 13 LLM-as-agent systems and 2 agent scaffolds on more than 28,000 tasks. Our results show that the main challenge is not only whether agents can abstain, but also when they abstain. Some agents never abstain when they should, while others do so only after many unnecessary interactions. This gap is especially large on tasks where the instruction appears feasible until the environment reveals otherwise (e.g., no valid result matches the instruction). We further find that model scale, reasoning, and agent scaffolding affect abstention in different ways, where larger or more capable models sometimes perform worse at timely abstention. Finally, we introduce CONVOLVE, a context engineering method for improving agentic abstention that distills full interaction trajectories into reusable stopping rules. On WebShop, CONVOLVE substantially improves timely abstention without updating model parameters, raising Llama-3.3-70B's timely recall rate from 26.7 to 57.4. Our dataset and code are available at https://lhannnn.github.io/agentic-abstention",
+      "authors": [
+        "Han Luo",
+        "Bingbing Wen",
+        "Lucy Lu Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-27T04:49:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.28733v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "agent abstention decision under uncertainty, related to monitoring agent behavior for error detection",
+      "llm_evidence_cn": "智能体在不确定下决定是否停止行动，涉及行为监测与错误规避",
+      "llm_evidence": "智能体在不确定下决定是否停止行动，涉及行为监测与错误规避",
+      "canonical_evidence": "智能体在不确定下决定是否停止行动，涉及行为监测与错误规避",
+      "llm_tldr_en": "Agentic Abstention defines a sequential decision problem where agents must decide to stop when goals are unachievable, providing a framework for error-aware behavior.",
+      "llm_tldr_cn": "LLM智能体在多步交互中可能遇到不可达目标，但缺乏机制识别并停止。本文定义了智能体弃权问题：智能体应在不确定时停止行动。通过形式化序列决策和构建基准，为智能体行为错误监控提供了新视角，有助于检测无法完成目标的错误轨迹。",
+      "llm_tldr": "LLM智能体在多步交互中可能遇到不可达目标，但缺乏机制识别并停止。本文定义了智能体弃权问题：智能体应在不确定时停止行动。通过形式化序列决策和构建基准，为智能体行为错误监控提供了新视角，有助于检测无法完成目标的错误轨迹。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.00283v1",
+      "source": "arxiv",
+      "title": "What's Hidden Matters: Identifying Planning-Critical Occluded Agents using Vision-Language Models",
+      "abstract": "Autonomous vehicles must safely navigate complex environments where planning-critical agents may be hidden from view. Current approaches often treat all occlusions with uniform conservatism, yielding needlessly defensive driving, or they infer hidden spaces without estimating the impact on the planner. This work bridges the critical gap between perception and planning by enabling Vision-Language Models (VLMs) to identify and reason about the specific hidden agents that are most critical to the ego-vehicle's trajectory. We introduce a novel framework that uses Planning KL-divergence (PKL), an information-theoretic metric, to systematically identify and rank occluded agents based on their impact on the ego vehicle's plan. Using this planning-aware ranking, we employ an expert VLM (GPT-5) to generate rich, structured annotations that capture the visual evidence and reasoning required for this task. We apply this framework to the nuScenes dataset to create a new benchmark focused on high-impact scenarios. We conduct comprehensive experiments on a wide range of general-purpose and domain-adapted VLMs, demonstrating that fine-tuning on our PKL-guided data yields dramatic performance improvements across all models. Notably, our results show that smaller, fine-tuned models significantly outperform their much larger zero-shot counterparts, and that our PKL-guided data selection strategy improves performance by approximately 30\\% over random sampling. Our work presents the first systematic approach for training VLMs to focus on planning-critical occlusions, enabling more semantically grounded and efficient risk assessment in autonomous driving.",
+      "authors": [
+        "Amirhosein Chahe",
+        "Tyler Naes",
+        "Jovin D'sa",
+        "Faizan M. Tariq",
+        "Sangjae Bae",
+        "Lifeng Zhou",
+        "David Isele"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-07-01T00:14:13+00:00",
+      "link": "https://arxiv.org/pdf/2607.00283v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "identifies planning-critical occluded agents in autonomous driving to prevent path errors",
+      "llm_evidence_cn": "识别自动驾驶中被遮挡的关键智能体以防止路径错误",
+      "llm_evidence": "识别自动驾驶中被遮挡的关键智能体以防止路径错误",
+      "canonical_evidence": "识别自动驾驶中被遮挡的关键智能体以防止路径错误",
+      "llm_tldr_en": "VLMs identify occluded agents critical to ego trajectory using Planning KL-divergence, preventing path planning errors due to hidden agents.",
+      "llm_tldr_cn": "自动驾驶中，被遮挡的智能体可能导致路径规划错误，而现有方法要么对所有遮挡一视同仁导致保守驾驶，要么忽视对规划的影响。本文提出利用视觉语言模型（VLM）和规划KL散度（PKL）指标，系统性地识别并排序对自车轨迹规划影响最大的被遮挡智能体。该方法在模拟环境中能够有效检测出那些隐藏的关键智能体，并引导规划器做出更安全的决策，从而预防路径偏差。",
+      "llm_tldr": "自动驾驶中，被遮挡的智能体可能导致路径规划错误，而现有方法要么对所有遮挡一视同仁导致保守驾驶，要么忽视对规划的影响。本文提出利用视觉语言模型（VLM）和规划KL散度（PKL）指标，系统性地识别并排序对自车轨迹规划影响最大的被遮挡智能体。该方法在模拟环境中能够有效检测出那些隐藏的关键智能体，并引导规划器做出更安全的决策，从而预防路径偏差。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.31339v1",
+      "source": "arxiv",
+      "title": "Verification-Gated Agentic Mission-State Governance for Intelligent Industrial Multi-Robot Systems",
+      "abstract": "Agentic artificial intelligence is increasingly used to decompose industrial tasks, propose robot actions, and adapt execution plans in dynamic cyber-physical environments. However, autonomous proposal generation alone does not guarantee that multi-robot industrial systems preserve task dependencies, resource ownership, safety holds, or repair boundaries during long-horizon execution. This paper introduces a verification-gated agentic mission-state governance framework for intelligent industrial multi-robot systems. The framework maintains two synchronized state objects: an evolving task forest for persistent hierarchy, delayed grounding, and repairable substructures; and a governed blackboard for online execution state, robot traces, resource locks, world beliefs, proposals, verification records, and scene-temporary constraints. From each forest--blackboard snapshot, a derived execution coupling topology exposes cross-branch dependencies for proposal verification, parallel-commit eligibility, and bounded repair. Candidate assignments, repairs, deferrals, and constraint updates may be generated by heuristic, optimization, or agentic reasoning modules, but they can update the committed mission state only after deterministic verification and atomic commit. We evaluate the framework in an indoor factory multi-robot scenario, 30-seed remote-construction stress benchmarks, structural ablations, and scalability probes. The results show improved verified and safety-audited mission-state progress with fewer invalid commitments, lock conflicts, duplicate assignments, abandoned nodes, and disruptive repairs under modeled mission predicates. The study positions agentic AI as a proposal-generating layer governed by inspectable mission-state verification rather than as an unchecked execution authority.",
+      "authors": [
+        "Guoqin Tang",
+        "Qingxuan Jia",
+        "Yichen Tan",
+        "Zeyuan Huang",
+        "Ning Ji",
+        "Gang Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-30T08:41:00+00:00",
+      "link": "https://arxiv.org/pdf/2606.31339v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "verification-gated governance for multi-robot mission execution to prevent errors",
+      "llm_evidence_cn": "验证门控治理框架防止多机器人任务执行错误",
+      "llm_evidence": "验证门控治理框架防止多机器人任务执行错误",
+      "canonical_evidence": "验证门控治理框架防止多机器人任务执行错误",
+      "llm_tldr_en": "Introduces a verification-gated framework for multi-robot systems that maintains task forests and blackboards to ensure task dependencies, resource ownership, and repair boundaries during execution.",
+      "llm_tldr_cn": "多机器人系统中，自主提案生成不能保证任务依赖、资源所有权和安全约束。本文提出验证门控任务状态治理框架，维护任务森林和黑板两个同步状态对象，在长时间执行中持续验证动作提案。该框架能有效防止违反依赖和资源冲突等错误，提升工业多机器人系统的可靠性与安全性。",
+      "llm_tldr": "多机器人系统中，自主提案生成不能保证任务依赖、资源所有权和安全约束。本文提出验证门控任务状态治理框架，维护任务森林和黑板两个同步状态对象，在长时间执行中持续验证动作提案。该框架能有效防止违反依赖和资源冲突等错误，提升工业多机器人系统的可靠性与安全性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.00654v1",
+      "source": "arxiv",
+      "title": "Linguistic Relative Policy Optimization for Video Anomaly Reasoning",
+      "abstract": "Video anomaly detection (VAD) with multimodal large language models has shown strong potential, yet most existing methods still depend on large-scale annotations or expert-designed priors, limiting their ability to acquire anomaly knowledge with as little human intervention as possible. To address this, we propose Linguistic Relative Policy Optimization (LRPO), which distills group-relative semantic advantages from multiple reasoning trajectories into a linguistically expressed anomaly experience prior, and adapts the model by injecting this prior into the context to steer its output distribution without any parameter updates. LRPO builds two complementary experience representations: general experience captures transferable anomaly preferences across scenarios, while scenario experience models context-dependent anomaly rules for targeted refinement. To further improve the learned experience, we introduce an anomaly alignment reward that guides trajectory optimization to match human risk preferences and reinforce temporally grounded reasoning. Extensive experiments on XD-Violence, UCF-Crime, and UBnormal demonstrate that LRPO significantly outperforms existing state-of-the-art methods under tuning-free settings.",
+      "authors": [
+        "Jiaxu Leng",
+        "Jiankang Zheng",
+        "Mengjingcheng Mo",
+        "Zhanjie Wu",
+        "Haosheng Chen",
+        "Ji Gan",
+        "Xinbo Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T09:07:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.00654v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "video anomaly detection using reasoning trajectories and anomaly experience extraction",
+      "llm_evidence_cn": "视频异常检测，利用推理轨迹提取异常经验先验",
+      "llm_evidence": "视频异常检测，利用推理轨迹提取异常经验先验",
+      "canonical_evidence": "视频异常检测，利用推理轨迹提取异常经验先验",
+      "llm_tldr_en": "LRPO distills anomaly knowledge from multiple reasoning trajectories into a linguistic prior for zero-shot video anomaly detection, enabling efficient anomaly reasoning without parameter updates.",
+      "llm_tldr_cn": "现有视频异常检测方法依赖大量标注或专家先验。本文提出语言相对策略优化（LRPO），从多个推理轨迹中蒸馏出组相对语义优势，形成语言表达的异常经验先验，通过注入上下文引导模型输出分布，无需参数更新。实验表明该方法在多个基准上实现了零样本异常推理，显著降低了人工干预需求。",
+      "llm_tldr": "现有视频异常检测方法依赖大量标注或专家先验。本文提出语言相对策略优化（LRPO），从多个推理轨迹中蒸馏出组相对语义优势，形成语言表达的异常经验先验，通过注入上下文引导模型输出分布，无需参数更新。实验表明该方法在多个基准上实现了零样本异常推理，显著降低了人工干预需求。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.31875v1",
+      "source": "arxiv",
+      "title": "SENSE-VAD: Sentient and Semantic Video Anomaly Detection for Autonomous Driving",
+      "abstract": "Autonomous vehicles (AVs) must navigate not only motion-based hazards but also socially complex situations whose danger is constituted by inter-agent relationships rather than movement statistics alone. A child running away from a guardian, a person being carried by another, or a pursuer chasing a pedestrian across a sidewalk are all anomalous in social context, yet none produces an obvious motion signal that current anomaly detectors are equipped to flag. We introduce SENSE-VAD, the first synthetic video anomaly detection benchmark for autonomous driving explicitly designed around socially complex anomalies. Using the CARLA simulator and Unreal Engine (UE), we generate distinct anomaly scenarios across multiple categories: individual behaviors, group behaviors, person--object interactions, cyclist interactions, vehicle & agent, each annotated with per-frame binary labels. A key design principle is the separation of social anomaly from motion-based or appearance-based anomaly: many scenarios involve motion of objects that appears unremarkable in isolation but is anomalous in relational context. We additionally provide real-world normal and anomalous videos as a sim-to-real transfer probe. We evaluate state-of-the-art video anomaly detection baselines and demonstrate that socially complex anomalies constitute a distinct and currently unsolved challenge. Our dataset, annotations, and generation code are publicly available.",
+      "authors": [
+        "Nghia T. Nguyen",
+        "Lokman Bekit",
+        "Yasin Yilmaz"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T15:57:50+00:00",
+      "link": "https://arxiv.org/pdf/2606.31875v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "synthetic video anomaly detection benchmark for autonomous driving using social context anomalies",
+      "llm_evidence_cn": "自动驾驶场景中基于社交上下文的合成视频异常检测基准",
+      "llm_evidence": "自动驾驶场景中基于社交上下文的合成视频异常检测基准",
+      "canonical_evidence": "自动驾驶场景中基于社交上下文的合成视频异常检测基准",
+      "llm_tldr_en": "SENSE-VAD is the first synthetic benchmark for socially complex video anomalies in autonomous driving, enabling detection of non-motion-based inter-agent anomalous behaviors.",
+      "llm_tldr_cn": "自动驾驶中的危险不仅来自运动异常，还包括社交关系异常（如追逐、绑架）。本文提出SENSE-VAD，首个针对社交复杂异常的视频异常检测合成基准，使用CARLA和UE生成多类别异常场景，为检测非运动信号异常提供评估平台。",
+      "llm_tldr": "自动驾驶中的危险不仅来自运动异常，还包括社交关系异常（如追逐、绑架）。本文提出SENSE-VAD，首个针对社交复杂异常的视频异常检测合成基准，使用CARLA和UE生成多类别异常场景，为检测非运动信号异常提供评估平台。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
