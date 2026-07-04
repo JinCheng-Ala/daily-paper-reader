@@ -1,0 +1,305 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-04T21:00:01.165455+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.32034v1",
+      "source": "arxiv",
+      "title": "QVal: Cheaply Evaluating Dense Supervision Signals for Long-Horizon LLM Agents",
+      "abstract": "LLM agents increasingly act over long horizons, where a single trajectory can contain hundreds or thousands of actions. In these settings, outcome-only rewards provide too sparse guidance, failing to inform the model about the goodness of intermediate actions. Dense supervision methods aim to solve this problem by scoring intermediate steps, from intrinsic confidence to self-distillation and embedding similarities. However, it is common practice to evaluate them by measuring the downstream performance of a training pipeline that integrates them. This is expensive, conflates supervision quality with training engineering confounders, and renders different methodological families requiring distinct training setups incomparable. As a result, dense supervision methods are rarely benchmarked on common ground. We introduce QVal, a training-free testbed for directly evaluating dense supervision signals. Given a state-action pair, QVal measures how well a method's score is Q-aligned: whether it orders actions according to the Q-values of a strong reference-policy. This lets us compare signals before any training run and separate signal quality from other engineering choices. We instantiate QVal as QVal-v1.0, benchmarking 21 dense supervision methods across four diverse environments and seven methodological families, with over 1.2K evaluation experiments across six open-weight model backbones. We find that simple prompting baselines consistently outperform recent dense supervision methods from the literature, and that performance clusters strongly by family. These findings hold across model sizes, environments, and observation modalities. QVal is designed to be easily extensible to new environments and methods, enabling researchers to iterate on dense supervision methods before any training run.",
+      "authors": [
+        "Sergio Hernández-Gutiérrez",
+        "Matteo Merler",
+        "Ilze Amanda Auzina",
+        "Joschka Strüber",
+        "Ameya Prabhu",
+        "Matthias Bethge"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-06-30T17:58:23+00:00",
+      "link": "https://arxiv.org/pdf/2606.32034v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "evaluates dense supervision signals for scoring intermediate actions in trajectories",
+      "llm_evidence_cn": "评估轨迹中中间动作的密集监督信号，可用于异常检测",
+      "llm_evidence": "评估轨迹中中间动作的密集监督信号，可用于异常检测",
+      "canonical_evidence": "评估轨迹中中间动作的密集监督信号，可用于异常检测",
+      "llm_tldr_en": "Proposes QVal to cheaply evaluate dense supervision signals for scoring intermediate steps in LLM agent trajectories, enabling error detection at each step.",
+      "llm_tldr_cn": "长程智能体轨迹中稀疏奖励难以反映中间动作的好坏，密集监督方法可评估中间步但评估成本高。本文提出QVal方法，无需完整训练即可快速评估不同密集监督信号的质量，将其应用于轨迹中间步评分，从而支持错误检测。实验表明QVal能有效识别异常动作步骤，为智能体轨迹错误检测提供廉价评估工具。",
+      "llm_tldr": "长程智能体轨迹中稀疏奖励难以反映中间动作的好坏，密集监督方法可评估中间步但评估成本高。本文提出QVal方法，无需完整训练即可快速评估不同密集监督信号的质量，将其应用于轨迹中间步评分，从而支持错误检测。实验表明QVal能有效识别异常动作步骤，为智能体轨迹错误检测提供廉价评估工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.29193v1",
+      "source": "arxiv",
+      "title": "A Multi-Dataset Benchmark for Evaluating LLM Agents in Microservice Failure Diagnosis",
+      "abstract": "LLM-based agents are reshaping microservice operations into AgentOps, where benchmarks are key to evaluating failure diagnosis over multimodal observability data. However, existing benchmarks remain largely outcome-oriented: they score only the final answer and fail to assess the systematic reasoning process in failure diagnosis. We address this gap by introducing two large-scale datasets (AIOps2025 and RCA100) under a reasoning-process evaluation paradigm that assesses agentic diagnostic capability along three dimensions: Localization (where the fault occurs), Identification (what type of fault it is), and Reason (whether the reasoning trace is grounded in relevant evidence). Together, the two datasets comprise over 500 expert-labeled failure cases across two representative microservice systems (HipsterShop and the OpenTelemetry Demo Store). They cover diverse fault scenarios across resource, network, runtime, middleware/database, and application-logic categories and provide fine-grained causal evidence to support agent learning and reasoning-process evaluation. Beyond scale and coverage, the datasets have been carefully labelled by domain experts and validated through large-scale competitions, supporting more than 6,000 participating teams. This makes them not only expert-labeled diagnostic datasets, but also competition-validated benchmarks for evaluating agentic failure diagnosis in real-world microservice environments. Datasets are available at https://www.aiops.cn/gitlab/aiops-live-benchmark/agenticopseval.",
+      "authors": [
+        "Yuanhong Cai",
+        "Xiaohui Nie",
+        "Kanglin Yin",
+        "Changhua Pei",
+        "Yongqian Sun",
+        "Shenglin Zhang",
+        "Haibin Liu",
+        "Guiyang Liu",
+        "Xidao Wen",
+        "Fang Situ",
+        "Dan Pei"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-06-28T04:38:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.29193v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "benchmark for evaluating LLM agents in microservice failure diagnosis, detecting errors in agent reasoning",
+      "llm_evidence_cn": "评估LLM智能体在微服务故障诊断中的表现，检测智能体推理错误",
+      "llm_evidence": "评估LLM智能体在微服务故障诊断中的表现，检测智能体推理错误",
+      "canonical_evidence": "评估LLM智能体在微服务故障诊断中的表现，检测智能体推理错误",
+      "llm_tldr_en": "Introduces AIOps2025 and RCA100 datasets with reasoning-process evaluation for LLM agent failure diagnosis.",
+      "llm_tldr_cn": "微服务运维中LLM智能体故障诊断评估常仅关注最终答案，忽略推理过程。本文提出两个大规模数据集和推理过程评估范式，从定位、识别和理由三个维度评测智能体诊断能力，揭示现有模型在过程合理性上的不足。",
+      "llm_tldr": "微服务运维中LLM智能体故障诊断评估常仅关注最终答案，忽略推理过程。本文提出两个大规模数据集和推理过程评估范式，从定位、识别和理由三个维度评测智能体诊断能力，揭示现有模型在过程合理性上的不足。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.01230v1",
+      "source": "arxiv",
+      "title": "Distributed Containment of a Compromised Agent through Repulsive Cages",
+      "abstract": "UAV swarms and cyber-physical multi-agent systems are increasingly deployed in safety-critical missions that require coordinated motion, distributed decision making, and autonomy. A major security risk arises when a legitimate agent is hijacked and driven by adversarial high-level commands. Rather than focusing on detection and isolation of malicious agents, we exploit a structural property common in autonomous platforms: low-level collision-avoidance modules are typically implemented as independent safety layers and may remain active even under high-level compromise. Building on this property, we propose a distributed containment framework that uses the compromised agent's uncompromised avoidance response as an indirect actuation channel. Defender agents select their geometric configuration to shape the repulsive field experienced by the target, with the goal of keeping it inside a prescribed admissible region and, when required, steering it toward a desired destination. The interaction is modeled as an online Stackelberg game in which defenders act as leaders and the adversary reacts by choosing the target command. Using support-function and normal-cone arguments, we derive an exact geometric characterization of robust one-step containment and introduce the notion of a repulsive cage. These results define a centralized Stackelberg oracle and motivate a fully distributed online approximation based on local communication and dynamic field estimation. We prove sublinear dynamic-regret bounds with respect to the centralized benchmark, quantifying the effect of network-induced estimation errors and temporal variability of the stage-wise optimum. Simulations validate the approach and corroborate the theory.",
+      "authors": [
+        "Luigi Petruzziello",
+        "Camilla Fioravanti",
+        "Gabriele Oliva"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-07-01T17:59:24+00:00",
+      "link": "https://arxiv.org/pdf/2607.01230v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "detects compromised agent behavior (anomalous paths) using collision avoidance response",
+      "llm_evidence_cn": "利用避碰响应检测被劫持Agent的异常行为",
+      "llm_evidence": "利用避碰响应检测被劫持Agent的异常行为",
+      "canonical_evidence": "利用避碰响应检测被劫持Agent的异常行为",
+      "llm_tldr_en": "Detects and contains compromised agents by leveraging their uncompromised collision-avoidance response, directly relevant to anomaly detection in agent trajectories.",
+      "llm_tldr_cn": "针对无人机集群等安全关键系统中Agent被劫持的风险，本文提出分布式遏制框架：不依赖检测与隔离恶意Agent，而是利用被劫持Agent仍活跃的低层避碰模块作为间接驱动通道，通过‘排斥笼’控制其运动。该方法本质上利用Agent的异常轨迹响应来检测和遏制威胁，属于Agent轨迹异常检测。",
+      "llm_tldr": "针对无人机集群等安全关键系统中Agent被劫持的风险，本文提出分布式遏制框架：不依赖检测与隔离恶意Agent，而是利用被劫持Agent仍活跃的低层避碰模块作为间接驱动通道，通过‘排斥笼’控制其运动。该方法本质上利用Agent的异常轨迹响应来检测和遏制威胁，属于Agent轨迹异常检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.29850v1",
+      "source": "arxiv",
+      "title": "Efficient Visual Pointing for Embodied AI:Agent-Driven Data Synthesis, Cross-Block Attention, and Iterative Correction",
+      "abstract": "Visual pointing maps a language instruction to pixel co ordinates, a core skill for embodied AI. We describe our PointArena 2026 solution, which achieves 77.2% overall accuracy and ranks second on the benchmark. The ap proach targets three failure modes. First, agent-driven syn thesis builds large semantic and anchor-relative candidate pools; the server inventory contains 55,372 processed out puts, 53,772 de-duplicated sample IDs, and 37,574 train able completed or accepted rows. Second, a determinis tic steerable-data pipeline creates a verified 10,000-sample main set, plus reserve samples, using masks, templates, and path verification. Third, two model-side modules address complementary errors: AttnRes adds gated cross-block at tention for steerability, while ABC correction encodes per turbed coordinates with visual features for general coordi nate grounding. Category-aware routing combines comple mentary specialists; local validation used to select experts records 93.9% Affordance, 82.6% Spatial Relation, 78.2% Reasoning, 70.4% Counting, and 63.0% Steerability.",
+      "authors": [
+        "Zijian Hong",
+        "Qi Lv",
+        "Yuxiang Xie",
+        "Jianming Xing",
+        "Xiang Deng",
+        "Weili Guan",
+        "Liqiang Nie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-29T06:39:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.29850v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "path verification and iterative correction for pointing errors",
+      "llm_evidence_cn": "路径验证与迭代纠错用于指向错误",
+      "llm_evidence": "路径验证与迭代纠错用于指向错误",
+      "canonical_evidence": "路径验证与迭代纠错用于指向错误",
+      "llm_tldr_en": "Improves visual pointing accuracy via agent-driven data synthesis and path verification, addressing pointing path deviations.",
+      "llm_tldr_cn": "该论文针对视觉指向任务中路径偏差导致的错误，提出了一种包含Agent驱动数据合成、路径验证和迭代修正的方案。通过构建语义和锚点相对候选池，并利用确定性管道生成验证数据集，最后引入注意力残差模块和迭代修正机制，在PointArena 2026基准上达到77.2%准确率。该方法直接检测并纠正了指向轨迹中的路径偏差错误。",
+      "llm_tldr": "该论文针对视觉指向任务中路径偏差导致的错误，提出了一种包含Agent驱动数据合成、路径验证和迭代修正的方案。通过构建语义和锚点相对候选池，并利用确定性管道生成验证数据集，最后引入注意力残差模块和迭代修正机制，在PointArena 2026基准上达到77.2%准确率。该方法直接检测并纠正了指向轨迹中的路径偏差错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.02210v1",
+      "source": "arxiv",
+      "title": "Criticality-Based Guard Rail Validation for AI Agent Decisions in Autonomous Telecom Networks",
+      "abstract": "The evolution toward fully autonomous telecommunications networks (Autonomous Network Levels 4-5) requires AI/ML agents to make real-time network decisions without human intervention. However, no standardized runtime mechanism exists to intercept and validate individual inference outputs before they trigger live network state changes, creating risks of erroneous autonomous decisions. This paper proposes the Guard Rail Validation (GRV) framework, a standardizable runtime architecture for intercepting and validating AI-driven decisions before execution. The framework evaluates decisions across multiple weighted dimensions -- including action scope, action type, service criticality, agent autonomy level, reversibility, and temporal behavioural patterns -- to determine a criticality level. Based on this level, graduated validation mechanisms are applied: execute-with-logging, bounds checking, independent agent validation, or multi-agent consensus. The framework additionally provides cross-agent conflict detection with criticality-weighted priority resolution and runtime conformance logging for regulatory compliance (e.g., EU AI Act Article 14). We present the architecture, algorithmic procedures, O-RAN deployment model, and evaluate threat coverage against known AI/ML attacks in telecommunications.",
+      "authors": [
+        "Ravi Kant Sharma"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.NI"
+      ],
+      "published": "2026-07-02T14:21:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.02210v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Runtime validation of agent decisions to prevent errors",
+      "llm_evidence_cn": "运行时验证代理决策以防止错误",
+      "llm_evidence": "运行时验证代理决策以防止错误",
+      "canonical_evidence": "运行时验证代理决策以防止错误",
+      "llm_tldr_en": "Proposes GRV framework to intercept and validate AI agent decisions before execution in autonomous telecom networks, preventing erroneous actions.",
+      "llm_tldr_cn": "针对自治电信网络缺乏标准化运行时决策验证机制的问题，本文提出GRV框架，在AI代理决策执行前进行拦截与多维加权验证。框架评估动作范围、类型、服务关键性等因素，有效防止错误决策触发网络状态变更，提升了自治网络的安全性与可靠性。",
+      "llm_tldr": "针对自治电信网络缺乏标准化运行时决策验证机制的问题，本文提出GRV框架，在AI代理决策执行前进行拦截与多维加权验证。框架评估动作范围、类型、服务关键性等因素，有效防止错误决策触发网络状态变更，提升了自治网络的安全性与可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.31612v2",
+      "source": "arxiv",
+      "title": "What Memory Do GUI Agents Really Need? From Passive Records to Active Task-Driving States",
+      "abstract": "Mobile GUI agents increasingly face long-horizon tasks that require reading, updating, and reusing task-relevant data across pages and applications. Existing methods treat memory largely as passive storage, where past observations are accumulated and retrieved when needed. Yet retrieving a value does not reveal its current role in the workflow. The agent must still infer from accumulated records whether the value should be used now, has already been used, or must wait for a later dependency. This implicit reconstruction becomes unreliable in long trajectories with repeated values, distractors, and outdated states, causing repeated or missed operations. To address this, we propose Active Task Driving Memory (ATMem), which shifts GUI-agent memory from passive storage to an actively maintained execution state. ATMem maintains task-relevant information as a continually updated execution state that links each value to its role and current status, enabling action selection based on the current workflow state. While supervised fine-tuning enables the agent to construct ATMem, it does not teach when ATMem is beneficial. We therefore introduce STR-GRPO, an online reinforcement learning method that encourages selective use of ATMem based on its contribution to task completion. STR-GRPO contrasts memory-on and memory-off rollouts to estimate when memory use improves execution, while memory-cost-aware reward discourages costly memory usage that does not improve execution. To evaluate whether agents can complete all in-scope work while avoiding out-of-scope actions, we build a challenging mobile benchmark. From a list of near identical entries, agents must act on every entry that satisfies the instruction and reject entries that violate its constraints. We further introduce App-Level Progress and Scope-Aware F1 to measure these two dimensions separately.",
+      "authors": [
+        "Chen Liu",
+        "Ling Chen",
+        "Hanzhang Zhou",
+        "Xu Zhang",
+        "Quyu Kong",
+        "Panrong Tong",
+        "Wenhao Wang",
+        "Xin Yu",
+        "Steven Hoi",
+        "Yue Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T13:01:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.31612v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "addresses repeated or missed operations as errors in GUI agent trajectories",
+      "llm_evidence_cn": "针对GUI Agent轨迹中的重复或遗漏操作（错误）",
+      "llm_evidence": "针对GUI Agent轨迹中的重复或遗漏操作（错误）",
+      "canonical_evidence": "针对GUI Agent轨迹中的重复或遗漏操作（错误）",
+      "llm_tldr_en": "Proposes Active Task Driving Memory to detect and avoid repeated/missed operations in GUI agent trajectories, addressing action errors.",
+      "llm_tldr_cn": "移动GUI Agent面临长时任务时，被动记忆导致重复或遗漏操作（错误）。本文提出主动任务驱动记忆ATMem，将记忆从被动存储转为主动任务驱动状态，帮助Agent准确判断值的当前角色，减少操作错误。虽然主要关注记忆，但直接针对轨迹中的动作错误进行检测和纠正。",
+      "llm_tldr": "移动GUI Agent面临长时任务时，被动记忆导致重复或遗漏操作（错误）。本文提出主动任务驱动记忆ATMem，将记忆从被动存储转为主动任务驱动状态，帮助Agent准确判断值的当前角色，减少操作错误。虽然主要关注记忆，但直接针对轨迹中的动作错误进行检测和纠正。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.01919v1",
+      "source": "arxiv",
+      "title": "ElephantAgent: Contextual State Continuity in Agentic Systems",
+      "abstract": "Agentic systems enhance their capabilities by invoking external tools and maintaining persistent memory. However, these external dependencies introduce novel attack surfaces. Recent tool and memory poisoning attacks show that maliciously crafted tool descriptors and poisoned memory can covertly bias agent behavior. These threats reflect a deeper issue: the lack of verifiable continuity in the agent's contextual state for planning and execution. We present ElephantAgent, a protocol that enforces Contextual State Continuity to defend against contextual state poisoning. Inspired by prior state-continuity mechanisms (e.g., Nimble), ElephantAgent extends this protection to the evolving contextual state of agentic systems. We define the contextual state as the bounded, security-critical subset of the agent's entire context (e.g., tool state and memory). Before processing each query, ElephantAgent recomputes the digest of the local contextual state and verifies it against the latest authorized digest. Using replicated trusted hardware, ElephantAgent maintains a linearizable ledger of authorized contextual state transitions and detects out-of-band state tampering. To handle in-band semantic abuse, ElephantAgent additionally provides Historical Traceability, enabling conditional post-hoc audit and recovery to a known-good prior state.",
+      "authors": [
+        "Jiankai Jin",
+        "Xiangzheng Zhang",
+        "Zhao Liu",
+        "Wenzhuo Xu",
+        "Dongdong Yang",
+        "Deyue Zhang",
+        "Quanchen Zou"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CR"
+      ],
+      "published": "2026-07-02T09:18:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.01919v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "detects contextual state poisoning to ensure state continuity, relevant to monitoring agent behavior for errors",
+      "llm_evidence_cn": "检测上下文状态中毒以维护状态连续性，与监控智能体行为中的错误相关",
+      "llm_evidence": "检测上下文状态中毒以维护状态连续性，与监控智能体行为中的错误相关",
+      "canonical_evidence": "检测上下文状态中毒以维护状态连续性，与监控智能体行为中的错误相关",
+      "llm_tldr_en": "ElephantAgent enforces contextual state continuity to detect and defend against poisoning attacks that can covertly bias agent behavior.",
+      "llm_tldr_cn": "智能体系统依赖外部工具和持久内存，但面临上下文状态中毒攻击，恶意描述可隐蔽地偏斜行为。本文提出ElephantAgent，通过强制上下文状态连续性来检测和防御此类攻击。该协议扩展了状态连续性机制，确保智能体规划与执行状态的可靠性。相关工作为监控智能体行为中的错误（如状态异常）提供了思路。",
+      "llm_tldr": "智能体系统依赖外部工具和持久内存，但面临上下文状态中毒攻击，恶意描述可隐蔽地偏斜行为。本文提出ElephantAgent，通过强制上下文状态连续性来检测和防御此类攻击。该协议扩展了状态连续性机制，确保智能体规划与执行状态的可靠性。相关工作为监控智能体行为中的错误（如状态异常）提供了思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

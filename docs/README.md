@@ -6,53 +6,42 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-03
-- 运行时间：2026-07-03 21:04:41 UTC
+- 最新运行日期：2026-07-04
+- 运行时间：2026-07-04 21:03:12 UTC
 - 运行状态：成功
-- 本次总论文数：11
-- 精读区：6
-- 速读区：5
+- 本次总论文数：7
+- 精读区：0
+- 速读区：7
 
 ### 今日简报（AI）
-今日聚焦LLM Agent的无限循环陷阱、视觉语言导航及技能组合等前沿研究。两篇9分精读揭示了Agent无限循环的检测和VLN中基于路径的语义探索新方法。建议关注Agent安全与鲁棒性，可优先深读循环检测论文以防范应用风险。
-- 详情：[/202607/03/README](/202607/03/README)
+今日精选7篇论文速读，聚焦AI代理安全与长时序控制；最值得关注《QVal》的低成本监督信号评估和《分布式围笼》的代理安全控制；建议普通读者优先从AI代理的可靠性与安全性方向切入。
+- 详情：[/202607/04/README](/202607/04/README)
 
 ### 精读区论文标签
-1. [When Agents Do Not Stop: Uncovering Infinite Agentic Loops in LLM Agents](/202607/03/2607.01641v1-when-agents-do-not-stop-uncovering-infinite-agentic-loops-in-llm-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：检测无限循环作为agent轨迹错误的新类别
-2. [Path-level Hindsight Instructions for Semantic Exploration in Vision-Language Navigation](/202607/03/2607.01754v1-path-level-hindsight-instructions-for-semantic-exploration-in-vision-language-navigation)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：处理视觉语言导航中轨迹偏离专家示范的问题
-3. [Repair the Amplifier, Not the Symptom: Stable World-Model Correction for Agent Rollouts](/202607/03/2607.01767v1-repair-the-amplifier-not-the-symptom-stable-world-model-correction-for-agent-rollouts)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：校正代理规划图中的失败
-4. [Coding Agents Are Guessing: Measuring Action-Boundary Violations in Underspecified DevOps Instructions](/202607/03/2607.02294v1-coding-agents-are-guessing-measuring-action-boundary-violations-in-underspecified-devops-instructions)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：测量编码agent的动作边界违反
-5. [Behavioral Governance for Autonomous AI Agents: The AgentBound Framework](/202607/03/2606.30970v2-behavioral-governance-for-autonomous-ai-agents-the-agentbound-framework)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：自主AI agent的运行时行为治理
-6. [Safety Testing LLM Agents at Scale: From Risk Discovery to Evidence-Grounded Verification](/202607/03/2607.01793v1-safety-testing-llm-agents-at-scale-from-risk-discovery-to-evidence-grounded-verification)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：自动化安全测试框架，发现和验证agent行为错误
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [SkillCoach: Self-Evolving Rubrics for Evaluating and Enhancing Agentic Skill-Use](/202607/03/2607.01874v1-skillcoach-self-evolving-rubrics-for-evaluating-and-enhancing-agentic-skill-use)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：评估轨迹中的技能选择和遵循错误
-2. [SkillFuzz: Fuzzing Skill Composition for Implicit Intents Discovery in Open Skill Marketplaces](/202607/03/2607.02345v1-skillfuzz-fuzzing-skill-composition-for-implicit-intents-discovery-in-open-skill-marketplaces)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：检测技能组合导致的隐式意图，即轨迹偏离的一种形式
-3. [Cloak and Detonate: Scanner Evasion and Dynamic Detection of Agent Skill Malware](/202607/03/2607.02357v1-cloak-and-detonate-scanner-evasion-and-dynamic-detection-of-agent-skill-malware)  
+1. [QVal: Cheaply Evaluating Dense Supervision Signals for Long-Horizon LLM Agents](/202607/04/2606.32034v1-qval-cheaply-evaluating-dense-supervision-signals-for-long-horizon-llm-agents)  
    标签：评分：7.0/10、query:agent-error
-   evidence：动态检测恶意agent技能，属于agent行为异常检测
-4. [Hybrid Retriever Evolution for Multimodal Document Reasoning Agents](/202607/03/2606.29648v1-hybrid-retriever-evolution-for-multimodal-document-reasoning-agents)  
+   evidence：评估轨迹中中间动作的密集监督信号，可用于异常检测
+2. [Distributed Containment of a Compromised Agent through Repulsive Cages](/202607/04/2607.01230v1-distributed-containment-of-a-compromised-agent-through-repulsive-cages)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：利用避碰响应检测被劫持Agent的异常行为
+3. [Criticality-Based Guard Rail Validation for AI Agent Decisions in Autonomous Telecom Networks](/202607/04/2607.02210v1-criticality-based-guard-rail-validation-for-ai-agent-decisions-in-autonomous-telecom-networks)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：运行时验证代理决策以防止错误
+4. [A Multi-Dataset Benchmark for Evaluating LLM Agents in Microservice Failure Diagnosis](/202607/04/2606.29193v1-a-multi-dataset-benchmark-for-evaluating-llm-agents-in-microservice-failure-diagnosis)  
    标签：评分：6.0/10、query:agent-error
-   evidence：分析错误推理轨迹以诊断根本原因
-5. [When Should Service Agents Reconsider? Difficulty-Routed Control in Customer-Service Operations](/202607/03/2607.01426v1-when-should-service-agents-reconsider-difficulty-routed-control-in-customer-service-operations)  
+   evidence：评估LLM智能体在微服务故障诊断中的表现，检测智能体推理错误
+5. [Efficient Visual Pointing for Embodied AI:Agent-Driven Data Synthesis, Cross-Block Attention, and Iterative Correction](/202607/04/2606.29850v1-efficient-visual-pointing-for-embodied-aiagent-driven-data-synthesis-cross-block-attention-and-iterative-correction)  
    标签：评分：6.0/10、query:agent-error
-   evidence：通过难度路由防止运营错误
+   evidence：路径验证与迭代纠错用于指向错误
+6. [What Memory Do GUI Agents Really Need? From Passive Records to Active Task-Driving States](/202607/04/2606.31612v2-what-memory-do-gui-agents-really-need-from-passive-records-to-active-task-driving-states)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：针对GUI Agent轨迹中的重复或遗漏操作（错误）
+7. [ElephantAgent: Contextual State Continuity in Agentic Systems](/202607/04/2607.01919v1-elephantagent-contextual-state-continuity-in-agentic-systems)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：检测上下文状态中毒以维护状态连续性，与监控智能体行为中的错误相关
 
 
 <div class="dpr-home-promo-card">
