@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-07-05 <!--dpr-date:20260705-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/05/2607.00399v1-drivever-lightweight-trajectory-evaluator-as-test-time-verifier-for-autonomous-driving" data-sidebar-item="{&quot;title&quot;: &quot;DriveVer: Lightweight Trajectory Evaluator as Test-Time Verifier for Autonomous Driving&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.00399v1-drivever-lightweight-trajectory-evaluator-as-test-time-verifier-for-autonomous-driving&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;agent-error&quot;}], &quot;evidence&quot;: &quot;DriveVer直接作为自动驾驶测试时验证器检测不安全/次优轨迹&quot;}">DriveVer: Lightweight Trajectory Evaluator as Test-Time Verifier for Autonomous Driving</a>
   * 2026-07-04 <!--dpr-date:20260704-->
     * 速读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/04/2606.32034v1-qval-cheaply-evaluating-dense-supervision-signals-for-long-horizon-llm-agents" data-sidebar-item="{&quot;title&quot;: &quot;QVal: Cheaply Evaluating Dense Supervision Signals for Long-Horizon LLM Agents&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.32034v1-qval-cheaply-evaluating-dense-supervision-signals-for-long-horizon-llm-agents&quot;, &quot;score&quot;: &quot;7.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;agent-error&quot;}], &quot;evidence&quot;: &quot;评估轨迹中中间动作的密集监督信号，可用于异常检测&quot;}">QVal: Cheaply Evaluating Dense Supervision Signals for Long-Horizon LLM Agents</a>

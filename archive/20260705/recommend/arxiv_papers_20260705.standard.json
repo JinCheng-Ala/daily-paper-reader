@@ -1,0 +1,55 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-05T20:02:51.803348+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2607.00399v1",
+      "source": "arxiv",
+      "title": "DriveVer: Lightweight Trajectory Evaluator as Test-Time Verifier for Autonomous Driving",
+      "abstract": "End-to-end autonomous driving models often encounter performance bottlenecks, as training-time scaling leads to high computational costs and diminishing marginal returns. Existing planners typically adopt a one-shot generation paradigm, lacking secondary validation and active correction mechanisms to detect and revise suboptimal or unsafe trajectories during inference. To address this issue, we propose DriveVer, a lightweight, plug-and-play Test-Time Verifier that leverages the test-time scaling paradigm to enable autonomous driving systems to validate and refine trajectories without costly and heavy training. We construct a dedicated trajectory dataset based on the NAVSIM benchmark through condition-driven clustering and balanced sampling according to ego-vehicle states and navigation commands. Employing a dual-head architecture, DriveVer efficiently fuses candidate trajectories with multi-view visual representations and ego-vehicle kinematic features to simultaneously predict a safety confidence score and an absolute geometric refinement vector. Extensive experiments on the NAVSIM benchmark show that DriveVer significantly improves the performance of base planning models. Notably, as an extremely compact model with only 34M parameters, DriveVer introduces minimal computational overhead, achieving competitive results while maintaining real-time inference efficiency.",
+      "authors": [
+        "Chong He",
+        "Yuechen Luo",
+        "Fang Li",
+        "Shaoqing Xu",
+        "Fuxi Wen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T03:50:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.00399v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "DriveVer directly detects unsafe/suboptimal trajectories in autonomous driving as test-time verifier",
+      "llm_evidence_cn": "DriveVer直接作为自动驾驶测试时验证器检测不安全/次优轨迹",
+      "llm_evidence": "DriveVer直接作为自动驾驶测试时验证器检测不安全/次优轨迹",
+      "canonical_evidence": "DriveVer直接作为自动驾驶测试时验证器检测不安全/次优轨迹",
+      "llm_tldr_en": "DriveVer is a lightweight test-time verifier that detects and corrects unsafe trajectories in autonomous driving, directly addressing error detection in agent trajectories.",
+      "llm_tldr_cn": "该论文针对端到端自动驾驶模型缺乏二次验证导致不安全轨迹的问题，提出DriveVer，一种轻量级测试时轨迹验证器。它利用测试时缩放范式，无需重训练即可检测并修正次优或危险轨迹。在NAVSIM基准上构建专用数据集并验证有效性，显著提升轨迹安全性。",
+      "llm_tldr": "该论文针对端到端自动驾驶模型缺乏二次验证导致不安全轨迹的问题，提出DriveVer，一种轻量级测试时轨迹验证器。它利用测试时缩放范式，无需重训练即可检测并修正次优或危险轨迹。在NAVSIM基准上构建专用数据集并验证有效性，显著提升轨迹安全性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
