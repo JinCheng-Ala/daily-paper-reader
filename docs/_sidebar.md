@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-07-06 <!--dpr-date:20260706-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/06/2606.31612v1-what-memory-do-gui-agents-really-need-from-passive-records-to-active-task-driving-states" data-sidebar-item="{&quot;title&quot;: &quot;What Memory Do GUI Agents Really Need? From Passive Records to Active Task-Driving States&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.31612v1-what-memory-do-gui-agents-really-need-from-passive-records-to-active-task-driving-states&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;agent-error&quot;}], &quot;evidence&quot;: &quot;处理因状态推断失败导致的智能体轨迹错误&quot;}">What Memory Do GUI Agents Really Need? From Passive Records to Active Task-Driving States</a>
   * 2026-07-05 <!--dpr-date:20260705-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/05/2607.00399v1-drivever-lightweight-trajectory-evaluator-as-test-time-verifier-for-autonomous-driving" data-sidebar-item="{&quot;title&quot;: &quot;DriveVer: Lightweight Trajectory Evaluator as Test-Time Verifier for Autonomous Driving&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.00399v1-drivever-lightweight-trajectory-evaluator-as-test-time-verifier-for-autonomous-driving&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;agent-error&quot;}], &quot;evidence&quot;: &quot;DriveVer直接作为自动驾驶测试时验证器检测不安全/次优轨迹&quot;}">DriveVer: Lightweight Trajectory Evaluator as Test-Time Verifier for Autonomous Driving</a>

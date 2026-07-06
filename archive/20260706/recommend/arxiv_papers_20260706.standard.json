@@ -1,0 +1,60 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-06T20:37:25.848963+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.31612v1",
+      "source": "arxiv",
+      "title": "What Memory Do GUI Agents Really Need? From Passive Records to Active Task-Driving States",
+      "abstract": "Mobile GUI agents increasingly face long-horizon tasks that require reading, updating, and reusing task-relevant data across pages and applications. Existing memory methods treat memory largely as passive storage, where past observations are accumulated and retrieved when needed. Yet retrieving a value does not reveal its current role in the workflow. The agent must still infer from accumulated records whether the value should be used now, has already been used, or must wait for a later dependency. This implicit reconstruction becomes unreliable in long trajectories with similar fields, repeated values, distractors, and outdated states, causing repeated or missed operations. We propose Active Task Driving Memory (ATMem), which shifts GUI-agent memory from passive storage to an actively maintained execution state. ATMem maintains task-relevant information as a continually updated execution state that links each value to its role and current status, enabling action selection based on the current workflow state. We therefore introduce \\textbf{STR-GRPO}, an online reinforcement learning method that learns to use ATMem selectively according to its contribution to task completion. STR-GRPO contrasts memory-on and memory-off rollouts to estimate when memory use improves execution, while memory-cost-aware reward discourages costly memory usage that does not improve execution. To evaluate whether agents can complete all in-scope work while avoiding out-of-scope actions over long-horizon execution, we build a challenging mobile benchmark. From a list of near identical entries, agents must act on every entry that satisfies the instruction and reject entries that violate its constraints.",
+      "authors": [
+        "Chen Liu",
+        "Ling Chen",
+        "Hanzhang Zhou",
+        "Xu Zhang",
+        "Quyu Kong",
+        "Panrong Tong",
+        "Wenhao Wang",
+        "Xin Yu",
+        "Steven Hoi",
+        "Yue Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T13:01:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.31612v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "addresses errors in agent trajectories due to state inference failures",
+      "llm_evidence_cn": "处理因状态推断失败导致的智能体轨迹错误",
+      "llm_evidence": "处理因状态推断失败导致的智能体轨迹错误",
+      "canonical_evidence": "处理因状态推断失败导致的智能体轨迹错误",
+      "llm_tldr_en": "ATMem shifts from passive memory to active task-driving states, reducing repeated or missed operations in GUI agent trajectories.",
+      "llm_tldr_cn": "本文针对GUI智能体长轨迹中因记忆被动导致的操作重复或遗漏问题，提出主动任务驱动记忆（ATMem）。ATMem记录每个值的当前工作流角色，避免隐式推断错误。实验表明，在跨页面应用任务中，该方法显著降低了轨迹错误率，提升了任务完成效率。",
+      "llm_tldr": "本文针对GUI智能体长轨迹中因记忆被动导致的操作重复或遗漏问题，提出主动任务驱动记忆（ATMem）。ATMem记录每个值的当前工作流角色，避免隐式推断错误。实验表明，在跨页面应用任务中，该方法显著降低了轨迹错误率，提升了任务完成效率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}

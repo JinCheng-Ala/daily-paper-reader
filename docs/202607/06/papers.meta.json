@@ -1,0 +1,24 @@
+{
+  "label": "2026-07-06",
+  "date": "2026-07-06",
+  "generated_at": "2026-07-06T20:39:06",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202607/06/2606.31612v1-what-memory-do-gui-agents-really-need-from-passive-records-to-active-task-driving-states",
+      "section": "deep",
+      "title_en": "What Memory Do GUI Agents Really Need? From Passive Records to Active Task-Driving States",
+      "authors": "Chen Liu, Ling Chen, Hanzhang Zhou, Xu Zhang, Quyu Kong, Panrong Tong, Wenhao Wang, Xin Yu, Steven Hoi, Yue Wang",
+      "date": "2026-06-30",
+      "pdf": "https://arxiv.org/pdf/2606.31612v1",
+      "score": "8.0",
+      "evidence": "处理因状态推断失败导致的智能体轨迹错误",
+      "tldr": "现有GUI智能体记忆机制将过去观察简单累积和检索，但无法揭示值在当前任务中的角色和状态，导致重复或遗漏操作。本文提出主动任务驱动记忆（ATMem），将记忆从被动存储转变为持续更新的执行状态，链接每个值到其角色和当前状态。进一步提出STR-GRPO在线强化学习方法，通过对比有无记忆的轨迹并加入记忆代价奖惩，选择性使用记忆。构建具有挑战性的移动基准，验证了方法在长期任务中准确完成范围内操作并避免越界行为。",
+      "tags": "query:agent-error",
+      "abstract_en": "Mobile GUI agents increasingly face long-horizon tasks that require reading, updating, and reusing task-relevant data across pages and applications. Existing memory methods treat memory largely as passive storage, where past observations are accumulated and retrieved when needed. Yet retrieving a value does not reveal its current role in the workflow. The agent must still infer from accumulated records whether the value should be used now, has already been used, or must wait for a later dependency. This implicit reconstruction becomes unreliable in long trajectories with similar fields, repeated values, distractors, and outdated states, causing repeated or missed operations. We propose Active Task Driving Memory (ATMem), which shifts GUI-agent memory from passive storage to an actively maintained execution state. ATMem maintains task-relevant information as a continually updated execution state that links each value to its role and current status, enabling action selection based on the current workflow state. We therefore introduce \\textbf{STR-GRPO}, an online reinforcement learning method that learns to use ATMem selectively according to its contribution to task completion. STR-GRPO contrasts memory-on and memory-off rollouts to estimate when memory use improves execution, while memory-cost-aware reward discourages costly memory usage that does not improve execution. To evaluate whether agents can complete all in-scope work while avoiding out-of-scope actions over long-horizon execution, we build a challenging mobile benchmark. From a list of near identical entries, agents must act on every entry that satisfies the instruction and reject entries that violate its constraints.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
