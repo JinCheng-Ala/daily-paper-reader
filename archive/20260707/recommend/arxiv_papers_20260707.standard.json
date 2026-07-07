@@ -1,0 +1,448 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-07T21:58:59.085200+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 9,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2607.01767v2",
+      "source": "arxiv",
+      "title": "Repair the Amplifier, Not the Symptom: Stable World-Model Correction for Agent Rollouts",
+      "abstract": "Long-horizon language agents increasingly maintain executable world models in the form of planning graphs, where tool calls, validators, memory updates, recovery branches, and final answers are connected by typed dependencies. When a rollout fails, repairing the most visible error can leave the underlying error-amplification path intact, while replaying the full graph is expensive and difficult for long-context models to use reliably. We study world-model correction: selecting a compact subgraph of a failed planning graph whose repair stabilizes subsequent rollouts. We first instantiate a strong family of engineering correctors, including pointwise error scans, TopK and window selection, local graph expansion, cascade repair, and full-context LLM repair. We then propose WM-SAR, a spectral subgraph repair method that estimates node-edge amplification, greedily grows a connected repair region by marginal residual-spectral relief, and sends only this region to an LLM for root-cause repair. Theoretically, we connect residual spectral radius to rollout error and planning regret, motivating repair as stabilization rather than attribution alone. Across synthetic calling-tree graphs, benchmark-inspired agent topologies, and cross-model LLM repair experiments, WM-SAR achieves stronger long-horizon stabilization and root-cause recovery under compact token budgets, matching much larger repair contexts while exposing the LLM to a cleaner causal subgraph.",
+      "authors": [
+        "Xinyuan Song",
+        "Zekun Cai"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-02T06:31:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.01767v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "studies world-model correction for failed agent rollouts",
+      "llm_evidence_cn": "研究失败agent rollout的世界模型纠正",
+      "llm_evidence": "研究失败agent rollout的世界模型纠正",
+      "canonical_evidence": "研究失败agent rollout的世界模型纠正",
+      "llm_tldr_en": "Proposes selecting compact subgraphs of failed planning graphs to repair, stabilizing future rollouts beyond symptom fixes.",
+      "llm_tldr_cn": "长时程语言agent维护可执行的世界模型，当rollout失败时，直接修复最明显的错误可能留下放大路径。本文提出世界模型纠正：选择失败规划图的一个紧凑子图进行修复，稳定后续rollouts。他们实现了一族工程纠正器，包括逐点错误扫描、TopK和窗口选择等。实验表明该方法比完整重放更高效且可靠。",
+      "llm_tldr": "长时程语言agent维护可执行的世界模型，当rollout失败时，直接修复最明显的错误可能留下放大路径。本文提出世界模型纠正：选择失败规划图的一个紧凑子图进行修复，稳定后续rollouts。他们实现了一族工程纠正器，包括逐点错误扫描、TopK和窗口选择等。实验表明该方法比完整重放更高效且可靠。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.02599v1",
+      "source": "arxiv",
+      "title": "AgentLTL: A Trace-Verification Framework for Measuring, Enforcing, and Training Procedural Compliance in Tool-Using LLM Agents",
+      "abstract": "Tool-using LLM agents are usually evaluated by final-answer correctness or LLM judges. Neither captures how an answer was produced. In safety-critical settings, the procedure itself is part of correctness. In this paper, we introduce AgentLTL, a language derived from First-Order Linear Temporal Logic (FO-LTL) that expresses procedural rules over agent traces. It yields a deterministic, judge-free compliance score. In this framework, a single specification drives two usages. The first is harnessing: the constraints score completed traces, or gate tool calls by checking each prefix online, before execution. The second is finetuning: the score serves as a dense reward. On a benchmark spanning ordering, branching, iteration, and grounding, block-and-warn harnessing improves compliance on five of seven models. Finetuning with the same reward yields +38 and +17.5 percentage point gains in accuracy and compliance on held-out patterns, including unseen tool-name aliases. These findings are consistent with the model acquiring procedural structure rather than memorizing surface tool names and procedures.",
+      "authors": [
+        "Laïla Elkoussy",
+        "Julien Perez"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.LO"
+      ],
+      "published": "2026-07-01T10:47:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.02599v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Trace verification for procedural compliance in LLM agent trajectories",
+      "llm_evidence_cn": "LLM智能体轨迹的程序合规性形式化验证",
+      "llm_evidence": "LLM智能体轨迹的程序合规性形式化验证",
+      "canonical_evidence": "LLM智能体轨迹的程序合规性形式化验证",
+      "llm_tldr_en": "AgentLTL uses First-Order Linear Temporal Logic to define procedural rules over agent traces, enabling deterministic error detection and compliance scoring.",
+      "llm_tldr_cn": "本文提出AgentLTL，一种基于一阶线性时序逻辑的语言，用于表达智能体轨迹上的程序规则。该框架提供确定性合规评分，可用于在线前缀检查（在执行前门控工具调用）和离线迹评分，还可作为微调的稠密奖励。在多个排序和任务基准上，AgentLTL有效检测违反程序规范的行为，为智能体轨迹错误检测提供严谨方案。",
+      "llm_tldr": "本文提出AgentLTL，一种基于一阶线性时序逻辑的语言，用于表达智能体轨迹上的程序规则。该框架提供确定性合规评分，可用于在线前缀检查（在执行前门控工具调用）和离线迹评分，还可作为微调的稠密奖励。在多个排序和任务基准上，AgentLTL有效检测违反程序规范的行为，为智能体轨迹错误检测提供严谨方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.02882v1",
+      "source": "arxiv",
+      "title": "Diagnosis-Driven Automatic Repair for Agentic Workflow via Symbolic Inference",
+      "abstract": "Platform-orchestrated agentic workflows have become a popular paradigm for developing LLM-based applications. However, their reliability remains a major challenge due to the uncertainty of LLM outputs, complex inter-node dependencies, and heterogeneous tool interactions. Existing agentic workflow optimization and agent enhancement methods primarily rely on trajectory-level feedback. Without explicitly identifying the underlying failure root causes, their resulting repair plans are often insufficiently targeted. We propose FlowFixer, a diagnosis-driven automated repair framework for agentic workflows. FlowFixer first transforms workflow executions into unified symbolic traces and performs symbolic inference to derive executable behavioral specifications that capture node correctness, temporal dependencies, and causal relationships. Based on specification verification, it conducts failure attribution and root cause analysis, and then generates targeted repair patches. To reduce verification costs, FlowFixer further employs a multi-dimensional pre-execution assessment to filter infeasible repairs before dynamic verification. We evaluate FlowFixer on workflow failures collected from three popular development platforms: Dify, Coze and n8n. Results show that FlowFixer achieves a repair success rate of 71.3%, outperforming state-of-the-art baselines by 11.9% to 27.6%. It also improves failure attribution accuracy by 4.8% to 33.1% and root cause analysis accuracy by 15.3% to 38.8%. This work offers a new perspective on reliable diagnosis and repair of agentic workflows through symbolic modeling and inference.",
+      "authors": [
+        "Xuyan Ma",
+        "Yawen Wang",
+        "Junjie Wang",
+        "Xiaofei Xie",
+        "Boyu Wu",
+        "Mingyang Li",
+        "Dandan Wang",
+        "Qing Wang"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-03T02:28:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.02882v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "diagnosis-driven automatic repair via symbolic inference on agentic workflow traces; directly detects root causes of failures in agent trajectories",
+      "llm_evidence_cn": "通过符号推理诊断agent工作流错误，直接检测轨迹中的错误并自动修复",
+      "llm_evidence": "通过符号推理诊断agent工作流错误，直接检测轨迹中的错误并自动修复",
+      "canonical_evidence": "通过符号推理诊断agent工作流错误，直接检测轨迹中的错误并自动修复",
+      "llm_tldr_en": "FlowFixer transforms agentic workflow executions into symbolic traces to diagnose failure root causes and generate targeted repairs, directly addressing error detection in agent trajectories.",
+      "llm_tldr_cn": "现有agent工作流优化依赖轨迹级反馈，缺乏对失败根本原因的定位。本文提出FlowFixer，将工作流执行转化为符号轨迹，通过符号推理自动诊断失败原因并生成修复方案。实验表明，该方法能精准识别错误节点，修复成功率显著高于基线。该工作为agent轨迹错误检测和自动修复提供了高效方法。",
+      "llm_tldr": "现有agent工作流优化依赖轨迹级反馈，缺乏对失败根本原因的定位。本文提出FlowFixer，将工作流执行转化为符号轨迹，通过符号推理自动诊断失败原因并生成修复方案。实验表明，该方法能精准识别错误节点，修复成功率显著高于基线。该工作为agent轨迹错误检测和自动修复提供了高效方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03702v1",
+      "source": "arxiv",
+      "title": "Agent Reinforcement Learning via Pivotal-Aware Self-Feedback Retry",
+      "abstract": "Large language model (LLM) agents have shown strong decision-making capabilities in long-horizon interactive tasks, yet they still struggle to effectively leverage failed trajectories: full retries incur high interaction costs, while experience retrieval tends to dilute critical experience signals. To address this, we propose PivoARL, a self-feedback retry framework for experience exploitation in LLM agents. PivoARL identifies the pivotal erroneous turn through structured reflection and performs local retry only from the corresponding pivotal state, thereby reusing the correct prefix and reducing redundant interactions. From an information-gain perspective, we further show that pivotal retry concentrates useful experience signals near the error boundary, mitigating the signal dilution caused by state-agnostic experience utilization. Based on this insight, we design a pivotal-aware credit assignment mechanism that rewards correct prefixes while isolating erroneous suffixes, and optimize reflection quality through implicit reflection returns. We conduct a systematic evaluation on 4 agent tasks and 7 search-based QA benchmarks. Results show that PivoARL achieves significant improvements on Pass@2/3 across all tasks, with an average gain of about 11.5\\% over MetaRL. Moreover, benefiting from contrastive preference signals induced by pivotal turns, PivoARL also consistently improves Pass@1 on over 80\\% of the tasks. On Minesweeper environment, PivoARL improves over GiGPO by more than 45\\% and reduces interaction turns by about 42\\% on average compared with full-retry methods. Code is available at https://github.com/yuki-younai/PivoARL.",
+      "authors": [
+        "Weiyang Guo",
+        "Zesheng Shi",
+        "Longhui Zhang",
+        "Zeen Zhu",
+        "Min Zhang",
+        "Jing Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-04T04:45:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.03702v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "identifies pivotal erroneous turns in LLM agent trajectories for local retry, directly addressing error detection in agent trajectories",
+      "llm_evidence_cn": "通过结构化反思识别LLM agent轨迹中的关键错误步骤，实现局部重试，直接面向轨迹错误检测",
+      "llm_evidence": "通过结构化反思识别LLM agent轨迹中的关键错误步骤，实现局部重试，直接面向轨迹错误检测",
+      "canonical_evidence": "通过结构化反思识别LLM agent轨迹中的关键错误步骤，实现局部重试，直接面向轨迹错误检测",
+      "llm_tldr_en": "PivoARL detects pivotal erroneous turns in LLM agent trajectories via structured reflection and performs local retry, effectively leveraging failed trajectories for error detection and recovery.",
+      "llm_tldr_cn": "LLM agent在长时交互中难以有效利用失败轨迹；全重试成本高，检索会稀释信号。本文提出PivoARL，通过结构化反思识别关键错误步（pivotal erroneous turn），仅从该状态局部重试，复用正确前缀。信息增益分析表明该方法集中了经验信号。实验证明其在多种任务中提升了成功率，为agent轨迹错误检测与修复提供了高效范式。",
+      "llm_tldr": "LLM agent在长时交互中难以有效利用失败轨迹；全重试成本高，检索会稀释信号。本文提出PivoARL，通过结构化反思识别关键错误步（pivotal erroneous turn），仅从该状态局部重试，复用正确前缀。信息增益分析表明该方法集中了经验信号。实验证明其在多种任务中提升了成功率，为agent轨迹错误检测与修复提供了高效范式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04974v1",
+      "source": "arxiv",
+      "title": "A Comprehensive Study of Implementation Bugs in Multi-modal Agents",
+      "abstract": "Multi-Modal Agents (M-agents), empowered by Large Language Models (LLMs), excel in various complex, open-world scenarios such as autonomous driving and robotics. However, their unique requirements to interact with dynamic and diverse multi-modal environments introduce novel implementation challenges beyond those faced by traditional agents. Outdated perception, untrustworthy planning and inapplicable execution could cause traffic accident and financial loss. Despite growing study on agent issues, there has not been a systematic study focusing on M-agent-specific implementation bugs. To address this gap, we conducted the first systematic study of implementation bugs in M-agents. We collected 34 representative M-agents from diverse sources and, through meticulous filtering,identified 158 M-agent-specific bugs from 1,268 issue reports. Using a top-down strategy, we developed a comprehensive taxonomy that classifies bugs by global symptoms, functionality component-level symptoms, and root causes. We then implemented MATester, an automatic proof-of-concept bug identifier by analyzing runtime inter-component outputs. When applied to 12 extra M-agents, MATester successfully covered 61.4% of known open issues and discovered 31 additional bugs, demonstrating the practical usefulness of our study. Our work provides a comprehensive reference and guideline for classification, prevention and fix of M-agent bugs.",
+      "authors": [
+        "Suwan Li",
+        "Lei Bu",
+        "Shangqing Liu",
+        "Yile Wang",
+        "Guangdong Bai",
+        "Fuman Xie",
+        "Kai Chen",
+        "Chang Yue"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-06T12:04:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.04974v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "systematic study of implementation bugs in multi-modal agents",
+      "llm_evidence_cn": "多模态智能体实现缺陷的系统研究",
+      "llm_evidence": "多模态智能体实现缺陷的系统研究",
+      "canonical_evidence": "多模态智能体实现缺陷的系统研究",
+      "llm_tldr_en": "First systematic study of implementation bugs in multi-modal agents, collecting 34 agents and categorizing perception, planning, and execution defects, crucial for reliable agent development.",
+      "llm_tldr_cn": "该论文首次系统研究了多模态智能体的实现缺陷，收集34个代表性智能体，细致分析并分类了感知、规划和执行中的特有缺陷类型，揭示了这些缺陷可能导致的后果，为多模态智能体的可靠开发提供了重要参考。",
+      "llm_tldr": "该论文首次系统研究了多模态智能体的实现缺陷，收集34个代表性智能体，细致分析并分类了感知、规划和执行中的特有缺陷类型，揭示了这些缺陷可能导致的后果，为多模态智能体的可靠开发提供了重要参考。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.01793v2",
+      "source": "arxiv",
+      "title": "Safety Testing LLM Agents at Scale: From Risk Discovery to Evidence-Grounded Verification",
+      "abstract": "LLM agents increasingly perform autonomous actions through external tools, leading to complex and evolving safety risks. However, existing safety testing targets expert-designed safety violations, and the corresponding outcomes are evaluated by hard-coded rules, making them costly to extend as agents evolve. To this end, we present Vera, an end-to-end automated safety testing framework that instantiates software engineering testing principles for non-deterministic agents through a three-stage, self-reinforcing pipeline. First, a literature-driven exploration continuously discovers and structures emerging risks into taxonomies of safety risks, attack methods, and tool execution environments. Second, combinatorial composition across taxonomy dimensions produces executable safety cases, each specifying a concrete safety goal, a programmatically constructed initial state, and a deterministic verification predicate grounded in observable artifacts. Third, adaptive execution runs heterogeneous agents in isolated sandboxes where a control agent steers multi-turn interaction based on runtime observations, while evidence-grounded verifiers judge outcomes from environment state and tool-call evidence rather than model self-report. We evaluate Vera on four production agent frameworks (OpenClaw, Hermes, Codex, Claude Code), revealing substantial safety weaknesses, with average attack success rates reaching 93.9\\% under multi-channel attacks; we also release Vera-Bench, comprising 1600 executable safety cases spanning 124 risk categories across three execution settings. These results indicate that modular, executable testing infrastructure is essential for rigorous and maintainable safety evaluation of rapidly evolving agentic systems at scale. The code is publicly available at https://github.com/Yunhao-Feng/Vera.",
+      "authors": [
+        "Yunhao Feng",
+        "Ruixiao Lin",
+        "Ming Wen",
+        "Qinqin He",
+        "Yanming Guo",
+        "Yifan Ding",
+        "Yutao Wu",
+        "Jialuo Chen",
+        "Zhuoer Xu",
+        "Xiaohu Du",
+        "Jianan Ma",
+        "Zixing Chen",
+        "Xingjun Ma",
+        "Yunhao Chen",
+        "Xinhao Deng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-02T07:08:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.01793v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monitoring agent behavior for errors via safety testing",
+      "llm_evidence_cn": "通过安全测试监控智能体行为错误",
+      "llm_evidence": "通过安全测试监控智能体行为错误",
+      "canonical_evidence": "通过安全测试监控智能体行为错误",
+      "llm_tldr_en": "Vera automates safety testing of LLM agents, discovering risks and verifying behaviors, directly applicable to monitoring agent errors in trajectories.",
+      "llm_tldr_cn": "该论文提出Vera框架，用于自动化测试LLM智能体的安全性。它通过文献驱动探索风险、组合攻击场景和证据验证，能够系统性地发现智能体行为中的错误。Vera将软件工程测试原则应用于非确定性智能体，可用于监测轨迹中的错误行为。实验表明其能有效发现多种安全违规，为智能体错误检测提供了可扩展方案。",
+      "llm_tldr": "该论文提出Vera框架，用于自动化测试LLM智能体的安全性。它通过文献驱动探索风险、组合攻击场景和证据验证，能够系统性地发现智能体行为中的错误。Vera将软件工程测试原则应用于非确定性智能体，可用于监测轨迹中的错误行为。实验表明其能有效发现多种安全违规，为智能体错误检测提供了可扩展方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.03132v1",
+      "source": "arxiv",
+      "title": "Anticipatory Reinforcement Learning for Trajectory Tracking",
+      "abstract": "Deep reinforcement learning (DRL) in industrial control often suffers from lag and overshoot due to purely reactive control based on the current tracking error. To achieve anticipatory control without high computational overhead, we introduce a predictive formulation that augments the DRL state space with target velocities and future reference horizons. Evaluating eight configurations using proximal policy optimization (PPO) on a 1-degree-of-freedom (1-DoF) helicopter testbed, simulation results showed a 9-fold error reduction, lowering the mean absolute deviation from 2.73° to 0.31°. However, zero-shot transfer to physical hardware revealed a sim-to-real gap. Interestingly, a simpler configuration using a single, further look-ahead horizon matched the real-world top performance of the most complex model (1.11°). Overall, evaluating various combinations of prediction horizons and target velocities demonstrated that highly granular predictive data is not necessarily required for physical transfer.",
+      "authors": [
+        "Georg Schäfer",
+        "Jakob Rehrl",
+        "Stefan Huber",
+        "Simon Hirlaender"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-07-03T09:21:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.03132v1",
+      "tags": [
+        "keyword:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "error detection in RL trajectory tracking",
+      "llm_evidence_cn": "强化学习轨迹跟踪中的误差检测",
+      "llm_evidence": "强化学习轨迹跟踪中的误差检测",
+      "canonical_evidence": "强化学习轨迹跟踪中的误差检测",
+      "llm_tldr_en": "Proposes anticipatory RL for trajectory tracking by augmenting state space with future reference horizons, achieving 9-fold error reduction in simulation while revealing a sim-to-real gap.",
+      "llm_tldr_cn": "针对工业控制中强化学习因纯反应式控制导致的滞后和超调问题，该论文引入预测性公式，通过将目标速度和未来参考水平加入状态空间，在直升机测试台仿真中实现9倍误差降低，但零样本迁移到真实硬件时发现模拟到现实的差距。",
+      "llm_tldr": "针对工业控制中强化学习因纯反应式控制导致的滞后和超调问题，该论文引入预测性公式，通过将目标速度和未来参考水平加入状态空间，在直升机测试台仿真中实现9倍误差降低，但零样本迁移到真实硬件时发现模拟到现实的差距。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.31422v2",
+      "source": "arxiv",
+      "title": "Ask the World Before Acting: Environment Probing for Calibrated Agent World Models",
+      "abstract": "Language agents acting over long horizons must maintain beliefs about tool states, object locations, graph edges, and subgoal dependencies. When these beliefs drift, failures can be fixed neither by longer reasoning traces nor by ordinary self-reflection, since the missing evidence lies in the environment. We formulate environment probing as a budgeted decision problem for structured agent world models: before acting, the agent may query the current value of one belief field, update its table, and pay one interaction step. We introduce EnvProbe, a simple scoring policy that combines task criticality, staleness, verbalized uncertainty, and dependency role. A type-stratified analysis separates the benefit of belief repair from the cost of displaced task actions and predicts different behavior for procedural and spatial beliefs. In three controlled environments with gold belief states, EnvProbe improves terminal world-state accuracy over periodic probing by 11.76 percentage points on procedural tool-dependency tasks, 3.79 points on spatial tasks, and 6.45 points overall. Ablations show that task-structural terms are the main source of the gains, while self-reported uncertainty is unreliable under confident wrong beliefs. The results suggest that agent calibration should be treated as an action-selection problem over environment evidence, not only as a model-internal reasoning problem.",
+      "authors": [
+        "Xinyuan Song",
+        "Zekun Cai"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-30T09:45:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.31422v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "monitoring agent behavior for belief drift errors",
+      "llm_evidence_cn": "监测智能体行为中的信念漂移错误",
+      "llm_evidence": "监测智能体行为中的信念漂移错误",
+      "canonical_evidence": "监测智能体行为中的信念漂移错误",
+      "llm_tldr_en": "Formulates environment probing as a budgeted decision problem to calibrate agent world models, using EnvProbe scoring policy to prevent belief-drift failures.",
+      "llm_tldr_cn": "针对长期任务中语言智能体信念漂移且无法通过自我反思修复的问题，论文将环境探测形式化为预算决策问题，提出EnvProbe评分策略，综合任务关键性、时效性等因素，通过类型分析证明信念修复的有效性，从而减少智能体因信息缺失而犯的错误。",
+      "llm_tldr": "针对长期任务中语言智能体信念漂移且无法通过自我反思修复的问题，论文将环境探测形式化为预算决策问题，提出EnvProbe评分策略，综合任务关键性、时效性等因素，通过类型分析证明信念修复的有效性，从而减少智能体因信息缺失而犯的错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04528v1",
+      "source": "arxiv",
+      "title": "Measuring Harness-Induced Belief Divergence in Multi-Step LLM Agents",
+      "abstract": "Software-agent benchmarks usually report whether an agent solves a task, but the agent reaches that outcome through a harness that controls what it sees, which actions it can take, which failures are repaired, which states are verified, and which evidence is logged. We show that this harness can change the agent's multi-step beliefs even when the task, environment, and base LLM are fixed. We introduce a belief-rollout diagnostic that elicits structured K-step trajectories over progress, risk, recoverability, constraints, failure mode, uncertainty, future success, repair cost, and next action under alternative harnesses. We define a cross-harness belief divergence and decompose it into an arrival term for immediate interface shifts and a growth term for horizon-dependent belief changes. On controlled coding tasks and public-benchmark stress tests, blocked actions, compressed repairs, selective verification, and cost-aware evidence pruning often preserve terminal success while changing the beliefs that drive later decisions. We further introduce BIWM, a no-training protocol that canonicalizes observations, logs censored branches, expands repair traces, records verification masks, executes risky branches in shadow, and aligns belief trajectories across harness views. The results suggest that harness design is an experimental variable in agent evaluation, not an implementation detail. Our code is available at https://github.com/Hik289/Harness-induce-bias.git.",
+      "authors": [
+        "Haiwen Yi",
+        "Xinyuan Song"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-05T22:22:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.04528v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "diagnoses belief divergence including failure modes across harnesses",
+      "llm_evidence_cn": "诊断不同框架下信念分歧，包含失败模式",
+      "llm_evidence": "诊断不同框架下信念分歧，包含失败模式",
+      "canonical_evidence": "诊断不同框架下信念分歧，包含失败模式",
+      "llm_tldr_en": "Belief-rollout diagnostic reveals how agent harness changes beliefs and failure modes, enabling cross-harness error pattern detection.",
+      "llm_tldr_cn": "智能体框架（harness）会影响智能体的信念轨迹，即使任务和模型固定。本文提出信念展开诊断，提取多步轨迹上的信念（风险、失败模式等），定义跨框架信念散度并分解为到达项和增长项。实验显示框架选择会系统性改变智能体对失败模式的认知，为错误检测提供新视角。",
+      "llm_tldr": "智能体框架（harness）会影响智能体的信念轨迹，即使任务和模型固定。本文提出信念展开诊断，提取多步轨迹上的信念（风险、失败模式等），定义跨框架信念散度并分解为到达项和增长项。实验显示框架选择会系统性改变智能体对失败模式的认知，为错误检测提供新视角。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.03792v1",
+      "source": "arxiv",
+      "title": "From Region Arrival to Instance-Level Grounding in Vision-and-Language Navigation",
+      "abstract": "Vision-and-Language Navigation (VLN) agents may satisfy conventional success criteria while still failing to establish reliable object-level grounding, because current evaluation protocols mainly reward stopping within a 3-meter radius and largely ignore the agent's final orientation and target visibility. We formalize this limitation as the Last-3-Meter Grounding Gap and introduce three instance-centric metrics to quantify proximity precision, target visibility, and final-view grounding. To mitigate this gap, we propose REALM (Region-to-Entity Alignment for Last-3-Meter Navigation), a plug-and-play, architecture-agnostic refinement module that decouples fine-grained target approaching from long-horizon navigation. REALM uses a visibility-aware stopping strategy to reduce premature termination and improve final viewpoint alignment. We further construct REVERIE-AIM, which provides object-instance-level goals and 180K short-horizon training samples for final-stage target approaching. Extensive evaluations across four diverse VLN backbones show that REALM consistently improves proximity precision and visual grounding success, demonstrating its broad applicability.",
+      "authors": [
+        "Xiangyu Shi",
+        "Ruoxi Yang",
+        "Wei Tao",
+        "Jiwen Zhang",
+        "Yanyuan Qiao",
+        "Qi Wu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-04T09:44:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.03792v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects grounding errors in navigation trajectories",
+      "llm_evidence_cn": "检测导航轨迹中的定位错误",
+      "llm_evidence": "检测导航轨迹中的定位错误",
+      "canonical_evidence": "检测导航轨迹中的定位错误",
+      "llm_tldr_en": "Introduces instance-centric metrics and refinement module to detect and mitigate grounding errors in VLN agent trajectories.",
+      "llm_tldr_cn": "视觉语言导航代理的评估标准常忽略目标可见性和朝向，导致定位错误。本文提出REALM模块，通过可见性感知的细化步骤解耦精细接近与远程导航，检测并修复最后3米内的定位错误，提升实例级接地精度。该方法直接用于检测路径规划中的错误。",
+      "llm_tldr": "视觉语言导航代理的评估标准常忽略目标可见性和朝向，导致定位错误。本文提出REALM模块，通过可见性感知的细化步骤解耦精细接近与远程导航，检测并修复最后3米内的定位错误，提升实例级接地精度。该方法直接用于检测路径规划中的错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.05188v1",
+      "source": "arxiv",
+      "title": "Latent Programming Horizons in Coding Agents",
+      "abstract": "A coding agent solving a software-engineering task spends dozens of steps reasoning, editing code, and running tests, yet little is known about what the underlying language model internally represents about the program it is working on. We show that the residual streams of language models under coding agents linearly encode properties of the evolving program: a logistic-regression probe on hidden states is able to decode whether the current code parses, passes its test suite, reduces the number of failing tests, and introduces regressions, reaching AUC up to 0.83 for correctness across two models and two benchmarks. Our second finding is more surprising: these representations run ahead of the agent's own edits. Probes trained to predict the outcome of future edits (before they are materialized and written on disk) achieve performance above chance up to roughly 25 steps in advance. We call this the agent's latent programming horizon. As a proof of external validity, we show that the probes transfer across benchmarks without retraining. Our positive results open calls for more research in mechanistic interpretability of coding agents.",
+      "authors": [
+        "André Silva",
+        "Han Tu",
+        "Martin Monperrus"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.SE"
+      ],
+      "published": "2026-07-06T15:08:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.05188v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detecting code errors in coding agent trajectories",
+      "llm_evidence_cn": "检测编码智能体轨迹中的代码错误",
+      "llm_evidence": "检测编码智能体轨迹中的代码错误",
+      "canonical_evidence": "检测编码智能体轨迹中的代码错误",
+      "llm_tldr_en": "Shows that coding agents' internal representations linearly encode program correctness attributes (AUC 0.83) and predict future edits, enabling error detection.",
+      "llm_tldr_cn": "针对编码智能体执行多步任务时内部对代码状态的表示未知的问题，该论文通过逻辑回归探针解码语言模型残差流，发现其线性编码代码解析、测试通过等属性（AUC达0.83），且这些表示超前于智能体自身的编辑，为在线错误检测提供新思路。",
+      "llm_tldr": "针对编码智能体执行多步任务时内部对代码状态的表示未知的问题，该论文通过逻辑回归探针解码语言模型残差流，发现其线性编码代码解析、测试通过等属性（AUC达0.83），且这些表示超前于智能体自身的编辑，为在线错误检测提供新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    }
+  ]
+}
