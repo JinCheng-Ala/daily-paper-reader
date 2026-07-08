@@ -1,0 +1,510 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-08T21:31:51.938158+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2607.05775v1",
+      "source": "arxiv",
+      "title": "Beyond the Leaderboard: A Synthesis of Tool-Use, Planning, and Reasoning Failures in Large Language Model Agents",
+      "abstract": "Large language model (LLM) agents are increasingly evaluated on their ability to use tools, plan multi-step tasks, coordinate with other agents, and operate over extended horizons. Reported benchmark gains often obscure recurring failure modes documented across otherwise unrelated evaluation efforts. This paper synthesizes 27 benchmark, taxonomy, and audit papers (2023-2026), spanning 19 distinct benchmarks, into a cross-cutting taxonomy of agent limitations. To our knowledge, this is the first synthesis that integrates evidence across tool use, planning, long-horizon reasoning, multi-agent coordination, safety, and measurement validity into a single, unified taxonomy of LLM agent limitations. We identify six failure clusters: (1) tool invocation and parameter-level errors, (2) planning and constraint-satisfaction failures, (3) long-horizon degradation from context accumulation, (4) multi-agent coordination failures, (5) safety and security failures under adversarial or underspecified conditions, and (6) measurement validity problems. The taxonomy was derived iteratively by grouping independently reported error categories into themes corresponding to distinct stages of the agent reasoning-to-action pipeline. Across the literature, we find that failures compound nonlinearly with task length, that strong performance on individual sub-tasks does not reliably translate into end-to-end success, and that additional scaffolding does not consistently improve reliability. At the same time, substantial progress has been demonstrated in single-turn tool use, short-horizon web navigation, and narrowly scoped coding tasks.",
+      "authors": [
+        "Wael Albayaydh",
+        "Rui Zhao",
+        "Ivan Flechais"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-07T03:05:13+00:00",
+      "link": "https://arxiv.org/pdf/2607.05775v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "synthesis of failure modes in LLM agent trajectories",
+      "llm_evidence_cn": "LLM智能体轨迹失败模式的综合",
+      "llm_evidence": "LLM智能体轨迹失败模式的综合",
+      "canonical_evidence": "LLM智能体轨迹失败模式的综合",
+      "llm_tldr_en": "This paper synthesizes 27 papers into a unified taxonomy of LLM agent limitations, providing a comprehensive framework for detecting errors in agent trajectories.",
+      "llm_tldr_cn": "本文综合27篇基准、分类学和审计论文，构建了统一的LLM智能体限制分类体系，涵盖工具使用、规划、长程推理、多智能体协调、安全及测量有效性等方面，为智能体轨迹错误检测提供了系统性的故障模式参考框架。",
+      "llm_tldr": "本文综合27篇基准、分类学和审计论文，构建了统一的LLM智能体限制分类体系，涵盖工具使用、规划、长程推理、多智能体协调、安全及测量有效性等方面，为智能体轨迹错误检测提供了系统性的故障模式参考框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "How to detect errors in agent trajectories?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.06078v1",
+      "source": "arxiv",
+      "title": "Collaborative Multi-Agent Testing for Emergent Failure Discovery in Autonomous Driving Systems",
+      "abstract": "Autonomous Driving Systems (ADS) can fail because of faults within individual modules as well as from interactions across perception, planning, and control. Yet existing ADS testing research often treats key testing functions, such as perturbation generation, behavioural assessment, and test case selection and exploration, as loosely coupled steps rather than coordinated roles for discovering such failures. We present CREAD, a collaborative multi-agent testing framework for testing ADS that organises perturbation generation, behavioural validation, and search coordination through a shared blackboard and an orchestrator. In the current work-in-progress instantiation, the framework focuses on perception-oriented perturbation generation, while remaining extensible to other ADS modules, including planning and control. It currently comprises a Perception Fuzzer Agent, a Metamorphic Validator Agent, and an Orchestrator Agent. Respectively, they generate perturbations, assess behavioural consistency across related scenario pairs, and coordinate further exploration. Experiments in HighwayEnv simulator show that the collaborative configuration improves failure discovery in the highway environment and remains competitive in the roundabout setting. Across the two environments, it yields about 2.1x as many failures per 100 scenarios as the single-agent baseline on average, while gains over a non-collaborative two-agent baseline vary across environments. These results suggest that collaborative multi-agent testing is a promising research direction for emergent ADS behaviour discovery.",
+      "authors": [
+        "Ruizhen Gu",
+        "Konstantinos Koufos",
+        "Donghwan Shin",
+        "Vahid Garousi",
+        "Mehrdad Dianati"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-07T09:47:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.06078v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "collaborative multi-agent testing for failure discovery in autonomous driving systems",
+      "llm_evidence_cn": "协作多代理测试以发现自动驾驶系统中的故障",
+      "llm_evidence": "协作多代理测试以发现自动驾驶系统中的故障",
+      "canonical_evidence": "协作多代理测试以发现自动驾驶系统中的故障",
+      "llm_tldr_en": "A collaborative multi-agent testing framework for autonomous driving that organizes perturbation generation, behavioral validation, and search coordination to discover emergent failures.",
+      "llm_tldr_cn": "针对自动驾驶系统故障发现中测试功能松散耦合的问题，提出CREAD协作多代理测试框架，通过共享黑板和编排器组织扰动生成、行为验证和搜索协调。聚焦感知扰动生成，旨在发现因模块交互导致的涌现故障。该框架可有效检测路径规划中的错误。",
+      "llm_tldr": "针对自动驾驶系统故障发现中测试功能松散耦合的问题，提出CREAD协作多代理测试框架，通过共享黑板和编排器组织扰动生成、行为验证和搜索协调。聚焦感知扰动生成，旨在发现因模块交互导致的涌现故障。该框架可有效检测路径规划中的错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.06184v1",
+      "source": "arxiv",
+      "title": "What Resolve Rate Hides: Trajectory Structure Diagnostics for Coding Agents",
+      "abstract": "Coding agents are ranked almost entirely by resolve rate: whether their final patch passes the target tests. Yet two agents can reach the same outcome through very different processes, and a single pass/fail label says nothing about why a run failed or why an accepted run spent extra steps, time, or tokens. This process evidence lives in the trajectory, which records a run's searches, reads, edits, tool calls, validation, and reversions. However, raw traces are heterogeneous and hard to compare across runs. We present TraceProbe, a trajectory-diagnostic framework that recovers what resolve rate hides. TraceProbe normalizes each raw run into a canonical nine-type action taxonomy with deterministic effect labels, then applies two rule-based modules: Insight names single-trajectory anti-patterns adapted from established debugging practice (e.g., search loops, verification skips), while Converge aligns pairs of runs and classifies where their behavior diverges under controlled references. Applying TraceProbe to 2,500 trajectories from five production settings on SWE-Bench Verified, we find that (i) file choice is too coarse to separate success from failure, whereas function selection and completion behavior localize it; (ii) Insight anti-patterns act mainly as corpus-level difficulty clues, with search loops the most stable; and (iii) even resolved runs differ in how quickly they reach relevant code and how much failed work they incur. Trajectory structure thus adds auditable diagnostic context to outcomes by localizing inspection targets, suggesting failure hypotheses, and prioritizing runs for review.",
+      "authors": [
+        "Rui Shu",
+        "Chun Yong Chong",
+        "Xin Zhou",
+        "Yun Peng",
+        "Zihan Wu",
+        "Xu Han",
+        "Zeyang Zhuang",
+        "Guowen Yuan",
+        "Yuan Wang"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-07T12:09:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.06184v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "trajectory diagnostic framework that reveals errors and failure causes in agent runs",
+      "llm_evidence_cn": "提出轨迹诊断框架，揭示智能体运行中的错误与失败原因",
+      "llm_evidence": "提出轨迹诊断框架，揭示智能体运行中的错误与失败原因",
+      "canonical_evidence": "提出轨迹诊断框架，揭示智能体运行中的错误与失败原因",
+      "llm_tldr_en": "TraceProbe normalizes agent trajectories into a canonical action taxonomy and applies diagnostic rules to detect why a coding agent fails, directly relevant to error detection in agent trajectories.",
+      "llm_tldr_cn": "编码智能体的成功率掩盖了过程差异。本文提出TraceProbe，将原始轨迹归一化为九类规范动作，并通过规则模块诊断失败原因，如无效工具调用或冗余步骤。实验证明该方法能有效识别轨迹中的错误模式，为错误检测提供细粒度工具。",
+      "llm_tldr": "编码智能体的成功率掩盖了过程差异。本文提出TraceProbe，将原始轨迹归一化为九类规范动作，并通过规则模块诊断失败原因，如无效工具调用或冗余步骤。实验证明该方法能有效识别轨迹中的错误模式，为错误检测提供细粒度工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.06273v1",
+      "source": "arxiv",
+      "title": "AgentTether: Graph-Guided Diagnosis and Runtime Intervention for Reliable LLM Agent Operation",
+      "abstract": "Large language model (LLM) agents are increasingly used for multi-step, stateful tool-use tasks, yet production reliability remains limited. Unlike static software repair, agent repair must recover dynamic trajectories whose early decisions can propagate into later errors and external state changes. Existing automatic remedies address only part of this problem: blind retry adds no diagnosis, outcome feedback says whether a run failed but not where or why, and self-reflection often lacks grounded evidence to prevent the same failure from recurring. We present AgentTether, a run-time repair framework that automates post-run diagnosis and guided recovery without modifying the underlying agent or environment. AgentTether abstracts each run into Transition Units, links them through a dependency-aware Critical Transition Graph, and localizes failure-critical subtrajectories by combining an offline normal-behavior model with a run-local graph detector. It then converts the localized cause into behavior-scoped guidance backed by cross-iteration Repair Memory, and can optionally apply guarded run-time intervention to keep the correction active during re-execution. The same design can be deployed as an offline diagnostic-and-guidance tool or as an online repair layer.   We evaluate AgentTether on 261 tau-bench tasks across three domains with Qwen3.7-max, and test cross-model transfer on Banking with GPT-5.4. On the hardest Banking domain, AgentTether repairs 59.04% (49/83) of initially failed Qwen3.7-max tasks and 65.12% (56/86) of initially failed GPT-5.4 tasks. Overall, AgentTether improves repair effectiveness while reducing agent turns and end-to-end approach tokens, suggesting a practical reliability layer that can wrap existing agent deployments, reduce wasted re-execution, and improve recovery without retraining the agent.",
+      "authors": [
+        "Chenyu Zhao",
+        "Shenglin Zhang",
+        "Wenwei Gu",
+        "Yongqian Sun",
+        "Dan Pei",
+        "Chetan Bansal",
+        "Saravan Rajmohan",
+        "Minghua Ma"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-07T13:40:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.06273v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "diagnoses errors in agent trajectories and performs runtime intervention",
+      "llm_evidence_cn": "诊断智能体轨迹中的错误并执行运行时干预",
+      "llm_evidence": "诊断智能体轨迹中的错误并执行运行时干预",
+      "canonical_evidence": "诊断智能体轨迹中的错误并执行运行时干预",
+      "llm_tldr_en": "AgentTether automates post-run diagnosis and guided recovery in LLM agent trajectories without modifying the agent, using graph-guided diagnosis.",
+      "llm_tldr_cn": "针对多步工具使用智能体在轨迹中错误传播且难以诊断的问题，提出AgentTether框架。该框架将智能体及其互动抽象为图结构，通过图引导的诊断定位错误根因，并执行自动恢复。无需修改底层智能体或环境，即可实现运行时错误检测与修复。实验验证AgentTether在多种故障场景下提高了轨迹恢复成功率，为智能体错误检测和修复提供了实用方案。",
+      "llm_tldr": "针对多步工具使用智能体在轨迹中错误传播且难以诊断的问题，提出AgentTether框架。该框架将智能体及其互动抽象为图结构，通过图引导的诊断定位错误根因，并执行自动恢复。无需修改底层智能体或环境，即可实现运行时错误检测与修复。实验验证AgentTether在多种故障场景下提高了轨迹恢复成功率，为智能体错误检测和修复提供了实用方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.05785v1",
+      "source": "arxiv",
+      "title": "Can Large Language Models Generate Observability-Aware Code?",
+      "abstract": "Recent advances in coding agents have enabled the generation of increasingly complex software systems. While existing evaluations primarily focus on functional correctness, production systems must expose failure evidence to support observability. In this paper, we present a systematic study of observability in agent-generated systems. We examine whether agents can reconstruct source-level diagnostic semantics by restoring observability artifacts in 10 open-source and 8 industrial repositories. We also evaluate whether these artifacts translate into effective fault signals at runtime through 200 generated microservice systems deployed on Kubernetes with 13 injected faults. Our results reveal a consistent gap between diagnostic semantics at the source level and fault signals (i.e., explicit, fault-specific evidence) at runtime. At the source level, agents partially recover observability artifacts but struggle to capture key diagnostic semantics. At runtime, generated systems expose fault signals for only a small fraction of failures (up to 13.99\\%), despite the presence of logging, suggesting that the generated observability artifacts may lack the failure-specific semantics needed to effectively expose faults. We further introduce an observability-oriented skill, which can serve as a guidance to improve both diagnostic semantics and fault-signal exposure, but the gains remain limited, indicating that the gap is not easily addressed. More broadly, our findings suggest that current evaluations focusing primarily on functional correctness may overlook observability as an important dimension of practical software quality.",
+      "authors": [
+        "Yongliang Tao",
+        "Hongyu Zhang",
+        "Pengfei Gao",
+        "Minghua Ma",
+        "Zhiyu Fan",
+        "Yu Kang",
+        "Jue Zhang",
+        "Si Qin",
+        "Liqun Li",
+        "Qingwei Lin",
+        "Saravan Rajmohan"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-07T03:20:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.05785v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monitoring agent behavior for errors via observability artifacts",
+      "llm_evidence_cn": "通过可观测性工件监控智能体行为错误",
+      "llm_evidence": "通过可观测性工件监控智能体行为错误",
+      "canonical_evidence": "通过可观测性工件监控智能体行为错误",
+      "llm_tldr_en": "This paper studies whether LLM agents can generate observability-aware code to expose failure evidence, enabling error detection in agent-generated systems.",
+      "llm_tldr_cn": "本文研究智能体生成的代码是否具备可观测性，即能否重构源级诊断语义以暴露故障证据。在10个开源和8个工业仓库中评估智能体恢复可观测性工件的能力，并在200个微服务系统中注入13种故障进行运行时验证，揭示了源级诊断语义与运行时故障信号之间的持续差距。",
+      "llm_tldr": "本文研究智能体生成的代码是否具备可观测性，即能否重构源级诊断语义以暴露故障证据。在10个开源和8个工业仓库中评估智能体恢复可观测性工件的能力，并在200个微服务系统中注入13种故障进行运行时验证，揭示了源级诊断语义与运行时故障信号之间的持续差距。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.02840v1",
+      "source": "arxiv",
+      "title": "TACO: TActile World Model as a Self-COrrector forScalable VLA Post-Training",
+      "abstract": "Vision-Language-Action (VLA) models have shown promising generalization in robotic manipulation, but they still struggle with contact-rich tasks, where minor contact perturbations can cause unrecoverable failures that are hard to detect from vision alone. Since these failures are localized rather than task-level semantic errors, tactile-aware corrective post-training offers an efficient way to improve recovery. However, scaling such supervision through human intervention is costly. Recent works have explored world models to synthesize imagined rollouts for policy improvement, but vision-only world models may produce visually plausible yet contact-inconsistent trajectories. We therefore introduce TACO, a tactile-aware world-model-driven framework for scalable VLA post-training in contact-rich manipulation. Given real robot rollouts, TACO follows a Recognize-Imagine-Label loop with a tactile-aware world model: a unified progress-action model recognizes failure-adjacent states using progress estimates, a visuo-tactile generation model imagines local correction segments, and the progress-action model labels them with executable corrective actions. To incorporate tactile corrective supervision into VLA post-training, TACO combines knowledge-insulated tactile adaptation with advantage-conditioned training, enabling the policy to learn from imagined corrections without degrading pretrained visual-language priors. These components enable TACO to convert real-world failures into imagined visuo-tactile corrections for iterative VLA post-training. Experiments on real-world contact-rich manipulation tasks show that TACO achieves 44% absolute success rate improvement over the base policy and 32% over the policy without knowledge-insulated tactile adaptation.",
+      "authors": [
+        "Shengbang Liu",
+        "Yueru Jia",
+        "Yuyang Yan",
+        "Jiaming Liu",
+        "Xinran Zhang",
+        "Qiuxuan Feng",
+        "Yandong Guo",
+        "Shiji Zhou",
+        "Boxin Shi",
+        "Shanghang Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-03T00:23:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.02840v1",
+      "tags": [
+        "keyword:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "detects contact-related failures in robot manipulation trajectories and corrects them using tactile world models",
+      "llm_evidence_cn": "检测机器人操作轨迹中接触相关的失败，并使用触觉世界模型进行修正",
+      "llm_evidence": "检测机器人操作轨迹中接触相关的失败，并使用触觉世界模型进行修正",
+      "canonical_evidence": "检测机器人操作轨迹中接触相关的失败，并使用触觉世界模型进行修正",
+      "llm_tldr_en": "Introduces TACO, a tactile-aware world model for detecting and correcting contact failures in VLA robot manipulation trajectories, enabling scalable self-correction without human intervention.",
+      "llm_tldr_cn": "针对 VLA 模型在接触丰富的任务中难以检测微小平移失败的问题，提出 TACO 触觉感知世界模型，通过合成触觉一致轨迹来检测并修正错误。实验表明该方法有效减少了接触失败，提升了任务成功率。",
+      "llm_tldr": "针对 VLA 模型在接触丰富的任务中难以检测微小平移失败的问题，提出 TACO 触觉感知世界模型，通过合成触觉一致轨迹来检测并修正错误。实验表明该方法有效减少了接触失败，提升了任务成功率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.02615v1",
+      "source": "arxiv",
+      "title": "The agent creates, we validate: A Lightweight Framework for Agentic Artifact Generation",
+      "abstract": "Generating structured artifacts with Large Language Models - e.g. database queries, threat framework mappings, entity schemas - is relatively straightforward; however, making them reliable enough for production deployments presents challenges. We present a lightweight framework based on a core principle: LLMs generate, we validate. This reframing shifts responsibility from generation quality to validation rigor. The framework rests on three key attributes: First, test driven generation: when tests fail, the LLM receives indicative error messages that expose why the output failed, enabling the LLM to understand its mistakes and refine subsequent attempts. Second, deterministic and LLM-based tests: deterministic tests catch heuristics that can be programmatically verified (schema, syntax, cross-reference), while LLM-based tests evaluate nuanced semantic and delicate features that resist programmatic inspection (intent alignment, logical consistency, domain correctness). Third, expert-distilled judges: LLM-based tests are calibrated to distill and replicate human expert decision distribution, transforming manual human quality gates into scalable, reusable evaluation proxies that reflect professional-grade validation standards. We demonstrate the framework on three artifact types in the security domain - KQL query generation, MITRE ATT\\&CK mapping, and entity mapping - deployed in production at Microsoft Sentinel. We believe this framework can be applied beyond security to other artifact generation tasks, providing a path to reliable, high-quality outputs without sacrificing the efficiency gains of LLM generation.",
+      "authors": [
+        "Yaniv Melamed",
+        "Yoni Zukerman",
+        "Michal Shechter",
+        "Miri Weissler",
+        "Ashwin Patil",
+        "Hani Neuvirth-Telem"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-07-01T17:28:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.02615v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "validation framework for agent outputs with error feedback",
+      "llm_evidence_cn": "验证代理输出并提供错误反馈的框架",
+      "llm_evidence": "验证代理输出并提供错误反馈的框架",
+      "canonical_evidence": "验证代理输出并提供错误反馈的框架",
+      "llm_tldr_en": "A lightweight validation framework for LLM-generated artifacts using test-driven generation with error messages, shifting focus from generation quality to validation rigor.",
+      "llm_tldr_cn": "针对LLM生成结构化工件可靠性不足的问题，提出一种轻量级验证框架，核心原则是“LLM生成，人类验证”。采用测试驱动生成：当测试失败时，LLM收到指示性错误信息，从而理解错误并改进。还包含确定性和基于LLM的测试。该框架将责任从生成质量转移到验证严格性，有助于提高生产部署的可靠性。",
+      "llm_tldr": "针对LLM生成结构化工件可靠性不足的问题，提出一种轻量级验证框架，核心原则是“LLM生成，人类验证”。采用测试驱动生成：当测试失败时，LLM收到指示性错误信息，从而理解错误并改进。还包含确定性和基于LLM的测试。该框架将责任从生成质量转移到验证严格性，有助于提高生产部署的可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.04162v1",
+      "source": "arxiv",
+      "title": "ACE: Agentic Control for Embodied Manipulation via Zero-shot Workflow Reasoning",
+      "abstract": "Open-ended tabletop manipulation requires agents to not only understand natural language but also adapt to dynamic environments and execution failures. We present ACE (Agentic Control for Embodied Manipulation), a zero-shot workflow reasoning framework for tabletop pick-and-place from natural language. Rather than relying on direct low-level action mapping, ACE combines agentic workflow reasoning with two robot-facing executable skills: a visual grounding interface and a reusable pick-and-place primitive. To bridge semantic reasoning and physical control, the active sub-goal is grounded into a mask-mediated vision-action interface. This unified mask specifies the target object and destination, is tracked over time, exposed for human verification, and ultimately passed to a task-agnostic downstream policy for execution. Crucially, ACE operates in a closed loop supported by a multi-timescale memory. After an action is executed, the system automatically verifies whether the intended sub-goal succeeded, using the outcome to advance, retry, repair, or replan. This enables online adaptation to user corrections, scene changes, and physical failures. We evaluate ACE on logically complex, long-horizon tasks, including zero-shot multi-step equation formation with number cubes and constraint-based object retrieval. ACE demonstrates task-level zero-shot generalization on novel semantic constraints and randomized tabletop scenes without task-specific retraining. Specifically, while standard end-to-end baselines struggle to complete these logically demanding tasks, ACE achieves a 50% success rate in equation formation and a 70% success rate in constraint retrieval. This contrast demonstrates that explicit workflow reasoning and mask-mediated control offer a robust, practical route toward adaptable robotic manipulation.",
+      "authors": [
+        "Iok Tong Lei",
+        "QianZhi Li",
+        "Ying Jie Yap",
+        "Yujie Zhang",
+        "Rui Zhong",
+        "Haichao Gui",
+        "Xiaolong Liu",
+        "Zhidong Deng"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-07-05T08:07:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.04162v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "adapts to execution failures in agent trajectories",
+      "llm_evidence_cn": "适应智能体轨迹中的执行失败",
+      "llm_evidence": "适应智能体轨迹中的执行失败",
+      "canonical_evidence": "适应智能体轨迹中的执行失败",
+      "llm_tldr_en": "ACE enables agents to detect and adapt to execution failures in tabletop manipulation through zero-shot workflow reasoning and a mask-mediated vision-action interface.",
+      "llm_tldr_cn": "ACE针对桌面操作中的执行失败问题，提出零样本工作流推理框架，结合视觉接地接口和可复用操作原语，通过掩码介导的视觉-动作接口使智能体能够检测并适应失败，实现鲁棒的任务执行。实验表明该方法能有效处理动态环境中的错误。",
+      "llm_tldr": "ACE针对桌面操作中的执行失败问题，提出零样本工作流推理框架，结合视觉接地接口和可复用操作原语，通过掩码介导的视觉-动作接口使智能体能够检测并适应失败，实现鲁棒的任务执行。实验表明该方法能有效处理动态环境中的错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04419v2",
+      "source": "arxiv",
+      "title": "Agent Step Value: Probing the Observer Effect in Black-Box Traces",
+      "abstract": "Final-answer scores hide which agent transitions helped or harmed a trace. We introduce Agent Step Value (ASV), a replay framework that scores before/after states with a stateless LLM evaluator over a fixed candidate set. ASV reports entropy movement and Bayesian surprise measure belief movement, while offline gold-margin gain measures movement toward a reviewed target. It also quantifies evaluator-channel sensitivity by replaying the same frozen transitions under changed projection, rationale, prompt, or scoring rules. In a 100-question open-QA study with live PubMed retrieval and DeepSeek log-probability scoring, ASV evaluates 1,100 transitions. Entropy movement is 0.000 while mean Bayesian surprise is 2.693, exposing near-one-hot belief pivots. Under a 128-token rationale-conditioned protocol, mean gold-margin gain is -2.335 (95\\% CI [-3.395, -1.272]); direct one-token scoring on the same traces gives +4.033. A 100-transition component audit traces the reversal to short generated rationales over full states. ASV turns prompt sensitivity into a measured channel effect and localizes the largest rationale-conditioned losses to extraction and audit.",
+      "authors": [
+        "Andrew Zhang",
+        "Chengzhan Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-05T17:27:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.04419v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "evaluates each step in agent trajectories for belief change, which can be used for anomaly/error detection",
+      "llm_evidence_cn": "评估代理轨迹中每一步的信念变化，可用于异常或错误检测",
+      "llm_evidence": "评估代理轨迹中每一步的信念变化，可用于异常或错误检测",
+      "canonical_evidence": "评估代理轨迹中每一步的信念变化，可用于异常或错误检测",
+      "llm_tldr_en": "Introduces Agent Step Value (ASV), a replay framework to score transitions in agent traces by measuring entropy movement and Bayesian surprise, which can serve as a tool for detecting anomalous or erroneous steps.",
+      "llm_tldr_cn": "针对最终答案分数无法揭示轨迹中哪些步骤有益或有害的问题，提出代理步价值（ASV）框架，通过 replay 和 LLM 评估器测量信念变化，如贝叶斯惊奇。实验发现信念近乎热点转移，表明 ASV 可有效识别轨迹中的异常步骤。",
+      "llm_tldr": "针对最终答案分数无法揭示轨迹中哪些步骤有益或有害的问题，提出代理步价值（ASV）框架，通过 replay 和 LLM 评估器测量信念变化，如贝叶斯惊奇。实验发现信念近乎热点转移，表明 ASV 可有效识别轨迹中的异常步骤。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.05773v1",
+      "source": "arxiv",
+      "title": "Beyond Static Evaluation: Building Simulation Environments for Scalable Agentic Reinforcement Learning",
+      "abstract": "As Large Language Models (LLMs) evolve into autonomous agents, traditional static evaluation fails to capture multi-step decision-making. We introduce AgenticAI-Supervisor, an API and UI-driven RL Gym environment that decouples environment creation from scalable execution. By moving to verifiable execution outcomes, the platform generates high-fidelity traces and applies multi-dimensional reward shaping. Critically, our framework mitigates reward hacking through rigorous internal state validation and testing. This work provides a first look at our platform's core capabilities through a Customer Support Agent case study demonstrating a consistent closed-loop feedback for model optimization. Future work will focus on advanced features such as Computer Use, Tool Use, automated \"stumping\", and edge-case generation.",
+      "authors": [
+        "Akshay Arora",
+        "Ishan Nigam",
+        "Ashutosh Aggarwal",
+        "Shefali Bansal",
+        "Krishna Singh",
+        "Sweta Kumari",
+        "Nikhil Mittal",
+        "Shariq Farhan",
+        "Siddarth Malreddy"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-07T02:56:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.05773v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "RL simulation environment with reward hacking detection",
+      "llm_evidence_cn": "具有奖励黑客检测的强化学习仿真环境",
+      "llm_evidence": "具有奖励黑客检测的强化学习仿真环境",
+      "canonical_evidence": "具有奖励黑客检测的强化学习仿真环境",
+      "llm_tldr_en": "AgenticAI-Supervisor builds simulation environments for RL agents with internal state validation to detect reward hacking and errors in trajectories.",
+      "llm_tldr_cn": "AgenticAI-Supervisor提出基于API和UI的RL Gym环境，通过可验证的执行结果生成高保真轨迹，并应用多维奖励塑形。其关键创新是通过严格的内部状态验证和测试来缓解奖励黑客行为，为RL智能体轨迹中的错误检测提供了可靠的仿真基础设施。",
+      "llm_tldr": "AgenticAI-Supervisor提出基于API和UI的RL Gym环境，通过可验证的执行结果生成高保真轨迹，并应用多维奖励塑形。其关键创新是通过严格的内部状态验证和测试来缓解奖励黑客行为，为RL智能体轨迹中的错误检测提供了可靠的仿真基础设施。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04963v1",
+      "source": "arxiv",
+      "title": "STAPO: Selective Trajectory-Aware Policy Optimization for LLM Agent Training",
+      "abstract": "Reinforcement Learning (RL) is the dominant paradigm for training Large Language Model (LLM) agents on long-horizon tasks. However, sparse and delayed rewards often lead to trajectory neglect, in which agents lose focus on the task goal and interaction history at intermediate steps. Prior work has explored step-level supervision using Shannon-entropy-based uncertainty signals, which conflate inherent state complexity with agent confidence and therefore provide unreliable estimates of decision reliability. To address this issue, we propose normalized entropy, which measures confidence deviations relative to an agent's average behavior under a given state, thereby strengthening the association between low-quality actions and trajectory neglect. Building on this insight, we introduce Selective Trajectory-Aware Policy Optimization (STAPO), a hierarchical group-based RL framework. STAPO leverages normalized entropy to locate outlier steps associated with trajectory neglect and optimizes them via a joint mechanism of trajectory-aware reward and trajectory-independent penalty, enhancing trajectory awareness while preserving training stability. Extensive experiments on ALFWorld, WebShop, and Search-Augmented QA demonstrate that STAPO achieves state-of-the-art performance while substantially alleviating trajectory neglect, validating its effectiveness and robustness for agentic tasks.",
+      "authors": [
+        "Qiuyi Qi",
+        "Tian Liang",
+        "Mutian Bao",
+        "Jinjian Zhang",
+        "Dongnan Liu",
+        "Wei Zhou",
+        "Linjian Mo",
+        "Ming Kong",
+        "Jie Liu",
+        "Feng Zhang",
+        "Qiang Zhu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-06T11:50:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.04963v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "detecting low-quality actions in RL agent trajectories",
+      "llm_evidence_cn": "检测强化学习智能体轨迹中的低质量动作",
+      "llm_evidence": "检测强化学习智能体轨迹中的低质量动作",
+      "canonical_evidence": "检测强化学习智能体轨迹中的低质量动作",
+      "llm_tldr_en": "STAPO proposes normalized entropy to detect trajectory neglect and low-quality actions in RL-trained LLM agents, enabling error detection.",
+      "llm_tldr_cn": "STAPO针对稀疏奖励导致的轨迹忽视问题，提出归一化熵度量，以区分状态复杂度与智能体置信度，从而可靠识别低质量动作与轨迹忽视。该方法增强了决策可靠性评估，为RL智能体轨迹中的错误检测提供了有效工具。",
+      "llm_tldr": "STAPO针对稀疏奖励导致的轨迹忽视问题，提出归一化熵度量，以区分状态复杂度与智能体置信度，从而可靠识别低质量动作与轨迹忽视。该方法增强了决策可靠性评估，为RL智能体轨迹中的错误检测提供了有效工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.06140v1",
+      "source": "arxiv",
+      "title": "CurateEvo: Data-Curation Evolving for Agentic Post-Training",
+      "abstract": "Large language model (LLM) agents require post-training methods that can improve long-horizon decision making from environment feedback. However, existing agentic post-training pipelines often treat data curation as a fixed preprocessing step, focusing mainly on data augmentation while neglecting filtering, refinement, and adaptation to downstream failures. We propose CurateEvo, a failure-driven dynamic evolution framework for agentic post-training data curation. CurateEvo represents the curation strategy as executable code and iteratively rewrites it using failed trajectories from a held-out development set. At each epoch, the evolved strategy transforms a fixed raw corpus into supervised fine-tuning data, reinforcement learning data, and an inference-time memory bank. The evolution process first improves effectiveness by diagnosing recurring failure modes and augmenting, filtering, or refining data accordingly, and then improves efficiency by pruning redundant or low-utility training turns under a cost-aware objective. Experiments on ACEBench-Agent, BFCL-V4, and τ^2-Bench under both labeled and wild-data settings show that CurateEvo consistently outperforms prior curation methods, improving average scores by 3.2 and 2.7 points, respectively. Further analyses demonstrate that CurateEvo is compatible with different post-training recipes and substantially reduces curation overhead.",
+      "authors": [
+        "Dingzirui Wang",
+        "Xuanliang Zhang",
+        "Keyan Xu",
+        "Qingfu Zhu",
+        "Wanxiang Che"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-07T11:07:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.06140v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "failure-driven evolution using failed trajectories to improve agent post-training",
+      "llm_evidence_cn": "利用失败轨迹进行失败驱动的演化以改进代理后训练",
+      "llm_evidence": "利用失败轨迹进行失败驱动的演化以改进代理后训练",
+      "canonical_evidence": "利用失败轨迹进行失败驱动的演化以改进代理后训练",
+      "llm_tldr_en": "A failure-driven dynamic evolution framework for agentic post-training data curation that uses failed trajectories to iterate on curation strategy.",
+      "llm_tldr_cn": "针对代理后训练中数据策展被视为固定预处理步骤的问题，提出CurateEvo框架，将策展策略表示为可执行代码，并利用开发集中失败的轨迹迭代重写策略。每次迭代基于失败反馈调整数据过滤、增强等操作，从而提升长期决策能力。实验表明该方法显著优于固定策展。",
+      "llm_tldr": "针对代理后训练中数据策展被视为固定预处理步骤的问题，提出CurateEvo框架，将策展策略表示为可执行代码，并利用开发集中失败的轨迹迭代重写策略。每次迭代基于失败反馈调整数据过滤、增强等操作，从而提升长期决策能力。实验表明该方法显著优于固定策展。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

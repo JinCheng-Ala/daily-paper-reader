@@ -6,55 +6,58 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-07
-- 运行时间：2026-07-07 22:06:13 UTC
+- 最新运行日期：2026-07-08
+- 运行时间：2026-07-08 21:37:52 UTC
 - 运行状态：成功
-- 本次总论文数：11
-- 精读区：6
-- 速读区：5
+- 本次总论文数：12
+- 精读区：5
+- 速读区：7
 
 ### 今日简报（AI）
-今日精读6篇速读5篇，聚焦世界模型修正与LLM智能体合规验证两大高价值方向。
-最值得精读的是9.0分的《Repair the Amplifier, Not the Symptom》和《AgentLTL》，前者根治智能体规划中的模型偏差，后者强化工具使用的程序合规性。
-普通读者可先从速读中的轨迹跟踪和视觉语言导航入手，快速了解强化学习与环境交互的典型场景。
-- 详情：[/202607/07/README](/202607/07/README)
+1) 今日12篇论文聚焦LLM Agent失败综合分析与自动驾驶协同测试，精读2篇高分研究。  
+2) 最值得关注：工具使用、规划与推理失败的系统性归纳；多智能体协作测试发现自动驾驶突发故障。  
+3) 建议优先精读这两篇9.0分论文，深入理解Agent局限与自动驾驶可靠性评估新方法。
+- 详情：[/202607/08/README](/202607/08/README)
 
 ### 精读区论文标签
-1. [Repair the Amplifier, Not the Symptom: Stable World-Model Correction for Agent Rollouts](/202607/07/2607.01767v2-repair-the-amplifier-not-the-symptom-stable-world-model-correction-for-agent-rollouts)  
+1. [Beyond the Leaderboard: A Synthesis of Tool-Use, Planning, and Reasoning Failures in Large Language Model Agents](/202607/08/2607.05775v1-beyond-the-leaderboard-a-synthesis-of-tool-use-planning-and-reasoning-failures-in-large-language-model-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：研究失败agent rollout的世界模型纠正
-2. [AgentLTL: A Trace-Verification Framework for Measuring, Enforcing, and Training Procedural Compliance in Tool-Using LLM Agents](/202607/07/2607.02599v1-agentltl-a-trace-verification-framework-for-measuring-enforcing-and-training-procedural-compliance-in-tool-using-llm-agents)  
+   evidence：LLM智能体轨迹失败模式的综合
+2. [Collaborative Multi-Agent Testing for Emergent Failure Discovery in Autonomous Driving Systems](/202607/08/2607.06078v1-collaborative-multi-agent-testing-for-emergent-failure-discovery-in-autonomous-driving-systems)  
    标签：评分：9.0/10、query:agent-error
-   evidence：LLM智能体轨迹的程序合规性形式化验证
-3. [Diagnosis-Driven Automatic Repair for Agentic Workflow via Symbolic Inference](/202607/07/2607.02882v1-diagnosis-driven-automatic-repair-for-agentic-workflow-via-symbolic-inference)  
+   evidence：协作多代理测试以发现自动驾驶系统中的故障
+3. [What Resolve Rate Hides: Trajectory Structure Diagnostics for Coding Agents](/202607/08/2607.06184v1-what-resolve-rate-hides-trajectory-structure-diagnostics-for-coding-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：通过符号推理诊断agent工作流错误，直接检测轨迹中的错误并自动修复
-4. [Agent Reinforcement Learning via Pivotal-Aware Self-Feedback Retry](/202607/07/2607.03702v1-agent-reinforcement-learning-via-pivotal-aware-self-feedback-retry)  
+   evidence：提出轨迹诊断框架，揭示智能体运行中的错误与失败原因
+4. [AgentTether: Graph-Guided Diagnosis and Runtime Intervention for Reliable LLM Agent Operation](/202607/08/2607.06273v1-agenttether-graph-guided-diagnosis-and-runtime-intervention-for-reliable-llm-agent-operation)  
    标签：评分：9.0/10、query:agent-error
-   evidence：通过结构化反思识别LLM agent轨迹中的关键错误步骤，实现局部重试，直接面向轨迹错误检测
-5. [A Comprehensive Study of Implementation Bugs in Multi-modal Agents](/202607/07/2607.04974v1-a-comprehensive-study-of-implementation-bugs-in-multi-modal-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：多模态智能体实现缺陷的系统研究
-6. [Safety Testing LLM Agents at Scale: From Risk Discovery to Evidence-Grounded Verification](/202607/07/2607.01793v2-safety-testing-llm-agents-at-scale-from-risk-discovery-to-evidence-grounded-verification)  
+   evidence：诊断智能体轨迹中的错误并执行运行时干预
+5. [Can Large Language Models Generate Observability-Aware Code?](/202607/08/2607.05785v1-can-large-language-models-generate-observability-aware-code)  
    标签：评分：8.0/10、query:agent-error
-   evidence：通过安全测试监控智能体行为错误
+   evidence：通过可观测性工件监控智能体行为错误
 
 ### 速读区论文标签
-1. [Anticipatory Reinforcement Learning for Trajectory Tracking](/202607/07/2607.03132v1-anticipatory-reinforcement-learning-for-trajectory-tracking)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：强化学习轨迹跟踪中的误差检测
-2. [From Region Arrival to Instance-Level Grounding in Vision-and-Language Navigation](/202607/07/2607.03792v1-from-region-arrival-to-instance-level-grounding-in-vision-and-language-navigation)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：检测导航轨迹中的定位错误
-3. [Latent Programming Horizons in Coding Agents](/202607/07/2607.05188v1-latent-programming-horizons-in-coding-agents)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：检测编码智能体轨迹中的代码错误
-4. [Ask the World Before Acting: Environment Probing for Calibrated Agent World Models](/202607/07/2606.31422v2-ask-the-world-before-acting-environment-probing-for-calibrated-agent-world-models)  
+1. [TACO: TActile World Model as a Self-COrrector forScalable VLA Post-Training](/202607/08/2607.02840v1-taco-tactile-world-model-as-a-self-corrector-forscalable-vla-post-training)  
    标签：评分：7.0/10、query:agent-error
-   evidence：监测智能体行为中的信念漂移错误
-5. [Measuring Harness-Induced Belief Divergence in Multi-Step LLM Agents](/202607/07/2607.04528v1-measuring-harness-induced-belief-divergence-in-multi-step-llm-agents)  
+   evidence：检测机器人操作轨迹中接触相关的失败，并使用触觉世界模型进行修正
+2. [ACE: Agentic Control for Embodied Manipulation via Zero-shot Workflow Reasoning](/202607/08/2607.04162v1-ace-agentic-control-for-embodied-manipulation-via-zero-shot-workflow-reasoning)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：适应智能体轨迹中的执行失败
+3. [Beyond Static Evaluation: Building Simulation Environments for Scalable Agentic Reinforcement Learning](/202607/08/2607.05773v1-beyond-static-evaluation-building-simulation-environments-for-scalable-agentic-reinforcement-learning)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：具有奖励黑客检测的强化学习仿真环境
+4. [CurateEvo: Data-Curation Evolving for Agentic Post-Training](/202607/08/2607.06140v1-curateevo-data-curation-evolving-for-agentic-post-training)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：利用失败轨迹进行失败驱动的演化以改进代理后训练
+5. [The agent creates, we validate: A Lightweight Framework for Agentic Artifact Generation](/202607/08/2607.02615v1-the-agent-creates-we-validate-a-lightweight-framework-for-agentic-artifact-generation)  
    标签：评分：6.0/10、query:agent-error
-   evidence：诊断不同框架下信念分歧，包含失败模式
+   evidence：验证代理输出并提供错误反馈的框架
+6. [Agent Step Value: Probing the Observer Effect in Black-Box Traces](/202607/08/2607.04419v2-agent-step-value-probing-the-observer-effect-in-black-box-traces)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：评估代理轨迹中每一步的信念变化，可用于异常或错误检测
+7. [STAPO: Selective Trajectory-Aware Policy Optimization for LLM Agent Training](/202607/08/2607.04963v1-stapo-selective-trajectory-aware-policy-optimization-for-llm-agent-training)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：检测强化学习智能体轨迹中的低质量动作
 
 
 <div class="dpr-home-promo-card">
