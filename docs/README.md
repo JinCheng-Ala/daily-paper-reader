@@ -6,58 +6,56 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-08
-- 运行时间：2026-07-08 21:37:52 UTC
+- 最新运行日期：2026-07-09
+- 运行时间：2026-07-09 22:07:29 UTC
 - 运行状态：成功
 - 本次总论文数：12
-- 精读区：5
-- 速读区：7
+- 精读区：6
+- 速读区：6
 
 ### 今日简报（AI）
-1) 今日12篇论文聚焦LLM Agent失败综合分析与自动驾驶协同测试，精读2篇高分研究。  
-2) 最值得关注：工具使用、规划与推理失败的系统性归纳；多智能体协作测试发现自动驾驶突发故障。  
-3) 建议优先精读这两篇9.0分论文，深入理解Agent局限与自动驾驶可靠性评估新方法。
-- 详情：[/202607/08/README](/202607/08/README)
+今日精读两篇9分论文，聚焦多智能体AI控制的分布式攻击与因果根因提取；速读覆盖运动规划、恶意行为检测和攻击严重度分级。建议优先关注《Multi-Agent AI Control》和《From Noisy Traces to Root Causes》，这两篇为多智能体安全与因果推理提供了关键框架。如需深入，可结合速读的恶意行为检测与攻击分级，构建更全面的防护认知。
+- 详情：[/202607/09/README](/202607/09/README)
 
 ### 精读区论文标签
-1. [Beyond the Leaderboard: A Synthesis of Tool-Use, Planning, and Reasoning Failures in Large Language Model Agents](/202607/08/2607.05775v1-beyond-the-leaderboard-a-synthesis-of-tool-use-planning-and-reasoning-failures-in-large-language-model-agents)  
+1. [Multi-Agent AI Control: Distributed Attacks Hamper Per-Instance Monitors](/202607/09/2607.07368v1-multi-agent-ai-control-distributed-attacks-hamper-per-instance-monitors)  
    标签：评分：9.0/10、query:agent-error
-   evidence：LLM智能体轨迹失败模式的综合
-2. [Collaborative Multi-Agent Testing for Emergent Failure Discovery in Autonomous Driving Systems](/202607/08/2607.06078v1-collaborative-multi-agent-testing-for-emergent-failure-discovery-in-autonomous-driving-systems)  
+   evidence：监控智能体行为以检测恶意攻击
+2. [From Noisy Traces to Root Causes: Structural Trajectory Analysis and Causal Extraction for Agent Optimization](/202607/09/2607.07702v1-from-noisy-traces-to-root-causes-structural-trajectory-analysis-and-causal-extraction-for-agent-optimization)  
    标签：评分：9.0/10、query:agent-error
-   evidence：协作多代理测试以发现自动驾驶系统中的故障
-3. [What Resolve Rate Hides: Trajectory Structure Diagnostics for Coding Agents](/202607/08/2607.06184v1-what-resolve-rate-hides-trajectory-structure-diagnostics-for-coding-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：提出轨迹诊断框架，揭示智能体运行中的错误与失败原因
-4. [AgentTether: Graph-Guided Diagnosis and Runtime Intervention for Reliable LLM Agent Operation](/202607/08/2607.06273v1-agenttether-graph-guided-diagnosis-and-runtime-intervention-for-reliable-llm-agent-operation)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：诊断智能体轨迹中的错误并执行运行时干预
-5. [Can Large Language Models Generate Observability-Aware Code?](/202607/08/2607.05785v1-can-large-language-models-generate-observability-aware-code)  
+   evidence：通过结构分析与因果提取检测智能体轨迹中的错误
+3. [AgentLens: Production-Assessed Trajectory Reviews for Coding Agent Evaluation](/202607/09/2607.06624v1-agentlens-production-assessed-trajectory-reviews-for-coding-agent-evaluation)  
    标签：评分：8.0/10、query:agent-error
-   evidence：通过可观测性工件监控智能体行为错误
+   evidence：通过轨迹审查监控编码智能体行为及错误恢复
+4. [Reliable and Developer-Aligned Evaluation of Agents for Software Engineering](/202607/09/2607.06713v1-reliable-and-developer-aligned-evaluation-of-agents-for-software-engineering)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：轨迹感知的评估方法用于错误检测
+5. [Mining Workflow Graphs for Black-Box Boundary Testing of Conversational LLM Agents](/202607/09/2607.06873v1-mining-workflow-graphs-for-black-box-boundary-testing-of-conversational-llm-agents)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：黑盒测试检测对话代理工作流中的状态依赖错误
+6. [Agent Delivery Engineering Predictive Reliability Framework](/202607/09/2607.07689v1-agent-delivery-engineering-predictive-reliability-framework)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：预测可靠性框架检测轨迹异常和退化
 
 ### 速读区论文标签
-1. [TACO: TActile World Model as a Self-COrrector forScalable VLA Post-Training](/202607/08/2607.02840v1-taco-tactile-world-model-as-a-self-corrector-forscalable-vla-post-training)  
+1. [Continuous-Time Gaussian Belief Trees for Motion Planning](/202607/09/2607.02884v1-continuous-time-gaussian-belief-trees-for-motion-planning)  
    标签：评分：7.0/10、query:agent-error
-   evidence：检测机器人操作轨迹中接触相关的失败，并使用触觉世界模型进行修正
-2. [ACE: Agentic Control for Embodied Manipulation via Zero-shot Workflow Reasoning](/202607/08/2607.04162v1-ace-agentic-control-for-embodied-manipulation-via-zero-shot-workflow-reasoning)  
+   evidence：基于信念障碍函数的安全检测器检测连续轨迹段中的路径偏离
+2. [When Agents Go Rogue: Activation-Based Detection of Malicious Behaviors in Multi-Agent Systems](/202607/09/2607.06807v1-when-agents-go-rogue-activation-based-detection-of-malicious-behaviors-in-multi-agent-systems)  
    标签：评分：7.0/10、query:agent-error
-   evidence：适应智能体轨迹中的执行失败
-3. [Beyond Static Evaluation: Building Simulation Environments for Scalable Agentic Reinforcement Learning](/202607/08/2607.05773v1-beyond-static-evaluation-building-simulation-environments-for-scalable-agentic-reinforcement-learning)  
+   evidence：通过激活分析进行多代理轨迹异常检测
+3. [Beyond Attack-Success Rate: Action-Graded Severity Scale for Tool-Using AI Agents](/202607/09/2607.07474v1-beyond-attack-success-rate-action-graded-severity-scale-for-tool-using-ai-agents)  
    标签：评分：7.0/10、query:agent-error
-   evidence：具有奖励黑客检测的强化学习仿真环境
-4. [CurateEvo: Data-Curation Evolving for Agentic Post-Training](/202607/08/2607.06140v1-curateevo-data-curation-evolving-for-agentic-post-training)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：利用失败轨迹进行失败驱动的演化以改进代理后训练
-5. [The agent creates, we validate: A Lightweight Framework for Agentic Artifact Generation](/202607/08/2607.02615v1-the-agent-creates-we-validate-a-lightweight-framework-for-agentic-artifact-generation)  
+   evidence：动作分级危害量表监控Agent行为危害
+4. [No Time Like the Present: Agentic Test-Time Training for LLM Agents](/202607/09/2607.03441v1-no-time-like-the-present-agentic-test-time-training-for-llm-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：验证代理输出并提供错误反馈的框架
-6. [Agent Step Value: Probing the Observer Effect in Black-Box Traces](/202607/08/2607.04419v2-agent-step-value-probing-the-observer-effect-in-black-box-traces)  
+   evidence：处理长轨迹中的性能退化和重复失败动作
+5. [FORGE: Research-Trajectory Hijacking Attacks on Deep Research Agents](/202607/09/2607.04718v1-forge-research-trajectory-hijacking-attacks-on-deep-research-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：评估代理轨迹中每一步的信念变化，可用于异常或错误检测
-7. [STAPO: Selective Trajectory-Aware Policy Optimization for LLM Agent Training](/202607/08/2607.04963v1-stapo-selective-trajectory-aware-policy-optimization-for-llm-agent-training)  
+   evidence：提出针对深度研究智能体轨迹劫持的攻击与防御
+6. [KAT-Coder-V2.5 Technical Report](/202607/09/2607.05471v1-kat-coder-v25-technical-report)  
    标签：评分：6.0/10、query:agent-error
-   evidence：检测强化学习智能体轨迹中的低质量动作
+   evidence：恢复近乎失败的代理轨迹并验证用于训练
 
 
 <div class="dpr-home-promo-card">
