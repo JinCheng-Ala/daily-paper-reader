@@ -1,0 +1,181 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-10T20:54:20.784042+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2607.07989v1",
+      "source": "arxiv",
+      "title": "Who Broke the System? Failure Localization in LLM-Based Multi-Agent Systems",
+      "abstract": "Large language model (LLM) based multi-agent systems enable complex problem solving through coordinated reasoning and action, but their distributed structure also introduces new challenges in diagnosing system-level failures. When an execution fails, identifying which agent is responsible and at what point the trajectory first becomes irreversibly misdirected is difficult due to long-horizon interactions and tightly coupled agent behaviors. In this paper, we study the problem of failure localization in LLM-based multi-agent systems and present AgentLocate, a framework that attributes failures to both a specific agent and the earliest decisive step. AgentLocate combines an LLM-based judging mechanism with multi-perspective verification by independent evaluators, whose assessments are aggregated using a confidence-aware strategy. The resulting feedback is further used to adapt the judge through lightweight fine-tuning, improving attribution quality. We evaluate AgentLocate on two complementary benchmarks covering diverse tasks, agent configurations, and trajectory lengths. Experimental results show that AgentLocate consistently outperforms existing failure localization methods in identifying both responsible agents and failure steps, while remaining efficient in terms of token usage and running time.",
+      "authors": [
+        "Yufei Xia",
+        "Anjun Gao",
+        "Yueyang Quan",
+        "Zhuqing Liu",
+        "Minghong Fang"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.IR",
+        "cs.LG",
+        "cs.MA"
+      ],
+      "published": "2026-07-08T23:33:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.07989v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "failure localization in multi-agent trajectories, identifying responsible agent and decisive step",
+      "llm_evidence_cn": "多智能体轨迹中故障定位，识别责任智能体和关键步骤",
+      "llm_evidence": "多智能体轨迹中故障定位，识别责任智能体和关键步骤",
+      "canonical_evidence": "多智能体轨迹中故障定位，识别责任智能体和关键步骤",
+      "llm_tldr_en": "AgentLocate attributes failures in LLM-based multi-agent systems to specific agents and the earliest misdirected step, directly addressing error detection in trajectories.",
+      "llm_tldr_cn": "多智能体系统轨迹长且耦合紧密，故障定位困难。AgentLocate结合LLM评判与多视角验证，将故障归因到责任智能体和最早错误决策步骤。在仿真环境中能有效定位故障，为多智能体轨迹错误检测提供直接方法。",
+      "llm_tldr": "多智能体系统轨迹长且耦合紧密，故障定位困难。AgentLocate结合LLM评判与多视角验证，将故障归因到责任智能体和最早错误决策步骤。在仿真环境中能有效定位故障，为多智能体轨迹错误检测提供直接方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.08373v1",
+      "source": "arxiv",
+      "title": "Self-Adaptive Anomaly Detection with Reinforcement Learning and Human Feedback in Connected Vehicles",
+      "abstract": "Connected vehicles are autonomous cyber-physical systems whose behavior must be continuously monitored during operation to detect deviations from normal operation before they propagate into failures. Such evaluation is challenging because the systems themselves evolve: over-the-air updates, configuration changes, and shifting workloads alter the definition of normal behavior, causing static diagnostic methods to degrade silently over time. Existing approaches typically address either automated model adaptation or operator integration in isolation, rather than as a single coordinated supervisory loop.   This paper presents an online anomaly detection framework for autonomous CPS that integrates three coordinated mechanisms. A factorized deep Q-network with self-attention selects the most suitable detector from a candidate pool for each monitored service, exploiting inter-service dependencies in the microservice topology. An ensemble of three statistical drift detectors monitors the input distribution and raises an alarm only when all three concur, prioritizing precision over recall. A human-in-the-loop retraining mechanism, built around a pending transition buffer and a 60/40 prioritized replay strategy, allows the operator to incorporate expert knowledge while preserving the system's learned response to prior data distributions.   The framework is evaluated on a connected-vehicle testbed running an automated valet parking application across seven backend microservices. The attention-augmented agent achieves an F1 score of 0.69, compared to at most 0.11 for any single detector applied uniformly. Following a real software update that induces measurable concept drift, F1 drops to 0.52; after operator-triggered retraining, performance recovers to 0.65 on the new distribution while remaining at 0.69 on the prior one, demonstrating sustained adaptation without catastrophic forgetting.",
+      "authors": [
+        "Matthias Weiß",
+        "Athreya Hosahalli Prakash",
+        "Maurice Artelt",
+        "Falk Dettinger",
+        "Nasser Jazdi",
+        "Michael Weyrich"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-09T11:48:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.08373v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "anomaly detection in autonomous vehicle trajectories using RL",
+      "llm_evidence_cn": "使用强化学习在自动驾驶车辆轨迹中进行异常检测",
+      "llm_evidence": "使用强化学习在自动驾驶车辆轨迹中进行异常检测",
+      "canonical_evidence": "使用强化学习在自动驾驶车辆轨迹中进行异常检测",
+      "llm_tldr_en": "Online anomaly detection for connected vehicles; method transferable to agent trajectory error detection.",
+      "llm_tldr_cn": "该论文提出一个在线异常检测框架，针对联网车辆（自主CPS）中的行为偏差，集成自适应模型更新、人类反馈和强化学习。该框架持续监控轨迹以检测异常，可迁移至一般智能体轨迹错误检测任务，尤其是行为偏差识别。",
+      "llm_tldr": "该论文提出一个在线异常检测框架，针对联网车辆（自主CPS）中的行为偏差，集成自适应模型更新、人类反馈和强化学习。该框架持续监控轨迹以检测异常，可迁移至一般智能体轨迹错误检测任务，尤其是行为偏差识别。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.08100v1",
+      "source": "arxiv",
+      "title": "Geometry-Informed Maritime Anomaly Detection Using Probabilistic Roadmaps",
+      "abstract": "Maritime anomaly detection is essential for navigational safety and for the protection of critical underwater infrastructure. This paper proposes a geometry-informed supervised framework for detecting anomalous vessel trajectories in the Baltic Sea using Automatic Identification System (AIS) data. A Probabilistic Roadmap (PRM) is constructed over the navigable maritime domain and used as a structural prior to project trajectories onto feasible corridors. This representation enables the extraction of interpretable voyage-level features capturing route efficiency, geometric deviation from nominal paths, kinematic variability, and proximity to submarine cables. To address the scarcity of labeled anomalous events, synthetic anomalies are generated through controlled trajectory perturbations and infrastructure-aware distortions, producing a balanced dataset for supervised training. A Random Forest classifier is trained on the resulting feature set and evaluated under cross-validation and a held-out test split. Experimental results show stable generalization performance, achieving a test ROC AUC of 0.837, indicating the effectiveness of embedding navigational feasibility constraints into the anomaly detection process. The proposed approach provides an interpretable and operationally relevant framework for infrastructure-aware maritime monitoring in geometrically complex environments.",
+      "authors": [
+        "Gabriele Oliva",
+        "Andrea Tomei",
+        "Roberto Setola"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-07-09T04:20:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.08100v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "detects path deviations in vessel trajectories using geometric anomaly detection",
+      "llm_evidence_cn": "使用几何异常检测检测船舶轨迹中的路径偏离",
+      "llm_evidence": "使用几何异常检测检测船舶轨迹中的路径偏离",
+      "canonical_evidence": "使用几何异常检测检测船舶轨迹中的路径偏离",
+      "llm_tldr_en": "Proposes a geometry-informed framework using Probabilistic Roadmaps to detect anomalous vessel trajectories by extracting features like route efficiency and deviation from nominal paths.",
+      "llm_tldr_cn": "海事安全需要检测异常船只轨迹。本文利用概率路线图构建可航行域先验，将轨迹投影到可行走廊，提取路径效率、几何偏差等特征，结合合成异常数据进行监督学习，在波罗的海数据集上有效识别异常轨迹。",
+      "llm_tldr": "海事安全需要检测异常船只轨迹。本文利用概率路线图构建可航行域先验，将轨迹投影到可行走廊，提取路径效率、几何偏差等特征，结合合成异常数据进行监督学习，在波罗的海数据集上有效识别异常轨迹。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.08124v1",
+      "source": "arxiv",
+      "title": "TTHE: Test-Time Harness Evolution",
+      "abstract": "The behavior of an LLM agent is determined not only by the underlying model, but also by its harness: the executable program that constructs context, invokes tools, verifies intermediate results, and recovers from failures. Existing approaches optimize such harnesses before deployment, searching training or development data for a fixed agent workflow that is then frozen at test time. This limits adaptation when the test distribution, failure modes, or tool interactions differ from those seen during development. We ask whether the harness can instead be optimized during evaluation itself, using only the unlabeled execution traces the agent produces on the test inputs. We introduce Test-Time Harness Evolution (TTHE), which treats the executable harness as the state of test-time adaptation. During evaluation, TTHE maintains a population of candidate harnesses and refines them through an agentic proposer that reasons over their execution traces, without gold labels or task-specific supervision; a judge then commits an improved harness from execution-derived proxy signals, and the selected program persists to govern subsequent inputs. Crucially, TTHE does not update model weights, require gold labels, or train a separate adaptation model: solver, proposers, and judge are different roles and harnesses around the same frozen LLM, so all adaptation occurs through changes to the surrounding program. Across text-to-SQL, competitive programming, software engineering, data-science coding, and agentic tool-use tasks, TTHE improves fixed ReAct-style baseline harnesses, yielding persistent, inspectable improvements rather than a pre-searched workflow or per-query retries. These results recast test-time adaptation for LLM agents as evolution over executable control programs and identify execution-derived proxy reliability as a central challenge for robust unsupervised agent improvement.",
+      "authors": [
+        "Jun Nie",
+        "Yonggang Zhang",
+        "Jun Song",
+        "Qianshu Cai",
+        "Dahai Yu",
+        "Yike Guo",
+        "Xinmei Tian",
+        "Bo Han"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.LG"
+      ],
+      "published": "2026-07-09T05:53:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.08124v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "optimizes agent harness at test time using execution traces to adapt to failures",
+      "llm_evidence_cn": "测试时利用执行轨迹优化agent harness以适应失败",
+      "llm_evidence": "测试时利用执行轨迹优化agent harness以适应失败",
+      "canonical_evidence": "测试时利用执行轨迹优化agent harness以适应失败",
+      "llm_tldr_en": "TTHE treats the agent harness as adaptable state, using unlabeled execution traces to optimize it at test time for better failure recovery.",
+      "llm_tldr_cn": "现有关工具集在部署后固定，无法适应新故障模式。本文提出测试时工具集进化，将可执行工具集视为适应状态，仅利用测试输入上的未标注执行轨迹进行优化，无需预训练数据。实验显示该方法能提升失败恢复能力。",
+      "llm_tldr": "现有关工具集在部署后固定，无法适应新故障模式。本文提出测试时工具集进化，将可执行工具集视为适应状态，仅利用测试输入上的未标注执行轨迹进行优化，无需预训练数据。实验显示该方法能提升失败恢复能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
