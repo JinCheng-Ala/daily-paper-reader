@@ -6,41 +6,35 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-11
-- 运行时间：2026-07-11 21:11:48 UTC
+- 最新运行日期：2026-07-12
+- 运行时间：2026-07-12 20:47:47 UTC
 - 运行状态：成功
-- 本次总论文数：7
-- 精读区：1
-- 速读区：6
+- 本次总论文数：5
+- 精读区：2
+- 速读区：3
 
 ### 今日简报（AI）
-今日聚焦智能体编排中的语义交接故障诊断，同时涉猎LLM框架测试与自适应规划。最值得精读《Diagnosing Semantic Handoff Failures in Agent-Orchestrated Vision-Language-Action Skill Composition》，它揭示了技能组合中关键故障原因。建议后续关注智能体多步骤执行时的语义一致性检测。
-- 详情：[/202607/11/README](/202607/11/README)
+今日精选5篇论文，重点精读两篇高分研究：一篇揭秘LLM工具使用中因推理过多导致的策略违规新漏洞，另一篇揭示AI在重复博弈中表露预谋性欺骗。建议优先关注第一组论文，理解确定性门控机制如何修复智能体的隐蔽故障。
+- 详情：[/202607/12/README](/202607/12/README)
 
 ### 精读区论文标签
-1. [Diagnosing Semantic Handoff Failures in Agent-Orchestrated Vision-Language-Action Skill Composition](/202607/11/2607.06256v1-diagnosing-semantic-handoff-failures-in-agent-orchestrated-vision-language-action-skill-composition)  
+1. [Reason Less, Verify More: Deterministic Gates Recover a Silent Policy-Violation Failure Mode in Tool-Using LLM Agents](/202607/12/2607.07405v1-reason-less-verify-more-deterministic-gates-recover-a-silent-policy-violation-failure-mode-in-tool-using-llm-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：诊断智能体技能组合中的语义传递失败
+   evidence：检测LLM智能体轨迹中的静默策略违规失败
+2. [When Agents Lie: Premeditation, Persistence, and Exploitation in Repeated Games](/202607/12/2607.05132v2-when-agents-lie-premeditation-persistence-and-exploitation-in-repeated-games)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：检测重复博弈中预谋行动偏离
 
 ### 速读区论文标签
-1. [LogicHunter: Testing LLM Agent Frameworks with an Agentic Oracle](/202607/11/2607.06195v1-logichunter-testing-llm-agent-frameworks-with-an-agentic-oracle)  
+1. [The "I Don't Know" Filter: Enhancing Agentic Reliability in Function Calling](/202607/12/2607.04034v1-the-i-dont-know-filter-enhancing-agentic-reliability-in-function-calling)  
    标签：评分：7.0/10、query:agent-error
-   evidence：测试LLM代理框架中的静默语义失败
-2. [APIVOT: Adaptive Planning with Interleaved Vision-Language Thoughts](/202607/11/2607.08024v1-apivot-adaptive-planning-with-interleaved-vision-language-thoughts)  
+   evidence：提出轻量级过滤器量化模型不确定性，去除潜在有害的函数调用，与智能体行为异常检测直接相关
+2. [When Agents Lie: Premeditation, Persistence, and Exploitation in Repeated Games](/202607/12/2607.05132v1-when-agents-lie-premeditation-persistence-and-exploitation-in-repeated-games)  
    标签：评分：7.0/10、query:agent-error
-   evidence：在长时域规划中通过内部验证几何可行性来检测路径规划错误
-3. [RLVP: Penalize the Path, Reward the Outcome](/202607/11/2607.07435v1-rlvp-penalize-the-path-reward-the-outcome)  
+   evidence：检测智能体声明意图与实际行为之间的偏差
+3. [Occluding the Solution Space: Planner-Agnostic Adversarial Attacks on Tolerance-Aware Manipulation](/202607/12/2607.03758v1-occluding-the-solution-space-planner-agnostic-adversarial-attacks-on-tolerance-aware-manipulation)  
    标签：评分：6.0/10、query:agent-error
-   evidence：路径约束惩罚与轨迹错误检测相关
-4. [PERFOPT-Bench: Evaluating Coding Agents on Software Performance Optimization](/202607/11/2607.07744v1-perfopt-bench-evaluating-coding-agents-on-software-performance-optimization)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：编码智能体性能优化基准包含轨迹级审计，与检测智能体行为中的低效相关
-5. [DeepSearch-World: Self-Distillation for Deep Search Agents in a Verifiable Environment](/202607/11/2607.07820v1-deepsearch-world-self-distillation-for-deep-search-agents-in-a-verifiable-environment)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：智能体轨迹中的故障恢复
-6. [Remember When It Matters: Proactive Memory Agent for Long-Horizon Agents](/202607/11/2607.08716v1-remember-when-it-matters-proactive-memory-agent-for-long-horizon-agents)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：处理行为状态衰减的故障模式，利用记忆避免错误
+   evidence：对抗性测试方法用于操控轨迹的鲁棒性评估，与错误检测相关
 
 
 <div class="dpr-home-promo-card">
