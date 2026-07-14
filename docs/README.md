@@ -6,26 +6,50 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-13
-- 运行时间：2026-07-13 21:19:53 UTC
+- 最新运行日期：2026-07-14
+- 运行时间：2026-07-14 21:31:20 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：1
-- 速读区：1
+- 本次总论文数：10
+- 精读区：6
+- 速读区：4
 
 ### 今日简报（AI）
-今天精读一篇CLI编码代理失败过程的高分研究，速读多智能体规划论文。最值得关注的是《Failure as a Process》以9.0高分细致剖析编码代理的失败轨迹，为改进代理设计提供清晰方向。建议开发者可深入阅读该文的失败案例，优化自身编码代理的容错与恢复机制。
-- 详情：[/202607/13/README](/202607/13/README)
+今日精读6篇速读4篇，聚焦AI Agent失败归因、MCP工作台及机器人验证等方向。最值得关注的两篇高分精读：LLM能否真正归因Agent失败，以及基于MCP的再现-干预-缓解工作台。建议普通读者优先了解Agent Failures归因方法和MCP工作台实践，把握AI Agent可靠性提升的关键技术。
+- 详情：[/202607/14/README](/202607/14/README)
 
 ### 精读区论文标签
-1. [Failure as a Process: An Anatomy of CLI Coding Agent Trajectories](/202607/13/2607.09510v1-failure-as-a-process-an-anatomy-of-cli-coding-agent-trajectories)  
+1. [Who&When Pro: Can LLMs Really Attribute Failures in AI Agents?](/202607/14/2607.09996v1-whowhen-pro-can-llms-really-attribute-failures-in-ai-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：分析CLI编码智能体的失败轨迹，检测错误如何出现和演化
+   evidence：大规模失败轨迹基准，用于自动失败归因
+2. [AgentCheck: A Reproduce-Intervene-Mitigate Workbench for LLM Agents over MCP](/202607/14/2607.11098v1-agentcheck-a-reproduce-intervene-mitigate-workbench-for-llm-agents-over-mcp)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：为LLM代理失败提供重现-干预-缓解工作台
+3. [When Local Monitors Miss Compositional Harm: Diagnosing Distributed Backdoors in Multi-Agent Systems](/202607/14/2607.11751v1-when-local-monitors-miss-compositional-harm-diagnosing-distributed-backdoors-in-multi-agent-systems)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：诊断多智能体系统中的分布式后门，一种异常形式
+4. [Verification of Adaptive Agentic Controllers through Finite Rule Revision](/202607/14/2607.09770v1-verification-of-adaptive-agentic-controllers-through-finite-rule-revision)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：检测自适应智能体控制器中的故障/错误
+5. [ANCHOR: Automated Alignment Auditing for CLI Agents on Real-World Harm](/202607/14/2607.10455v1-anchor-automated-alignment-auditing-for-cli-agents-on-real-world-harm)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：审计CLI代理的非法任务行为，压力测试有害操作
+6. [Cross-Layer Misalignment Detection in Agent Skills: A Progressive Loading-Aware Contrastive Learning Approach](/202607/14/2607.10534v1-cross-layer-misalignment-detection-in-agent-skills-a-progressive-loading-aware-contrastive-learning-approach)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：检测代理技能描述与实际行为之间的不一致
 
 ### 速读区论文标签
-1. [Mosaic: Runtime-Efficient Multi-Agent Embodied Planning](/202607/13/2607.09603v1-mosaic-runtime-efficient-multi-agent-embodied-planning)  
+1. [RoboVAST: Automated Scenario-Based Validation of Robots at Scale](/202607/14/2607.06248v1-robovast-automated-scenario-based-validation-of-robots-at-scale)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：基于场景的机器人导航验证，检测路径错误
+2. [Bug Report Specification Refinement with Trajectory Guidance for Automated Program Repair](/202607/14/2607.07882v1-bug-report-specification-refinement-with-trajectory-guidance-for-automated-program-repair)  
    标签：评分：6.0/10、query:agent-error
-   evidence：识别失败动作并优化协调避免冗余冲突
+   evidence：利用智能体轨迹细化错误报告，提升程序修复中的动作错误检测
+3. [Runtime Safety Filtering for Learned Small UAS Separation Policies under GNSS Degradation](/202607/14/2607.10014v1-runtime-safety-filtering-for-learned-small-uas-separation-policies-under-gnss-degradation)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：运行时安全过滤代理动作或观测以防止GNSS退化下的错误
+4. [Distributed Agent System: Fault-Tolerant Collaboration Among Embodied Agents](/202607/14/2607.10811v1-distributed-agent-system-fault-tolerant-collaboration-among-embodied-agents)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：面向代理协作的容错框架，处理错误传播
 
 
 <div class="dpr-home-promo-card">

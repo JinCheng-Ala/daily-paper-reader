@@ -1,0 +1,404 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-14T21:25:17.713247+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2607.09996v1",
+      "source": "arxiv",
+      "title": "Who&When Pro: Can LLMs Really Attribute Failures in AI Agents?",
+      "abstract": "Automated failure attribution uses LLMs to identify where and why agentic systems fail. As agents become more capable, their failures become subtler, making automated attribution increasingly important. We introduce Who&When Pro, a large-scale benchmark for automated failure attribution in agentic systems. Using a strictly controlled pipeline that injects a failure only after exactly replaying a successful prefix, we construct 12,326 failed trajectories with golden labels across 3 modalities and 26 benchmarks covering various scenarios. Beyond benchmarking, we conduct extensive experiments and analyses, revealing systematic patterns in how models attribute failures across modalities, protocols, and model families, and providing empirical guidance for future automated failure attribution systems.",
+      "authors": [
+        "Jiale Liu",
+        "Huajun Xi",
+        "Shaokun Zhang",
+        "Yifan Zeng",
+        "Tianwei Yue",
+        "Chi Wang",
+        "Jian Kang",
+        "Qingyun Wu",
+        "Huazheng Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-07-10T21:45:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.09996v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Large-scale benchmark of failed trajectories for automated failure attribution",
+      "llm_evidence_cn": "大规模失败轨迹基准，用于自动失败归因",
+      "llm_evidence": "大规模失败轨迹基准，用于自动失败归因",
+      "canonical_evidence": "大规模失败轨迹基准，用于自动失败归因",
+      "llm_tldr_en": "Introduces Who&When Pro, a large-scale benchmark for automated failure attribution in agent systems, with 12,326 failed trajectories across modalities.",
+      "llm_tldr_cn": "智能体失败日益细微，自动归因至关重要。本文提出Who&When Pro基准，通过可控流水线生成12,326条带标签失败轨迹，覆盖3种模态和26个基准。实验揭示模型归因失败的模式，为未来自动错误检测提供指导和评估工具。",
+      "llm_tldr": "智能体失败日益细微，自动归因至关重要。本文提出Who&When Pro基准，通过可控流水线生成12,326条带标签失败轨迹，覆盖3种模态和26个基准。实验揭示模型归因失败的模式，为未来自动错误检测提供指导和评估工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "How to detect errors in agent trajectories?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11098v1",
+      "source": "arxiv",
+      "title": "AgentCheck: A Reproduce-Intervene-Mitigate Workbench for LLM Agents over MCP",
+      "abstract": "Tool-using LLM agents are mostly evaluated assuming all tools work. When a tool times out, returns a week-stale value, or has its description poisoned in deployment, the developer needs a controlled way to reproduce the failure, test a fix, and confirm the fix worked before deployment. We present AgentCheck, an open-source web workbench that turns an MCP server into an intervention surface. AgentCheck runs an agent against its real tools and records every tool response, then re-runs the agent with the response perturbed by a fault (12 types) injector. Matching tool calls are replayed from cache, and later tool calls go live after the agent diverges. This yields a reproduce-intervene-confirm loop: the developer toggles a mitigation, re-runs against the identical fault, and sees if the failure goes away. Scoring has two parts: deterministic pass/fail rules, plus an LLM judge for interpretive labels, validated against human annotations. Across five agents, the best passes 105/120 scenarios and the weakest only 77. The failures are usually silent, confident use of incorrect tool outputs rather than crashes. On the weakest agent, a retry mitigation raises success on timeout error faults from as few as 30% of cases to 100%, whereas stale-data faults remain near 3-4 of 10 regardless of the mitigation. AgentCheck makes these failure modes reproducible, comparable, and verifiable before deployment.",
+      "authors": [
+        "Aritra Mazumder",
+        "Nusrat jahan Lia"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-07-13T05:14:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.11098v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "reproduce-intervene-mitigate loop for LLM agent failures",
+      "llm_evidence_cn": "为LLM代理失败提供重现-干预-缓解工作台",
+      "llm_evidence": "为LLM代理失败提供重现-干预-缓解工作台",
+      "canonical_evidence": "为LLM代理失败提供重现-干预-缓解工作台",
+      "llm_tldr_en": "AgentCheck is an open-source web workbench that turns an MCP server into an intervention surface, enabling developers to reproduce failures, test mitigations, and confirm fixes before deployment.",
+      "llm_tldr_cn": "AgentCheck是一个开源工作台，通过将MCP服务器变为干预面，使开发者能够重现代理故障、测试修复方案并在部署前确认效果。它支持12种故障类型注入，可记录工具响应并重放匹配调用，形成闭环。该方法为代理轨迹中的错误检测和修复提供了实用工具。",
+      "llm_tldr": "AgentCheck是一个开源工作台，通过将MCP服务器变为干预面，使开发者能够重现代理故障、测试修复方案并在部署前确认效果。它支持12种故障类型注入，可记录工具响应并重放匹配调用，形成闭环。该方法为代理轨迹中的错误检测和修复提供了实用工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11751v1",
+      "source": "arxiv",
+      "title": "When Local Monitors Miss Compositional Harm: Diagnosing Distributed Backdoors in Multi-Agent Systems",
+      "abstract": "As multi-agent, tool-using LLM systems are deployed, a common safety net is a runtime monitor that checks each message, tool call, or step on its own. We show this net has a fundamental hole. A distributed backdoor splits a harmful payload across agents, so every local check passes while the assembled object is the attack. The monitor can be right on every step and still miss the attack. The problem is not splitting itself: split fragments can still leak suspicious tokens or provenance edges. The hard case is \\emph{local benignness}. No fragment carries the harm, and what is left looks like ordinary benign traffic. We formalize this as an \\emph{observability boundary}: a monitor catches only what its view can tell apart from benign traffic. We prove that once the fragments look benign in the monitored view, no detector on that view can catch them, however strong it is. Across a controlled testbed, an external benchmark, and end-to-end agent runs, local monitors lose the signal exactly as local evidence disappears, and it returns only when the monitor sees the assembled object. A monitor trained only on benign traffic recovers the attack's code structure across held-out encodings (0.874 mean AUROC). A decoded-view gate, given the encoding family, blocks every tested attack. But seeing more is not enough: full-trace monitors and decoders still fail unless they reach the representation where the payload is exposed. Local safety is not global safety when harm is compositional, and the open problem is finding that representation.",
+      "authors": [
+        "Yibo Hu",
+        "Ren Wang"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.LG",
+        "cs.MA"
+      ],
+      "published": "2026-07-13T16:08:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.11751v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "diagnoses distributed backdoors in multi-agent systems, a form of anomaly",
+      "llm_evidence_cn": "诊断多智能体系统中的分布式后门，一种异常形式",
+      "llm_evidence": "诊断多智能体系统中的分布式后门，一种异常形式",
+      "canonical_evidence": "诊断多智能体系统中的分布式后门，一种异常形式",
+      "llm_tldr_en": "Identifies a fundamental hole in local monitors for multi-agent systems: distributed backdoors that appear benign locally, directly relevant to anomaly detection.",
+      "llm_tldr_cn": "本文揭示多智能体系统中局部监控的根本缺陷：分布式后门将有害载荷拆分后每个局部检查均通过，只有组装后才显现攻击。形式化定义可观测性边界，并证明局部良性场景下监控失效。该工作直接服务于代理轨迹中的异常检测，尤其是复合型错误，为设计更鲁棒的监控方案提供理论基础。",
+      "llm_tldr": "本文揭示多智能体系统中局部监控的根本缺陷：分布式后门将有害载荷拆分后每个局部检查均通过，只有组装后才显现攻击。形式化定义可观测性边界，并证明局部良性场景下监控失效。该工作直接服务于代理轨迹中的异常检测，尤其是复合型错误，为设计更鲁棒的监控方案提供理论基础。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.09770v1",
+      "source": "arxiv",
+      "title": "Verification of Adaptive Agentic Controllers through Finite Rule Revision",
+      "abstract": "Industrial agentic AI systems increasingly exhibit a gap between prototype capability and production deployment. In particular, adaptive agents may generate plausible outputs while remaining difficult to verify under non-determinism, confidentiality constraints, limited context, and weak observability. This paper formulates a bounded verification protocol for adaptive agentic controllers represented by finite symbolic rules, explicit diagnostic predicates, explanation logs, and held-out re-evaluation. The central research question is: when an adaptive agentic controller is represented through finite rules, explicit diagnostic predicates, explanation logs, and held-out re-evaluation, which classes of controller failure can be detected, locally repaired, or rejected without relying on unrestricted human-in-the-loop judgment? The proposed framework treats the controller as a finite revisable object. Diagnostic failures are mapped to predefined rule-level edits, including rule addition, rule deletion, and priority revision. Repaired controllers are then evaluated on held-out simulation seeds or cloned initial states. Experiments in a stylized financially constrained inventory-control benchmark show three outcomes: resource-induced failures that remain non-repairable by one rule edit, partial repairs that are rejected because they violate thresholds or guardrails, and a local one-step repair of an order-volatility failure induced by removing a smoothing rule. The contribution is methodological and provides a simulation-compatible procedure for testing whether specific controller-level failures can be made observable, explainable, locally revisable, and empirically re-tested under controlled conditions.",
+      "authors": [
+        "Roberto Garrone"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.MA",
+        "eess.SY"
+      ],
+      "published": "2026-07-07T13:38:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.09770v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detecting errors/controller failures in adaptive agentic controllers",
+      "llm_evidence_cn": "检测自适应智能体控制器中的故障/错误",
+      "llm_evidence": "检测自适应智能体控制器中的故障/错误",
+      "canonical_evidence": "检测自适应智能体控制器中的故障/错误",
+      "llm_tldr_en": "Formulates a bounded verification protocol for adaptive agentic controllers using finite symbolic rules and diagnostic predicates to detect and locally repair controller failures.",
+      "llm_tldr_cn": "针对工业智能体AI系统在原型与部署间的验证鸿沟，基于有限符号规则、显式诊断谓词、解释日志和留出重评估，提出一种有界验证协议。该协议能够检测自适应智能体控制器中的多种失败类别并实现局部修复。为解决非确定性、弱可观测性下的智能体验证问题提供了形式化方法。",
+      "llm_tldr": "针对工业智能体AI系统在原型与部署间的验证鸿沟，基于有限符号规则、显式诊断谓词、解释日志和留出重评估，提出一种有界验证协议。该协议能够检测自适应智能体控制器中的多种失败类别并实现局部修复。为解决非确定性、弱可观测性下的智能体验证问题提供了形式化方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10455v1",
+      "source": "arxiv",
+      "title": "ANCHOR: Automated Alignment Auditing for CLI Agents on Real-World Harm",
+      "abstract": "Autonomous CLI agents can now execute hundreds of actions across multi-hour sessions: writing code, executing shell commands, browsing the web, and managing cloud infrastructure, all with minimal human oversight. Does greater autonomy invite greater risk? We introduce ANCHOR, an automated auditing framework that stress-tests CLI agents on illegal tasks grounded in public US court cases. ANCHOR deploys an auditor agent fine-tuned on dark personality data using supervised and reinforcement fine tuning. This auditor roleplays persistent malicious users who decompose tasks, reframe requests upon refusal, and adapt strategies across multi-turn interactions. Evaluating frontier CLI agents, we find that while they often refuse illegal tasks when prompted directly, compliance reaches 100\\% under persistent malicious interaction. When agents comply, they frequently exceed user requests, autonomously building infrastructure for large-scale harm, including catastrophic risk scenarios such as large-scale financial fraud and bioweapon development. These findings demonstrate that current alignment techniques are insufficient for autonomous agents and underscore the need for safety evaluations against persistent, adaptive malicious users. We release ANCHOR at https://github.com/garified/anchor",
+      "authors": [
+        "Kefan Song",
+        "Yanjun Qi"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-07-11T19:39:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.10455v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "auditing CLI agents for illegal task behavior, stress-testing for harmful actions",
+      "llm_evidence_cn": "审计CLI代理的非法任务行为，压力测试有害操作",
+      "llm_evidence": "审计CLI代理的非法任务行为，压力测试有害操作",
+      "canonical_evidence": "审计CLI代理的非法任务行为，压力测试有害操作",
+      "llm_tldr_en": "ANCHOR framework automatically audits CLI agents by deploying adversarially fine-tuned auditor agents, directly monitoring for harmful behavior.",
+      "llm_tldr_cn": "本文针对自主CLI代理可能执行非法任务的风险，提出ANCHOR自动审计框架。通过微调具有黑暗人格的审计代理，模拟恶意用户在多轮交互中分解任务、绕过拒绝，从而压力测试前沿CLI代理。实验发现代理虽常拒绝直接非法请求，但可被策略性诱导。该工作直接服务于代理行为错误监控，为安全部署提供审计工具。",
+      "llm_tldr": "本文针对自主CLI代理可能执行非法任务的风险，提出ANCHOR自动审计框架。通过微调具有黑暗人格的审计代理，模拟恶意用户在多轮交互中分解任务、绕过拒绝，从而压力测试前沿CLI代理。实验发现代理虽常拒绝直接非法请求，但可被策略性诱导。该工作直接服务于代理行为错误监控，为安全部署提供审计工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10534v1",
+      "source": "arxiv",
+      "title": "Cross-Layer Misalignment Detection in Agent Skills: A Progressive Loading-Aware Contrastive Learning Approach",
+      "abstract": "Large language model (LLM) agents are increasingly extended through Agent Skills, reusable artifacts that package natural-language metadata, procedural instructions, and execution-time resources for runtime use. As open-source skill marketplaces expand, users and agents increasingly rely on brief metadata to select third-party skills, making it difficult to detect inconsistencies between a skill's description and its true behavior, a problem we call cross-layer misalignment. To address this issue, we propose Progressive Loading-Aware Hierarchical Contrastive Learning (PL-HCL), an LLM-based framework that detects misalignment by modeling the layered structure of Agent Skills and learning cross-layer consistency. Using a normalized corpus of over 264,000 open-source skills and a human-verified challenge set, PL-HCL improves Macro-F1 from approximately 0.45 for unadapted baselines to 0.87-0.89 across evaluated LLM backbones. This approach offers an effective screening tool for users and operators, as well as design principles for detecting inconsistencies in layered digital artifacts.",
+      "authors": [
+        "Chengjun Zhang",
+        "Yang Gao",
+        "Jianna Hur",
+        "Jingjing Zhang",
+        "Sagar Samtani"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CR",
+        "cs.LG"
+      ],
+      "published": "2026-07-12T02:07:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.10534v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects inconsistencies between agent skill descriptions and actual behavior",
+      "llm_evidence_cn": "检测代理技能描述与实际行为之间的不一致",
+      "llm_evidence": "检测代理技能描述与实际行为之间的不一致",
+      "canonical_evidence": "检测代理技能描述与实际行为之间的不一致",
+      "llm_tldr_en": "Proposes PL-HCL, an LLM-based framework to detect cross-layer misalignment between a skills metadata and its runtime behavior, addressing a key failure mode in agent skills.",
+      "llm_tldr_cn": "本文关注代理技能市场中描述与行为不一致的问题（跨层不对齐），提出渐进加载感知层次对比学习（PL-HCL）框架，利用LLM建模技能的分层结构并学习跨层一致性。实验表明该方法能有效检测不对齐，从而预防代理因技能误用而产生的错误，体现了在代理行动错误检测中的应用价值。",
+      "llm_tldr": "本文关注代理技能市场中描述与行为不一致的问题（跨层不对齐），提出渐进加载感知层次对比学习（PL-HCL）框架，利用LLM建模技能的分层结构并学习跨层一致性。实验表明该方法能有效检测不对齐，从而预防代理因技能误用而产生的错误，体现了在代理行动错误检测中的应用价值。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.06248v1",
+      "source": "arxiv",
+      "title": "RoboVAST: Automated Scenario-Based Validation of Robots at Scale",
+      "abstract": "Validation of robotic systems critically depends on the operating conditions under which they are assessed. Scenario selection and variation are often manual, experience-driven, and difficult to scale, which harms reproducibility and weakens validation conclusions. We propose a scenario-based methodology that models scenarios compositionally and formalizes how these dimensions are varied, instantiated, executed, and interpreted. Building on this, we introduce RoboVAST, a framework that realizes declarative campaign specifications, plugin-based scenario generation, and scalable containerized execution with integrated result analysis. We demonstrate the approach with a navigation dataset comprising 5480 scenario configurations and over 100000 execution runs across five indoor maps with varied paths, sensor noise, software parameters, and obstacle settings, totaling more than 1800 hours of simulated operation and 1873 km traveled. Twenty repetitions per configuration allow us to distinguish systematic failures from stochastic anomalies.",
+      "authors": [
+        "Frederik Pasch",
+        "Samuel Wiest",
+        "Argentina Ortega",
+        "Nico Hochgeschwender"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-07T13:14:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.06248v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "scenario-based validation of robot navigation detecting path errors",
+      "llm_evidence_cn": "基于场景的机器人导航验证，检测路径错误",
+      "llm_evidence": "基于场景的机器人导航验证，检测路径错误",
+      "canonical_evidence": "基于场景的机器人导航验证，检测路径错误",
+      "llm_tldr_en": "Proposes RoboVAST, an automated scenario-based validation framework for robots, using compositional scenario modeling to detect path deviations and errors at scale.",
+      "llm_tldr_cn": "该论文提出RoboVAST，一种基于场景的机器人验证框架。通过组合式场景建模和可扩展执行，实现了对机器人导航等任务的自动化验证。框架包含超过100000次运行，能够系统性地检测路径偏差和行为错误，直接支持错误检测和路径偏差分析。",
+      "llm_tldr": "该论文提出RoboVAST，一种基于场景的机器人验证框架。通过组合式场景建模和可扩展执行，实现了对机器人导航等任务的自动化验证。框架包含超过100000次运行，能够系统性地检测路径偏差和行为错误，直接支持错误检测和路径偏差分析。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.07882v1",
+      "source": "arxiv",
+      "title": "Bug Report Specification Refinement with Trajectory Guidance for Automated Program Repair",
+      "abstract": "Bug reports serve as task specifications for repository-level automated program repair (APR) agents, but they often describe only the observed failure and omit repair-relevant information such as the failure-inducing behavior, behavioral requirement, and implementation scope. As a result, a repair agent may inspect irrelevant code, infer an incorrect requirement, or generate a patch that addresses the reported symptom without restoring the intended repository behavior. We present TrajSpec, a trajectory-guided approach for repository-supported bug report specification refinement. Given an original report and a pre-fix repository, TrajSpec runs a trajectory-collection agent and uses the resulting unverified trajectory as a source of trajectory-derived specification evidence. It organizes this evidence into a three-level representation consisting of a high-level interpretation of the issue, diagnostic findings supporting that interpretation, and concrete repository observations. TrajSpec then generates a draft refined report and applies repository-based review to remove unsupported claims, revise uncertain claims, and add repository-supported details. We evaluate TrajSpec on all 300 SWE-Bench Lite instances using Mini-SWE-Agent V2. TrajSpec's refined reports improve Pass@1 from 41.00% to 59.67% with GPT-5-mini and from 54.67% to 64.33% with MiniMax M2.5. On a stratified sample of 100 instances, TrajSpec's refined reports also improve Pass@1 from 41.00% to 71.00% with Agentless and from 47.00% to 72.00% with AutoCodeRover. Ablation results show that removing repository-based review or the hierarchical evidence representation reduces Pass@1 from 59.67% to 48.00% and 47.67%, respectively. Overall, TrajSpec provides actionable repository-supported context that consistently improves repair performance.",
+      "authors": [
+        "S M Farah Al Fahim",
+        "Md Nakhla Rafi",
+        "Md Ahasanuzzaman",
+        "Zeyang Ma",
+        "Dong Jae Kim",
+        "Shaowei Wang",
+        "Tse-Hsun",
+        "Chen"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-08T19:35:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.07882v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Uses agent trajectories to refine bug reports, improving action error detection in program repair",
+      "llm_evidence_cn": "利用智能体轨迹细化错误报告，提升程序修复中的动作错误检测",
+      "llm_evidence": "利用智能体轨迹细化错误报告，提升程序修复中的动作错误检测",
+      "canonical_evidence": "利用智能体轨迹细化错误报告，提升程序修复中的动作错误检测",
+      "llm_tldr_en": "TrajSpec uses agent trajectories to refine bug reports, enabling better detection of action errors in automated program repair.",
+      "llm_tldr_cn": "自动程序修复中错误报告往往忽略失败诱导行为。本文提出TrajSpec，通过轨迹收集agent执行未验证轨迹，从中提取失败信息以细化报告。实验表明该方法能提升修复智能体对动作错误的检测能力，从而更准确地生成补丁。",
+      "llm_tldr": "自动程序修复中错误报告往往忽略失败诱导行为。本文提出TrajSpec，通过轨迹收集agent执行未验证轨迹，从中提取失败信息以细化报告。实验表明该方法能提升修复智能体对动作错误的检测能力，从而更准确地生成补丁。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.10014v1",
+      "source": "arxiv",
+      "title": "Runtime Safety Filtering for Learned Small UAS Separation Policies under GNSS Degradation",
+      "abstract": "Learning-based separation assurance for small Unmanned Aircraft Systems (sUAS) achieves near-zero collision rates in simulation, but assumes accurate position and velocity information from Global Navigation Satellite Systems (GNSS). This assumption fails in urban environments, where multipath propagation, signal blockage, and intentional interference degrade navigation integrity. This raises a fundamental architectural question for deploying learned separation policies under GNSS degradation: should runtime safety mechanisms filter the policy's actions or its observations? This work evaluates both approaches for multi-agent sUAS separation under adversarial GNSS degradation. Both architectures first estimate a worst-case traffic state consistent with bounded observation uncertainty, then diverge: action filtering constrains policy outputs via discrete-time control barrier functions evaluated at the worst-case state, while observation filtering presents the worst-case state directly to the policy as corrected input. Experimental results show that action filtering provides negligible safety improvement, while observation filtering reduces near mid-air collisions by 90% and remains robust to the barrier function's tradeoff between separation distance and closing rate. These results suggest that, for policies with learned safety behaviors, preserving the policy's decision authority outperforms overriding its actions with hand-designed constraints.",
+      "authors": [
+        "Alex Zongo",
+        "Peng Wei"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG",
+        "cs.MA",
+        "eess.SY"
+      ],
+      "published": "2026-07-10T22:33:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.10014v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "runtime safety filtering for agent actions/observations to prevent errors under GNSS degradation",
+      "llm_evidence_cn": "运行时安全过滤代理动作或观测以防止GNSS退化下的错误",
+      "llm_evidence": "运行时安全过滤代理动作或观测以防止GNSS退化下的错误",
+      "canonical_evidence": "运行时安全过滤代理动作或观测以防止GNSS退化下的错误",
+      "llm_tldr_en": "Evaluates two runtime safety architectures (action filtering vs. observation filtering) for learned small UAS separation policies under adversarial GNSS degradation, showing that filtering observations is more robust.",
+      "llm_tldr_cn": "针对小型无人机分离策略在GNSS退化下的部署问题，本文比较了两种运行时安全架构：过滤策略的动作或观测。通过估计最坏情况交通状态并过滤，发现过滤观测比过滤动作更能保持安全性，为学习型策略的运行时监控提供了设计指导。",
+      "llm_tldr": "针对小型无人机分离策略在GNSS退化下的部署问题，本文比较了两种运行时安全架构：过滤策略的动作或观测。通过估计最坏情况交通状态并过滤，发现过滤观测比过滤动作更能保持安全性，为学习型策略的运行时监控提供了设计指导。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.10811v1",
+      "source": "arxiv",
+      "title": "Distributed Agent System: Fault-Tolerant Collaboration Among Embodied Agents",
+      "abstract": "AI engineering is shifting from passive text generation by large language models (LLMs) to agent-driven task execution, creating new reliability challenges for long-horizon tasks under resource constraints and environmental uncertainty. Conventional error-elimination optimization strategies fail to address cumulative error propagation. This paper proposes Distributed Agent System (DAS), a device-edge-cloud framework for fault-tolerant collaboration among heterogeneous agents. We redefine agent reliability as system-level fault tolerance rather than single-turn zero-error accuracy, and present a two-layer fault-tolerance architecture: single-agent execution reliability via fault-tolerant alignment, and cross-agent communication reliability via semi-formal language protocols. This framework provides a practical engineering pathway for reliable heterogeneous embodied agents collaboration in industrial scenarios.",
+      "authors": [
+        "Kai Yu",
+        "Lu Chen",
+        "Hanqi Li"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.AI"
+      ],
+      "published": "2026-07-12T15:45:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.10811v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "fault-tolerant framework for agent collaboration addressing error propagation",
+      "llm_evidence_cn": "面向代理协作的容错框架，处理错误传播",
+      "llm_evidence": "面向代理协作的容错框架，处理错误传播",
+      "canonical_evidence": "面向代理协作的容错框架，处理错误传播",
+      "llm_tldr_en": "Proposes a distributed agent system with two-layer fault tolerance: single-agent execution reliability via fault-tolerant alignment and cross-agent communication reliability, addressing cumulative error propagation.",
+      "llm_tldr_cn": "本文提出分布式代理系统（DAS），在设备-边缘-云框架下实现异构代理的容错协作。现有方法无法解决累积错误传播，DAS通过单代理容错对齐和跨代理通信可靠性两层架构，将可靠性定义为系统级容错而非单轮零错误。实验验证其能有效应对错误传播问题，为轨迹级错误检测和恢复提供了框架支撑。",
+      "llm_tldr": "本文提出分布式代理系统（DAS），在设备-边缘-云框架下实现异构代理的容错协作。现有方法无法解决累积错误传播，DAS通过单代理容错对齐和跨代理通信可靠性两层架构，将可靠性定义为系统级容错而非单轮零错误。实验验证其能有效应对错误传播问题，为轨迹级错误检测和恢复提供了框架支撑。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
