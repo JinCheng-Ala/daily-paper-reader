@@ -1,0 +1,535 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-15T19:49:46.900883+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 8,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2607.06624v2",
+      "source": "arxiv",
+      "title": "AgentLens: Production-Assessed Trajectory Reviews for Coding Agent Evaluation",
+      "abstract": "We present AgentLens, a production-assessed benchmark for interactive code agents. Most code-agent benchmarks reduce a run to a single bit -- did the task pass? -- but the people who actually use these agents experience the entire trajectory: how the agent follows instructions, uses its tools, verifies its own work, recovers from mistakes, and talks to them along the way. AgentLens evaluates that whole trajectory. It pairs formal verification, where an objective check exists, with LLM-written trajectory reviews and side-by-side comparisons, so that each run yields a readable explanation of why the score is what it is. This makes AgentLens useful for more than ranking models: we use it to diagnose model behavior, compare successive versions of our own agent, and catch product regressions in a nightly evaluation pipeline. We release the benchmark as open source at https://github.com/agent-lens/agent-lens-bench.",
+      "authors": [
+        "Andrey Podivilov",
+        "Vadim Lomshakov",
+        "Sergey Savin",
+        "Matvei Startsev",
+        "Roman Pozharskiy",
+        "Maksim Parshin",
+        "Sergey Nikolenko"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG",
+        "cs.SE"
+      ],
+      "published": "2026-07-07T11:27:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.06624v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "trajectory reviews for detecting mistakes in coding agents",
+      "llm_evidence_cn": "通过轨迹评审检测编码智能体错误",
+      "llm_evidence": "通过轨迹评审检测编码智能体错误",
+      "canonical_evidence": "通过轨迹评审检测编码智能体错误",
+      "llm_tldr_en": "AgentLens evaluates entire coding agent trajectories, including mistake recovery, with LLM-written reviews for error detection.",
+      "llm_tldr_cn": "针对现有基准仅用单比特通过/失败评估智能体的问题，提出AgentLens，评估完整轨迹，包括指令遵循、工具使用和错误恢复。结合形式化验证和LLM轨迹评审，为每次运行提供可读的错误解释，可用于诊断模型行为变化。",
+      "llm_tldr": "针对现有基准仅用单比特通过/失败评估智能体的问题，提出AgentLens，评估完整轨迹，包括指令遵循、工具使用和错误恢复。结合形式化验证和LLM轨迹评审，为每次运行提供可读的错误解释，可用于诊断模型行为变化。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11570v1",
+      "source": "arxiv",
+      "title": "ERR@HRI 3.0 Challenge: Multimodal Detection of Errors and Anticipation in Human-Robot Interactions",
+      "abstract": "As robots become increasingly integrated into human environments, their ability to detect and respond to errors remains critical for maintaining user trust and interaction quality. While recent advances in machine learning have improved error detection capabilities, most approaches are limited to specific contexts, controlled settings, or pre-extracted features, limiting their generalizability and applicability to real-world conditions. To address this challenge, the third edition of the ERR@HRI Challenge (ERR@HRI 3.0) provided researchers with two complementary datasets that enable end-to-end innovation in methods for both detecting and preventing errors in human-robot interaction. The challenge offered raw, non-anonymized video data from naturalistic settings: (1) the Bystander Affect Detection (BAD) dataset, containing webcam recordings of 45 participants' spontaneous reactions to robot and human failure scenarios; and (2) the Bad Idea dataset, featuring 29 participants' anticipatory facial responses while predicting action outcomes before failures occur. Both datasets were collected via crowdsourcing, capturing the inherent variability of real-world conditions. This naturalistic variability, while challenging, provides an authentic testbed for developing robust error detection systems. Participants developed multimodal machine learning models for bystander reaction detection (Track 1) and anticipatory outcome prediction (Track 2), with an optional cross-dataset generalization track (Track 3). Three teams submitted valid models, all of which surpassed our convolutional neural network baselines. This paper describes the datasets, tasks, baselines, and results of ERR@HRI 3.0, and discusses implications for building generalizable, context-aware, and anticipatory error detection systems for human-robot interaction.",
+      "authors": [
+        "Maria Teresa Parreira",
+        "Micol Spitale",
+        "Maia Stiber",
+        "Shiye Cao",
+        "Amama Mahmood",
+        "Chien-Ming Huang",
+        "Hatice Gunes",
+        "Wendy Ju"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "published": "2026-07-13T13:50:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.11570v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multimodal detection of errors in human-robot interaction",
+      "llm_evidence_cn": "人机交互中多模态错误检测",
+      "llm_evidence": "人机交互中多模态错误检测",
+      "canonical_evidence": "人机交互中多模态错误检测",
+      "llm_tldr_en": "ERR@HRI 3.0 provides datasets and a challenge for end-to-end multimodal error detection and anticipation in human-robot interaction.",
+      "llm_tldr_cn": "人机交互中错误检测对信任至关重要，但现有方法受限于特定场景。ERR@HRI 3.0挑战赛提供两个多模态数据集，支持端到端的错误检测与预防方法创新。挑战赛鼓励开发通用性强的算法，推动实时错误检测在实际交互中的应用。",
+      "llm_tldr": "人机交互中错误检测对信任至关重要，但现有方法受限于特定场景。ERR@HRI 3.0挑战赛提供两个多模态数据集，支持端到端的错误检测与预防方法创新。挑战赛鼓励开发通用性强的算法，推动实时错误检测在实际交互中的应用。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12397v1",
+      "source": "arxiv",
+      "title": "Critic Experience Bank: Self-Evolving Step-Level Confidence Estimation for LLM Agents",
+      "abstract": "LLM agents act in external environments where each action changes the state that later decisions condition on, and where a single wrong step can waste interaction budget or trigger irreversible side effects long before the final failure is observed. Reliable deployment therefore requires \\emph{step-level confidence estimation}: a calibrated probability that each proposed action is productive, available \\emph{before} the action is executed. Existing LLM confidence estimators are designed to score a response from the given prompt, but agent confidence also depends on execution consequences: whether similar actions in similar situations actually advanced the task after the environment responded. We introduce the \\method (\\methodshort), a self-evolving critic framework in which an LLM critic accumulates evidence from its own past judgments and their observed consequences. After each trajectory, a hindsight LLM that sees the full execution feedback votes on whether each step was productive. The resulting pseudo-labels populate a memory bank from which related productive and unproductive experiences are retrieved into the critic's prompt whenever a similar step recurs. \\methodshort requires no training and uses no ground truth step labels. Across three agent benchmarks and three critic backbones, \\methodshort attains the best calibration (ECE and Brier) and ranking (AUC) in every dataset--critic combination, reducing ECE by up to $54\\%$ relative to the strongest training-free baseline.",
+      "authors": [
+        "Yaopei Zeng",
+        "Congchao Wang",
+        "JianHang Chen",
+        "Nan Wang",
+        "Yurui Chang",
+        "Lu Lin"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-14T06:17:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.12397v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "step-level confidence estimation to detect wrong steps before execution",
+      "llm_evidence_cn": "步骤级置信度估计在执行前检测错误步骤",
+      "llm_evidence": "步骤级置信度估计在执行前检测错误步骤",
+      "canonical_evidence": "步骤级置信度估计在执行前检测错误步骤",
+      "llm_tldr_en": "Introduces step-level confidence estimation for LLM agents using a critic experience bank that learns from past execution consequences to detect likely wrong actions.",
+      "llm_tldr_cn": "LLM agent的单个错误步骤可能浪费预算或引发不可逆后果，而现有置信度估计不考虑执行后果。本文提出Critic Experience Bank，一种自演进的步骤级置信度估计方法，通过存储和回顾历史中相似动作的执行结果，在执行前给出动作有效的校准概率。该方法直接用于检测agent轨迹中的潜在错误。",
+      "llm_tldr": "LLM agent的单个错误步骤可能浪费预算或引发不可逆后果，而现有置信度估计不考虑执行后果。本文提出Critic Experience Bank，一种自演进的步骤级置信度估计方法，通过存储和回顾历史中相似动作的执行结果，在执行前给出动作有效的校准概率。该方法直接用于检测agent轨迹中的潜在错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12523v1",
+      "source": "arxiv",
+      "title": "OOD-RL-Bench: A Benchmark Framework for Out-of-Distribution Detection in Reinforcement Learning",
+      "abstract": "Reliable reinforcement learning (RL) agents must maintain operational integrity amidst sensor malfunctions, dynamic disturbances, and slow environmental shifts. The detection of out-of-distribution conditions is pivotal to determining when an agent's observations, transitions, or trajectory dynamics deviate from the assumptions underpinning its policy training. Current out-of-distribution (OOD) detection benchmarks typically evaluate image classifiers or static low-dimensional datasets, failing to account for the complex, action-dependent temporal structure inherent in RL trajectories. To address this gap, we present OOD-RL-Bench, a comprehensive and extensible framework designed to evaluate OOD detectors against categories of anomalies injected into RL trajectories. Detectors and anomaly injectors are integrated through shared interfaces and configuration, which allows new scoring methods and perturbation families to be evaluated without modification of the core benchmark loop. We evaluate the utility of the framework using a Deep Q-Network policy within the LunarLander-v3 environment. We assess the performance of each detector across a suite of anomaly types using matched-time AUROC, matched-time AUPRC, matched-time false-positive rate, detection delay, and segmented-onset metrics. Our analysis reveals significant performance variance across anomaly types: observation perturbations and regime switches are identified with high accuracy by several methods, while observation delay and action-conditioned dynamics remain difficult even when post-onset anomaly scores are compared against clean scores from the same timesteps. We make the framework, trained policy checkpoint, and complete results publicly available as a reproducible artefact.",
+      "authors": [
+        "Emil Mittag",
+        "Richard Dazeley",
+        "Peter Vamplew"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-14T08:57:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.12523v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "benchmark for OOD detection in RL trajectories, addressing trajectory deviations",
+      "llm_evidence_cn": "面向强化学习轨迹的分布外检测基准，处理轨迹偏差",
+      "llm_evidence": "面向强化学习轨迹的分布外检测基准，处理轨迹偏差",
+      "canonical_evidence": "面向强化学习轨迹的分布外检测基准，处理轨迹偏差",
+      "llm_tldr_en": "OOD-RL-Bench provides a comprehensive framework to evaluate OOD detectors for RL trajectories, covering observation, transition, and trajectory dynamics deviations.",
+      "llm_tldr_cn": "强化学习智能体需要检测传感器故障、动态扰动等分布外条件。现有OOD检测基准未考虑RL轨迹的时序结构。OOD-RL-Bench设计了多种OOD类别，系统评估检测器在动作依赖轨迹上的表现。该基准为RL轨迹错误检测提供了标准化评估平台。",
+      "llm_tldr": "强化学习智能体需要检测传感器故障、动态扰动等分布外条件。现有OOD检测基准未考虑RL轨迹的时序结构。OOD-RL-Bench设计了多种OOD类别，系统评估检测器在动作依赖轨迹上的表现。该基准为RL轨迹错误检测提供了标准化评估平台。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12680v1",
+      "source": "arxiv",
+      "title": "ReflectVLN: Training Vision-Language Navigation Agents with Reflective Reasoning",
+      "abstract": "Existing vision-language navigation methods often couple a VLM with waypoint decoders to produce multi-step action plans, but they typically lack an explicit closed-loop mechanism for tracking semantic progress, diagnosing execution failures, and recovering from error accumulation in long-horizon navigation. To address this gap, we propose ReflectVLN, an agentic VLN framework that organizes decision-making through bidirectionally interactive intention and execution agents. The intention agent performs subtask decomposition and reflection, generating executable subtask descriptions as corrective plans. Conditioned on these descriptions, the execution agent grounds them into short-horizon actions under current observations while monitoring sub-goal progress and detecting off-track behavior. Crucially, ReflectVLN enables closed-loop bidirectional communication: the execution agent emits progress and deviation signals to trigger reflection and subtask updates on demand, and the intention agent returns structured guidance that reconditions subsequent actions for recovery. To encourage temporally coherent decisions with interpretable intermediate rationales, we introduce Action Chain-of-Thought (Action-CoT), a path-conditioned dual-query training scheme for action generation. Experiments on standard VLN benchmarks show that ReflectVLN improves success rates and path efficiency under a constrained data budget, with favorable training cost and fewer high-level intention calls at inference time, while providing interpretable intermediate decisions for analysis and collaboration. Code is available at: https://github.com/AIprogrammer/ReflectVLN",
+      "authors": [
+        "Jiahang Wang",
+        "Yirong Yang",
+        "Yanqing Zhu",
+        "Minghua Luo",
+        "Shichao Xie",
+        "Fei Liu",
+        "Mu Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T12:09:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.12680v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "diagnosing execution failures and error accumulation in navigation",
+      "llm_evidence_cn": "诊断执行失败和导航中的错误累积",
+      "llm_evidence": "诊断执行失败和导航中的错误累积",
+      "canonical_evidence": "诊断执行失败和导航中的错误累积",
+      "llm_tldr_en": "ReflectVLN introduces reflective reasoning with intention and execution agents to detect and recover from errors in vision-language navigation trajectories.",
+      "llm_tldr_cn": "现有的视觉语言导航方法缺乏显式的闭环机制来跟踪语义进度、诊断执行失败和恢复错误累积。本文提出ReflectVLN框架，通过双向交互的意图体和执行体进行子任务分解和反思，生成可执行的纠错计划，并在执行中监控进度。该方法有效减少了长程导航中的错误累积，提升了任务成功率。",
+      "llm_tldr": "现有的视觉语言导航方法缺乏显式的闭环机制来跟踪语义进度、诊断执行失败和恢复错误累积。本文提出ReflectVLN框架，通过双向交互的意图体和执行体进行子任务分解和反思，生成可执行的纠错计划，并在执行中监控进度。该方法有效减少了长程导航中的错误累积，提升了任务成功率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12747v1",
+      "source": "arxiv",
+      "title": "Tracing Agentic Failure from the Flow of Success",
+      "abstract": "Failure attribution for LLM-based agentic systems, i.e., identifying which steps in a failure trajectory caused the task to fail, is critical for debugging and improving these systems. Existing approaches either rely on prompting-based pipelines, which are computationally expensive, or require post-training on failure trajectories with step-level error annotations, which are costly to collect and difficult to scale. We argue that a practical failure attribution model should be lightweight and trainable without step-level supervision on failure data. To this end, we address unsupervised failure attribution, i.e., training exclusively on successful trajectories and identifying error steps at inference time given a failure trajectory. We propose OAT, which casts this problem as one-class learning with neural controlled differential equations, modeling the dynamical pattern of successful trajectories in latent space. At inference time, each step in a failure trajectory is assigned an anomaly score based on its deviation from the dynamics learned on successful trajectories, which is then used to form a set of error steps. With training on only 100 successful trajectories, experiments show that OAT is 200--5000 $\\times$ faster than prompting-based baselines, and, at the same time, consistently outperforms them in both in-domain and out-of-distribution datasets with +20% and +7% F1 scores, respectively, demonstrating that OAT is a promising and efficient direction for diagnosing agentic system failures.",
+      "authors": [
+        "Samuel Yeh",
+        "Yiwen Zhu",
+        "Shaleen Deep",
+        "Sharon Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-07-14T13:16:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.12747v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "unsupervised failure attribution for LLM agent trajectories",
+      "llm_evidence_cn": "无监督失败归因，识别LLM智能体轨迹中的错误步骤",
+      "llm_evidence": "无监督失败归因，识别LLM智能体轨迹中的错误步骤",
+      "canonical_evidence": "无监督失败归因，识别LLM智能体轨迹中的错误步骤",
+      "llm_tldr_en": "OAT performs unsupervised failure attribution for LLM agent trajectories by training only on success trajectories and identifying error steps at inference time on failure trajectories.",
+      "llm_tldr_cn": "现有智能体失败归因依赖监督数据或昂贵的提示流水线。本文提出OAT方法，仅使用成功轨迹训练，在推理时对失败轨迹进行无监督错误步骤识别。实验表明，OAT能高效定位导致任务失败的关键步骤，为智能体调试提供轻量级解决方案，显著降低标注成本。",
+      "llm_tldr": "现有智能体失败归因依赖监督数据或昂贵的提示流水线。本文提出OAT方法，仅使用成功轨迹训练，在推理时对失败轨迹进行无监督错误步骤识别。实验表明，OAT能高效定位导致任务失败的关键步骤，为智能体调试提供轻量级解决方案，显著降低标注成本。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.09766v1",
+      "source": "arxiv",
+      "title": "Norm Enforcement for AI Agents: Robustly Shaping Behavior in Multi-Agent Systems",
+      "abstract": "AI agents are increasingly deployed in shared environments where they pursue diverse goals and compete for rewards. This multi-agent competition can lead to behaviors that serve individual gains at collective cost -- for instance, marketing agents may post misleading content as a result of competing for engagement on social media. Human societies address such problems through norms that constrain acceptable behavior, supported by enforcement mechanisms that detect and penalize violations. Motivated by this, we study norm enforcement mechanisms for language model agents. We find that simple enforcement mechanisms are exploited by misaligned agents for competitive advantage, even when they are not explicitly trained or prompted to do so. We thus turn our attention to designing more robust mechanisms, and identify two key ingredients: estimating each agent's reliability over time, and updating this estimate with escalating penalties for repeated misbehavior. Across three simulated environments and a variety of agent populations, mechanisms built on these principles resist exploitation, while still penalizing norm violations at comparable or lower cost than baselines. Our results position norm enforcement mechanisms as scalable levers for shaping agents' behavior, but only when designed to anticipate becoming part of the system they govern. Our code and data are available at https://yaowenye.com/norm-enforcement.",
+      "authors": [
+        "Yaowen Ye",
+        "Jacob Steinhardt"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG",
+        "cs.MA"
+      ],
+      "published": "2026-07-07T06:40:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.09766v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "norm enforcement mechanisms detect and penalize violations in agent behavior",
+      "llm_evidence_cn": "规范执行机制检测并惩罚agent行为中的违规",
+      "llm_evidence": "规范执行机制检测并惩罚agent行为中的违规",
+      "canonical_evidence": "规范执行机制检测并惩罚agent行为中的违规",
+      "llm_tldr_en": "Studies norm enforcement for language agents to detect and penalize violations, showing simple mechanisms are exploitable and proposing robust approaches.",
+      "llm_tldr_cn": "多agent系统中个体追求利益可能导致集体损害，如营销agent发布误导内容。本文模仿人类社会规范执行机制，研究语言agent中的违规检测与惩罚。发现简单机制易被恶意agent利用，进而提出更鲁棒的规范执行方法。该工作直接服务于agent行为监控与错误检测。",
+      "llm_tldr": "多agent系统中个体追求利益可能导致集体损害，如营销agent发布误导内容。本文模仿人类社会规范执行机制，研究语言agent中的违规检测与惩罚。发现简单机制易被恶意agent利用，进而提出更鲁棒的规范执行方法。该工作直接服务于agent行为监控与错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.07820v2",
+      "source": "arxiv",
+      "title": "DeepSearch-World: Self-Distillation for Deep Search Agents in a Verifiable Environment",
+      "abstract": "Training tool-use agents to improve from their own experience remains challenging, as supervised fine-tuning relies on fixed teacher-distilled trajectories, while sparse-reward reinforcement learning provides weak supervision for long-horizon interactions. We present DeepSearch-Evolve, a self-distillation framework for web agents built on DeepSearch-World, a deterministic and verifiable environment with reproducible search and page-reading tools. DeepSearch-World contains 420K multi-hop QA tasks constructed from entity-level random walks and supports key agentic cognitive behaviors useful for self-evolving, including progress verification, grounded reflection, and failure recovery. DeepSearch-Evolve iteratively performs trajectory generation, filtering, data mixing, and fine-tuning to train stronger agents. Without distillation from more capable models, DeepSearch-World-9B achieves competitive performance compared with open-source agents, reaching 31.2% on BrowseComp, 61.5% on GAIA, and 93.4% on HotpotQA, showing that verifiable environments enable scalable self-evolution for long-horizon web agents. We will release the environment, 420K training pool, validation set, model, and code to facilitate future research on self-improving deep search agents.",
+      "authors": [
+        "Xinyu Geng",
+        "Xuanhua He",
+        "Sixiang Chen",
+        "Yanjing Xiao",
+        "Fan Zhang",
+        "Shijue Huang",
+        "Haitao Mi",
+        "Zhenwen Liang",
+        "Tianqing Fang",
+        "Yi R. Fung"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-08T18:03:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.07820v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "supports error detection via failure recovery in agent trajectories",
+      "llm_evidence_cn": "通过失败恢复支持 agent 轨迹错误检测",
+      "llm_evidence": "通过失败恢复支持 agent 轨迹错误检测",
+      "canonical_evidence": "通过失败恢复支持 agent 轨迹错误检测",
+      "llm_tldr_en": "DeepSearch-Evolve is a self-distillation framework for web agents that leverages a verifiable environment to generate trajectories, enabling failure recovery and progress verification useful for error detection.",
+      "llm_tldr_cn": "DeepSearch-Evolve 是一个自蒸馏框架，用于在可验证环境中训练 web agent。它通过迭代生成轨迹和失败恢复机制，使 agent 能自我改进。其中的进度验证和接地反思能力为轨迹错误检测提供了基础，提升了训练效率和鲁棒性。",
+      "llm_tldr": "DeepSearch-Evolve 是一个自蒸馏框架，用于在可验证环境中训练 web agent。它通过迭代生成轨迹和失败恢复机制，使 agent 能自我改进。其中的进度验证和接地反思能力为轨迹错误检测提供了基础，提升了训练效率和鲁棒性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.10750v1",
+      "source": "arxiv",
+      "title": "Filtering Harmful Actions Isn't Enough: Phantom Transfer in Agentic SDF",
+      "abstract": "Synthetic data is widely used to train large language models because it is inexpensive to generate and easy to control. As models are increasingly deployed as agents, synthetic trajectories are likely to become an important source of training data for agentic behavior. We investigate the effects of training on synthetic agentic trajectories containing adversarial interactions, including actions such as terminating another agents process, lowering its scheduling priority, or accessing resources without authorization. We finetune Llama 3.3 70B Instruct on these trajectories, generated to approximate reinforcement learning rollouts, and evaluate the resulting models on Anthropics Agentic Misalignment suite and Apollos in context scheming scenarios. Finetuning on these trajectories consistently increases misaligned behavior. Leaking rises by roughly a factor of five over the baseline, 4.6% to 24.9%. This increase survives the removal of every adversarial action from the trajectories. Finetuning on structurally comparable trajectories generated benign from the start produce a substantially smaller effect, 15.5%. These results indicate that the misaligned disposition is introduced during the generation process and encoded diffusely throughout the trajectory, rather than being localized to the harmful actions themselves. The effect also depends on the generating model. Benign trajectories produced by Gemini 2.5 Flash induce slightly higher leaking rates than trajectories generated from identical tasks by Claude 3.7 Sonnet. In contrast, broad safety benchmarks degrade similarly across all finetuned models and therefore fail to distinguish these effects. Our results suggest that action level filtering is insufficient to ensure the safety of synthetic agentic training data and that dispositions introduced by the generating model can survive semantic inspection.",
+      "authors": [
+        "Chinmayi Dixit"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-12T13:00:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.10750v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "synthetic trajectories containing adversarial actions like terminating processes, relevant to action error detection",
+      "llm_evidence_cn": "合成轨迹中包含终止进程等对抗性动作，与动作错误检测相关",
+      "llm_evidence": "合成轨迹中包含终止进程等对抗性动作，与动作错误检测相关",
+      "canonical_evidence": "合成轨迹中包含终止进程等对抗性动作，与动作错误检测相关",
+      "llm_tldr_en": "Investigates training on synthetic agent trajectories with harmful actions, showing filtering alone is insufficient and phantom transfer occurs, highlighting need for error detection.",
+      "llm_tldr_cn": "合成数据广泛用于训练LLM，当训练包含对抗性动作（如终止其他agent进程）的合成轨迹时，即使过滤有害动作，模型仍会学到有害行为（幻影迁移）。本文揭示了仅靠过滤不足以防止不良行为，强调了检测和监控agent动作错误的必要性。",
+      "llm_tldr": "合成数据广泛用于训练LLM，当训练包含对抗性动作（如终止其他agent进程）的合成轨迹时，即使过滤有害动作，模型仍会学到有害行为（幻影迁移）。本文揭示了仅靠过滤不足以防止不良行为，强调了检测和监控agent动作错误的必要性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.10601v1",
+      "source": "arxiv",
+      "title": "Agentic-DPO: From Imitation to Agentic Policy Optimization on Expert Trajectories",
+      "abstract": "Large Language Model (LLM) agents are commonly trained from expert trajectories using supervised fine-tuning (SFT), which treats multi-turn agent behavior as ordinary text imitation. This recipe is simple and low-cost, but it only learns to imitate the sequence of expert actions, rather than training the agent to choose the right action against plausible mistakes at each state. Existing methods to mitigate this problem include preference learning or reinforcement learning, but they usually need high-cost environment rollouts and reward models. We propose Agentic-DPO, a lightweight offline agent policy optimization method that turns expert trajectories into state-conditioned preference supervision. At each expert action state, Agentic-DPO samples a one-step action from the current state, treats plausible wrong actions as negatives, and contrasts them with the expert action using a DPO-style preference objective. To avoid mixing both policy and schema in preference learning, we introduce Policy-Preserving Augmentation (PPA), which renders the same latent trajectory under multiple schemas while keeping the expert policy fixed. Agentic-DPO requires no online environment rollout, reward model, or full-trajectory student exploration. We conduct experiments across StableToolBench, tau-bench retail, and Mind2Web, where Agentic-DPO consistently improves agents at different model scales beyond imitation. In particular, it raises tau-bench accuracy from 21.7% (SFT) to 41.4% for a 9B model, matching online GRPO under the same backbone with only step-level rollouts and without environment interaction during gradient steps. The results suggest that expert trajectories can support low-cost agentic policy optimization when converted from demonstrations into state-level action preferences. Code for Agentic-DPO is released at https://github.com/Schuture/Agentic-DPO.",
+      "authors": [
+        "Yixiong Chen",
+        "Alan Yuille"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-12T06:38:55+00:00",
+      "link": "https://arxiv.org/pdf/2607.10601v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "optimization to avoid agent action errors in trajectories",
+      "llm_evidence_cn": "优化策略避免智能体轨迹中的动作错误",
+      "llm_evidence": "优化策略避免智能体轨迹中的动作错误",
+      "canonical_evidence": "优化策略避免智能体轨迹中的动作错误",
+      "llm_tldr_en": "Proposes Agentic-DPO to train LLM agents to prefer correct actions over mistakes in trajectories, directly addressing error detection in agent behavior.",
+      "llm_tldr_cn": "针对监督微调仅模仿专家动作而无法识别错误的问题，提出Agentic-DPO方法，将专家轨迹转化为状态条件下的偏好监督，离线优化智能体策略。该方法无需环境交互即可让智能体学会在关键状态选择正确动作避免错误，显著提升轨迹质量。",
+      "llm_tldr": "针对监督微调仅模仿专家动作而无法识别错误的问题，提出Agentic-DPO方法，将专家轨迹转化为状态条件下的偏好监督，离线优化智能体策略。该方法无需环境交互即可让智能体学会在关键状态选择正确动作避免错误，显著提升轨迹质量。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.08768v1",
+      "source": "arxiv",
+      "title": "UniClawBench: A Universal Benchmark for Proactive Agents on Real-World Tasks",
+      "abstract": "The rapid development of large language models and multimodal large language models has accelerated the emergence of proactive agents capable of operating everyday tools and assisting users in real-world environments. However, existing benchmarks struggle to evaluate such agents effectively, as they often rely on sandboxed environments and single-turn evaluation paradigms. Moreover, their scenario-based task taxonomies mix multiple model capabilities within the same task category, making it difficult to identify the root causes of agent failures. To address these limitations, we introduce UniClawBench, the first capability-driven benchmark designed to evaluate proactive agents in dynamic, real-world settings. UniClawBench is built around five foundational model capabilities: Skill Usage, Exploration, Long-Context Reasoning, Multimodal Understanding, and Cross-Platform Coordination. Based on these capabilities, we design 400 bilingual real-world tasks. Unlike previous benchmarks that rely on static, pre-recorded answers, our benchmark evaluates agents in live Docker containers using fine-grained, step-by-step completion checkpoints. Furthermore, we design a closed-loop evaluation strategy comprising an executor agent, a hidden supervisor agent, and a user agent to simulate realistic multi-turn human feedback without leaking grading criteria. To disentangle base model capabilities from framework-level design choices, we evaluate state-of-the-art models under multiple agent frameworks. Through comprehensive comparisons across both models and frameworks, we show how base model capabilities and agent framework designs jointly shape performance in real-world environments. To facilitate future research, we make our benchmark and code publicly available at https://github.com/HKU-MMLab/UniClawBench.",
+      "authors": [
+        "Zhekai Chen",
+        "Chengqi Duan",
+        "Kaiyue Sun",
+        "Bohao Li",
+        "Yuqing Wang",
+        "Manyuan Zhang",
+        "Xihui Liu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-09T17:59:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.08768v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "diagnosing root causes of agent failures from trajectories",
+      "llm_evidence_cn": "从轨迹诊断智能体失败的根本原因",
+      "llm_evidence": "从轨迹诊断智能体失败的根本原因",
+      "canonical_evidence": "从轨迹诊断智能体失败的根本原因",
+      "llm_tldr_en": "UniClawBench evaluates proactive agents in real-world tasks, enabling fine-grained diagnosis of agent failure causes through trajectory analysis.",
+      "llm_tldr_cn": "针对现有基准无法有效诊断智能体失败原因的问题，提出UniClawBench，首个基于能力的基准，在动态真实环境中评估主动智能体。通过细粒度轨迹分析可定位错误的根本原因，为监控智能体行为提供结构化方法。",
+      "llm_tldr": "针对现有基准无法有效诊断智能体失败原因的问题，提出UniClawBench，首个基于能力的基准，在动态真实环境中评估主动智能体。通过细粒度轨迹分析可定位错误的根本原因，为监控智能体行为提供结构化方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.11530v1",
+      "source": "arxiv",
+      "title": "Learning Residual Kinematic Corrections for Continuous Neural Decoding via Reinforcement Learning",
+      "abstract": "Decoding continuous three-dimensional (3D) motor imagery (MI) using non-invasive electroencephalography (EEG)-based brain--computer interfaces (BCIs) remains challenging due to signal variability and residual decoding errors. Deep learning architectures such as convolutional neural network--long short-term memory (CNN--LSTM) models can capture spatial and temporal dynamics for continuous kinematic decoding; however, systematic residual errors persist in predicted trajectories. We propose a two-stage decoding framework that applies reinforcement learning (RL) to perform residual kinematic correction on the outputs of a CNN--LSTM decoder (CNN--LSTM--RL). The RL agent is trained offline without direct EEG input and instead operates on predicted kinematic trajectories to optimize movement accuracy relative to target trajectories. Decoding performance was quantified using Pearson correlation coefficients ($r$) and Root Mean Square Errors (RMSE) along the $x, y$, and $z$ axes. Compared to CNN--LSTM applied alone, CNN--LSTM--RL improved the mean correlation from $0.5076$ to $0.7181$ ($p = 0.0005$) in 2D and from $0.6420$ to $0.7780$ ($p = 0.0059$) in VR, with relative gains of $41.5\\%$ and $21.2\\%$, respectively. Correspondingly, RMSE was reduced from $0.0890$ to $0.0532$ (2D, $p < 0.0001$) and from $0.0714$ to $0.0441$ (VR, $p < 0.0001$), representing relative reductions of $40.2\\%$ and $38.2\\%$. These findings demonstrate that this scalable framework enhances 3D BCI MI decoding by correcting kinematic errors via offline residual RL without extra neural data, advancing neurorehabilitation, prosthetics, and virtual interaction.",
+      "authors": [
+        "Jiamian Li",
+        "Niall McShane",
+        "Attila Korik",
+        "Naomi du Bois",
+        "Karl McCreadie",
+        "Leen Jabban",
+        "Benjamin Metcalfe",
+        "Özgür Şimşek",
+        "Damien Coyle"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-13T13:15:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.11530v1",
+      "tags": [
+        "keyword:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "RL agent corrects residual trajectory errors",
+      "llm_evidence_cn": "强化学习智能体修正轨迹残差错误",
+      "llm_evidence": "强化学习智能体修正轨迹残差错误",
+      "canonical_evidence": "强化学习智能体修正轨迹残差错误",
+      "llm_tldr_en": "Uses RL to correct residual kinematic errors in decoded trajectories, applicable to error detection in RL agent trajectories.",
+      "llm_tldr_cn": "针对连续神经解码中轨迹残差错误的问题，提出两阶段框架，利用强化学习智能体对CNN-LSTM解码器输出进行残差运动学修正。实验表明该方法有效降低了系统性的轨迹预测误差，为强化学习智能体轨迹错误检测提供了可迁移的修正方法。",
+      "llm_tldr": "针对连续神经解码中轨迹残差错误的问题，提出两阶段框架，利用强化学习智能体对CNN-LSTM解码器输出进行残差运动学修正。实验表明该方法有效降低了系统性的轨迹预测误差，为强化学习智能体轨迹错误检测提供了可迁移的修正方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.12236v1",
+      "source": "arxiv",
+      "title": "Speculate with Memory: Lossless Acceleration for LLM Agents",
+      "abstract": "Speculative execution accelerates LLM agents by using a smaller, cheaper model to predict and pre-launch the next step while the environment is idle. However, existing speculators are stateless and discard all information between tasks, preventing prediction quality from improving with experience. We equip the speculator with three online memory systems that learn from past agent trajectories: a contrastive transition table tracking action-sequence statistics, an episodic memory retrieving contextually similar segments, and a confusion tracker suppressing recurring errors. We evaluate this approach on six benchmarks spanning three speculation types: action prediction, observation prediction, and chained prediction. Memory-augmented speculation yields a 19--39\\% relative accuracy improvement on action prediction and up to a $2.5\\times$ increase on observation prediction tasks with repetitive action spaces. These gains grow continuously as memory accumulates and generalize across speculator models of varying cost. All speculation is lossless because it runs during idle time at zero added wall-clock cost, and the actor's trajectory is identical to non-speculative execution.",
+      "authors": [
+        "Yu Li",
+        "Qinyuan Ye",
+        "Prafulla Kumar Choubey",
+        "Jiaxin Zhang",
+        "Chien-Sheng Wu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-07-14T00:36:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.12236v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "confusion tracker suppresses recurring errors from past trajectories",
+      "llm_evidence_cn": "混淆跟踪器抑制轨迹中重复错误",
+      "llm_evidence": "混淆跟踪器抑制轨迹中重复错误",
+      "canonical_evidence": "混淆跟踪器抑制轨迹中重复错误",
+      "llm_tldr_en": "LLM agent speculative execution with memory that learns from past trajectories and suppresses recurring errors, achieving 19-39% speedup.",
+      "llm_tldr_cn": "现有推测执行加速器是无状态的，无法从历史轨迹中学习改进预测质量。本文为推测器配备三种在线记忆系统：对比转移表、情景记忆和混淆跟踪器，后者专门抑制重复错误。在六个基准上，记忆增强的推测执行获得19-39%的加速，同时保持无损的准确性。该方法通过记忆错误模式间接实现了轨迹错误检测与抑制。",
+      "llm_tldr": "现有推测执行加速器是无状态的，无法从历史轨迹中学习改进预测质量。本文为推测器配备三种在线记忆系统：对比转移表、情景记忆和混淆跟踪器，后者专门抑制重复错误。在六个基准上，记忆增强的推测执行获得19-39%的加速，同时保持无损的准确性。该方法通过记忆错误模式间接实现了轨迹错误检测与抑制。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

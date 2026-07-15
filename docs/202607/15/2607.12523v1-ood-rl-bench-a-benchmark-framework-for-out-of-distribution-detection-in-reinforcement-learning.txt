@@ -1,0 +1,581 @@
+Title: OOD-RL-Bench: A Benchmark Framework for Out-of-Distribution Detection in Reinforcement Learning
+
+URL Source: https://arxiv.org/pdf/2607.12523v1
+
+Published Time: Wed, 15 Jul 2026 11:59:15 GMT
+
+Number of Pages: 21
+
+Markdown Content:
+# OOD-RL-Bench: A Benchmark Framework for Out-of-Distribution Detection in Reinforcement Learning 
+
+## Emil Mittag a,∗, Richard Dazeley a and Peter Vamplew b
+
+> a
+
+Deakin University, Geelong, Victoria, 3220, Australia 
+
+> b
+
+Federation University Australia, Ballarat, Victoria, 3350, Australia 
+
+A R T I C L E I N F O 
+
+Keywords :out-of-distribution detection reinforcement learning anomaly detection benchmark trajectory analysis 
+
+A B S T R A C T 
+
+Reliable reinforcement learning (RL) agents must maintain operational integrity amidst sensor malfunctions, dynamic disturbances, and slow environmental shifts. The detection of out-of-distribution conditions is pivotal to determining when an agent’s observations, transitions, or trajectory dynamics deviate from the assumptions underpinning its policy training. Current out-of-distribution (OOD) detection benchmarks typically evaluate image classifiers or static low-dimensional datasets, failing to account for the complex, action-dependent temporal structure inherent in RL trajectories. To address this gap, we present OOD-RL-Bench , a comprehensive and extensible framework designed to evaluate OOD detectors against categories of anomalies injected into RL trajectories. Detectors and anomaly injectors are integrated through shared interfaces and configuration, which allows new scoring methods and perturbation families to be evaluated without modification of the core benchmark loop. We evaluate the utility of the framework using a Deep Q-Network policy within the LunarLander-v3 environment. We assess the performance of each detector across a suite of anomaly types using matched-time AUROC, matched-time AUPRC, matched-time false-positive rate, detection delay, and segmented-onset metrics. Our analysis reveals significant performance variance across anomaly types: observation perturbations and regime switches are identified with high accuracy by several methods, while observation delay and action-conditioned dynamics remain difficult even when post-onset anomaly scores are compared against clean scores from the same timesteps. We make the framework, trained policy checkpoint, and complete results publicly available as a reproducible artefact. 
+
+## 1. Introduction 
+
+Reinforcement learning (RL) agents are increasingly utilised in settings where runtime conditions frequently diverge from those encountered during training, spanning applications such as robotics, autonomous driving, and industrial control. Because a trained policy provides no assurance of appropriate behaviour when operating outside its training distribution, an unobserved shift in observations, dynamics, or actuation can lead to silent performance degradation or unsafe outcomes within safety-critical systems. Consequently, the reliable detection of out-of-distribution (OOD) conditions is essential for the trustworthy deployment of RL: it enables an agent to recognise when its competence assumptions are no longer valid and to defer, intervene, or revert to a safe controller. Detecting such shifts in RL is, however, not a straightforward application of existing OOD methods. RL agents select actions within sequential decision-making environments and learn from the outcomes of those actions (Sutton and Barto, 2018), which renders OOD detection in RL structurally distinct from supervised image classification. In classifier benchmarks, the test instance is typically an externally provided input. Conversely, within an RL deployment, the policy actively contributes to generating its future input distribution, as every action alters the subsequent state, the reward sequence, and the state visitation distribution. Consequently, a detector for RL trajectories must be evaluated not merely on its capacity to identify unusual observations, but also on its ability to remain effective when anomalies manifest through transition dynamics, action-conditioned prediction errors, temporal drift, or delayed observations. General OOD benchmarks have significantly enhanced reproducibility within supervised environments. For instance, OpenOOD standardises broad OOD evaluation protocols for image-classification contexts and has subsequently extended the framework to encompass large-scale data and foundation-model environments (Yang et al., 2022; Zhang et al., 2023). Time-series anomaly-detection benchmarks have similarly broadened the scale and rigour of temporal 
+
+> ∗
+
+Corresponding author 
+
+emil.mittag@research.deakin.edu.au (E. Mittag); richard.dazeley@deakin.edu.au (R. Dazeley); 
+
+p.vamplew@federation.edu.au (P. Vamplew) 
+
+> ORCID
+
+(s): 
+
+1arXiv:2607.12523v1 [cs.LG] 14 Jul 2026 anomaly assessment, incorporating large curated datasets and unified evaluation pipelines (Paparrizos et al., 2022; Qiu et al., 2025). While these resources are significant, they do not entirely capture the closed-loop, action-conditioned structure characteristic of RL trajectories. Müller et al. (2022) contended that anomaly detection in RL warrants distinct consideration because sequential decision-making alters the interpretation of anomalous data. RL-specific literature on OOD and anomaly detection has commenced addressing this deficiency. Mohammed and Valdenegro-Toro (2021) proposed an RL-OOD benchmark grounded in physical-parameter modifications and observation corruptions. Danesh and Fern (2021) introduced OOD dynamics benchmarks derived from RL environments and assessed recurrent prediction-error methods. Haider et al. (2023) proposed the use of probabilistic dynamics models and bootstrapped ensembles for semantic perturbations within Markov decision processes. More recent research, including DEXTER (Detection via Extraction of Time Series Representations), has further categorised RL-OOD into distinct classes such as sensory and semantic anomaly scenarios (Nasvytis et al., 2024). These contributions demonstrate that the field is no longer devoid of resources; the contribution of OOD-RL-Bench consequently lies not in being the inaugural RL OOD benchmark, but in offering a controlled trajectory-scoring protocol for comparing a restricted set of interpretable detectors across post-hoc observation, temporal, and distributional perturbations and online action/dynamics perturbations. 
+
+Contributions. This work presents: (i) an extensible RL-OOD benchmark framework, configured here with eight detectors and nine anomaly injectors, that is designed so additional detectors and injectors can be registered through the same interfaces; (ii) a detector taxonomy categorising marginal-state, temporal-feature, transition-model, reconstruction, ensemble-uncertainty, sequential-change, non-parametric-density, and nonlinear-dynamics signals; (iii) a mixed anomaly protocol that evaluates observation, temporal, and distributional anomalies post hoc while evaluating action and dynamics anomalies through live environment rollouts; and (iv) a reporting template distinguishing between matched-time threshold-free discrimination, thresholded decisions, temporal delay, null-baseline score drift, and operating-point false-positive behaviour. 
+
+Paper organisation. The manuscript adopts a structure that progresses from motivations and contracts to reusable framework components, culminating in a singular concrete evaluation. Section 2 situates the benchmark within the context of supervised OOD detection, time-series anomaly detection, and existing literature specific to RL-based OOD approaches. Section 3 defines the settings for trajectories, detectors, and anomaly injectors. Section 4 illustrates the end-to-end framework map, followed by Sections 5 and 6, which detail the extensible interfaces for detectors and anomaly injectors. The evaluation methodology is outlined in Section 7, covering metrics, experimental design, anticipated detector behaviour, and the rollout protocol; this is followed by Section 8, which instantiates these abstractions for the LunarLander-v3 environment. Section 9 presents the empirical results, comparing expected versus observed detector performance, while Section 10 revisits architecture, extensibility, reporting standards, caveats, and limitations. This structural arrangement allows readers to grasp the benchmark’s reusable contracts, understand the specific experimental configuration, and observe what the framework demonstrates in practice. 
+
+## 2. Related Work 
+
+Static OOD detection. Early neural OOD detection research demonstrated that neural classifiers can assign high confidence to anomalous inputs, prompting the development of straightforward confidence baselines for identifying such instances (Hendrycks and Gimpel, 2017). Feature-space Mahalanobis scoring subsequently employed class-conditional Gaussian discriminant assumptions to identify OOD and adversarial inputs within neural representations (Lee et al., 2018). The OpenOOD framework consolidates this body of work by standardising the evaluation of OOD, open-set recognition, and anomaly detection under a generalised OOD framework, primarily within image-classification settings (Yang et al., 2022; Zhang et al., 2023). While these methods are pertinent to state-space scoring, they are inadequate as comprehensive RL benchmarks because they do not account for actions, rewards, or transition structures. 
+
+Time-series anomaly detection. The detection of anomalies in sequential data possesses a substantial statistical history. The cumulative-sum procedure, introduced by Page (1954), remains a fundamental method for detecting sustained shifts in the mean. Broader treatments of change detection formalise the identification of abrupt changes through likelihood and sequential testing perspectives (Basseville and Nikiforov, 1993). Contemporary time-series anomaly benchmarks facilitate larger and more reproducible comparisons across statistical, machine learning, and deep learning detectors (Paparrizos et al., 2022; Qiu et al., 2025). Time-series methods are relevant to RL given the temporal 2nature of trajectories; however, passive time-series benchmarks typically do not condition on the agent’s actions or incorporate reward and transition labels derived from an MDP. 
+
+RL-specific OOD and anomaly detection. The most directly related literature encompasses RL-OOD and RL anomaly detection. These intersecting fields concentrate on delineating distributional shifts, anomalous dynamics, and runtime perturbations within agent–environment interactions. RL-OOD detection typically frames the problem as identifying states, transitions, observations, rewards, or trajectories that diverge from the agent’s training distribution. Conversely, RL anomaly detection maintains a broader scope, focusing on anomalous execution events, faults, or perturbations that may compromise agent behaviour. Mohammed and Valdenegro-Toro (2021) alter physical parameters within non-visual environments and perturb observations within visual environments to assess OOD methods for deep RL. Danesh and Fern (2021) concentrate on the detection of OOD dynamics and present RL-relevant benchmarks incorporating prediction-error baselines. Haider et al. (2023) identify severe MDP perturbations utilising probabilistic dynamics models and bootstrapped ensembles. Nasvytis et al. (2024) differentiate sensory and semantic RL-OOD settings and introduce DEXTER as a detector that extracts time-series features from environment observations and applies an isolation-forest ensemble. Prashant et al. (2025) conceptualise transition-level OOD execution using learned transition models and conformal-style guarantees. OOD-RL-Bench is situated within this body of work as a controlled, detector-agnostic trajectory perturbation benchmark: post-hoc perturbation is retained where it is faithful to the anomaly channel, while live rollouts are used where action or transition faults would otherwise be misrepresented. 
+
+Model-based RL and uncertainty. Probabilistic ensemble dynamics models are frequently driven by model-based RL and uncertainty-aware prediction. PETS integrates probabilistic neural dynamics models with ensembles and trajectory sampling to propagate uncertainty within model-based control (Chua et al., 2018). Deep ensembles offer a straightforward and scalable avenue to predictive uncertainty, potentially demonstrating higher uncertainty on OOD inputs in supervised settings (Lakshminarayanan et al., 2017). In RL-OOD detection, these concepts underpin both pedm ,which employs sampled residual error under an action-conditioned transition model, and ensemble disagreement ,which utilises disagreement among bootstrapped models as a signal of epistemic-uncertainty. 
+
+Reconstruction, density, features, and nonlinear dynamics. Autoencoders are frequently employed for anomaly detection through training on nominal data, where substantial reconstruction errors are flagged as anomalies; Sakurada and Yairi (2014) offer a pioneering application of neural autoencoders for this purpose, utilising nonlinear dimensionality reduction. Kernel density estimation is rooted in the non-parametric density-estimation research of Parzen (1962); within an OOD detection framework, low estimated density regarding the in-distribution state or transition distribution constitutes the anomaly score. Automated time-series feature extraction demonstrates that extensive collections of interpretable temporal statistics can be utilised to characterise time-series structure (Fulcher and Jones, 2017). Lyapunov-exponent estimation derived from time series provides a robust method for quantifying local divergence within nonlinear dynamical systems (Wolf et al., 1985; Kantz and Schreiber, 2004); this concept informs the development of the 
+
+lyapunov divergence detector for anomalies manifesting as alterations in local trajectory divergence. 
+
+## 3. Problem Setting 
+
+Let a trajectory be a fixed-length sequence 
+
+𝜏 = {( 𝑠 𝑡 , 𝑎 𝑡 , 𝑟 𝑡 , 𝑠 𝑡 +1 , 𝑑 𝑡 )} 𝑇 −1  
+
+> 𝑡 =0
+
+, (1) where 𝑠 𝑡 ∈ ℝ𝑑 𝑠 is the observed state, 𝑎 𝑡 ∈  is the action, 𝑟 𝑡 ∈ ℝ is the reward, 𝑠 𝑡 +1 is the next state, and 𝑑 𝑡 indicates termination. A detector 𝐷 is fitted using in-distribution trajectories ID and returns an anomaly-score sequence 
+
+𝐷 (𝜏 ) = ( 𝑧 0, 𝑧 1, … , 𝑧 𝑇 −1 ), (2) where larger 𝑧 𝑡 means greater evidence of an anomaly at timestep 𝑡 .The benchmark presupposes an anomaly injector, 𝐼 𝑗 , which yields a perturbed trajectory by modifying a stored rollout post-collection or by perturbing the live environment during the collection phase. In both instances, detectors are fitted prior to evaluation and are subsequently provided with only the resulting trajectory record, denying access to the simulator. The post-hoc mode retains a byte-identical clean rollout for observation, temporal, and distributional 3perturbations; the online mode is utilised for action and dynamics perturbations, as the state visitation distribution is contingent upon the manner in which the policy interacts with the fault. The concrete environment and trained policy used for the demonstration experiment are introduced after the general benchmark methodology in Section 8. 
+
+## 4. Framework Design 
+
+Figure 1 illustrates the high-level architecture employed throughout the remainder of this manuscript. The configuration, scenario driver, and policy checkpoint (Figure 1A) initialise the benchmark run and feed the clean calibration rollouts (Figure 1B), which generate the in-distribution trajectories that are used to fit the detectors. Anomaly execution can then proceed via either post-hoc injection into a stored rollout (Figure 1C1) or through online perturbation during the interaction of a matching clean rollout with the environment (Figure 1C2). These anomaly-execution pathways function as extension points, permitting the registration of additional post-hoc or online injectors while maintaining the same trajectory output contract. Both paths produce clean and perturbed evaluation records (Figure 1D), which are scored by the detector (Figure 1E) to generate DetectorOutputs (Figure 1F). The detector similarly serves as an extension point; new detectors can be incorporated, provided they adhere to the requisite fit-and-score contract. Finally, the metric layer (Figure 1G) aggregates these records to form reproducibility artefacts and rendered outputs (Figure 1H).  
+
+> Figure 1: OOD-RL-Bench framework architecture. Annotation labels correspond to (A) configuration, scenario, and policy input; (B) clean calibration rollouts and in-distribution trajectories; (C) anomaly execution modes, divided into (C1) post-hoc and (C2) online pathways; (D) clean and perturbed evaluation records; (E) detector fitting and scoring; (F) DetectorOutput records; (G) metric aggregation; and (H) rendered outputs and reproducibility artefacts
+
+## 5. Detector Suite 
+
+By default, the configuration evaluates the eight baseline detectors listed in Table 1. These detectors are reference implementations: the framework is engineered to allow for the addition and removal of any number of user-defined detectors through the detector interface and configuration file. 
+
+5.1. Mahalanobis distance 
+
+Mahalanobis distance constitutes a classical covariance-normalised distance measure (Mahalanobis, 1936). The Mahalanobis detector fits an in-distribution mean vector 𝜇 and covariance matrix Σ across selected trajectory features 4Table 1              
+
+> Detector families used in the OOD-RL-Bench framework. Detector Primary signal Main limitation
+> mahalanobis distance Distance from fitted ID mean under covariance scaling Sensitive to covariance estimation and ap-proximately elliptical assumptions
+> time series features Window-level temporal descriptors Depends on chosen features and window length
+> pedm Minimum sampled action-conditioned transition error Requires reliable dynamics fitting
+> autoencoder Reconstruction error after training on ID data Can reconstruct some OOD inputs too well
+> ensemble disagreement Variance among bootstrapped pre-dictive models Disagreement is not a calibrated probability by itself
+> cusum Accumulated deviation from an ID reference statistic Best suited to sustained shifts, not isolated anomalies
+> kde density Negative log non-parametric density estimate Degrades with dimension and bandwidth mis-specification
+> lyapunov divergence Local trajectory divergence in recon-structed phase space Sensitive to embedding, noise, and finite-sample effects
+
+𝑥 𝑡 (e.g., 𝑠 𝑡 , (𝑠 𝑡 , 𝑎 𝑡 ) embeddings, or transition vectors (𝑠 𝑡 , 𝑎 𝑡 , 𝑠 𝑡 +1 )). Its score is 
+
+𝑧 𝑡 = ( 𝑥 𝑡 − 𝜇 )⊤(Σ + 𝜆𝐼 )−1 (𝑥 𝑡 − 𝜇 ), (3) where 𝜆𝐼 serves as a ridge regularisation term employed when the empirical covariance is ill-conditioned. In the context of machine-learning OOD detection, Mahalanobis feature scores are frequently linked to the Gaussian-discriminant approach of Lee et al. (2018). Within this benchmark, the detector functions as a transparent state or transition outlier detector, rather than a deep classifier feature detector. 
+
+5.2. Time series features 
+
+The time-series feature detector transforms a rolling window 𝑊 𝑡 = { 𝑥 𝑡 −𝐿 +1 , … , 𝑥 𝑡 } into a vector of descriptive statistics. Suitable descriptors encompass means, variances, slopes, autocorrelations, ranges, spectral summaries, and action-conditioned residual summaries. The detector subsequently scores the feature vector using a fitted in-distribution distance, density, or robust z-score. The rationale aligns with the feature-extraction perspective of time-series analysis: rather than relying on a single specialised model, a broad array of interpretable temporal descriptors can summarise the structure of a time series (Fulcher and Jones, 2017). This detector proves effective for gradual drift and temporal-pattern anomalies, although its efficacy is contingent upon the selected feature library and window length. 
+
+5.3. Probabilistic ensemble dynamics model 
+
+The probabilistic ensemble dynamics model (PEDM) detector fits an action-conditioned transition model, 
+
+𝑝 𝜃 (𝑠 𝑡 +1 ∣ 𝑠 𝑡 , 𝑎 𝑡 ), (4) utilising an ensemble of probabilistic neural networks. At scoring time, each ensemble member samples candidate next-state predictions from its learned Gaussian transition distribution, and the anomaly score is the minimum sampled one-step prediction error, 
+
+𝑧 𝑡 = min 
+
+> 𝑚 ∈{1 ,…,𝑀 }, 𝑘 ∈{1 ,…,𝐾 }
+
+‖‖‖𝑠 𝑡 +1 −̂𝑠 (𝑚,𝑘 )
+
+> 𝑡 +1
+
+‖‖‖ 
+
+> 22
+
+,̂ 𝑠 (𝑚,𝑘 ) 
+
+> 𝑡 +1
+
+∼ 𝑝 𝜃 𝑚 (⋅ ∣ 𝑠 𝑡 , 𝑎 𝑡 ), (5) with the thresholded alarm calibrated as the maximum score observed on held-out in-distribution transitions. This conservative validation-maximum rule is not tuned directly for latency or recall. The detector draws direct inspiration from uncertainty-aware model-based RL (Chua et al., 2018) and RL-OOD work employing probabilistic dynamics models to identify severe MDP perturbations (Haider et al., 2023). It is particularly pertinent when an anomaly alters the transition dynamics without rendering individual states obviously implausible. 55.4. Autoencoder 
+
+The autoencoder detector trains an encoder-decoder model on in-distribution inputs and scores reconstruction error, 
+
+𝑧 𝑡 = ‖𝑥 𝑡 − 𝑔 𝜙 (𝑓 𝜃 (𝑥 𝑡 )) ‖22. (6) The input 𝑥 𝑡 may comprise a state, transition vector, or windowed trajectory feature. Reconstruction-based anomaly detection operates on the premise that a model trained exclusively on normal data reconstructs normal patterns more accurately than abnormal ones. This assumption is widely adopted in autoencoder-based anomaly detection and was evidenced in early neural anomaly-detection research by Sakurada and Yairi (2014). A limitation is that expressive autoencoders can sometimes reconstruct out-of-distribution inputs with low error; consequently, reconstruction error should not be treated as a calibrated probability of abnormality. 
+
+5.5. Ensemble disagreement 
+
+The ensemble-disagreement detector trains 𝑀 bootstrapped predictors and scores the variance of their outputs. For a transition predictor yielding outputs ̂𝑠 (𝑚 )
+
+> 𝑡 +1
+
+, a straightforward score is 
+
+𝑧 𝑡 = 1
+
+𝑀 
+
+> 𝑀
+
+∑
+
+> 𝑚 =1
+
+‖‖‖̂𝑠 (𝑚 ) 
+
+> 𝑡 +1
+
+−̄𝑠 𝑡 +1 
+
+‖‖‖ 
+
+> 22
+
+,̄ 𝑠 𝑡 +1 = 1
+
+𝑀 
+
+> 𝑀
+
+∑
+
+> 𝑚 =1
+
+̂𝑠 (𝑚 )
+
+> 𝑡 +1
+
+. (7) Deep ensembles constitute a simple and scalable uncertainty-estimation methodology (Lakshminarayanan et al., 2017). In RL-OOD contexts, ensemble disagreement is valuable because models trained on identical in-distribution transitions often exhibit greater disagreement in regions with weak training support or shifted dynamics (Mohammed and Valdenegro-Toro, 2021; Haider et al., 2023). Disagreement should be interpreted as an epistemic-uncertainty proxy rather than a comprehensive anomaly score. 
+
+5.6. Cumulative sum 
+
+The cumulative sum (CUSUM) detector monitors a scalar residual or feature statistic 𝑒 𝑡 , accumulating deviations from an in-distribution reference mean 𝜈 . A one-sided formulation is 
+
+𝑔 𝑡 = max(0 , 𝑔 𝑡 −1 + 𝑒 𝑡 − 𝜈 − 𝑘 ), 𝑧 𝑡 = 𝑔 𝑡 , (8) where 𝑘 represents a slack or drift parameter. The procedure follows the cumulative-sum change-detection method introduced by Page (1954) and subsequently formalised in broader abrupt-change detection treatments (Basseville and Nikiforov, 1993). Within OOD-RL-Bench, 𝑒 𝑡 may constitute a state residual, reward residual, transition-model loss, or feature deviation. CUSUM is appropriate for sustained post-onset changes, yet it may prove less effective for brief point anomalies. 
+
+5.7. KDE density 
+
+The kernel density estimation (KDE) detector estimates an in-distribution density utilising a kernel estimator, ̂𝑝 (𝑥 ) = 1
+
+𝑛ℎ 𝑑 𝑛 ∑
+
+> 𝑖 =1
+
+𝐾 
+
+( 𝑥 − 𝑥 𝑖 
+
+ℎ
+
+)
+
+, (9) and scores low-density observations as anomalous via 𝑧 𝑡 = − log( ̂𝑝 (𝑥 𝑡 ) + 𝜖 ). Kernel density estimation is a classical non-parametric density-estimation technique (Parzen, 1962). Its appeal lies in its avoidance of imposing a single Gaussian covariance model, rendering it complementary to Mahalanobis distance. However, dimensionality presents a limitation: KDE becomes computationally demanding in high-dimensional spaces unless features are carefully selected or compressed. 
+
+5.8. Lyapunov divergence 
+
+The Lyapunov-divergence detector estimates the local sensitivity of trajectories to proximate initial conditions. For embedded windows 𝑦 𝑡 , a local divergence score can be constructed from the growth of nearest-neighbour distances, 
+
+𝑧 𝑡 = 1
+
+𝐻 
+
+> 𝐻
+
+∑
+
+> ℎ=1
+
+log ‖𝑦 𝑡 +ℎ − 𝑦 𝑗 +ℎ‖2 + 𝜖 
+
+‖𝑦 𝑡 − 𝑦 𝑗 ‖2 + 𝜖 , (10) 6Table 2                           
+
+> Execution modes used for anomaly injection. Mode Rollout path Concrete injectors Rationale Post-hoc A trained policy is executed in the clean environment to yield a stored trajectory, after which an injector modifies selected trajectory characteristics.
+> gaussian state noise ;state feature dropout ;correlation break ;regime switch ;
+> observation delay
+> Faithful when the anomaly can be represented as a perturbation of the recorded observation stream. Online The policy is rolled out while the fault is applied during the environment interaction, and the resulting live trajectory is scored by the same fitted detectors.
+> stuck actuator ;
+> dynamics scaling ;
+> action conditioned dynamics ;gradual drift
+> Required when the fault changes the policy–environment interaction and downstream state visitation.
+> Table 3
+> Anomaly injector families and concrete instantiations. Injector family Concrete injector(s) Perturbation channel Observation noise gaussian state noise Sensor noise Feature dropout state feature dropout Sensor dropout or telemetry loss Observation delay observation delay Temporal latency Actuator faults stuck actuator Action execution fault Dynamics scaling dynamics scaling ;action conditioned dynamics ;gradual drift
+> Transition dynamics; constant, action-conditioned, and ramped variants Regime switch regime switch Distributional shift Correlation breakdown correlation break Cross-coordinate and temporal coupling
+
+where 𝑦 𝑗 represents a nearest neighbour of 𝑦 𝑡 within an in-distribution reference set. Algorithms for estimating Lyapunov exponents from time series were developed to quantify divergence and chaos in reconstructed phase spaces (Wolf et al., 1985; Kantz and Schreiber, 2004). Within RL-OOD detection, this signal proves valuable when an anomaly alters local trajectory stability or phase-space geometry. The detector must be employed cautiously, as finite trajectories, stochasticity, and suboptimal embedding choices can produce unstable estimates. 
+
+## 6. Anomaly-Injection Protocol 
+
+OOD-RL-Bench employs two anomaly execution modes outlined in Table 2. The detectors therefore continue to score trajectories offline; however, the data they score may originate from either a post-hoc transformation or a rollout subjected to a live fault. The recommended injector families and their concrete instantiations are summarised in Table 3. These injectors are reference implementations rather than a closed perturbation set: new anomaly injectors can be incorporated by adhering to the appropriate post-hoc or online injector contracts and registering their parameters in the configuration. These families are selected to encompass sensor, temporal, action, transition, and distributional channels. Each injector exposes a scalar severity parameter 𝜎 ∈ [0 , 1] that controls perturbation magnitude in injector-specific units. 
+
+6.1. Gaussian state noise 
+
+The injector introduces independent Gaussian noise to each state coordinate at every post-onset step. The standard deviation for each coordinate is determined by 𝜎 ⋅std( 𝑠 𝑖, 1∶ 𝑇 ), derived from the clean trajectory. Consequently, coordinates exhibiting low variance under the clean policy undergo proportionately smaller perturbations, thereby preserving their original signs and approximate magnitudes, which simulates the behaviour of inaccurate or noisy sensors. 76.2. State feature dropout 
+
+Each post-onset state coordinate is independently set to zero with probability 0.8𝜎 , which simulates intermittent sensor failure or telemetry loss. Coordinates that survive this process pass through unaltered. The presence of (near-)zero coordinate entries that the policy has rarely encountered at zero generates a strongly out-of-distribution joint state. 
+
+6.3. Correlation break 
+
+The injector selects ⌈𝜎 ⋅ 𝑑 𝑠 ⌉ state dimensions and shuffles their values across time within the post-onset window. While the marginal distribution for each dimension is preserved, the joint coupling between coordinates is disrupted. This mimics sensor cross-talk or a software defect that causes confusion in which reading corresponds to which signal. Although each selected coordinate retains a plausible distribution, the temporal and cross-coordinate relationships no longer align with the dynamics that generated the clean trajectory 
+
+6.4. Stuck actuator 
+
+After 𝑡 ⋆, this online injector intermittently fixes the executed action to a held post-onset action, with probability controlled by severity 𝜎 . The policy continues to emit commanded actions, which are logged within the trajectory’s action channel; the executed action is logged separately in the trajectory metadata. At 𝜎 = 1 , the actuator remains fully stuck until the episode resets. Within a discrete action space this emulates an actuator that increasingly ignores the policy command and repeats a held action. The ensuing state trajectory diverges from the original clean rollout through the closed-loop effects of repeatedly applying an incorrect action. This explicitly justifies online evaluation of the anomaly, rather than retrospective alteration of action labels. 
+
+6.5. Dynamics scaling 
+
+During a live rollout, post-onset state increments Δ𝑠 𝑡 = 𝑠 𝑡 +1 − 𝑠 𝑡 are multiplied by a constant scale factor of 1 + 1 .5𝜎 
+
+and written back into the environment state before the next policy decision. This simulates an abrupt change in effective mass, friction, or actuator gain (e.g., a terrain alteration or shift in payload), while allowing the policy’s subsequent actions to depend on the altered state. The resulting trajectory drifts onto a manifold upon which the policy was never trained. 
+
+6.6. Action conditioned dynamics 
+
+This online injector is identical to dynamics scaling except that the increment scaling is applied only on timesteps where the commanded action equals a fixed target action 𝑎 ⋆ chosen by the scenario configuration. The live trajectory is unmodified on all other timesteps. This injector serves as the most rigorous test of action-conditioned dynamics models: marginal-state detectors observe a trajectory where the displacement increments are intermittently anomalous, whereas a detector that conditions on the action receives a coherent signal precisely every time 𝑎 𝑡 = 𝑎 ⋆.
+
+6.7. Gradual drift 
+
+During a live rollout, the dynamics scale increases linearly from 1.0 at 𝑡 ⋆ to 1 + 1 .5𝜎 across ramp _steps = 200 
+
+steps, remaining constant thereafter. This models progressive mechanical degradation, such as lubricant depletion or joint stiffening. The initial post-onset period remains nearly indistinguishable from clean dynamics, meaning detectors reliant on instantaneous outliers register no anomaly. The trajectory only diverges from the in-distribution support as the ramp progresses, providing a structurally advantageous signal for change-detection algorithms such as CUSUM. 
+
+6.8. Regime switch 
+
+At 𝑡 ⋆, the post-onset state distribution is displaced by 2.0𝜎 pre-onset standard deviations, while the per-coordinate variance is amplified by a factor of 1+2 .0𝜎 . Contrary to dynamics-based injectors, the state sequence is not re-propagated under the policy; instead, the marginal observation distribution abruptly shifts to a novel operating regime. Density-and Mahalanobis-style detectors capture this near-perfectly, as the post-onset marginal is displaced outside the fitted in-distribution support. 
+
+6.9. Observation delay 
+
+Post-onset observations are substituted post hoc with the state from 𝑘 steps prior, where 𝑘 = ⌈𝜎 ⋅ max _delay ⌉ and 
+
+max _delay = 10 . This simulates a communication or sensor-processing latency in the recorded observation stream without altering the policy’s original clean rollout. Because the delayed states remain on the in-distribution manifold, 8marginal- and density-based detectors remain blind; only detectors that juxtapose the observed state against temporal or action-conditioned context receive a coherent signal. 
+
+## 7. Evaluation Methodology 
+
+7.1. Evaluation Metrics 
+
+Each detector yields a score sequence 𝑧 0∶ 𝑇 −1 . The principal threshold-free metric is AUROC, which assesses ranking quality across all potential thresholds and is extensively utilised for binary discrimination tasks (Fawcett, 2006). Given that anomaly labels are frequently imbalanced, AUPRC should also be reported where performance on the positive class is paramount (Davis and Goadrich, 2006). Thresholded metrics must encompass F1, precision, recall, and the false-positive rate at a fixed true-positive-rate target. Furthermore, temporal metrics should comprise detection delay subsequent to the known anomaly onset and segment-level overlap measures. The benchmark must also report a null baseline. In the null run, clean trajectories from the same execution mode are scored against a counterfactual label vector that designates a post-onset interval as anomalous, despite the absence of an injected anomaly. If a detector’s score naturally increases towards the end of an episode, the null AUROC will exceed random chance. The adjusted score ̂
+
+AUROC adj = min (1, max (0, AUROC raw − AUROC null + 0 .5)) (11) should be reported in conjunction with the raw AUROC. This correction does not act as a standard substitute for AUROC but as a benchmark-specific diagnostic for score drift under clean trajectories. The empirical results below use matched-time negatives as the primary threshold-free comparison. For each perturbed episode, the positive class contains raw anomalous scores at post-onset timesteps, {𝑧 ood  
+
+> 𝑡
+
+∶ 𝑦 𝑡 = 1} . The negative class contains raw clean scores from the same execution mode, seed, and timestep indices, {𝑧 clean  
+
+> 𝑡
+
+∶ 𝑦 𝑡 = 1} .AUROC, AUPRC, and FPR 0.95 are then computed on this balanced clean-versus-anomalous score set. This protocol does not define an episode-level alarm time, so detection delay remains the delay of the detector’s calibrated threshold on the original perturbed trajectory. 
+
+7.2. Experimental Design 
+
+A valid experiment requires all configured detectors to be fit on the same set of in-distribution trajectories and to be evaluated against the same execution protocol for each injector. The basic unit of reproducible reporting is a single row for each detector–anomaly pair, containing the execution mode, raw AUROC, null-adjusted AUROC, matched-time AUROC, matched-time AUPRC, matched-time FPR 0.95 , F1, detection delay, segment precision, and segment recall. The experiment must also document the number of in-distribution trajectories, the number of out-of-distribution trajectories, episode length, anomaly onset, detector hyperparameters, random seeds, environment version, policy checkpoint, software versions, whether each anomaly was generated post hoc or online, and the confidence-interval method used for each reported metric. 
+
+7.3. Expected Detector Behaviour 
+
+The detector suite is intentionally heterogeneous. mahalanobis distance and kde density are expected to perform best when anomalies displace observations or transition features from the fitted in-distribution support. pedm 
+
+and ensemble disagreement are designed to respond when anomalies alter action-conditioned transition dynamics. 
+
+autoencoder should remain competitive when abnormal inputs are characterised by poor reconstruction fidelity, though it may fail if the learned representation generalises too extensively. cusum should perform best for sustained shifts in a selected residual statistic. time series features should identify anomalies that perturb local temporal structure but may be sensitive to feature selection. lyapunov divergence is anticipated to be useful for shifts in local stability or phase-space geometry but requires careful interpretation, given that Lyapunov estimates are sensitive to noise, finite data, and clean temporal score trends (Wolf et al., 1985; Kantz and Schreiber, 2004). 
+
+7.4. Evaluation Protocol 
+
+The assessment framework proceeds in five distinct phases: 1. A static policy is executed within an unperturbed environment to generate 𝑁 ID in-distribution trajectories, each of duration 𝑇 , which serve as the calibration set for each detector 𝐷 .92. 𝑁 OOD supplementary trajectories are gathered for every injector 𝐼 𝑗 : post-hoc injectors first collect a clean trajectory and then perturb its recorded fields, whereas online injectors perturb the live environment during rollout and separately collect a clean trajectory with the same seed for matched-time comparison. For online faults, the matched clean rollout is a same-seed no-fault counterfactual matched by episode time, not by identical post-onset state. Because the fault changes the closed-loop policy–environment interaction, the perturbed and clean trajectories may diverge after 𝑡 ⋆; matched-time metrics therefore control for temporal position but intentionally include the downstream trajectory consequences of the live fault. 3. This process yields a perturbed trajectory ̃𝜏 , a matched clean trajectory 𝜏 clean , and a binary ground-truth annotation vector 𝑦 𝑡 = 1{𝑡 ≥ 𝑡 ⋆}. Each calibrated detector then assigns anomaly scores to both trajectories. 4. Performance is quantified in the benchmark output using threshold-free matched-time metrics (AUROC, AUPRC), matched-time FPR 0.95 , threshold-dependent trajectory metrics (F1 and detection delay), and temporal/segment metrics (temporal AUROC, segment precision, and segment recall). The analysis below focuses on matched-time AUROC/AUPRC, matched-time FPR 0.95 , detection delay, and null-baseline diagnostics. These statistics are calculated individually per episode and aggregated as mean ± standard deviation across all 𝑁 OOD episodes. 5. Baseline evaluations replicate the scoring process on clean post-hoc and clean online trajectories, utilising both an all-zero clean label vector for thresholded false-positive rates and a counterfactual annotation vector 
+
+𝑦 null  
+
+> 𝑡
+
+= 1[𝑡 ≥ 𝑡 ⋆] for temporal-bias diagnostics. Matched-time AUROC, AUPRC, and FPR 0.95 confidence intervals use episode bootstrap over paired clean/anomalous episodes; lift-over-null and null-adjusted diagnostic metrics use paired episode bootstrap over matched null/OOD seeds. Detection delay is calculated as the temporal offset between 𝑡 ⋆ and the initial timestamp exceeding the classification threshold following 𝑡 ⋆; episodes where the detector fails to trigger are recorded at the terminal timestep of the trajectory. At the segment level, each continuous run of thresholded positives is consolidated into a solitary detection instance, with precision and recall assessed relative to the ground-truth interval [𝑡 ⋆, 𝑇 − 1] . The anomaly-score threshold used to convert continuous scores into binary anomaly labels is calibrated on in-distribution data according to each detector’s rule: most detectors use a high clean-score percentile, whereas PEDM uses the maximum held-out validation score. 
+
+## 8. Demonstration Experiment 
+
+We report here an experiment designed to demonstrate the utility of the OOD-RL-Bench framework. The aim is not to carry out a comprehensive investigation of OOD detectors, but instead to outline the ability of OOD-RL-Bench to highlight the impact which different types of anomaly may have on the performance of detectors. 
+
+8.1. Environment and policy 
+
+The benchmark is applied to LunarLander-v3, used here through Gymnasium (Brockman et al., 2016; Towers et al., 2024), utilising its eight-dimensional flat-state observation space and four discrete actions. The state vector is 
+
+(𝑥, 𝑦, 𝑣 𝑥 , 𝑣 𝑦 , 𝜃, 𝜔, 𝑐 1, 𝑐 2), where (𝑥, 𝑦 ) is the lander position, (𝑣 𝑥 , 𝑣 𝑦 ) its linear velocity, 𝜃 its tilt, 𝜔 its angular velocity, and 𝑐 1, 𝑐 2 ∈ {0 , 1} are the two leg-contact flags. Actions are discrete: {0 : no-op, 1: left engine, 2: main engine, 3: right engine }. The control policy employs a NoisyNet DQN architecture (Mnih et al., 2015) equipped with an MLP value head, optimised using the flat state representation over 210,000 environment steps. Hyperparameters include a batch size of 64, a discount factor of 0.99, a learning rate of 5 × 10 −4 , a replay buffer capacity of 10 5, and target-network synchronisation every 1,000 steps. Training was concluded by satisfying an early stopping rule; the final checkpoint achieves a mean return of approximately 230 over 30 episodes, consistent with a fully solved LunarLander policy. This identical checkpoint governs all in-distribution and out-of-distribution rollouts; the policy undergoes no further retraining or fine-tuning on perturbed data. 
+
+8.2. Benchmark configuration 
+
+Each rollout is limited to a maximum of 𝑇 = 500 steps. Detector fitting relies on thirty in-distribution trajectories (𝑁 ID = 30 ), while evaluation utilises twenty perturbed trajectories per anomaly injector ( 𝑁 OOD = 20 ). The anomaly onset is fixed at 𝑡 ⋆ = ⌊𝑇 ∕3 ⌋ = 166 , ensuring that every episode includes a substantial pre-onset phase and an extended post-onset phase. Nine anomaly injectors are assessed. Five are evaluated post hoc: gaussian state noise , state feature dropout , correlation break , regime switch , and observation delay . Four are evaluated online 10 Table 4                   
+
+> Mean matched-time AUROC and AUPRC per detector, averaged uniformly across the nine anomaly rows (LunarLander-v3, 20 OOD episodes per injector). Detectors sorted by AUROC. Detector Mean AUROC Mean AUPRC
+> pedm 0.874 0.851
+> time series features 0.839 0.847
+> kde density 0.730 0.743
+> ensemble disagreement 0.720 0.740
+> autoencoder 0.705 0.717
+> mahalanobis distance 0.649 0.675
+> lyapunov divergence 0.539 0.530
+> cusum 0.495 0.556
+
+in the live environment: stuck actuator , dynamics scaling , action conditioned dynamics , and gradual drift . In the LunarLander configuration, observation-noise perturbations affect all eight state components; feature dropout is capable of zeroing any coordinate; correlation break permutes severity-selected coordinates across time; and observation delay substitutes earlier state vectors while preserving the recorded action stream. The online faults operate via the four-action engine interface: a stuck actuator repeats a held engine action, dynamics scaling writes scaled increments back into the simulator state, action-conditioned dynamics targets the main-engine action ( 𝑎 ⋆ = 2 ), and gradual drift ramps the same scale factor across 200 steps. Injector-specific severity parameters are documented within the configuration file distributed with the framework. 
+
+8.3. Reproducibility 
+
+An integer seed sets the environment, policy noise, in-distribution data collection, and detector initialisation across all runs. Out-of-distribution rollouts employ this base seed augmented by a fixed offset, thereby ensuring independence from the calibration set while preserving determinism. Hardware and software specifications are documented for each run: the results were produced with Python 3.13.9, PyTorch 2.9.1, NumPy 2.4.0, and MPS execution. The framework source code, the trained policy checkpoint, configuration files, and the comprehensive per-condition results files are published alongside this manuscript. 
+
+## 9. Results 
+
+9.1. Per-detector averages 
+
+Table 4 displays the mean matched-time AUROC and AUPRC for each configured detector, calculated as a uniform average across the nine anomaly scores in the mixed post-hoc/online protocol. pedm takes the lead with the highest aggregate matched-time AUROC (0.874), followed by time series features (0.839), kde density (0.730), and 
+
+ensemble disagreement (0.720). This ranking uses each detector’s raw score scale; the only control is that anomalous post-onset scores are compared against clean scores from the same timesteps. lyapunov divergence , which achieves a high raw aggregate AUROC by separating clean scores between early and late timesteps, falls to near-chance matched-time performance (0.539). The AUPRC is directly interpretable against a balanced no-skill baseline of approximately 0.5, as each post-onset anomaly score is paired with a corresponding clean score from the same timestep. 
+
+9.2. Per-anomaly difficulty 
+
+Anomaly difficulty is summarised by the matched-time AUROC of the top-performing detector for each injector (Table 5). Three post-hoc observation injectors remain nearly saturated: gaussian state noise , state feature dropout , and correlation break all reach AUROC values at or above 0.998. regime switch , stuck actuator ,
+
+dynamics scaling , and gradual drift also become high-accuracy rows. In the current eight-detector suite, 
+
+observation delay remains moderate, and action conditioned dynamics remains the hardest action/dynamics row. 11 Table 5                                         
+
+> Best detector (by mean matched-time AUROC) and the corresponding mean matched-time AUROC and AUPRC per anomaly injector under the mixed protocol, averaged across 20 OOD episodes. Anomaly Mode Best detector AUROC AUPRC
+> gaussian state noise post-hoc time series features 0.999 0.999
+> state feature dropout post-hoc time series features 0.998 0.998
+> correlation break post-hoc time series features 0.999 0.999
+> regime switch post-hoc kde density 0.997 0.996
+> observation delay post-hoc pedm 0.697 0.692
+> stuck actuator online kde density 0.919 0.941
+> dynamics scaling online pedm 0.927 0.883
+> action conditioned dynamics online pedm 0.636 0.597
+> gradual drift online pedm 0.869 0.836
+
+9.3. Best detector per anomaly 
+
+No single detector monopolises the entire suite. time series features excels across the three simplest post-hoc observation perturbations, kde density tops regime switch and stuck actuator , and pedm leads observation delay , dynamics scaling , action conditioned dynamics , and gradual drift . This distribution aligns with the taxonomy detailed in Section 5: temporal-feature methods prove effective when the observable trajectory structure alters, density methods respond to marginal state-distribution shifts, and action-conditioned transition models assist when the perturbation modifies the transition context. The weak aggregate matched-time score for lyapunov divergence 
+
+(mean AUROC 0.539, mean AUPRC 0.530) confirms that its strong raw AUROC is primarily a temporal-position artefact rather than evidence of effective same-time anomaly separation. Consequently, selecting a solitary detector for practical deployment necessitates a deliberate compromise: securing robust detection across one anomaly family inherently results in insensitivity to anomalies of a different type. 
+
+9.4. Expected versus observed detector behaviour 
+
+The empirical results broadly corroborate the expectations detailed in Section 7.3, while simultaneously highlighting where they are incomplete. As predicted, kde density demonstrates superior performance when a fault induces a marginal shift in the state distribution, outperforming both regime switch and the resultant downstream state shift caused by stuck actuator . Similarly, pedm proves most effective with the online transition faults of dynamics scaling , action conditioned dynamics , and gradual drift ; its dominance in observation delay aligns with an action-conditioned transition perspective, given that the delayed observation becomes incoherent with the concurrent action and next state context. The time series features approach exceeds the expectation of detecting only temporal-pattern anomalies; by capturing rolling variations in noise, dropout, and cross-coordinate structure, it leads across all three post-hoc observation perturbations. Conversely, mahalanobis distance fails to dominate these, despite its expected sensitivity to displaced features, which suggests that covariance-normalised distance is less effective than windowed temporal descriptors for the non-Gaussian and correlation-breaking perturbations employed in this study. The primary deviations from the anticipated outcomes are related to calibration and temporal confounding, rather than the broad detector taxonomy. While ensemble disagreement yields low detection delays, it does not match the matched-time ranking of pedm across transition faults; cusum fails to emerge as the best gradual-drift detector under matched-time AUROC, despite being conceptually suited to sustained changes; autoencoder remains competitive but does not lead any anomaly category; and lyapunov divergence serves chiefly as a cautionary example, given that its raw separation is significantly influenced by clean temporal score trends. These results suggest that while expected detector behaviour provides a valuable prior, the benchmark remains essential for exposing how representation selection, score calibration, and matched-time controls influence the realised rankings. 
+
+9.5. Severity-sweep capability 
+
+Beyond the aggregate anomalies, the framework facilitates the evaluation of a fixed injector across a grid of severity levels. Table 6 provides one such sweep for dynamics scaling using pedm . With the detector and anomaly family held constant, the severity effect is visible: matched-time AUROC and AUPRC increase as the injected dynamics 12 Table 6                                                         
+
+> Example severity sweep for dynamics scaling with pedm . Values are mean matched-time AUROC, AUPRC, and FPR 0.95
+> over 20 OOD episodes at each severity. Higher AUROC/AUPRC and lower FPR 0.95 indicate easier detection. Severity AUROC AUPRC FPR 0.95
+> 0.10 0.608 0.570 0.695 0.20 0.714 0.644 0.564 0.40 0.826 0.755 0.397 0.60 0.882 0.822 0.287 0.80 0.927 0.883 0.170
+> Table 7
+> Mean raw-threshold detection delay per detector (in steps), aggregated across the nine anomaly rows. The trajectory horizon is 𝑇 −𝑡 ⋆= 334 steps; values close to this ceiling indicate that the detector frequently never fires within the episode. Detector mean min max
+> time series features 49.2 0.0 224.7
+> mahalanobis distance 108.9 0.0 266.6
+> autoencoder 130.3 0.2 282.2
+> ensemble disagreement 131.6 0.0 293.5
+> cusum 145.5 5.6 314.3
+> kde density 163.1 0.0 303.9
+> lyapunov divergence 261.6 153.9 334.0
+> pedm 271.9 115.0 334.0
+
+perturbation intensifies, while FPR 0.95 decreases. This analysis complements the preceding detector-ranking tables by examining whether a benchmark condition becomes progressively more manageable as the magnitude of the perturbation increases. 
+
+9.6. Detection delay 
+
+Threshold-free matched-time metrics assess the ability of a detector to rank anomalous post-onset scores against same-time clean scores, yet they offer no information regarding the timing of an episode-level alarm. Detection delay serves as the complementary temporal metric: it measures the number of steps elapsed between the ground-truth onset 
+
+𝑡 ⋆ and the first thresholded positive emitted by the detector. Episodes where the detector fails to fire are recorded at the trajectory horizon ( 𝑇 − 𝑡 ⋆ = 334 steps); consequently, a detector that achieves a strong AUROC score but rarely crosses its calibrated threshold will exhibit a substantial delay, which aligns with the intended behaviour of this metric. Table 7 outlines the mean detection delay for the calibrated raw detector thresholds across the nine rows. This metric remains distinct from matched-time AUROC because the matched-time comparison acts as a pairwise discrimination test rather than a deployment alarm. time series features achieves the lowest average latency (49.2 steps), followed by 
+
+mahalanobis distance (108.9 steps), autoencoder (130.3 steps), and ensemble disagreement (131.6 steps). 
+
+pedm maintains the highest matched-time AUROC but suffers from a slow raw-threshold delay (271.9 steps). For pedm ,this delay arises because the alarm threshold is set to the maximum held-out in-distribution validation score: while many anomalous scores exceed their same-time clean counterparts, they often remain below this conservative threshold until late in the episode. This highlights that ranking quality and calibrated alarm timing are separate characteristics. Table 8 summarises the raw-threshold delay associated with the detector achieving the highest matched-time AUROC for each injector. The “fastest” column indicates the minimum delay attainable across the eight-detector suite, alongside the matched-time AUROC score corresponding to that latency. For the simpler post-hoc observation injectors and regime switch , the detector with the best ranking is either the fastest available or within a single step of the fastest detector. Conversely, for the online dynamics rows, the detectors that rank best under matched-time AUROC may still be slow to trigger under the raw calibrated threshold; the faster detectors in these scenarios often sacrifice matched-time AUROC performance to achieve that latency. A consistent trend visible across both tables indicates that low latency does not equate to reliable ranking. time series features and cusum frequently fire ahead of the detector with the best ranking, yet their matched-time 13 Table 8                                                     
+
+> Mean raw-threshold detection delay (steps after 𝑡 ⋆), averaged across 20 OOD episodes, under two detector-selection rules per anomaly injector. “Best AUROC” reports the mean delay and mean matched-time AUROC of the detector with the highest mean matched-time AUROC; “Fastest” reports the detector with the lowest mean delay together with the mean matched-time AUROC it pays for that latency. Trajectory horizon = 334 steps. Best AUROC Fastest Anomaly detector delay (AUROC) detector delay (AUROC)
+> gaussian state noise tsf 0.1 (0.999) tsf 0.1 (0.999)
+> state feature dropout tsf 0.9 (0.998) tsf 0.9 (0.998)
+> correlation break tsf 0.0 (0.999) tsf 0.0 (0.999)
+> regime switch kde 0.0 (0.997) mah 0.0 (0.981)
+> observation delay pedm 322.8 (0.697) tsf 72.6 (0.533)
+> stuck actuator kde 45.3 (0.919) mah 32.1 (0.889)
+> dynamics scaling pedm 297.3 (0.927) tsf 26.9 (0.899)
+> action conditioned dynamics pedm 334.0 (0.636) cusum 145.9 (0.470)
+> gradual drift pedm 326.1 (0.869) tsf 81.3 (0.799)
+> tsf =time series features ,kde =kde density ,mah =mahalanobis distance .
+
+AUROC performance is weaker across several online dynamics rows. Conversely, while pedm demonstrates strong ranking capabilities for specific online dynamics anomalies under matched-time AUROC, its raw threshold (derived from the validation maximum) can still result in delayed activation. The most prominent exception is dynamics scaling ,where time series features achieves an AUROC nearly comparable to pedm while activating considerably sooner. Consequently, a practical approach to detector selection necessitates consideration of both ranking metrics and calibrated alarm analysis. 
+
+9.7. False-positive rate at 95% TPR 
+
+Although AUROC captures ranking quality across the full range of potential thresholds, a deployed detector functions at a single threshold and suffers a false-alarm penalty when clean scores exceed it. The false-positive rate evaluated at 
+
+95% true-positive rate ( FPR 0.95 ) is a commonly reported operating-point metric in OOD detection benchmarks (Liang et al., 2018; Yang et al., 2022; Zhang et al., 2023). This quantifies the proportion of same-time clean scores that trigger an alarm when the threshold is calibrated to capture 95% of anomalous post-onset scores. Operationally, the threshold is determined from the matched-time anomalous score distribution as the largest threshold maintaining at least 95% 
+
+TPR; FPR 0.95 is then the fraction of matched clean scores exceeding that same threshold. Lower values are desirable; perfect separation yields 0.000 , whereas an uninformative detector results in approximately 0.95 .Table 9 summarises the matched-time FPR 0.95 for each detector across the nine anomaly rows. pedm achieves the lowest aggregate FPR 0.95 (0.378), closely followed by time series features (0.384). A value near 0.95 indicates an uninformative operating point under the balanced matched-time comparison. cusum , mahalanobis distance , and 
+
+lyapunov divergence exhibit weak aggregate operating points, even when their AUROC remains useful for specific anomaly families. Table 10 details matched-time FPR 0.95 for the detector that achieves the highest matched-time AUROC on each injector, as well as the detector that independently minimises FPR 0.95 . The selections align for eight of the nine injectors; the exception being action conditioned dynamics , where time series features has a lower false-positive rate than pedm but also lower AUROC. The hard channels retain high operating-point error rates even after choosing the best detector. When evaluated alongside the AUROC and detection-delay outcomes, FPR 0.95 provides the final component of the analysis. In the case of simpler injectors, all three metrics converge on a limited selection of dominant detectors. Conversely, for live dynamics anomalies and complex post-hoc scenarios, the matched-time AUROC, FPR 0.95 , and delay continue to diverge: a detector may effectively distinguish same-time clean and anomalous scores yet struggle to surpass its calibrated deployment threshold in a timely manner. Consequently, selecting a deployment detector for these contexts necessitates a deliberate commitment to a definitive operational priority—whether ranking performance, a calibrated false-alarm threshold, or latency—rather than relying solely on AUROC. 14 Table 9 
+
+Mean matched-time false-positive rate at 95% TPR per detector, aggregated across the nine anomalies. Lower is better; an uninformative detector reads approximately 0.95 .Detector mean min max 
+
+pedm 0.378 0.008 0.876 
+
+time series features 0.384 0.000 0.945 
+
+kde density 0.609 0.006 0.947 
+
+ensemble disagreement 0.642 0.062 0.944 
+
+autoencoder 0.668 0.033 0.949 
+
+lyapunov divergence 0.742 0.444 0.957 
+
+mahalanobis distance 0.743 0.116 0.952 
+
+cusum 0.806 0.127 0.992 
+
+Table 10 
+
+Mean matched-time FPR 0.95 , averaged across 20 OOD episodes, under two detector-selection rules per anomaly injector. “Best AUROC” reports the mean FPR 0.95 and mean matched-time AUROC of the detector with the highest mean matched-time AUROC; “Best FPR 0.95 ” reports the detector that minimises mean FPR 0.95 together with the mean matched-time AUROC it offers. Best AUROC Best FPR 0.95 
+
+Anomaly detector FPR 0.95 (AUROC) detector FPR 0.95 (AUROC) 
+
+gaussian state noise tsf 0.000 (0.999) tsf 0.000 (0.999) 
+
+state feature dropout tsf 0.000 (0.998) tsf 0.000 (0.998) 
+
+correlation break tsf 0.000 (0.999) tsf 0.000 (0.999) 
+
+regime switch kde 0.006 (0.997) kde 0.006 (0.997) 
+
+observation delay pedm 0.846 (0.697) pedm 0.846 (0.697) 
+
+stuck actuator kde 0.509 (0.919) kde 0.509 (0.919) 
+
+dynamics scaling pedm 0.170 (0.927) pedm 0.170 (0.927) 
+
+action conditioned dynamics pedm 0.876 (0.636) tsf 0.764 (0.489) 
+
+gradual drift pedm 0.487 (0.869) pedm 0.487 (0.869)      
+
+> tsf =time series features ,kde =kde density .
+
+9.8. Null baseline 
+
+The null baseline is derived independently for both post-hoc and online execution modes by evaluating clean trajectories against all-zero clean labels alongside the identical counterfactual post-onset label vector utilised for temporal-bias diagnostics. With the LunarLander trial, these clean post-hoc and clean online baselines coincide, as the no-fault live collector reproduces the same clean policy and environment interaction. Table 11 reports the corresponding raw counterfactual null AUROC values for the eight-detector suite, using the same LunarLander sweep output as the headline results. These threshold-free null metrics underscore the rationale for preferring matched-time negatives in rankings: lyapunov divergence attains a raw counterfactual null AUROC of 0.812, while pedm ,
+
+ensemble disagreement , mahalanobis distance , time series features , and cusum demonstrate raw null AUROC values between 0.64 and 0.68. As the matched-time comparison aligns post-onset anomaly scores with the corresponding post-onset clean scores, it controls the temporal-position effect via the use of raw same-time clean negatives. The matched-time means yield 0.539 for lyapunov divergence and 0.874 for pedm , contrasting sharply with their raw aggregate AUROC figures of 0.901 and 0.935 respectively. 
+
+9.9. Interpreting AUROC versus AUPRC 
+
+The two threshold-free metrics measure distinct properties of the score sequence. AUROC integrates the true-positive rate against the false-positive rate and remains invariant to class prevalence: a wholly uninformative detector obtains a score of 0.5, as the metric relies exclusively on the relative ranking of positive and negative scores. Conversely, AUPRC integrates precision against recall and is inherently sensitive to prevalence. Under the matched-time headline protocol, the positive and negative classes are intrinsically balanced: every post-onset anomalous score corresponds to one clean 15 Table 11                            
+
+> Raw counterfactual null AUROC on clean LunarLander trajectories, computed by applying the post-onset label vector to unperturbed rollouts. In this deterministic LunarLander run, the clean post-hoc and no-fault online control rollouts coincide, so a single null-baseline value is reported per detector. Detector AUROC SD 95% CI
+> lyapunov divergence 0.812 0.122 [0.761, 0.865]
+> pedm 0.675 0.117 [0.624, 0.726]
+> ensemble disagreement 0.669 0.120 [0.623, 0.712]
+> mahalanobis distance 0.661 0.219 [0.578, 0.748]
+> time series features 0.642 0.183 [0.577, 0.713]
+> cusum 0.637 0.257 [0.528, 0.738]
+> autoencoder 0.457 0.174 [0.391, 0.530]
+> kde density 0.376 0.253 [0.267, 0.492]
+
+score from the same timestep. Consequently, a non-informative scoring strategy yields an AUPRC close to 0.5, rather than the post-onset episode-label prior of approximately 0.668 applicable to raw pre-versus-post trajectory metrics. This characteristic renders the matched-time AUPRC table more intuitive to interpret than the raw trajectory table. Both metrics approach perfect separation for the simplest observation perturbations: time series features achieves matched-time AUROC ≈ 0 .999 and AUPRC ≈ 0 .999 on gaussian state noise . Conversely, at the challenging end of the spectrum, the metrics cluster around the balanced chance baseline: lyapunov divergence records an aggregate matched-time AUROC = 0 .539 and AUPRC = 0 .530 , while cusum yields AUROC = 0 .495 and AUPRC = 0 .556 .The aggregate matched-time AUPRC range (0.530–0.851) is thus valuable as a positive-class precision diagnostic, avoiding inflation caused by the extended post-onset interval. The practical implication is that matched-time AUROC should serve as the principal threshold-free metric for discrimination on this benchmark, with matched-time AUPRC acting as a secondary diagnostic for positive-class precision. We continue to report raw trajectory metrics, null baselines, operating-point error, and latency as they address distinct questions: whether a detector distinguishes same-time clean and anomalous scores, whether it exploits temporal score drift, whether an operating threshold induces false alarms, and whether an alarm arrives in sufficient time to be useful. 
+
+## 10. Discussion 
+
+The core contribution lies with the benchmark framework itself, rather than the specific ranking of detection methods. The detector and anomaly tables presented in Section 9 are best viewed as a worked example of the framework’s output within a single environment. Consequently, this discussion prioritises the framework’s architecture, its extensibility, and the ease of integration evidenced by the LunarLander implementation, before addressing the conclusions drawn from the LunarLander results. 
+
+10.1. Framework architecture and contracts 
+
+OOD-RL-Bench is organised as a compact Python package ( ood_rl_bench ), where distinct modules manage specific functions within the evaluation pipeline. The core module establishes the trajectory data structure and defines the abstract base classes BaseDetector and BaseAnomalyInjector . Concrete implementations for these roles are provided by the anomalies , detectors , metrics , and environments modules. The scenarios module offers end-to-end drivers that combine a policy, environment, injector set, and detector set, while the utils module supplies logging, deterministic seeding, and provenance recording ( run_meta.yaml ). The orchestration layer is intentionally minimal and follows the data flow introduced in Figure 1: scenario input is used to select the calibration, anomaly-execution, detector-scoring, metric, and reporting stages (Figure 1A–H). Figure 2 summarises how the internal modules fit together. All interactions between components adhere to three compact data structures: 16 Figure 2: OOD-RL-Bench internal architecture. Configuration and scenario entry points utilise the registry to select components, while core contracts delineate the data flow between modules; concrete detector, injector, and metric implementations register against these specifications, enabling orchestration and evaluation tiers to generate run artefacts for reporting. 
+
+• Trajectory. A fixed-length record exposing states , actions , rewards , next_states , dones , and an info 
+
+dictionary for environment-specific metadata. Every detector functions upon this structure; live-environment interaction is restricted to the trajectory collection phase for online injectors. 
+
+• AnomalySpec. Comprising a name, a severity scalar, an onset (and optional offset) step, and an injector-specific keyword dictionary. The specification is logged alongside the corrupted trajectory and, in conjunction with the seed and execution mode, identifies the perturbation responsible for the outcome. 
+
+• DetectorOutput. A score sequence of length 𝑇 alongside an optional thresholded mask; every metric within 
+
+metrics processes this output in tandem with a ground-truth label vector. Because scoring operates at the trajectory record level (Figure 1D) rather than on the environment, the detector interface (Figure 1E) does not require simulator access. Post-hoc injectors similarly operate directly upon the trajectory record (Figure 1C1). Online injectors require only a minor environment-specific collector that applies the fault during rollout and subsequently emits the standard Trajectory structure (Figure 1C2). This separation ensures uniform detector comparison while permitting dynamics faults to modify the policy’s actual state visitation distribution. 
+
+10.2. Extensibility 
+
+Extensibility is a central design requirement of OOD-RL-Bench. The framework was engineered to ensure that the three principal extension surfaces—detectors, injectors, and environments—remain independent and additive. Introducing a component along any of these surfaces does not require modification of the framework core: a new detector changes only the detector registry/configuration and a new anomaly injector changes only the injector implementation and its configuration block; the orchestration, metric aggregation, and reporting are unchanged. 
+
+Adding a detector. A new detector subclasses BaseDetector and implements the detector methods shown in Figure 1E: fit(trajectories) , invoked once on the in-distribution fit set, and score(trajectory) returning a score array of shape (𝑇 , ), invoked per evaluation episode. The detector determines internally which channels of the 17 trajectory it utilises—states alone, (𝑠 𝑡 , 𝑎 𝑡 , 𝑠 𝑡 +1 ) transitions, rewards, or any combination thereof—and the framework imposes no further constraint on representation, training procedure, or hardware backend. Registration consists of a single entry appended to the configuration YAML (Yet Another Markup Language) file’s detectors list; no metric, runner, or scenario code is touched. 
+
+Adding an anomaly injector. A post-hoc injector subclasses BaseAnomalyInjector and implements inject(trajectory, onset_step, offset_step=None) , returning the corrupted trajectory together with the binary ground-truth label vector through the post-hoc path in Figure 1C1. Injector-specific parameters (e.g., ramp_steps , target_action ,
+
+max_delay ) are declared as keyword arguments on the constructor and surfaced through the anomaly_configs_single 
+
+and anomaly_severity_sweep blocks of the configuration YAML file. An online injector instead extends the environment adapter so that the perturbation is applied during rollout (Figure 1C2), but it still returns the same trajectory-plus-label pair. The surrounding machinery—iteration over episodes, scoring of detectors, aggregation of metrics, recording of provenance—is reused unchanged. 
+
+Adding a metric. A novel metric is a callable consuming a score sequence and a label vector, registered through the configuration YAML file’s metrics block. The metric aggregation layer (Figure 1G) is itself metric-agnostic: per-episode values are aggregated to mean and standard deviation, and the rendered output (Figure 1H; Section 10.4) inherits the additional metric without requiring further modification of the code. AUPRC, FPR 0.95 , segment-level precision and recall, and detection delay were each added through this single surface. 
+
+Adding an environment. The framework treats an environment as a function that accepts a trained policy and produces a Trajectory . No shared environment interface beyond this contract is required: a Gymnasium environment, a custom physics simulator, or a logged interaction record are all acceptable trajectory sources, provided that the resultant trajectory exposes the six standard fields. The LunarLander integration includes the concrete environment adapter shipped with this release; the same trajectory contract can be used to implement additional Gymnasium or simulator adapters. 
+
+10.3. Bringing up LunarLander: a worked example 
+
+LunarLander-v3 acts as the definitive example for deploying OOD-RL-Bench to a new environment. The integration involves exactly four artefacts, none of which necessitate modifying the ood_rl_bench package itself: 1. Trained policy checkpoint. A NoisyNet DQN model operating on the eight-dimensional flat state, trained via a standard script external to the framework. The framework places no restrictions on the architecture, training procedure, or training environment; it merely ingests the resultant torch state_dict via the policy loader detailed below. This checkpoint is loaded once and reused for both in-distribution and out-of-distribution rollouts (Section 8). 2. Policy loader and rollout functions. The scenario file provides _load_policy , which instantiates the value network and loads the checkpoint, alongside rollout functions that emit Trajectory records. The clean/post-hoc path utilises collect_lunar_trajectory with the policy network, device, step count, seed, and policy mode as inputs. The online path applies actuator or dynamics faults during LunarLander-v3 interactions and records the commanded action, executed action, adjusted state transition, reward, and termination flag. These rollout functions represent the sole environment-aware code within the integration. 3. Configuration YAML. A flat file ( lunar_lander.yaml ) listing environment identifiers, training hyperparameters consumed by the policy script, benchmark parameters ( 𝑁 ID , 𝑁 OOD , 𝑇 ), the detector list, and the per-injector default severity and severity-sweep grid. Switching the detector or injector sets requires only the modification of this file. 4. Scenario driver. A top-level Python file ( lunar_lander.py ) that invokes the loader, fits the detector suite once, routes each anomaly to the post-hoc or online collector, and writes the results alongside the run_meta.yaml 
+
+provenance record. The total environment-specific code remains compact: clean rollout, policy loading, and LunarLander-specific online perturbation logic reside outside the detector implementations, while the remaining infrastructure—eight detectors, 18 nine anomaly injectors, eight metrics, deterministic seeding, matched-time result rendering, null-baseline diagnostics, and severity sweeping—is inherited from the package. A new environment with a comparable action and observation space is therefore expected to require only an adapter for clean rollout and, if online dynamics anomalies are needed, a small wrapper for applying faults, rather than a complete benchmark rewrite. 
+
+10.4. Reproducibility and reporting 
+
+Each execution generates three artefacts within the output/<timestamp>_<mode>/ directory: results.yaml 
+
+(containing flat per-condition records), sweep_results.yaml (containing nested per-injector severity grids where applicable), and run_meta.yaml (detailing the framework version, Python and dependency versions, device, wall time, and the fully resolved configuration). The runner logs the execution mode for every anomaly and generates both post-hoc and online null baselines. The results schema encompasses raw metrics, matched-time metrics, null-derived diagnostics, and all-zero clean alarm rates. A symbolic link at output/latest_hybrid consistently points to the most recent hybrid execution for easy inspection. The results files are intentionally serialised as human-readable YAML rather than a binary format, allowing them to be diffed, version-controlled, and post-processed without the need for external library dependencies. The accompanying show_results.py renderer formats the matched-time per-anomaly and aggregate tables in the layout adopted throughout this paper, and transparently accepts both single-severity and sweep files. Collectively, these attributes render the framework’s output trivially auditable: every tabulated value presented in Section 9 corresponds to a single entry within a YAML file released alongside this manuscript, identified by detector name, anomaly name, execution mode, severity, metric, seed, and software versions used to generate the data. 
+
+10.5. Mixed post-hoc and online execution: strengths and caveats 
+
+The mixed protocol highlights a deliberate distinction between anomalies that can be faithfully captured in recorded data and those whose effects rely on closed-loop interaction. Post-hoc injection remains the most tractable approach for observation, temporal, and distributional perturbations: as every detector is presented with the identical perturbed trajectory, differences in metric values cannot be attributed to divergent control responses. Online collection is essential for action and dynamics faults because post-hoc modification would otherwise leave the state visitation distribution inconsistent with the action actually executed within the environment. The caveat lies in the fact that the online anomalies serve as LunarLander-specific proxy interventions: while they incorporate the policy’s response to the fault during trajectory collection, the detectors are evaluated only after the trajectory has been gathered. These results should therefore be interpreted as mixed-mode trajectory-detection outcomes rather than constituting a complete real-time fault-response system. 
+
+10.6. Results obtained on LunarLander 
+
+Three distinct structural patterns emerge, each of which the framework was explicitly designed to capture. Firstly, anomalies that displace the observation distribution or distort observable temporal structure are recovered with relative ease, encompassing both the post-hoc observation perturbations and regime switch . Secondly, matched-time negatives clarify action- and dynamics-related rows: kde density leads the stuck actuator row because the live fault alters the downstream state distribution, whereas pedm leads dynamics scaling , action conditioned dynamics , and 
+
+gradual drift . Thirdly, the more difficult rows necessitate multiple diagnostics: observation delay and action conditioned dynamics demonstrate why matched-time AUROC, operating-point false-positive rate, and detection delay cannot be reduced to a single scalar ranking. These observations represent precisely the type of conclusion the framework is designed to facilitate; they emerge from the metric set, injector taxonomy, execution-mode split, and null-baseline, operating-point, and latency diagnostics rather than the design of any individual detector. The stuck actuator result should not be interpreted as evidence that a marginal state-density detector identifies actuator faults causally. Within this implementation, the primary action field records the action commanded by the policy, while the action actually executed by the environment is retained as trajectory metadata. pedm therefore conditions on the commanded action and detects the fault solely through transition error; it does not directly score the mismatch between commanded and executed actions. kde density , by contrast, benefits because the live actuator fault rapidly displaces the downstream state distribution. The row therefore measures how detectable the downstream trajectory changes caused by the actuator fault are, rather than providing a direct diagnosis of the actuator mechanism itself. 
+
+10.7. Limitations 
+
+Several constraints impact both the framework and the interpretation of the reported results. (i) Single environment in the reported numbers : The numerical results presented in Section 9 originate solely from LunarLander-v3, utilising 19 a single trained policy. While the framework’s trajectory interface is designed to be environment-agnostic, adapting the approach for other environments—specifically those that are higher-dimensional, partially observed, or image-based—requires further implementation and empirical validation. (ii) Environment-specific online perturbation implementations : Although the online actuator and dynamics fault families are conceptually portable across environments, precise configuration of concrete simulator hooks, affected control dimensions, and severity mappings is required prior to cross-environment comparisons. (iii) Matched-time scope : Matched-time negatives provide a rigorous foundation for benchmark discrimination by contrasting anomalous scores with their clean counterparts at the corresponding timestep, thereby preventing detectors from capitalising on natural early-to-late score drift. It is important to recognise that this constitutes an evaluation protocol rather than a deployable detector; practical implementation therefore requires further threshold calibration, delay analysis, and false-alarm monitoring. 
+
+## 11. Conclusion 
+
+This manuscript introduces OOD-RL-Bench, a systematic benchmark for out-of-distribution detection applied to reinforcement-learning trajectories. The framework integrates eight evaluated detectors with nine anomaly mechanisms under a deterministic and reproducible mixed protocol: observation, temporal, and distributional anomalies are evaluated post hoc, while action and dynamics anomalies are evaluated through online LunarLander rollouts before being scored by the same detector suite. Initial evaluations on LunarLander establish a nuanced hierarchy for anomaly difficulty and detector performance under matched-time negatives. Specifically, observation corruptions and regime switches present straightforward challenges, stuck-actuator detection is strongest for a state-density signal in the current suite, and online dynamics rows are strongest for pedm but expose a latency trade-off. Observation delay and action-conditioned dynamics require careful interpretation through null-baseline, false-positive-rate, and latency diagnostics. To facilitate subsequent methodological advancements against a unified baseline, we release the framework, trained policy, and comprehensive results at https://github.com/ood-rl-bench/ood-rl-bench .
+
+## Acknowledgements 
+
+This research was supported by research funding from Deakin University. 
+
+## References 
+
+Basseville, M., Nikiforov, I.V., 1993. Detection of Abrupt Changes: Theory and Application. Prentice Hall, Englewood Cliffs, NJ. Brockman, G., Cheung, V., Pettersson, L., Schneider, J., Schulman, J., Tang, J., Zaremba, W., 2016. Openai gym. arXiv preprint arXiv:1606.01540 doi: 10.48550/arXiv.1606.01540 .Chua, K., Calandra, R., McAllister, R., Levine, S., 2018. Deep reinforcement learning in a handful of trials using probabilistic dynamics models, in: Advances in Neural Information Processing Systems, pp. 4759–4770. Danesh, M.H., Fern, A., 2021. Out-of-distribution dynamics detection: RL-relevant benchmarks and results. arXiv preprint arXiv:2107.04982 doi: 10.48550/arXiv.2107.04982 .Davis, J., Goadrich, M., 2006. The relationship between precision-recall and ROC curves, in: Proceedings of the 23rd International Conference on Machine Learning, Association for Computing Machinery. pp. 233–240. doi: 10.1145/1143844.1143874 .Fawcett, T., 2006. An introduction to ROC analysis. Pattern Recognition Letters 27, 861–874. doi: 10.1016/j.patrec.2005.10.010 .Fulcher, B.D., Jones, N.S., 2017. hctsa: A computational framework for automated time-series phenotyping using massive feature extraction. Cell Systems 5, 527–531.e3. doi: 10.1016/j.cels.2017.10.001 .Haider, T., Roscher, K., Schmoeller da Roza, F., Günnemann, S., 2023. Out-of-distribution detection for reinforcement learning agents with probabilistic dynamics models, in: Proceedings of the 2023 International Conference on Autonomous Agents and Multiagent Systems, International Foundation for Autonomous Agents and Multiagent Systems. pp. 851–859. Hendrycks, D., Gimpel, K., 2017. A baseline for detecting misclassified and out-of-distribution examples in neural networks, in: International Conference on Learning Representations. Kantz, H., Schreiber, T., 2004. Nonlinear Time Series Analysis. 2 ed., Cambridge University Press. Lakshminarayanan, B., Pritzel, A., Blundell, C., 2017. Simple and scalable predictive uncertainty estimation using deep ensembles, in: Advances in Neural Information Processing Systems, pp. 6405–6416. Lee, K., Lee, K., Lee, H., Shin, J., 2018. A simple unified framework for detecting out-of-distribution samples and adversarial attacks, in: Advances in Neural Information Processing Systems, pp. 7167–7177. Liang, S., Li, Y., Srikant, R., 2018. Enhancing the reliability of out-of-distribution image detection in neural networks, in: International Conference on Learning Representations. Mahalanobis, P.C., 1936. On the generalised distance in statistics. Proceedings of the National Institute of Sciences of India 2, 49–55. 
+
+20 Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A.A., Veness, J., Bellemare, M.G., Graves, A., Riedmiller, M., Fidjeland, A.K., Ostrovski, G., Petersen, S., Beattie, C., Sadik, A., Antonoglou, I., King, H., Kumaran, D., Wierstra, D., Legg, S., Hassabis, D., 2015. Human-level control through deep reinforcement learning. Nature 518, 529–533. doi: 10.1038/nature14236 .Mohammed, A.P., Valdenegro-Toro, M., 2021. Benchmark for out-of-distribution detection in deep reinforcement learning. arXiv preprint arXiv:2112.02694 doi: 10.48550/arXiv.2112.02694 .Müller, R., Illium, S., Phan, T., Haider, T., Linnhoff-Popien, C., 2022. Towards anomaly detection in reinforcement learning, in: BlueSky Ideas of the 21st International Conference on Autonomous Agents and Multiagent Systems, International Foundation for Autonomous Agents and Multiagent Systems. pp. 1799–1803. Nasvytis, L., Sandbrink, K., Foerster, J., Franzmeyer, T., Schroeder de Witt, C., 2024. Rethinking out-of-distribution detection for reinforcement learning: Advancing methods for evaluation and detection, in: Proceedings of the 23rd International Conference on Autonomous Agents and Multiagent Systems, International Foundation for Autonomous Agents and Multiagent Systems. pp. 1445–1453. Page, E.S., 1954. Continuous inspection schemes. Biometrika 41, 100–115. doi: 10.1093/biomet/41.1-2.100 .Paparrizos, J., Kang, Y., Boniol, P., Tsay, R.S., Palpanas, T., Franklin, M.J., 2022. TSB-UAD: An end-to-end benchmark suite for univariate time-series anomaly detection. Proceedings of the VLDB Endowment 15, 1697–1711. doi: 10.14778/3529337.3529354 .Parzen, E., 1962. On estimation of a probability density function and mode. The Annals of Mathematical Statistics 33, 1065–1076. doi: 10.1214/aoms/1177704472 .Prashant, M., Easwaran, A., Das, S., Yuhas, M., 2025. Guaranteeing out-of-distribution detection in deep RL via transition estimation. Proceedings of the AAAI Conference on Artificial Intelligence 39, 12452–12460. doi: 10.1609/aaai.v39i12.33357 .Qiu, X., Qiu, W., Hu, S., Zhou, L., Wu, X., Zhengyu, L., Guo, C., Zhou, A., Sheng, Z., 2025. TAB: Unified benchmarking of time series anomaly detection methods. Proceedings of the VLDB Endowment 18, 2775–2789. doi: 10.14778/3746405.3746407 .Sakurada, M., Yairi, T., 2014. Anomaly detection using autoencoders with nonlinear dimensionality reduction, in: Proceedings of the MLSDA 2014 2nd Workshop on Machine Learning for Sensory Data Analysis, Association for Computing Machinery. pp. 4–11. doi: 10.1145/2689746.2689747 .Sutton, R.S., Barto, A.G., 2018. Reinforcement Learning: An Introduction. 2 ed., MIT Press. Towers, M., Kwiatkowski, A., Terry, J.K., Balis, J.U., De Cola, G., Deleu, T., Goulão, M., Kallinteris, A., Krimmel, M., KG, A., Perez-Vicente, R., Pierré, A., Schulhoff, S., Tai, J.J., Tan, H., Younis, O.G., 2024. Gymnasium: A standard interface for reinforcement learning environments. arXiv preprint arXiv:2407.17032 doi: 10.48550/arXiv.2407.17032 .Wolf, A., Swift, J.B., Swinney, H.L., Vastano, J.A., 1985. Determining lyapunov exponents from a time series. Physica D: Nonlinear Phenomena 16, 285–317. doi: 10.1016/0167-2789(85)90011-9 .Yang, J., Wang, P., Zou, D., Zhou, Z., Ding, K., Peng, W., Wang, H., Chen, G., Li, B., Sun, Y., Du, X., Zhou, K., Zhang, W., Hendrycks, D., Li, Y., Liu, Z., 2022. OpenOOD: Benchmarking generalized out-of-distribution detection, in: Advances in Neural Information Processing Systems, pp. 32598–32611. Zhang, J., Yang, J., Wang, P., Wang, H., Lin, Y., Zhang, H., Sun, Y., Du, X., Li, Y., Liu, Z., Chen, Y., Li, H., 2023. OpenOOD v1.5: Enhanced benchmark for out-of-distribution detection. arXiv preprint arXiv:2306.09301 doi: 10.48550/arXiv.2306.09301 .
+
+21
