@@ -1,0 +1,412 @@
+Title: Hierarchical Fault Localization for Autonomous Driving Systems with Hypothesis Validation and Intent Analysis
+
+URL Source: https://arxiv.org/pdf/2607.12598v1
+
+Published Time: Wed, 15 Jul 2026 11:57:04 GMT
+
+Number of Pages: 13
+
+Markdown Content:
+# Hierarchical Fault Localization for Autonomous Driving Systems with Hypothesis Validation and Intent Analysis 
+
+Rui Zheng 
+
+KLSS, ISCAS Univ. of Chinese Academy of Sciences 
+
+Beijing, China 
+
+zhengrui@ios.ac.cn 
+
+Changwen Li 
+
+KLSS, ISCAS Univ. of Chinese Academy of Sciences 
+
+Beijing, China 
+
+licw@ios.ac.cn 
+
+Yi Ji 
+
+KLSS, ISCAS Univ. of Chinese Academy of Sciences 
+
+Beijing, China 
+
+yeechi18@qq.com 
+
+Rongjie Yan 
+
+KLSS, ISCAS Univ. of Chinese Academy of Sciences 
+
+Beijing, China 
+
+yrj@ios.ac.cn 
+
+Abstract —Comprehensive testing is essential for the safety and reliability of Autonomous Driving Systems (ADS). Existing techniques can detect system-level failures or attribute them to coarse-grained modules, but they often fall short of localizing the root cause in source code. As a result, debugging remains labor-intensive, requiring developers to connect behavioral violations with complex implementation logic. To address this gap, we present HINT, a two-phase framework for hierarchical ADS fault localization based on hypothesis validation and intent analysis. In Phase I, HINT transforms failure-triggering execution recordings into multi-modal abstractions and uses causal reasoning to iden-tify the responsible module. In Phase II, it reconstructs design-side intent and implementation-side behavior, then localizes suspicious code through reliability-aware consistency checking, without costly re-simulation. We evaluate HINT on Apollo across diverse failure modes and modules. The results show that HINT achieves the strongest overall performance across module-level diagnosis and code-level localization metrics, with 77.8% end-to-end Class@5 accuracy on real-world bugs. 
+
+I. I NTRODUCTION 
+
+Autonomous Driving Systems (ADS) show great promise in enhancing transportation efficiency and urban mobility. As they are highly safety-critical systems, extensive testing is essential for achieving strong trustworthiness guarantees. Simulation-based testing in high-fidelity environments has become the dominant evaluation method, leveraging its in-herent advantages in repeatability, controllability, and cost-effectiveness before real-world deployment. While diverse methodologies exist for generating simulation tests to evaluate safety and coverage [1], [2], [3], research into the subsequent debugging process remains disproportionately scarce [4]. Though recent attempts have advanced to module-level diagnosis for multi-module ADS, isolating the exact code-level fault remains difficult due to the intricate design and extensive codebase of individual modules. For example, recent large-scale empirical studies on platforms like Apollo [5] and Autoware [6] reveal that the Planning module is the primary source of failures, involving over five hundred semantic bug-fix patterns, largely driven by intricate sub-modules like path and velocity optimization [7]. Furthermore, these faults rarely manifest as explicit crashes [8]. Three key challenges impede code-level fault localization in ADS. First, ADS failures often manifest as behavioral deviations rather than code-level exceptions or error messages, making it difficult to connect observed failures with responsi-ble implementation logic. Second, module-level fault reports are insufficient due to the combinatorial explosion of execution paths, making manual root-cause isolation impractical. Third, semantic faults in otherwise syntactically correct code can sys-tematically misdirect both automated debugging and manual analysis, yielding unreliable diagnoses. To address these challenges, we propose HINT, a two-phase framework for automatically localizing code-level faults of ADS from runtime recordings, ADS documentation, and source code. As shown in Fig. 1, HINT takes an observed failure trace as input and connects the system-level symptom to the corresponding code-level root cause. Currently we focus on three failure categories commonly used in scenario-based ADS testing: collisions, traffic-rule violations, and task incompletion. The first phase addresses the behavioral-to-code attribution challenge by using LLM-powered agents to analyze synthesized multi-modal evidence from the failure-triggering trace, yielding a candidate faulty module. The sec-ond phase addresses search-space explosion by first construct-ing a scenario-specific Dynamic Execution Skeleton (DES) to prune irrelevant code paths and recover an ordered set of runtime-relevant tasks, and then tackles semantic errors by iteratively checking the consistency between the design intent reconstructed from documentation and the actual im-plementation, thereby refining localization to specific code segments. This two-phase design is instantiated with ADS-specific evidence, including scenario-based testing results, BEV reconstruction, and STL (Signal Temporal Logic) failure specifications. The same strategy can be transferred to other modular systems when analogous runtime evidence, contextual information, module dependencies, design artifacts, and source code are available. arXiv:2607.12598v1 [cs.SE] 14 Jul 2026 Fig. 1: System framework for fault diagnosis and localization To evaluate the framework’s effectiveness and efficiency, we integrated it with the Baidu Apollo platform and the Carla simulator [9]. Our benchmark includes execution recordings from public issues and injected faults across ADS modules. Extensive comparisons with state-of-the-art ADS diagnosis and fault localization techniques demonstrate that our ap-proach achieves high accuracy in pinpointing root causes. In summary, this paper makes the following contributions:  
+
+> •
+
+We present the first framework for automated code-level fault localization in ADS, leveraging system recordings, documentation, and implementation artifacts. The frame-work isolates failure-triggering execution traces to diagnose their code-level root causes.  
+
+> •
+
+We propose a two-phase hierarchical diagnosis mechanism that combines hypothesis validation with intent analysis to bridge system-level failures and code-level faults.  
+
+> •
+
+We construct a benchmark of diverse failure scenarios for the Apollo open-source platform, facilitating reproducible evaluation of ADS debugging tools.  
+
+> •
+
+We conduct comprehensive experiments to demonstrate the effectiveness and efficiency of HINT against state-of-the-art fault diagnosis and localization techniques, along with an ablation study on its key design components. II. B ACKGROUND AND MOTIVATING EXAMPLE 
+
+A. ADS Architecture 
+
+Modern autonomous driving systems, such as Apollo and Autoware, typically adopt a modular architecture cen-tered around a Communication Middleware . As illustrated in Fig. 2 (middle), the system comprises core mod-ules— Sensing , Perception , Prediction , Plan-ning , and Control —that are decoupled via frameworks like Cyber RT [10] or ROS 2 [11]. Crucially, as shown in Fig. 2 (bottom), these modules share a generic hierarchical execution model. Upon receiv-ing a message trigger, the execution flow is not static but governed by a Dynamic Context Selector (e.g., Finite State Machines in Apollo or Scene Modules in Autoware). This selector determines the active operational context (e.g., Lane Follow vs. Intersection ) and dynamically instantiates a specific 
+
+Fig. 2: Architecture of Autonomous Driving Systems 
+
+(a) Behavior example 1 @@ -1,10 +1,11 @@               
+
+> 2void SequencePredictor::
+> 3FilterLaneSequences(...) {
+> 4...
+> 5if (GetLaneChangeDistanceWithADC(sequence)
+> 6- < FLAGS lane change dist) {
+> 7+ < FLAGS lane change dist && (lane change type[i] == LaneChangeType::LEFT || lane change type[i] == LaneChangeType::RIGHT)) {
+> 8(*enable lane sequence)[i] = false;
+> 9continue;
+> 10 }
+> 11 ...
+> 12 }
+
+(b) Faulty code before and after the fix 
+
+Fig. 3: Example of a “failing to overtake” scenario and the corresponding faulty code fix in PR826 [12]. 
+
+Algorithmic Unit Pipeline . This pipeline consists of a sequence of atomic tasks (e.g., Deciders and Optimizers) tailored to the current scenario. 
+
+B. Motivating Example 
+
+We illustrate the challenges of code-level fault localization in ADS using a real-world bug from the Apollo project (fixed in PR826 [12]). This bug manifests as a “failed overtake” scenario (Fig. 3a). The blue arrow denotes the expected ego behavior: the ego vehicle should overtake because sufficient space is available. However, the prediction module produces a faulty predicted NPC trajectory, shown in green, indicating that the lead vehicle may obstruct the overtaking maneuver. In contrast, the white arrow shows the actual NPC behavior: the vehicle remains nearly stationary. This mismatch between the predicted and actual NPC trajectories makes the ego vehicle conservatively follow the lead vehicle instead of executing the expected overtake, resulting in the observed failure. At the system level, the visible symptom is task incom-pletion. In this scenario, it manifests as a failed overtake: the ego should pass the near-stationary lead vehicle but re-mains blocked. Accurately identifying the cause of this failure requires a method to establish the relationship between the incorrect prediction and the failure to overtake. Moreover, simply knowing the incorrect prediction is still insufficient for localizing the exact faulty code. For example, in Apollo, the prediction module contains over 29k lines of code and in-volves a complex workflow with hundreds of functional steps, including geometry computations, map data queries, predicted-trajectory filtering and selection, and machine-learning infer-ences. The actual bug leading to the issue is caused by the faulty code shown in Fig. 3b implementing a filter (function “FilterLaneSequences ”). This filter intends to restrict the pre-dicted trajectories of surrounding vehicles to keep their lanes when they are close to the ego vehicle, with the goal of avoid-ing overly cautious behavior by the ego vehicle. However, the erroneous filtering condition removes valid high-confidence trajectories for nearby obstacles, causing subsequent functional steps to operate on an incomplete candidate set and reselect an incorrect trajectory. III. M ETHODOLOGY 
+
+HINT takes an observed failed ADS scenario as input and localizes it to code-level root causes using its runtime record-ing, simulation scenario, design documentation, and source code. The failure is assumed to exist; STL monitors are used to identify the concrete failure symptom and violation interval for evidence extraction and pruning, rather than to perform general failure detection. Runtime recordings are parsed into time-aligned module traces, simulation scenarios provide physical traffic context, and design documentation and source code are used in Phase II for intent comparison. The workflow consists of two phases:  
+
+> •
+
+Phase I: Module Error Diagnosis . This phase abstracts the failure into violation-centered evidence, validates candidate module-error hypotheses, and performs causal attribution to distinguish source faults from propagated or incidental effects. It outputs Elocalized = ⟨m, b, c ⟩, where m is the suspected module, b is the violated behavior/fault type, and 
+
+c is supporting runtime and scenario evidence.  
+
+> •
+
+Phase II: Code-Level Fault Localization . Given Elocalized ,design documents, and source code, this phase localizes the fault within the diagnosed module. It reconstructs the design-side task intent, builds a Dynamic Execution Skeleton (DES) to prune irrelevant code paths under the observed failure, extracts the implementation-side intent from runtime-relevant source code, and ranks suspicious tasks/functions by semantic inconsistencies under a shared schema. 
+
+A. Phase I: Module Error Diagnosis 
+
+Phase I isolates the module error responsible for a system-level failure through evidence-grounded causal analysis. It extracts structured evidence around the violation episode, derives candidate module-level inconsistencies, and validates which candidate best explains the failure rather than merely reflecting propagated, compensatory, or incidental behavior. 
+
+1) Step 1: Scenario Abstraction: Raw runtime artifacts are noisy and difficult to reason over directly. As shown in Fig. 4, HINT converts them into a violation-centered, multi-modal representation for causal diagnosis. 
+
+Fig. 4: The scenario abstraction pipeline First, we parse heterogeneous messages in the raw recording into a structured, time-aligned execution trace with synchro-nized outputs of all modules. This transformation converts raw logs into a discrete, queryable sequence, providing the foun-dational evidence required for subsequent causal reasoning. Second, we extract time-series signals (e.g., velocity and distance) from the abstracted trace and employ STL mon-itors [13], [14], [15] to support the precise localization of violation intervals from a failure symptom F, such as collision, traffic-rule violation, or task incompletion. The violation inter-val ∆v captures the specific timeframe within a trace during which the robustness value of the corresponding STL formula remains below zero. Third, HINT reconstructs the traffic scene by projecting the parsed execution trace onto the HD map. The resulting BEV overlays static map elements with ego and surrounding-vehicle trajectories, exposing spatial context such as lane occupancy, relative distances, and motion trends that are implicit in raw logs. Finally, to unify the topological context from the visualizer and logical verdicts from the STL monitor, we employ a 
+
+Multimodal LLM (MLLM) . It synthesizes the BEV imagery and quantitative signal data into a Scenario Description in natural language. This step effectively translates low-level runtime artifacts into a unified semantic format that helps the Hypothesis Agent organize the scenario context for down-stream analysis. 
+
+2) Step 2: Hypothesis Generation and Validation: In Step 2, HINT isolates the faulty module using a dynamic Hypothesis Generation and Validation process (Alg. 1). The process begins with the Hypothesis Agent generating a set of coarse-grained hypotheses from the observed symptom and the violation interval, while the localized fault tuple is initially left unknown (Lines 1–2). These hypotheses are constrained by the ADS pipeline and the anomaly type, preventing the divergence associated with open-ended generation. The diagnosis then proceeds iteratively as long as unre-solved hypotheses remain and the current fault entry is not yet sufficiently specific (Line 3). In each iteration, the Hypothesis Agent selects the most promising hypothesis and maps it to an appropriate validation Skill , a reusable diagnostic operator that specifies the evidence to inspect and the runtime consistency check to perform for the selected hypothesis. The selected Skill queries the structured execution trace and reconstructed scene to produce a grounded observation. This design allows each suspect to be examined through a validation procedure tailored to its semantic role. Validation function (Line 6) is a structured, dependency-and semantics-aware check, not mere anomaly detection. More specifically, validation checks whether a candidate module’s behavior is consistent with runtime evidence. Its output should be 1) explainable by its inputs and recent observations, 2) consistent with the downstream behavior observed in actual execution, and 3) semantically coherent under the current map and obstacle context. Different hypotheses are examined through different Skills, each instantiating a corresponding form of behavioral consistency analysis. Based on the validated observation, the Hypothesis Agent then performs causal responsibility analysis (Line 7) to deter-mine whether the inconsistency is best explained as a source fault, a propagated effect, a compensatory response, or an incidental anomaly. This judgment considers the timing of the inconsistency, the module’s role in the ADS pipeline, and the explanatory power of the evidence. As a result, HINT identifies the module whose abnormal behavior most plausibly explains the observed system-level failure, rather than simply reporting the first abnormal one. If the evidence contradicts the current hypothesis, the sus-pect is pruned from the candidate set (Lines 8–9). Otherwise, the localized fault tuple is updated, and the hypothesis is refined as needed (Lines 11–13). The loop terminates when the candidate set is exhausted or the diagnosis becomes sufficiently specific, following the loop condition in Line 3. It returns a localized fault tuple that records the suspected mod-ule, failure type, execution context, and supporting evidence for Phase II. 
+
+B. Phase II: Code-Level Fault Localization 
+
+To address search space explosion and semantic-error chal-lenges in code-level fault localization, we propose a Dual-Stream Intent Inconsistency Analysis process (Fig. 5). As mentioned in Section II-A, ADS execution can be modeled as a sequence of tasks , where each task denotes a coherent design/implementation unit, such as an Apollo decider, optimizer, predictor, or trajectory-filtering component. Given the Phase-I output, design documentation, and source code, Phase II reconstructs the Dynamic Execution Skele-ton (DES ), a scenario-specific ordered sequence of runtime-relevant tasks that approximates the execution path under the observed failure. Here, task does not refer to the ego vehicle’s 
+
+Algorithm 1 Hypothesis Generation and Validation                                                              
+
+> Require: Failure Symptom F, Violation Interval ∆v, Agent Skills
+> S
+> Ensure: Localized Fault Tuple Elocalized
+> 1: H ← InitializeHypotheses (F,∆v)
+> 2: Elocalized ←Unknown
+> 3: while H̸ =∅and not IsSpecific (Elocalized )do
+> 4: h←SelectTopHypothesis (H)
+> 5: s←SelectSkill (S, h )
+> 6: O←ValidateHypothesis (s, h ){trace/scene evidence }
+> 7: r←AssessResponsibility (h, O, ∆v){fault attribution }
+> 8: if r=Rejected then
+> 9: H ← H \ h{Prune }
+> 10: else
+> 11: Elocalized ←UpdateFaultEntry (h, O, r )
+> 12: if NeedsRefinement (h, O, r )then
+> 13: H ← (H \ h)∪RefineHypothesis (h, O )
+> 14: end if
+> 15: end if
+> 16: end while
+> 17: return Elocalized
+
+driving maneuver or an operation performed by the agents in the framework. Rather than constructing a global program graph over the entire codebase, HINT focuses on the code region around the localized faulty module. It first identifies execution entry anchors , such as message callbacks, periodic execution han-dlers, or framework-registered dispatch points, that can initiate the relevant runtime logic, then recovers their static code de-pendencies and uses framework-level execution specifications (e.g., configuration files, registration metadata, or pipeline descriptors) as structural hints for task ordering and activation. It then incorporates runtime-relevant scenario evidence from Phase I to perform runtime-aware pruning, removing infeasible branches and retaining only tasks and bindings compatible with the observed failure. The resulting skeleton provides an ordered, scenario-specific task list and a runtime-aware bound-ary for subsequent code retrieval. Tasks are then analyzed in this order, with later candidates considered only if earlier ones are rejected. For each selected task, Phase II performs two streams of analysis: 1) Target intent Extraction: Reconstructing the Target Intent 
+
+(Itarget ) strictly from design artifacts. 2) Implementation Intent Extraction: Reconstructing the Implementation Intent ( Iimpl ) strictly from the source code, through an information-gain-driven semantic tree construc-tion that selectively expands only behaviorally relevant function calls while folding infrastructure code. The two streams converge only at the Inconsistency Analysis 
+
+stage, where Iimpl is systematically compared against Itarget 
+
+across multiple semantic dimensions to quantify their discrep-ancy. If the inconsistency score exceeds the acceptance thresh-old, the root cause is localized, and the score is distributed onto the semantic tree’s function nodes to pinpoint the responsible code region. Otherwise, the system proceeds to the next task in the skeleton. Fig. 5: Overview of Phase II: Dual-Stream Intent Analysis for code-level fault localization. To make the two streams directly comparable, we adopt a unified intent schema for Phase II. The schema is fixed by the framework rather than learned from each scenario. It is used to normalize both design-side evidence and implementation-side behavior so that comparison is performed field by field under the same semantic structure. For each selected task, an intent is represented as a quadruple I =
+
+⟨Goal, Guard, Saf ety, Assumption ⟩. Here, Goal denotes the functional objective that the task is expected to achieve; 
+
+Guard specifies the activation conditions under which the task behavior becomes relevant; Safety captures the mandatory constraints that the task output must satisfy; and Assumption 
+
+records the environmental premises on which the task logic re-lies. Each field is instantiated as a structured natural-language semantic slot rather than a symbolic formula, allowing ev-idence from heterogeneous sources to be normalized into a shared representation. 
+
+1) Target Intent Extraction: This stage reconstructs the design-side intent Itarget for the selected task strictly from design artifacts, operating in a code-blind mode to ensure that the resulting representation is not biased by the observed implementation. The goal is to recover what the task is intended to do according to the design knowledge available to developers, rather than what the current code happens to implement. The extraction proceeds in two steps: Information Retrieval & Inference and Logic Formalization , both carried out by an Architect agent, which serves as the design-side reasoning component in Phase II. 
+
+Information Retrieval & Inference. The purpose of this step is to identify the design artifacts most relevant to the selected task and recover from them the design knowledge needed for intent reconstruction. To this end, the Architect first organizes heterogeneous design artifacts, including requirements docu-mentation, interface specifications, protocol descriptions, and technical reports, into a searchable knowledge base. To recover the design knowledge most relevant to the selected task under the observed failure scenario[16], [17], the Architect performs retrieval through a Multi-stage Retrieval-Augmented Generation (RAG) [18] pipeline. Starting from the fault context and the selected task, it formulates multiple semantic queries, retrieves candidate passages from the design corpus, and then reranks them to retain the most relevant evidence for intent reconstruction. In practice, industrial documentation is often incomplete, fragmented, or outdated. As a result, retrieval alone may be insufficient for reconstructing a coherent design-side intent, when it does not provide enough grounded evidence to instan-tiate the key fields of Itarget with reasonable consistency. In such cases, the Architect triggers a self-correction/inference 
+
+step that supplements the documented intent with plausible implicit constraints derived from domain knowledge and the task’s functional role. This step is not intended to invent new behavior, but to recover design semantics that are strongly implied yet not explicitly stated in the available artifacts. 
+
+Logic Formalization. In this step, the Architect synthesizes the retrieved specifications and inferred constraints into a coherent task-level design intent. Each field is instantiated in structured natural language, preserving semantic richness while maintaining cross-source comparability. When retrieved design evidence is too abstract for direct comparison, the Architect performs Constraint Instantiation 
+
+to concretize under-specified parts of the design-side intent. By applying counterfactual reasoning to the observed fail-ure, it infers latent numerical or logical bounds necessary to operationalize the intended behavior, such as embedding 
+
+θstop ≤ 12 .3 m into a relevant guard condition. When fields cannot be reliably grounded through documentation or domain-informed inference, the Architect flags them as under-specified to avoid introducing spurious content. 
+
+2) Implementation Intent Extraction: This stage recon-structs the implementation-side intent Iimpl for the selected task strictly from the source code, operating in a specification-blind mode to ensure that the resulting representation captures only what the code actually does, independent of what it was intended to do. Two agents facilitate the extraction process: the Diagnoser performs the implementation-side abstraction, while the Librarian manages an AST-based symbol index for efficient Jump-to-Definition retrieval (resolving a sym-bol reference or call site to the corresponding function or method definition). Static references are resolved via the index, while dynamic symbol bindings are handled through the DES established at the start of Phase II. Building on this infrastructure, HINT performs Implementation Intent Ex-traction through three tightly coupled components: Semantic Tree construction , which organizes behaviorally relevant code entities around the selected task; Logic Abstraction , which summarizes the recovered code semantics under the shared intent schema; and Convergence Judgment , which determines when recursive expansion is sufficient for a self-contained root-level characterization. 
+
+Semantic Tree Construction: A Semantic Tree is a hierar-chical representation of behaviorally relevant implementation logic rooted at the selected task entry point. Unlike a raw call graph, it selectively includes only callees, predicates, helper routines, and delegated checks whose semantics may affect the task-level characterization. Each node corresponds to a code entity or logic fragment together with its local semantic con-tribution, while edges capture semantic dependence induced by control flow, data flow, or delegated decision logic. The subsequent implementation-side analysis is then carried out over this tree: the Diagnoser iteratively expands, abstracts, and checks the Semantic Tree until the extracted task intent converges. 
+
+Logic Abstraction: Starting from the selected task entry point as the root of the Semantic Tree, the Diagnoser abstracts the AST-parsed code into Iimpl . Because the semantics of a task are rarely self-contained within a single function body, the Diagnoser performs Drill-Down whenever the current abstrac-tion contains an opaque dependency, such as a delegated safety check or an unresolved helper function. Built on top of Jump-to-Definition , Drill-Down follows the relevant dependency to its defining implementation, expands the Semantic Tree under the runtime-aware bindings established by the DES, and propagates the newly exposed behavior back into the current abstraction. To prevent the tree from expanding indefinitely while still preserving all behaviorally relevant semantics, this recursive process is coupled with a convergence criterion that determines when the current abstraction is already sufficient for task-level reasoning. 
+
+Convergence Judgment: Let T i be the Semantic Tree af-ter i-th iteration, and let F i ⊆ leaves( T i) be the set of unresolved leaf nodes, each containing at least one opaque dependency that may still affect the task-level characterization. At each iteration, the Diagnoser selects one candidate a ∈ F i
+
+for trial expansion: Expand( T i, a ), where Expand resolves the dependency, retrieves the relevant implementation, and incorporates any newly exposed semantics into the tree. The expansion is accepted only if it introduces a substantive update to the current task-level intent; otherwise, the candidate is sealed as a terminal leaf and no longer considered for further expansion. In this way, each iteration either expands the tree with semantically useful content or explicitly marks a dependency as irrelevant to the task-level characterization. Note that the exact traversal order is not essential: unresolved leaves may be examined in different orders, but convergence is always determined by whether the expansion changes the current task-level implementation intent. The tree construction converges when no unresolved leaf can further refine the current implementation intent: 
+
+∀a ∈ F i : Iimpl (Expand( T i, a )) = Iimpl (T i),
+
+where Iimpl (T ) denotes the task-level implementation intent extracted from T . At this point, every dependency that could materially affect the selected task intent has either been resolved into the tree or determined to be semantically inert. Because the intent fields are represented in structured natural language rather than symbolic normal forms, the equality test above is operationalized as a semantic non-update judgment: the Diagnoser retains an expansion only if the newly exposed content materially refines the current task-level characterization, rather than merely adding local implementation detail. The final output of this process is a converged implementation-side intent Iimpl for the selected task, which serves as the code-grounded counterpart to Itarget 
+
+for subsequent inconsistency analysis. 
+
+3) Inconsistency Analysis: This stage assigns each selected task a suspicion score by jointly considering semantic dis-crepancy and evidence reliability. A task is ranked as highly suspicious only if its design-side and implementation-side intents exhibit a substantive mismatch, and that mismatch is supported by trustworthy evidence. A mismatch alone is not sufficient: if the design-side intent is weakly grounded or the implementation-side abstraction remains incomplete, the apparent discrepancy may reflect uncertainty rather than a true fault signal. Accordingly, HINT performs field-wise semantic compar-ison between Itarget and Iimpl and calibrates the resulting discrepancy signals by reliability factors. These factors re-flect the grounding of the retrieved design evidence and the completeness of the current Semantic Tree expansion. The final task-level suspicion score therefore captures both the magnitude of the intent divergence and the confidence in that divergence. For suspicious tasks, HINT propagates the task-level score to functions according to how directly each function contributes to the observed inconsistency. 
+
+Field-wise Comparison: For each field d ∈ D = {Goal ,
+
+Guard ,Safety , Assumption }, HINT compares Itarget [d] and 
+
+Iimpl [d] and assigns a discrepancy score δd(t) ∈ [0 , 1] for task t. Each field has a fixed weight λd ∈ (0 , 1] , where safety-related mismatches are weighted higher than auxiliary assumption drift. The inconsistency strength of task t is then computed as: 
+
+V (t) = max 
+
+> d∈D
+
+λd · δd(t).
+
+We use max because one high-confidence inconsistency in a critical field is sufficient to implicate a task; when all fields are judged consistent under the comparison criteria, all discrepancy scores are zero and thus V (t) = 0 .Evidence Reliability: To calibrate the discrepancy signal, HINT estimates reliability from both the design and implemen-tation sides. For the design side, we define Rg (t) = α · ¯r(t),where ¯r(t) denotes the retrieval support quality of the design evidence for task t, and α ∈ (0 , 1] discounts intent fields inferred from incomplete documentation rather than directly supported by retrieved artifacts. For the implementation side, 
+
+Rc(t) measures code-extraction completeness as the ratio of successfully retrieved and analyzed semantic dependencies to all dependencies encountered during the Semantic Tree expansion of task t. Thus, when the design intent is weakly supported or the code exploration is incomplete, the observed inconsistency has less influence on the final suspicion score. 
+
+Fault Suspicion Score: Given the inconsistency strength 
+
+V (t) and reliability factors Rg (t) and Rc(t), HINT computes a task-level suspicion score: 
+
+S(t) = p0 + ( V (t) − p0) · Rg (t) · Rc(t).
+
+where p0 = 1 
+
+> N
+
+is the uniform baseline over N candidate tasks. This formulation lets the discrepancy signal raise a task’s suspicion above the uninformed baseline only when both the design-side and implementation-side evidence are reliable; when either side is weak, the score falls back toward p0.HINT then compares S(t) with a pruning threshold τ : tasks with S(t) < τ are discarded, while the remaining tasks are retained for function-level localization. Thus, τ affects search efficiency by controlling how aggressively low-plausibility tasks are pruned, without changing the score definition. 
+
+Function-level Suspicion Score: For tasks whose suspicion scores pass the pruning threshold, HINT propagates suspicion to functions in the semantic subgraph G(t), since a suspi-cious task may still involve several interacting functions. We use function-level rather than statement-level ranking because ADS logic faults often span related predicates, branches, and helper calls along the same execution path. Each function f
+
+receives a relevance weight ω(f, t ) ∈ (0 , 1] based on how directly the inconsistency implicates it: 
+
+ˆS(f, t ) = S(t) · ω(f, t )
+
+P  
+
+> f′∈G(t)
+
+ω(f ′, t ) .
+
+If a function appears in multiple tasks, HINT keeps maximum score as the final ranking value. IV. I MPLEMENTATION 
+
+We implement HINT as an agentic fault-localization proto-type for Baidu Apollo [5], with platform-specific logic isolated behind adapters. LangGraph [19] orchestrates three compo-nents: a runtime-evidence processor, a diagnostic-skill library, and a dual-stream intent-analysis engine. The processor parses Apollo records into time-aligned traces, identifies violation intervals with STL monitors, and reconstructs scene evidence from simulator states and HD maps. Each Skill is implemented as a reusable Phase-I validation operator that declares its applicable hypothesis type, required runtime evidence, consis-tency checks, output schema, and supporting scripts/templates, grounding hypothesis validation in executable evidence queries rather than open-ended LLM reasoning. The functions in Alg. 1 are implemented as function-specific LLM-agent calls with constrained prompts and lightweight post-processing. Phase I uses separate calls for hypothe-sis initialization, ranking, Skill selection, validation summa-rization, and responsibility assessment, then normalizes the validated result into Elocalized = ⟨m, b, c ⟩. Phase II uses a shared ⟨Goal, Guard, Saf ety, Assumption ⟩ schema for target and implementation intents: target-intent calls require retrieved design evidence or an under-specified marker, while implementation-intent calls are restricted to source-code ev-idence from the code index and DES. Lightweight subtasks use Claude Haiku [20]; responsibility assessment, intent ab-straction, and inconsistency judgment use Claude Sonnet. All LLM calls use fixed model identifiers, fixed decoding settings, and bounded retries; prompts, Skill templates, settings, retry records, and per-case outputs are released in the replication package [21]. Design documents are indexed with BAAI/bge-m3 [22] and ChromaDB [23]; C++ code navigation uses a Tree-sitter [24] AST symbol index. V. E VALUATION 
+
+In this section, we evaluate the effectiveness of HINT through comprehensive experiments. Our evaluation aims to answer the following research questions:  
+
+> •
+
+RQ1. How effective is HINT at module-level fault diagno-sis?  
+
+> •
+
+RQ2. How effective is HINT at code-level fault localization?  
+
+> •
+
+RQ3. How much do the key components of HINT contribute to accuracy and efficiency?  
+
+> •
+
+RQ4. How effective is HINT as an end-to-end fault local-ization pipeline, and how robust is it across different LLM backbones? 
+
+A. Experimental Setup 
+
+We establish HINT a high-fidelity co-simulation environ-ment using Apollo 9.0 [5] and Carla 0.9.14 [9] on Ubuntu 22.04, with an NVIDIA RTX 4090 GPU. Unless otherwise stated, all experiments use the Apollo implementation de-scribed in Section IV. We set the pruning threshold τ to 0.3 for all experiments. This threshold is applied only after task-level suspicion scores are computed and therefore mainly controls how aggressively low-suspicion candidates are filtered rather than changing the score definition itself. 
+
+1) Benchmark Construction: We construct two comple-mentary datasets to evaluate HINT, as summarized in Table I. For each benchmark case, we treat the latest ADS version as the reference system and construct a faulty variant either by replacing a function with its counterpart from an earlier version or by introducing a synthetic semantic fault. We retain a test case only when the reference ADS passes and the faulty ADS fails under the corresponding oracle. Each retained case is executed at least three times to reduce nondeterministic pass/fail outcomes, and two experienced developers inspect runtime logs to confirm that the faulty code triggers the unexpected behavior. The benchmark covers three STL-based oracle categories: collisions, traffic-rule violations, and task-completion failures. In our benchmark, the delay between the fault-triggering behavior and the observed failure is up to 5 seconds; longer-delayed failures are beyond the scope of the current evaluation. 
+
+2) Datasets: The injected-fault dataset, Dinject , contains semantic faults introduced into Control, Planning, and Pre-diction, including inverted guard conditions, missing safety checks, and incorrect threshold values. The real-world dataset, 
+
+Dreal , consists of historical Apollo bugs reproduced from public commits and pull requests. These real-world cases evaluate HINT under realistic fault patterns. While their sam-ple size is inherently constrained, this reflects the natural scarcity of reproducible, safety- or performance-critical public bugs compared to the high prevalence of routine refactoring, documentation, or maintenance changes. 
+
+3) Baselines and Metrics: We compare HINT with base-lines at both stages. For Phase I, we use ACAV [25], which infers causal events from AV accident recordings, and an Oracle-based baseline following MoDitector [26], which flags a module when its output violates a module-specific oracle. For Phase II, we use LocAgent [27], AutoFL [28], and Claude Code as a representative repository-level code agent. LocAgent performs graph-guided repository navigation, while AutoFL explores functions and call relations with LLMs. For a fair comparison, all Phase-II baselines receive the same module-level context as HINT, including the failure description, an-notated faulty module, design artifacts, and repository access. We omit spectrum-based fault localization because our setting provides a single failure-triggering trace rather than a passing/-failing coverage suite. For end-to-end evaluation, composing Phase-I and Phase-II baselines is not well-defined because existing Phase-I methods do not output the structured evidence required by Phase II. We therefore use approximate generic-agent baselines: Claude Code receives the failure record/STL report, design artifacts, and repository, while Claude Code + Skills additionally receives our diagnostic Skill scripts. Neither baseline uses HINT’s selected module, DES, or intent-analysis outputs. Claude Code uses the same Claude Sonnet backbone as HINT’s reasoning-heavy agents. For Phase I, we report module-level accuracy. For Phase II, we use Top-k Accuracy (Acc@ k), which checks whether the ground-truth faulty element appears within the top-k ranked candidates. We report Class@ 1/3/5 and Function@ 3/5/10 ,matching the class- and function-level rankings produced by HINT. Function-level results are reported instead of statement-level results because ADS logic faults often span related predicates, branches, and helper calls along the same execution path. For isolated Phase-II evaluation, all methods are given the same ground-truth faulty module; for end-to-end evalu-ation, HINT uses the Phase-I predicted module as input to Phase II. TABLE I: Benchmark Dataset Composition 
+
+Dataset Control Planning Prediction Total 
+
+Dinject 19 25 19 63 
+
+Dreal 1 5 3 9
+
+Total 20 30 28 72 Collision Traffic     
+
+> Violation
+> Mission
+> Failure
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> Accuracy (%)
+> 29
+> 74.2
+> 93.5
+> 26.7
+> N/A
+> 93.3
+> 23.5
+> N/A
+> 88.2
+> Dinject
+> Collision Traffic
+> Violation
+> Mission
+> Failure
+> 33.3
+> 66.7 66.7
+> 50
+> N/A
+> 100
+> 66.7
+> N/A
+> 100
+> Dreal
+> Failure Types
+> Oracle-based ACAV Ours
+
+Fig. 6: Comparison of Module Diagnosis Accuracy 
+
+B. RQ1. Module Error Diagnosis 
+
+This research question evaluates the framework’s ability to identify the faulty module responsible for a system-level failure. Since no existing ADS fault localization approach directly traces from system-level failures to faulty code, we first evaluate module-level diagnosis independently against two representative baselines. Fig. 6 shows that HINT substantially outperforms both baselines on Dinject and Dreal , indicating that it generalizes beyond collision-centric diagnosis and handles diverse ADS failure types. This improvement mainly comes from validating candidate module-error hypotheses against runtime and sce-nario evidence, rather than simply flagging abnormal module outputs. Oracle-based diagnosis is sensitive to error propa-gation and lacks causal attribution: a downstream abnormal output does not necessarily identify the source fault. ACAV remains partially competitive on collisions, but its collision-centered causal model does not cover traffic-rule violations or task-completion failures well. Fig. 7 further shows that diagonal entries dominate on both datasets and HINT’s module assignments do not collapse to one frequent module. The few off-diagonal errors mainly occur between functionally adjacent modules, reflecting causal ambiguity in tightly coupled ADS pipelines. Diagnostic inac-curacies often arise when runtime traces confirm the failure but do not isolate the initiating module, especially when an upstream fault is first manifested through Planning or Control behavior. 
+
+Answer to RQ1: HINT achieves the best module-level diagnosis by reasoning over system-level causality rather than isolated rule checks. The confusion matrices further show that this gain reflects robust fault attribution across major ADS modules rather than reporting bias toward specific modules. (a) Dinject (b) Dreal 
+
+Fig. 7: Confusion matrix of actual vs. localized faulty module TABLE II: Code-Level Fault Localization Accuracy                                                         
+
+> Data Method Class (%) Func. (%) @1 @3 @5 @3 @5 @10
+> Dinject
+> AutoFL 17.5 17.5 23.8 14.3 17.5 39.7 LocAgent 7.9 9.5 17.5 4.8 7.9 15.9 Claude Code 57.2 57.2 66.7 41.3 49.2 73.0
+> HINT 46.0 65.1 74.6 42.9 61.9 90.5
+> Dreal
+> AutoFL 11.1 11.1 33.3 0.0 11.1 22.2 LocAgent 11.1 33.3 44.4 0.0 33.3 44.4 Claude Code 11.1 33.3 55.6 11.1 11.1 33.3
+> HINT 55.6 88.9 88.9 33.3 66.7 88.9
+
+C. RQ2. Code-level Fault Localization 
+
+Here we evaluate code-level fault localization within the pre-identified faulty module. By providing each baseline method with the identical annotated module as context, this setup isolates Phase II localization efficacy from Phase I diagnostic accuracy. We compare against AutoFL, LocAgent, and Claude Code, which perform LLM-based repository ex-ploration without ADS-specific runtime-intent analysis. Table II shows that HINT performs better at larger Top-k
+
+cutoffs, function granularity, and real bugs, with the exception of Claude Code’s Class@1 result on Dinject . This suggests that injected faults can expose obvious class-level cues, while HINT gives more reliable rankings when runtime and intent evidence are needed. AutoFL and LocAgent lag behind be-cause their search mainly follows repository structure, static signals, or generic LLM navigation, which can surface seman-tically related code but not the failure-relevant code region. Claude Code is a stronger generic code agent and re-trieves plausible faulty classes on injected faults. Its advantage weakens, however, when the task requires ranking the faulty function, especially on real bugs. This pattern suggests that broad repository exploration is useful for finding candidate classes, but is less reliable for separating the runtime-relevant faulty function from nearby implementation logic. HINT im-proves this step by restricting the search to DES-derived runtime-relevant code and ranking candidates through design-implementation inconsistency analysis. While function-level misses occur, HINT’s predictions gen-erally cluster within the identical causal neighborhood. For intricately branched industrial code, adjacent functions on the TABLE III: Ablation Study on Dreal                              
+
+> Variant Phase I Phase II Class Func. Acc. Steps TO @1 @5 @3 @10 HINT (Full) 88.9% 4.0 0.0% 22.2% 77.8% 33.3% 77.8%
+> w/o Scen. Abs. 33.3% 15.0+ 50.0% N/A †
+> w/o DES ∗–––0.0% 22.2% 0.0% 22.2%
+> w/o Incon. Anal. ∗–––0.0% 33.3% 11.1% 33.3%
+> TO : Timeout; Scen. Abs. : Scenario Abstraction; DES : Dynamic Execution Skeleton; Incon. Anal. : Inconsistency Analysis.
+> ∗Phase II uses the ground-truth module. †Phase II is skipped when Phase I fails.
+
+same execution chain remain highly plausible, even under strict exact-match scoring constraints.  
+
+> Answer to RQ2: HINT achieves the strongest overall code-level localization, with clearer gains at function granularity and on real-world bugs. By pruning to runtime-relevant code and comparing intended and implemented behavior, it ranks faulty functions more reliably than generic code-agent exploration.
+
+D. RQ3. Ablation Study 
+
+To validate the necessity of each design component in HINT, we conduct a comprehensive ablation study on Dreal .We evaluate three variants, each removing one of the follow-ing components: Scenario Abstraction, DES, or Inconsistency Analysis.  
+
+> •
+
+w/o Scenario Abstraction: Remove Scenario Abstraction ;the Hypothesis Agent diagnoses faults directly from numer-ical traces and STL monitor outputs.  
+
+> •
+
+w/o DES: Replace the DES with a static call graph, forcing navigation based only on static code dependencies.  
+
+> •
+
+w/o Inconsistency Analysis: Replace the dual-stream com-parison with a unified RAG process, where the LLM re-ceives specifications and code together and directly scores candidate functions in a single pass. 
+
+Impact of Scenario Abstraction. As shown in Table III, removing Scenario Abstraction substantially harms both ef-ficiency and accuracy: the average interaction length increases from 4.0 to over 15.0 steps with a 50.0% timeout rate, while Phase I accuracy drops from 88.9% to 33.3%. This indicates that relying solely on numerical traces and monitor outputs, without a holistic scene description, is insufficient for accurate module diagnosis and also increases the complexity of the analysis. 
+
+Impact of the DES . The w/o DES variant uses a static dependency graph instead of the runtime-specific skeleton, causing a sharp drop in localization accuracy (0.0% Acc@1). In polymorphic frameworks such as Apollo, static analysis leaves many irrelevant subclass implementations in the search space because it cannot resolve runtime dispatch. DES avoids this by pruning the search to actually executed logic. 
+
+Impact of Inconsistency Analysis . The w/o Inconsistency Analysis variant also shows a clear accuracy drop. Without TABLE IV: End-to-End Fault Localization Performance                       
+
+> Data Method Class@1 Class@5 Func.@10
+> Dinject
+> Claude Code 25.4% 28.6% 25.4% Claude Code + Skills 39.6% 55.6% 63.5%
+> HINT 42.9% 66.7% 81.0%
+> Dreal
+> Claude Code 33.3% 55.6% 55.6% Claude Code + Skills 33.3% 44.4% 55.6%
+> HINT 44.4% 77.8% 77.8%
+
+explicit target-implementation comparison, the LLM tends to favor candidates that look plausible in the retrieved context, even when no concrete semantic mismatch is identified. The full version avoids this by scoring structured inconsistency signals and calibrating them with design- and code-side reli-ability, which yields more stable rankings and removes many false positives.           
+
+> Answer to RQ3: Ablation results confirm the necessity of all three core components for superior diagnostic accuracy. Removing any of them noticeably weakens HINT in either accuracy or efficiency.
+
+E. RQ4: End-to-End Performance 
+
+This research question evaluates the practical utility of HINT as a complete diagnostic pipeline—from observing a system-level failure to producing an actionable fault localiza-tion report—without any intermediate ground truth (e.g., pre-identified faulty modules). 
+
+End-to-End Quantitative Results . Results in Table IV show that Claude Code alone remains limited in the end-to-end setting. Providing our Skills improves its results on Dinject ,suggesting that these scripts provide useful runtime-grounded evidence, but the improvement does not transfer to Dreal .This indicates that the Skills are not sufficient as stand-alone prompts or scripts. HINT performs best because it selects and validates hypotheses, restricts code search through DES, and ranks candidates by intent inconsistency. On Dreal , Claude Code is slightly stronger in the end-to-end setting than in isolated Phase II (Table II) for some cutoffs. This likely comes from the additional scenario evidence in the trace and STL report: the annotated faulty module used in isolated Phase II gives module context, but it does not expose the full failure behavior. The remaining gap to HINT suggests that HINT’s gain comes from combining runtime evidence with a structured pipeline for hypothesis validation, DES-guided code restriction, and intent-based ranking. 
+
+Robustness Across LLM Backbones . We further evaluate HINT with four representative backbones from three model families: Claude-series models [20] (Haiku 4.5 and Sonnet 4.5), GPT-5.4 [29], and GLM-5 [30]. Sonnet 4.5 is the default backbone for reasoning-heavy steps in our prototype, as it provides the best accuracy among the evaluated LLMs while remaining a practical choice for repeated agent calls. Haiku 4.5 represents a lighter Claude-series model, while GPT-5.4 and GLM-5 test whether the pipeline transfers beyond one TABLE V: Robustness Across Different LLM Backbones on 
+
+Dreal                     
+
+> Backbone Class@5 Func@5 Class MFR Func MFR
+> Haiku 4.5 66.7% 55.6% 6.89 9.56 Sonnet 4.5 77.8% 66.7% 5.56 7.33
+> GPT-5.4 77.8 %44.4% 6.22 9.44 GLM-5 66.7% 55.6% 7.00 10.67
+
+provider family. In Table V, MFR (Mean First Rank) denotes the average rank of the first correct fault location, where lower is better. The results show that class-level localization remains stable across backbones, indicating that Phase I and coarse code retrieval do not depend on a single model. Function-level ranking is more sensitive to backbone quality, with Sonnet 4.5 performing best. Nevertheless, other backbones still keep the correct fault within practical Top-k inspection ranges. This implies that the structured two-phase pipeline, rather than a single proprietary model, accounts for most of HINT’s gain.  
+
+> Answer to RQ4: HINT remains effective end-to-end across LLM backbones, showing that its gains come from the structured pipeline rather than a specific model or artifact access alone.
+
+VI. R ELATED WORKS 
+
+ADS testing & Module Error diagnosis . ADS testing mainly targets failure discovery through scenario generation, specifi-cation checking, and simulation-based exploration [31], [32], [15], [26], [33], [34], [35], [36], [37], [38], [39], [40], [41], while fault diagnosis remains less explored. Existing methods are limited by scope or simulation cost: Diavio [42] identi-fies responsible agents, MoDitector [26] uses module-specific oracles, ACAV [25] and ROCAS [43] infer events or mod-ules from trace discrepancies under restrictive assumptions, and counterfactual methods such as ADSDx [44] and RV-PLAYER [45] require iterative re-simulation and ground-truth substitution. In contrast, HINT diagnoses failures directly from runtime traces through hypothesis-driven reasoning, avoiding re-execution and extending beyond collision-centric failures. 
+
+Code Fault Localization . Traditional fault localization in-cludes spectrum-, mutation-, learning-, and slice-based meth-ods [46], [47], [48], [49], [50], while recent LLM-based approaches such as SoapFL [51] and LocAgent [27] perform agentic repository navigation. These methods usually assume software-level failure signals, such as failing tests, stack traces, or coverage spectra. In contrast, ADS failures are typically captured as runtime traces and STL violations, which identify abnormal behavior but do not directly expose the faulty code region. CPS-oriented methods [52], [53] use runtime traces and temporal logic but remain coarse-grained. ADS-specific efforts such as ARIEL [54] and ROCAS [43] are restricted to simplified settings or specific misconfigurations and still require substantial human interpretation. HINT bridges this gap by connecting system-level ADS diagnosis with fine-grained code localization in industrial-scale ADS codebases. VII. T HREATS TO VALIDITY 
+
+Internal Validity. HINT depends on the reasoning quality of its LLM backbone and diagnostic Skills. We mitigate this threat with structured prompting and constrained work-flows, and our results remain stable across LLM backbones. The Hypothesis Agent’s skills are currently tailored to the specific ADS platform, meaning their quality could poten-tially impact accuracy and reproducibility when migrating to other platforms. Furthermore, HINT operates under the assumption of a single dominant faulty module per failure. While this encapsulates a large portion of real-world bugs, it may oversimplify complex multi-module cascades or obscure neighboring-function faults along the shared causal chain. 
+
+External Validity. HINT targets modular ADS with accessible runtime records, documentation, and source code, making end-to-end neural driving systems a different setting. Incom-plete artifacts may weaken design- or implementation-side evidence. Our Apollo-based prototype depends on its module decomposition, logs, and code organization. The benchmark encompasses Control, Planning, and Prediction module faults, substantiated by co-simulation logs and reproducible failure traces. Expanding its scope to Perception requires reproducible perception failures with reliable annotations. The real-world subset is smaller because public reproducible Apollo safe-ty/performance bugs are rare. The framework could still be adapted to modular ADS such as Autoware by replacing recording and code-access interfaces; applying it beyond ADS would require domain-specific evidence extraction and consis-tency checking. VIII. C ONCLUSION 
+
+We presented HINT, an automated framework for code-level fault localization in modular ADS. HINT connects system-level failures to source-code locations by combining runtime-trace diagnosis, DES-guided code restriction, and design-implementation inconsistency analysis. Experiments on Apollo with real-world bugs and injected faults show that HINT improves both module-level diagnosis and fine-grained code localization over existing baselines. The results also show that its gains come from the structured diagnostic pipeline rather than artifact access or a specific LLM backbone alone. DATA AVAILABILITY 
+
+Our anonymous replication package is available at [21]. It includes benchmark metadata, prompts, Skill templates, model settings, per-case outputs, and evaluation scripts. REFERENCES [1] G. Lou, Y. Deng, X. Zheng, M. Zhang, and T. Zhang, “Testing of autonomous driving systems: where are we and where should we go?” in Proceedings of the 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering , ser. ESEC/FSE 2022. New York, NY, USA: Association for Computing Machinery, 2022, p. 31–43. [Online]. Available: https://doi.org/10.1145/3540250.3549111 [2] S. Tang, Z. Zhang, Y. Zhang, J. Zhou, Y. Guo, S. Liu, S. Guo, Y.-F. Li, L. Ma, Y. Xue, and Y. Liu, “A survey on automated driving system testing: Landscapes and trends,” ACM Trans. Softw. Eng. Methodol. , vol. 32, no. 5, Jul. 2023. [Online]. Available: https://doi.org/10.1145/3579642 [3] W. Ding, C. Xu, M. Arief, H. Lin, B. Li, and D. Zhao, “A survey on safety-critical driving scenario generation—a methodological perspec-tive,” IEEE Transactions on Intelligent Transportation Systems , vol. 24, no. 7, pp. 6971–6988, 2023. [4] N. Shaw, S. Pennada, R. M. Hierons, and D. Shin, “A systematic mapping study on the debugging of autonomous driving systems,” 2026. [Online]. Available: https://arxiv.org/abs/2601.04293 [5] Baidu Apollo Team, “Apollo: An open autonomous driving platform,” https://apollo.auto/, 2019, accessed: 2026-01-15. [6] The Autoware Foundation, “Autoware: Open-source software for autonomous driving,” https://github.com/autowarefoundation/autoware, 2026, online; accessed 26 January 2026. [7] Y. Chen, Y. Huai, Y. He, S. Li, C. Hong, Q. A. Chen, and J. Garcia, “A comprehensive study of bug-fix patterns in autonomous driving systems,” Proc. ACM Softw. Eng. , vol. 2, no. FSE, Jun. 2025. [Online]. Available: https://doi.org/10.1145/3715733 [8] Y. Jiang, R. Mo, W. Zhan, D. Wang, Z. Li, and Y. Ma, “Leveraging modular architecture for bug characterization and analysis in automated driving software,” ACM Trans. Softw. Eng. Methodol. , vol. 34, no. 4, Apr. 2025. [Online]. Available: https://doi.org/10.1145/3707455 [9] A. Dosovitskiy, G. Ros, F. Codevilla, A. Lopez, and V. Koltun, “CARLA: An open urban driving simulator,” in Proceedings of the 1st Annual Conference on Robot Learning , ser. Proceedings of Machine Learning Research, S. Levine, V. Vanhoucke, and K. Goldberg, Eds., vol. 78. PMLR, 13–15 Nov 2017, pp. 1–16. [Online]. Available: https://proceedings.mlr.press/v78/dosovitskiy17a.html [10] ApolloAuto, “Apollo Cyber RT,” https://github.com/ApolloAuto/apollo/ tree/master/cyber, 2026, accessed: 2026-01-26. [11] S. Macenski, T. Foote, B. Gerkey, C. Lalancette, and W. Woodall, “Robot operating system 2: Design, architecture, and uses in the wild,” 
+
+Science Robotics , vol. 7, no. 66, p. eabm6074, 2022. [Online]. Available: https://www.science.org/doi/abs/10.1126/scirobotics.abm6074 [12] kechxu, “Prediction: fix the problem of nearby obstacles no prediction trajectories,” GitHub pull request #826, ApolloAuto/apollo, Oct. 2017, merged Oct 25, 2017. [Online]. Available: https: //github.com/ApolloAuto/apollo/pull/826 [13] O. Maler and D. Nickovic, “Monitoring temporal properties of contin-uous signals,” in Formal Techniques, Modelling and Analysis of Timed and Fault-Tolerant Systems , Y. Lakhnech and S. Yovine, Eds. Berlin, Heidelberg: Springer Berlin Heidelberg, 2004, pp. 152–166. [14] D. Nickovic et al. , “Rtamt: Specification-based real-time monitoring for signal temporal logic,” https://github.com/nickovic/rtamt, 2024, ac-cessed: 2026-01-15. [15] Y. Sun, C. M. Poskitt, J. Sun, Y. Chen, and Z. Yang, “Lawbreaker: An approach for specifying traffic laws and fuzzing autonomous vehicles,” in Proceedings of the 37th IEEE/ACM International Conference on Automated Software Engineering , ser. ASE ’22. New York, NY, USA: Association for Computing Machinery, 2023. [Online]. Available: https://doi.org/10.1145/3551349.3556897 [16] G. V. Cormack, C. L. A. Clarke, and S. Buettcher, “Reciprocal rank fusion outperforms condorcet and individual rank learning methods,” in Proceedings of the 32nd International ACM SIGIR Conference on Research and Development in Information Retrieval , ser. SIGIR ’09. New York, NY, USA: Association for Computing Machinery, 2009, p. 758–759. [Online]. Available: https://doi.org/10.1145/1571941.1572114 [17] R. Nogueira and K. Cho, “Passage re-ranking with bert,” 2020. [Online]. Available: https://arxiv.org/abs/1901.04085 [18] P. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin, N. Goyal, H. K¨ uttler, M. Lewis, W.-t. Yih, T. Rockt¨ aschel, S. Riedel, and D. Kiela, “Retrieval-augmented generation for knowledge-intensive nlp tasks,” in Advances in Neural Information Processing Systems , H. Larochelle, M. Ranzato, R. Hadsell, M. Balcan, and H. Lin, Eds., vol. 33. Curran Associates, Inc., 2020, pp. 9459– 9474. [Online]. Available: https://proceedings.neurips.cc/paper files/ paper/2020/file/6b493230205f780e1bc26945df7481e5-Paper.pdf [19] LangChain AI, “Langgraph: Building language agents as graphs,” https: //langchain-ai.github.io/langgraph/, 2026, accessed: 2026-01-15. [20] Anthropic. (2026) Claude. https://www.anthropic.com/claude. Accessed: 2026-01-15. [21] Anonymous, “FL4ADS,” Mar. 2026, published: 26 March 2026. [Online]. Available: https://doi.org/10.5281/zenodo.19235927 [22] J. Chen, S. Xiao, P. Zhang, K. Luo, D. Lian, and Z. Liu, “M3-embedding: Multi-linguality, multi-functionality, multi-granularity text embeddings through self-knowledge distillation,” Bangkok, Thailand, pp. 2318–2335, Aug. 2024. [Online]. Available: https://aclanthology. org/2024.findings-acl.137/ [23] Chroma, “Chroma: The ai-native open-source embedding database,” https://www.trychroma.com/, 2026, accessed: 2026-01-15. [24] M. Brunsfeld et al. , “Tree-sitter: An incremental parsing system,” https: //tree-sitter.github.io/tree-sitter/, 2026, accessed: 2026-01-15. [25] H. Sun, C. M. Poskitt, Y. Sun, J. Sun, and Y. Chen, “ACAV: A framework for automatic causality analysis in autonomous vehicle accident recordings,” in Proceedings of the IEEE/ACM 46th International Conference on Software Engineering , ser. ICSE ’24. New York, NY, USA: Association for Computing Machinery, 2024. [Online]. Available: https://doi.org/10.1145/3597503.3639175 [26] R. Wang, M. Cheng, X. Xie, Y. Zhou, and L. Ma, “MoDitector: Module-directed testing for autonomous driving systems,” Proc. ACM Softw. Eng. , vol. 2, no. ISSTA, Jun. 2025. [Online]. Available: https://doi.org/10.1145/3728876 [27] Z. Chen, R. Tang, G. Deng, F. Wu, J. Wu, Z. Jiang, V. Prasanna, A. Cohan, and X. Wang, “LocAgent: Graph-guided LLM agents for code localization,” in Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) ,W. Che, J. Nabende, E. Shutova, and M. T. Pilehvar, Eds. Vienna, Austria: Association for Computational Linguistics, Jul. 2025, pp. 8697– 8727. [Online]. Available: https://aclanthology.org/2025.acl-long.426/ [28] S. Kang, G. An, and S. Yoo, “A quantitative and qualitative evaluation of llm-based explainable fault localization,” Proc. ACM Softw. Eng. , vol. 1, no. FSE, Jul. 2024. [Online]. Available: https://doi.org/10.1145/3660771 [29] OpenAI, “ChatGPT,” https://openai.com/chatgpt/overview/, 2026, on-line; accessed 15 January 2026. [30] A. Zeng, X. Lv, Z. Hou, Z. Du, Q. Zheng, B. Chen, D. Yin, C. Ge, C. Huang, C. Xie et al. , “Glm-5: from vibe coding to agentic engineer-ing,” arXiv preprint arXiv:2602.15763 , 2026. [31] M. Cheng, Y. Zhou, and X. Xie, “BehAVExplor: Behavior diversity guided testing for autonomous driving systems,” in Proceedings of the 32nd ACM SIGSOFT International Symposium on Software Testing and Analysis , ser. ISSTA 2023. New York, NY, USA: Association for Computing Machinery, 2023, p. 488–500. [Online]. Available: https://doi.org/10.1145/3597926.3598072 [32] Y. Zhou, Y. Sun, Y. Tang, Y. Chen, J. Sun, C. M. Poskitt, Y. Liu, and Z. Yang, “Specification-based autonomous driving system testing,” IEEE Transactions on Software Engineering , vol. 49, no. 6, pp. 3391–3410, 2023. [33] Y. Huai, Y. Chen, S. Almanee, T. Ngo, X. Liao, Z. Wan, Q. A. Chen, and J. Garcia, “Doppelg¨ anger test generation for revealing bugs in autonomous driving software,” in 2023 IEEE/ACM 45th International Conference on Software Engineering (ICSE) , 2023, pp. 2591–2603. [34] Z. Zhong, G. Kaiser, and B. Ray, “Neural network guided evolutionary fuzzing for finding traffic violations of autonomous vehicles,” IEEE Transactions on Software Engineering , vol. 49, no. 4, pp. 1860–1875, 2023. [35] G. Li, Y. Li, S. Jha, T. Tsai, M. Sullivan, S. K. S. Hari, Z. Kalbarczyk, and R. Iyer, “AV-FUZZER: Finding safety violations in autonomous driving systems,” in 2020 IEEE 31st International Symposium on Software Reliability Engineering (ISSRE) , 2020, pp. 25–36. [36] S. Kim, M. Liu, J. J. Rhee, Y. Jeon, Y. Kwon, and C. H. Kim, “DriveFuzz: Discovering autonomous driving bugs through driving quality-guided fuzzing,” in Proceedings of the 2022 ACM SIGSAC Conference on Computer and Communications Security , ser. CCS ’22. New York, NY, USA: Association for Computing Machinery, 2022, p. 1753–1767. [Online]. Available: https://doi.org/10.1145/3548606. 3560558 [37] S. Yan, X. Zhang, K. Hao, H. Xin, Y. Luo, J. Yang, M. Fan, C. Yang, J. Sun, and Z. Yang, “On-demand scenario generation for testing automated driving systems,” Proc. ACM Softw. Eng. , vol. 2, no. FSE, Jun. 2025. [Online]. Available: https://doi.org/10.1145/3715722 [38] A. Guo, Y. Zhou, H. Tian, C. Fang, Y. Sun, W. Sun, X. Gao, A. T. Luu, Y. Liu, and Z. Chen, “SoVAR: Build generalizable scenarios from accident reports for autonomous driving testing,” in Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering , ser. ASE ’24. New York, NY, USA: Association for Computing Machinery, 2024, p. 268–280. [Online]. Available: https://doi.org/10.1145/3691620.3695037 [39] Z. Li, J. Dai, Z. Huang, N. You, Y. Zhang, and M. Yang, “VioHawk: Detecting traffic violations of autonomous driving systems through criticality-guided simulation testing,” in Proceedings of the 33rd ACM SIGSOFT International Symposium on Software Testing and Analysis , ser. ISSTA 2024. New York, NY, USA: Association for Computing Machinery, 2024, p. 844–855. [Online]. Available: https://doi.org/10.1145/3650212.3680325 [40] C. Li, J. Sifakis, Q. Wang, R. Yan, and J. Zhang, “Simulation-based validation for autonomous driving systems,” in Proceedings of the 32nd ACM SIGSOFT International Symposium on Software Testing and Analysis , ser. ISSTA 2023. New York, NY, USA: Association for Computing Machinery, 2023, p. 842–853. [Online]. Available: https://doi.org/10.1145/3597926.3598100 [41] C. Li, J. Sifakis, R. Yan, and J. Zhang, “A comprehensive evaluation of four end-to-end ai autopilots using cctest and the carla leaderboard,” 2025. [Online]. Available: https://arxiv.org/abs/2501.12090 [42] Y. Lu, Y. Tian, Y. Bi, B. Chen, and X. Peng, “DiaVio: LLM-empowered diagnosis of safety violations in ads simulation testing,” in Proceedings of the 33rd ACM SIGSOFT International Symposium on Software Testing and Analysis , ser. ISSTA 2024. New York, NY, USA: Association for Computing Machinery, 2024, p. 376–388. [Online]. Available: https://doi.org/10.1145/3650212.3652135 [43] S. Feng, Y. Ye, Q. Shi, Z. Cheng, X. Xu, S. Cheng, H. Choi, and X. Zhang, “ROCAS: Root cause analysis of autonomous driving accidents via cyber-physical co-mutation,” in Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering , ser. ASE ’24. New York, NY, USA: Association for Computing Machinery, 2024, p. 1620–1632. [Online]. Available: https://doi.org/10.1145/3691620.3695530 [44] Z. Huang, J. Dai, M. Luo, Y. Chen, H. Sun, Y. Zhang, and M. Yang, “ADSDx: Towards automated accident diagnosis for high-level autonomous driving systems,” ACM Trans. Softw. Eng. Methodol. , Dec. 2025, just Accepted. [Online]. Available: https://doi.org/10.1145/3783993 [45] H. Choi, Z. Cheng, and X. Zhang, “Rvplayer: Robotic vehicle forensics by replay with what-if reasoning,” in 29th Annual Network and Dis-tributed System Security Symposium, NDSS 2022 . The Internet Society, 2022. [46] W. E. Wong, R. Gao, Y. Li, R. Abreu, and F. Wotawa, “A survey on software fault localization,” IEEE Transactions on Software Engineering ,vol. 42, no. 8, pp. 707–740, 2016. [47] R. Abreu, P. Zoeteweij, and A. J. van Gemund, “On the accuracy of spectrum-based fault localization,” in Testing: Academic and In-dustrial Conference Practice and Research Techniques - MUTATION (TAICPART-MUTATION 2007) , 2007, pp. 89–98. [48] T. T. Chekam, M. Papadakis, and Y. L. Traon, “Assessing and comparing mutation-based fault localization techniques,” 2016. [Online]. Available: https://arxiv.org/abs/1607.05512 [49] A. Dusia and A. S. Sethi, “Recent advances in fault localization in computer networks,” IEEE Communications Surveys & Tutorials ,vol. 18, no. 4, pp. 3030–3051, 2016. [50] R. A. DeMillo, H. Pan, and E. H. Spafford, “Critical slicing for software fault localization,” SIGSOFT Softw. Eng. Notes , vol. 21, no. 3, p. 121–134, May 1996. [Online]. Available: https://doi.org/10.1145/ 226295.226310 [51] Y. Qin, S. Wang, Y. Lou, J. Dong, K. Wang, X. Li, and X. Mao, “SoapFL: A standard operating procedure for llm-based method-level fault localization,” IEEE Transactions on Software Engineering , vol. 51, no. 4, pp. 1173–1187, 2025. [52] T. Kim, C. H. Kim, A. Ozen, F. Fei, Z. Tu, X. Zhang, X. Deng, D. J. Tian, and D. Xu, “From control model to program: Investigating robotic aerial vehicle accidents with MAYDAY,” in 
+
+29th USENIX Security Symposium (USENIX Security 20) . USENIX Association, Aug. 2020, pp. 913–930. [Online]. Available: https: //www.usenix.org/conference/usenixsecurity20/presentation/kim [53] E. Bartocci, T. Ferr` ere, N. Manjunath, and D. Niˇ ckovi´ c, “Localizing faults in simulink/stateflow models with STL,” in Proceedings of the 21st International Conference on Hybrid Systems: Computation and Control (Part of CPS Week) , ser. HSCC ’18. New York, NY, USA: Association for Computing Machinery, 2018, p. 197–206. [Online]. Available: https://doi.org/10.1145/3178126.3178131 [54] R. B. Abdessalem, A. Panichella, S. Nejati, L. C. Briand, and T. Stifter, “Automated repair of feature interaction failures in automated driving systems,” in Proceedings of the 29th ACM SIGSOFT International Symposium on Software Testing and Analysis , ser. ISSTA 2020. New York, NY, USA: Association for Computing Machinery, 2020, p. 88–100. [Online]. Available: https://doi.org/10.1145/3395363.3397386

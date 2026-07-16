@@ -1,0 +1,351 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-16T20:05:04.825859+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 7,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2607.11098v2",
+      "source": "arxiv",
+      "title": "AgentCheck: A Reproduce-Intervene-Mitigate Workbench for LLM Agents over MCP",
+      "abstract": "Tool-using LLM agents are mostly evaluated assuming all tools work. When a tool times out, returns a week-stale value, or has its description poisoned in deployment, the developer needs a controlled way to reproduce the failure, test a fix, and confirm the fix worked before deployment. We present AgentCheck, an open-source web workbench that turns an MCP server into an intervention surface. AgentCheck runs an agent against its real tools and records every tool response, then re-runs the agent with the response perturbed by a fault (12 types) injector. Matching tool calls are replayed from cache, and later tool calls go live after the agent diverges. This yields a reproduce-intervene-confirm loop: the developer toggles a mitigation, re-runs against the identical fault, and sees if the failure goes away. Scoring has two parts: deterministic pass/fail rules, plus an LLM judge for interpretive labels, validated against human annotations. Across five agents, the best passes 105/120 scenarios and the weakest only 77. The failures are usually silent, confident use of incorrect tool outputs rather than crashes. On the weakest agent, a retry mitigation raises success on timeout error faults from as few as 30% of cases to 100%, whereas stale-data faults remain near 3-4 of 10 regardless of the mitigation. AgentCheck makes these failure modes reproducible, comparable, and verifiable before deployment.",
+      "authors": [
+        "Aritra Mazumder",
+        "Nusrat jahan Lia"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-07-13T05:14:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.11098v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "workbench for reproducing and mitigating agent errors via fault injection",
+      "llm_evidence_cn": "通过故障注入复现和缓解代理错误的工作台",
+      "llm_evidence": "通过故障注入复现和缓解代理错误的工作台",
+      "canonical_evidence": "通过故障注入复现和缓解代理错误的工作台",
+      "llm_tldr_en": "AgentCheck provides a reproduce-intervene-mitigate workbench for LLM agents, enabling fault injection and error detection in agent trajectories.",
+      "llm_tldr_cn": "针对工具使用LLM代理在部署中容易遇到各种工具故障的问题，提出AgentCheck开源Web工作台。它通过将MCP服务器转化为干预界面，利用12种故障类型注入器扰动工具响应，并缓存匹配的调用，实现复现-干预-确认循环。开发者可以切换缓解措施并重新运行，系统化地检测和修复代理错误。该工作台直接支持代理轨迹中的错误检测与修复。",
+      "llm_tldr": "针对工具使用LLM代理在部署中容易遇到各种工具故障的问题，提出AgentCheck开源Web工作台。它通过将MCP服务器转化为干预界面，利用12种故障类型注入器扰动工具响应，并缓存匹配的调用，实现复现-干预-确认循环。开发者可以切换缓解措施并重新运行，系统化地检测和修复代理错误。该工作台直接支持代理轨迹中的错误检测与修复。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13716v1",
+      "source": "arxiv",
+      "title": "CAVA: Canonical Action Verification and Attestation for Runtime Governance of Agentic AI Systems",
+      "abstract": "Agentic AI systems increasingly act through heterogeneous runtimes: local coding hooks, SDK tools, browser automation, managed-agent traces, API gateways, and workflow engines. A single operational act such as publishing code, changing identity state, moving money, or exporting data may therefore be represented by many incompatible runtime records. This makes a basic governance question difficult to answer: what action was actually approved, what evidence binds the approval to execution, and can an independent verifier reproduce the same action identity later?   This paper presents Canonical Action Verification and Attestation (CAVA), a runtime-semantics layer for converting heterogeneous agent activity into canonical runtime action objects. CAVA is positioned below Proof-Carrying Agent Actions (PCAA): PCAA defines the deployer-owned route-review-prove governance process, while CAVA defines the stable action object that process governs. The paper formalizes canonical action identity, semantic pattern detection, approval binding, receipt integrity, runtime-portable projection, and optional attestation substrates. We study a reference implementation through a 96-seed, 384-variant benchmark covering semantic equivalence, semantic separation, wrapper bypass, false-positive control, approval binding, receipt reproducibility, attestation tamper detection, runtime portability, semantic pattern detection, policy degradation, and Azure deployment drills. The contribution is a systems formulation of action-level canonicalization and policy-addressable semantic patterns as a necessary substrate for deployer-side AI governance.",
+      "authors": [
+        "Zexun Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-15T11:34:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.13716v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "directly verifies agent actions at runtime, matching detecting action errors in agent trajectories",
+      "llm_evidence_cn": "直接验证代理动作的运行时语义，匹配检测代理轨迹中的动作错误",
+      "llm_evidence": "直接验证代理动作的运行时语义，匹配检测代理轨迹中的动作错误",
+      "canonical_evidence": "直接验证代理动作的运行时语义，匹配检测代理轨迹中的动作错误",
+      "llm_tldr_en": "CAVA converts heterogeneous agent activity into canonical actions for verification, enabling runtime detection of action errors across diverse platforms and runtimes.",
+      "llm_tldr_cn": "代理AI系统在异构运行时中执行动作，导致难以验证动作真实性。CAVA提出规范动作验证层，将异构活动转换为标准动作表示，并支持独立验证。该方法可直接用于检测代理轨迹中的动作错误，确保动作符合预期，为运行时治理提供关键基础。",
+      "llm_tldr": "代理AI系统在异构运行时中执行动作，导致难以验证动作真实性。CAVA提出规范动作验证层，将异构活动转换为标准动作表示，并支持独立验证。该方法可直接用于检测代理轨迹中的动作错误，确保动作符合预期，为运行时治理提供关键基础。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13884v1",
+      "source": "arxiv",
+      "title": "Experience Memory Graph: One-Shot Error Correction for Agents",
+      "abstract": "Large Language Model (LLM) agents have shown remarkable capabilities in autonomous decision-making by generating sequential trajectories of states, actions, and observations. However, in complex, long-horizon tasks, these agents frequently suffer from compounding errors and struggle to recover from failures. Existing self-correction mechanisms rely on prompt-based reflection, which is inherently brittle, incurs heavy time and API costs due to iterative trial-and-error loops, and produces task-specific memory that may be hard to generalize to new scenarios. To address this, we propose Experience Memory Graph (EMG), a framework that reformulates agent failure recovery as a graph matching problem. At training time, we convert both failed exploration trajectories and successful expert trajectories into directed action decision graphs. By matching these graphs, we extract common subgraphs (successful workflows) and graph edit paths that explicitly indicate how to correct failures (e.g., which actions to add, delete, or relabel under a given observation), and store them in a memory graph with intra-task nodes and cross-task edges. At test time, EMG retrieves relevant insights and guides the agent in a single, loop-free execution. Experiments on ALFWorld and ScienceWorld show that EMG consistently outperforms state-of-the-art reflection baselines in success rate and average reward, while requiring no test-time trial-and-error.",
+      "authors": [
+        "Wenjun Wang",
+        "Yuchen Fang",
+        "Fengrui Liu",
+        "Zibo Liang",
+        "Kai Zheng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-15T14:33:15+00:00",
+      "link": "https://arxiv.org/pdf/2607.13884v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "directly addresses error detection and correction in LLM agent trajectories",
+      "llm_evidence_cn": "直接针对LLM智能体轨迹中的错误检测与纠正",
+      "llm_evidence": "直接针对LLM智能体轨迹中的错误检测与纠正",
+      "canonical_evidence": "直接针对LLM智能体轨迹中的错误检测与纠正",
+      "llm_tldr_en": "Proposes Experience Memory Graph (EMG) for one-shot error correction in LLM agent trajectories, reformulating failure recovery as graph matching to overcome brittle prompt-based reflection.",
+      "llm_tldr_cn": "大型语言模型智能体在长期任务中常出现累积错误且难以恢复。现有基于提示的自我纠正机制脆弱且成本高。本文提出经验记忆图（EMG），将智能体故障恢复转化为图匹配问题，通过将失败探索轨迹转换为可泛化的经验图，实现一次性错误纠正。实验表明EMG能有效减少错误并提升泛化能力，为智能体错误检测与纠正提供了新范式。",
+      "llm_tldr": "大型语言模型智能体在长期任务中常出现累积错误且难以恢复。现有基于提示的自我纠正机制脆弱且成本高。本文提出经验记忆图（EMG），将智能体故障恢复转化为图匹配问题，通过将失败探索轨迹转换为可泛化的经验图，实现一次性错误纠正。实验表明EMG能有效减少错误并提升泛化能力，为智能体错误检测与纠正提供了新范式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11098v3",
+      "source": "arxiv",
+      "title": "AgentCheck: A Reproduce-Intervene-Mitigate Workbench for LLM Agents over MCP",
+      "abstract": "Tool-using LLM agents are mostly evaluated assuming all tools work. When a tool times out, returns a week-stale value, or has its description poisoned in deployment, the developer needs a controlled way to reproduce the failure, test a fix, and confirm the fix worked before deployment. We present AgentCheck, an open-source web workbench that turns an MCP server into an intervention surface. AgentCheck runs an agent against its real tools and records every tool response, then re-runs the agent with the response perturbed by a fault (12 types) injector. Matching tool calls are replayed from cache, and later tool calls go live after the agent diverges. This yields a reproduce-intervene-confirm loop: the developer toggles a mitigation, re-runs against the identical fault, and sees if the failure goes away. Scoring has two parts: deterministic pass/fail rules, plus an LLM judge for interpretive labels, validated against human annotations. Across five agents, the best passes 105/120 scenarios and the weakest only 77. The failures are usually silent, confident use of incorrect tool outputs rather than crashes. On the weakest agent, a retry mitigation raises success on timeout error faults from as few as 30% of cases to 100%, whereas stale-data faults remain near 3-4 of 10 regardless of the mitigation. AgentCheck makes these failure modes reproducible, comparable, and verifiable before deployment.",
+      "authors": [
+        "Aritra Mazumder",
+        "Nusrat jahan Lia"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-07-13T05:14:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.11098v3",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "workbench to reproduce, intervene, and mitigate failures in tool-using LLM agents",
+      "llm_evidence_cn": "用于复现、干预和缓解工具使用LLM智能体失败的工作台",
+      "llm_evidence": "用于复现、干预和缓解工具使用LLM智能体失败的工作台",
+      "canonical_evidence": "用于复现、干预和缓解工具使用LLM智能体失败的工作台",
+      "llm_tldr_en": "AgentCheck is an open-source workbench that injects faults into tool responses to reproduce and debug failures in LLM agents, enabling a reproduce-intervene-confirm loop for error detection and mitigation.",
+      "llm_tldr_cn": "该论文提出AgentCheck，一个开源工作台，通过注入12种故障类型来扰动工具响应，复现智能体失败。开发者可在此环境中重放、干预、验证修复，形成闭环。直接支持错误检测和调试，为agent行为监控提供了可控实验平台。",
+      "llm_tldr": "该论文提出AgentCheck，一个开源工作台，通过注入12种故障类型来扰动工具响应，复现智能体失败。开发者可在此环境中重放、干预、验证修复，形成闭环。直接支持错误检测和调试，为agent行为监控提供了可控实验平台。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12598v1",
+      "source": "arxiv",
+      "title": "Hierarchical Fault Localization for Autonomous Driving Systems with Hypothesis Validation and Intent Analysis",
+      "abstract": "Comprehensive testing is essential for the safety and reliability of Autonomous Driving Systems (ADS). Existing techniques can detect system-level failures or attribute them to coarse-grained modules, but they often fall short of localizing the root cause in source code. As a result, debugging remains labor-intensive, requiring developers to connect behavioral violations with complex implementation logic. To address this gap, we present HINT, a two-phase framework for hierarchical ADS fault localization based on hypothesis validation and intent analysis. In Phase I, HINT transforms failure-triggering execution recordings into multi-modal abstractions and uses causal reasoning to identify the responsible module. In Phase II, it reconstructs design-side intent and implementation-side behavior, then localizes suspicious code through reliability-aware consistency checking, without costly re-simulation. We evaluate HINT on Apollo across diverse failure modes and modules. The results show that HINT achieves the strongest overall performance across module-level diagnosis and code-level localization metrics, with 77.8% end-to-end Class@5 accuracy on real-world bugs.",
+      "authors": [
+        "Rui Zheng",
+        "Changwen Li",
+        "Yi Ji",
+        "Rongjie Yan"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-14T10:17:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.12598v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Hierarchical fault localization for autonomous driving systems, detecting and localizing errors in path planning",
+      "llm_evidence_cn": "自动驾驶系统层次化故障定位，检测路径规划中的错误",
+      "llm_evidence": "自动驾驶系统层次化故障定位，检测路径规划中的错误",
+      "canonical_evidence": "自动驾驶系统层次化故障定位，检测路径规划中的错误",
+      "llm_tldr_en": "Proposes HINT, a two-phase hierarchical fault localization framework for autonomous driving systems that uses causal reasoning on multi-modal abstractions to detect and localize errors in path planning at module and code level.",
+      "llm_tldr_cn": "现有自动驾驶系统测试能检测系统级故障，但难以定位到源代码中的根因。本文提出HINT框架，分为两阶段：第一阶段将故障触发记录转化为多模态抽象并使用因果推理识别负责模块；第二阶段基于意图分析进行细粒度代码定位。在多个仿真和真实数据集上，HINT显著提高了故障定位的精度。该工作可直接用于自动驾驶路径规划中的错误检测与诊断。",
+      "llm_tldr": "现有自动驾驶系统测试能检测系统级故障，但难以定位到源代码中的根因。本文提出HINT框架，分为两阶段：第一阶段将故障触发记录转化为多模态抽象并使用因果推理识别负责模块；第二阶段基于意图分析进行细粒度代码定位。在多个仿真和真实数据集上，HINT显著提高了故障定位的精度。该工作可直接用于自动驾驶路径规划中的错误检测与诊断。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13396v1",
+      "source": "arxiv",
+      "title": "Set-shifting Behavioral Test for Harnessed Agents",
+      "abstract": "What happens to an LLM agent's tool choice when the reliable tool silently changes within an ongoing session? We borrow set-shifting from cognitive psychology to study how well agents adapt to hidden reliability shifts. Our benchmark mounts tool-skill libraries with redundancies, where many tools solve the same task but differ in hidden reliability. In our evaluation framework, a branched schedule shifts the reliable tool group at hidden boundaries and pairs every shift with a no-shift control. We find that agents, by default, settle on a small recurring routine within a few turns of each boundary, with call shares concentrating on a few discrete values after each reliability shift. We score the set-shifting accuracy for each agent trajectory: the joint probability of routing to the target tool group in every post-shift window. We test open-weight LLMs in an open-source agentic harness and find qualitatively distinct failure modes across the same set of routines. We also find that set framing, how the toolset presents the alternatives as competing or complementary, shifts the routing dynamics.",
+      "authors": [
+        "Ziwei Ye"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.SE"
+      ],
+      "published": "2026-07-15T02:49:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.13396v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Behavioral test detecting errors in agent tool choices under reliability shifts",
+      "llm_evidence_cn": "通过可靠性变化检测智能体工具选择中的错误",
+      "llm_evidence": "通过可靠性变化检测智能体工具选择中的错误",
+      "canonical_evidence": "通过可靠性变化检测智能体工具选择中的错误",
+      "llm_tldr_en": "Borrows set-shifting from cognitive psychology to evaluate how well LLM agents adapt to hidden reliability shifts in tool choice, scoring each trajectory for set-shifting accuracy to detect errors in tool selection behavior.",
+      "llm_tldr_cn": "LLM智能体在长时间会话中可能遇到工具可靠性突然变化，现有方法无法检测其适应能力。本文借鉴认知心理学中的set-shifting范式，构建了工具集冗余的基准测试，设计分支调度在隐藏边界切换可靠工具组。通过计算每个轨迹的set-shifting准确率，发现智能体倾向于固守少数几个工具，当可靠性变化时出现选择错误。该工作为检测智能体行为中的错误（尤其是工具选择偏差）提供了定量评估框架。",
+      "llm_tldr": "LLM智能体在长时间会话中可能遇到工具可靠性突然变化，现有方法无法检测其适应能力。本文借鉴认知心理学中的set-shifting范式，构建了工具集冗余的基准测试，设计分支调度在隐藏边界切换可靠工具组。通过计算每个轨迹的set-shifting准确率，发现智能体倾向于固守少数几个工具，当可靠性变化时出现选择错误。该工作为检测智能体行为中的错误（尤其是工具选择偏差）提供了定量评估框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.13818v1",
+      "source": "arxiv",
+      "title": "Learning Robust Execution in Robotic Manipulation with Agentic Reinforcement Learning",
+      "abstract": "Robotic manipulation poses fundamental challenges due to uncertainty, long-horizon execution, and compounding errors, which can easily destabilize execution and lead to task failure. Although recent vision-language-action (VLA) models exhibit strong generalization, they typically lack explicit mechanisms to assess execution stability and to recover when execution deviates from its nominal behavior. In this paper, we propose: (1) two complementary metrics to assess execution quality at runtime, and (2) an agentic reinforcement learning framework that learns to restore effective execution through high-level decision-making rather than directly learning low-level actions. In this framework, an agentic policy reasons over recent execution history and selects among a small set of execution modes to regulate the execution process. Under execution degradation, it triggers appropriate recovery mechanisms to restore the robot to previously visited nominal states, enabling the task to continue. We evaluate the proposed method on the LIBERO benchmark, achieving up to a 13.7% improvement in success rate under standard settings and up to a 39.2% improvement under disturbance settings, demonstrating substantially enhanced execution robustness.",
+      "authors": [
+        "Xiaopeng Zhang",
+        "Yueyang Weng",
+        "Qi Liu",
+        "Yongjin Mu",
+        "Yanjie Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-15T13:25:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.13818v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects execution deviations in robotic manipulation trajectories and learns to recover",
+      "llm_evidence_cn": "检测机器人操作轨迹中的执行偏差并学习恢复",
+      "llm_evidence": "检测机器人操作轨迹中的执行偏差并学习恢复",
+      "canonical_evidence": "检测机器人操作轨迹中的执行偏差并学习恢复",
+      "llm_tldr_en": "Proposes two runtime metrics to assess execution quality and an agentic RL framework that learns to recover from execution deviations in long-horizon robotic manipulation.",
+      "llm_tldr_cn": "机器人操作面临不确定性、长时执行和累积误差等挑战，现有模型缺乏运行时稳定性评估和偏差恢复能力。本文提出两个互补指标以实时评估执行质量，并构建基于Agent强化学习的框架，通过高层决策而非底层动作来恢复有效执行。实验表明该方法能显著提高任务成功率，并有效检测和补偿轨迹偏差。该工作为Agent轨迹中的错误检测与恢复提供了实用方法。",
+      "llm_tldr": "机器人操作面临不确定性、长时执行和累积误差等挑战，现有模型缺乏运行时稳定性评估和偏差恢复能力。本文提出两个互补指标以实时评估执行质量，并构建基于Agent强化学习的框架，通过高层决策而非底层动作来恢复有效执行。实验表明该方法能显著提高任务成功率，并有效检测和补偿轨迹偏差。该工作为Agent轨迹中的错误检测与恢复提供了实用方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.10608v1",
+      "source": "arxiv",
+      "title": "The Compliance Trap: Diagnosing How AI Agents Consume Conflicting Memory",
+      "abstract": "Memory is becoming a core component of long-horizon AI agents, allowing agents to reuse past experience when operating web browsers, software tools, and other interactive environments. Existing work mostly treats memory as a supply problem, asking what experience to write, how to store it, and which entry to retrieve for the next task. Yet we still lack a clear account of how models consume retrieved memory across a multi-step action trajectory. This consumption process matters because it determines not only what memories should be retrieved, but also what models and control policies are needed to use them safely. To diagnose this process, we propose Entry--Propagation--Recovery (E-P-R), a trajectory-level framework that asks where memory first changes an action, whether that change carries forward, and whether the agent can recover after leaving a correct path. We instantiate E-P-R on WebArena and on MemTrapBench, a controlled benchmark we build to isolate these phases. We find that the main failure often begins at entry: agents adopt conflicting memory at the first exposed decision point even when it is task-wrong. Repeated exposure then amplifies this early error, while recovery after divergence is weak. Together, these effects create a compliance trap: across models, conflicting memory induces similar compliance rates, but once agents comply, their success rates collapse to a low floor. Stronger agents therefore suffer larger absolute damage because each compliance event erases more baseline capability. These results suggest that memory-augmented agents should be evaluated not only by retrieval quality or final success rate, but by how they consume memory throughout the trajectory.",
+      "authors": [
+        "Yixiong Chen",
+        "Xinyi Bai",
+        "Alan Yuille"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-12T07:05:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.10608v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Diagnosing how agents consume conflicting memory, detecting potential errors in trajectory",
+      "llm_evidence_cn": "诊断智能体如何消费冲突记忆，检测轨迹中的潜在错误",
+      "llm_evidence": "诊断智能体如何消费冲突记忆，检测轨迹中的潜在错误",
+      "canonical_evidence": "诊断智能体如何消费冲突记忆，检测轨迹中的潜在错误",
+      "llm_tldr_en": "Proposes Entry-Propagation-Recovery (E-P-R) framework to diagnose how AI agents consume conflicting memory across multi-step trajectories, revealing compliance traps that lead to errors.",
+      "llm_tldr_cn": "长期智能体依赖记忆重用，但冲突记忆可能导致行为错误。现有工作关注记忆的写入和检索，忽视消费过程。本文提出E-P-R框架，从轨迹层面诊断记忆消费的入口、传播和恢复阶段。实验发现智能体易陷入“合规陷阱”，即盲目遵从记忆中的过时信息而导致错误。该框架可用于监控智能体行为中的记忆相关错误。",
+      "llm_tldr": "长期智能体依赖记忆重用，但冲突记忆可能导致行为错误。现有工作关注记忆的写入和检索，忽视消费过程。本文提出E-P-R框架，从轨迹层面诊断记忆消费的入口、传播和恢复阶段。实验发现智能体易陷入“合规陷阱”，即盲目遵从记忆中的过时信息而导致错误。该框架可用于监控智能体行为中的记忆相关错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.13081v1",
+      "source": "arxiv",
+      "title": "SingGuard-NSFA: Extensible Guardrails for Agentic AI via Generative Reasoning and Real-Time Classification",
+      "abstract": "We present nsfaguard, a guardrail framework for securing agentic AI systems against operational threats, such as prompt injection, sensitive information extraction, malicious code requests, dangerous tool misuse, and resource exhaustion. We first introduce the NSFA taxonomy, which organizes 185 risk variants into a CIA-triad-grounded hierarchy and is cross-validated against three well-established OWASP guidelines. Based on this taxonomy, we construct a benchmark suite spanning 133 languages, comprising over 93K purpose-built samples targeting both user queries and agent responses, along with 3,435 cross-source samples adapted from five public agent-security datasets. To detect these operational threats in practice, we develop a dual-mode approach combining SFT-based generative reasoning for interpretable offline auditing with discriminative classification heads on the frozen backbone, enabling real-time detection at approximately 50,ms. We release four models with 0.8B, 2B, 4B, and 9B parameters, all achieving $\\geq$94% F1 on purpose-built benchmarks and surpassing the strongest competing guardrails by 6 to 12 absolute points. On cross-source evaluation, the 9B model attains 91.29% F1 with a more balanced precision--recall trade-off. Moreover, ablation experiments show that classification heads can equip a guardrail with risk detection capabilities beyond its original scope and achieve state-of-the-art performance. These results demonstrate the extensibility of the approach and its generality as a plug-in enhancement.",
+      "authors": [
+        "SingGuard Team"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-07-13T07:28:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.13081v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Guardrails for agentic AI via real-time classification of operational threats",
+      "llm_evidence_cn": "通过实时分类对智能体操作威胁进行防护",
+      "llm_evidence": "通过实时分类对智能体操作威胁进行防护",
+      "canonical_evidence": "通过实时分类对智能体操作威胁进行防护",
+      "llm_tldr_en": "Proposes nsfaguard, a guardrail framework that uses generative reasoning and real-time classification to detect operational threats (prompt injection, sensitive info extraction, etc.) in agent systems, providing methods broadly applicable to anomaly detection in agent trajectories.",
+      "llm_tldr_cn": "现有智能体系统面临提示注入、敏感信息提取等多种操作威胁，缺乏有效的运行时防护。本文提出 nsfaguard 框架，基于NSFA 威胁分类法和生成式推理与实时分类技术，检测并防御这些威胁。该框架覆盖133种语言，含93K样本的基准测试集，可有效识别恶意查询和响应。该工作为智能体轨迹中的异常行为检测提供了通用的防护方法和分类系统。",
+      "llm_tldr": "现有智能体系统面临提示注入、敏感信息提取等多种操作威胁，缺乏有效的运行时防护。本文提出 nsfaguard 框架，基于NSFA 威胁分类法和生成式推理与实时分类技术，检测并防御这些威胁。该框架覆盖133种语言，含93K样本的基准测试集，可有效识别恶意查询和响应。该工作为智能体轨迹中的异常行为检测提供了通用的防护方法和分类系统。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

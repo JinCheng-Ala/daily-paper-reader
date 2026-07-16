@@ -6,59 +6,49 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-15
-- 运行时间：2026-07-15 19:59:16 UTC
+- 最新运行日期：2026-07-16
+- 运行时间：2026-07-16 20:11:27 UTC
 - 运行状态：成功
-- 本次总论文数：13
+- 本次总论文数：9
 - 精读区：6
-- 速读区：7
+- 速读区：3
 
 ### 今日简报（AI）
-今日共收录13篇论文，精读6篇，速读7篇，编码智能体评估与人机交互错误检测最受关注。重点推荐《AgentLens: Production-Assessed Trajectory Reviews for Coding Agent Evaluation》和《ERR@HRI 3.0 Challenge: Multimodal Detection of Errors and Anticipation in Human-Robot Interactions》，均获9.0高分。建议优先精读这两篇，并速读《Agentic-DPO》和《Norm Enforcement for AI Agents》以把握智能体行为优化方向。
-- 详情：[/202607/15/README](/202607/15/README)
+1) 今日精选9篇AI Agent论文，精读2篇并速读3篇，聚焦安全治理与鲁棒执行。  
+2) 最值得关注《AgentCheck》与《CAVA》（均9.0分），分别针对LLM Agent的可复现干预框架与运行时权威验证。  
+3) 建议优先精读这两篇论文，掌握Agent系统安全控制的核心进展。
+- 详情：[/202607/16/README](/202607/16/README)
 
 ### 精读区论文标签
-1. [AgentLens: Production-Assessed Trajectory Reviews for Coding Agent Evaluation](/202607/15/2607.06624v2-agentlens-production-assessed-trajectory-reviews-for-coding-agent-evaluation)  
+1. [AgentCheck: A Reproduce-Intervene-Mitigate Workbench for LLM Agents over MCP](/202607/16/2607.11098v2-agentcheck-a-reproduce-intervene-mitigate-workbench-for-llm-agents-over-mcp)  
    标签：评分：9.0/10、query:agent-error
-   evidence：通过轨迹评审检测编码智能体错误
-2. [ERR@HRI 3.0 Challenge: Multimodal Detection of Errors and Anticipation in Human-Robot Interactions](/202607/15/2607.11570v1-errhri-30-challenge-multimodal-detection-of-errors-and-anticipation-in-human-robot-interactions)  
+   evidence：通过故障注入复现和缓解代理错误的工作台
+2. [CAVA: Canonical Action Verification and Attestation for Runtime Governance of Agentic AI Systems](/202607/16/2607.13716v1-cava-canonical-action-verification-and-attestation-for-runtime-governance-of-agentic-ai-systems)  
    标签：评分：9.0/10、query:agent-error
-   evidence：人机交互中多模态错误检测
-3. [Critic Experience Bank: Self-Evolving Step-Level Confidence Estimation for LLM Agents](/202607/15/2607.12397v1-critic-experience-bank-self-evolving-step-level-confidence-estimation-for-llm-agents)  
+   evidence：直接验证代理动作的运行时语义，匹配检测代理轨迹中的动作错误
+3. [Experience Memory Graph: One-Shot Error Correction for Agents](/202607/16/2607.13884v1-experience-memory-graph-one-shot-error-correction-for-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：步骤级置信度估计在执行前检测错误步骤
-4. [OOD-RL-Bench: A Benchmark Framework for Out-of-Distribution Detection in Reinforcement Learning](/202607/15/2607.12523v1-ood-rl-bench-a-benchmark-framework-for-out-of-distribution-detection-in-reinforcement-learning)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：面向强化学习轨迹的分布外检测基准，处理轨迹偏差
-5. [ReflectVLN: Training Vision-Language Navigation Agents with Reflective Reasoning](/202607/15/2607.12680v1-reflectvln-training-vision-language-navigation-agents-with-reflective-reasoning)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：诊断执行失败和导航中的错误累积
-6. [Tracing Agentic Failure from the Flow of Success](/202607/15/2607.12747v1-tracing-agentic-failure-from-the-flow-of-success)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：无监督失败归因，识别LLM智能体轨迹中的错误步骤
+   evidence：直接针对LLM智能体轨迹中的错误检测与纠正
+4. [AgentCheck: A Reproduce-Intervene-Mitigate Workbench for LLM Agents over MCP](/202607/16/2607.11098v3-agentcheck-a-reproduce-intervene-mitigate-workbench-for-llm-agents-over-mcp)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：用于复现、干预和缓解工具使用LLM智能体失败的工作台
+5. [Hierarchical Fault Localization for Autonomous Driving Systems with Hypothesis Validation and Intent Analysis](/202607/16/2607.12598v1-hierarchical-fault-localization-for-autonomous-driving-systems-with-hypothesis-validation-and-intent-analysis)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：自动驾驶系统层次化故障定位，检测路径规划中的错误
+6. [Set-shifting Behavioral Test for Harnessed Agents](/202607/16/2607.13396v1-set-shifting-behavioral-test-for-harnessed-agents)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：通过可靠性变化检测智能体工具选择中的错误
 
 ### 速读区论文标签
-1. [Norm Enforcement for AI Agents: Robustly Shaping Behavior in Multi-Agent Systems](/202607/15/2607.09766v1-norm-enforcement-for-ai-agents-robustly-shaping-behavior-in-multi-agent-systems)  
+1. [Learning Robust Execution in Robotic Manipulation with Agentic Reinforcement Learning](/202607/16/2607.13818v1-learning-robust-execution-in-robotic-manipulation-with-agentic-reinforcement-learning)  
    标签：评分：8.0/10、query:agent-error
-   evidence：规范执行机制检测并惩罚agent行为中的违规
-2. [Agentic-DPO: From Imitation to Agentic Policy Optimization on Expert Trajectories](/202607/15/2607.10601v1-agentic-dpo-from-imitation-to-agentic-policy-optimization-on-expert-trajectories)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：优化策略避免智能体轨迹中的动作错误
-3. [DeepSearch-World: Self-Distillation for Deep Search Agents in a Verifiable Environment](/202607/15/2607.07820v2-deepsearch-world-self-distillation-for-deep-search-agents-in-a-verifiable-environment)  
+   evidence：检测机器人操作轨迹中的执行偏差并学习恢复
+2. [The Compliance Trap: Diagnosing How AI Agents Consume Conflicting Memory](/202607/16/2607.10608v1-the-compliance-trap-diagnosing-how-ai-agents-consume-conflicting-memory)  
    标签：评分：7.0/10、query:agent-error
-   evidence：通过失败恢复支持 agent 轨迹错误检测
-4. [UniClawBench: A Universal Benchmark for Proactive Agents on Real-World Tasks](/202607/15/2607.08768v1-uniclawbench-a-universal-benchmark-for-proactive-agents-on-real-world-tasks)  
+   evidence：诊断智能体如何消费冲突记忆，检测轨迹中的潜在错误
+3. [SingGuard-NSFA: Extensible Guardrails for Agentic AI via Generative Reasoning and Real-Time Classification](/202607/16/2607.13081v1-singguard-nsfa-extensible-guardrails-for-agentic-ai-via-generative-reasoning-and-real-time-classification)  
    标签：评分：7.0/10、query:agent-error
-   evidence：从轨迹诊断智能体失败的根本原因
-5. [Learning Residual Kinematic Corrections for Continuous Neural Decoding via Reinforcement Learning](/202607/15/2607.11530v1-learning-residual-kinematic-corrections-for-continuous-neural-decoding-via-reinforcement-learning)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：强化学习智能体修正轨迹残差错误
-6. [Speculate with Memory: Lossless Acceleration for LLM Agents](/202607/15/2607.12236v1-speculate-with-memory-lossless-acceleration-for-llm-agents)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：混淆跟踪器抑制轨迹中重复错误
-7. [Filtering Harmful Actions Isn't Enough: Phantom Transfer in Agentic SDF](/202607/15/2607.10750v1-filtering-harmful-actions-isnt-enough-phantom-transfer-in-agentic-sdf)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：合成轨迹中包含终止进程等对抗性动作，与动作错误检测相关
+   evidence：通过实时分类对智能体操作威胁进行防护
 
 
 <div class="dpr-home-promo-card">
