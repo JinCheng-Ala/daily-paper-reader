@@ -6,49 +6,52 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-16
-- 运行时间：2026-07-16 20:11:27 UTC
+- 最新运行日期：2026-07-17
+- 运行时间：2026-07-17 21:16:48 UTC
 - 运行状态：成功
-- 本次总论文数：9
-- 精读区：6
-- 速读区：3
+- 本次总论文数：10
+- 精读区：4
+- 速读区：6
 
 ### 今日简报（AI）
-1) 今日精选9篇AI Agent论文，精读2篇并速读3篇，聚焦安全治理与鲁棒执行。  
-2) 最值得关注《AgentCheck》与《CAVA》（均9.0分），分别针对LLM Agent的可复现干预框架与运行时权威验证。  
-3) 建议优先精读这两篇论文，掌握Agent系统安全控制的核心进展。
-- 详情：[/202607/16/README](/202607/16/README)
+今日聚焦AI Agent安全与自我改进，精读两篇高分论文，速读三篇相关成果。  
+最值得关注的方向：通过结构监控实现Agent部署安全民主化，以及概念引导的空间正则化提升世界模型在Atari Pong中的表现。  
+建议后续深入阅读精读论文，同时留意Phantom Guardrails揭示的自我改进Agent修复失效陷阱。
+- 详情：[/202607/17/README](/202607/17/README)
 
 ### 精读区论文标签
-1. [AgentCheck: A Reproduce-Intervene-Mitigate Workbench for LLM Agents over MCP](/202607/16/2607.11098v2-agentcheck-a-reproduce-intervene-mitigate-workbench-for-llm-agents-over-mcp)  
+1. [Democratizing Agent Deployment Safety: A Structural Monitoring Approach](/202607/17/2607.14570v1-democratizing-agent-deployment-safety-a-structural-monitoring-approach)  
    标签：评分：9.0/10、query:agent-error
-   evidence：通过故障注入复现和缓解代理错误的工作台
-2. [CAVA: Canonical Action Verification and Attestation for Runtime Governance of Agentic AI Systems](/202607/16/2607.13716v1-cava-canonical-action-verification-and-attestation-for-runtime-governance-of-agentic-ai-systems)  
+   evidence：监控AI智能体是否暗中削弱安全措施
+2. [Concept-Guided Spatial Regularization for World Models in Atari Pong](/202607/17/2607.15142v1-concept-guided-spatial-regularization-for-world-models-in-atari-pong)  
    标签：评分：9.0/10、query:agent-error
-   evidence：直接验证代理动作的运行时语义，匹配检测代理轨迹中的动作错误
-3. [Experience Memory Graph: One-Shot Error Correction for Agents](/202607/16/2607.13884v1-experience-memory-graph-one-shot-error-correction-for-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：直接针对LLM智能体轨迹中的错误检测与纠正
-4. [AgentCheck: A Reproduce-Intervene-Mitigate Workbench for LLM Agents over MCP](/202607/16/2607.11098v3-agentcheck-a-reproduce-intervene-mitigate-workbench-for-llm-agents-over-mcp)  
+   evidence：检查世界模型 rollout 中智能体轨迹的视觉和动态错误
+3. [AI Agents Do Not Fail Alone:The Context Fails First](/202607/17/2607.14275v1-ai-agents-do-not-fail-alonethe-context-fails-first)  
    标签：评分：8.0/10、query:agent-error
-   evidence：用于复现、干预和缓解工具使用LLM智能体失败的工作台
-5. [Hierarchical Fault Localization for Autonomous Driving Systems with Hypothesis Validation and Intent Analysis](/202607/16/2607.12598v1-hierarchical-fault-localization-for-autonomous-driving-systems-with-hypothesis-validation-and-intent-analysis)  
+   evidence：验证上下文质量作为智能体错误的前导指标并提供测量方法
+4. [Copy-on-Write Scoring: Application-Specific Agent Evaluations](/202607/17/2607.14336v1-copy-on-write-scoring-application-specific-agent-evaluations)  
    标签：评分：8.0/10、query:agent-error
-   evidence：自动驾驶系统层次化故障定位，检测路径规划中的错误
-6. [Set-shifting Behavioral Test for Harnessed Agents](/202607/16/2607.13396v1-set-shifting-behavioral-test-for-harnessed-agents)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：通过可靠性变化检测智能体工具选择中的错误
+   evidence：评估智能体操作并定位轨迹中的失败
 
 ### 速读区论文标签
-1. [Learning Robust Execution in Robotic Manipulation with Agentic Reinforcement Learning](/202607/16/2607.13818v1-learning-robust-execution-in-robotic-manipulation-with-agentic-reinforcement-learning)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：检测机器人操作轨迹中的执行偏差并学习恢复
-2. [The Compliance Trap: Diagnosing How AI Agents Consume Conflicting Memory](/202607/16/2607.10608v1-the-compliance-trap-diagnosing-how-ai-agents-consume-conflicting-memory)  
+1. [Phantom Guardrails: When Self-Improving Agent Harnesses Fix Failures That Never Happened](/202607/17/2607.13083v1-phantom-guardrails-when-self-improving-agent-harnesses-fix-failures-that-never-happened)  
    标签：评分：7.0/10、query:agent-error
-   evidence：诊断智能体如何消费冲突记忆，检测轨迹中的潜在错误
-3. [SingGuard-NSFA: Extensible Guardrails for Agentic AI via Generative Reasoning and Real-Time Classification](/202607/16/2607.13081v1-singguard-nsfa-extensible-guardrails-for-agentic-ai-via-generative-reasoning-and-real-time-classification)  
+   evidence：研究自我改进智能体中的幻觉错误，与监测智能体行为错误相关
+2. [Self-Improving AI Coding Agents Through Accumulated Behavioral Rules: A Closed-Loop Framework](/202607/17/2607.13091v1-self-improving-ai-coding-agents-through-accumulated-behavioral-rules-a-closed-loop-framework)  
    标签：评分：7.0/10、query:agent-error
-   evidence：通过实时分类对智能体操作威胁进行防护
+   evidence：通过累积人类审查中的行为规则自我检测错误类别
+3. [TRACE: Turn-level Reward Assignment via Credit Estimation for Long-Horizon Agents](/202607/17/2607.13988v1-trace-turn-level-reward-assignment-via-credit-estimation-for-long-horizon-agents)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：针对长程智能体轨迹的密集信用分配与错误检测
+4. [ToolAnchor: Anchoring Counterfactual Context to Boost Agentic Tool-use Capability](/202607/17/2607.14145v1-toolanchor-anchoring-counterfactual-context-to-boost-agentic-tool-use-capability)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：通过检测和打破行为惯性的方式恢复失败轨迹
+5. [WorkDrive: Roadwork Chain of Causation for Autonomous Driving](/202607/17/2607.14727v1-workdrive-roadwork-chain-of-causation-for-autonomous-driving)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：基于因果推理的轨迹预测，用于检测施工区域的规划错误
+6. [AgentCompass: A Unified Evaluation Infrastructure for Agent Capabilities](/202607/17/2607.13705v2-agentcompass-a-unified-evaluation-infrastructure-for-agent-capabilities)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：提供智能体轨迹分析工具
 
 
 <div class="dpr-home-promo-card">

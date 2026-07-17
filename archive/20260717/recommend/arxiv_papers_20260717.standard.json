@@ -1,0 +1,425 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-17T21:10:19.939266+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2607.14570v1",
+      "source": "arxiv",
+      "title": "Democratizing Agent Deployment Safety: A Structural Monitoring Approach",
+      "abstract": "AI software development agents are increasingly capable of modifying infrastructure and security critical systems, creating risks where an agent completes its assigned task while covertly weakening safeguards through actions such as broadening permissions, degrading logging, or introducing persistence mechanisms. While frontier laboratories may deploy sophisticated monitoring pipelines, many organizations and individual users adopting coding agents lack the resources and governance maturity required to maintain complex learned monitor ensembles. We study this problem as infrastructure level sabotage under task success in the infrastructure-as-code setting from ControlArena and compare trained and untrained monitors across synchronous and asynchronous deployment modes. We introduce an Information Flow Graph (IFG) monitor that analyzes structural security regressions using control-flow and data-flow graph diffs alongside raw code diffs. In asynchronous evaluation, an untrained git diff monitor misses 11.6% attacks at 1% false positive rate auditing budget, our untrained IFG monitor reduces this to 3.5%, and the trained Async RF monitor achieves below 1%. Unlike the trained Async RF monitor, IFG can also operate synchronously as a pre-deployment safeguard that blocks suspicious infrastructure changes before execution or merge. In synchronous mode, IFG realtime rollback reduces joint main task and covert task success from 74.4% to 0.0% with no measurable reduction in legitimate task completion. These results suggest that untrained structural monitors provide a practical and auditable path toward democratizing deployment safety for organizations seeking trustworthy adoption of advanced AI agents.",
+      "authors": [
+        "Preeti Ravindra",
+        "Rahul Tiwari",
+        "Vincent Wolowski"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CR"
+      ],
+      "published": "2026-07-16T04:55:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.14570v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "monitors AI agents for covert weakening of safeguards",
+      "llm_evidence_cn": "监控AI智能体是否暗中削弱安全措施",
+      "llm_evidence": "监控AI智能体是否暗中削弱安全措施",
+      "canonical_evidence": "监控AI智能体是否暗中削弱安全措施",
+      "llm_tldr_en": "Proposes a structural monitoring approach to detect when AI agents covertly weaken safeguards during deployment, addressing safety risks in infrastructure-as-code settings.",
+      "llm_tldr_cn": "AI智能体部署时可能暗中削弱安全措施，本文提出结构性监控方法在基础设施即代码场景下检测此类行为。该方法通过比较训练与未训练监控器，为缺乏高级监控能力的组织提供低成本安全保障。",
+      "llm_tldr": "AI智能体部署时可能暗中削弱安全措施，本文提出结构性监控方法在基础设施即代码场景下检测此类行为。该方法通过比较训练与未训练监控器，为缺乏高级监控能力的组织提供低成本安全保障。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.15142v1",
+      "source": "arxiv",
+      "title": "Concept-Guided Spatial Regularization for World Models in Atari Pong",
+      "abstract": "World models are usually evaluated as components of model-based reinforcement learning (MBRL) systems, while the world models themselves are rarely studied in isolation.   We examine five representative visual world-model agents in Atari Pong: DreamerV3, DIAMOND, TWISTER, Simulus, and STORM. After reproducing their training pipelines and matching the reported agent performance, we freeze the learned world models and evaluate them with a closed-loop rollout diagnostic: a policy trained separately from the corresponding MBRL agent interacts with each frozen model, and the generated video trajectories are inspected for visual and dynamical errors. Across all five models, the rollouts contain clear failures, including ball disappearance, incorrect ball motion, and invalid ball-paddle interactions.   Beyond visual trajectories, we further evaluate them with pixel-space zero-shot MBRL, where a new policy is trained entirely inside a frozen world model and then evaluated in the real environment. Across all five models, the resulting policies substantially underperform those produced by the corresponding original MBRL training pipelines. The gap is particularly large for DreamerV3, whose mean return drops from -5.5 to -20.9, near the minimum Pong return of -21.   We hypothesize that insufficient modeling of task-critical concepts, such as the ball in Pong, may contribute to these failures. We therefore propose Concept-Guided Spatial Regularization (CGSReg), an auxiliary pixel reconstruction loss applied to segmented concept regions. Experiments show that CGSReg improves both closed-loop rollouts and pixel-space zero-shot MBRL in DreamerV3, DIAMOND, and TWISTER. Its effects vary across the remaining models and evaluation metrics, indicating that CGSReg alone does not address all world-model bottlenecks.",
+      "authors": [
+        "Yukuan Lu",
+        "Zaishuo Xia",
+        "Weyl Lu",
+        "Yubei Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-16T15:46:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.15142v1",
+      "tags": [
+        "keyword:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "inspects world model rollouts for visual and dynamical errors in agent trajectories",
+      "llm_evidence_cn": "检查世界模型 rollout 中智能体轨迹的视觉和动态错误",
+      "llm_evidence": "检查世界模型 rollout 中智能体轨迹的视觉和动态错误",
+      "canonical_evidence": "检查世界模型 rollout 中智能体轨迹的视觉和动态错误",
+      "llm_tldr_en": "Examines five world models in Atari Pong and finds clear failures like ball disappearance, directly detecting trajectory errors.",
+      "llm_tldr_cn": "世界模型通常作为组件事先评估，但本身很少被单独研究。本文在Atari Pong中冻结五个世界模型并用独立策略交互生成视频轨迹，检查发现所有模型都存在明显错误，如球消失、运动错误等，揭示了世界模型在轨迹生成中的系统性错误。",
+      "llm_tldr": "世界模型通常作为组件事先评估，但本身很少被单独研究。本文在Atari Pong中冻结五个世界模型并用独立策略交互生成视频轨迹，检查发现所有模型都存在明显错误，如球消失、运动错误等，揭示了世界模型在轨迹生成中的系统性错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.14275v1",
+      "source": "arxiv",
+      "title": "AI Agents Do Not Fail Alone:The Context Fails First",
+      "abstract": "Context engineering has become central to building reliable AI agents, yet it remains largely unmeasured. Agents do not fail in isolation: their behavior is shaped by the instructions, tools, memory, retrieved knowledge, guardrails, and untrusted inputs accumulated in their context. When this context is weak, agents drift, hallucinate, misuse tools, ignore constraints, become vulnerable to injection, and waste tokens. This paper validates context-engineering quality as an independent leading indicator of agent reliability. We implement the measurement in ProofAgent-Harness, an open-source infrastructure for AI agent evaluation that uses multi-juror, consensus-based scoring. The harness assesses context across seven criteria: role clarity, guardrail coverage, instruction consistency, tool schema quality, grounding sufficiency, injection hardening, and token efficiency. Crucially, the context score is isolated from behavioral metrics and release decisions, enabling a non-circular validation. Through a controlled context-quality study across regulated agent domains, holding frontier LLM agents fixed and varying only their operating context, we show that context-quality criteria consistently predict their corresponding behavioral outcomes. Grounding sufficiency predicts hallucination resistance, guardrail coverage predicts manipulation resistance, instruction consistency predicts instruction following, and tool-schema quality predicts tool use. These findings establish context measurement as a validated preflight signal for agent reliability and position context engineering as an auditable layer of agent evaluation and governance.",
+      "authors": [
+        "Fouad Bousetouane"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-07-15T18:33:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.14275v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "validates context quality as indicator of agent errors and provides measurement",
+      "llm_evidence_cn": "验证上下文质量作为智能体错误的前导指标并提供测量方法",
+      "llm_evidence": "验证上下文质量作为智能体错误的前导指标并提供测量方法",
+      "canonical_evidence": "验证上下文质量作为智能体错误的前导指标并提供测量方法",
+      "llm_tldr_en": "Demonstrates that context-engineering quality is a leading indicator of AI agent errors, and presents ProofAgent-Harness for measuring context across seven criteria.",
+      "llm_tldr_cn": "该论文提出上下文工程是智能体可靠性的关键但未测量因素。当上下文薄弱时，智能体会出现漂移、幻觉和工具误用等错误。作者开发了ProofAgent-Harness评估框架，从角色清晰度、护栏覆盖等七个维度衡量上下文质量，证明其作为错误领先指标的有效性。",
+      "llm_tldr": "该论文提出上下文工程是智能体可靠性的关键但未测量因素。当上下文薄弱时，智能体会出现漂移、幻觉和工具误用等错误。作者开发了ProofAgent-Harness评估框架，从角色清晰度、护栏覆盖等七个维度衡量上下文质量，证明其作为错误领先指标的有效性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.14336v1",
+      "source": "arxiv",
+      "title": "Copy-on-Write Scoring: Application-Specific Agent Evaluations",
+      "abstract": "Trustworthy deployment of LLM-based agents in software systems requires evaluating how they perform on application-specific workflows, with enough granularity to localize where they succeed and fail. Yet existing agent evaluation mechanisms are limited: benchmarks have low construct validity for application-specific workflows and environments, and replica evaluation environments are expensive and prone to drift. We propose Copy-on-Write (CoW) Scoring, a framework that evaluates agent operations directly within application environments using a PostgreSQL-level Copy-on-Write mechanism to isolate agent writes. CoW Scoring produces session- and operation-level scores that highlight where agents' database write operations succeed and fail in a given application environment, enabling inexpensive evaluation and iteration on agent harnesses and tool surfaces. We demonstrate the framework on Plane, an open-source project-management platform, where analysis surfaced specific issues in the tool surface, and corresponding fixes produced measurable improvements on affected models.   Python library: https://github.com/trail-ml/agent-cow-python",
+      "authors": [
+        "Joanna Roy",
+        "Sven Hoelzel"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-07-15T19:59:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.14336v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "evaluates agent operations and localizes failures in trajectories",
+      "llm_evidence_cn": "评估智能体操作并定位轨迹中的失败",
+      "llm_evidence": "评估智能体操作并定位轨迹中的失败",
+      "canonical_evidence": "评估智能体操作并定位轨迹中的失败",
+      "llm_tldr_en": "Proposes CoW Scoring to evaluate LLM agents in applications, detecting where they succeed/fail in trajectories using copy-on-write isolation.",
+      "llm_tldr_cn": "现有智能体评估基准在特定应用场景中效度低，且复制环境成本高。本文提出写时复制评分框架，通过PostgreSQL级别的写隔离直接在生产环境中评估智能体操作，生成会话级和操作级得分，精确定位数据库写入操作的成功与失败，为应用特定工作流提供细粒度错误检测。",
+      "llm_tldr": "现有智能体评估基准在特定应用场景中效度低，且复制环境成本高。本文提出写时复制评分框架，通过PostgreSQL级别的写隔离直接在生产环境中评估智能体操作，生成会话级和操作级得分，精确定位数据库写入操作的成功与失败，为应用特定工作流提供细粒度错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.13083v1",
+      "source": "arxiv",
+      "title": "Phantom Guardrails: When Self-Improving Agent Harnesses Fix Failures That Never Happened",
+      "abstract": "Self-improving AI agents are designed to learn from their mistakes. We show they can also hallucinate mistakes that never happened. We study this failure mode in automated harness optimization, where an LLM-based proposer edits an agent's scaffold, including prompts, parsers, filters, validators and guardrails, to eliminate observed failures. But this process rarely asks first: was there a real failure to fix? We introduce the Counterfactual Fabrication Lab, a deterministic micro-lab where the correct action is known: do nothing. The lab plants a candidate guardrail for a failure class that provably never occurs, presents only legal episodes, and uses a byte-exact oracle to check every cited violation. The proposer behaves as expected on real violations and abstains on featureless legal input. Yet when the legal input contains a harmless pattern resembling a familiar game rule, it invents a failure: in 15/60 runs, versus 0/60 on featureless input, it enables the nonexistent-rule guardrail and cites a violation the oracle refutes. The effect is structured, not indiscriminate. In single-shot proposals it appears only when three conditions coincide: a rule-shaped pattern, an open-ended rule set and an instruction that presupposes failures. Removing any of these conditions eliminates the fabrication. Because the invented guardrail changes no true outcome and cannot improve an already-perfect suppression score, the phenomenon is neither reward hacking nor over-refusal. It is a phantom guardrail: a fix for a failure that never happened, invisible to suppression-only acceptance. Inside an add-only accept loop it re-enters even without the failure-presupposing instruction, the loop's keep-adding role supplying the demand the instruction supplied in single shot, and once in it stays. We present the Counterfactual Fabrication Lab for measuring fabricated failures in self-improving agent harnesses.",
+      "authors": [
+        "Su Wang",
+        "Pin Qian",
+        "Yifan Lin",
+        "Jingzhou Xu",
+        "Yihang Chen",
+        "Xiaochong Jiang",
+        "Lifei Liu",
+        "Haoran Yu"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
+      "published": "2026-07-13T10:14:15+00:00",
+      "link": "https://arxiv.org/pdf/2607.13083v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "study of hallucinated failures in self-improving agents, relevant to monitoring agent behavior for errors",
+      "llm_evidence_cn": "研究自我改进智能体中的幻觉错误，与监测智能体行为错误相关",
+      "llm_evidence": "研究自我改进智能体中的幻觉错误，与监测智能体行为错误相关",
+      "canonical_evidence": "研究自我改进智能体中的幻觉错误，与监测智能体行为错误相关",
+      "llm_tldr_en": "Phantom Guardrails shows that self-improving agents can hallucinate non-existent failures, leading to unnecessary fixes; introduces Counterfactual Fabrication Lab to detect such false positives.",
+      "llm_tldr_cn": "本文揭示自我改进型AI智能体可能幻觉出从未发生的错误，从而引发不必要的修复。作者提出反事实制造实验室（Counterfactual Fabrication Lab），通过植入确定不会发生的故障类候选护栏，并利用字节级精确预言机验证，系统性地检测并暴露这种误报行为。该工作为监测智能体轨迹中的错误提供了关键警示和改进方向。",
+      "llm_tldr": "本文揭示自我改进型AI智能体可能幻觉出从未发生的错误，从而引发不必要的修复。作者提出反事实制造实验室（Counterfactual Fabrication Lab），通过植入确定不会发生的故障类候选护栏，并利用字节级精确预言机验证，系统性地检测并暴露这种误报行为。该工作为监测智能体轨迹中的错误提供了关键警示和改进方向。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.13705v2",
+      "source": "arxiv",
+      "title": "AgentCompass: A Unified Evaluation Infrastructure for Agent Capabilities",
+      "abstract": "As Large Language Models (LLMs) evolve into autonomous agents, the need for unified evaluation infrastructure becomes critical. However, current evaluation pipelines remain highly fragmented and tightly coupled, hindering reproducibility and causing redundant engineering. To address this, we introduce AgentCompass, an open-source, lightweight, and extensible infrastructure for evaluating LLM-based agents. AgentCompass organizes the evaluation process around three independent components, namely Benchmark, Harness, and Environment, thereby enabling flexible configurations without requiring the reimplementation of complex execution logic. Furthermore, it features a fault-tolerant asynchronous runtime and comprehensive trajectory analysis tools to transparently diagnose nuanced failure modes like reward-hacking. Natively supporting over 20 benchmarks across five capability dimensions, AgentCompass provides the community with a scalable and reproducible infrastructure for advancing agent research.",
+      "authors": [
+        "Kai Chen",
+        "Zichen Ding",
+        "Jiaye Ge",
+        "Shufan Jiang",
+        "Mo Li",
+        "Qingqiu Li",
+        "Zehao Li",
+        "Zonglin Li",
+        "Tiaohao Liang",
+        "Shudong Liu",
+        "Zerun Ma",
+        "Zixing Shang",
+        "Wenhui Tian",
+        "Zun Wang",
+        "Liwei Wu",
+        "Zhenyu Wu",
+        "Jun Xu",
+        "Bowen Yang",
+        "Dingbo Yuan",
+        "Qi Zhang",
+        "Songyang Zhang",
+        "Peiheng Zhou",
+        "Dongsheng Zhu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-07-15T11:11:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.13705v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "provides trajectory analysis tools for agent evaluation",
+      "llm_evidence_cn": "提供智能体轨迹分析工具",
+      "llm_evidence": "提供智能体轨迹分析工具",
+      "canonical_evidence": "提供智能体轨迹分析工具",
+      "llm_tldr_en": "AgentCompass offers a unified, extensible evaluation infrastructure with trajectory analysis tools that can support error detection in agent trajectories.",
+      "llm_tldr_cn": "AgentCompass是一个开源的轻量级智能体评估基础设施，将评估过程解耦为基准、测试框架和环境三个独立组件。它包含容错异步运行时和全面的轨迹分析工具，能够帮助研究人员分析智能体轨迹，从而支持轨迹错误检测。该工作通过统一评估管道，提高了可重复性并减少了冗余工程。",
+      "llm_tldr": "AgentCompass是一个开源的轻量级智能体评估基础设施，将评估过程解耦为基准、测试框架和环境三个独立组件。它包含容错异步运行时和全面的轨迹分析工具，能够帮助研究人员分析智能体轨迹，从而支持轨迹错误检测。该工作通过统一评估管道，提高了可重复性并减少了冗余工程。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.13091v1",
+      "source": "arxiv",
+      "title": "Self-Improving AI Coding Agents Through Accumulated Behavioral Rules: A Closed-Loop Framework",
+      "abstract": "LLM-based coding agents repeat the same classes of mistakes across sessions because they lack a mechanism to retain corrections from human review feedback. We present a closed-loop framework in which every accepted review comment is codified as a persistent behavioral rule, progressively expanding the set of error classes the agent can self-detect. The framework combines an accumulating rule set in a version-controlled instruction file, a self-review checklist executed before code submission, and automated validation that ensures rule set integrity as it grows. In deployment across a 35+ service microservices platform, the rule set grew from 5 to 18 behavioral rules, 15+ language-specific standards, and a 15-item self-review checklist, all derived from real review feedback. We present empirical results from 11 recorded working sessions spanning code generation, PR review, incident investigation, and cross service refactoring. We observe that accumulated rules shift review effort from low-level correctness toward design-level validation, achieve a measured 0% recurrence rate for ruled-against error classes, and transfer across heterogeneous agent interfaces. We compare our approach against related work in experiential LLM learning (Reflexion, ExpeL, Voyager) and automated code review (CodeReviewer, SWE-bench agents), showing that our framework achieves persistent cross-session learning without weight updates, operates on production codebases rather than synthetic benchmarks, and addresses an orthogonal dimension (behavioral consistency over time) that existing benchmarks do not measure. The result is a coding agent that improves with every review cycle, accumulating the engineering wisdom of its human collaborators without changing a single model weight.",
+      "authors": [
+        "Aditya Aggarwal",
+        "Nahid Farhady Ghalaty"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-07-13T21:13:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.13091v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "self-detection of error classes through accumulated behavioral rules from human review",
+      "llm_evidence_cn": "通过累积人类审查中的行为规则自我检测错误类别",
+      "llm_evidence": "通过累积人类审查中的行为规则自我检测错误类别",
+      "canonical_evidence": "通过累积人类审查中的行为规则自我检测错误类别",
+      "llm_tldr_en": "Proposes a closed-loop framework for coding agents to self-detect errors by accumulating behavioral rules from human review feedback.",
+      "llm_tldr_cn": "LLM编码智能体重复犯同类错误，因为缺乏保留修正的机制。本文提出闭环框架，将每次审查意见编码为持久行为规则，使智能体能自我检测更多错误类别。在35+微服务平台上部署，规则从5条增长到18条，显著减少了重复错误。该方法为智能体错误监控提供了一种增量式自我改进方案。",
+      "llm_tldr": "LLM编码智能体重复犯同类错误，因为缺乏保留修正的机制。本文提出闭环框架，将每次审查意见编码为持久行为规则，使智能体能自我检测更多错误类别。在35+微服务平台上部署，规则从5条增长到18条，显著减少了重复错误。该方法为智能体错误监控提供了一种增量式自我改进方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.13988v1",
+      "source": "arxiv",
+      "title": "TRACE: Turn-level Reward Assignment via Credit Estimation for Long-Horizon Agents",
+      "abstract": "Multi-turn agents solve complex tasks through extended sequences of tool interactions before producing a final answer, making credit assignment a fundamental challenge during post-training. Outcome rewards provide reliable supervision for short-horizon reasoning, but become sparse and high-variance as trajectories grow to tens or hundreds of tool calls. They can also be misleading: a failed rollout may contain many useful actions that move the agent closer to the goal, yet outcome-only training assigns them the same negative advantage as the eventual mistake. We propose TRACE (Turn-level Reward Assignment via Credit Estimation), a dense credit-assignment method for agentic reinforcement learning. TRACE represents rollouts as state transitions at tool-call boundaries, obtains gold-answer log-probabilities from a frozen reference model, transforms them into log-ratio state values, and derives per-action rewards as Temporal-Difference changes in those values. This requires no additional critic or process-label training, and its one-step log-ratio TD component telescopes across redundant tool calls. On long-horizon complex search, TRACE substantially improves base-model tool-use ability using pure RL, without a cold-start supervised fine-tuning stage, an agentic mid-training stage, or training on live-web data. On the closed-web BrowseComp-Plus benchmark, it raises Qwen3-4B from $7.2$ to $35.6$ and Qwen3-30B-A3B from $8.4$ to $42.6$. The learned search behavior also transfers to open-web benchmarks, and the learning curves show earlier improvement and faster convergence during RL training.",
+      "authors": [
+        "Leitian Tao",
+        "Baolin Peng",
+        "Wenlin Yao",
+        "Tao Ge",
+        "Hao Cheng",
+        "Mike Hang Wang",
+        "Jianfeng Gao",
+        "Sharon Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-15T16:16:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.13988v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "dense credit assignment for long-horizon agent trajectories with error detection",
+      "llm_evidence_cn": "针对长程智能体轨迹的密集信用分配与错误检测",
+      "llm_evidence": "针对长程智能体轨迹的密集信用分配与错误检测",
+      "canonical_evidence": "针对长程智能体轨迹的密集信用分配与错误检测",
+      "llm_tldr_en": "TRACE assigns dense rewards to turns in long agent trajectories, enabling detection of useful actions even in failed rollouts.",
+      "llm_tldr_cn": "长程智能体轨迹的信用分配困难，结果奖励稀疏且可能误导。本文TRACE通过状态转移表示将轨迹编码为密集信用向量，为每个工具调用分配稠密奖励，使失败轨迹中有用动作得到正向反馈，支持在强化学习训练中识别错误步骤。",
+      "llm_tldr": "长程智能体轨迹的信用分配困难，结果奖励稀疏且可能误导。本文TRACE通过状态转移表示将轨迹编码为密集信用向量，为每个工具调用分配稠密奖励，使失败轨迹中有用动作得到正向反馈，支持在强化学习训练中识别错误步骤。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.14145v1",
+      "source": "arxiv",
+      "title": "ToolAnchor: Anchoring Counterfactual Context to Boost Agentic Tool-use Capability",
+      "abstract": "Tool-augmented large language model agents excel at long-horizon tasks, yet they are typically post-trained on fixed toolsets. When tasks demand new tools, these agents struggle to incorporate them effectively, and retraining from scratch is often impractical. We identify the core obstacle in such toolset expansion problem as behavioral inertia: the tendency of agents to fall back on familiar tools and established reasoning patterns despite having access to new ones. We demonstrate that injecting counterfactual anchor contexts at critical decision points can break this inertia, recovering failed trajectories by eliciting suppressed agent capabilities. To scale this insight, we propose ToolAnchor, a framework that uses teacher models to hypothesize these counterfactual contexts, verifies them via student rollouts, and internalizes the successful interventions through agentic post-training. Extensive evaluations across general AI assistant (GAIA), textual search (BrowseComp), and visual search (VDR-Bench) tasks demonstrate that ToolAnchor consistently exhibits competitive performance under expanded toolsets. Our work bridges the gap between static post-training and dynamic adaptation, charting a new path for scalable agentic reinforcement learning.",
+      "authors": [
+        "Weiting Liu",
+        "Jieyi Bi",
+        "Wanqi Zhou",
+        "Jianfeng Feng",
+        "Yining Ma",
+        "Ai Han",
+        "Wenlian Lu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-14T06:03:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.14145v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "recovers failed trajectories by detecting and breaking behavioral inertia",
+      "llm_evidence_cn": "通过检测和打破行为惯性的方式恢复失败轨迹",
+      "llm_evidence": "通过检测和打破行为惯性的方式恢复失败轨迹",
+      "canonical_evidence": "通过检测和打破行为惯性的方式恢复失败轨迹",
+      "llm_tldr_en": "ToolAnchor addresses behavioral inertia in tool-augmented LLM agents by injecting counterfactual anchor contexts at critical decision points to recover failed trajectories and improve tool expansion.",
+      "llm_tldr_cn": "该论文识别出工具增强型LLM智能体在扩展工具集时存在行为惯性问题，即倾向使用熟悉工具。通过注入反事实锚点上下文打破这种惯性，恢复原本失败的轨迹。提出了ToolAnchor框架，利用教师模型自动生成锚点上下文，显著提升智能体对新工具的使用能力。",
+      "llm_tldr": "该论文识别出工具增强型LLM智能体在扩展工具集时存在行为惯性问题，即倾向使用熟悉工具。通过注入反事实锚点上下文打破这种惯性，恢复原本失败的轨迹。提出了ToolAnchor框架，利用教师模型自动生成锚点上下文，显著提升智能体对新工具的使用能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.14727v1",
+      "source": "arxiv",
+      "title": "WorkDrive: Roadwork Chain of Causation for Autonomous Driving",
+      "abstract": "Autonomous driving vision-language models (VLMs) struggle in roadwork zones, where familiar visual cues such as lane markings and permanent signs are altered or absent, and temporary devices such as cones and barriers redefine the drivable corridor. VLMs can detect these objects, but without explicit guidance they anchor their reasoning on familiar elements from pre-training and fail to connect work-zone observations to correct planning decisions. We propose WorkDrive, a framework that constructs perception-grounded causal reasoning for work zones and aligns it with trajectory prediction. An automated multitask perception pipeline extracts structured scene facts and injects them into a Chain-of-Causation (CoC) annotation pipeline, redirecting the annotator's attention to domain-specific elements. The resulting reasoning labels are used for supervised fine-tuning, followed by reinforcement learning with a single reward: consistency between lateral meta-actions and the predicted trajectory. On ROADWork, the largest public work-zone dataset, the proposed roadwork CoC reduces trajectory average displacement error (ADE) by 9.0\\%, and consistency-based GRPO yields a further 3.0\\%, achieving progressive improvement over the trajectory-only baseline. Code and data will be publicly released.",
+      "authors": [
+        "Tianyi Jiang",
+        "Wen Zhang",
+        "Sihan Yang",
+        "Ming Lu",
+        "Wentao Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-16T08:53:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.14727v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "trajectory prediction with causal reasoning to detect planning errors in work zones",
+      "llm_evidence_cn": "基于因果推理的轨迹预测，用于检测施工区域的规划错误",
+      "llm_evidence": "基于因果推理的轨迹预测，用于检测施工区域的规划错误",
+      "canonical_evidence": "基于因果推理的轨迹预测，用于检测施工区域的规划错误",
+      "llm_tldr_en": "WorkDrive constructs perception-grounded causal reasoning for roadwork zones and aligns it with trajectory prediction to detect and correct planning errors in autonomous driving.",
+      "llm_tldr_cn": "本文针对自动驾驶在施工区域中的规划错误提出WorkDrive框架。该框架通过自动多任务感知流水线提取结构化场景事实，并注入因果链（CoC）注释流程，将感知结果与轨迹预测对齐，从而纠正视觉语言模型因依赖预训练熟悉元素而导致的规划偏差。实验表明该方法能有效检测并修正施工区域的路径规划错误，提升了自治驾驶的安全性和鲁棒性。",
+      "llm_tldr": "本文针对自动驾驶在施工区域中的规划错误提出WorkDrive框架。该框架通过自动多任务感知流水线提取结构化场景事实，并注入因果链（CoC）注释流程，将感知结果与轨迹预测对齐，从而纠正视觉语言模型因依赖预训练熟悉元素而导致的规划偏差。实验表明该方法能有效检测并修正施工区域的路径规划错误，提升了自治驾驶的安全性和鲁棒性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
