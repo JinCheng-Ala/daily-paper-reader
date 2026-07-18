@@ -6,52 +6,40 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-17
-- 运行时间：2026-07-17 21:16:48 UTC
+- 最新运行日期：2026-07-18
+- 运行时间：2026-07-18 20:34:08 UTC
 - 运行状态：成功
-- 本次总论文数：10
-- 精读区：4
-- 速读区：6
+- 本次总论文数：6
+- 精读区：2
+- 速读区：4
 
 ### 今日简报（AI）
-今日聚焦AI Agent安全与自我改进，精读两篇高分论文，速读三篇相关成果。  
-最值得关注的方向：通过结构监控实现Agent部署安全民主化，以及概念引导的空间正则化提升世界模型在Atari Pong中的表现。  
-建议后续深入阅读精读论文，同时留意Phantom Guardrails揭示的自我改进Agent修复失效陷阱。
-- 详情：[/202607/17/README](/202607/17/README)
+今日共推荐6篇论文（2精读+4速读），聚焦AI Agent的反馈修复、测试时扩展及安全交互。  
+精读推荐《结构化反馈提升LLM Agent循环修复》与《CIPHER：数据科学Agent测试时扩展的解耦探索-选择框架》，均评分8.0。  
+下一步可重点关注Agent安全路由（SAFETY SENTRY）及能力评估（AgentCompass），适合工程落地参考。
+- 详情：[/202607/18/README](/202607/18/README)
 
 ### 精读区论文标签
-1. [Democratizing Agent Deployment Safety: A Structural Monitoring Approach](/202607/17/2607.14570v1-democratizing-agent-deployment-safety-a-structural-monitoring-approach)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：监控AI智能体是否暗中削弱安全措施
-2. [Concept-Guided Spatial Regularization for World Models in Atari Pong](/202607/17/2607.15142v1-concept-guided-spatial-regularization-for-world-models-in-atari-pong)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：检查世界模型 rollout 中智能体轨迹的视觉和动态错误
-3. [AI Agents Do Not Fail Alone:The Context Fails First](/202607/17/2607.14275v1-ai-agents-do-not-fail-alonethe-context-fails-first)  
+1. [Structured Feedback Improves Repair in an LLM Agent Loop](/202607/18/2607.14167v1-structured-feedback-improves-repair-in-an-llm-agent-loop)  
    标签：评分：8.0/10、query:agent-error
-   evidence：验证上下文质量作为智能体错误的前导指标并提供测量方法
-4. [Copy-on-Write Scoring: Application-Specific Agent Evaluations](/202607/17/2607.14336v1-copy-on-write-scoring-application-specific-agent-evaluations)  
+   evidence：检测代理轨迹中的动作错误并提供结构化失败反馈
+2. [CIPHER: A Decoupled Exploration-Selection Framework for Test-Time Scaling of Data Science Agents](/202607/18/2607.14386v1-cipher-a-decoupled-exploration-selection-framework-for-test-time-scaling-of-data-science-agents)  
    标签：评分：8.0/10、query:agent-error
-   evidence：评估智能体操作并定位轨迹中的失败
+   evidence：通过探索多个初始状态来缓解智能体轨迹中的级联错误
 
 ### 速读区论文标签
-1. [Phantom Guardrails: When Self-Improving Agent Harnesses Fix Failures That Never Happened](/202607/17/2607.13083v1-phantom-guardrails-when-self-improving-agent-harnesses-fix-failures-that-never-happened)  
+1. [SAFETY SENTRY: Context-Aware Human Intervention via EXECUTE-ASK-REFUSE Routing](/202607/18/2607.13594v1-safety-sentry-context-aware-human-intervention-via-execute-ask-refuse-routing)  
    标签：评分：7.0/10、query:agent-error
-   evidence：研究自我改进智能体中的幻觉错误，与监测智能体行为错误相关
-2. [Self-Improving AI Coding Agents Through Accumulated Behavioral Rules: A Closed-Loop Framework](/202607/17/2607.13091v1-self-improving-ai-coding-agents-through-accumulated-behavioral-rules-a-closed-loop-framework)  
+   evidence：逐实例三路路由，检测不当动作
+2. [AgentCompass: A Unified Evaluation Infrastructure for Agent Capabilities](/202607/18/2607.13705v1-agentcompass-a-unified-evaluation-infrastructure-for-agent-capabilities)  
    标签：评分：7.0/10、query:agent-error
-   evidence：通过累积人类审查中的行为规则自我检测错误类别
-3. [TRACE: Turn-level Reward Assignment via Credit Estimation for Long-Horizon Agents](/202607/17/2607.13988v1-trace-turn-level-reward-assignment-via-credit-estimation-for-long-horizon-agents)  
+   evidence：提供轨迹分析工具用于智能体评估
+3. [Zero2Skill: Bootstrapping Robot Skills through Autonomous Data Collection, Training, and Deployment](/202607/18/2607.14047v2-zero2skill-bootstrapping-robot-skills-through-autonomous-data-collection-training-and-deployment)  
    标签：评分：7.0/10、query:agent-error
-   evidence：针对长程智能体轨迹的密集信用分配与错误检测
-4. [ToolAnchor: Anchoring Counterfactual Context to Boost Agentic Tool-use Capability](/202607/17/2607.14145v1-toolanchor-anchoring-counterfactual-context-to-boost-agentic-tool-use-capability)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：通过检测和打破行为惯性的方式恢复失败轨迹
-5. [WorkDrive: Roadwork Chain of Causation for Autonomous Driving](/202607/17/2607.14727v1-workdrive-roadwork-chain-of-causation-for-autonomous-driving)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：基于因果推理的轨迹预测，用于检测施工区域的规划错误
-6. [AgentCompass: A Unified Evaluation Infrastructure for Agent Capabilities](/202607/17/2607.13705v2-agentcompass-a-unified-evaluation-infrastructure-for-agent-capabilities)  
+   evidence：自主验证和轨迹收集中的错误修正
+4. [AgentCompass: A Unified Evaluation Infrastructure for Agent Capabilities](/202607/18/2607.13705v2-agentcompass-a-unified-evaluation-infrastructure-for-agent-capabilities)  
    标签：评分：6.0/10、query:agent-error
-   evidence：提供智能体轨迹分析工具
+   evidence：轨迹分析工具用于监控智能体行为
 
 
 <div class="dpr-home-promo-card">
