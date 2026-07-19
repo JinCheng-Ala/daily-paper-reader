@@ -1,0 +1,93 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-19T21:11:30.305225+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.12428v1",
+      "source": "arxiv",
+      "title": "Trust but Verify? Uncovering the Security Debt of Autonomous Coding Agents",
+      "abstract": "The increasing adoption of autonomous coding agents accelerates software development but also introduces scoped security risks within high-impact file paths that can outpace traditional human review capacity. While prior research has primarily evaluated these systems in terms of functional correctness and productivity, this paper presents a large-scale empirical study using the AIDev dataset to systematically characterize security code smells in agent-generated pull requests (PRs). Through a combination of a validated LLM-as-a-judge framework and manual qualitative analysis, we identify and classify security misconfigurations across 16,112 file changes spanning 4,022 pull requests. Our results reveal that 38.9% of agent-generated PRs contain at least one security smell, with supply chain integrity issues accounting for 82.3% of all detected security smells. Furthermore, hard-coded credentials constitute 99.6% of all critical-severity security smells. Crucially, we find that human collaborators are responsible for introducing 67.6% of genuine leaked secrets within these agent-assisted workflows, while existing automated and human review processes fail to detect 81.1% of these credentials prior to integration. These findings highlight substantial security risks in agent-assisted software development workflows and suggest a potential reduction in developer vigilance. They also underscore the urgent need for context-aware security guardrails implemented directly at the point of human-AI collaboration.",
+      "authors": [
+        "A H M Nazmus Sakib",
+        "Dipayan Banik",
+        "Murtuza Jadliwala"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR"
+      ],
+      "published": "2026-07-14T06:59:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.12428v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "monitoring agent behavior for security errors in generated code",
+      "llm_evidence_cn": "监测代码生成代理行为中的安全错误",
+      "llm_evidence": "监测代码生成代理行为中的安全错误",
+      "canonical_evidence": "监测代码生成代理行为中的安全错误",
+      "llm_tldr_en": "A large-scale study revealing that 38.9% of pull requests from autonomous coding agents contain security code smells, using an LLM-as-a-judge framework for detection.",
+      "llm_tldr_cn": "该论文通过对自主编码代理生成的拉取请求进行大规模实证研究，发现38.9%的拉取请求包含安全代码异味。研究结合LLM作为裁判的框架和人工定性分析，系统性地分类了安全配置错误，揭示了代理行为中的安全隐患，强调了监测代理行为错误的重要性。",
+      "llm_tldr": "该论文通过对自主编码代理生成的拉取请求进行大规模实证研究，发现38.9%的拉取请求包含安全代码异味。研究结合LLM作为裁判的框架和人工定性分析，系统性地分类了安全配置错误，揭示了代理行为中的安全隐患，强调了监测代理行为错误的重要性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.13172v1",
+      "source": "arxiv",
+      "title": "Learning Safe Agent Behaviour from Human Preferences and Justifications via World Models",
+      "abstract": "We address the problem of safely training an agent policy and deploying a good and safe policy, in settings where the environment dynamics are unknown and no suitable reward function is available. In the context of safety-critical environments, we consider traditional reinforcement learning impractical and resort to the resource of human input. We introduce DROPJ, a human-centred method for both safe training and deployment. We first learn a world model (a learned simulator) from a dataset of prior real-world trajectories. A human then plays the game in this learned simulator to extract several informative simulated trajectories. From these, we sample pairs of simulated trajectory segments and elicit from a human their preference over these segments, as well as a reason (justification) for their choice. We then train a reward model from these justified preferences and use it, together with the world model, to directly deploy the agent using model predictive control. Running real-user experiments, we find that generating informative simulated trajectories from a user significantly reduces the computational cost during training compared to other strategies, and can also improve the performance during deployment. In the context of training within a learned simulator, we show that the use of preferences rather than other types of feedback substantially improves the performance during deployment. We further demonstrate that safety justifications accompanying preferences can significantly enhance safety or prioritise user-prescribed aspects of safety associated with them during deployment.",
+      "authors": [
+        "Ilias Kazantzidis",
+        "Timothy J. Norman",
+        "Yali Du",
+        "Christopher T. Freeman"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-14T18:22:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.13172v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "monitoring agent behavior for safety via human preferences",
+      "llm_evidence_cn": "通过人类偏好监控智能体行为以确保安全",
+      "llm_evidence": "通过人类偏好监控智能体行为以确保安全",
+      "canonical_evidence": "通过人类偏好监控智能体行为以确保安全",
+      "llm_tldr_en": "Introduces DROPJ, a human-centered method that learns a world model from trajectories, then uses human preferences to safely train and deploy agent policies.",
+      "llm_tldr_cn": "该论文针对未知动态环境和缺乏合适奖励函数的安全关键场景，提出DROPJ方法。首先从真实轨迹数据学习世界模型（模拟器），然后让人类在该模拟器中生成演示轨迹，最后通过人类偏好学习安全的agent策略。该方法将人类反馈与轨迹建模结合，为agent行为监控与安全训练提供了可迁移的范式。",
+      "llm_tldr": "该论文针对未知动态环境和缺乏合适奖励函数的安全关键场景，提出DROPJ方法。首先从真实轨迹数据学习世界模型（模拟器），然后让人类在该模拟器中生成演示轨迹，最后通过人类偏好学习安全的agent策略。该方法将人类反馈与轨迹建模结合，为agent行为监控与安全训练提供了可迁移的范式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

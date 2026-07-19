@@ -1,0 +1,39 @@
+{
+  "label": "2026-07-19",
+  "date": "2026-07-19",
+  "generated_at": "2026-07-19T21:13:23",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202607/19/2607.12428v1-trust-but-verify-uncovering-the-security-debt-of-autonomous-coding-agents",
+      "section": "quick",
+      "title_en": "Trust but Verify? Uncovering the Security Debt of Autonomous Coding Agents",
+      "authors": "A H M Nazmus Sakib, Dipayan Banik, Murtuza Jadliwala",
+      "date": "2026-07-14",
+      "pdf": "https://arxiv.org/pdf/2607.12428v1",
+      "score": "6.0",
+      "evidence": "监测代码生成代理行为中的安全错误",
+      "tldr": "自主编码agent加速开发但引入安全风险。本研究基于AIDev数据集，对4022个PR进行实证分析，发现38.9%的PR存在安全smell，其中82.3%为供应链问题，99.6%严重级为硬编码凭证。人类在agent协作中引入67.6%的泄露机密，且现有审查未检测81.1%。结果表明需在协作点实施上下文感知安全护栏。",
+      "tags": "query:agent-error",
+      "abstract_en": "The increasing adoption of autonomous coding agents accelerates software development but also introduces scoped security risks within high-impact file paths that can outpace traditional human review capacity. While prior research has primarily evaluated these systems in terms of functional correctness and productivity, this paper presents a large-scale empirical study using the AIDev dataset to systematically characterize security code smells in agent-generated pull requests (PRs). Through a combination of a validated LLM-as-a-judge framework and manual qualitative analysis, we identify and classify security misconfigurations across 16,112 file changes spanning 4,022 pull requests. Our results reveal that 38.9% of agent-generated PRs contain at least one security smell, with supply chain integrity issues accounting for 82.3% of all detected security smells. Furthermore, hard-coded credentials constitute 99.6% of all critical-severity security smells. Crucially, we find that human collaborators are responsible for introducing 67.6% of genuine leaked secrets within these agent-assisted workflows, while existing automated and human review processes fail to detect 81.1% of these credentials prior to integration. These findings highlight substantial security risks in agent-assisted software development workflows and suggest a potential reduction in developer vigilance. They also underscore the urgent need for context-aware security guardrails implemented directly at the point of human-AI collaboration.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/19/2607.13172v1-learning-safe-agent-behaviour-from-human-preferences-and-justifications-via-world-models",
+      "section": "quick",
+      "title_en": "Learning Safe Agent Behaviour from Human Preferences and Justifications via World Models",
+      "authors": "Ilias Kazantzidis, Timothy J. Norman, Yali Du, Christopher T. Freeman",
+      "date": "2026-07-14",
+      "pdf": "https://arxiv.org/pdf/2607.13172v1",
+      "score": "6.0",
+      "evidence": "通过人类偏好监控智能体行为以确保安全",
+      "tldr": "针对安全关键环境中无奖励函数且动力学未知的问题，提出DROPJ方法。先基于真实轨迹学习世界模型作为模拟器，人类在其中生成信息丰富的模拟轨迹并给出偏好和理由，据此训练奖励模型，再用模型预测控制部署。实验表明，用户生成的模拟轨迹显著降低训练计算成本，偏好反馈比数值型反馈更有效，而附带的理由能强化部署时的安全行为。",
+      "tags": "query:agent-error",
+      "abstract_en": "We address the problem of safely training an agent policy and deploying a good and safe policy, in settings where the environment dynamics are unknown and no suitable reward function is available. In the context of safety-critical environments, we consider traditional reinforcement learning impractical and resort to the resource of human input. We introduce DROPJ, a human-centred method for both safe training and deployment. We first learn a world model (a learned simulator) from a dataset of prior real-world trajectories. A human then plays the game in this learned simulator to extract several informative simulated trajectories. From these, we sample pairs of simulated trajectory segments and elicit from a human their preference over these segments, as well as a reason (justification) for their choice. We then train a reward model from these justified preferences and use it, together with the world model, to directly deploy the agent using model predictive control. Running real-user experiments, we find that generating informative simulated trajectories from a user significantly reduces the computational cost during training compared to other strategies, and can also improve the performance during deployment. In the context of training within a learned simulator, we show that the use of preferences rather than other types of feedback substantially improves the performance during deployment. We further demonstrate that safety justifications accompanying preferences can significantly enhance safety or prioritise user-prescribed aspects of safety associated with them during deployment.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
