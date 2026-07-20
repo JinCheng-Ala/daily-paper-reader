@@ -1,0 +1,225 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-20T20:51:10.502076+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2607.11638v1",
+      "source": "arxiv",
+      "title": "DA-Nav: Direction-Aware City-Scale Vision-Language Navigation",
+      "abstract": "City-scale outdoor navigation is currently hindered by the heavy reliance on dense maps or costly navigation supervision. In this work, we introduce a novel paradigm for leveraging directional instructions from commercial navigation tools (e.g., Google Maps). To bridge the gap between commercial instructions and executable navigation actions, while mitigating long-horizon error accumulation through robust trajectory recovery, we propose DA-Nav, a Direction-Aware vision-language Navigation framework that reformulates navigation as a discrete spatial grounding problem on the egocentric 2D image plane. To achieve trajectory recovery, DA-Nav employs a Chain-of-Thought (CoT) reasoning process encompassing deviation assessment, action prediction, and target grid selection. We further introduce ReDA, a dataset that provides direction-aware instructions and recovery trajectories to enhance spatial grounding and support CoT recovery reasoning. Extensive experiments in CARLA demonstrate that DA-Nav achieves a high success rate of 56.16% in unseen urban environments, outperforming existing State-of-The-Art (SoTA) methods while maintaining a substantially stronger recovery capability. Furthermore, without fine-tuning, DA-Nav seamlessly adapts to both quadruped and humanoid robots, enabling stable kilometer-scale closed-loop outdoor navigation in complex real world environments.",
+      "authors": [
+        "Ye Yuan",
+        "Kehan Chen",
+        "Xinqiang Yu",
+        "Wentao Xu",
+        "Heng Wang",
+        "Libo Huang",
+        "Chuanguang Yang",
+        "Yan Huang",
+        "Jiawei He",
+        "Zhulin An"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-13T14:54:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.11638v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "trajectory deviation assessment and recovery",
+      "llm_evidence_cn": "轨迹偏差评估与恢复",
+      "llm_evidence": "轨迹偏差评估与恢复",
+      "canonical_evidence": "轨迹偏差评估与恢复",
+      "llm_tldr_en": "DA-Nav reformulates navigation as spatial grounding, uses CoT for deviation assessment and robust trajectory recovery, mitigating long-horizon error accumulation.",
+      "llm_tldr_cn": "现有的城市规模户外导航依赖密集地图或昂贵导航监督，DA-Nav提出方向感知视觉语言导航框架，将导航转化为二维图像平面上的离散空间定位问题，通过链式思维推理进行偏差评估、动作预测和目标选择，实现鲁棒的轨迹恢复，有效缓解长时间尺度下的误差累积。",
+      "llm_tldr": "现有的城市规模户外导航依赖密集地图或昂贵导航监督，DA-Nav提出方向感知视觉语言导航框架，将导航转化为二维图像平面上的离散空间定位问题，通过链式思维推理进行偏差评估、动作预测和目标选择，实现鲁棒的轨迹恢复，有效缓解长时间尺度下的误差累积。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10630v1",
+      "source": "arxiv",
+      "title": "World Models as Adversaries: Multi-Agent Self-Play Fine-Tuning for Robust Motion Planning",
+      "abstract": "Robust motion planning in dense traffic requires autonomous vehicles to interact in rare and safety-critical scenarios that are underrepresented in naturalistic driving data. Although adversarial training offers a feasible solution, existing methods often rely on external scenario generators, heuristic perturbations, or simulator-heavy rollouts, which makes them difficult to integrate with modern autoregressive planners. Here, we cast adversarially robust planner learning as a constrained min-max game and propose Adversarial World Modeling (AWM), a theoretically grounded multi-agent self-play fine-tuning framework. Since solving the exact game is intractable, AWM introduces a principled decoupled solver. In the inner minimization, the planner's predictive world model is converted into a role-conditioned adversary that learns sparse, scene-adaptive attack coalitions via counterfactual credit assignment. In the outer maximization, the ego planner optimizes a regret-aware robust best response against the frozen AWM, utilizing tail-risk weighting and reference-anchored trust regions to improve hard-case recovery while preserving nominal driving behavior. Experiments on the nuPlan and InterPlan benchmarks demonstrate that our method generates transferable adversarial interactions and yields a robust planner that achieves competitive closed-loop performance in both nominal and highly interactive long-tail scenarios. Theoretical analysis justifies the decoupled solver and the main optimization components.",
+      "authors": [
+        "Tong Nie",
+        "Yuewen Mei",
+        "Junlin He",
+        "Yihong Tang",
+        "Jian Sun",
+        "Wei Ma"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-12T07:44:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.10630v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "adversarial training for robust motion planning, detecting safety-critical deviations",
+      "llm_evidence_cn": "对抗训练用于鲁棒运动规划，检测安全关键偏差",
+      "llm_evidence": "对抗训练用于鲁棒运动规划，检测安全关键偏差",
+      "canonical_evidence": "对抗训练用于鲁棒运动规划，检测安全关键偏差",
+      "llm_tldr_en": "Casts robust motion planning as a min-max game and proposes Adversarial World Modeling (AWM) via multi-agent self-play to handle rare safety-critical scenarios.",
+      "llm_tldr_cn": "针对密集交通中自主驾驶鲁棒运动规划面临稀有安全关键场景不足的问题，本文将鲁棒规划学习建模为约束极小极大博弈，提出对抗世界模型（AWM）框架。AWM通过多代理自博弈训练，无需外部场景生成器即可产生对抗性实例。在nuScenes等数据集上，AWM有效提升规划器在罕见场景下的安全性。",
+      "llm_tldr": "针对密集交通中自主驾驶鲁棒运动规划面临稀有安全关键场景不足的问题，本文将鲁棒规划学习建模为约束极小极大博弈，提出对抗世界模型（AWM）框架。AWM通过多代理自博弈训练，无需外部场景生成器即可产生对抗性实例。在nuScenes等数据集上，AWM有效提升规划器在罕见场景下的安全性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.15684v1",
+      "source": "arxiv",
+      "title": "Understanding Agent-Reactive Bugs at the Model-Harness Boundary: An Empirical Study of LLM Agent Issue Reports",
+      "abstract": "LLM agents span command-line interfaces (e.g., Codex) and agent frameworks (e.g., LangChain), integrating backend LLMs with harness code that parses model outputs, controls agent loops, and manages context. Both the harness and LLM-generated responses jointly shape an agent's execution. This architecture gives rise to bugs that cannot be readily understood by inspecting either component alone, because some bugs occur only when a particular LLM response elicits an abnormal reaction from the agent. Prior empirical studies of agent bugs have largely attributed failures either to limited model capabilities or to harness-side defects, such as outdated APIs and configuration misalignment, without characterizing these AR bugs. We conduct the first empirical study focused on agent-reactive (AR) bugs. Through manual analysis of 255 bug reports from Codex, Gemini-CLI, LangChain, and CrewAI, we construct a two-axis taxonomy covering observable symptoms and the LLM behaviors that trigger them. Our findings show that many AR bugs manifest as silent errors without well-defined test oracles, which makes detection difficult. The stochasticity of LLM responses further complicates bug reproduction. We additionally examine fixes proposed by users and implemented by developers. This analysis exposes a mismatch: users frequently advocate harness-side guardrails, whereas developers may attribute the issue to the LLM or respond slowly to user-proposed fixes. These findings point to the need for mechanisms that help users and developers understand the root causes and resolutions of AR bugs. Overall, the study highlights challenges specific to LLM agents and motivates the design of test oracles, reproduction support, and fault-localization techniques for AR bugs.",
+      "authors": [
+        "Jingyi Chen",
+        "Songqiang Chen",
+        "Hengcheng Zhu",
+        "Jialun Cao",
+        "Jiasi Shen",
+        "Shing-Chi Cheung"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-17T06:53:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.15684v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "empirical study of LLM agent bugs at model-harness boundary",
+      "llm_evidence_cn": "对LLM智能体在模型与框架边界处的错误的实证研究",
+      "llm_evidence": "对LLM智能体在模型与框架边界处的错误的实证研究",
+      "canonical_evidence": "对LLM智能体在模型与框架边界处的错误的实证研究",
+      "llm_tldr_en": "This empirical study characterizes agent-reactive bugs in LLM agents, revealing how specific LLM responses can trigger abnormal agent reactions, providing a taxonomy and analysis that informs error detection.",
+      "llm_tldr_cn": "该论文对大语言模型智能体在模型与框架边界处的错误进行实证研究，发现部分错误仅在特定模型响应引发智能体异常反应时出现。通过分析智能体问题报告，作者提出错误分类法，揭示智能体轨迹中错误的来源。该研究为智能体错误检测方法的设计提供了重要指导。",
+      "llm_tldr": "该论文对大语言模型智能体在模型与框架边界处的错误进行实证研究，发现部分错误仅在特定模型响应引发智能体异常反应时出现。通过分析智能体问题报告，作者提出错误分类法，揭示智能体轨迹中错误的来源。该研究为智能体错误检测方法的设计提供了重要指导。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.11698v1",
+      "source": "arxiv",
+      "title": "Agent Hacks Agent: Autoresearch for Production-Agent Red-Teaming",
+      "abstract": "Production LLM agents such as Claude Code and Codex operate over untrusted content, files, commands, and workspace state, making safety failures directly actionable. Red-teaming must therefore keep pace with evolving models and tools. Existing approaches mainly optimize attack success and preserve artifacts such as benchmarks, payloads, or attack programs, which record where attacks succeed but not the enabling conditions behind unsafe agent behavior. We study automated red-teaming for production LLM agents using one agentic research environment to discover reusable vulnerability knowledge about another. We present AHA, a falsifiable discovery loop that proposes a vulnerability hypothesis, constructs a falsifier, instantiates a valid attack, executes it in a sandboxed harness, reflects on the trajectory, and promotes confirmed findings into a Vulnerability Concept Graph (VCG). Each concept links an attacker-facing surface to an unsafe trajectory through a claim, enabling condition, falsifier, transfer prediction, and supporting evidence. Across Claude Code and Codex on three scenarios covering direct and indirect attacks, the discovered concepts reveal a reusable vulnerability core across models and agents. A frozen VCG requires no further search and outperforms the strongest frozen discovery baseline by 14.2 percentage points under the same single-shot protocol, while transferring across scenarios and attack channels. The resulting VCG provides an auditable artifact for production safety teams to inspect vulnerabilities, validate patches, and accumulate reusable safety knowledge. Our code is available at https://github.com/henrymao2004/Auto-research-red-teaming-in-sleep.",
+      "authors": [
+        "Xutao Mao",
+        "Xiang Zheng",
+        "Cong Wang"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-07-13T15:31:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.11698v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "automated red-teaming discovers unsafe agent behaviors, enabling error detection",
+      "llm_evidence_cn": "自动化红队攻击发现不安全代理行为，有助于错误检测",
+      "llm_evidence": "自动化红队攻击发现不安全代理行为，有助于错误检测",
+      "canonical_evidence": "自动化红队攻击发现不安全代理行为，有助于错误检测",
+      "llm_tldr_en": "AHA automates red-teaming for production LLM agents by proposing vulnerability hypotheses and constructing falsifiers, discovering reusable knowledge about unsafe agent behavior.",
+      "llm_tldr_cn": "该论文提出AHA框架，通过自动化红队攻击发现生产环境LLM代理的漏洞。AHA采用可证伪发现循环：提出漏洞假设、构造验证器、实例化攻击并执行。该方法从攻击成功中提取导致不安全行为的条件，而非仅仅记录攻击是否成功。这为代理轨迹中的错误检测提供了新的视角和工具，有助于监控和预防代理行为异常。",
+      "llm_tldr": "该论文提出AHA框架，通过自动化红队攻击发现生产环境LLM代理的漏洞。AHA采用可证伪发现循环：提出漏洞假设、构造验证器、实例化攻击并执行。该方法从攻击成功中提取导致不安全行为的条件，而非仅仅记录攻击是否成功。这为代理轨迹中的错误检测提供了新的视角和工具，有助于监控和预防代理行为异常。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15610v1",
+      "source": "arxiv",
+      "title": "Process Reward Informed Tree Rollout for Effective Multi-Turn RL",
+      "abstract": "Reinforcement learning (RL) has become a key approach for training LLM agents, yet popular methods such as GRPO/RLOO rely on multiple independently sampled complete trajectories for advantage estimation. In long-horizon agentic tasks, such a uniform rollout strategy can waste budget on uninformative dead-end attempts, while promising intermediate states do not receive sufficient exploration. The multi-turn structure of agentic trajectories, with interleaved actions and observations, naturally supports organizing a trajectory group as a tree, where each turn serves as a decision point for exploration. This perspective reframes effective exploration as the problem of deciding where to branch. We propose Process-Scorer Guided Adaptive Tree Rollout (PATR), a quality-aware rollout framework for multi-turn agent RL. PATR uses task-appropriate process feedback to score partial trajectories, selectively branches from promising states, reuses shared prefixes, and conservatively stops degenerate paths to reduce wasted sampling. The resulting rollout groups remain compatible with standard policy optimization while providing more efficient exploration under the same training budget. We evaluate PATR on FrozenLake and the challenging SWE-Bench, which is largely unexplored by prior tree-rollout agent RL methods. Experiments show that PATR improves performance by up to +5.0 points on SWE-Bench and +9.3 points on FrozenLake, highlighting process-guided tree rollouts as an effective strategy for scalable multi-turn RL.",
+      "authors": [
+        "Xintong Li",
+        "Sha Li",
+        "Yuwei Zhang",
+        "Changlong Yu",
+        "Rongmei Lin",
+        "Hongye Jin",
+        "Shuyi Guan",
+        "Xin Liu",
+        "Linwei Li",
+        "Qingyu Yin",
+        "Jingbo Shang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-17T04:16:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.15610v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "process reward guided tree rollout for identifying promising branches, applicable to anomaly detection in trajectories",
+      "llm_evidence_cn": "过程奖励引导的树展开用于识别有希望的分支，可用于轨迹异常检测",
+      "llm_evidence": "过程奖励引导的树展开用于识别有希望的分支，可用于轨迹异常检测",
+      "canonical_evidence": "过程奖励引导的树展开用于识别有希望的分支，可用于轨迹异常检测",
+      "llm_tldr_en": "PATR uses process-scorer guided adaptive tree rollout to efficiently explore multi-turn agent trajectories, enabling better identification of anomalous or dead-end states.",
+      "llm_tldr_cn": "针对多轮强化学习中均匀采样导致预算浪费在无信息死胡同的问题，提出过程奖励引导的自适应树展开（PATR）。该方法将轨迹组织为树结构，利用过程评分器在每个决策点决定分支探索方向，从而高效识别有希望的中间状态。实验表明，PATR在节省预算的同时显著提升了探索效率，其识别出的状态质量也可用于检测轨迹中的异常分支。该方法为多步代理的异常检测提供了新的探索策略。",
+      "llm_tldr": "针对多轮强化学习中均匀采样导致预算浪费在无信息死胡同的问题，提出过程奖励引导的自适应树展开（PATR）。该方法将轨迹组织为树结构，利用过程评分器在每个决策点决定分支探索方向，从而高效识别有希望的中间状态。实验表明，PATR在节省预算的同时显著提升了探索效率，其识别出的状态质量也可用于检测轨迹中的异常分支。该方法为多步代理的异常检测提供了新的探索策略。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
