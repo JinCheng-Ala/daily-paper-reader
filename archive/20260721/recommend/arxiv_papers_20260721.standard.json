@@ -1,0 +1,371 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-21T20:10:00.790157+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2607.16387v1",
+      "source": "arxiv",
+      "title": "Fantastic Adaptive Taxonomies and How to Use Them",
+      "abstract": "An agent system's execution traces record how it fails, and procedures that improve such a system without changing model weights (trajectory selection, prompt and workflow optimization, runtime monitoring) read these traces for feedback. Yet raw traces are a poor medium for accumulating that feedback: long, instance-specific, and lacking a stable vocabulary for recurring failures. We argue that an agent system should instead maintain an explicit representation of how it fails, induced from its own behavior and reusable wherever failure feedback is needed. AdaMAST builds this representation by converting a target system's traces into a compact, evidence-grounded failure taxonomy: named failure codes organized along three fixed axes (system-level, role-specific, and domain-specific), with every name, definition, and evidence pattern induced from the traces; no code is hand-authored, no trace human-annotated. The taxonomy is not merely a post-hoc diagnostic but a shared feedback interface, improving agents in three ways. In agent-system search, taxonomy-coded diagnoses of failed candidates outperform free-form reflection on all five benchmarks we test. At runtime, taxonomy feedback raises SWE-agent's resolution on SWE-bench Verified Mini from 60% with free-text reflection to 70%, and improves Claude Code from 64.0% to 70.7% as a runtime skill. In trajectory selection, AdaMAST-Judge, a verifier built on the induced codes, improves best-of-5 accuracy on Terminal-Bench 2.0 by 8-15 points over Pass@1. The vocabulary itself is compact (an order-of-magnitude compression that preserves trace distinctions), human-faithful (matching expert failure annotations more closely than a hand-crafted reference vocabulary), and adaptive (taxonomies induced for different domains share few codes). Adaptive failure taxonomies close the loop between the traces agents produce and the procedures that improve them.",
+      "authors": [
+        "Mert Cemri",
+        "Andrei Cojocaru",
+        "Melissa Pan",
+        "Shu Liu",
+        "Shubham Agarwal",
+        "Alexander Krentsel",
+        "Jay Tang",
+        "Kannan Ramchandran",
+        "Joseph E. Gonzalez",
+        "Matei Zaharia",
+        "Alex Dimakis",
+        "Ion Stoica"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-07-17T17:41:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.16387v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "builds failure taxonomy from agent execution traces for runtime monitoring",
+      "llm_evidence_cn": "从代理执行轨迹构建故障分类用于运行时监控",
+      "llm_evidence": "从代理执行轨迹构建故障分类用于运行时监控",
+      "canonical_evidence": "从代理执行轨迹构建故障分类用于运行时监控",
+      "llm_tldr_en": "Proposes AdaMAST that converts agent traces into a failure taxonomy with named codes, enabling reusable failure feedback for monitoring and improvement.",
+      "llm_tldr_cn": "该论文指出代理系统的原始执行轨迹难以累积反馈，提出AdaMAST，通过将轨迹转换为紧凑的、基于证据的故障分类法（沿系统级、角色特定和领域特定三个轴组织的命名故障代码），使得这些故障表示可重复用于运行时监控、提示优化等流程，显著提升了代理失败反馈的可复用性和可解释性。",
+      "llm_tldr": "该论文指出代理系统的原始执行轨迹难以累积反馈，提出AdaMAST，通过将轨迹转换为紧凑的、基于证据的故障分类法（沿系统级、角色特定和领域特定三个轴组织的命名故障代码），使得这些故障表示可重复用于运行时监控、提示优化等流程，显著提升了代理失败反馈的可复用性和可解释性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17044v1",
+      "source": "arxiv",
+      "title": "Where Does Agent Reliability Come From? A Cross-Benchmark Decomposition of Verification Loops, Specialist Models, and Scaffolding in a Production Enterprise Agent",
+      "abstract": "Multi-step enterprise agent tasks fail in a characteristic way: single-pass inference has no checkpoint between deciding an answer and committing to it. We study one production system (Leni) whose architecture installs such checkpoints: verification loops (execute, observe, compare, correct) staffed by lightweight task-specialized post-trained models. We evaluate the unmodified production configuration on three public benchmarks stressing distinct failure modes: SpreadsheetBench Verified (silent computation error), BullshitBench v2 (premise confabulation), and the GAIA validation split (cascade error over long tool chains). The full system improves over its frontier base model by +11.0 percentage points on SpreadsheetBench (91.25% vs 80.25%, n=400, p<0.001), +7 to +10 percentage points on BullshitBench (98% vs 91%, n=100), and roughly +15 points on GAIA validation (75.2% pass@1, n=165; 83.0% best-of-k). Our central contribution is a decomposition of that uplift: most of it comes from scaffolding, routing, and specialist models rather than from the verification step itself, whose isolated contribution is small (+1.5 points) but concentrated at the top of the score distribution, where it converts otherwise-failing tasks. We instrument the loop end-to-end, yielding an empirical verifier confusion matrix (catch rate about 0.20, fix rate 0.75, no false-alarm regressions) that grounds a compounding-reliability model. Specialist-swap ablations suggest that the loop's value depends on who observes it: replacing the small trained verifier with the generating frontier model eliminates most rescues. A valid-premise control shows zero over-rejections in 100 expert-level questions.",
+      "authors": [
+        "Arunabh Dastidar"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-07-19T03:20:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.17044v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "studies verification loops that detect and correct agent errors in multi-step tasks",
+      "llm_evidence_cn": "研究在多步任务中检测和纠正智能体错误的验证循环",
+      "llm_evidence": "研究在多步任务中检测和纠正智能体错误的验证循环",
+      "canonical_evidence": "研究在多步任务中检测和纠正智能体错误的验证循环",
+      "llm_tldr_en": "This paper decomposes a production enterprise agent's reliability into verification loops, specialist models, and scaffolding, showing these checkpoints effectively detect silent computation errors, premise confabulation, and cascade errors.",
+      "llm_tldr_cn": "本文分解了生产环境企业智能体Leni的可靠性来源，指出其架构包含验证循环（执行、观察、比较、修正）和轻量级任务专用模型。在SpreadsheetBench、BullshitBench和GAIA三个公开基准上评估，完整系统显著优于前端模型，有效检测了沉默计算错误、前提虚构和长工具链级联错误，揭示了验证循环在智能体错误监控中的关键作用。",
+      "llm_tldr": "本文分解了生产环境企业智能体Leni的可靠性来源，指出其架构包含验证循环（执行、观察、比较、修正）和轻量级任务专用模型。在SpreadsheetBench、BullshitBench和GAIA三个公开基准上评估，完整系统显著优于前端模型，有效检测了沉默计算错误、前提虚构和长工具链级联错误，揭示了验证循环在智能体错误监控中的关键作用。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17082v1",
+      "source": "arxiv",
+      "title": "Otap:Structure-Aware Optimal Transport for Evaluating Planning and Execution in Agent Trajectories",
+      "abstract": "Large language model agents solve tasks by generating trajectories that interleave planning, tool calls, and intermediate results. Current evaluation metrics reduce such a trajectory to a binary success flag or compare it against a reference by exact matching. A success flag cannot distinguish a sound solution from one that succeeds by luck, and says nothing about why a failed run went wrong. Exact matching penalizes plans that are valid but reordered or decomposed differently from the reference. We reframe trajectory evaluation as a distance between the agent's execution graph and a set of valid solution graphs, and instantiate it via an unbalanced fused Gromov-Wasserstein transport problem over attributed dependency graphs. The resulting score, termed \\otap{} (Optimal Transport for Agentic Planning), is a pseudo-metric that is provably invariant to dependency-preserving reorderings and has bounded sensitivity to redundant steps. Its unbalanced marginals handle missing or hallucinated steps without forcing a match, and its soft coupling accommodates variation in plan granularity. On controlled perturbations and three public benchmarks, \\otap{} separates valid from invalid trajectories in a regime where semantics-only metrics score below chance. Its accuracy is highest when the dependency graph is recovered exactly, and drops only when the graph is inferred heuristically from free-text traces.",
+      "authors": [
+        "Babak Barazandeh",
+        "Subhabrata Majumdar",
+        "George Michailidis"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-07-19T05:23:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.17082v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "evaluating agent trajectories, distinguishing successful and failed runs, detecting errors in planning and execution",
+      "llm_evidence_cn": "评估智能体轨迹，区分成功与失败运行，检测规划与执行中的错误",
+      "llm_evidence": "评估智能体轨迹，区分成功与失败运行，检测规划与执行中的错误",
+      "canonical_evidence": "评估智能体轨迹，区分成功与失败运行，检测规划与执行中的错误",
+      "llm_tldr_en": "Proposes a structure-aware optimal transport distance for evaluating agent trajectories, enabling fine-grained error detection beyond binary success flags.",
+      "llm_tldr_cn": "当前智能体轨迹评估仅用成功标志或精确匹配，无法区分偶然成功或分析失败原因。本文提出基于结构感知最优传输的距离度量，将轨迹评估转化为执行图与有效解图之间的差异计算，通过不平衡融合Gromov-Wasserstein问题实现。该方法能检测出规划重组、步骤分解等细粒度错误，为理解失败轨迹提供可解释信息。",
+      "llm_tldr": "当前智能体轨迹评估仅用成功标志或精确匹配，无法区分偶然成功或分析失败原因。本文提出基于结构感知最优传输的距离度量，将轨迹评估转化为执行图与有效解图之间的差异计算，通过不平衡融合Gromov-Wasserstein问题实现。该方法能检测出规划重组、步骤分解等细粒度错误，为理解失败轨迹提供可解释信息。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17641v1",
+      "source": "arxiv",
+      "title": "Verify, Repair, Repeat, or Stop? Robust Stopping for Noisy Verify-Repair Loops in LLM Agents",
+      "abstract": "Verify-repair loops are a standard means for large language model (LLM) agents to correct faulty plans in code generation, mathematical reasoning, and tool use. When both the verifier and the repairer are noisy, repair can damage already-correct plans, and reported acceptance keeps rising while true validity falls, so existing methods lack a principled basis for deciding when repair should stop. We propose VRR-Stop, a robust stopping framework for noisy verify-repair-repeat (VRR) loops. A four-parameter noise model separates verifier false acceptance and false rejection from the repair and damage behavior of the repairer. Belief filtering turns repeated verification votes into an estimate of committed validity, and the loop commits or repairs according to the sign of the true marginal gain, which requires only sign identifiability rather than accurate recovery of all parameters. When verifier discrimination approaches zero, calibration itself fails and estimation error can flip the stopping sign, so we pair VRR-Stop with VRR-Guard, an estimation-free fallback that replaces the incumbent candidate only under a sufficient verification margin. On a GSM8K stress setting, VRR-Stop improves final true validity by 60.6 percentage points over fixed five-round repair at an average cost of 0.72 repair rounds. Across settings, stopping reliability is governed jointly by verifier discrimination and the decision margin rather than by the absolute size of estimation error.",
+      "authors": [
+        "Yitao Wu",
+        "Si Shen",
+        "Rui Yang",
+        "Hong Peng",
+        "Bin Hu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-07-20T07:52:36+00:00",
+      "link": "https://arxiv.org/pdf/2607.17641v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "error detection in LLM agent plans via verification; deciding when to stop repair",
+      "llm_evidence_cn": "检测LLM智能体计划中的错误并决定何时停止修复",
+      "llm_evidence": "检测LLM智能体计划中的错误并决定何时停止修复",
+      "canonical_evidence": "检测LLM智能体计划中的错误并决定何时停止修复",
+      "llm_tldr_en": "VRR-Stop provides a robust framework for detecting when to stop repairing agent plans by modeling verifier and repairer noise.",
+      "llm_tldr_cn": "LLM智能体的验证-修复循环中，验证器和修复器均有噪声，可能导致过度修复。VRR-Stop提出四参数噪声模型和置信滤波，估计计划的有效性并决定何时停止，避免了对正确计划造成损害。",
+      "llm_tldr": "LLM智能体的验证-修复循环中，验证器和修复器均有噪声，可能导致过度修复。VRR-Stop提出四参数噪声模型和置信滤波，估计计划的有效性并决定何时停止，避免了对正确计划造成损害。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17937v1",
+      "source": "arxiv",
+      "title": "How Agent Skills Fail under Long Contexts: A White-Box Study in Code Auditing",
+      "abstract": "Agent Skills package procedural instructions and checks for use by general-purpose agents, but loading a skill does not guarantee that every requirement remains active throughout a long tool-using trajectory. We study this problem in a production-derived, white-box code-audit workflow. Holding the task and 24 artifact checks fixed, we vary the surrounding context and classify where failures first become visible: lost requirements, editing drift, failed checking, or non-agent evaluator/runtime failures. Codex with gpt-5.4-mini passes 8/10 runs in a 10,991-character clean context but only 3/10 in both a 299,140-character relevant context and an equal-length irrelevant context. This 50-percentage-point difference is large but remains trend-level under two-sided Fisher tests (p = 0.0698). Requirement coverage nevertheless stays above 92% in both long conditions, showing that a few omissions can invalidate an otherwise complete artifact. A second task passes all clean and long runs, so the evidence does not support a universal context-length threshold. A detailed external checklist passes 10/10 runs, compared with 5/10 for a generic self-check (p = 0.0325). Coding-agent scaffolds may help by selecting a smaller working set, but they do not eliminate failures. We do not introduce context rot or a new general monitoring method; we provide a bounded failure classification and empirical case study for white-box code auditing.",
+      "authors": [
+        "Yue Xue"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-20T13:34:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.17937v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "studies failure types in agent trajectories under long contexts",
+      "llm_evidence_cn": "研究长上下文下智能体轨迹中的故障类型",
+      "llm_evidence": "研究长上下文下智能体轨迹中的故障类型",
+      "canonical_evidence": "研究长上下文下智能体轨迹中的故障类型",
+      "llm_tldr_en": "This paper classifies failures in agent trajectories under long contexts, identifying lost requirements, editing drift, and failed checks, showing significant performance drops.",
+      "llm_tldr_cn": "该论文研究了智能体在长上下文工具使用轨迹中的失败模式，将失败分为需求丢失、编辑漂移、检查失败等类型。通过代码审计工作流实验，发现长上下文（无论相关与否）导致成功率从80%下降到30%。这项工作为理解智能体轨迹中的错误提供了白盒分类框架，有助于错误检测和调试。",
+      "llm_tldr": "该论文研究了智能体在长上下文工具使用轨迹中的失败模式，将失败分为需求丢失、编辑漂移、检查失败等类型。通过代码审计工作流实验，发现长上下文（无论相关与否）导致成功率从80%下降到30%。这项工作为理解智能体轨迹中的错误提供了白盒分类框架，有助于错误检测和调试。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11698v1",
+      "source": "arxiv",
+      "title": "Agent Hacks Agent: Autoresearch for Production-Agent Red-Teaming",
+      "abstract": "Production LLM agents such as Claude Code and Codex operate over untrusted content, files, commands, and workspace state, making safety failures directly actionable. Red-teaming must therefore keep pace with evolving models and tools. Existing approaches mainly optimize attack success and preserve artifacts such as benchmarks, payloads, or attack programs, which record where attacks succeed but not the enabling conditions behind unsafe agent behavior. We study automated red-teaming for production LLM agents using one agentic research environment to discover reusable vulnerability knowledge about another. We present AHA, a falsifiable discovery loop that proposes a vulnerability hypothesis, constructs a falsifier, instantiates a valid attack, executes it in a sandboxed harness, reflects on the trajectory, and promotes confirmed findings into a Vulnerability Concept Graph (VCG). Each concept links an attacker-facing surface to an unsafe trajectory through a claim, enabling condition, falsifier, transfer prediction, and supporting evidence. Across Claude Code and Codex on three scenarios covering direct and indirect attacks, the discovered concepts reveal a reusable vulnerability core across models and agents. A frozen VCG requires no further search and outperforms the strongest frozen discovery baseline by 14.2 percentage points under the same single-shot protocol, while transferring across scenarios and attack channels. The resulting VCG provides an auditable artifact for production safety teams to inspect vulnerabilities, validate patches, and accumulate reusable safety knowledge. Our code is available at https://github.com/henrymao2004/Auto-research-red-teaming-in-sleep.",
+      "authors": [
+        "Xutao Mao",
+        "Xiang Zheng",
+        "Cong Wang"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-07-13T15:31:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.11698v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "automated red-teaming to discover reuseable vulnerability knowledge in agent behavior",
+      "llm_evidence_cn": "自动化红队测试发现代理行为中的可复用漏洞知识",
+      "llm_evidence": "自动化红队测试发现代理行为中的可复用漏洞知识",
+      "canonical_evidence": "自动化红队测试发现代理行为中的可复用漏洞知识",
+      "llm_tldr_en": "Proposes AHA, a falsifiable discovery loop that automatically red-teams LLM agents to discover reusable vulnerability hypotheses and enable conditions behind unsafe agent behavior.",
+      "llm_tldr_cn": "该论文提出AHA框架，通过一个代理化研究环境自动对生产级LLM代理进行红队测试，以发现可复用的漏洞知识。AHA循环包括提出漏洞假设、构建反例、实例化攻击并执行，从而记录不安全行为背后的使能条件而非仅攻击成功。该方法为监控代理行为中的错误和漏洞提供了系统化工具，适应快速演化的模型和工具。",
+      "llm_tldr": "该论文提出AHA框架，通过一个代理化研究环境自动对生产级LLM代理进行红队测试，以发现可复用的漏洞知识。AHA循环包括提出漏洞假设、构建反例、实例化攻击并执行，从而记录不安全行为背后的使能条件而非仅攻击成功。该方法为监控代理行为中的错误和漏洞提供了系统化工具，适应快速演化的模型和工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.16345v1",
+      "source": "arxiv",
+      "title": "AEVAL: From Anecdotal to Deterministic Testing for Agentic Skill Workflows",
+      "abstract": "Modern agentic systems increasingly rely on skills: installable packages of natural language and code that teach an LLM agent to perform a domain task. As skill repositories grow, developers need automated quality signals on every change, yet evaluation today is largely anecdotal: a developer asks an agent to \"try the skill,\" watches a demo, and forms a subjective impression. This yields neither reproducibility across runs nor comparability across versions, and scales poorly to marketplaces where one regression can silently break dozens of downstream workflows.   We present AEVAL (Agentic Evaluation), a CI-integrated framework that replaces this practice with a deterministic, reproducible test pipeline for agentic skills. Every skill change triggers a test event: the skill runs against a developer-declared evaluation contract (eval.config) inside an automated executor, emitting a structured, evidence-grounded quality signal that downstream CI can route on.   A key ingredient is a structural separation between executor and grader, preventing a subtle but pervasive failure mode: an agent that silently self-corrects during execution and then grades its own patched outputs as passing.   Our contributions are: (i) a deterministic, change-triggered evaluation protocol with per-skill contracts and per-run artifact schemas; (ii) a formalization of self-correction bias as a distinct failure mode of naive agentic evaluators; (iii) an executor/grader separation with a first-attempt grading rule and explicit self-correction tracking; and (iv) a tiered, grounded-evidence fix-suggestion scheme (LV1 causal, LV2 quality) posted as inline merge-request comments. Validated on real skills in a production agentic stack across multiple agent SDKs, AEVAL converts spurious 100% pass rates into reproducible first-attempt fail signals with an auditable record of every executor fix.",
+      "authors": [
+        "Tejas Singh Anand",
+        "Yuet Ying Christina Wang",
+        "Wanting Jiang",
+        "Steve Masson",
+        "Tian Zheng",
+        "Bingjie Zhou"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.LG",
+        "cs.PF"
+      ],
+      "published": "2026-07-16T21:33:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.16345v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "deterministic testing framework for agentic skills enabling error detection",
+      "llm_evidence_cn": "为智能体技能提供确定性测试框架，支持错误检测",
+      "llm_evidence": "为智能体技能提供确定性测试框架，支持错误检测",
+      "canonical_evidence": "为智能体技能提供确定性测试框架，支持错误检测",
+      "llm_tldr_en": "Replaces anecdotal evaluation with a CI-integrated test pipeline for agentic skills, enabling automated error and regression detection.",
+      "llm_tldr_cn": "智能体技能评估目前依赖主观演示，缺乏可复现性。本文提出AEVAL，一个CI集成框架，为每个技能变更提供确定性测试流程。它自动生成测试用例并检查输出，能有效检测回归错误和异常行为。实验表明该方法在多个技能库中发现了传统检查遗漏的错误。",
+      "llm_tldr": "智能体技能评估目前依赖主观演示，缺乏可复现性。本文提出AEVAL，一个CI集成框架，为每个技能变更提供确定性测试流程。它自动生成测试用例并检查输出，能有效检测回归错误和异常行为。实验表明该方法在多个技能库中发现了传统检查遗漏的错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16636v1",
+      "source": "arxiv",
+      "title": "PhyAgentOS: A Self-Evolving Operating System for Embodied Agents with Decoupled Cognitive Planning and Physical Execution",
+      "abstract": "Vision-language-action models, world models, and agentic planners each advance physical intelligence, yet their composition lacks a common execution abstraction, shared state, semantic verification, and persistent experience across heterogeneous embodiments. We present PhyAgentOS, a runtime foundation delivering scheduling, verification, memory, benchmarking, and safety as system-level services. Its Session-Centered Runtime treats a session, not an action, as the minimum unit of scheduling, compatibility preflight, supervised execution, evidence collection, and acceptance. To decouple cognition from physical execution, the cognition-physics boundary is a file system: the State-as-a-File protocol materializes cross-layer state as Markdown with YAML, yielding inspectable, versionable records without code dependencies between Agent and Runtime layers. These views form a unified cognitive state space aligning intent, capabilities, environment, execution, and experience. The SessionVerifier distinguishes execution termination from semantic task completion via evidence-grounded verdicts of success, failure, or replan. Verified outcomes are consolidated through epistemic memory into reusable knowledge and corrective lessons, closing a trial-and-error loop without retraining. Benchmarking reuses the deployment session and verification path, so results trace to real execution. Layered safety constrains both policy-driven and agent-driven execution: preflight, action bridges, SafetyGuard, heartbeat monitoring, and target-local constraints. Validation is progressive: games test cognitive planning, simulation adds dynamics and control, real robots add hardware noise, with the cognitive layer held constant. PhyAgentOS is benchmarked on Optimus-67, StarDojo, and DST-Dojo, validated on 19+ simulated and physical embodiments, and gains on LIBERO, Calvin, and RoboCasa365 across multiple VLA models.",
+      "authors": [
+        "Yang Liu",
+        "Weixing Chen",
+        "Xinshuai Song",
+        "Tao Pu",
+        "Siwen Mo",
+        "Yongjie Bai",
+        "Zihao Chen",
+        "Qianran Sun",
+        "Liruo Zhong",
+        "Ying Shen",
+        "Liang Lin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-18T04:46:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.16636v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "semantic verification and error detection as system-level services for embodied agents",
+      "llm_evidence_cn": "为具身智能体提供语义验证和错误检测等系统级服务",
+      "llm_evidence": "为具身智能体提供语义验证和错误检测等系统级服务",
+      "canonical_evidence": "为具身智能体提供语义验证和错误检测等系统级服务",
+      "llm_tldr_en": "PhyAgentOS provides system-level verification and error detection for embodied agent trajectories via session-centered runtime.",
+      "llm_tldr_cn": "具身智能体缺乏统一的执行抽象和验证机制，PhyAgentOS以会话为中心运行时，提供兼容性预检、监督执行和验收环节，实现对智能体行为轨迹的语义验证和错误检测。",
+      "llm_tldr": "具身智能体缺乏统一的执行抽象和验证机制，PhyAgentOS以会话为中心运行时，提供兼容性预检、监督执行和验收环节，实现对智能体行为轨迹的语义验证和错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17038v1",
+      "source": "arxiv",
+      "title": "Reward-Driven LLM Agent Workflows: Synthesizing POMDP Routing and Self-Correction for Autonomous Decision-Making",
+      "abstract": "This paper addresses key technical challenges in current large language model (LLM) agent applications, including long-horizon planning, sparse reward attribution, and dynamic environmental interaction, by designing and optimizing an intelligent agent workflow. The proposed architecture is based on the synthesis of core AI paradigms: Visual, Language, Generative, Graph, Multimodal, Reinforcement, and Agent Intelligence. Unlike conventional baseline models that rely on static prompting and lack robust perception-action loops, our approach introduces a Partially Observable Markov Decision Process (POMDP) routing mechanism. This mechanism is augmented with an internal, self-correcting reward model that evaluates decision trajectories before execution. By integrating multimodal inputs and advanced reinforcement learning principles (such as proximal policy optimization and value function approximation), the agent maintains long-term structural memory and dynamically adapts its reasoning pathways to mitigate error accumulation. Empirical experiments on the ALFWorld embodied simulation environment and the WebShop online navigation benchmark demonstrate a 24.5% absolute improvement in task success rate and trajectory efficiency over mainstream baselines like the standard ReAct framework. Comprehensive ablation studies confirm the significant contribution of the reward-driven critique module in suppressing hallucination rates. This research bridges theoretical foundations of reinforcement learning and graph-based memory with autonomous agent workflows. Ultimately, the resulting architecture offers a practical, scalable reference framework for developing artificial intelligence technologies in complex, multi-step autonomous systems. Code is available at https://github.com/01Amez/RLAW_Implementation.",
+      "authors": [
+        "Amez Amanj Ali",
+        "Kuo-Kun Tseng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-19T02:51:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.17038v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "introduces a self-correcting reward model for LLM agent workflows, related to error detection in RL trajectories",
+      "llm_evidence_cn": "为LLM智能体工作流引入自我修正奖励模型，与RL轨迹错误检测相关",
+      "llm_evidence": "为LLM智能体工作流引入自我修正奖励模型，与RL轨迹错误检测相关",
+      "canonical_evidence": "为LLM智能体工作流引入自我修正奖励模型，与RL轨迹错误检测相关",
+      "llm_tldr_en": "This paper proposes a POMDP routing mechanism with an internal self-correcting reward model for LLM agents, enabling long-horizon planning and error detection through reward-based evaluation.",
+      "llm_tldr_cn": "本文针对LLM智能体应用中的长程规划、稀疏奖励和动态环境问题，提出了一种基于POMDP路由和内部自我修正奖励模型的工作流架构。该机制通过评估代理动作的回报来检测错误，并在多个决策步骤中自动纠正偏差，实验表明该方法在复杂任务上显著优于静态提示基线，有助于强化学习智能体轨迹中的错误检测。",
+      "llm_tldr": "本文针对LLM智能体应用中的长程规划、稀疏奖励和动态环境问题，提出了一种基于POMDP路由和内部自我修正奖励模型的工作流架构。该机制通过评估代理动作的回报来检测错误，并在多个决策步骤中自动纠正偏差，实验表明该方法在复杂任务上显著优于静态提示基线，有助于强化学习智能体轨迹中的错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
