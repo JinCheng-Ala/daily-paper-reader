@@ -1,0 +1,397 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-23T21:29:05.307421+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2607.19913v1",
+      "source": "arxiv",
+      "title": "JANUS: Foreseeing Latent Risk for Long-Horizon Agent Safety",
+      "abstract": "Agent safety is moving from content moderation toward preventing operational failures before tool-using agents act. We propose Janus, a foresight-oriented framework for long-horizon agent safety that trains guards to anticipate delayed risks from partial trajectories. Janus synthesizes diverse agent trajectories via multi-agent simulation and learns a shared policy with two coupled tasks: an anticipation task that forecasts safety-relevant futures and an adjudication task that decides safety from both the observed prefix and anticipated future. The two tasks are jointly optimized with CoAA-RL, which rewards forecasts by their utility for downstream safety judgment. The resulting guard model, Vanguard, blocks unsafe actions before execution. Across four agent-safety benchmarks, Vanguard improves average protection by 15.9 percentage points over baseline guards while increasing benign task completion by 5.1 percentage points.",
+      "authors": [
+        "Yuan Xiong",
+        "Linji Hao",
+        "Shizhu He",
+        "Yequan Wang",
+        "Lijun Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.CR"
+      ],
+      "published": "2026-07-22T08:43:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.19913v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "anticipates delayed risks from partial trajectories to detect unsafe actions",
+      "llm_evidence_cn": "从部分轨迹预测延迟风险以检测不安全动作",
+      "llm_evidence": "从部分轨迹预测延迟风险以检测不安全动作",
+      "canonical_evidence": "从部分轨迹预测延迟风险以检测不安全动作",
+      "llm_tldr_en": "Janus trains a guard model (Vanguard) to anticipate safety-relevant futures from partial trajectories using multi-agent simulation and CoAA-RL, blocking unsafe actions before execution.",
+      "llm_tldr_cn": "长程agent安全正从内容过滤转向预防操作失败。本文提出Janus框架，通过多智能体仿真合成多样轨迹，训练共享策略同时完成风险预测和安全裁决任务，并采用CoAA-RL联合优化。产生的守卫模型Vanguard能在agent执行前从部分轨迹预判并阻止不安全动作。实验证明该方法在多个安全场景中有效避免错误。",
+      "llm_tldr": "长程agent安全正从内容过滤转向预防操作失败。本文提出Janus框架，通过多智能体仿真合成多样轨迹，训练共享策略同时完成风险预测和安全裁决任务，并采用CoAA-RL联合优化。产生的守卫模型Vanguard能在agent执行前从部分轨迹预判并阻止不安全动作。实验证明该方法在多个安全场景中有效避免错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19432v1",
+      "source": "arxiv",
+      "title": "ChainWatch: A Kill Chain-Aligned Sequential Detection Framework for Multi-Step Attacks in MCP-Based AI Agent Systems",
+      "abstract": "The Model Context Protocol (MCP) is an open-source standard that allows AI agents to connect to external tools, databases, and services. While this connectivity enables powerful agent capabilities, it also introduces multi-step attacks that existing per-call defenses cannot reliably detect. Attackers can compose individually benign tool invocations into malicious sequences that evade isolated inspection. This paper presents ChainWatch, a sequential detection framework for identifying multi-step attacks in MCP-based AI agent systems. ChainWatch models attack progression using a six-stage kill chain and applies a Hidden Markov Model (HMM) to classify tool-call sequences. Detection rules are triggered when a session exhibits suspicious progression across multiple stages. The framework is supported by a structured threat model covering direct sequential attacks, indirect prompt injection chains, and hybrid multi-stage attacks. A 20-dimensional feature extraction schema captures behavioral signals from tool interactions. We demonstrate the approach using five representative attack scenarios from the security literature, showing how ChainWatch detects attack chains that evade traditional per-call security mechanisms.",
+      "authors": [
+        "Om Narayan",
+        "Rashmi Jyoti",
+        "Ramkinker Singh"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-07-20T22:36:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.19432v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "sequential detection of multi-step attack anomalies in agent tool calls",
+      "llm_evidence_cn": "顺序检测agent工具调用中的多步攻击异常",
+      "llm_evidence": "顺序检测agent工具调用中的多步攻击异常",
+      "canonical_evidence": "顺序检测agent工具调用中的多步攻击异常",
+      "llm_tldr_en": "ChainWatch uses kill chain and HMM to detect multi-step attacks in MCP-based AI agent systems by classifying tool-call sequences as malicious.",
+      "llm_tldr_cn": "MCP协议使agent能连接外部工具，但引入了多步攻击风险。本文提出ChainWatch框架，采用六阶段杀伤链建模攻击过程，利用隐马尔可夫模型对工具调用序列进行分类，当某阶段累积概率超过阈值时触发告警。该框架有效检测agent轨迹中看似良性但整体恶意的一系列异常行为。",
+      "llm_tldr": "MCP协议使agent能连接外部工具，但引入了多步攻击风险。本文提出ChainWatch框架，采用六阶段杀伤链建模攻击过程，利用隐马尔可夫模型对工具调用序列进行分类，当某阶段累积概率超过阈值时触发告警。该框架有效检测agent轨迹中看似良性但整体恶意的一系列异常行为。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19650v1",
+      "source": "arxiv",
+      "title": "Remote ID Spoofing-Aware Trajectory Planning for Small Unmanned Aerial Systems",
+      "abstract": "This work presents a decentralized, spoofing-aware trajectory planning framework for small unmanned aerial systems operating under Remote Identification (RID) location spoofing attacks. Existing planners typically assume RID broadcasts are trustworthy, which can increase the risk of loss of separation and mid-air collisions when spoofing occurs. In contrast, the proposed approach explicitly treats RID information as unverified and incorporates physical-layer observations to assess broadcast credibility. Received signal-strength measurements from neighboring aircraft are used to detect spoofing and probabilistically localize a spoofing agent. The resulting uncertainty is converted into a risk-bounded unsafe region using a chance-constrained formulation and integrated into a per-agent Markov decision process-based planner. This enables real-time, decentralized collision avoidance while preserving mission objectives and scalability. Simulation results in a multi-aircraft package delivery scenario demonstrate reduced near mid-air collision events compared to planners that assume truthful RID data, while maintaining computational efficiency suitable for real-time execution.",
+      "authors": [
+        "Jeremiah Webb",
+        "Bryce Bjorkman",
+        "Abel Diaz Gonzalez",
+        "Austin Coursey",
+        "Noah Dahle",
+        "Kailani Lemieux Mack",
+        "Filippos Fotiadis",
+        "Gautam Biswas",
+        "Bryan C. Ward",
+        "Abenezer Taye"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "published": "2026-07-22T01:16:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.19650v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects path deviations due to spoofing in UAV trajectories",
+      "llm_evidence_cn": "检测无人机轨迹中的欺骗性路径偏差",
+      "llm_evidence": "检测无人机轨迹中的欺骗性路径偏差",
+      "canonical_evidence": "检测无人机轨迹中的欺骗性路径偏差",
+      "llm_tldr_en": "Proposes a decentralized spoofing-aware trajectory planner that uses RSSI measurements to detect RID spoofing and localize spoofing agents, enabling risk-bounded path deviations.",
+      "llm_tldr_cn": "现有无人机路径规划通常假设遥控识别(RID)广播可信，易受欺骗攻击。本文提出一种去中心化、对欺骗敏感的轨迹规划框架，利用接收信号强度测量检测RID欺骗并概率定位欺骗源，将不确定性转化为风险约束的不安全区域。该方法直接检测agent轨迹中的路径偏差，确保飞行安全。",
+      "llm_tldr": "现有无人机路径规划通常假设遥控识别(RID)广播可信，易受欺骗攻击。本文提出一种去中心化、对欺骗敏感的轨迹规划框架，利用接收信号强度测量检测RID欺骗并概率定位欺骗源，将不确定性转化为风险约束的不安全区域。该方法直接检测agent轨迹中的路径偏差，确保飞行安全。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.13705v3",
+      "source": "arxiv",
+      "title": "AgentCompass: A Unified Evaluation Infrastructure for Agent Capabilities",
+      "abstract": "As Large Language Models (LLMs) evolve into autonomous agents, the need for unified evaluation infrastructure becomes critical. However, current evaluation pipelines remain highly fragmented and tightly coupled, hindering reproducibility and causing redundant engineering. To address this, we introduce AgentCompass, an open-source, lightweight, and extensible infrastructure for evaluating LLM-based agents. AgentCompass organizes the evaluation process around three independent components, namely Benchmark, Harness, and Environment, thereby enabling flexible configurations without requiring the reimplementation of complex execution logic. Furthermore, it features a fault-tolerant asynchronous runtime and comprehensive trajectory analysis tools to transparently diagnose nuanced failure modes like reward-hacking. Natively supporting over 20 benchmarks across five capability dimensions, AgentCompass provides the community with a scalable and reproducible infrastructure for advancing agent research.",
+      "authors": [
+        "Kai Chen",
+        "Zichen Ding",
+        "Jiaye Ge",
+        "Shufan Jiang",
+        "Mo Li",
+        "Qingqiu Li",
+        "Zehao Li",
+        "Zonglin Li",
+        "Tianhao Liang",
+        "Shudong Liu",
+        "Zerun Ma",
+        "Zixin Shang",
+        "Wenhui Tian",
+        "Zun Wang",
+        "Liwei Wu",
+        "Zhenyu Wu",
+        "Jun Xu",
+        "Bowen Yang",
+        "Dingbo Yuan",
+        "Qi Zhang",
+        "Songyang Zhang",
+        "Peiheng Zhou",
+        "Dongsheng Zhu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-07-15T11:11:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.13705v3",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Provides unified evaluation infrastructure with trajectory analysis tools, enabling detection of anomalies in agent trajectories",
+      "llm_evidence_cn": "提供统一评估基础设施和轨迹分析工具，支持检测智能体轨迹异常",
+      "llm_evidence": "提供统一评估基础设施和轨迹分析工具，支持检测智能体轨迹异常",
+      "canonical_evidence": "提供统一评估基础设施和轨迹分析工具，支持检测智能体轨迹异常",
+      "llm_tldr_en": "Introduces AgentCompass, an open-source evaluation infrastructure with fault-tolerant runtime and trajectory analysis tools, directly supporting error detection and monitoring of agent behavior.",
+      "llm_tldr_cn": "本文针对大语言模型智能体评估流水线碎片化、缺乏统一基础设施的问题，提出AgentCompass。它将评估过程解耦为基准、测试框架和环境三个独立组件，并提供轨迹分析工具集。该基础设施可被直接用于智能体行为监控和错误检测，提升评估的可重复性。",
+      "llm_tldr": "本文针对大语言模型智能体评估流水线碎片化、缺乏统一基础设施的问题，提出AgentCompass。它将评估过程解耦为基准、测试框架和环境三个独立组件，并提供轨迹分析工具集。该基础设施可被直接用于智能体行为监控和错误检测，提升评估的可重复性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.14485v1",
+      "source": "arxiv",
+      "title": "Step-Level Preference Learning for Generative Agents in Social Simulations",
+      "abstract": "Large language model (LLM)-based generative agents simulate human behavior through long-horizon decision-making processes that comprise intermediate steps such as planning, memory retrieval, reflection, and action selection. However, fine-grained human annotations of these intermediate steps remain scarce, and existing agents are not grounded in human preferences over such intermediate decisions. To address this gap, we introduce \\method, an interactive simulation interface that enables us to collect step-level human preference supervision over agent decision trajectories, leading to a dataset of 57K fine-grained annotations. We conduct step-level preference learning on open-weight language models using supervised finetuning and direct preference optimization on this data, consistently improving simulation fidelity, coordination, and interaction quality, and inducing more socially effective agent behavior. Our results show that step-level human supervision is an effective training signal for improving both local decision quality and long-horizon agent behavior.",
+      "authors": [
+        "Wenchang Gao",
+        "Pingyue Sheng",
+        "Lanlan Qiu",
+        "Yunfei Ma",
+        "Jian Zhao",
+        "Baicheng Chen",
+        "Kangda Wang",
+        "Yuyang Tian",
+        "Shunqiang Mao",
+        "Tianxing He"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-16T01:58:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.14485v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Step-level human preference learning over agent trajectories; can be adapted for anomaly detection",
+      "llm_evidence_cn": "步骤级人类偏好学习可用于轨迹异常检测",
+      "llm_evidence": "步骤级人类偏好学习可用于轨迹异常检测",
+      "canonical_evidence": "步骤级人类偏好学习可用于轨迹异常检测",
+      "llm_tldr_en": "Collects step-level human preferences over agent decision trajectories and uses them for preference learning, which could be adapted for detecting anomalous steps.",
+      "llm_tldr_cn": "本文针对生成式智能体在社交模拟中的中间决策缺乏人类偏好标注的问题，提出了一个交互式仿真接口收集57K细粒度步骤级偏好。通过监督微调和直接偏好优化，将步骤级偏好注入开源语言模型。该方法虽未直接检测错误，但其对轨迹步骤的细粒度分析技术可为智能体行为异常检测提供方法论借鉴。",
+      "llm_tldr": "本文针对生成式智能体在社交模拟中的中间决策缺乏人类偏好标注的问题，提出了一个交互式仿真接口收集57K细粒度步骤级偏好。通过监督微调和直接偏好优化，将步骤级偏好注入开源语言模型。该方法虽未直接检测错误，但其对轨迹步骤的细粒度分析技术可为智能体行为异常检测提供方法论借鉴。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.15901v1",
+      "source": "arxiv",
+      "title": "DSWorld: A Data Science World Model for Efficient Autonomous Agents",
+      "abstract": "Despite strong capabilities in data understanding and decision-making, autonomous data science agents still heavily rely on trial-and-error workflows that involve expensive computation. This bottleneck motivates models that can anticipate the effects of data science operations before real execution. In this paper, we introduce the concept of Data Science World Model, which model the data science execution environment by predicting environment state transitions conditioned on current workflow states and candidate operations. We further propose DSWorld, a practical framework that combines structured state construction, cost-aware routing, lightweight real execution, and an LLM-based simulator for expensive operations. To support training, we construct an 8K-scale transition trajectory dataset and introduce Reflective World Model Optimization, an error-aware reinforcement learning strategy for improving transition prediction. Experiments show that DSWorld accelerates RL-based agent training by approximately $14\\times$ and search-based inference by approximately $3$-$6\\times$ while maintaining competitive performance, and outperforms the strongest LLM baseline by 35.6% on transition prediction tasks. The code is available at https://anonymous.4open.science/r/DSWorld.",
+      "authors": [
+        "Zherui Yang",
+        "Fan Liu",
+        "Hao Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-17T12:14:55+00:00",
+      "link": "https://arxiv.org/pdf/2607.15901v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "world model predicts environment state transitions, enabling anticipation of errors in agent trajectories",
+      "llm_evidence_cn": "世界模型预测环境状态转移，可辅助预测智能体轨迹中的错误",
+      "llm_evidence": "世界模型预测环境状态转移，可辅助预测智能体轨迹中的错误",
+      "canonical_evidence": "世界模型预测环境状态转移，可辅助预测智能体轨迹中的错误",
+      "llm_tldr_en": "Introduces a data science world model that predicts state transitions to reduce trial-and-error in autonomous agents, enabling proactive error detection.",
+      "llm_tldr_cn": "针对自主数据科学智能体依赖试错的高计算成本问题，提出数据科学世界模型概念及DSWorld框架，通过预测工作流状态转移和代价感知路由来避免错误执行，结合轻量执行和LLM模拟器，提升智能体效率并间接支持轨迹错误检测。",
+      "llm_tldr": "针对自主数据科学智能体依赖试错的高计算成本问题，提出数据科学世界模型概念及DSWorld框架，通过预测工作流状态转移和代价感知路由来避免错误执行，结合轻量执行和LLM模拟器，提升智能体效率并间接支持轨迹错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15715v1",
+      "source": "arxiv",
+      "title": "Behavioral Controllability of Agentic Models for Information Extraction: From Fixed Workflows to Reflective Agents",
+      "abstract": "Large language model (LLM) agents are increasingly used for complex information-extraction tasks, yet it remains unclear whether agentic components such as reflection and memory lead to observable and controllable improvements over fixed LLM workflows. We study this question through conference-paper dataset extraction, where a system must identify datasets mentioned in scholarly PDFs and produce structured records. We compare a fixed workflow baseline with reflective agent variants and specify an optimized agent condition (S2) that extends the same task with richer PDF tools and dynamic tool selection. Our evaluation emphasizes process-level behavior--including tool execution, retries, reflection, memory use, runtime, and failure recovery--while treating extraction coverage and field completeness as secondary outcome measures. The paper characterizes when agentic mechanisms change system behavior, whether these changes improve task completion, and how the observed failure modes motivate an optimized agent design under the same evaluation harness.",
+      "authors": [
+        "Lujia Zhang",
+        "Xingzhou Chen",
+        "Hongwei Feng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-17T07:51:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.15715v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Evaluates process-level behavior of LLM agents including tool execution, retries, reflection; relevant to monitoring agent behavior for errors",
+      "llm_evidence_cn": "评估大语言模型智能体的过程行为，包括工具执行、重试、反思，可用于监控智能体错误",
+      "llm_evidence": "评估大语言模型智能体的过程行为，包括工具执行、重试、反思，可用于监控智能体错误",
+      "canonical_evidence": "评估大语言模型智能体的过程行为，包括工具执行、重试、反思，可用于监控智能体错误",
+      "llm_tldr_en": "Compares fixed workflows vs reflective agents for information extraction, emphasizing process-level behavior such as retries and reflection, which directly supports monitoring agent behavior for errors.",
+      "llm_tldr_cn": "本文对比固定工作流与反思型智能体在信息抽取任务中的行为，重点分析工具执行、重试、反思等过程行为。虽不直接检测错误，但其对智能体行为可控性的评估方法可迁移至错误监控任务。",
+      "llm_tldr": "本文对比固定工作流与反思型智能体在信息抽取任务中的行为，重点分析工具执行、重试、反思等过程行为。虽不直接检测错误，但其对智能体行为可控性的评估方法可迁移至错误监控任务。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.16900v2",
+      "source": "arxiv",
+      "title": "Environment-free Synthetic Data Generation for API-Calling Agents",
+      "abstract": "Training API-calling large language model (LLM) agents demands massive amounts of high-quality trajectories. However, collecting such data at scale typically requires fully implemented environments with executable APIs and realistic, pre-populated backend databases, creating a major bottleneck for scalability. To overcome this, we propose an environment-free synthetic data generation approach that leverages LLMs as on-the-fly digital world models. Given only API specifications, our method generates trajectories mimicking interactions between an agent and a stateful environment. Specifically, an LLM first generates diverse tasks solvable with the provided APIs. A teacher agent then iteratively solves each task while an LLM simulator generates coherent synthetic API responses conditioned on the task context and simulation history. Finally, an LLM judge filters the trajectories to ensure the quality of the resulting dataset. We evaluate our approach on the challenging AppWorld and OfficeBench benchmarks, which include both information-retrieval and state-changing tasks. Fine-tuning models on our synthetic data yields significant performance gains, demonstrating that effective supervision for API-calling agents can be generated without any executable environment. Our results establish LLM-based API simulation as a practical, scalable solution for training agents across diverse API ecosystems.",
+      "authors": [
+        "Seanie Lee",
+        "Sanjoy Chowdhury",
+        "Chao Jiang",
+        "Cheng-Yu Hsieh",
+        "Ting-Yao Hu",
+        "Alexander T Toshev",
+        "Oncel Tuzel",
+        "Raviteja Vemulapalli"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-18T17:36:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.16900v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "generates synthetic agent trajectories for training, can be used to train error detectors",
+      "llm_evidence_cn": "生成合成智能体轨迹，可用于训练错误检测器",
+      "llm_evidence": "生成合成智能体轨迹，可用于训练错误检测器",
+      "canonical_evidence": "生成合成智能体轨迹，可用于训练错误检测器",
+      "llm_tldr_en": "Proposes environment-free synthetic data generation for API-calling agents, creating trajectories that could be used to train error detection models.",
+      "llm_tldr_cn": "针对训练智能体需要复杂环境的问题，提出无需真实环境的合成数据生成方法，利用LLM模拟环境生成高质量轨迹，可扩展用于训练轨迹错误检测模型，降低数据收集成本。",
+      "llm_tldr": "针对训练智能体需要复杂环境的问题，提出无需真实环境的合成数据生成方法，利用LLM模拟环境生成高质量轨迹，可扩展用于训练轨迹错误检测模型，降低数据收集成本。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.19899v1",
+      "source": "arxiv",
+      "title": "Harnessing Disagreement: Detecting Correlated Agreement Blindness in Multi-Agent Triage",
+      "abstract": "Disagreement-triggered escalation can create a structural blind spot in multi-agent arbitration: as base learners improve, they tend to converge, weakening safety monitoring where correlated failures concentrate. We term this correlated agreement blindness and present ARAT (Arbitrated Reasoning Agents for Alarm Triage), a directed-star system combining an inductive Random Forest (RF) agent, an analogical case-based k-nearest neighbour (k-NN) agent, and a calibrated meta-model to mitigate this effect. On 82,332 holdout samples from the UNSW-NB15 network intrusion detection dataset, 57.2% of errors occur under agreement and 90.6% of dangerous under-predictions evade disagreement-based monitoring even after conservative override; ablation shows that strengthening base learners increases error correlation while reducing disagreement. ARAT reduces under-prediction relative to soft voting from 4.80% to 1.70% via conservative override (-2.6pp) and a safety-flag gate (-0.5pp), demonstrating architectural gains. Cross-dataset validation on clinical readmission supports these indicators, suggesting that diversification improves safety only when it generates productive disagreement rather than convergence. These results indicate that disagreement-triggered escalation can be blind to correlated failure, a risk that may intensify as agentic pipelines deploy increasingly capable, correlated models.",
+      "authors": [
+        "Shay Seiya McDonnell",
+        "Avantika Singh",
+        "Quoc-Viet Pham",
+        "Vratislav Havlik",
+        "Gregory M. P. O'Hare"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.LG"
+      ],
+      "published": "2026-07-22T08:35:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.19899v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "detects errors (correlated agreement blindness) in multi-agent triage, relevant to anomaly detection",
+      "llm_evidence_cn": "检测多智能体分类中的相关一致盲目性错误，与异常检测相关",
+      "llm_evidence": "检测多智能体分类中的相关一致盲目性错误，与异常检测相关",
+      "canonical_evidence": "检测多智能体分类中的相关一致盲目性错误，与异常检测相关",
+      "llm_tldr_en": "Proposes ARAT system to detect correlated agreement blindness where multi-agent systems fail to catch errors, offering a method for anomaly detection in agent trajectories.",
+      "llm_tldr_cn": "本论文发现多智能体分类中基学习器收敛导致一致性错误盲点，并提出ARAT系统（结合随机森林、KNN和元模型）来检测此类异常。实验表明大量错误发生在智能体意见一致时，而传统基于分歧的监控失效。ARAT能有效识别这些隐藏错误，为智能体轨迹异常检测提供了新思路。",
+      "llm_tldr": "本论文发现多智能体分类中基学习器收敛导致一致性错误盲点，并提出ARAT系统（结合随机森林、KNN和元模型）来检测此类异常。实验表明大量错误发生在智能体意见一致时，而传统基于分歧的监控失效。ARAT能有效识别这些隐藏错误，为智能体轨迹异常检测提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
