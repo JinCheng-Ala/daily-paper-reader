@@ -1,0 +1,249 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-24T21:09:25.716247+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2607.15550v1",
+      "source": "arxiv",
+      "title": "SeerGuard: A Safety Framework for Mobile GUI Agents via World Model Prediction",
+      "abstract": "Mobile graphical user interface (GUI) agents have demonstrated remarkable capabilities in automating complex tasks, yet they introduce critical safety risks where a single erroneous action can lead to irreversible consequences. Existing safety mechanisms are primarily reactive, lacking the ability to assess risks before execution. In this paper, we introduce SeerGuard, a consequence-aware safety framework designed to mitigate these risks through pre-execution instruction-level screening and action-level risk assessment. Specifically, the action-level assessment analyzes agent-proposed actions within current GUI states, anticipating likely outcomes to identify risks before they are executed. To enable these capabilities, we construct a unified safety-augmented world model (SAWM) via multi-task learning, integrating semantic next-state prediction with safety risk assessment. Extensive experiments demonstrate that SeerGuard generalizes effectively across diverse mobile GUI agents. On Qwen3-VL-8B-Instruct, it increases the safety-utility score from $0.191$ to $0.596$ at $ω=0.8$ and reduces the risk-cost score from $0.347$ to $0.130$ at $α=0.8$. Further analyses on our SAWM validate the effectiveness of the instruction-level screening, alongside the capability of action risk assessment and next-state prediction.",
+      "authors": [
+        "Xue Yu",
+        "Bo Yuan",
+        "Pengshuai Yang",
+        "Kailin Zhao",
+        "Hong Hu",
+        "Junlan Feng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-17T01:45:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.15550v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "pre-execution action-level risk assessment to detect erroneous actions",
+      "llm_evidence_cn": "执行前动作级风险评估以检测错误动作",
+      "llm_evidence": "执行前动作级风险评估以检测错误动作",
+      "canonical_evidence": "执行前动作级风险评估以检测错误动作",
+      "llm_tldr_en": "SeerGuard uses world model prediction to assess risks of agent actions before execution, enabling detection of potential errors in mobile GUI agent trajectories.",
+      "llm_tldr_cn": "移动GUI智能体面临单次错误动作导致不可逆后果的安全风险。现有安全机制多为事后反应式。本文提出SeerGuard，一个后果感知的安全框架，通过执行前的指令级筛选和动作级风险评估来识别风险。动作级评估分析当前状态下的提议动作，预测可能后果以在事前发现错误。实验表明该方法有效降低了错误动作的执行率，为智能体轨迹错误检测提供了新思路。",
+      "llm_tldr": "移动GUI智能体面临单次错误动作导致不可逆后果的安全风险。现有安全机制多为事后反应式。本文提出SeerGuard，一个后果感知的安全框架，通过执行前的指令级筛选和动作级风险评估来识别风险。动作级评估分析当前状态下的提议动作，预测可能后果以在事前发现错误。实验表明该方法有效降低了错误动作的执行率，为智能体轨迹错误检测提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18316v1",
+      "source": "arxiv",
+      "title": "Binding Drift in Multi-Step Tool-Augmented Agents",
+      "abstract": "Tool-augmented language-model agents execute multi-step workflows over external systems, resolving an entity once and then acting on it across subsequent steps. Prior work shows that in single-step actions, agents select the correct tool but bind it to the wrong entity 24-26% of the time. We study what happens to entity bindings over time: do they stay correct, silently drift to a different entity, or, if wrong from the start, propagate and compound? We formalize binding drift (correct at step 1, wrong later) as distinct from error propagation (wrong at step 1, carried forward), and score them on disjoint workflow sets so the two cannot be conflated. In a controlled multi-step testbed (200 workflows, 580 entity-binding-scored steps, four enterprise domains, eight model backends spanning small to frontier), we find: (1) under controlled error injection, an entity lock (the intuitive \"persist the first binding\" fix) amplifies wrong actions from 907 to 2,746 (3.0x; bootstrap 95% CI [2.8, 3.3]), because it faithfully carries the seeded wrong entity into every later step; (2) the amplification reaches 8.5x on the most affected model (Claude Opus 4.5); (3) a practical LLM-based re-verifier (a single cheap second model call re-reading the original instruction) reduces wrong actions by 79% (0.21x; CI [0.18, 0.25]), closing the gap to within 1 percentage point of an oracle upper-bound (0.20x); and (4) in the natural (non-injected) setting, baseline agents drift on 18% of eligible workflows, with the per-step error rate rising across steps. Persistence and re-verification are not interchangeable: a defense that eliminates drift can worsen propagation, and a practical re-verifier nearly matches oracle recovery.",
+      "authors": [
+        "Rahul Suresh Babu",
+        "Shashank Indukuri"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-07-17T20:00:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.18316v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "formalizes binding drift and error propagation in multi-step agent trajectories",
+      "llm_evidence_cn": "形式化多步代理轨迹中的绑定漂移和错误传播",
+      "llm_evidence": "形式化多步代理轨迹中的绑定漂移和错误传播",
+      "canonical_evidence": "形式化多步代理轨迹中的绑定漂移和错误传播",
+      "llm_tldr_en": "Formalizes binding drift and error propagation in multi-step tool-augmented agent trajectories, providing a controlled testbed to measure and detect entity-binding errors across steps.",
+      "llm_tldr_cn": "在多步工具增强的代理系统中，实体绑定错误普遍存在且会随时间演化。本文形式化定义了绑定漂移（初始正确后偏离）和错误传播（初始错误向后传递），并设计了包含200个工作流的控制测试环境。通过580个实体绑定评分步骤的系统评估，揭示了不同模型后端在跨步骤绑定一致性上的显著差异。该工作为检测代理轨迹中的实体绑定错误提供了基准和方法论。",
+      "llm_tldr": "在多步工具增强的代理系统中，实体绑定错误普遍存在且会随时间演化。本文形式化定义了绑定漂移（初始正确后偏离）和错误传播（初始错误向后传递），并设计了包含200个工作流的控制测试环境。通过580个实体绑定评分步骤的系统评估，揭示了不同模型后端在跨步骤绑定一致性上的显著差异。该工作为检测代理轨迹中的实体绑定错误提供了基准和方法论。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20982v1",
+      "source": "arxiv",
+      "title": "GuardianAgentBench: Where Agents Fail and How to Guard Them",
+      "abstract": "As large language model agents increasingly operate autonomously with access to tools and external environments, ensuring their safe and reliable behavior becomes critical. We present GuardianAgentBench (GABench), a benchmark of 580 scenarios across six domains evaluated on three production-ready frameworks: LangChain, LlamaIndex, and Vectara. The benchmark incorporates rigorous multi-stage validation and five adversarial attack modes. Experiments with six state-of-the-art models reveal that even the strongest configuration achieves only 74.8% overall accuracy and expose two distinct failure regimes: stronger models under-call required tools, while weaker models mis-select and over-call tools. Performance degrades monotonically with both tool-set size and sequential turn depth, with long-horizon planning proving the steeper bottleneck. Our guardrail implementation consistently outperforms system-prompt-based defenses across all models, recovering 19.9% of failures at a false positive rate of just 0.5%. These results demonstrate that execution-time structural intervention improves safety without disrupting correct agent behavior.",
+      "authors": [
+        "Vishal Ishwar Naik",
+        "Chenyu Xu",
+        "Donna Dong",
+        "Hussein Hassan",
+        "Abhishek Pradhan",
+        "Ofer Mendelevitch",
+        "Tallat Shafat",
+        "Humayun Irshad"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-23T07:05:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.20982v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "benchmark for detecting agent task failures and errors",
+      "llm_evidence_cn": "检测agent任务失败和错误的基准测试",
+      "llm_evidence": "检测agent任务失败和错误的基准测试",
+      "canonical_evidence": "检测agent任务失败和错误的基准测试",
+      "llm_tldr_en": "GuardianAgentBench evaluates LLM agent failures across 580 scenarios, exposing two failure regimes and adversarial vulnerabilities, offering a testbed for error detection methods.",
+      "llm_tldr_cn": "为确保LLM agent安全可靠运行，本文提出GuardianAgentBench，包含580个场景、六领域评估和五种对抗攻击模式。实验表明最强模型仅74.8%准确率，存在工具调用不足/过度失败模式。该基准直接支持agent轨迹错误检测方法的研究与评估。",
+      "llm_tldr": "为确保LLM agent安全可靠运行，本文提出GuardianAgentBench，包含580个场景、六领域评估和五种对抗攻击模式。实验表明最强模型仅74.8%准确率，存在工具调用不足/过度失败模式。该基准直接支持agent轨迹错误检测方法的研究与评估。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20668v1",
+      "source": "arxiv",
+      "title": "From Agent Failures to Text Policies: What Works and What Breaks",
+      "abstract": "TextGrad improves language-model systems by revising text from feedback. Its core thesis is that natural-language feedback can act as a gradient for optimizing text components without changing model weights. Applying it to agents is harder because feedback arrives only after a sequence of actions, making it difficult to identify which decision caused failure. We study this problem by separating the ability to follow a useful policy from the ability to learn that policy from experience. Our main finding is a clear gap between these two abilities. Human-written policies improve two frozen 7B agents on TextWorldExpress by 5.0 success points, showing that useful policy text exists. However, policies generated from agent trajectories do not reliably outperform fixed prompting, even with richer traces, counterfactual evidence, or iterative GEPA search. The main challenge for agent-level TextGrad is therefore not executing textual policy updates, but reliably generating and selecting them from experience.",
+      "authors": [
+        "Jaideep Ray",
+        "Ankit Goyal"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-07-22T19:08:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.20668v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "directly studies agent failures and trajectory-based policy learning",
+      "llm_evidence_cn": "直接研究智能体失败与基于轨迹的策略学习",
+      "llm_evidence": "直接研究智能体失败与基于轨迹的策略学习",
+      "canonical_evidence": "直接研究智能体失败与基于轨迹的策略学习",
+      "llm_tldr_en": "Investigates why agents fail by comparing human-written and trajectory-learned policies, revealing a gap in learning from failures.",
+      "llm_tldr_cn": "该论文研究智能体在轨迹执行中的失败原因，通过对比人类编写策略与从轨迹中学习到的策略，发现两者之间存在显著差距。实验表明人类编写的策略能有效提升性能，但从轨迹生成的策略不可靠，为检测智能体轨迹中的错误提供了关键见解。",
+      "llm_tldr": "该论文研究智能体在轨迹执行中的失败原因，通过对比人类编写策略与从轨迹中学习到的策略，发现两者之间存在显著差距。实验表明人类编写的策略能有效提升性能，但从轨迹生成的策略不可靠，为检测智能体轨迹中的错误提供了关键见解。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.21495v1",
+      "source": "arxiv",
+      "title": "Toward Continuous Assurance for the Democratization of AI Agent Creation in Industry",
+      "abstract": "AI agents are increasingly created inside organizations by non-engineering users through low-code, no-code, and conversational development environments. This democratization enables rapid local innovation, but it also creates a reliability gap: agents that appear to users as simple productivity artifacts may depend on changing models, tools, retrieval sources, permissions, prompts, schedules, and external services. These dependencies can cause silent degradation long after deployment, even when no user directly modifies the agent. This paper identifies the reliability challenge created by democratized AI agent creation and proposes a lightweight continuous-assurance framework for citizen-created organizational agents. The framework combines dependency mapping, readiness contracts, scheduled checks, diagnostics, and lifecycle governance to assess whether an agent remains operationally ready under expected conditions. We also present an initial prototype auditor and scenario-based assessment showing how the proposed taxonomy can be translated into practical checks and actionable remediation guidance.",
+      "authors": [
+        "Natan Levy",
+        "Harel Berger"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.ET",
+        "cs.MA"
+      ],
+      "published": "2026-07-23T16:41:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.21495v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "continuous-assurance framework to monitor and detect silent degradation of agents",
+      "llm_evidence_cn": "持续保证框架以监控和检测代理的无声退化",
+      "llm_evidence": "持续保证框架以监控和检测代理的无声退化",
+      "canonical_evidence": "持续保证框架以监控和检测代理的无声退化",
+      "llm_tldr_en": "Proposes a lightweight continuous-assurance framework for democratized AI agents, monitoring dependencies and detecting silent degradation to ensure ongoing reliability.",
+      "llm_tldr_cn": "非工程用户通过低代码平台创建的AI代理可能因依赖项变化而无声退化，造成可靠性缺口。本文提出一个轻量级持续保证框架，通过监控模型、工具、权限等依赖项的变化，持续检测代理行为的异常。该框架旨在不中断业务的情况下提供实时错误预警，保障生产环境中代理的长期可靠性。适用于民主化代理创建的工业场景。",
+      "llm_tldr": "非工程用户通过低代码平台创建的AI代理可能因依赖项变化而无声退化，造成可靠性缺口。本文提出一个轻量级持续保证框架，通过监控模型、工具、权限等依赖项的变化，持续检测代理行为的异常。该框架旨在不中断业务的情况下提供实时错误预警，保障生产环境中代理的长期可靠性。适用于民主化代理创建的工业场景。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.21419v1",
+      "source": "arxiv",
+      "title": "PATS: Policy-Aware Training Scaffolding for Agentic Reinforcement Learning",
+      "abstract": "In long-horizon LLM agent reinforcement learning, weak policies often repeat similar failures, producing uninformative rollout trajectories and limiting effective policy optimization. Existing skill-centric methods improve exploration by optimizing, filtering, or internalizing reusable skills. However, they remain centered on the skills themselves rather than being designed as adaptive training-time support for the evolving policy. To address this, we propose a policy-centric training paradigm that reframes skills as a dynamic training scaffold. Our framework, Pats, converts rollout groups from the latest policy into evidence cards and uses task-specific evaluation to adjust the context used in subsequent rollouts. Concrete guidance helps weak policies to complete challenging tasks. As policy improves, redundant context is revised or removed to reduce reliance on explicit guidance while preserving useful rollout variation. The policy is optimized with environmental rewards using standard RLVR, and the training scaffold is discarded at deployment. On ALFWorld and WebShop, Pats improves over strong baselines by up to 18.6%. Across seven search-augmented QA benchmarks, it remains competitive while using 32.1% fewer prompt tokens than the baseline.",
+      "authors": [
+        "Yipeng Shi",
+        "Zhipeng Ma",
+        "Yue Wang",
+        "Qitai Tan",
+        "Yang Li",
+        "Peng Chen",
+        "Zhengzhou Zhu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-23T15:24:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.21419v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "addresses repeated failures in RL agent trajectories by adjusting rollout context based on task evaluation",
+      "llm_evidence_cn": "通过任务评估调整滚动上下文，处理RL智能体轨迹中的重复失败",
+      "llm_evidence": "通过任务评估调整滚动上下文，处理RL智能体轨迹中的重复失败",
+      "canonical_evidence": "通过任务评估调整滚动上下文，处理RL智能体轨迹中的重复失败",
+      "llm_tldr_en": "Proposes PATS policy-aware training scaffolding that uses evidence cards from rollout groups and task-specific evaluation to detect and correct repeated failures in RL agent trajectories.",
+      "llm_tldr_cn": "该论文针对长周期LLM智能体强化学习中弱策略重复失败的问题，提出PATS策略感知训练脚手架。该方法将最新策略的滚动组转换为证据卡，通过任务特定评估调整后续滚动的上下文，从而检测并纠正错误。实验表明，PATS能有效减少重复失败，提升策略优化效率，为RL轨迹错误检测提供了一种新的训练支持方法。",
+      "llm_tldr": "该论文针对长周期LLM智能体强化学习中弱策略重复失败的问题，提出PATS策略感知训练脚手架。该方法将最新策略的滚动组转换为证据卡，通过任务特定评估调整后续滚动的上下文，从而检测并纠正错误。实验表明，PATS能有效减少重复失败，提升策略优化效率，为RL轨迹错误检测提供了一种新的训练支持方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
