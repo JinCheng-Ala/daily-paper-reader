@@ -1,0 +1,170 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-25T21:11:46.873059+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.19449v1",
+      "source": "arxiv",
+      "title": "Guardrails as Scapegoats: Auditing Unfaithful Safety Refusals in Tool-Augmented LLM Agents",
+      "abstract": "Evaluation frameworks for tool-augmented LLM agents focus overwhelmingly on capability metrics or explicit tool crashes, leaving silent infrastructure failures and HTTP 200 responses with empty, null, or malformed payloads largely unaudited. We introduce a lightweight black-box auditing framework that injects four silent failure profiles across 12 production-adjacent tool stubs and classifies agent responses into three mutually exclusive behavioral classes: Honest Surrender (HSR), Fabrication (FAR), and Unfaithful Safety Refusal (USR). Evaluating two frontier and two open-source models at temperature zero under a neutral system prompt, we find that FAR dominates (56.6% of valid responses): agents treat empty payloads as real data, silently returning fabricated results. USR, in which an agent invents a policy or privacy rationale to explain the failure, is nearly absent at baseline (0.25%, one instance across 396 valid trajectories). Our key finding emerges from an ablation where we augment the system prompt with standard safety language (\"prioritize user privacy and data security\"), which amplifies USR by 15.6x (from 0.25% to 3.95%; 95% CI on ablation rate: 2.2%-6.4%; Fisher's exact test, p < 0.001). USR is a latent behavior, activated when safety vocabulary in the system prompt primes the model to reach for policy rationales when tools silently fail. Sensitive tools (fetch_medical_record, retrieve_contract, fetch_user_profile) account for the majority of USR instances. We propose a payload-response misalignment heuristic for production-level detection and discuss governance implications for safety-forward deployments.",
+      "authors": [
+        "Aarushi Singh"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CR"
+      ],
+      "published": "2026-07-21T13:23:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.19449v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "detects silent failures and anomalies in tool-augmented agent responses",
+      "llm_evidence_cn": "检测工具增强agent响应中的静默失败与异常",
+      "llm_evidence": "检测工具增强agent响应中的静默失败与异常",
+      "canonical_evidence": "检测工具增强agent响应中的静默失败与异常",
+      "llm_tldr_en": "This paper audits silent infrastructure failures in LLM agents by injecting empty payloads and classifying responses, revealing high rates of fabrication.",
+      "llm_tldr_cn": "该论文针对工具增强LLM agent中未被充分审计的静默基础设施失败（如空返回、无效载荷）提出轻量级黑盒审计框架。通过注入四种静默失败模式并分类agent响应为诚实投降、编造、不忠安全拒绝三种行为，发现编造占主导（56.6%）。研究揭示agent将空载荷当作真实数据处理的严重漏洞，为错误检测提供新视角。",
+      "llm_tldr": "该论文针对工具增强LLM agent中未被充分审计的静默基础设施失败（如空返回、无效载荷）提出轻量级黑盒审计框架。通过注入四种静默失败模式并分类agent响应为诚实投降、编造、不忠安全拒绝三种行为，发现编造占主导（56.6%）。研究揭示agent将空载荷当作真实数据处理的严重漏洞，为错误检测提供新视角。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16900v1",
+      "source": "arxiv",
+      "title": "Environment-free Synthetic Data Generation for API-Calling Agents",
+      "abstract": "Training API-calling large language model (LLM) agents demands massive amounts of high-quality trajectories. However, collecting such data at scale typically requires fully implemented environments with executable APIs and realistic, pre-populated backend databases, creating a major bottleneck for scalability. To overcome this, we propose an environment-free synthetic data generation approach that leverages LLMs as on-the-fly digital world models. Given only API specifications, our method generates trajectories mimicking interactions between an agent and a stateful environment. Specifically, an LLM first generates diverse tasks solvable with the provided APIs. A teacher agent then iteratively solves each task while an LLM simulator generates coherent synthetic API responses conditioned on the task context and simulation history. Finally, an LLM judge filters the trajectories to ensure the quality of the resulting dataset. We evaluate our approach on the challenging AppWorld and OfficeBench benchmarks, which include both information-retrieval and state-changing tasks. Fine-tuning models on our synthetic data yields significant performance gains, demonstrating that effective supervision for API-calling agents can be generated without any executable environment. Our results establish LLM-based API simulation as a practical, scalable solution for training agents across diverse API ecosystems.",
+      "authors": [
+        "Seanie Lee",
+        "Sanjoy Chowdhury",
+        "Chao Jiang",
+        "Cheng-Yu Hsieh",
+        "Ting-Yao Hu",
+        "Alexander T Toshev",
+        "Oncel Tuzel",
+        "Raviteja Vemulapalli"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-18T17:36:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.16900v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "generates synthetic agent trajectories for training error detectors",
+      "llm_evidence_cn": "生成合成代理轨迹用于训练错误检测器",
+      "llm_evidence": "生成合成代理轨迹用于训练错误检测器",
+      "canonical_evidence": "生成合成代理轨迹用于训练错误检测器",
+      "llm_tldr_en": "Generates high-quality synthetic trajectories for API-calling agents without real environments, enabling scalable data creation for training error detection systems.",
+      "llm_tldr_cn": "训练API调用代理需要大量轨迹数据，但真实环境难以获取。本文提出无环境合成数据生成方法，利用LLM作为世界模型模拟代理交互。该技术可以直接为轨迹错误检测提供训练数据，缓解数据瓶颈。",
+      "llm_tldr": "训练API调用代理需要大量轨迹数据，但真实环境难以获取。本文提出无环境合成数据生成方法，利用LLM作为世界模型模拟代理交互。该技术可以直接为轨迹错误检测提供训练数据，缓解数据瓶颈。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17288v1",
+      "source": "arxiv",
+      "title": "SAGA: Synthetic Agentic Graph Architecture for Temporal Benchmark Generation",
+      "abstract": "High quality temporal graph benchmarks with rich semantics and ground-truth anomaly labels are essential for training graph neural networks, yet remain scarce due to privacy constraints and annotation costs. We present SAGA (Synthetic Agentic Graph Architecture), a system for generating large-scale, semantically rich temporal graphs via a four-phase pipeline. Our Skeleton-First, Semantics-Second architecture decouples structure from semantics: (S) an O(1)-per-edge skeleton generator produces power-law graphs; (A) a dispatcher partitions causally ordered time blocks for parallel execution; (G) LLM agents inject domain semantics using RAG-based rule bases across four domains; and (A) a state alignment engine resolves conflicts via temporal replay, yielding anomaly labels as natural byproducts. Unlike structural generators (e.g., LDBC SNB, Kronecker/R-MAT) or purely LLM-based approaches, SAGA achieves structural realism, semantic richness, and automatic anomaly labeling in a unified framework. On a single H100 GPU with vLLM batching, SAGA generates 500,000 temporal edges with controlled anomalies in under 90 minutes, scaling to 100,000 nodes while maintaining clustering coefficients above 0.99. The system supports real-time pipeline visualization, interactive multi-domain tuning (Finance/AML, Network/IDS, Cyber/APT, Transportation), and a CLI for large-scale GPU-based experiments.",
+      "authors": [
+        "Jiacheng Ding",
+        "Xiaofei Zhang"
+      ],
+      "primary_category": "cs.DB",
+      "categories": [
+        "cs.DB",
+        "cs.AI"
+      ],
+      "published": "2026-07-19T15:09:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.17288v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "generates temporal graphs with ground-truth anomaly labels",
+      "llm_evidence_cn": "生成带有异常标签的时序图",
+      "llm_evidence": "生成带有异常标签的时序图",
+      "canonical_evidence": "生成带有异常标签的时序图",
+      "llm_tldr_en": "SAGA generates large-scale temporal graphs with ground-truth anomaly labels using LLM agents, enabling training of anomaly detection models for agent trajectories.",
+      "llm_tldr_cn": "针对高质量时序图异常标签稀缺的问题，提出SAGA系统，通过骨架生成、并行语义注入和状态对齐四阶段流水线，利用LLM agent产生语义丰富的时序图及异常标签。在四个领域生成的数据集可用于训练图神经网络进行异常检测。该工作为agent轨迹异常检测提供了数据支持。",
+      "llm_tldr": "针对高质量时序图异常标签稀缺的问题，提出SAGA系统，通过骨架生成、并行语义注入和状态对齐四阶段流水线，利用LLM agent产生语义丰富的时序图及异常标签。在四个领域生成的数据集可用于训练图神经网络进行异常检测。该工作为agent轨迹异常检测提供了数据支持。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.19284v1",
+      "source": "arxiv",
+      "title": "Stochastic Multi-Objective Kinodynamic Planning Against Adversaries",
+      "abstract": "This paper addresses multi-objective kinodynamic planning in environments with stochastic hybrid adversaries that probabilistically transition to adversarial modes based on the ego state. The goal is to construct the Pareto-front of paths that trade off execution cost and the probability of safety constraint violation (risk). Existing chance-constrained planners evaluate risk over open-loop trajectories, yielding overly conservative solutions that fail to account for ego-agent reactivity. To address this limitation, we shift the planning space to sequences of closed-loop policies, and integrate sample-based risk evaluation directly into tree construction via Monte-Carlo particle rollouts. We first introduce Stochastic Multi-Objective RRT (SMO-RRT), for which we prove probabilistic completeness, followed by Stochastic Multi-Objective Stable Sparse RRT (SMO-SST), which leverages selective pruning to improve numerical performance at the cost of completeness. For both algorithms, we derive a finite-sample bound on the probability of chance constraint violation for systems with non-Gaussian, state-dependent uncertainty, enabling probabilistically safe planning in a broad class of environments applicable to multi-agent systems, social navigation, and autonomous driving.",
+      "authors": [
+        "Thomas Marshall Vielmetti",
+        "Daniel Cherenson",
+        "Dimitra Panagou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-21T16:56:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.19284v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "kinodynamic path planning with risk evaluation against adversaries",
+      "llm_evidence_cn": "对抗环境下的运动规划与风险评估",
+      "llm_evidence": "对抗环境下的运动规划与风险评估",
+      "canonical_evidence": "对抗环境下的运动规划与风险评估",
+      "llm_tldr_en": "Stochastic multi-objective kinodynamic planning using closed-loop policies and Monte-Carlo rollouts to evaluate risk, relevant to detecting path deviations in agent trajectories.",
+      "llm_tldr_cn": "针对随机对抗环境下的多目标运动规划问题，提出SMO-RRT方法，将规划空间扩展到闭环策略序列，并通过蒙特卡洛粒子滚动进行采样风险评估。该方法能构建执行成本与安全风险之间的帕累托前沿。虽然主要面向规划，但其风险评估机制可用于检测agent轨迹中的路径偏差。",
+      "llm_tldr": "针对随机对抗环境下的多目标运动规划问题，提出SMO-RRT方法，将规划空间扩展到闭环策略序列，并通过蒙特卡洛粒子滚动进行采样风险评估。该方法能构建执行成本与安全风险之间的帕累托前沿。虽然主要面向规划，但其风险评估机制可用于检测agent轨迹中的路径偏差。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

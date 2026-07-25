@@ -6,38 +6,37 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-24
-- 运行时间：2026-07-24 21:13:14 UTC
+- 最新运行日期：2026-07-25
+- 运行时间：2026-07-25 21:15:16 UTC
 - 运行状态：成功
-- 本次总论文数：6
-- 精读区：5
-- 速读区：1
+- 本次总论文数：4
+- 精读区：0
+- 速读区：4
 
 ### 今日简报（AI）
-今天报告了6篇论文，其中精读5篇，速读1篇。最值得关注的是两项高分研究：移动GUI智能体的世界模型安全框架《SeerGuard》和工具增强智能体的绑定偏移问题《Binding Drift》，均获9.0分。建议优先精读这两篇，了解前沿安全机制与多步工具使用中的关键挑战。
-- 详情：[/202607/24/README](/202607/24/README)
+今日速读4篇LLM Agent相关论文，其中1篇聚焦工具增强Agent的安全拒绝行为审计，另2篇探讨API调用Agent的合成数据生成与时序基准构建。
+
+最值得关注的是《Guardrails as Scapegoats》（7/10），揭示了Agent在工具调用中“甩锅”给安全护栏的虚假拒绝机制；《Environment-free Synthetic Data Generation》和《SAGA》则分别提供零环境依赖的数据生成思路与动态图基准构建方法。
+
+建议普通读者优先阅读第一篇以理解Agent安全风险，后两篇可辅助设计更鲁棒的数据生成与评测方案。
+- 详情：[/202607/25/README](/202607/25/README)
 
 ### 精读区论文标签
-1. [SeerGuard: A Safety Framework for Mobile GUI Agents via World Model Prediction](/202607/24/2607.15550v1-seerguard-a-safety-framework-for-mobile-gui-agents-via-world-model-prediction)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：执行前动作级风险评估以检测错误动作
-2. [Binding Drift in Multi-Step Tool-Augmented Agents](/202607/24/2607.18316v1-binding-drift-in-multi-step-tool-augmented-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：形式化多步代理轨迹中的绑定漂移和错误传播
-3. [GuardianAgentBench: Where Agents Fail and How to Guard Them](/202607/24/2607.20982v1-guardianagentbench-where-agents-fail-and-how-to-guard-them)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：检测agent任务失败和错误的基准测试
-4. [From Agent Failures to Text Policies: What Works and What Breaks](/202607/24/2607.20668v1-from-agent-failures-to-text-policies-what-works-and-what-breaks)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：直接研究智能体失败与基于轨迹的策略学习
-5. [Toward Continuous Assurance for the Democratization of AI Agent Creation in Industry](/202607/24/2607.21495v1-toward-continuous-assurance-for-the-democratization-of-ai-agent-creation-in-industry)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：持续保证框架以监控和检测代理的无声退化
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [PATS: Policy-Aware Training Scaffolding for Agentic Reinforcement Learning](/202607/24/2607.21419v1-pats-policy-aware-training-scaffolding-for-agentic-reinforcement-learning)  
+1. [Guardrails as Scapegoats: Auditing Unfaithful Safety Refusals in Tool-Augmented LLM Agents](/202607/25/2607.19449v1-guardrails-as-scapegoats-auditing-unfaithful-safety-refusals-in-tool-augmented-llm-agents)  
    标签：评分：7.0/10、query:agent-error
-   evidence：通过任务评估调整滚动上下文，处理RL智能体轨迹中的重复失败
+   evidence：检测工具增强agent响应中的静默失败与异常
+2. [Environment-free Synthetic Data Generation for API-Calling Agents](/202607/25/2607.16900v1-environment-free-synthetic-data-generation-for-api-calling-agents)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：生成合成代理轨迹用于训练错误检测器
+3. [SAGA: Synthetic Agentic Graph Architecture for Temporal Benchmark Generation](/202607/25/2607.17288v1-saga-synthetic-agentic-graph-architecture-for-temporal-benchmark-generation)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：生成带有异常标签的时序图
+4. [Stochastic Multi-Objective Kinodynamic Planning Against Adversaries](/202607/25/2607.19284v1-stochastic-multi-objective-kinodynamic-planning-against-adversaries)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：对抗环境下的运动规划与风险评估
 
 
 <div class="dpr-home-promo-card">
