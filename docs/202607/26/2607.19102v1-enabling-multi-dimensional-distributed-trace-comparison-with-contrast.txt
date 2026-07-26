@@ -1,0 +1,637 @@
+Title: Enabling Multi-Dimensional Distributed Trace Comparison with Contrast
+
+URL Source: https://arxiv.org/pdf/2607.19102v1
+
+Published Time: Wed, 22 Jul 2026 01:19:35 GMT
+
+Number of Pages: 15
+
+Markdown Content:
+# Enabling Multi-Dimensional Distributed Trace Comparison with Contrast 
+
+# Vaastav Anand 
+
+Max Planck Institute for Software Systems 
+
+# Rodrigo Fonseca 
+
+Microsoft Azure Research 
+
+# Jonathan Mace 
+
+Microsoft Research 
+
+# Antoine Kaufmann 
+
+Max Planck Institute for Software Systems 
+
+## Abstract 
+
+Distributed traces are widely used for diagnosing performance anomalies in modern cloud applications. However, diagnosis is fundamentally a comparative task: operators seek to understand how an anomalous execution differs from expected behavior, how a deployment changes system execution, or how two individual executions differ. Trace comparison is challenging because useful differences between executions can manifest across multiple dimen-sions, and no single diagnostic interface is effective at capturing all of them. Moreover, the relevant dimensions and comparison populations are often not known a priori; operators construct and refine comparison sets dynamically as they develop hypotheses about system behavior. Consequently, effective trace comparison requires flexible representations that preserve diverse execution characteristics while supporting multiple diagnostic perspectives. This paper presents Contrast, a system for multi-dimensional comparative trace analysis. Contrast introduces the Trace Pro-jection Object (TPO), a mergeable representation that captures structural, temporal, critical-path, and semantic properties of trace populations while enabling efficient construction of arbitrary com-parison sets at query time. Unlike approaches that define a fixed notion of trace difference, Contrast separates trace representation from comparison semantics, allowing diverse interfaces to selec-tively reason about specific dimensions. This separation enables the composition of complementary interfaces, allowing operators to combine insights from multiple dimensions for more effective diagnosis. We demonstrate this capability through two complemen-tary interfaces: (i) SpectroViz, a critical-path-based visual interface for localizing execution differences; and (ii) Para ll ax, a natural lan-guage interface for generating explanations of trace differences using LLMs. Through Contrast, we establish trace comparison as a first-class abstraction for distributed system diagnosis and provide a foun-dation for building diverse comparison interfaces over a shared representation. We demonstrate the effectiveness and efficiency of Contrast through controlled experiments on traces from DeathStar-Bench and evaluation on production traces from Uber. 
+
+## 1 Introduction 
+
+Distributed tracing [ 6, 50 ] is a major pillar of modern cloud observ-ability [ 43 , 52 ]. A distributed trace captures the execution struc-ture, timing, and semantics of an individual request as it traverses through the various components of a system. These traces provide an execution-centric view of system behavior that is indispensable for performance diagnosis, debugging, and root-cause analysis. Despite their widespread adoption [ 39 ], traces remain difficult to interpret in practice [ 10 ]. A single request may span hundreds of operations across numerous services, while production systems generate millions of traces daily [ 25 , 27 ]. Moreover, traces contain dense information about the request execution across multiple di-mensions: temporal execution behavior, causal structural behavior, error signals and stack traces, unstructured logging statements, and developer-annotated tags and attributes. Consequently, developers need to analyse and explore the various dimensions of large traces for carrying out diagnostics tasks. For consumers of tracing, the most important task is trace com-parison as operators rarely reason about traces in isolation. Instead, diagnosis is inherently a comparative process: operators seek to un-derstand why one execution differs from another, why a particular request deviates from expected behavior, or how system behavior changes across workloads, deployments, and time. Across a wide range of diagnostic workflows, we observe three recurring com-parison tasks: (i) comparing two individual traces, (ii) comparing an anomalous trace against a population of normal traces, and (iii) comparing two populations of traces. Executing trace comparison tasks is difficult today for a multi-tude of reasons. First, existing tracing tools provide only limited support for comparative analysis. Most systems present individual traces through timeline or graph visualizations, leaving users to manually identify differences across executions. Second, existing systems with comparison interfaces typically co-design the process-ing of selected dimensions with the interface itself. Consequently, they are optimized for highlighting differences along a limited set of dimensions and may discard potentially useful information, as no single interface is equally effective for capturing and presenting all dimensions of trace behavior. Finally, the exact useful popula-tions involved for trace comparison tasks are rarely known a priori. Operators dynamically construct comparison populations based on evolving hypotheses, filtering traces by service, deployment version, latency range, error type, or workload. As a result, operators must manually combine multiple tools and representations to answer fundamental diagnostic questions. To aid developers in answering bespoke trace comparison queries, a trace comparison system must fulfill the following requirements. First, supporting exploratory workflows requires a representation that enables efficient construction and comparison of arbitrary trace populations without repeatedly operating on raw traces. Second, the trace comparison system must support the development of complementary comparison interfaces that can operate on a com-mon substrate of raw trace data as different diagnostic interfaces emphasize different aspects of execution behavior. arXiv:2607.19102v1 [cs.DC] 21 Jul 2026 Conference’17, July 2017, Washington, DC, USA Vaastav Anand, Rodrigo Fonseca, Jonathan Mace, and Antoine Kaufmann 
+
+This paper introduces Contrast, a framework that natively sup-ports design and implementation of comparison interfaces for the different comparison tasks on dynamic trace populations. To achieve this, Contrast introduces the Trace Projection Object (TPO), a canonical and mergeable representation for comparative trace analysis. A TPO captures structural, temporal, semantic, and critical-path characteristics of executions while supporting efficient aggre-gation over dynamically selected trace populations. Rather than storing pre-defined populations or fixed baselines, the system stores trace-level projections and constructs population-level TPOs on demand through aggregation and merge operations. This design enables arbitrary population construction while preserving the in-formation necessary for comparative reasoning. TPO provides a common substrate for trace populations, which can then further be used by different diagnostic comparison interfaces. Contrast provides comparison interfaces that utilize TPOs to support trace diagnosis. We instantiate this capability through two complementary interfaces. The first, SpectroViz, is a visual com-parison interface that localizes structural and temporal differences across the critical paths of individual traces and trace populations. The second, Para ll ax, generates natural-language explanations of observed differences using an LLM-based multi-agent system. Together, these contributions establish a new foundation for comparative observability. By elevating trace comparison to a first-class abstraction, we enable dynamic population analysis, multi-dimensional diagnostic interfaces, and principled evaluation of trace-comparison systems. We evaluate the effectiveness of TPOs and our comparison inter-faces in both synthetic and production settings. To cover a broad range of trace comparison scenarios, we develop a trace comparison benchmark that enables users to introduce controlled perturbations into systems and generate anomalous traces. We apply this bench-mark to trace datasets containing anomalous traces from a popular open-source microservice benchmark, DeathStarBench [ 20 ], as well as a production trace dataset released by Uber [ 63 ]. Powered by TPOs and the comparison interfaces, Contrast efficiently compares anomalous traces against normal traces, enabling users to quickly identify critical deviations. In summary, this paper makes the following contributions: 
+
+• We characterize three common comparison tasks spanning traces and trace populations (§2.2). 
+
+• We introduce the Trace Projection Object (TPO), a mergeable representation that supports dynamic population construc-tion and comparison across structural, temporal, semantic, and critical-path dimensions (§3). 
+
+• We present two complementary comparison interfaces that operate on TPOs: SpectroViz (§4.1) and Para ll ax (§4.2). 
+
+## 2 Background and Motivation 2.1 Primer on Distributed Tracing 
+
+Developers and operators use distributed tracing as a critical mon-itoring component in modern cloud systems. Distributed tracing provides support to troubleshoot incidents, root-cause issues, and post-mortem analysis. To do so, distributed tracing frameworks generate an execution trace of each request. 
+
+Trace Structure. A distributed trace represents the execution of one request across the various components of a system. Each trace is rich in structural, temporal, and semantic data. Each trace is a Directed Acyclic Graph (DAG) of spans. A span typically represents a unit of work done by a component in the system. The granularity of what constitutes as a unit of work is developer-defined and often varies from not only one system to another but also from one service to another in a given system. Developers can optionally add events, typically unstructured log messages, to the span as well as attach informative tags to the span. Each span records its timing and duration, as well as arbitrary key-value annotations provided by a developer. Edges between spans represent happened-before relationships [ 29 ] and represent communication between two components through local function call, remote procedure calls, or other forms of communication. Each individual trace can be very large, comprising thousands of spans and events [ 25 , 27 , 33 , 62 ]. Typically, large-scale production systems capture traces for millions of requests per day [27]. 
+
+Trace Analytics Dashboards. Modern tracing systems, such as Jaeger [ 26 ], provide dashboards for querying and filtering traces, service dependency graphs, and aggregate latency statistics. The most popular visualization used today is the Gantt chart visualiza-tion [ 10 , 53 ]. The Gantt chart visualization provides a timeline view of a single request execution, enabling users to inspect the tem-poral relationships between spans within a request. Consequently, these dashboards are effective for inspecting individual executions, however, the main drawback of these dashboards is their focus on individual requests. The prevalent Gantt Chart visualization provides no context for whether the trace represents normal or outlier behavior — a feature dependent on other traces. This lack of context makes Gantt charts inefficient for aggregate analyses. 
+
+## 2.2 Canonical Trace Comparison Tasks 
+
+Diagnosis through distributed tracing is fundamentally a compar-ative activity. Operators rarely seek to understand a trace in iso-lation; instead, they seek to understand how an execution differs from some expected or alternative behavior. Across debugging, per-formance analysis, deployment validation, and incident response workflows, we observe three recurring trace comparison tasks that form the foundation of diagnostic reasoning. These tasks differ in the granularity of the objects being compared but share a common objective: identifying and explaining behavioral differences across executions. We discuss these tasks below in detail. 
+
+2.2.1. Pairwise Trace Comparison 
+
+The simplest task compares two individual traces. Such com-parisons arise when operators compare a failing request against a successful request, investigate regressions between two executions, or analyze the effects of different inputs on system behavior. For example, an operator may compare a slow request against a fast re-quest to determine why one execution experienced elevated latency. The comparison may reveal that a database operation became part of the critical path, that an additional service invocation occurred, or that latency increased within a particular span. Pairwise trace comparison is often most effective for understand-ing specific execution instances as individual traces provide limited statistical context. A difference observed between two traces may Enabling Multi-Dimensional Distributed Trace Comparison with Contrast Conference’17, July 2017, Washington, DC, USA 
+
+reflect a genuine anomaly or simply natural execution variability. Consequently, pairwise trace comparison is incapable of establish-ing insights about broader system behavior. 
+
+Existing Techniques. Traditional pairwise trace comparison tech-niques often transform the rich structural and temporal informa-tion contained in distributed traces into representations that are more amenable to automated comparison. Examples include lin-earizing execution paths and comparing them using string-edit distance [ 6, 44 ] or modeling execution paths using probabilistic context-free grammars [ 8, 9]. However, these techniques often lose parallelism and concurrency information, which may be detrimen-tal for certain analysis. To better preserve execution structure, other techniques compare traces directly as graphs. For example, Jaeger provides a comparative view [ 17 ] that visualizes the difference of the raw execution graphs of the two traces, while Mace and Fon-seca [ 40 ] compare execution graphs using Weisfeiler-Lehman graph kernels to quantify structural similarity. However, these approaches usually do not scale well with large graphs as they overload the visual channels of an operator [5]. 
+
+2.2.2. Trace-to-Population Comparison 
+
+Many diagnostic tasks require understanding how a particular execution differs from a larger set of executions. In these scenar-ios, operators compare an individual trace against a population representing expected behavior. The population may consist of traces matching a particular workload, deployment version, service endpoint, or time period. For example, an operator investigating a slow request may wish to compare the request against all suc-cessful requests to the same endpoint. The resulting comparison can identify which portions of the execution deviate from typical behavior. Trace-to-population comparison combines the contextual richness of individual executions with the statistical grounding of aggregate behavior. 
+
+Existing Techniques. To support reasoning this comparison task, recent techniques incorporate aggregate information directly into trace visualizations [ 5, 46 , 47 , 51 , 55 ]. Canopy [ 27 ] can generate simple graphs of derived metrics from traces, while Dynatrace’s Service Flow feature [ 14 ] presents aggregate request workflows and associated characteristics to facilitate high-level behavioral analysis. Uber’s trace graph diff visualization [ 18 ] compares incoming traces against a known-good population to identify anomalous execu-tions and visualizes structural differences as a directed graph. TraV-ista [ 5] augments the single trace Gantt-chart visualization with histograms showing the latency distributions of different spans in the trace and additionally highlights infrequent RPC calls between services. While these systems demonstrate the value of combining execution-level and aggregate information, they assume a fixed aggregate computed over a predetermined trace set. Consequently, operators cannot dynamically construct comparison populations as diagnostic hypotheses evolve. Indeed, the maintainers of Jaeger identified support for dynamically selected comparison popula-tions as a prerequisite for integrating TraVista’s visualizations into Jaeger’s trace viewer [4]. 
+
+2.2.3. Population-to-Population Comparison 
+
+The most general comparison task involves comparing two pop-ulations of traces. Such comparisons arise when operators seek to understand behavioral changes across deployments, workloads, configurations, geographic regions, or time periods. Population-to-population comparisons enable the discovery of systemic be-havioral shifts that may not be visible from individual traces. For instance, a deployment may introduce a new service dependency, alter critical-path composition, increase latency variance within a subset of services, or change the frequency of specific execu-tion paths. These effects may only become apparent when aggre-gated across many executions. Unlike trace-to-trace comparisons, population-to-population comparisons emphasize distributional changes rather than individual execution differences. The goal is not to identify what happened in a particular request, but rather to characterize how overall system behavior has evolved. 
+
+Existing Techniques. Early approaches, such as Spectroscope [ 48 ,49 ] compared latency distributions across trace populations but required the compared traces to be structurally isomorphic, an as-sumption that often does not hold in modern distributed systems where traces may exhibit diverse execution paths [ 32 ]. Pintrace [ 23 ]enables users to select and compare metric distributions across two trace populations, DTraComp [ 16 ] further explores interactive pop-ulation comparison through color-coded differential frame graphs. While these systems demonstrate the utility of population-level comparison, they typically couple the comparison logic with a spe-cific visualization or analysis technique, limiting their extensibility to other dimensions that may carry relevant signals. 
+
+## 2.3 Challenges 
+
+Building a general-purpose trace comparison system presents three key challenges. 
+
+Challenge 1: Dynamic Comparison Populations. Unlike tra-ditional observability queries, trace comparison rarely operates over fixed datasets. Operators iteratively construct comparison populations as they refine diagnostic hypotheses, filtering traces by workload, deployment version, service, latency range, error type, or structural characteristics [ 10 ]. Consequently, the populations involved in a comparison are often unknown until query time. A straightforward approach would repeatedly scan and analyze raw traces whenever a new population is selected. However, such an approach becomes prohibitively expensive as trace volumes grow and comparison populations evolve interactively. The challenge is to support efficient construction and comparison of arbitrary trace populations while preserving the structural, temporal, and semantic information necessary for diagnosis. 
+
+Challenge 2: No Single Interface Captures All Diagnostic Di-mensions. Distributed system behavior manifests across multiple dimensions, including execution structure, temporal behavior, criti-cal paths, and semantic changes. However, these dimensions are best understood through different diagnostic interfaces. For exam-ple, a visualization may be effective for localizing where behavior changed within an execution, while a language-based explanation may be better suited for summarizing high-level causal differences between trace populations. Similarly, a topology-oriented interface may reveal structural divergence, whereas a performance-oriented interface may highlight latency shifts and critical-path changes. Consequently, a single comparison interface cannot effectively capture and communicate all relevant aspects of trace differences. Interfaces must make trade-offs in the dimensions they emphasize, Conference’17, July 2017, Washington, DC, USA Vaastav Anand, Rodrigo Fonseca, Jonathan Mace, and Antoine Kaufmann 
+
+potentially obscuring other useful information. Moreover, the di-mensions most relevant for diagnosis are often not known a priori and depend on the operator’s investigative goal. Therefore, an effective trace comparison system requires a rep-resentation that preserves multiple dimensions of execution behav-ior independently of any specific interface. Such a representation enables different diagnostic modalities to selectively project and compare the dimensions most relevant to their intended use case. 
+
+Challenge 3: Bridging Population-Level Patterns and Individ-ual Executions. Diagnosis requires reasoning at multiple levels of aggregation. Aggregate comparisons reveal population-level behav-ioral shifts, but operators ultimately investigate concrete executions. For example, identifying that database operations contribute dispro-portionately to a latency regression is useful, but operators must still locate the corresponding spans within specific traces to un-derstand why the regression occurred. The challenge is to enable seamless navigation between population-level comparisons and the raw traces that give rise to them. These challenges motivate a representation that supports dy-namic population construction, enables multiple comparison se-mantics, and remains grounded in concrete executions. 
+
+## 3 Contrast Design 
+
+To address these challenges, we introduce Contrast, a system for enabling iterative trace comparison tasks. The underlying contribu-tion of Contrast is the Trace Projection Object (TPO), a canonical representation that captures the comparison-relevant characteris-tics of traces while supporting efficient aggregation and dynamic population construction. Figure 1 illustrates the workflow enabled by Contrast. Given two input trace populations,a population containing predominantly healthy traces and another containing anomalous or faulty traces, Contrast first processes each trace to extract high-level attributes, such as start time, end-to-end latency, error tags, and operations, which enable flexible trace filtering. It then generates an individual TPO for each trace. Users can optionally apply filters over these attributes to refine the trace populations, after which Contrast aggregates the remaining trace-level TPOs into a single population-level TPO for each population. Contrast then provides the resulting good and anomalous population TPOs to its comparison interfaces. Each interface leverages different dimensions of the TPO represen-tation to compare the populations and generate human-consumable insights. Based on these insights, users can iteratively refine their filters and repeat the comparison process to progressively narrow down the root causes of anomalous behavior. 
+
+## 3.1 Trace Projection Object 
+
+The Trace Projection Object (TPO) is the underlying data model that captures the information required for comparative diagnosis tasks. We design the TPO around three key requirements. First, it supports the three canonical comparison tasks: trace-to-trace, trace-to-population, and population-to-population comparison. Second, it enables dynamic population construction by supporting efficient ag-gregation and composition of trace representations without requir-ing repeated access to raw traces. Third, it remains independent of any specific comparison modality. Visual analytics, language-based explanations, and future diagnostic interfaces can operate over the same underlying representation while defining their own mecha-nisms for extracting and presenting comparative insights. The TPO extracts four classes of information that capture the comparison-relevant behavior of the execution. 
+
+Structural Information. The structural information parses the ex-ecution graph of the trace to extract structural motifs from the trace. The TPO creates a mapping of the unique motifs that appeared in the trace along with the frequency with which they appeared. Extract-ing the motifs once at TPO generation time avoids re-processing of raw traces to extract different structural information. Currently, Contrast captures unique parent-child relationships from the trace as part of the TPO. However, this can be further extended to capture more prominent workflow motifs [1]. 
+
+Temporal Information. The temporal component captures the execution timing of the trace. For each unique operation in a trace, TPO creates a latency distribution sketch using the DDSketch al-gorithm [ 41 ]. This allows TPOs to effectively capture latency dis-tributions for an operation that appears multiple times in a trace. While using a sketch may seem counterintuitive for every unique operation in a single trace, it allows TPOs to be easily mergeable as merging two sketches is a much cheaper operation than merging raw arrays of latency distributions. 
+
+Critical-Path Information. The critical-path component captures the execution segments responsible for end-to-end latency [ 36 ]. Contrast identifies these segments using Jaeger’s modified imple-mentation of the CRISP Critical Path algorithm [ 62 ]. Rather than representing the critical path as a sequence of entire spans, Contrast decomposes it into finer-grained span sub-segments. For example, if a database query overlaps with multiple downstream RPCs, only the portion of the query that is not hidden by concurrent execu-tion lies on the critical path. By recording these sub-segments, Contrast more precisely localizes the execution intervals that con-tribute to overall request latency. To store this, TPO maintains a one-dimensional occupancy array in the TPO for each unique opera-tion, where each array index corresponds to a discrete time interval, and the value at that index indicates whether the operation was executing on the critical path during the corresponding interval. 
+
+Semantic Information. The semantic component captures high-level execution properties that are not directly reflected in a trace’s structural or temporal characteristics, yet provide important context for diagnosis. Unlike execution topology or latency measurements, semantic information describes what the application was doing and why it behaved in a particular way. As part of the TPO, Con-trast records the set of unique log statements associated with each operation, along with their occurrence frequencies. It also main-tains frequency counters for observed request attributes, including errors, error types, tags, and other key-value attributes. 
+
+## 3.2 TPOs for Trace Populations 
+
+TPO Merge Operator. Individual trace projections serve as the building blocks for population-level representations. Given a trace population, 𝑃 (𝑞 ) = 𝑡 1, 𝑡 2, . . . , 𝑡 𝑛 defined by a user query 𝑞 , Contrast constructs a population TPO by repeatedly applying a merge opera-tor to the TPOs of individual traces. Merge (TPO (𝑃 1), TPO (𝑃 2)) → 
+
+TPO (𝑃 1 ∪ 𝑃 2) More generally, the same operator can merge any Enabling Multi-Dimensional Distributed Trace Comparison with Contrast Conference’17, July 2017, Washington, DC, USA Comparison 
+
+> Repor t
+> Critical -Path
+> Viz
+
+TPOs 
+
+> vs
+> Structural
+> Motifs
+> Temporal
+> Sketches
+> Critical Path
+> Distribut ion
+> Semantic
+> Information
+> vs
+
+Comparison Interfaces 
+
+> Para ll ax
+> SpectroViz
+
+Filter  Merge 
+
+> ...
+> ...
+
+Insights 
+
+Filter  Merge  
+
+> Good Traces
+> Bad Traces
+> TPO
+> Gen
+
+Figure 1: Contrast Workflow 
+
+two TPOs, where an individual trace is treated as a population of size one. Thus, constructing a TPO for an entire trace population corresponds to repeatedly merging the TPOs of individual traces. The Merge operator independently combines each dimension of the representation. For structural information, it adds the frequency counters associated with each unique structural relationship, pro-ducing a combined view of execution patterns across both pop-ulations. For temporal information, it merges the DDSketch [ 41 ]quantile sketches associated with each unique operation, preserving the aggregated latency distributions. For critical-path information, it performs an element-wise addition of the occupancy arrays for each operation, accumulating the number of traces executing that operation on the critical path during each time interval. Finally, for semantic information, it unions the sets of unique log statements as-sociated with each operation while adding their occurrence counts, and similarly adds the frequency counters maintained for request attributes, errors, tags, and other key-value attributes. 
+
+Representative Trace Context. While population-level projec-tions enable scalable comparison, operators ultimately reason about individual executions. Consequently, Contrast does not treat TPOs as replacements for raw traces. Instead, each TPO maintains refer-ences to representative traces drawn from the underlying popula-tion. Representative traces may include average-case executions, highly divergent traces, critical-path exemplars, or user-selected traces. These traces provide execution-level context that can be used by comparison interfaces to ground aggregate observations in concrete executions. 
+
+## 4 Comparison Interfaces for TPOs 
+
+TPO does not define a single notion of difference as different di-agnostic interfaces require different comparison semantics. For example, a visual renderer may emphasize temporal localization of execution changes, while a language-based renderer may focus on causal explanations and critical-path shifts. Consequently, the role of the TPO is not to compute differences directly, but rather to provide a common substrate from which multiple comparison modalities can derive their own task-specific notions of divergence. This separation between representation and comparison enables Contrast to support diverse diagnostic interfaces with a unified underlying data model. 
+
+Complementary Comparison Interfaces for TPOs. No single comparison interface is equally effective at exposing differences across all dimensions of a trace. Each interface naturally empha-sizes a particular subset of the information captured by the TPO. Rather than seeking a universal comparison interface, Contrast em-braces complementary diagnostic modalities that operate over the same underlying TPO. By presenting the same trace representation through multiple comparison interfaces, operators can leverage the strengths of each modality while compensating for their indi-vidual limitations, resulting in a more complete understanding of behavioral differences. To demonstrate the generality of TPOs, we design two such com-parison interfaces. First, SpectroViz is a visualization comparative interface that uses the critical path dimension of TPOs to sup-port pairwise trace and trace-to-population comparisons. Second, Para ll ax is an LLM-based multi-agent system that primarily uses the semantic, temporal, and structural dimensions to generate a natural language explanation for TPO comparisons. Together, these two comparative interfaces illustrate how fundamentally different diagnostic modalities can be built on top of the same underlying trace representation. 
+
+## 4.1 SpectroViz 
+
+We present a visualization interface for TPOs called SpectroViz for pairwise trace and trace-to-population comparison tasks. To assist in these comparison tasks, SpectroViz uses the critical path dimension of the TPO of an anomalous trace and compares it with the critical path dimension of the TPO of a set of baseline traces. SpectroViz generates a single visualization where it first plots the occupancy probability distribution of the critical path at each API (or service) from the baseline population of traces and then overlays the critical path of the anomalous trace on top of the occupancy distribution. With this visualization, operators can easily spot the difference in the critical path behavior of the anomalous trace from its expected behavior. We explain the visualization specifics and underlying theory using the annotated example of a trace-to-population comparison shown in Figure 2. In the figure, SpectroViz generates a visualization that compares a bad trace and a good population of traces for the Conference’17, July 2017, Washington, DC, USA Vaastav Anand, Rodrigo Fonseca, Jonathan Mace, and Antoine Kaufmann 0 5 10 15 20 25 30 35 40 
+
+> Time (ms)
+> profile
+> reserv
+> rate
+> geo
+> search
+> frontend
+> Service
+> Bad Trace
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> P(service on Critical Path at time t)
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> 7
+> 8
+
+Figure 2: SpectroViz annotated example for a temporal pertur-bation trace from the benchmark compared to a population of traces with no perturbations 
+
+Search API exposed by the Frontend Service of Blueprint’s imple-mentation of Hotel Reservation System from the DeathStarBench microservice benchmark. We will refer to the circled numbers in the figure (e.g. 1○) throughout this section. 
+
+Interface Structure. SpectroViz represents critical-path behavior on a two-dimensional grid. The x-axis encodes the elapsed time since the start of a request 1○, while the y-axis encodes the execution location 2○, corresponding to either a service or an API, depending on the level of granularity selected by the operator. The lanes along the y-axis are ordered according to their most frequently observed execution order within the corresponding TPO. Each point (𝑥, 𝑦 )
+
+on the grid therefore denotes that the request was executing on the critical path at execution location 𝑦 at time 𝑥 . When projected onto this coordinate system, an individual critical path forms a continuous trajectory that typically begins at the top-most lane, traverses the services participating in the request as execution progresses, and returns to the originating service upon completion. This representation encodes the temporal evolution of the critical path across the system components. 
+
+Visualizing the Aggregate Context. SpectroViz visualizes the critical-path dimension of the baseline TPO as an occupancy prob-ability distribution. Specifically, it encodes the probability that a request is executing on the critical path at execution location 𝑦 
+
+and time 𝑥 using a grayscale heat map 3○, where white denotes a probability of 0 and black denotes a probability of 1. The occupancy probability at each grid cell is computed by normalizing the corre-sponding element of the occupancy array in the TPO by the total number of traces represented by the TPO. Intuitively, darker re-gions, such as the one for the frontend 4○, correspond to portions of the execution that frequently appear on the critical path across the reference population, whereas lighter regions, such as the one for the profile_service 5○, indicate infrequent or atypical critical-path behavior. When the reference population consists of a single trace, each occupancy probability is either 0 or 1, reducing the heat map to a binary occupancy map. Consequently, the same visualization seamlessly supports both trace-to-population and trace-to-trace comparison without requiring a separate rendering pipeline. 
+
+Overlaying the Anomalous Request. We then overlay the critical path of the anomalous request on top of the occupancy probability Structural Motifs: search.Nearby −>search.RateServiceClient_GetRates: 1168 search.Nearby −>search.GeoServiceClient_Nearby: 1168 search.RateServiceClient_GetRates −>rate.GetRates: 1168 search.GeoServiceClient_Nearby −>geo.Nearby: 1168 Temporal Info: search.Nearby: p25: 1.665ms,p50: 2.2478ms,p75: 2.915ms,p90: 3.561ms,p99: 4.7116ms Tags Info: search_success: 1168 Logs Info: search.Nearby: Search was successful: 1168 
+
+Figure 3: Excerpt of the linearized TPO representation gen-erated by the Summarizer before being provided to the LLM for summarization and the Comparer. 
+
+distribution. SpectroViz renders critical-path execution segments solid line segments 6○ and transitions between services as dotted lines 7○ to distinguish communication from computation. We en-code the color of the critical path to be red to utilize the popout phenomenon [ 42 , Ch. 5.5.4], making it immediately distinguishable from the underlying probability distribution. This overlay allows regions where the anomalous execution diverges from typical be-havior to naturally stand out. In particular, critical-path segments that pass through low-occupancy regions appear as prominent red bars against a white background, immediately drawing the opera-tor’s attention to unlikely execution behavior. Moreover, the earliest such divergence along the time axis, search_service at 7ms for this trace 8○, pinpoints where the anomalous request first deviated from the behavior observed in the baseline trace population, providing a natural starting point for diagnosis. 
+
+## 4.2 Para ll ax 
+
+Para ll ax Design. Para ll ax is comprised of two different types of LLM agents - Summarizer ( 𝑆 ) and Comparer ( 𝐶 ). 𝑆 takes as input the two TPOs that need to be compared, as well as optional context pro-vided by the operator to focus the summarization on a specific issue. For each TPO, 𝑆 first produces a summary by flattening the TPO into its string representation, as shown in Figure 3, by translating the structural dimension of the TPO into a simple list, converting the temporal dimension into measurements at pre-configured quantile measurements, and the semantic information into an ordered list with the set of unique log statements. 𝑆 then feeds this transformed TPO into an LLM to generate a comprehensive text summary for the TPO. 𝐶 then takes the two generated summaries as input gen-erates the final comparison output between the two TPOs. Note that we do not provide any insight to the model regarding what to emphasize and what not to emphasize in the summary as well as the generated comparison. We adopted a simple multi-agent design for Para ll ax as an ini-tial implementation, with the intention of iteratively refining it as we identified limitations. In our experiments, Para ll ax achieved strong performance at low cost, suggesting that this lightweight Enabling Multi-Dimensional Distributed Trace Comparison with Contrast Conference’17, July 2017, Washington, DC, USA 
+
+architecture, combined with the rich information encoded in TPOs, is sufficient for effective trace comparison. Nevertheless, explor-ing more sophisticated multi-agent designs remains an important direction for future work. Although Para ll ax is designed to support all three trace compar-ison tasks, it is most effective for population-to-population compar-ison. In this setting, Para ll ax can identify, summarize, and contrast semantic, temporal, and structural trends across trace populations. Such rich aggregate information is not available in a single trace, making Para ll ax less effective for pairwise trace comparison and trace-to-population comparison. 
+
+## 5 Trace Comparison Benchmark 
+
+Evaluating trace comparison systems presents a fundamental chal-lenge. Existing tracing datasets typically provide traces collected from production systems, but offer limited control over the nature, magnitude, and location of behavioral differences. For example, open source trace datasets released by large cloud companies such as Uber [ 33 ] and Alibaba [ 37 ] are highly anonymized and stripped with any detail information rendering them not as good targets for evaluations and case studies. Moreover, these datasets also suffer from incompleteness and inconsistency issues [ 24 ]. Consequently, they provide little support for systematically evaluating the efficacy of the trace comparison technique. Existing open-source benchmarks and datasets such as the one provided by TraceLLM [ 64 ] or by Anand et al [ 3] only contain traces for pre-determined use cases. To address this limitation of lacking diversity of traces for comparison tasks, we build a benchmark for comparative trace analysis, called TraceComp that allows users to generate populations of perturbed traces. 
+
+Implementation. We implement TraceComp on top of Blueprint [ 2], a microservice implementation generator. We choose Blueprint as the foundation for building our benchmark for three reasons. First, Blueprint provides abstractions that decouple the specification of a system’s business logic from its infrastructure and implementation details, enabling users to generate complete microservice imple-mentations from high-level specifications. TraceComp leverages this capability to allow users to programmatically define the system behaviors they wish to elicit, without requiring substantial manual implementation effort. Second, Blueprint provides a reproducible and extensible framework for executing different workloads un-der controlled system configurations and fault-injection scenarios. This allows users of TraceComp to define and execute a variety of workloads and easily collect traces representing a variety of behaviors. Third, Blueprint’s modular architecture makes it easy to extend the benchmark with new applications, system components, and behavioral perturbations. New behaviors can be introduced by composing existing modules or adding new system features, allow-ing TraceComp to evolve alongside emerging distributed system architectures and trace comparison requirements 
+
+Perturbation Types. We organize TraceComp perturbations into three broad categories corresponding to the primary dimensions along which distributed executions can differ: (i) structural pertur-bations modify the execution graph by changing the set of executed spans or their dependencies; (ii) temporal perturbations alter the timing characteristics of an execution while largely preserving its 
+
+Perturbation Type Exposed Knobs 
+
+Fault Injection Structural Affected services or APIs; Probability of injecting a fault in a request. Service Slowdown Temporal Affected services or APIs; Range of delay to be added for each request. Retry Injection Structural Affected services; Timeout duration, Number of retries, Retry strategy. Workload Drift Semantic Workload Request Composi-tion, Network Partitions. 
+
+Table 1: Perturbation dimensions and configurable knobs supported by TraceComp.            
+
+> 1func makePerturbation(spec wiring.WiringSpec)([] string ,error ) {
+> 2services := define_services(spec)
+> 3tracecomp.ServiceSlowdownPerturbation(spec, "search_service", "100ms")
+> 4tracecomp.SpanRemovalPerturbation(spec, "user_service", 50)
+> 5tracecomp.RetryInjectionPerturbation(spec, "geo_service", 3, "100ms")
+> 6apply_default_params(spec, services)
+> 7return services, nil
+> 8}
+
+Figure 4: Sample Perturbation Specification for TraceComp 
+
+structure; and (iii) semantic perturbations modify the application-level behavior of requests, such as workload composition. Although each perturbation is categorized according to its primary effect, many perturbations naturally influence multiple dimensions of execution (e.g., retry injection affects both structure and seman-tics). Table 1 summarizes the perturbations currently supported by TraceComp and the configuration knobs exposed to users for controlling each perturbation. By exposing perturbations at the level of system behavior rather than trace artifacts, the benchmark enables users to systematically generate diverse trace populations with well-defined behavioral differences while retaining realistic execution characteristics. 
+
+Perturbation Specification. Users specify perturbations as fea-tures in Blueprint’s wiring specification, which defines the behavior at the infrastructure level and the overall orchestration of the gen-erated system. Each perturbation is implemented either as a single Blueprint plugin or as a composition of multiple plugins that col-lectively realize the desired behavior. This modular design enables perturbations to be reused, combined, and extended to create in-creasingly complex execution scenarios. For example, consider the perturbation specification shown in Figure 4 for the Hotel Reservation application from DeathStar-Bench [ 20 ]. The perturbation specification is defined by Lines 3–5. Line 3 adds a service slowdown perturbation to the search_service 
+
+with a max delay of 100 ms; Line 4 adds a span removal perturbation to the user_service with a 50% probability of removal; and Line 5 adds a retry injection perturbation to the geo_service with a time-out of 100 ms and a maximum of 3 retries on failure. By expressing Conference’17, July 2017, Washington, DC, USA Vaastav Anand, Rodrigo Fonseca, Jonathan Mace, and Antoine Kaufmann 0 5 10 15 20 25 
+
+> Time (ms)
+> profile
+> reserv
+> rate
+> geo
+> search
+> frontend
+> Service
+> Bad Trace
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> P(service on Critical Path at time t)
+
+Figure 5: Pairwise trace comparison visualization generated by SpectroViz for SearchDelay. 
+
+perturbations as infrastructure features, TraceComp enables users to systematically construct a rich space of execution behaviors. 
+
+Controlled Population Generation. Given a perturbation spec-ification, TraceComp uses Blueprint’s compiler to generate and deploy the corresponding system variant. Users can then execute configurable workloads against the deployed system using Blue-print’s workload generator, enabling the collection of trace popula-tions under controlled workload conditions. During deployment, TraceComp automatically instruments the generated services with OpenTelemetry and configures them to export spans to a Jaeger collector. The resulting traces are retrieved through Jaeger’s API, producing a trace population corresponding to the specified per-turbation and workload. The default wiring specification with no perturbations for an application represents the baseline configura-tion and the traces generated by that system variant is the baseline trace population. 
+
+## 6 Evaluation 
+
+We answer the following evaluation questions: 
+
+• Can Contrast enable effective trace comparative interfaces? (§6.1) 
+
+• Can Contrast diagnose issues in real systems? (§6.2) 
+
+• What is the cost of building and using TPOs? (§6.3) 
+
+## 6.1 TraceComp Results 
+
+In this section, we present analyses and results of using SpectroViz and Para ll ax for performing the trace comparison tasks on the trace populations generated through the TraceComp benchmark. 
+
+Benchmark Setup. We use the Hotel Reservation application from the TraceComp benchmark to generate a good population and a bad population of traces. We generate the good population of the traces using the TraceComp benchmark without adding any perturbations to the Hotel Reservation system. We generate various population of traces with different perturbations. To generate each population of traces, we execute a workload that executes a mixture of the four APIs - Search , Recommend , User , and Reservation - exported by the Frontend service in the Hotel Reservation System. 
+
+6.1.1. Temporal Perturbations 
+
+For our temporal perturbation experiment, we generate a bad trace population, called SearchDelay, by adding a Service Slowdown perturbation of upto 10 𝑚𝑠 to the search_service . We filter both populations to only keep traces that correspond to the Search API Overall latency is much higher in the second execution: frontend search handler latency increases from about 5.10ms p50 / 19.49 ms p99 to about 13.6ms p50 / 40.0ms p99. Search path is significantly slower in the second execution: frontend.Nearby rises from 3.10ms p50 / 5.99ms p99 to 9.88ms p50. search.Nearby rises from 2.25ms p50 / 4.71ms p99 to 8.94ms p50. This makes the search branch a much larger contributor in the second run. 
+
+Figure 6: Excerpt from the population-to-population com-parison generated by Para ll ax for SearchDelay. 0 20 40 60 80 
+
+> Time (ms)
+> profile
+> reserv
+> rate
+> geo
+> search
+> frontend
+> Service
+> Bad Trace
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> P(service on Critical Path at time t)
+
+Figure 7: Trace to population comparison visualization with SpectroViz for a trace with upto 100ms injected delay. 
+
+as that is the only API that is affected by this temporal perturbation and construct TPOs for both populations. 
+
+Pairwise Trace Comparison. We sample one trace from the TPO of the bad population of traces and compare it against a sampled trace from the TPO of the good population of traces. Figure 5 shows the visualization generated by SpectroViz for this comparison. Spec-troViz highlights the injected service delay by revealing a clear deviation between the two traces. The execution segment corre-sponding to the search_service from the bad trace is temporally elongated in comparison to the same segment from the good trace. 
+
+Trace-to-Population Comparison. To get more insight from a comparison with the aggregate, we compare the selected bad trace against the good population of traces. Figure 2 shows the visual-ization generated by SpectroViz for this comparison. Similar to the pairwise trace comparison case, SpectroViz highlights the injected temporal perturbation by revealing a clear deviation between the anomalous execution and the expected population behavior. The ex-ecution segment corresponding to the search_service from the bad trace appears temporally elongated, while the subsequent critical-path segments are shifted relative to the underlying occupancy probability distribution. This indicates that the initial slowdown in the search_service caused downstream execution stages to occur later than expected, allowing operators to quickly identify both the location and propagation of the performance deviation. 
+
+Population-to-Population Comparison. Figure 6 shows an ex-cerpt from the comparison report generated by Para ll ax for the population-to-population comparison. Para ll ax correctly identifies Enabling Multi-Dimensional Distributed Trace Comparison with Contrast Conference’17, July 2017, Washington, DC, USA 0.0 0.5 1.0 1.5 2.0 2.5 
+
+> Time (ms)
+> profile
+> reserv
+> rate
+> geo
+> search
+> frontend
+> Service
+> Bad Trace
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> P(service on Critical Path at time t)
+
+(a) SpectroViz Pairwise trace comparison 0 5 10 15 20 25 30 35 40 
+
+> Time (ms)
+> profile
+> reserv
+> rate
+> geo
+> search
+> frontend
+> Service
+> Bad Trace
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> P(service on Critical Path at time t)
+
+(b) SpectroViz Trace to Population comparison 
+
+Second execution reflects a lighter common −case workload with optional enrichment, but it is dominated operationally by widespread injected failures on the mandatory geo/search path 
+
+(c) Para ll ax Population to Population comparison 
+
+Figure 8: Comparisons for GeoFault trace population. 
+
+the latency issue as well as the source of the delay to be extended latency in the search_service .
+
+Impact of Injected Latency on SpectroViz. SpectroViz is highly sensitive to temporal latency perturbations on the critical path. To emphasize the sensitivity, we generate a new bad trace popu-lation by adding a Service Slowdown perturbation of upto 100 𝑚𝑠 
+
+to the search_service , we randomly sample one trace from the bad population, and compare it against the good population of traces with SpectroViz. Figure 7 shows the visualization generated by SpectroViz for the comparison. As the delay injected is higher, the execution segment corresponding to the search_service ap-pears more elongated and the probability distribution of the good population is restricted to the early part of the timeline. 
+
+6.1.2. Structural Perturbations 
+
+For our structural perturbation experiments, we generate two bad trace populations: (i) GeoFault: population of traces generated by adding a Fault Injection perturbation with 90% probability to the geo_service which causes downstream spans to not appear; and (ii) GeoRetry: population of traces generated by adding a Fault Injection perturbation with 50% probability and a Retry Injection with 3 retries to the geo_service .
+
+Pairwise Trace Comparison. We sample one trace each from the TPOs of the GeoFault and GeoRetry populations and compare it against a sampled trace from the TPO of the good population of traces. Figure 8a shows the pairwise comparison with SpectroViz 0 1 2 3 4 5 6
+
+> Time (ms)
+> profile
+> reserv
+> rate
+> geo
+> search
+> frontend
+> Service
+> Bad Trace
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> P(service on Critical Path at time t)
+
+(a) SpectroViz Pairwise trace comparison 0 5 10 15 20 25 30 35 40 
+
+> Time (ms)
+> profile
+> reserv
+> rate
+> geo
+> search
+> frontend
+> Service
+> Bad Trace
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> P(service on Critical Path at time t)
+
+(b) SpectroViz Trace to Population comparison 
+
+Geo call behavior differs: the first execution presents geo as a single stable dependency path. In the second, geo −related edges appear 1,007 times across 584 traces, indicating repeated or fan −
+
+out geo lookups within many requests. 
+
+(c) Para ll ax Population to Population comparison 
+
+Figure 9: Comparisons for GeoRetry trace population. 
+
+for the GeoFault population. In this visualization, there are no ex-ecution segments for the bad trace at downstream services. This is because the request exits early due to encountering a fault at 
+
+geo_service and does not traverse downstream calls to other ser-vices. Figure 9a shows the pairwise comparison with SpectroViz for the GeoRetry population. In this visualization, there are extra communication calls and execution segments at the geo_service 
+
+which are absent from the good trace. This is because the bad trace suffers through a fault on its first downstream call and then re-tries the execution again a second time where it succeeds. With SpectroViz, operators can quickly identify pairwise structural dif-ferences through either missing execution segments or through extra execution segments and communication calls. 
+
+Trace-to-Population Comparison. We compare the selected bad traces against the good population of traces. Figure 8b shows the comparison with SpectroViz for the GeoFault population. Similar to the pairwise comparison, there are no execution segments for the bad trace at downstream services. Moreover, it also showcases how the request execution finished much faster than the expected execution. The lack of communication links between different ser-vices and the temporal shift to finishing earlier serves as a strong indicator that the request may have exited with an error. Figure 9b shows the comparison with SpectroViz for the GeoRetry popula-tion. Similar to the pairwise comparison, there are extra execution Conference’17, July 2017, Washington, DC, USA Vaastav Anand, Rodrigo Fonseca, Jonathan Mace, and Antoine Kaufmann 
+
+Second execution includes logged failures in two categories: Rate service cache errors in 318 traces (\~54.5\%): memcache: no servers configured or available Profile service timeout/connectivity errors in 266 traces (\~45.5\%) : DeadlineExceeded ... waiting for connections to become ready Second execution reflects a partially degraded system with a healthy core search workflow but conditional failing branches, especially profile −service timeout behavior and rate −service cache errors. 
+
+Figure 10: Excerpt from a population-to-population compar-ison generated by Para ll ax for NetFault. 
+
+segments and communications for the bad trace at geo_sevrice .The extra segments and communication calls capture the retry and error behavior. With SpectroViz, operators can quickly identify ant structural irregularities on the critical path of the bad trace. 
+
+Population-to-Population Comparison. Figure 8c and Figure 9c show excerpts generated by Para ll ax for the comparing the good population with the GeoFault and GeoRetry populations. In both cases, Para ll ax correctly identifies the source of errors as artifically injected failures, which correspond to the error messages in the generated traces. For GeoRetry, Para ll ax also correctly identifies the multiple request execution behavior along the path between 
+
+search_service and geo_service .
+
+6.1.3. Semantic Petrubations 
+
+For our semantic perturbation experiment, we introduce a net-work partition during deployment time to create a bad population of traces called NetFault. In this partition, the rate_service is par-titioned away from rate_cache and profile_service is partitioned away from search_service . This results in majority of the requests failing due to connectivity and timeout issues. As semantic differ-ences are usually only prominent across different populations, we choose to only do population-to-population comparison for this perturbation. Figure 10 shows an excerpt of the comparison report generated by Para ll ax. Para ll ax correctly identifies the two salient semantic differences between the populations and highlights the percentage of traces that exhibit each type of semantic failure. 
+
+## 6.2 Case Studies 
+
+We conduct our analysis on two open source trace datasets: (i) DeathStarBenchTrace Dataset [ 3]: an X-Trace [ 19 ] trace dataset from the social network application of the DeathStarBench mi-croservice benchmark [ 20 ]; and (ii) an Uber Trace Dataset from CRISP [62]: an open-source trace dataset released by Uber [63]. 
+
+6.2.1. DeathStarBench Trace Dataset 
+
+The DeathStarBench Trace dataset provides two populations of 
+
+ComposePost API traces. ComposePost is the most complex API in the DeathStarBench Social Network application with a request fanning out to all the services in the application. The good population contains a set of successful requests, whereas the bad population contains the set of traces from a time period where the system was suffering from a network partition resulting in connectivity issues between services causing mass request failures. 0 100 200 300 400 500 600 700 800 
+
+> Time (ms)
+> post-storage
+> user-timeline
+> user-mention
+> url-shorten
+> unique-id
+> compose-post
+> text
+> user
+> media
+> nginx-thrift
+> Service
+> Bad Trace
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> P(service on Critical Path at time t)
+
+(a) Trace to population visualization with SpectroViz 
+
+Dominant behavior 
+
+First execution is dominated by a healthy fan −out/fan −in orchestration pattern. Second execution is dominated by client −
+
+pool acquisition steps, retries, and degraded alternate paths, making resource contention a first −class structural feature. 
+
+Latency profile 
+
+First execution has a slower median end −to −end latency (p50 314 ms) but relatively controlled tails (p99 659ms). Second execution has a faster median (p50 54ms) but dramatically worse tail latency (p90 433ms, p99 1043ms), indicating many requests fail or short −circuit quickly while a subset stall badly. 
+
+Correctness / API behavior 
+
+First execution shows no evidence of API mismatch. Second execution uniquely shows many "Invalid method name" frontend errors, suggesting RPC interface/version/routing problems absent from the first execution. 
+
+(b) Sanitized excerpt from the Population-to-Population comparison summary generated by Para ll ax. Full raw summary at Figure 13 
+
+Figure 11: Comparison outputs of SpectroViz and Para ll ax for traces from social network trace dataset [3] 
+
+We select one trace from the bad population and compare it against the good population of traces using SpectroViz. Figure 11a shows the comparison of the trace with timeout issues as compared to the good population of traces. The anomalous trace appears incomplete with missing segments across the various services as well as is missing return and finishing segments at the entrypoint nginx. This is because connectivity and timeout issues cause traces to be incomplete with the root trace span exiting without waiting for the downstream calls to exit. We validated that the critical path generated by SpectroViz for the bad trace is same as the critical path generated by Jaeger showing that the critical path algorithm is highly sensitive to trace completeness. We compare the two populations of traces with Para ll ax. Fig-ure 11b shows an excerpt from the population-to-population report generated by Para ll ax. Para ll ax correctly identifies that the dif-ferences between the two populations stem from connectivity or network partition issues, which manifest as request timeouts. It also captures the bimodal latency distribution caused by two distinct execution behaviors: early exits and long-wait requests. 
+
+6.2.2. Uber Trace Dataset Enabling Multi-Dimensional Distributed Trace Comparison with Contrast Conference’17, July 2017, Washington, DC, USA 0 500 1000 1500 2000 2500 3000 
+
+> Time (ms) Service
+> Bad Trace
+> 0.0 0.2 0.4 0.6 0.8 1.0 P(service on Critical Path at time t)
+
+(a) Trace-To-Population generated by SpectroViz 0 100 200 300 400 
+
+> Time (ms) Service
+> Bad Trace
+> 0.0 0.2 0.4 0.6 0.8 1.0 P(service on Critical Path at time t)
+
+(b) Zoomed-In comparison generated by SpectroViz 
+
+Canonical −path clarity is stronger in the first execution: the first describes a highly repeatable, stable backbone with downstream branches layered on top; the second describes a few dominant backbones plus a long tail of optional branches, implying relatively less structural uniformity. 
+
+(c) Excerpt from comparison report generated by Para ll ax 
+
+Figure 12: Uber anomalous traces vs normal traces 
+
+The Crisp artifact [ 63 ] contains two different trace datasets: (i) 
+
+ml-service3 which contains 20 𝐾 normal traces and 500 abnormal traces that were generated by the authors of Crisp [ 62 ] by drop-ping 20% nodes in the execution graph and randomly shuffling the duration of the nodes; and (ii) service43 which contains 50 𝐾 traces of operation159 . For our case study, we use the ml-service3 as it provides a population of anomalous traces. We first find the most common root operation across both anomalous traces and filter the populations to only keep traces that have the same root. This leaves a total of 14 .5𝐾 traces in the good population and the 349 
+
+traces in the bad population. We randomly sample an anomalous trace from the bad popu-lation and compare it to the good population using SpectroViz. Figure 12a shows the visualization generated by SpectroViz. As the service names are anonymized in the trace dataset, we omit them from the generated visualization for better readability. We notice three differences in the anomalous trace: (i) it exits earlier than expected; (ii) it is missing execution segments on the critical path for the services in the bottom half of the graph; (iii) there are severe critical-path deviations in the 250 𝑚𝑠 to 400 𝑚𝑠 time period. To further analyze the third difference, we use SpectroViz to create a zoomed-in visualization that clips the comparison to the request duration of the anomalous trace as shown in Figure 12b. In the zoomed-in version, we can quickly spot the deviation in that time period. Additionally, the zoomed-in version also highlights critical-path deviations towards the end of the trace. Next, we perform a population to population comparison using Para ll ax. Figure 12c shows an excerpt of the comparison report generated by Para ll ax. As the traces are sanitized and carry almost no semantic informa-tion, the comparison report exclusively focuses on the structural and temporal dimensions of the TPOs. Nevertheless, Para ll ax still identifies the structural anomalies in the bad population as com-pared to the good population. Together, SpectroViz and Para ll ax are able to detect the structural and temporal anomalies in the bad population of traces. This shows that SpectroViz and Para ll ax can use TPOs to provide insight for large production traces. 
+
+## 6.3 TPOs! But at what COST? 
+
+TPO Generation Time. Table 2 shows the average TPO generation time per trace and the total time required to merge TPOs across different datasets. The time required to generate a TPO increases with the average trace size, while the merge time grows with the number of traces being aggregated. Although TPO generation is inexpensive for an individual trace, it becomes the dominant cost when processing large trace collections. For example, for the Uber 
+
+service43 dataset, generating TPOs for all traces using our single-threaded Python implementation takes 21 minutes, whereas merg-ing the generated TPOs takes 7× less time. Consequently, Contrast generates TPOs for each trace only once and subsequently filters and merges these TPOs according to user requirements, enabling repeated analyses without reprocessing the original traces. 
+
+LLM Cost of Para ll ax. Para ll ax used minimal resources to gener-ate the individual TPO summaries and the final comparison report for the TraceComp comparisons. We report Para ll ax token counts and cost for the gpt-5.2 model. Para ll ax consumed ≈ 2.2𝐾 total tokens on average to summarize a TPO and ≈ 2.3𝐾 total tokens on average to compare two TPOs. For the DeathStarBench dataset, Para ll ax consumed 37 .47 𝐾 input tokens and 5.69 𝐾 output tokens which cost $0 .18 in total. The significant rise in use of input and output tokens is because the dataset contains traces that have rich event logs with a lot of semantic information. For the Uber dataset, specifically Service3 , Para ll ax consumed a total of 242 .6𝐾 input tokens and 5.82 𝐾 output tokens which cost $0 .67 in total. For the filtered Uber datasets, Para ll ax consumed a total of 111 .9𝐾 input tokens and 5.21 𝐾 output tokens which cost $0 .36 in total. 
+
+## 7 Related Work 
+
+Trace Comparison Techniques. There exist a variety of interfaces for comparing traces [ 5, 6, 8, 9, 14 , 16 –18 , 23 , 27 , 34 , 40 , 44 , 48 , 49 , 55 ]as we have discussed in §2.2. These interfaces typically focus on specific dimensions of trace behavior and tailor their comparison mechanisms to effectively expose differences along those dimen-sions. We view these approaches as complementary to TPOs: rather than replacing existing comparison techniques, TPOs provide a dimension-preserving data model that can support diverse com-parison interfaces. Consequently, many existing interfaces could be adapted to use TPOs as their underlying representation with minimal changes, allowing them to be integrated into Contrast alongside Para ll ax and SpectroViz as complementary interfaces. Conference’17, July 2017, Washington, DC, USA Vaastav Anand, Rodrigo Fonseca, Jonathan Mace, and Antoine Kaufmann 
+
+System # Traces Avg. Trace Size (KB) Gen Time per Trace (s) Merge Time (s) 
+
+GeoFault 584 5.28 0.0004 0.011 GeoRetry 584 8.37 0.0006 0.023 SearchDelay 584 8.24 0.0006 0.013 TraceComp Good Pop 1168 7.42 0.0005 0.042 DSB Dataset Bad 1054 53.49 0.0011 0.069 DSB Dataset Good 2391 137.03 0.0030 0.281 Uber, ml-service3 abnormal 500 156.07 0.0118 0.698 Uber, ml-service3 normal 19994 160.12 0.0132 37.967 Uber, service43 49999 235.48 0.0261 177.788 
+
+Table 2: TPO generation and merge time for different trace datasets and their characteristics Visualizing Distributed System Execution. Visualization has long been used as a means to help operators understand the be-havior of complex distributed systems by transforming low-level execution data into human-interpretable representations. These techniques focus on visualizing communication patterns and execu-tion flows to aid general-purpose debugging [ 7, 11 – 13 , 15 , 21 , 28 ]. However, these systems provide visual encodings for specific diag-nostic goals or dimensions of system behavior, limiting their ability to provide a unified view across diverse comparison tasks. 
+
+LLMs for Trace and Root Cause Analysis. With the rise of LLMs, there has been a recent uptick in use of LLMs and Agentic Workflows for assisting developers and operators in root-cause analysis [ 30 , 35 , 38 , 45 , 54 , 56 , 57 , 59 – 61 , 64 ]. These approaches leverage the ability of LLMs to synthesize information from het-erogeneous observability sources and potentially generate natural language explanations of system behavior. We leverage this ability with Para ll ax as it can easily generate natural language explanations of the differences between two Trace Projection Objects. 
+
+## 8 Discussion 
+
+Integrating TPO with Intelligent Sampling. To reduce the over-head of distributed tracing, production tracing systems typically sample only a small fraction of requests. Recent work has proposed adaptive sampling techniques, such as tail-based sampling [ 31 , 32 ]and retroactive sampling [ 58 ], that preferentially retain anomalous or otherwise interesting traces. These techniques are highly effec-tive at improving the utility of collected traces under constrained storage budgets. However, their objective is to determine which 
+
+traces should be retained rather than why a retained trace differs from expected behavior. Moreover, the rationale behind a sampling decision is typically discarded after the trace is selected. We be-lieve that exposing sampling metadata—such as anomaly scores, triggering conditions, or the features that influenced the sampling decision—as part of the Trace Projection Object would provide valuable context for downstream comparative analysis and enable richer visualization and explanation interfaces. 
+
+Implications of TPO on Trace Storage. Existing trace storage sys-tems are primarily designed around retrieving individual traces or aggregating simple metrics, but Contrast introduces a richer repre-sentation that supports multidimensional comparison across struc-tural, temporal, critical-path, and semantic dimensions. Efficiently storing and querying TPOs requires new indexing techniques that can support dynamic population construction, approximate similar-ity search, and efficient aggregation over arbitrary subsets of traces. For example, an index may organize traces by structural execution patterns, critical-path occupancy signatures, or semantic attributes to accelerate the construction of comparison populations. Similarly, specialized storage layouts could exploit the mergeable nature of TPOs to incrementally maintain population projections as new traces arrive, avoiding repeated processing of raw traces. Exploring these storage abstractions could enable interactive comparative analysis over continuously evolving trace streams at production scale. Designing indexes and storage systems optimized for TPOs is an interesting future research direction. 
+
+Beyond Text & Visual Interfaces. Typical interfaces for system analysis have relied on either textual or visual representations. Re-cent work has demonstrated the potential of auditory interfaces for analyzing execution logs [ 22 ] by leveraging humans’ ability to rec-ognize audio patterns. Exploring alternative modalities represents an interesting direction for future work. 
+
+## 9 Conclusions 
+
+Comparing distributed traces is a fundamental part of the debug-ging process of developers and operators. Existing tracing systems primarily analyze individual traces or provide aggregate analysis around fixed dimensions, offering limited support for flexible com-parison. This paper introduced Contrast, a framework that elevates trace comparison to a first-class systems abstraction. At the core of Contrast is the Trace Projection Object (TPO), a mergeable repre-sentation that supports dynamic construction of trace populations and enables building comparison interfaces emphasizing different dimensions of shared representation. By decoupling representation from comparison semantics, Contrast unifies multiple diagnostic interfaces while remaining grounded in representative execution traces. We have shown the efficacy of Contrast and TPOs for both synthetic datasets generated from controlled experiments and pub-licly available production datasets by Uber. 
+
+## Acknowledgments 
+
+AI Usage. ChatGPT was used primarily for editing human-written text to improve the grammar, readability, and flow of the text. Au-thors also used ChatGPT as a debugging assistant for implementing the SpectroViz interface. No agents were harmed in this process. Enabling Multi-Dimensional Distributed Trace Comparison with Contrast Conference’17, July 2017, Washington, DC, USA 
+
+Human Acknowledgments. We thank Matheus Stolet, Tejas Harith, Jonas Kaufmann, and Pedro Las-Casas for providing feed-back on early drafts of the paper. 
+
+## References 
+
+[1] Mania Abdi, Peter Desnoyers, Mark Crovella, and Raja R Sambasivan. The workflow motif: a widely-useful performance diagnosis abstraction for distributed applications. arXiv preprint arXiv:2506.00749 , 2025. [2] Vaastav Anand, Deepak Garg, Antoine Kaufmann, and Jonathan Mace. Blueprint: A toolchain for highly-reconfigurable microservice applications. In Proceedings of the 29th Symposium on Operating Systems Principles , pages 482–497, 2023. [3] Vaastav Anand and Jonathan Mace. X-Trace trace dataset for DeathStar-Bench. Retrieved October 2019 from https://gitlab.mpi-sws.org/cld/trace-datasets/deathstarbench_traces/tree/master/socialNetwork, 2019. [4] Vaastav Anand and Matheus Stolet. Jaeger issue #6814: Feature: Augmenting trace timeline visualization with aggregate system statistics for faster root cause analysis. Accessed July 2026 from https://github.com/jaegertracing/jaeger/issues/ 6814, 2025. [5] Vaastav Anand, Matheus Stolet, Thomas Davidson, Ivan Beschastnikh, Tamara Munzner, and Jonathan Mace. Aggregate-driven trace visualizations for perfor-mance debugging. arXiv preprint arXiv:2010.13681 , 2020. [6] Paul Barham, Austin Donnelly, Rebecca Isaacs, and Richard Mortier. Using magpie for request extraction and workload modelling. In OSDI , volume 4, pages 18–18, 2004. [7] Ivan Beschastnikh, Perry Liu, Albert Xing, Patty Wang, Yuriy Brun, and Michael D Ernst. Visualizing distributed system executions. ACM Transactions on Software Engineering and Methodology (TOSEM) , 29(2):1–38, 2020. [8] Yen-Yang Michael Chen. Path-based failure and evolution management . University of California, Berkeley, 2004. [9] Andrea D’Angelo and Giordano d’Aloisio. Grammar-based anomaly detection of microservice systems execution traces. In Companion of the 15th ACM/SPEC International Conference on Performance Engineering , pages 77–81, 2024. [10] Thomas Davidson, Emily Wall, and Jonathan Mace. A qualitative interview study of distributed tracing visualisation: A characterisation of challenges and opportu-nities. IEEE Transactions on Visualization and Computer Graphics , 30(7):3828–3840, 2023. [11] J Chassin de Kergommeaux and Benhur de Oliveira Stein. Flexible performance visualization of parallel and distributed applications. Future Generation Computer Systems , 19(5):735–747, 2003. [12] J Chassin De Kergommeaux, Benhur Stein, and Pierre-Eric Bernard. Pajé, an interactive visualization tool for tuning multi-threaded parallel applications. 
+
+Parallel Computing , 26(10):1253–1274, 2000. [13] Wim De Pauw, Sophia Krasikov, and John F Morar. Execution patterns for visualizing web services. In Proceedings of the 2006 ACM symposium on Software visualization , pages 37–45, 2006. [14] Dynatrace. Service flow. Accessed July 2026 from https://www.dynatrace.com/ platform/service-flow/. [15] Dennis Edwards and Phil Kearns. Dtvs: A distributed trace visualization system. In Proceedings of 1994 6th IEEE Symposium on Parallel and Distributed Processing ,pages 281–288. IEEE, 1994. [16] Maryam Ekhlasi, Fatemeh Faraji Daneshgar, Michel Dagenais, Maxime Lamothe, Naser Ezzati-Jivan, and Matthew Khouzam. Dtracomp: Comparing distributed execution traces for understanding intermittent latency sources. Journal of Systems and Software , page 112990, 2026. [17] Joe Farro. Trace comparisons arrive in jaeger 1.7. Retrieved November 2024 from https://medium.com/jaegertracing/trace-comparisons-arrive-in-jaeger-1-7-a97ad5e2d05d, 2018. [18] Steve Flanders and Yuri Shkuro. A Picture is Worth a 1,000 Traces. Retrieved Feb-ruary 2020 from https://www.shkuro.com/talks/2019-11-18-a-picture-is-worth-a-thousand-traces/. [19] Rodrigo Fonseca, George Porter, Randy H Katz, Scott Shenker, and Ion Stoica. X-Trace: A Pervasive Network Tracing Framework. In 4th USENIX Symposium on Networked Systems Design and Implementation (NSDI ’07) .[20] Yu Gan, Yanqi Zhang, Dailun Cheng, Ankitha Shetty, Priyal Rathi, Nayan Katarki, Ariana Bruno, Justin Hu, Brian Ritchken, Brendon Jackson, et al. An open-source benchmark suite for microservices and their hardware-software implications for cloud & edge systems. In Proceedings of the twenty-fourth international conference on architectural support for programming languages and operating systems , pages 3–18, 2019. [21] Elmer Garduno, Soila P Kavulya, Jiaqi Tan, Rajeev Gandhi, and Priya Narasimhan. Theia: Visual signatures for problem diagnosis in large hadoop clusters. In 26th Large Installation System Administration Conference (LISA 12) , pages 33–42, 2012. [22] Finn Hackett and Ivan Beschastnikh. Listening to the firehose: Sonifying z3’s behavior. In 2025 IEEE/ACM 47th International Conference on Software Engineering: New Ideas and Emerging Results (ICSE-NIER) , pages 11–15. IEEE, 2025. [23] Brittany Herr and Naoman Abbas. Analyzing distributed trace data. Re-trieved March 2020 from https://medium.com/pinterest-engineering/analyzing-distributed-trace-data-6aae58919949, 2017. [24] Darby Huye, Lan Liu, and Raja R Sambasivan. Systemizing and mitigating topolog-ical inconsistencies in alibaba’s microservice call-graph datasets. In Proceedings of the 15th ACM/SPEC International Conference on Performance Engineering , pages 276–285, 2024. [25] Darby Huye, Yuri Shkuro, and Raja R Sambasivan. Lifting the veil on {Meta’s }
+
+microservice architecture: Analyses of topology and request workflows. In 2023 USENIX Annual Technical Conference (USENIX ATC 23) , pages 419–432, 2023. [26] Jaeger: open source, distributed tracing platform. Retrieved July 2026 from https://www.jaegertracing.io/. [27] Jonathan Kaldor, Jonathan Mace, Michał Bejda, Edison Gao, Wiktor Kuropatwa, Joe O’Neill, Kian Win Ong, Bill Schaller, Pingjia Shan, Brendan Viscomi, Vinod Vekataraman, Kaushik Veeraraghavan, and Yee Jiun Song. Canopy: An End-to-End Performance Tracing And Analysis System. In 26th ACM Symposium on Operating Systems Principles (SOSP ’17) , 2017. [28] Thomas Kunz, James P. Black, David J. Taylor, and Twan Basten. Poet: Target-system independent visualizations of complex distributed-application executions. 
+
+The Computer Journal , 40(8):499–512, 1997. [29] Leslie Lamport. Time, clocks, and the ordering of events in a distributed system. In Concurrency: the Works of Leslie Lamport , pages 179–196. 2019. [30] Pedro Las-Casas, Alok Gautum Kumbhare, Rodrigo Fonseca, and Sharad Agarwal. Llexus: an ai agent system for incident management. ACM SIGOPS Operating Systems Review , 58(1):23–36, 2024. [31] Pedro Las-Casas, Jonathan Mace, Dorgival Guedes, and Rodrigo Fonseca. Weighted sampling of execution traces: Capturing more needles and less hay. In 
+
+Proceedings of the ACM Symposium on Cloud Computing , pages 326–332, 2018. [32] Pedro Las-Casas, Giorgi Papakerashvili, Vaastav Anand, and Jonathan Mace. Sifter: Scalable sampling for distributed traces, without feature engineering. In 
+
+Proceedings of the ACM Symposium on Cloud Computing , pages 312–324, 2019. [33] I-Ting Angelina Lee, Zhizhou Zhang, Abhishek Parwal, and Milind Chabbi. The tale of errors in microservices. Proceedings of the ACM on Measurement and Analysis of Computing Systems , 8(3):1–36, 2024. [34] Jessica Leone and Luca Traini. Enhancing trace visualizations for microser-vices performance analysis. In Companion of the 2023 ACM/SPEC International Conference on Performance Engineering , pages 283–287, 2023. [35] Shuai Liang, Pengfei Chen, Bozhe Tian, Gou Tan, Maohong Xu, Youjun Qu, Yahui Zhao, Yiduo Shang, and Chongkang Tan. Metarca: A generalizable root cause analysis framework for cloud-native systems powered by meta causal knowledge. 
+
+Proceedings of the ACM on Software Engineering , 3(FSE):138–159, 2026. [36] LightStep. Service now cloud observability: View traces-seeing the critical path. Retrieved July 2026 from https://docs.lightstep.com/docs/view-traces. [37] Shutian Luo, Huanle Xu, Chengzhi Lu, Kejiang Ye, Guoyao Xu, Liping Zhang, Yu Ding, Jian He, and Chengzhong Xu. Characterizing microservice dependency and performance: Alibaba trace analysis. In Proceedings of the ACM symposium on cloud computing , pages 412–426, 2021. [38] Wenrui Ma, Kang Yang, Zirui Liu, Ruili Jiang, and Yu Jiang. Verifyrca: Llm-guided but evidence-verified root cause analysis for microservice backends. [39] Jonathan Mace. End-to-end tracing: Adoption and use cases. Survey. Brown University , 2017. [40] Jonathan Mace and Rodrigo Fonseca. Revisiting end-to-end trace comparison with graph kernels. M. Sc. Project, Brown University , 2013. [41] Charles Masson, Jee E Rim, and Homin K Lee. Ddsketch: A fast and fully-mergeable quantile sketch with relative-error guarantees. arXiv preprint arXiv:1908.10693 , 2019. [42] Tamara Munzner. Visualization Analysis and Design . CRC Press, 2014. [43] OpenTelemetry. Opentelemetry: The open standard for telemetry. Accessed June 2026 from https://opentelemetry.io/, 2019. [44] Hannes Rabo. Distributed trace comparisons for code review: A system design and practical evaluation, 2020. [45] Devjeet Roy, Xuchao Zhang, Rashi Bhave, Chetan Bansal, Pedro Las-Casas, Ro-drigo Fonseca, and Saravan Rajmohan. Exploring llm-based agents for root cause analysis. In Companion proceedings of the 32nd ACM international conference on the foundations of software engineering , pages 208–219, 2024. [46] Adrita Samanta, Henry Han, Darby Huye, Lan Liu, Zhaoqi Zhang, and Raja R Sambasivan. Visualizing distributed traces in aggregate. arXiv preprint arXiv:2412.07036 , 2024. [47] Raja R Sambasivan, Ilari Shafer, Michelle L Mazurek, and Gregory R Ganger. Visualizing request-flow comparison to aid performance diagnosis in distributed systems. IEEE transactions on visualization and computer graphics , 19(12):2466– 2475, 2013. [48] Raja R Sambasivan, Alice X Zheng, Michael De Rosa, Elie Krevat, Spencer Whit-man, Michael Stroucken, William Wang, Lianghong Xu, and Gregory R Ganger. Diagnosing performance changes by comparing request flows. In USENIX Con-ference on Networked Systems Design and Implementation (NSDI) , pages 43–56. USENIX Association, March 2011. Conference’17, July 2017, Washington, DC, USA Vaastav Anand, Rodrigo Fonseca, Jonathan Mace, and Antoine Kaufmann 
+
+[49] Raja R Sambasivan, Alice X Zheng, Eno Thereska, and Gregory R Ganger. Cate-gorizing and differencing system behaviours. Hot Topics in Autonomic Computing ,page 2, 2007. [50] Benjamin H Sigelman, Luiz André Barroso, Mike Burrows, Pat Stephenson, Manoj Plakal, Donald Beaver, Saul Jaspan, and Chandan Shanbhag. Dapper, a large-scale distributed systems tracing infrastructure. 2010. [51] Sara Silva, Jaime Correia, Andre Bento, Filipe Araujo, and Raul Barbosa. 𝜇 viz: Visualization of microservices. In 2021 25th International Conference Information Visualisation (IV) , pages 120–128. IEEE, 2021. [52] Cindy Sridharan. Distributed systems observability: a guide to building robust systems . O’Reilly Media, 2018. [53] Cindy Sridharan. Distributed tracing — we’ve been doing it wrong. Retrieved February 2020 from https://medium.com/@copyconstruct/distributed-tracing-weve-been-doing-it-wrong-39fc92a857df, 2019. [54] Yifang Tian, Yaming Liu, Zichun Chong, Zihang Huang, and Hans-Arno Jacobsen. Gala: Can graph-augmented large language model agentic workflows elevate root cause analysis? arXiv preprint arXiv:2508.12472 , 2025. [55] Luca Traini, Jessica Leone, Giovanni Stilo, and Antinisca Di Marco. Vamp: Visual analytics for microservices performance. In Proceedings of the 39th ACM/SIGAPP Symposium on Applied Computing , pages 1209–1218, 2024. [56] Zhiqiang Xie, Yujia Zheng, Lizi Ottens, Kun Zhang, Christos Kozyrakis, and Jonathan Mace. Cloud atlas: Efficient fault localization for cloud systems using language models and causal insight. arXiv preprint arXiv:2407.08694 , 2024. [57] Dylan Zhang, Xuchao Zhang, Chetan Bansal, Pedro Las-Casas, Rodrigo Fonseca, and Saravan Rajmohan. Lm-pace: Confidence estimation by large language models for effective root causing of cloud incidents. In Companion Proceedings of the 32nd ACM International Conference on the Foundations of Software Engineering ,pages 388–398, 2024. [58] Lei Zhang, Zhiqiang Xie, Vaastav Anand, Ymir Vigfusson, and Jonathan Mace. The benefit of hindsight: Tracing {Edge-Cases } in distributed systems. In 20th USENIX Symposium on Networked Systems Design and Implementation (NSDI 23) ,pages 321–339, 2023. [59] Lingzhe Zhang, Tong Jia, Kangjin Wang, Chiming Duan, Minghua He, Rongqian Wang, Xi Peng, Meiling Wang, Gong Zhang, Renhai Chen, et al. Towards in-depth root cause localization for microservices with multi-agent recursion-of-thought. 
+
+IEEE Transactions on Dependable and Secure Computing , 2026. [60] Lingzhe Zhang, Tong Jia, Yunpeng Zhai, Leyi Pan, Chiming Duan, Minghua He, Mengxi Jia, and Ying Li. Agentic memory enhanced recursive reasoning for root cause localization in microservices. arXiv preprint arXiv:2601.02732 , 2026. [61] Lingzhe Zhang, Tong Jia, Yunpeng Zhai, Leyi Pan, Chiming Duan, Minghua He, Pei Xiao, and Ying Li. Hypothesize-then-verify: Speculative root cause analysis for microservices with pathwise parallelism. arXiv preprint arXiv:2601.02736 ,2026. [62] Zhizhou Zhang, Murali Krishna Ramanathan, Prithvi Raj, Abhishek Parwal, Timothy Sherwood, and Milind Chabbi. Crisp: Critical path analysis of {Large-Scale } microservice architectures. In 2022 USENIX Annual Technical Conference (USENIX ATC 22) , pages 655–672, 2022. [63] Zhizhou Zhang, Murali Krishna Ramanathan, Prithvi Raj, Abhishek Parwal, Timothy Sherwood, and Milind Chabbi. Crisp: Critical path analysis of large-scale microservice architectures (artifact), 2022. [64] Tong Zhou, Xin Peng, Jie Zhang, Chaofeng Sha, Chenxi Zhang, Zicheng Yuan, and Senyu Xie. Tracellm: Evaluating and exploring large language models on trace analysis in microservice-based web applications. In Proceedings of the ACM Web Conference 2026 , pages 5120–5131, 2026. 
+
+## A Full Para ll ax Report 
+
+Figure 13 shows the full comparison report generated by Para ll ax for comparing the two trace populations of the ComposePost API from the DeathStarBench trace dataset [3]. Enabling Multi-Dimensional Distributed Trace Comparison with Contrast Conference’17, July 2017, Washington, DC, USA 
+
+− ∗∗ Scale and consistency ∗∗ − First execution is larger and far more uniform: ∗∗ 2391 traces ∗∗ with a stable compose −post workflow present in almost all traces. 
+
+− Second execution has ∗∗ 1054 traces ∗∗ and is much less uniform, with many degraded, partial, or failed paths. 
+
+− ∗∗ Fan −out / structural completeness ∗∗ − First execution shows near −complete fan −out from `nginx −thrift ` to ∗∗ user, media, text, and unique −id ∗∗ in almost every trace, with strong convergence into `compose −post ` and then successful downstream persistence/timeline updates. 
+
+− Second execution shows much lower participation counts for those same branches and weaker convergence into `compose −post `,indicating many requests do not complete the normal workflow. 
+
+− ∗∗ Dominant behavior ∗∗ − First execution is dominated by a ∗∗ healthy fan −out/fan −in orchestration ∗∗ pattern. 
+
+− Second execution is dominated by ∗∗ client −pool acquisition steps, retries, and degraded alternate paths ∗∗ , making resource contention a first −class structural feature. 
+
+− ∗∗ Latency profile ∗∗ − First execution has a ∗∗ slower median end −to −end latency ∗∗ (`nginx −thrift ` p50 ∗∗ 314 ms ∗∗ ) but relatively controlled tails (p99 
+
+∗∗ 659 ms ∗∗ ). 
+
+− Second execution has a ∗∗ faster median ∗∗ (`nginx −thrift ` p50 ∗∗ 54 ms ∗∗ ) but dramatically worse tail latency (p90 ∗∗ 433 ms ∗∗ , p99 
+
+∗∗ 1043 ms ∗∗ ), indicating many requests fail or short −circuit quickly while a subset stall badly. 
+
+− ∗∗ Main latency bottlenecks ∗∗ − First execution 's main cost is ∗∗ business −path latency ∗∗ , especially `text.TextHandler::UploadText ` and `_ComposeAndUpload `.
+
+− Second execution 's main cost is ∗∗ resource contention and dependency waits ∗∗ , especially multi −second delays in `text `/`url −
+
+shorten `/`user −mention ` client −pool and upload paths. 
+
+− ∗∗ Client pool behavior ∗∗ − First execution shows ∗∗ pervasive but mostly healthy ∗∗ client −pool usage, with only ∗∗ rare ∗∗ "No client available" / "Creating a new client" events. 
+
+− Second execution shows ∗∗ systemic pool exhaustion ∗∗ , frequent waiting/timeouts, and much larger latency in pool −pop spans. 
+
+− ∗∗ Reliability / errors ∗∗ − First execution appears ∗∗ mostly successful ∗∗ , with only rare cold −client events and no major correctness failures highlighted. 
+
+− Second execution is ∗∗ highly failure −prone ∗∗ , with widespread connection failures, pool timeouts, and incomplete service operations. 
+
+− ∗∗ Compose −post service health ∗∗ − In the first execution, `compose −post ` acts as a stable aggregation point, reads from Redis, composes posts, persists them, and updates timelines. 
+
+− In the second execution, `compose −post ` is a ∗∗ failure amplifier ∗∗ , with connectivity issues, pool contention, and repeated ∗∗ Redis connection failures ∗∗ .
+
+− ∗∗ Downstream persistence ∗∗ − First execution shows `post −storage.ReadPost ` and `user −timeline.WriteUserTimeline ` occurring ∗∗ 2390 times ∗∗ and remaining fast. 
+
+− Second execution shows final compose/publish stages are ∗∗ rare and unsuccessful ∗∗ , with failures to connect to `post −storage ` and 
+
+`user −timeline `.
+
+− ∗∗ Text and URL processing ∗∗ − First execution 's text branch is slow but functionally regular, and URL shortening is almost always used successfully. 
+
+− Second execution 's text branch is one of the most unstable parts of the system, with many failures involving `url −shorten ` and degraded completion rates. 
+
+− ∗∗ Correctness / API behavior ∗∗ − First execution shows no evidence of API mismatch. 
+
+− Second execution uniquely shows many ∗∗ "Invalid method name" ∗∗ frontend errors, suggesting ∗∗ RPC interface/version/routing problems ∗∗ absent from the first execution. 
+
+− ∗∗ End −to −end success ∗∗ − First execution implies a ∗∗ high effective success rate ∗∗ and a coherent end −to −end workflow. 
+
+− Second execution implies a ∗∗ very low effective success rate ∗∗ , with only a small number of apparent successful uploads and even those encountering failures in final publication stages. 
+
+Figure 13: Full report generated by Para ll ax for the population to population comparison of the DeathStarBench traces

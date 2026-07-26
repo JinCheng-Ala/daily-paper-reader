@@ -6,37 +6,34 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-25
-- 运行时间：2026-07-25 21:15:16 UTC
+- 最新运行日期：2026-07-26
+- 运行时间：2026-07-26 21:05:13 UTC
 - 运行状态：成功
 - 本次总论文数：4
-- 精读区：0
-- 速读区：4
+- 精读区：1
+- 速读区：3
 
 ### 今日简报（AI）
-今日速读4篇LLM Agent相关论文，其中1篇聚焦工具增强Agent的安全拒绝行为审计，另2篇探讨API调用Agent的合成数据生成与时序基准构建。
-
-最值得关注的是《Guardrails as Scapegoats》（7/10），揭示了Agent在工具调用中“甩锅”给安全护栏的虚假拒绝机制；《Environment-free Synthetic Data Generation》和《SAGA》则分别提供零环境依赖的数据生成思路与动态图基准构建方法。
-
-建议普通读者优先阅读第一篇以理解Agent安全风险，后两篇可辅助设计更鲁棒的数据生成与评测方案。
-- 详情：[/202607/25/README](/202607/25/README)
+1) 今日聚焦可解释性与可靠性：精读分布式系统多维轨迹对比方法（8.0分），速读涉及LLM代理确定性验证、动态图约束映射及可靠Agent计算等前沿。
+2) 最值得关注方向：分布式追踪的对比诊断技术（精读）与白盒XSS发现中的抗奖励黑客验证（7.0分）。
+3) 建议优先精读《Enabling Multi-Dimensional Distributed Trace Comparison with Contrast》，再速读HACO等论文以了解LLM系统可靠性保障。
+- 详情：[/202607/26/README](/202607/26/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Enabling Multi-Dimensional Distributed Trace Comparison with Contrast](/202607/26/2607.19102v1-enabling-multi-dimensional-distributed-trace-comparison-with-contrast)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：通过多维度对比异常轨迹与期望轨迹，实现分布式轨迹中的异常检测
 
 ### 速读区论文标签
-1. [Guardrails as Scapegoats: Auditing Unfaithful Safety Refusals in Tool-Augmented LLM Agents](/202607/25/2607.19449v1-guardrails-as-scapegoats-auditing-unfaithful-safety-refusals-in-tool-augmented-llm-agents)  
+1. [RECEIPT: Deterministic, Reward-Hacking-Resistant Verification for White-Box Agentic XSS Discovery](/202607/26/2607.18575v1-receipt-deterministic-reward-hacking-resistant-verification-for-white-box-agentic-xss-discovery)  
    标签：评分：7.0/10、query:agent-error
-   evidence：检测工具增强agent响应中的静默失败与异常
-2. [Environment-free Synthetic Data Generation for API-Calling Agents](/202607/25/2607.16900v1-environment-free-synthetic-data-generation-for-api-calling-agents)  
+   evidence：验证智能体报告并检测奖励黑客行为
+2. [Bridging the Gap Between Plausibility and Admissibility: Constraint-Aware Flow Maps for Dynamic Graph Systems](/202607/26/2607.21421v1-bridging-the-gap-between-plausibility-and-admissibility-constraint-aware-flow-maps-for-dynamic-graph-systems)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：后采样符号约束用于过滤和修复轨迹，与智能体轨迹错误检测相关
+3. [HACO: Hedged Agent Computing for Reliable LLM Systems](/202607/26/2607.19215v1-haco-hedged-agent-computing-for-reliable-llm-systems)  
    标签：评分：6.0/10、query:agent-error
-   evidence：生成合成代理轨迹用于训练错误检测器
-3. [SAGA: Synthetic Agentic Graph Architecture for Temporal Benchmark Generation](/202607/25/2607.17288v1-saga-synthetic-agentic-graph-architecture-for-temporal-benchmark-generation)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：生成带有异常标签的时序图
-4. [Stochastic Multi-Objective Kinodynamic Planning Against Adversaries](/202607/25/2607.19284v1-stochastic-multi-objective-kinodynamic-planning-against-adversaries)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：对抗环境下的运动规划与风险评估
+   evidence：运行时控制方案处理 agent 实例失败，提升可靠性
 
 
 <div class="dpr-home-promo-card">

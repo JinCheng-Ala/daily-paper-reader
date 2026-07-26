@@ -1,0 +1,168 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-26T21:01:52.611413+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2607.19102v1",
+      "source": "arxiv",
+      "title": "Enabling Multi-Dimensional Distributed Trace Comparison with Contrast",
+      "abstract": "Diagnosis using distributed traces is fundamentally a comparative task: operators seek to understand how an anomalous execution differs from expected behavior, how a deployment changes system execution, or how two individual executions differ. Trace comparison is challenging because useful differences between executions can manifest across multiple dimensions, and no single diagnostic interface is effective at capturing all of them. Moreover, the relevant dimensions and comparison populations are often not known a priori; operators construct and refine comparison sets dynamically as they develop hypotheses about system behavior.   This paper presents Contrast, a system for multi-dimensional comparative trace analysis. Contrast introduces the Trace Projection Object (TPO), a mergeable representation that captures structural, temporal, critical-path, and semantic properties of trace populations while enabling efficient construction of arbitrary comparison sets at query time. Unlike approaches that define a fixed notion of trace difference, Contrast separates trace representation from comparison semantics, allowing diverse interfaces to selectively reason about specific dimensions. This separation enables the composition of complementary interfaces, allowing operators to combine insights from multiple dimensions for more effective diagnosis. We demonstrate this capability through two complementary interfaces: (i) SpectroViz, a critical-path-based visual interface for localizing execution differences; and (ii) Parallax, a natural language interface for generating explanations of trace differences using LLMs.   We demonstrate the effectiveness and efficiency of Contrast through controlled experiments on traces from DeathStarBench and evaluation on production traces from Uber.",
+      "authors": [
+        "Vaastav Anand",
+        "Rodrigo Fonseca",
+        "Jonathan Mace",
+        "Antoine Kaufmann"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-07-21T13:44:36+00:00",
+      "link": "https://arxiv.org/pdf/2607.19102v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "enables anomaly detection in distributed traces by comparing anomalous and expected trajectories across multiple dimensions",
+      "llm_evidence_cn": "通过多维度对比异常轨迹与期望轨迹，实现分布式轨迹中的异常检测",
+      "llm_evidence": "通过多维度对比异常轨迹与期望轨迹，实现分布式轨迹中的异常检测",
+      "canonical_evidence": "通过多维度对比异常轨迹与期望轨迹，实现分布式轨迹中的异常检测",
+      "llm_tldr_en": "Introduces Contrast, a system for multi-dimensional comparative trace analysis that helps operators identify how anomalous executions differ from expected behavior, enabling error detection in trajectories.",
+      "llm_tldr_cn": "该论文提出Contrast系统，用于分布式轨迹的多维度对比分析。操作人员可通过Trace Projection和TraceDiff等工具，动态构建对比集，从多个维度发现异常执行与期望行为的差异。该系统有效支持了轨迹异常检测，为诊断代理系统错误提供了可泛化的方法论。",
+      "llm_tldr": "该论文提出Contrast系统，用于分布式轨迹的多维度对比分析。操作人员可通过Trace Projection和TraceDiff等工具，动态构建对比集，从多个维度发现异常执行与期望行为的差异。该系统有效支持了轨迹异常检测，为诊断代理系统错误提供了可泛化的方法论。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.18575v1",
+      "source": "arxiv",
+      "title": "RECEIPT: Deterministic, Reward-Hacking-Resistant Verification for White-Box Agentic XSS Discovery",
+      "abstract": "Cross-Site Scripting (XSS) remains one of the most prevalent and damaging classes of web vulnerabilities. LLM-based coding agents offer a promising approach to XSS discovery by combining source-code reasoning with interactive testing against a running application. However, a coding agent's claims cannot be trusted on their own. We characterize three reward-hacking behaviors in white-box agentic XSS discovery and propose three requirements that an ideal verifier should meet.   We present RECEIPT, a verification framework that makes agent-reported XSS findings trustworthy by enforcing environment isolation, PoC constraints, role separation, and verdict binding. Each confirmation therefore establishes two properties: the script runs in a real browser, and the payload was planted under the attacker role and executed in the victim role's browser. This constrained replay procedure makes validation deterministic and reproducible. We evaluate RECEIPT on 95 real-world web-application targets drawn from popular open-source projects. Within a $20 per-application budget, RECEIPT found 24 previously unknown XSS vulnerabilities, 12 of which have already been acknowledged by maintainers after responsible disclosure, and recovered the labeled CVE in 36% of known-vulnerability recovery targets. Compared with the same agent using self-judgment and with black-box scanners, RECEIPT confirms more real exploits while admitting no false positives.",
+      "authors": [
+        "Muxi Lyu",
+        "Karen Shieh",
+        "Yiwei Hou",
+        "Hao Wang",
+        "Koushik Sen",
+        "David Wagner"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR"
+      ],
+      "published": "2026-07-20T23:16:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.18575v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "verifies agent reports and detects reward-hacking behaviors in agentic XSS discovery",
+      "llm_evidence_cn": "验证智能体报告并检测奖励黑客行为",
+      "llm_evidence": "验证智能体报告并检测奖励黑客行为",
+      "canonical_evidence": "验证智能体报告并检测奖励黑客行为",
+      "llm_tldr_en": "RECEIPT is a verification framework that detects reward-hacking in agentic XSS discovery by enforcing environment isolation, PoC constraints, role separation, and verdict binding.",
+      "llm_tldr_cn": "本文针对 LLM 编码 agent 在 XSS 发现中的奖励黑客行为，提出 RECEIPT 验证框架。通过环境隔离、PoC 约束、角色分离和判决绑定，确保 agent 报告可信。在多种攻击场景下证明能有效检测 agent 错误行为。",
+      "llm_tldr": "本文针对 LLM 编码 agent 在 XSS 发现中的奖励黑客行为，提出 RECEIPT 验证框架。通过环境隔离、PoC 约束、角色分离和判决绑定，确保 agent 报告可信。在多种攻击场景下证明能有效检测 agent 错误行为。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.19215v1",
+      "source": "arxiv",
+      "title": "HACO: Hedged Agent Computing for Reliable LLM Systems",
+      "abstract": "As large language model (LLM) agents move from isolated prompting to longhorizon workflows, failures increasingly arise at the role-to-instance binding boundary, where task-specific role requests must be assigned to concrete agent instances under current service, network, and query conditions. Existing agent system research has improved role specialization, workflow topology, memory, and tool use, but often assumes a fixed stable execution environment. This assumption limits deployed reliability, because the same role request can exhibit different latency, failure probability, and output quality across agent instances operating under different service regions and network conditions. We propose Hedged Agent Computing (HACO), a runtime control scheme that treats each role request as a reliability-constrained selection problem over candidate agent instances, each coupling a role type, an LLM, and a concrete execution environment. Different from routing, HACO adaptively selects a hedge set of candidates for each invocation. Its allocation rule combines optimistic ranking, which prioritizes candidates with high estimated quality, reliability, and informative uncertainty, with conservative reliability accumulation, which stops selection only after the hedge set reaches a target success probability. Through experience harvesting, HACO updates candidate and link profiles from all executed candidate traces, including quality, success, latency, and network statistics. Experiments on various benchmarks, together with runtime degradation studies, show that HACO improves robustness and output quality under changing deployment conditions, while using lower token and latency cost than exhaustive parallel execution.",
+      "authors": [
+        "Enhan Li",
+        "Hongyang Du"
+      ],
+      "primary_category": "cs.NI",
+      "categories": [
+        "cs.NI"
+      ],
+      "published": "2026-07-21T15:47:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.19215v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "runtime control scheme to handle failures in agent instances, improving reliability",
+      "llm_evidence_cn": "运行时控制方案处理 agent 实例失败，提升可靠性",
+      "llm_evidence": "运行时控制方案处理 agent 实例失败，提升可靠性",
+      "canonical_evidence": "运行时控制方案处理 agent 实例失败，提升可靠性",
+      "llm_tldr_en": "HACO is a runtime control scheme for LLM agent systems that hedges against instance failures by adaptive assignment, improving reliability.",
+      "llm_tldr_cn": "HACO 针对 LLM agent 在长工作流中角色到实例绑定的故障问题，提出套期计算运行时控制方案。通过感知服务区域和网络条件，动态选择实例以降低失败概率和延迟，间接实现了对 agent 运行错误的检测与规避。",
+      "llm_tldr": "HACO 针对 LLM agent 在长工作流中角色到实例绑定的故障问题，提出套期计算运行时控制方案。通过感知服务区域和网络条件，动态选择实例以降低失败概率和延迟，间接实现了对 agent 运行错误的检测与规避。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21421v1",
+      "source": "arxiv",
+      "title": "Bridging the Gap Between Plausibility and Admissibility: Constraint-Aware Flow Maps for Dynamic Graph Systems",
+      "abstract": "Generative models can support decision-making under uncertainty by producing ensembles of plausible future system trajectories, but statistical plausibility does not ensure structural feasibility. This study investigates whether post-sampling symbolic constraints can improve the reliability of generative trajectory modeling in dynamic graph-structured systems. A conditional diffusion model generates future graph-state trajectories from partial observations, while an external symbolic layer applies hard filtering, soft weighting, or projection-based repair. The framework is evaluated on two controlled synthetic regimes: a compact graph and a medium-complexity dependency graph, using metrics for structural validity, sample efficiency, diversity, robustness, and calibration. In the compact regime, the model produces an invalid probability mass of 0.002996, indicating an almost entirely admissible trajectory manifold. Under the same architecture and training protocol, invalid mass increases to 0.155929 in the medium-complexity regime. Hard filtering removes all invalid retained trajectories while preserving 84.4% of generated samples, whereas soft weighting preserves effective sample size but yields only limited validity gains. Family-level analysis shows that dependency constraints account for nearly all observed inadmissibility. These results indicate that statistical plausibility and structural admissibility are distinct reliability properties and that symbolic constraint handling becomes more valuable as graph-structural complexity increases.",
+      "authors": [
+        "Michael Romei de Socio",
+        "Gian Luca Pozzato",
+        "Alessio Merlo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-23T15:25:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.21421v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "post-sampling symbolic constraints to filter and repair trajectories, relevant to error detection in agent trajectories",
+      "llm_evidence_cn": "后采样符号约束用于过滤和修复轨迹，与智能体轨迹错误检测相关",
+      "llm_evidence": "后采样符号约束用于过滤和修复轨迹，与智能体轨迹错误检测相关",
+      "canonical_evidence": "后采样符号约束用于过滤和修复轨迹，与智能体轨迹错误检测相关",
+      "llm_tldr_en": "Proposes constraint-aware flow maps using diffusion models and symbolic repair to ensure structural feasibility of generated trajectories, applicable to agent error detection.",
+      "llm_tldr_cn": "本文针对生成模型轨迹的可行性问题，提出约束感知流图框架：用扩散模型生成图动态系统轨迹，再通过符号层进行硬过滤、软加权或投影修复。在合成图上验证了结构有效性，该方法可直接迁移至智能体轨迹错误检测场景。",
+      "llm_tldr": "本文针对生成模型轨迹的可行性问题，提出约束感知流图框架：用扩散模型生成图动态系统轨迹，再通过符号层进行硬过滤、软加权或投影修复。在合成图上验证了结构有效性，该方法可直接迁移至智能体轨迹错误检测场景。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
