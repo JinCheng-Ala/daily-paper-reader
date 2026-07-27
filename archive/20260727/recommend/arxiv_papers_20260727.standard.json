@@ -1,0 +1,249 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-27T21:28:23.538283+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2607.22385v1",
+      "source": "arxiv",
+      "title": "Agentic Root Cause Analysis through Evidence-Grounded Reasoning",
+      "abstract": "Diagnosing the root cause of anomalies is essential for safe industrial operation. Despite extensive sensor instrumentation, formulating hypotheses and gathering evidence remains a manual process, creating a major operational bottleneck. While existing data-driven approaches aim to automate this, two critical limitations restrict their deployment: their operate as black boxes unable to justify their diagnosis, and they require scarce labeled examples of faulty operation. To address this gap, we introduce AgentRCA, a zero-shot agentic framework for evidence-grounded root cause analysis. Rather than learning fault-specific mappings, AgentRCA performs inference-time reasoning by combining a data-driven digital twin (modeling normal system dynamics) with a tool-augmented large language model. The agent iteratively gathers statistical evidence, evaluates competing hypotheses, and identifies the physical fault that best explains the observed behavior. Evaluated on a real-world multiphase-flow facility and a large-scale chemical plant, AgentRCA achieves diagnostic performance competitive with fully supervised baselines without relying on fault-specific training. Crucially, it produces transparent reasoning traces that explicitly link observed symptoms to their underlying physical causes. These results establish autonomous hypothesis-driven reasoning as a practical foundation for scalable industrial root cause analysis.",
+      "authors": [
+        "Amaury Wei",
+        "Olga Fink"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-24T15:10:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.22385v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "zero-shot agentic framework for evidence-grounded root cause analysis of anomalies",
+      "llm_evidence_cn": "零样本agent框架用于基于证据的异常根因分析",
+      "llm_evidence": "零样本agent框架用于基于证据的异常根因分析",
+      "canonical_evidence": "零样本agent框架用于基于证据的异常根因分析",
+      "llm_tldr_en": "AgentRCA performs inference-time reasoning combining digital twin and tool-use for zero-shot root cause analysis of anomalies.",
+      "llm_tldr_cn": "提出AgentRCA，一个零样本agent框架，通过结合数据驱动数字孪生和工具调用进行推理时根因分析。无需故障标注样本，即可通过证据推理诊断异常原因。在工业数据集上展示了有效性。",
+      "llm_tldr": "提出AgentRCA，一个零样本agent框架，通过结合数据驱动数字孪生和工具调用进行推理时根因分析。无需故障标注样本，即可通过证据推理诊断异常原因。在工业数据集上展示了有效性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.22448v1",
+      "source": "arxiv",
+      "title": "Where FactsGo Missing: A LayerwiseTaxonomy and Per-Layer Attribution of Information Omissionin Air-Gapped LLM Agent Pipelines",
+      "abstract": "Air-gapped and on-premises deployments in regulated settings (clinical FHIR services, legal review, sovereign infrastructure) cannot call frontier APIs; they run quantized 4-8B models via llama.cpp or vLLM behind tool servers. The dominant reliability failure is omission: the silent absence of a decision-critical fact, such as an agent reading 20 of 400 records and reporting \"no anomalies.\" We argue omission is a pipeline phenomenon, not a model phenomenon, and make four contributions. First, a nine-layer taxonomy (L0-L8) locating every omission mechanism from ingestion through the agent loop. Second, an attribution methodology separating deterministic layers (L0-L3) from behavioral layers (L4-L8) via controlled ablation and logit decomposition, quantifying each with an omission waterfall. Third, an open cross-architecture harness comparing sliding-window-hybrid, full-attention, and SSM-hybrid models across engines and frameworks. Fourth, a runtime-detection framework for air-gapped settings where you own the logits. Results from a 75,476-trial sweep across five models and two engines show a pooled omission rate of 0.62; 68% originates in deterministic middleware (L0-L3), relocating where operators should intervene. Server-side profile factors (weight quantization, KV-cache type, RoPE scaling) were fixed and left for future work.",
+      "authors": [
+        "Santhiya Rajan"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-07-24T16:10:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.22448v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "detects silent omission anomalies in LLM agent pipelines",
+      "llm_evidence_cn": "检测LLM agent管道中的沉默遗漏异常",
+      "llm_evidence": "检测LLM agent管道中的沉默遗漏异常",
+      "canonical_evidence": "检测LLM agent管道中的沉默遗漏异常",
+      "llm_tldr_en": "Proposes a nine-layer taxonomy and attribution method for locating information omission errors in air-gapped LLM agent pipelines, addressing a critical reliability failure.",
+      "llm_tldr_cn": "针对隔离部署的LLM agent管道中常见的信息遗漏问题，论文提出一个九层分类体系（L0-L8）来定位从数据摄入到Agent循环的每个遗漏机制，并给出确定性层与行为层的归因方法。实验表明该分类法能有效诊断真实部署中的遗漏错误，为构建可靠Agent系统提供系统化分析工具。",
+      "llm_tldr": "针对隔离部署的LLM agent管道中常见的信息遗漏问题，论文提出一个九层分类体系（L0-L8）来定位从数据摄入到Agent循环的每个遗漏机制，并给出确定性层与行为层的归因方法。实验表明该分类法能有效诊断真实部署中的遗漏错误，为构建可靠Agent系统提供系统化分析工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20999v1",
+      "source": "arxiv",
+      "title": "Workflow-Localized Mechanism Learning: Attribution-Guided Repair and Knowledge Reuse for Structured Agent Skills",
+      "abstract": "Agent Skills package reusable procedural knowledge as external artifacts for frozen language-model agents, yet existing optimizers do not jointly resolve where a failure occurs in a workflow, which mechanism caused it, and how relevant knowledge from third-party Skills should be reused locally. We introduce Workflow-Localized Mechanism Learning (WML). Its Node--Mechanism Attribution identifies the failed workflow node, implicated mechanisms, and smallest valid edit target, routing single-mechanism defects to L3 resources and relational defects across mechanisms to L2 composition protocols. A six-module Workflow-Guided Skill Optimization (WGSO) loop then selects provenance- and scope-aware third-party knowledge, applies bounded patches, evaluates candidates, and stores verified outcomes in optimizer-side memory. On SpreadsheetBench, WML reaches 90.33 +/- 1.53 and 74.67 +/- 3.51 Hard Accuracy with DeepSeek and Qwen3.6-Flash, respectively; without additional optimization, the learned Skills transfer to WikiTableQuestions with 84.00 +/- 2.00 and 83.00 +/- 2.00 Denotation Accuracy. On Compiler-Supported50, WML attains both the highest hard-PASS rate and the lowest cost per successful task; compiled execution sharply reduces tokens and calls relative to a direct SkillAgent while retaining most of its successful tasks. Code and artifacts are available at https://github.com/xiaolin9595/workflow-localized-mechanism-learning.",
+      "authors": [
+        "Zibin Lin",
+        "Shengli Zhang",
+        "Taotao Wang",
+        "Yihan Xia",
+        "Deen Ma",
+        "Guofu Liao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-23T07:28:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.20999v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "identifies failed workflow node and mechanisms in agent skills",
+      "llm_evidence_cn": "识别agent技能中的失败工作流节点和机制",
+      "llm_evidence": "识别agent技能中的失败工作流节点和机制",
+      "canonical_evidence": "识别agent技能中的失败工作流节点和机制",
+      "llm_tldr_en": "WML method attributes agent workflow failures to specific nodes and mechanisms, enabling targeted repair and knowledge reuse.",
+      "llm_tldr_cn": "提出工作流本地化机制学习（WML），通过节点-机制归因识别agent工作流中的失败节点、涉事机制及最小有效编辑目标。结合六模块工作流引导的技能优化循环，选择第三方知识进行修复。该方法直接支持检测动作错误并定位根因。",
+      "llm_tldr": "提出工作流本地化机制学习（WML），通过节点-机制归因识别agent工作流中的失败节点、涉事机制及最小有效编辑目标。结合六模块工作流引导的技能优化循环，选择第三方知识进行修复。该方法直接支持检测动作错误并定位根因。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.19338v1",
+      "source": "arxiv",
+      "title": "CodeRescue: Budget-Calibrated Recovery Routing for Coding Agents",
+      "abstract": "Coding agents increasingly operate in executable environments where a failed attempt produces actionable feedback rather than merely an incorrect answer. Existing cost-aware systems typically treat such failures as cascade decisions: try a cheap model first, then escalate hard cases to a stronger and more expensive model. In coding, however, execution feedback can also make further cheap-model recovery worthwhile, raising a budgeted deployment question: when should an agent spend more cheap compute, and when should it escalate? We formulate this post-failure decision as recovery routing over heterogeneous actions and train a supervised router from execution rollouts. To make the same router usable under changing budgets, we add a Conformal Risk Control (CRC) layer that selects a deployment-time cost penalty without retraining and provides marginal expected-cost control under exchangeability. Across held-out failures from five coding benchmarks, cheap recovery and escalation exhibit complementary success patterns. The calibrated frontier improves over fixed actions, prompt-only routers, and a binary cascade baseline; in the main GPT-5.4-nano/GPT-5.4 setting, one CRC-calibrated frontier point exceeds always-escalate solve rate while using 35% of its mean recovery cost. Code is available at https://github.com/Qijia-He/agent-budget-control.",
+      "authors": [
+        "Qijia He",
+        "Jiayi Cheng",
+        "Chenqian Le",
+        "Rui Wang",
+        "Xunmei Liu",
+        "Yixian Chen",
+        "Jie Mei",
+        "Zhihao Wang",
+        "Xupeng Chen",
+        "Yuhuan Chen",
+        "Tao Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-21T17:56:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.19338v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "focuses on post-failure recovery routing for coding agents using execution feedback",
+      "llm_evidence_cn": "关注编码智能体失败后的恢复路由，利用执行反馈",
+      "llm_evidence": "关注编码智能体失败后的恢复路由，利用执行反馈",
+      "canonical_evidence": "关注编码智能体失败后的恢复路由，利用执行反馈",
+      "llm_tldr_en": "CodeRescue formulates post-failure decision as recovery routing over heterogeneous actions and trains a supervised router from execution rollouts, relevant to error handling in agent trajectories.",
+      "llm_tldr_cn": "编码智能体在可执行环境中失败后会产生可操作的反馈，现有系统往往简单地将失败后决策视为级联。CodeRescue 将失败后恢复建模为异构动作上的路由问题，利用执行轨迹训练监督路由器，并引入保形风险控制使其适应不同预算。实验表明该方法能有效权衡成本和恢复成功率。",
+      "llm_tldr": "编码智能体在可执行环境中失败后会产生可操作的反馈，现有系统往往简单地将失败后决策视为级联。CodeRescue 将失败后恢复建模为异构动作上的路由问题，利用执行轨迹训练监督路由器，并引入保形风险控制使其适应不同预算。实验表明该方法能有效权衡成本和恢复成功率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "How to detect errors in agent trajectories?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.21421v1",
+      "source": "arxiv",
+      "title": "Bridging the Gap Between Plausibility and Admissibility: Constraint-Aware Flow Maps for Dynamic Graph Systems",
+      "abstract": "Generative models can support decision-making under uncertainty by producing ensembles of plausible future system trajectories, but statistical plausibility does not ensure structural feasibility. This study investigates whether post-sampling symbolic constraints can improve the reliability of generative trajectory modeling in dynamic graph-structured systems. A conditional diffusion model generates future graph-state trajectories from partial observations, while an external symbolic layer applies hard filtering, soft weighting, or projection-based repair. The framework is evaluated on two controlled synthetic regimes: a compact graph and a medium-complexity dependency graph, using metrics for structural validity, sample efficiency, diversity, robustness, and calibration. In the compact regime, the model produces an invalid probability mass of 0.002996, indicating an almost entirely admissible trajectory manifold. Under the same architecture and training protocol, invalid mass increases to 0.155929 in the medium-complexity regime. Hard filtering removes all invalid retained trajectories while preserving 84.4% of generated samples, whereas soft weighting preserves effective sample size but yields only limited validity gains. Family-level analysis shows that dependency constraints account for nearly all observed inadmissibility. These results indicate that statistical plausibility and structural admissibility are distinct reliability properties and that symbolic constraint handling becomes more valuable as graph-structural complexity increases.",
+      "authors": [
+        "Michael Romei de Socio",
+        "Gian Luca Pozzato",
+        "Alessio Merlo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-23T15:25:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.21421v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "external symbolic layer applies constraints to detect and repair invalid trajectories",
+      "llm_evidence_cn": "外部符号层通过约束检测并修复无效轨迹，可识别路径偏差",
+      "llm_evidence": "外部符号层通过约束检测并修复无效轨迹，可识别路径偏差",
+      "canonical_evidence": "外部符号层通过约束检测并修复无效轨迹，可识别路径偏差",
+      "llm_tldr_en": "A conditional diffusion model generates future trajectories, and an external symbolic layer enforces structural constraints via filtering/repair, effectively detecting and correcting path deviations in dynamic graph systems.",
+      "llm_tldr_cn": "针对生成轨迹可能违反结构约束的问题，提出约束感知流图框架：扩散模型生成轨迹后，外部符号层通过硬过滤、软加权或投影修复来确保可行性。在合成图系统上验证，该方法能可靠检测并修正路径偏离，提升轨迹的可接受性。",
+      "llm_tldr": "针对生成轨迹可能违反结构约束的问题，提出约束感知流图框架：扩散模型生成轨迹后，外部符号层通过硬过滤、软加权或投影修复来确保可行性。在合成图系统上验证，该方法能可靠检测并修正路径偏离，提升轨迹的可接受性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.22400v1",
+      "source": "arxiv",
+      "title": "A Self-Calibrating Agentic AI Framework for Autonomous Edge Resource Allocation",
+      "abstract": "Large Language Models (LLMs) are increasingly deployed as autonomous agents, transitioning from static conversational interfaces to dynamic systems capable of complex reasoning, tool execution, and decision-making. However, the operational reliability of these agentic AI systems is fundamentally challenged by the absence of reliable ground truth in open-ended environments and the risk of increasing operational drift over time. To address this challenge, we propose and experimentally evaluate an agentic AI framework, designed to enforce autonomous integrity within LLM-driven systems. We design a self-calibration mechanism that mitigates drift and dynamically approximates ground truth by incorporating an ARIMA forecaster, without requiring continuous human oversight. To demonstrate the effectiveness and reliability of our methodology, we apply it to the complex domain of profiling the resource usage of zero-knowledge workloads in edge computing networks. Experimental results show that the proposed self-calibrating agentic framework successfully profiles the zero-knowledge workloads, achieving a higher accuracy than baseline LLM agents by 91.7% for resource usage prediction and improving the prediction speed by 71.7% compared to pure profiling, establishing a robust foundation for deploying autonomous AI in decentralized infrastructures. Furthermore, the ground truth generation using the proposed ARIMA leaping algorithm is 52% faster than a standard ARIMA forecasting algorithm, while achieving the same accuracy.",
+      "authors": [
+        "Fin Gentzen",
+        "Marla Grunewald",
+        "Iulisloi Zacarias",
+        "Mounir Bensalem",
+        "Admela Jukan"
+      ],
+      "primary_category": "cs.NI",
+      "categories": [
+        "cs.NI",
+        "cs.AI"
+      ],
+      "published": "2026-07-24T15:21:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.22400v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "self-calibration mechanism for operational drift detection in LLM agents",
+      "llm_evidence_cn": "针对LLM智能体操作漂移的自校准检测机制",
+      "llm_evidence": "针对LLM智能体操作漂移的自校准检测机制",
+      "canonical_evidence": "针对LLM智能体操作漂移的自校准检测机制",
+      "llm_tldr_en": "A self-calibrating agentic AI framework for edge resource allocation that uses ARIMA forecaster to detect operational drift and approximate ground truth, ensuring autonomous integrity.",
+      "llm_tldr_cn": "LLM驱动的自主智能体面临缺乏可靠真实和操作漂移的可靠性挑战。本文提出一种自校准智能体框架，通过集成ARIMA预测器动态逼近真实值并缓解漂移，无需持续人工干预。实验表明该框架能有效维护自主完整性，为边缘资源分配提供可靠保障。",
+      "llm_tldr": "LLM驱动的自主智能体面临缺乏可靠真实和操作漂移的可靠性挑战。本文提出一种自校准智能体框架，通过集成ARIMA预测器动态逼近真实值并缓解漂移，无需持续人工干预。实验表明该框架能有效维护自主完整性，为边缘资源分配提供可靠保障。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
