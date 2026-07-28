@@ -1,0 +1,465 @@
+Title: Evaluating Fuzz Testing for Reinforcement Learning Agents
+
+URL Source: https://arxiv.org/pdf/2607.24577v1
+
+Published Time: Tue, 28 Jul 2026 02:11:59 GMT
+
+Number of Pages: 14
+
+Markdown Content:
+> JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 1
+
+# Evaluating Fuzz Testing for Reinforcement Learning Agents 
+
+Zhibin Kang, Hanmo You, Dong Wang, Haiming Zheng, Junjie Chen* 
+
+Abstract —Reinforcement Learning (RL) agents are increas-ingly deployed in safety-critical domains such as robotics, au-tonomous driving, and drone control, where unexpected behav-iors may lead to severe real-world consequences. Fuzz testing has recently emerged as a promising method for exploring the vast state spaces of RL agents and exposing crashes. Although numerous RL fuzzing methods have been proposed, existing studies often differ in evaluation settings, baselines, and metrics, making it difficult to draw reliable conclusions about their relative effectiveness and practical usefulness. To address this gap, we present the first comprehensive empirical study that systematically evaluates RL fuzzing methods from four com-plementary perspectives: effectiveness, diversity, efficiency, and practical utility. We benchmark five state-of-the-art methods alongside random testing under unified configurations across three environments of increasing complexity (MountainCar, BipedalWalker, and CARLA), and further assess the downstream usefulness of detected crashes for agent robustness improvement and safety monitoring. Our results reveal several key insights. For instance,throughput-oriented methods like MDPFuzz demon-strate superior effectiveness and efficiency in crash discovery, while methods explicitly designed to encourage exploration like SeqDivFuzz excel at uncovering diverse crash behaviors. We also show that fuzzing-generated crashes can meaningfully im-prove agent robustness and enable accurate safety monitoring with strong cross-method generalization. Beyond these empirical findings, we distill actionable guidance for both researchers and practitioners, highlighting the benefits of combining complemen-tary fuzzing strategies and adopting multi-level diversity analysis to achieve more comprehensive and practical RL testing. 
+
+Index Terms —Reinforcement Learning, Fuzz Testing, Empiri-cal Study 
+
+I. I NTRODUCTION 
+
+Reinforcement Learning (RL) agents have been increasingly deployed in domains that are closely intertwined with human life, including safety-critical scenarios such as drone naviga-tion [19], robotic control [23], and autonomous driving [64]. An RL agent typically learns decision-making policies through repeated interactions with an environment, receiving feedback in the form of rewards and penalties, and continuously adapt-ing its behavior to maximize long-term objectives. [35] Similar to traditional software systems, they may exhibit unexpected or erroneous behaviors, particularly when exposed to rare, complex, or previously unseen environmental conditions [49]. The potential risks of such crashes have been underscored by real-world incidents involving learning-based autonomous systems, such as the widely reported Cruise autonomous 
+
+> Z. Kang, H. You, D. Wang, H. Zheng, J. Chen are with the College of Intelligence and Computing, Tianjin University, Tianjin, China. E-mail: {kzb, youhanmo, dong_w, zhenghm, junjiechen}@tju.edu.cn Corresponding author: Junjie Chen.
+
+vehicle pedestrian collision [25], which revealed the challenges of achieving reliable decision-making in highly dynamic and uncertain environments. These observations highlight the prac-tical urgency and societal importance of reliable RL agents. Testing is a critical means of ensuring the quality and reliability of RL agents [34, 36]. Among the various testing methods, fuzzing, which generates large volumes of diverse and potentially adversarial test inputs to trigger unexpected behaviors, has proven particularly effective in exploring the vast and complex state spaces of RL agents [45, 52]. As a result, fuzzing has emerged as a prominent research direction for exposing potential crashes, and a number of fuzzing-based methods have been proposed in recent years. For example, Pang et al. [36] introduced MDPFuzz, which employs Gaus-sian Mixture Models (GMMs) to guide the generation of test inputs and increase the likelihood of triggering crashes. Li et al. [29] proposed a generation-based method, which leverages diffusion models to learn the distribution of normal test inputs and subsequently generate diverse abnormal test inputs that deviate from this learned distribution. These methods have demonstrated promising effectiveness and have laid a solid foundation for subsequent research on RL agent fuzz testing. While these methods have shown encouraging progress, selecting an appropriate RL fuzzing method for real-world deployment remains challenging. Existing methods differ sub-stantially in their design objectives and optimization strate-gies, making their strengths and limitations difficult to assess from individual studies alone. Consequently, practitioners and researchers lack reliable empirical evidence for choosing ap-propriate methods under different testing requirements [59]. However, current studies [18, 29, 33, 34, 53] provide limited support for such decision making due to several methodolog-ical shortcomings. First, comparative evaluation remains insufficient. Many proposed methods are evaluated in isolation and are not systematically included as baselines in subsequent studies, limiting the ability to establish clear performance im-provements over prior work. Even fundamental strategies such as random testing, which provide an essential stochastic lower bound, are frequently omitted from comparisons. Moreover, differences in implementation versions (e.g., early version [36] versus updated releases of MDPFuzz [34]) may influence experimental outcomes, potentially introducing variability in reported results. Second, comparative experiments often lack fairness and standardization. Different works adopt inconsistent parameter settings, heterogeneous evaluation met-rics, and varying benchmark tasks, making direct comparisons difficult. For example, certain methods [33, 68] fail to inves-tigate complex benchmark scenarios, while others [36] do not arXiv:2607.24577v1 [cs.LG] 27 Jul 2026 JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 2
+
+incorporate diversity as a key metric in their evaluation. Such inconsistencies obscure the true effectiveness and efficiency of competing fuzzing methods and weaken the validity of cross-paper conclusions. Third, attention to practical use-fulness remains limited. Existing works primarily focus on maximizing crash discovery, while paying less attention to how detected crashes contribute to downstream benefits. For example, some methods [33, 53] emphasize crash diversity but do not examine whether the discovered crashes can enhance agent robustness through retraining or stress testing. Similarly, safety monitoring [10], i.e., leveraging detected risky states to predict or warn about crash episodes in advance, remains underexplored, despite its importance for real-world deploy-ment. Consequently, practitioners cannot determine whether improvements in crash discovery translate into greater engi-neering benefits for downstream software assurance tasks. To address the aforementioned gaps, we conduct the first comprehensive empirical study to systematically evaluate the effectiveness and efficiency of existing RL fuzzing methods. Specifically: 1) We include five state-of-the-art fuzzing meth-ods [18, 29, 33, 34, 53], together with the fundamental random testing strategy, and evaluate their updated and corrected implementations to ensure a sufficiently thorough and reliable assessment. 2) We adopt unified experimental configurations and evaluate all methods on a diverse set of benchmarks span-ning three scale levels (i.e., MountainCar, BipedalWalker, and CARLA), enabling a fair and controlled comparison. 3) We extend the evaluation beyond crash detection by considering two downstream tasks that leverage the detected crashes, agent robustness improvement and safety monitoring, to assess the practical utility of fuzzing in real-world deployment scenarios. To structurally guide our empirical study, we formulate the following four research questions (RQs): 
+
+- RQ1: How effective are the studied fuzzing methods in crash detection? Overall, methods that emphasize high testing throughput tend to achieve stronger crash discov-ery performance, with MDPFuzz consistently outperforming other methods across benchmarks. For relatively simple tasks, lightweight strategies remain competitive (i.e., random test-ing), whereas for more complex environments, guided explo-ration mechanisms become increasingly important for effective crash discovery. 
+
+- RQ2: How diverse are the crashes detected by the studied fuzzing methods? Methods explicitly designed to encourage exploration, such as SeqDivFuzz, tend to uncover more diverse crash behaviors, whereas efficiency-oriented methods like MDPFuzz prioritize rapid crash discovery but exhibit limited behavioral diversity. These findings highlight an inherent trade-off between crash quantity and crash diver-sity in RL fuzz testing. 
+
+- RQ3: How efficient are the studied fuzzing methods? 
+
+Results show that mutation-based fuzzing methods demon-strate substantially higher efficiency than generative methods, requiring far fewer iterations to trigger each unique crash. These results highlight that fast, guided exploration is critical for efficient RL fuzz testing. 
+
+- RQ4: How useful are the crashes detected by the studied fuzzing methods for RL agents? Fuzzing-generated crashes demonstrate practical value for downstream tasks. When used for agent repair, most methods improve robustness, with diversity-oriented methods achieving the largest gains. For safety monitoring, models trained on crash-triggering inputs achieve strong detection performance, typically exceed-ing 95% accuracy even in cross-method settings, indicating that fuzzing exposes both method-specific and shared crash characteristics that generalize well in practice. Beyond quantitative comparisons, our study yields several practical implications for the design and evaluation of RL fuzz testing. We observe that random testing is frequently overlooked and rarely adopted as a baseline. It delivers better crash detection effectiveness, diversity, and efficiency than many proposed methods, particularly for simple tasks. This de-livers an important reminder for researchers. Different fuzzers exhibit complementary exploration behaviors, suggesting that combining multiple strategies and adopting multi-level diver-sity metrics could improve crash coverage. Our results further highlight the importance of standardized evaluation protocols, scalable and task-agnostic designs, and testing under realistic deployment scenarios rather than simplified toy environments. 
+
+Contributions. To sum up, our work makes the following major contributions: (i) We conduct the first large-scale sys-tematic empirical study of RL fuzz testing, benchmarking six representative methods under unified configurations across environments of varying complexity. Our evaluation spans four comprehensive dimensions, including effectiveness, diversity, efficiency, and practical utility. (ii) Through controlled and in-depth analysis, we reveal the strengths, limitations, and trade-offs of existing fuzzing strategies. We further demonstrate the downstream value of fuzzing and distil a set of action-able guidelines to inform both practitioners and researchers. (iii) We re-implement and standardize the compared fuzz methods, construct an evaluation pipeline to facilitate fair and reproducible comparison, and publicly release all used code, datasets, and experimental artifacts to support future studies [20]. II. B ACKGROUND AND RELATED WORK 
+
+A. Reinforcement Learning 
+
+RL provides a principled mathematical framework to de-scribe how an agent learns to perform a specific task by reinforcing its rewarding behaviors [3, 52]. RL is different from standard machine learning, which typically operates with independently and identically distributed samples that contain explicit ground truth labels. RL, by contrast, focuses on the interaction between actions and the rewards they generate. The general framework of RL is shown in Figure 1. At every timestep t, an agent recognizes the state st it is in and evaluates the desirability of that state, known as the reward rt. Based on this information, the agent draws an action at to cause the environment to evolve into the next state, and the loop continues. The core goal of the agent is to learn an optimal policy distribution π. This policy specifies the way to choose actions under a given state, so as to maximize the cumulative rewards over time. JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 3$JHQW 
+
+> (QYLURQPHQW
+> $FWLRQ
+> $W
+> 6WDWH
+> 6W
+> 5HZDUG
+> 5W
+
+Fig. 1: The General Framework of RL Formally, RL problems are formulated based on the Markov Decision Process (MDP) [40]. MDP is typically represented as a tuple (S, A, P, R, γ ). In this tuple, S denotes the state space. It corresponds to all possible observations that the agent can perceive at each step of execution. A represents the set of possible actions. These actions can be either continuous or discrete, and they are the outputs that the agent returns to the environment. P stands for the transition probability. Specifically, it refers to the probability of transitioning to the next state when a specific action is taken in the current state. 
+
+R is the reward function. Rewards serve as the feedback that the agent receives after executing each action. γ is a discount factor, which is used to weight the importance of immediate and future rewards. 
+
+B. Testing Reinforcement Learning Agents 
+
+Testing plays a critical role in ensuring the quality and reliability of RL agents, as it aims to generate test inputs that can expose faulty or unsafe behaviors during interaction with the environment [5]. In the context of RL, a test input typically corresponds to a specific environment configuration or initial state from which the decision-making process begins. The agent under test (i.e., the agent) then interacts with the environ-ment step-by-step, producing actions and receiving feedback, thereby forming an execution trajectory. By analyzing the outcomes of these trajectories (e.g., crashes, violations, and abnormal rewards), testing can effectively reveal weaknesses in the learned policy. There are various methods for testing RL agents, with adversarial testing being a typical one that often adopts a white-box strategy. Phan et al. [39] proposed ARTS to generate adversarial inputs in multi-agent RL (MARL) systems. During testing, ARTS designates a portion of agents as antagonists according to a specified ratio, which creates varied crashes in each episode. Guo et al. [16] introduced MARLSafe, a method that applies state perturbations through gradient-based FGSM to mislead the agents’ decisions by reducing the probability of optimal actions. Zhou et al. [65] employed differential evolution to generate worst-case joint actions, focusing on those agents whose actions have the most significant impact on team coordination. A common drawback of these adversarial testing methods is that they are usually time-consuming due to their reliance on white-box information. Another important testing method is fuzzing, a widely used method in software testing that automates the generation of inputs to identify vulnerabilities, crashes, or other unexpected behaviors in software programs [66]. This method has also been proven effective and widely applied in testing RL agents. Ul Haq et al. [17] proposed MORLOT, a hybrid framework that integrates RL with many-objective search to test DNN-enabled systems under dynamic environments and multiple requirements. Zolfagharian et al. [67] presented STARLA, a data-box method that uses machine learning models to predict episode-level faults and steer the search toward failure-prone trajectories. Pang et al. [36] used GMMs to guide coverage-based fuzzing, aiming to discover more crashes in RL agents. Mazouni et al. replicated this GMM-guided method and extended its evaluation to additional RL tasks. Wang et al. [53] proposed SeqDivFuzz, an optimized fuzzing frame-work that boosts testing effectiveness and efficiency for RL agents by integrating a sequence diversity inference module to early terminate non-diverse test cases during MDP interaction. He et al. [18] proposed CureFuzz, a curiosity-driven black-box fuzzing framework for RL that improves the detection of diverse crash-triggering crashes by leveraging a curiosity mechanism to measure novelty and a multi-objective seed selection method to balance exploration and crash generation. Li et al. [28] proposed AgentFuzz, a method that generates diverse initial states, monitors the total reward of each episode, and labels episodes with rewards below a preset threshold as failed. Mazouni et al. [33] proposed a framework that boosts crash diversity in RL testing using quality diversity optimization to explore diverse crash-triggering inputs. Li et al. [29] proposed a generation-based RL fuzzing framework that boosts crash detection and behavior diversity by leverag-ing a generative diffusion model for test input generation. Ma et al. [32] proposed MASTest, a framework that enhances test diversity in MARL by using grid-based state abstraction to simplify complexity and compare agent behaviors. Compared with adversarial testing, fuzzing usually uses black-box and grey-box information for testing, making it easier to generalize to different RL agents and scenarios. As highlighted in the recent survey [45], its strong effectiveness and broad applicability have made fuzzing a major focus of current RL testing research; therefore, we target it as the focus of our main investigation. III. S TUDY DESIGN 
+
+Using three widely adopted benchmarks spanning different scales (i.e., MountainCar, BipedalWalker, and CARLA), we first evaluate the effectiveness of existing methods in dis-covering crashes in RL agents through fuzz testing ( RQ1 ). Next, we analyze the diversity of crash-triggering test inputs generated by each fuzzing method ( RQ2 ). We then measure the efficiency of each method in terms of time cost and resource consumption ( RQ3 ). Finally, we incorporate two downstream tasks to evaluate the practical usefulness of the detected crashes, examining their impact on agent robustness improvement and safety monitoring ( RQ4 ). 
+
+A. Studied Benchmark 
+
+This study aims to conduct a comprehensive and unified comparison of state-of-the-art methods. Specifically, we select the benchmarks based on the following criteria: (I) widely used JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 4
+
+in existing fuzzing literature; (II) coverage of diverse applica-tion tasks (e.g., robotic control and autonomous driving), agent scales (ranging from 135k to 1 million weight parameters), and representative RL algorithms. To ensure all fuzzing methods are evaluated under condi-tions that closely resemble real-world deployment, we select robust RL agents as the subjects under test rather than agents that fail easily under random testing. Specifically, following the methodology of Uesato et al. [51], we first generate 1,000 random configurations for each RL agent using a random testing strategy and estimate its failure rate to assess its robustness. We then select the RL agents with relatively low failure rates reported in prior studies [41, 61] for subsequent experiments, thereby avoiding the situation where excessive in-trinsic vulnerabilities of the RL agent obscure the performance differences among competing fuzzing methods. Furthermore, the same set of 1,000 randomly generated configurations is retained as an independent test set to evaluate the generaliza-tion performance of RL agents after downstream tasks, such as robustness improvement, and to analyze the proportion of regression faults introduced during these processes. 
+
+MountainCar. [8] It serves as a low-dimensional control benchmark for RL. This task requires an underpowered car to accumulate momentum through back-and-forth swings and climb from the bottom of the valley to the top. The initial seed input is a 2-dimensional vector, including the initial height and initial velocity of the car. We follow the experimental settings from existing work [67, 68]: We adopt Deep Q-Network as the RL algorithm with 134k trainable weight parameters with 1.1% failure rate. Following existing work [67, 68], we use 10,000 initial seed inputs and only mutate the initial position while fixing the initial velocity to avoid invalid test inputs such as starting at the valley bottom with zero velocity. A test case is regarded as successful if the car’s position exceeds 0.5 within 200 steps; otherwise, it is labeled as a crash. 
+
+BipedalWalker. [8] It is a high-difficulty continuous control task under the OpenAI Gym [8] framework. This task requires controlling a bipedal robot to maintain balance and move forward efficiently on generated rough terrain. The initial seed input is a 15-dimensional continuous state vector, including information about the environmental terrain. We follow the complete experimental settings of existing work [18, 29, 33, 34, 36, 53]: We adopt Truncated Quantile Critics as the RL algorithm with 690k trainable weight parameters with 1.6% failure rate. Following existing work [22, 41], we use 1,000 initial seed inputs and perform mutation operations on all 15 dimensions. A test case is labeled as a crash if the robot falls over within 300 steps. 
+
+CARLA. [13] It is a high-fidelity open-source simulator for autonomous driving. It provides a realistic urban driving environment with complex traffic flow and is often used to detect safety vulnerabilities of autonomous driving systems in complex interactive scenarios. The initial seed test input is a 66-dimensional vector that defines the test input. It includes the start and end points of the route, weather combinations, the initial state of the ego-vehicle, and the positions of NPC vehicles. We follow the experimental settings from existing work [18, 29, 33, 34, 36, 53]: We adopt the state-of-the-art Roach agent [22, 61] as the RL algorithm, which is trained via Proximal Policy Optimization with 1.5 million trainable weight parameters, with 7.2% failure rate. Following existing work [18, 29, 34, 36, 53], we use 100 initial seed inputs and perform mutation operations on 63 dimensions of the state vector. A test input is regarded as a crash if the vehicle collides or fails to reach the destination within 200 steps. 
+
+B. Validity Checks 
+
+Ensuring the validity of generated test inputs is essential for the fair evaluation of RL fuzzing methods. Specifically, a valid test input should correspond to a feasible environment configuration in which the target task is theoretically achiev-able, rather than an inherently infeasible test input caused by violating implicit environmental constraints. Otherwise, invalid test inputs may distort the assessment of an RL agent’s robustness and lead to an overestimation of crash rates. However, directly verifying the validity of generated test inputs is challenging in complex RL environments. For example, in CARLA, each test input is specified by a 66-dimensional envi-ronment configuration whose feasibility depends on numerous implicit constraints, making it impractical to determine the validity of every generated configuration individually. To address this challenge, we adopt a conservative differen-tial testing strategy for validity checking. Specifically, for each agent under test, we employ an independently trained, highly robust validation policy. A generated test input is considered valid only if the validation policy successfully completes the task while the target agent fails [38]. In this case, the observed crash is attributed to deficiencies of the target agent rather than to an infeasible environment configuration. For the three benchmark environments, we select validation policies with the lowest failure rates under random testing. Specifically, we use a PPO policy for MountainCar, an SAC policy for BipedalWalker, and a CaRL policy for CARLA. Their failure rates under random testing are 0%, 0%, and 2.5%, respectively [22, 41]. Although the failure rate of the CaRL policy is relatively higher, this reflects the substantially greater complexity of autonomous driving compared with classical control tasks. Moreover, it is the most robust policy available for the CARLA benchmark in our experiments, making it a reliable validation policy for differential testing. 
+
+C. Studied Methods 
+
+To ensure the validity and representativeness of our em-pirical evaluation, we rigorously selected baseline methods according to two criteria: (I) widespread adoption in the research community , and (II) practical replicability . Specif-ically, we prioritized methods that have been extensively studied and cited in prior work, reflecting their relevance and influence within the RL fuzzing literature. At the same time, we required that each selected method provide acces-sible and well-documented source code or official replication packages, enabling reliable reproduction of experimental re-sults. Methods that lacked publicly available implementations or posed significant replicability challenges [28, 46] were therefore excluded. We note that some fuzzing methods [32] JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 5
+
+are designed specifically for certain types of RL algorithms (e.g., multi-agent reinforcement learning (MARL) [32]) or focus on evaluating other system properties (e.g., plasticity or adaptation to new environments [5, 6]). These methods often exploit characteristics unique to MARL settings (e.g., team diversity [32]) or adopt evaluation metrics centered on perfor-mance degradation and recovery rather than crash detection. As a result, their assumptions, objectives, and metrics are not directly comparable to fuzzing-based crash discovery in single-agent RL agents. Since our study specifically focuses on crash detection for single-agent RL, we do not include these methods and instead view their evaluation as an important direction for future work. To the end, we include the following five representative or state-of-the-art fuzzing methods.  
+
+> •
+
+MDPFuzz [36]: As a pioneering black-box fuzzing frame-work designed for Markov Decision Processes, this method employs GMMs to quantify coverage. Nevertheless, asubsequent replication study [34] has demonstrated that simplified fuzzing heuristics often outperform their original coverage-guided mechanisms in terms of crash detection capability and efficiency. Therefore, we adopt its updated version for the purpose of evaluation.  
+
+> •
+
+CureFuzz [18]: This method incorporates a curiosity-driven mechanism that measures scenario novelty using the predic-tion error between a target network and a predictor network. The resulting error signal is used as feedback to guide test generation, enabling CureFuzz to move beyond traditional coverage metrics and more effectively uncover diverse and severe crash modes.  
+
+> •
+
+Generative Model-Based Testing [29]: This framework in-tegrates a generative diffusion model pre-trained on nominal trajectories. By fine-tuning with a "terminal state novelty" reward, it exploits the model’s distributional fitting capa-bilities to synthesise diverse test cases that target long-tail risks. We refer to this method as G-Model . 
+
+> •
+
+SeqDivFuzz [53]: This method addresses the test oracle efficiency problem by employing a Siamese Network–based evaluator to estimate sequence diversity at runtime. By pruning redundant, low-diversity test cases early in the test-ing process, it more effectively allocates the computational budget, thereby enabling the discovery of a larger number of unique crashes.  
+
+> •
+
+QD-based Policy Testing [33]: This framework shifts the testing objective from merely detecting crashes to pro-moting crash diversity. It applies Quality Diversity (QD) algorithms to model the testing process as a simultaneous search for high-performing and behaviorally distinct solu-tions within the behavioral space. We name it as QDFuzz .In addition, to address a common methodological gap in prior studies, we explicitly incorporated a Random Testing strategy as a baseline. By generating test inputs through uninformed, stochastic sampling without guidance from learned models or heuristics, Random Testing provides a principled lower bound on achievable performance. This baseline enables a clearer interpretation of the effectiveness of advanced fuzzing methods by distinguishing genuine methodological gains from improvements that could arise from random exploration. 
+
+D. Evaluation Metrics 
+
+To comprehensively evaluate the performance of existing methods, we establish an evaluation framework spanning three complementary dimensions: Effectiveness, Diversity, and Efficiency, following commonly adopted practices in prior fuzzing and RL testing [18, 29, 33, 34, 36, 53]. To guarantee practical plausibility, all generated test inputs undergo rigorous validity checks, and only valid cases are included in our subsequent analysis. Effectiveness. Consistent with the standard evaluation paradigm in the fuzzing domain [43], we use the number of valid unique crashes (#UC) as the primary effectiveness metric. In the RL fuzzing setting, a unique crash is jointly determined by the initial seed (i.e., initial state) and the corresponding crash trajectory (i.e., behavior): two crashes are regarded as distinct if they differ in either the initial seed or the trajectory. For example, an autonomous car may crash into the same obstacle from two slightly different initial positions, but the crashes stem from different model flaws [56] (e.g., one from misjudgment and the other from slow response). Specifically, under the same initial seed corpus and environ-ment configurations, we record the total number of unique crashes detected by each fuzzing method within a fixed 12-hour time budget. A higher value indicates stronger crash detection capability. 
+
+Diversity. While detecting a large number of crashes is important, repeatedly triggering similar crashes provides lim-ited additional insight into system vulnerabilities. Therefore, we evaluate the diversity of detected crashes using two com-plementary metrics proposed by Bartlett et al. [2]: Input Diversity and Output Diversity . Both metrics estimate diversity by clustering crash samples after PCA-based dimensionality reduction. Following the original study [2], we determine the optimal number of clusters using a silhouette coefficient improvement threshold of 20%. 
+
+Input Diversity (ID) measures the breadth of exploration in the environmental configuration space. Specifically, it clusters vectorized test inputs and quantifies diversity by the number of clusters covered by crash-triggering test inputs. A higher ID indicates that crashes are triggered under more environmental conditions, suggesting broader coverage of the input space. 
+
+Output Diversity (OD) measures the diversity of crash behaviors in the execution space. Specifically, it clusters the execution trajectories of crash-triggering test inputs (e.g., position sequences and motion-state trajectories) and quan-tifies diversity by the number of distinct behavioral clusters represented by the detected crashes. A higher OD indicates that the fuzzing method exposes a wider variety of behavioral crash modes, rather than repeatedly triggering similar crashes. 
+
+Efficiency. To assess the cost of crash discovery, we eval-uate efficiency from both time and search perspectives using two complementary metrics. 
+
+UC Discovery AUC (UD-AUC) [7] measures the temporal efficiency of discovering unique crash categories. Specifically, it is computed as the area under the cumulative unique crash discovery curve with respect to elapsed testing time. A higher UD-AUC indicates that a fuzzing method discovers more unique crashes earlier under a fixed testing budget. JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 6
+
+TABLE I: Statistical Test Analysis with Effect Sizes 
+
+Method UC ID OD UD-AUC AG/UC 
+
+Random bL aM aN bL -MDPFuzz aref aN bL aref aref 
+
+CureFuzz dL aL bL dL bL
+
+G-Model cL aL aS cL cL
+
+SeqDivFuzz eL aN bL dL bS
+
+QDFuzz bL aref aref bL aN 
+
+> *Letters denote statistical groups. Superscripts denote effect-size mag-nitude relative to the reference: N = negligible, S = small, M = medium, L = large, ref = reference.
+
+Average Generations per Unique Crash (AG/UC) [60] mea-sures the average number of mutation operations required to trigger each crash. By focusing on iteration counts rather than elapsed time, this metric reduces the influence of hardware differences and reflects the intrinsic efficiency of the fuzzing strategy. Lower values indicate more effective exploration and fewer redundant mutations. 
+
+E. Implementation and Environment 
+
+Regarding the selection of studied RL agents, we utilized an agent trained via the source code provided by RL Baselines3 Zoo [41]for the MountainCar, while adopting the standard open-source agent commonly used in relevant baselines for the BipedalWalker [41]. For the CARLA autonomous driving environment, due to the unavailability of agent resources from prior studies, we deployed the Roach agent from the Pretrained CARLA Leaderboard Agents (PCLA) [48] framework within the CARLA 0.9.15 simulator [13] as the subject under test. To ensure experimental fairness and reproducibility, all baseline methods were configured strictly adhering to the optimal hyperparameters recommended by their respective authors [18, 29, 33, 34, 36, 53]. Detailed implementation specifics and source code have been made publicly available on our homepage. Experiments for MountainCar and Bipedal-Walker were conducted in a Python 3.10 environment using PyTorch 2.7.1 [37]. MountainCar utilized Stable-Baselines3 2.7 [42] and Gymnasium 1.2.2 [8], while BipedalWalker em-ployed legacy libraries (Gym 0.19.0, Stable-Baselines3 1.1.0) consistent with prior work [18, 29, 33, 34, 36, 53]. In contrast, the CARLA environment was configured in strict adherence to PCLA specifications [48]. To ensure statistical reliability, all experiments were executed five times on the same hardware using distinct random seeds. All experiments were conducted on a server running Ubuntu 20.04, utilizing a computing infrastructure equipped with an Intel Xeon E5-2660 v4 CPU (128 GB RAM) and four NVIDIA GeForce RTX 2080 Ti GPUs. IV. E XPERIMENTAL RESULTS 
+
+A. RQ1: Effectiveness 
+
+To investigate performance discrepancies, we employ the Wilcoxon Signed-Rank test [1, 54] (with a significance level of 0.05) combined with the Benjamini-Hochberg correction method [4] to detect statistically significant differences, in line with the evaluation pipeline used in previous research [58, 62, 63]. Methods are divided into the same groups when no significant difference exists between them, and marked with alphabetical labels {a, b, c} where earlier labels represent better performance (i.e., a > b > c). The corresponding results are summarized in Table I. We further compute the rank-biserial correlation coefficient [12] r to measure the magnitude of observed differences. Following existing work [11], the effect size is interpreted by magnitude: r ≥ 0.5 indicates a large effect, 0.3 ≤ r < 0.5 indicates a medium effect, 
+
+0.1 ≤ r < 0.3 indicates a small effect, and r < 0.1 indicates a negligible effect. Table II presents the number of UCs detected by the six fuzzing methods on three RL benchmarks. Overall, MDPFuzz achieves the best performance across all tasks. Notably, it is the only method assigned to group a (Table I), which denotes a statistically significant performance advantage over all other methods. Taking the BipedalWalker benchmark as an example, MDPFuzz detects 11,945 crashes, representing a 48.82% improvement over random testing, a 62.96% im-provement over QDFuzz, and more than a 100-fold increase compared to SeqDivFuzz. This advantage is largely attributed to its lightweight design and high computational efficiency, enabling rapid mutation and exploration within the fixed time budget. In contrast, SeqDivFuzz exhibits the weakest overall performance, detecting the fewest crashes on two benchmarks (97 on BipedalWalker and 77 on CARLA, marked as group 
+
+e in Table I). A likely explanation is that SeqDivFuzz re-lies primarily on state coverage as its exploration guidance. While this strategy promotes broader state exploration, prior studies [34, 50] suggest that coverage alone provides limited correlation with crash-triggering behaviors, thereby reducing its ability to efficiently expose crashes. 
+
+Finding I: MDPFuzz consistently outperforms all compared methods across benchmarks, demonstrat-ing superior crash detection capability largely due to its high computational efficiency and fast explo-ration. On the other hand, SeqDivFuzz shows com-paratively weaker overall performance, as its state-coverage–based exploration guidance provides limited effectiveness in prioritizing crash-triggering behaviors. On low-dimensional MountainCar and moderately complex BipedalWalker, random testing ranks second only to MDP-Fuzz. This can be explained by their low-dimensional state spaces: faulty states are generally easy to find without complex guidance. Therefore, methods that rapidly generate test inputs (e.g., random testing), benefit from higher testing throughput, increasing the likelihood of discovering crashes within the fixed time budget. While methods with computationally inten-sive components may underperform due to reduced mutation rates. For example, CureFuzz requires training a Random Network Distillation module [9], and G-Model depends on diffusion-based modelling of test input distributions [27], both of which introduce additional overhead. As task complexity JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 7
+
+TABLE II: Comparison of Fuzzing-Generated Test Cases, UC, and Crash Ratios Across Benchmarks                                                                                                                                                                                                                   
+
+> Method MountainCar BipedalWalker CARLA #Total Test Cases #UC Ratio #Total Test Cases #UC Ratio #Total Test Cases #UC Ratio Random 626 ,885 ±1.2%5,731 ±2.7% 0.91% ±2.3% 444 ,764 ±0.6%8,026 ±0.9% 1.81% ±0.5% 2,377 ±0.3% 157 ±4.5% 6.61% ±4.6%
+> MDPFuzz 446 ,376 ±1.5% 5,861 ±1.8%1.31 %±1.1%359 ,301 ±0.2% 11 ,945 ±9.1%3.32% ±9.0% 1,909 ±33 .1% 291 ±55 .1%15 .19 %±42 .3%
+> CureFuzz 86 ,480 ±0.7% 1,045 ±2.0% 1.21% ±2.2% 87 ,379 ±2.5% 1,000 ±0.0% 1.14% ±2.6% 2,217 ±1.1% 140 ±41 .6% 6.33% ±41 .5%
+> G-Model 247 ,001 ±0.3% 1,210 ±3.3% 0.49% ±3.2% 100 ,906 ±0.8% 1,050 ±4.6% 1.04% ±4.5% 2,380 ±0.7%188 ±9.4% 7.92% ±9.6%
+> SeqDivFuzz 86 ,868 ±0.4% 1,048 ±3.7% 1.21% ±4.0% 7,413 ±2.6% 97 ±7.2% 1.32% ±7.7% 2,067 ±3.8% 77 ±66 .9% 3.81% ±71 .8%
+> QDFuzz 453 ,012 ±1.0% 5,455 ±1.6% 1.20% ±0.9% 131 ,919 ±0.6% 7,330 ±3.4% 5.56 %±3.6%2,175 ±1.0% 195 ±68 .2% 9.02% ±69 .0%
+> *Data is presented as a±b%, where ais the mean value and b%is the relative standard deviation (RSD). The highest result within each benchmark and metric is highlighted in bold.
+
+TABLE III: Comparison of ID and OD Across Benchmarks                                                                                                                     
+
+> Method MountainCar BipedalWalker CARLA Input Output Input Output Input Output Random 2.0±0.0% 2.0±0.0% 2.0±0.0% 15 .8±15 .1% 2.0±0.0% 6.2±7.2%
+> MDPFuzz 2.0±0.0% 2.0±0.0% 2.0±0.0% 13 .0±9.4% 4.0±46 .8% 2.0±0.0%
+> CureFuzz 2.4±37 .3% 2.0±0.0% 2.0±0.0% 2.0±0.0% 12 .0±15 .6%7.4±71 .3%
+> G-Model 2.0±0.0% 2.0±0.0% 2.0±0.0% 2.0±0.0% 2.0±0.0% 10 .4±27 .7%
+> SeqDivFuzz 2.8±39 .1%2.0±0.0% 8.0±75 .5%2.0±0.0% 10 .0±27 .4% 8.4±57 .5%
+> QDFuzz 2.4±37 .3% 2.0±0.0% 2.0±0.0% 16 .4±12 .6%4.0±25 .0% 4.2±66 .1%
+
+increases, guided exploration becomes critical. For example, QDFuzz ranks third on the MountainCar and BipedalWalker benchmarks but rises to second place on CARLA, outper-forming random testing. This demonstrates that random testing becomes less effective in large search spaces, while quality-diversity search enables QDFuzz to cover diverse crash modes and achieve stronger performance in complex scenarios. Nev-ertheless, random testing maintains remarkable performance in producing crash-triggering test inputs, holding group b in Table I and outperforming many methods, highlighting that random testing should be retained as a key baseline. 
+
+Finding II: For low-dimensional and moderately com-plex RL tasks where target agents typically exhibit lower robustness, highly efficient fuzzing methods (e.g., random testing) tend to yield better performance. As task complexity increases, effective exploration guidance becomes critical for discovering crashes, and QDFuzz exhibits notably improved performance in such complex scenarios by leveraging effective explo-ration guidance strategies. 
+
+B. RQ2: Diversity 
+
+Table III reports the input and output diversity of each fuzzing method across the three benchmarks, presented as mean and RSD values. The top results are highlighted in bold. The overall results show that no single method can achieve an absolute leading performance in all benchmarks. For example, the methods ranking first in ID on the three benchmarks are SeqDivFuzz (2.8), SeqDivFuzz (8), and CureFuzz (12), respectively; the top performers in OD on BipdedalWalker and CARLA are QDFuzz (16.4) and G-Model (10.4) in turn. This indicates that the diversity performance of fuzzing methods is highly dependent on the tested benchmarks. Among all fuzzing methods, SeqDivFuzz demonstrates rel-atively strong diversity performance across multiple bench-marks. It ranks first on two diversity metrics, achieving the highest ID on MountainCar (2.8) and the highest OD on BipedalWalker (8). This is likely due to its adopted golden sequence sampling and k-voting mechanism , which determine Pos. Tilt 
+
+> Neg. Tilt
+> Contact Loss
+> Single-Leg
+> Near Obstacle
+> Low Speed
+
+(a) 
+
+C4-T1 
+
+(b) 
+
+C4-T2   
+
+> -49 -25 0
+> Pos. Tilt
+> Neg. Tilt
+> Contact Loss
+> Single-Leg
+> Near Obstacle
+> Low Speed
+
+(c) 
+
+C14-T1   
+
+> -49 -25 0
+
+(d) 
+
+C14-T2 
+
+> 0.0
+> 0.5
+> 1.0
+> Strength
+
+Steps Before Crash 
+
+Fig. 2: Examples from BipedalWalker for Qualitative Analysis whether to terminate or continue the current test case based on the similarity between the current and golden state sequences. This mechanism switches between different seeds for fuzzing and generates diverse test inputs. We further observe that MDPFuzz, despite uncovering the largest number of crash-triggering test inputs, exhibits poor diversity. Its OD score on CARLA stands at merely 2.0, even lower than random testing. This indicates the crashes it triggers are highly similar. To explore whether the proposed metric can effectively trigger diverse faulty behaviors, we conduct a qualitative analysis following existing work [56]. For clear visualization and easy presentation, we sample a subset of test inputs for analysis. We further adopt a concept-based explanation method [24] to generate heatmaps to measure how each input dimension contributes to behavioral decisions of each step. Figure 2 presents the heatmaps of crash-triggering trajectories, where (a) and (b) are sampled from the same cluster, and (c) and (d) belong to another cluster. The results show that trajectories within the same cluster share highly similar root causes of faulty behaviors. Specifically, the robot crashes illustrated in Figure 2(a) and 2(b) are due to the unstable support state during low-speed movement, which eventually leads to forward falls. In contrast, the faulty behaviors in Figure 2(c) and 2(d) result from posterior posture instability and failed support recovery, causing backward falls, which are different from the crash patterns of (a) and (b). The above phenomena indicate that trajectories from different clusters correspond to different root causes. This further shows that the cluster-based diversity criterion can reflect the diversity of crash-triggering trajectories to some degree. JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 81152       
+
+> 531
+> 0
+> 1132
+> 0
+> 0
+> 0
+> 1367
+> 0
+> 00
+> 0
+> 0
+> 0
+> 0
+> (a) MountainCar
+> 73
+> 90
+> 0
+> 76
+> 0
+> 0
+> 0
+> 54
+> 0
+> 00
+> 0
+> 0
+> 0
+> 0
+> (b) BipedalWalker
+> 9
+> 4
+> 0
+> 8
+> 0
+> 0
+> 0
+> 8
+> 4
+> 00
+> 0
+> 0
+> 0
+> 0
+> (c) CARLA
+> CureFuzz MDPFuzz QDFuzz SeqDivFuzz
+
+Fig. 3: Overlap of Initial Seeds for UC Detected 0 4 8 12 
+
+> Time (h)
+> 0
+> 1000
+> 2000
+> 3000
+> 4000
+> 5000
+> 6000
+> 7000
+> Unique crashes
+> SeqDivFuzz
+> CureFuzz
+> G-Model
+> QDFuzz
+> Random
+> MDPFuzz
+> MountainCar
+
+(a) MountainCar 0 4 8 12  
+
+> Time (h)
+> 0
+> 2000
+> 4000
+> 6000
+> 8000
+> 10000
+> Unique crashes
+> SeqDivFuzz
+> G-Model
+> CureFuzz
+> QDFuzz
+> Random
+> MDPFuzz
+> BipedalWalker
+
+(b) BipedalWalker 0 4 8 12  
+
+> Time (h)
+> 0
+> 100
+> 200
+> 300
+> 400
+> 500
+> Unique crashes
+> SeqDivFuzz
+> CureFuzz
+> Random
+> G-Model
+> QDFuzz
+> MDPFuzz
+> CARLA
+
+(c) CARLA 
+
+Fig. 4: Temporal Trends of UC Numbers Detected by Different Fuzzing Methods 
+
+Finding III: Fuzzing diversity varies widely across benchmarks; no method dominates both ID and OD. SeqDivFuzz shows relatively better diversity perfor-mance on specific benchmarks due to its specialized mechanisms, while MDPFuzz yields limited diversity with mostly similar crashes. Figure 3 illustrates that the sets of crash-inducing initial seeds identified by different fuzzing methods exhibit extremely low overlap, indicating that different methods rarely discover crashes from the same starting conditions. This observation suggests that the fuzzers follow different exploration trajec-tories within the state space and tend to uncover distinct regions of crash behaviors. Consequently, no single method is sufficient to cover all testing blind spots, highlighting the complementary nature of diverse fuzzing strategies and the potential benefits of combining multiple methods for more comprehensive crash detection. 
+
+Finding IV: Current fuzzing methods exhibit ex-tremely low overlap in crash-inducing initial seeds, indicating that they explore different regions of the state space and uncover distinct crash behaviors. 
+
+C. RQ3: Efficiency 
+
+Results. Figure 4 shows the cumulative number of unique crashes discovered over time by different fuzzing methods across the three benchmarks, while Table IV reports UD-AUC. Overall, MDPFuzz consistently demonstrates the highest time efficiency on all benchmarks, substantially outperforming the competing methods. This trend is corroborated by Figure 4, where the MDPFuzz curve remains consistently above others TABLE IV: Comparison of UD-AUC Across Benchmarks                                                          
+
+> Method MountainCar BipedalWalker CARLA Random 35329 .8±3.1% 48439 .4±1.4% 937 .2±5.4%
+> MDPFuzz 38280 .3±2.4%77814 .9±8.3%1621 .7±58 .7%
+> CureFuzz 942 .9±3.2% 1473 .8±2.6% 813 .8±32 .8%
+> G-Model 7246 .0±3.7% 6626 .5±4.8% 1137 .4±8.7%
+> SeqDivFuzz 3609 .7±5.7% 118 .5±12 .1% 392 .9±34 .9%
+> QDFuzz 36555 .8±1.9% 54275 .1±3.6% 993 .1±65 .2%
+
+and widens its lead as task complexity increases, indicating faster and more sustained crash discovery. Taking the BipedalWalker benchmark as an example, MDP-Fuzz outperforms QDFuzz by 43.4% and surpasses SeqDi-vFuzz by over 600 times. This advantage stems from two main factors. First, its lightweight exploration guidance incurs minimal computational overhead while effectively prioritizing crash-prone regions. In contrast, methods such as SeqDiv-Fuzz spend substantial time computing coverage information, which reduces mutation throughput and leads to higher time costs. Second, MDPFuzz permits the seed pool to grow dynamically, enabling continuous and sustained exploration. By comparison, CureFuzz and SeqDivFuzz employ aggressive seed pruning strategies that restrict seed lifecycles, causing their fuzzing processes to terminate prematurely. As shown in Figure 4(a) and Figure 4(b), both methods exhaust their exploration within four hours on MountainCar and eight hours on BipedalWalker, respectively. 
+
+Finding V: MDPFuzz achieves the highest crash de-tection efficiency. In contrast, SeqDivFuzz suffers from lower efficiency because of its time-consuming cover-age calculations, while both CureFuzz and SeqDivFuzz often terminate fuzzing prematurely due to restrictive seed lifecycle management. Figure 5 presents the distribution of mutation generations required by different fuzzing methods to generate crash-triggering test inputs (i.e., generations per unique crash) across the three benchmarks. The horizontal axis shows the logarith-mically transformed number of iterations to accommodate the wide variation in scales. In this visualization, a leftward shift of a boxplot indicates fewer required iterations and thus higher crash detection efficiency, while the white squares denote average values. Overall, MDPFuzz, QDFuzz, and SeqDivFuzz consistently yield the lowest values of generations per unique crash, demonstrating superior search efficiency. For example, on MountainCar (Figure 5a), these methods require approxi-mately one mutation on average to trigger a crash, whereas the generative method G-Model requires nearly 1,000 iterations. This substantial gap suggests that mutation-based methods can rapidly expose crashes through lightweight heuristic guidance. In contrast, generative methods such as G-Model incur addi-tional overhead to model or learn the behavioral distribution of test cases, which increases the number of iterations needed before crashes can be effectively triggered. JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 91 10 100 1000 
+
+> Generation (Log Scale)
+> QDFuzz
+> SeqDivFuzz
+> G-Model
+> CureFuzz
+> MDPFuzz
+
+(a) MountainCar 1 10 100 1000  
+
+> Generation (Log Scale)
+> QDFuzz
+> SeqDivFuzz
+> G-Model
+> CureFuzz
+> MDPFuzz
+
+(b) BipedalWalker 1 10  
+
+> Generation (Log Scale)
+> QDFuzz
+> SeqDivFuzz
+> G-Model
+> CureFuzz
+> MDPFuzz
+
+(c) CARLA 
+
+Fig. 5: Box-plot Analysis of AG/UC for Different Fuzzers 
+
+Finding VI: MDPFuzz, QDFuzz, and SeqDivFuzz outperform other methods across three benchmarks with the lowest generations per unique crash via heuristic guidance, while the generation-based method G-Model requires far more iterations for pre-learning the behavioral distribution of tested RL agents. 
+
+D. RQ4: Usefulness 
+
+We further investigate the practical utility of the crash-triggering test inputs generated by each fuzzing method by designing experiments around two representative downstream tasks commonly studied in prior work: agent robustness improvement and safety monitoring. Both tasks involve ad-ditional agent training and thus incur non-trivial computa-tional costs. We carefully select the evaluation benchmark to balance feasibility and representativeness. The MountainCar environment is relatively simple, which can lead to overfitting during training and limit the meaningfulness of robustness evaluation. In contrast, CARLA is substantially more complex and computationally demanding, requiring over one month of training time in our experimental setting. Therefore, we adopt BipedalWalker, a moderately complex environment, as a proof-of-concept benchmark that provides sufficient task difficulty while remaining computationally tractable. 
+
+I. Agent robustness improvement aims to leverage crash-triggering test inputs to enhance the resilience of RL agents against crashes. We adopt the experiment pipeline of prior work [36]. Specifically, we first collect all crash-triggering cases discovered during 12 hours of fuzzing from the same initial seed corpus. The corresponding five-element tuples are then incorporated into the replay buffer with higher sampling weights to fine-tune the policy, encouraging the agent to learn from previously crash-prone scenarios. We adopt this strategy for two primary reasons: 1) it has been evaluated and adopted in existing literature [21, 44], ensuring experimental replica-bility and result comparability; 2) it features a lightweight mechanism [14] that can be readily adapted to our framework. In contrast, the methods proposed in other work [47] rely on complex designs and scenario-specific pipelines, which is difficult to generalize and transfer to our experimental setting. After fine-tuning, we launch a second 12-hour fuzzing run on the repaired agent with unchanged initial seeds and hyperparameters. We quantify robustness gains by contrasting unique crash counts pre- and post-fine-tuning. Fewer detected crashes indicate stronger robustness. In addition, to eliminate self-evaluation bias, we further perform cross-fuzzer evaluation. Specifically, we repair the policy using crashes from one fuzzer and assess robustness TABLE V: Self-fuzzer Evaluation of Robustness Improvement                                       
+
+> Method #UC Before Fine-tuning #UC After Fine-tuning ⇑Rob F.R. (⇓F.R. )Reg.
+> Random 4,399 4,044 8.1% 2.6%(-1.0) 2.0% MDPFuzz 8,952 7,203 19.5% 1.3%(+0.3) 0.9% CureFuzz 804 804 0.00% 1.7%(-0.1) 1.3% G-Model 773 664 14.1% 1.3%(+0.3) 1.1% SeqDivFuzz 85 75 11.8% 1.6%(+0) 1.4% QDFuzz 2,418 1,414 41.5% 1.9%(-0.3) 1.5%
+> *Note: ⇑Rob denotes the robustness improvement rate; F.R. denotes the failure rate, with the value in parentheses indicating its change after fine-tuning; Reg. denotes the regression error rate.
+
+via separate fuzzers. For both self- and cross-fuzzer evaluation, we use the same replay buffer size to ensure fair comparisons. Each holds 10k crash transitions and 90k normal transitions. Raw crash cases are decomposed into individual transitions for storage and not tallied as standalone samples. Normal transi-tions are uniformly sampled from the agent’s original training data, while crash transitions stem from crashes discovered by each fuzzer under identical initial seeds. Crash transitions are assigned a sampling weight of 10 versus a weight of 1 for normal transitions, balancing general behavioral learning and crash awareness. All fine-tuning procedures adopt unified hyperparameters from existing research [26, 31, 44] learning rate = 10 −7, with 50k offline gradient updates. 
+
+II. Safety monitoring is a task specific to RL, aiming to predict whether an ongoing episode is likely to result in a crash based on historical state–action information. We follow the experimental configuration of prior work [10]. Specifically, for each test case, we record the observations and actions at every interaction step between the agent and the environment and concatenate them into sequential feature vectors. Based on the final execution outcome, each test case is labelled as either crash-triggering or normal. To construct representative inputs, we apply differentiated sequence extraction: for crash-triggering cases, we select the last 25 steps preceding the crash, whereas for successful executions, we randomly sample a sequence of the same length to ensure consistency. After collecting the data, we perform balancing and random sampling following recommended practices, constructing a dataset of 3,000 samples with 30% crash cases. The dataset is then preprocessed through transposition, shuffling, and dimen-sional expansion to meet the input requirements of the agent and is split into training and validation sets with a 7:3 ratio. Finally, we train a TodyNet [30] classifier to predict whether a test case is likely to trigger a crash. To assess generalization, we evaluate not only the within-method prediction accuracy, i.e., training and testing on crashes generated by the same fuzzing method, but also cross-method performance, where the trained agent is tested on crashes discovered by other fuzzers. This setting enables us to examine whether the detected crash patterns generalize across different fuzzing strategies. Related to Agent robustness improvement, Table V reports the number of unique crashes detected during 12-hour fuzzing sessions under identical datasets and configurations before and after agent repair. The ⇑Rob quantifies the reduction in detected crashes and serves as an indicator of robustness improvement, and F.R. indicates the overall accuracy of the fine-tuned RL agent, and Reg. denotes the ratio of regression faults in the test sets [57]. As shown in the results, QDFuzz achieves the most substantial gain, improving agent robustness by 41.5%. This JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 10 
+
+TABLE VI: Cross-Fuzzer Evaluation of Robustness Improve-ment (#UC after Fine-tuning and ⇑Rob )                                             
+
+> Tra.\Eva. Random MDPFuzz CureFuzz G-Model SeqDivFuzz QDFuzz Random 4,044 (8.1%) 6,763 (24.5%) 802 (0.2%) 712 (7.9%) 98 (-15.3%) 1,179 (51.2%) MDPFuzz 3,927 (10.7%) 7,203 (19.5%) 798 (0.7%) 703 (9.1%) 105 (-23.5%) 983 (59.3%) CureFuzz 6,502 (-47.8%) 11,291 (-26.1%) 804 (0.0%) 672 (13.1%) 100 (-17.6%) 1,023 (57.7%) G-Model 5,613 (-27.6%) 10,323 (-15.3%) 785 (2.4%) 664 (14.1%) 100 (-17.6%) 2,487 (-2.9%) SeqDivFuzz 3,629 (17.5%) 8,353 (6.7%) 788 (2.0%) 681 (11.9%) 75 (11.8%) 496 (79.5%) QDFuzz 5,062 (-15.1%) 11,702 (-30.7%) 792 (1.5%) 622 (19.5%) 104 (-22.4%) 1,414 (41.5%)
+> *Rows denote the fuzzers whose UCs are used to fine-tune the RL agent, while columns denote the fuzzers used for evaluation. Each cell reports the number of UCs detected after fine-tuning, with the robustness improvement rate ( ⇑Rob ) shown in parentheses. The improvement rate measures the percentage reduction of UCs compared with the initial number of UCs, where the pre-fine-tuning results are reported in the column #UC Before Fine-tuning of Table V. A negative value indicates robustness degradation.
+
+TABLE VII: Safety Monitoring Accuracy Based on Crash-Triggering Inputs Across Fuzzing Methods                                           
+
+> Tra.\Eva. Random MDPFuzz CureFuzz G-Model SeqDivFuzz QDFuzz Random 100.00% 99.67% 93.17% 93.50% 94.50% 99.17% MDPFuzz 100.00% 100.00% 93.67% 93.83% 95.17% 99.17% CureFuzz 99.67% 99.50% 99.67% 95.00% 98.50% 97.50% G-Model 97.33% 99.83% 99.00% 96.83% 99.00% 98.83% SeqDivFuzz 99.83% 99.67% 99.50% 96.33% 97.83% 98.50% QDFuzz 97.33% 99.67% 93.50% 94.00% 95.00% 100.00%
+
+advantage is likely attributable to its emphasis on generating diverse and high-quality test cases, which expose a broader range of crash scenarios and thus provide more informative training signals during repair. More generally, test cases pro-duced by most fuzzing methods contribute to varying degrees of robustness enhancement, demonstrating the practical value of fuzzing-generated crashes for agent improvement. We also observe that fine-tuning on crashes from G-Model, CureFuzz, and random testing may degrade overall agent performance and introduce potential regression faults. To evaluate whether fine-tuning with crashes generated by one fuzzer can improve robustness against attacks from other fuzzers, we conducted a cross-fuzzer evaluation. As shown in Table VI, the rows denote the fuzzers used to generate the fine-tuning data, while the columns denote the fuzzers used for evaluation. Each cell reports the number of unique crashes after fine-tuning and the corresponding robustness improve-ment relative to the pre-fine-tuning results in Table V. Positive values indicate improved robustness. Fine-tuning with crashes generated by SeqDivFuzz consistently improves robustness against all evaluation fuzzers, with improvements ranging from 17.5% to 79.5%, demonstrating the strongest cross-fuzzer gen-eralization ability. This advantage is likely due to its diversity-aware pruning strategy, which removes redundant crashes and produces more transferable repair signals. In contrast, fine-tuning with crashes generated by other fuzzers often degrades robustness against unseen fuzzers. For example, using crashes generated by CureFuzz reduces robustness against Random Testing by 47.8%, indicating overfitting to the source fuzzer. 
+
+Finding VII: Most fuzzing methods can enhance the robustness of RL agents through repair based on their generated crash-triggering test cases, with QDFuzz yielding the largest gains and SeqDivFuzz showing the strongest cross-fuzzer generalization, yet such fine-tuning may introduce regression faults. Related to Safety Monitoring, Table VII and Table VIII TABLE VIII: Safety Monitoring False Positive Rate Based on Crash-Triggering Inputs Across Fuzzing Methods                                           
+
+> Tra.\Eva. Random MDPFuzz CureFuzz G-Model SeqDivFuzz QDFuzz Random 0.00% 0.24% 0.24% 0.23% 0.24% 0.00% MDPFuzz 0.23% 0.00% 0.00% 0.23% 0.00% 0.00% CureFuzz 0.46% 0.72% 0.24% 5.16% 1.67% 3.48% G-Model 0.46% 0.24% 0.24% 2.35% 0.48% 1.62% SeqDivFuzz 0.23% 0.48% 0.24% 3.76% 1.91% 2.09% QDFuzz 0.23% 0.24% 0.00% 0.23% 0.00% 0.00%
+
+evaluate the accuracy and the false positive rate of safety monitoring models trained on crash-triggering inputs gener-ated by different fuzzing methods in identifying crash-prone test cases. Specifically, we assess both within-method perfor-mance, where training and evaluation use crashes produced by the same fuzzer, and cross-method performance across different fuzzers. The results show that within-method train-ing typically achieves the highest recognition accuracy. For example, the model trained on MDPFuzz-generated crashes attains 100.00% accuracy when evaluated on crashes detected by MDPFuzz itself. This outcome suggests that the model effectively learns the characteristic patterns associated with crashes produced by that specific fuzzing strategy. Notably, even under cross-method evaluation, the monitoring models maintain high performance, with accuracies exceeding 95% in most cases. For example, the model trained on G-Model-generated crashes attains 97.33% ∼99.83% when evaluated on other fuzzing methods. We also observe that for most cases, the false positive rate is below 1.00%, with a maximum of no more than 5.16%. This strong generalization indicates that, de-spite method-specific differences, crash-triggering inputs share common behavioral signatures. Such shared characteristics enable the trained models to reliably identify crash-prone scenarios across different fuzzing strategies, demonstrating the practical value of fuzzing-generated data for safety monitoring. 
+
+Finding VIII: Safety monitoring models trained on crash-triggering inputs from a single fuzzing method yield optimal accuracy on the same method’s crash inputs and maintain high accuracy in most cross-method evaluations, potentially owing to the core common crash behavior characteristics shared by crash inputs from different fuzzing methods, which grant the models strong cross-method generalization ability. V. L ESSON LEARNED AND ACTIONABLE TAKEAWAYS 
+
+Based on our comprehensive empirical study, we distil several key implications for both researchers and practitioners. 
+
+Select Appropriate Fuzzers According to Testing Goals. 
+
+For simple tasks with small state spaces, low computational overhead is a primary concern; random testing and MDPFuzz are viable options. For high-dimensional, complex simula-tion tasks, random testing alone fails to uncover rare risky scenarios, so guided fuzzing methods, including MDPFuzz and QDFuzz are preferred. For time-limited scenarios such as pre-release stress testing where maximum crash discovery within a fixed budget is required, MDPFuzz remains the JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 11 
+
+optimal solution. It generates the largest number of UCs and achieves the best UD-AUC score, demonstrating its strong crash detection capacity and ability to reveal latent crashes early. For generating rare, long-tail, and atypical abnormal behaviors, especially in offline deep testing on complex sim-ulators like autonomous driving platforms, G-Model is rec-ommended since it learns the distribution of normal scenarios and creates outliers, making it well-suited for mining long-tail risks. QDFuzz and SeqDivFuzz are suitable when diverse crash samples are needed for robustness enhancement. They produce behaviorally distinct UCs to support agent repair and strengthen the repaired agent’s robustness to abnormal attacks. 
+
+Combine Complementary Fuzzing Strategies. Our obser-vations suggest that Different fuzzing methods tend to explore distinct regions of the state space, resulting in low overlap in crash-inducing seeds. As shown in Figure 3, the intersection of seeds across methods is nearly zero on all benchmarks, indicating that each strategy uncovers unique crash modes. This yields three key implications. 1) Relying solely on one fuzzer creates wide blind spots in state exploration. Prac-titioners may integrate complementary fuzzing pipelines to expand total crash coverage. A representative combination pairs efficiency-focused tools such as MDPFuzz with diversity-driven alternatives like QDFuzz, jointly boosting crash detec-tion throughput and behavioral coverage. 2) Each fuzzer favors seeds with specific traits, which makes tailored seed selection and prioritization a promising optimization direction. For example, MDPFuzz performs better on seeds whose reward scores are highly sensitive to state perturbations, significantly lifting overall fuzzing efficacy. 3) Matching each seed to its optimal fuzzer further improves performance. Researchers can characterize seed preferences of every fuzzer via clustering analysis and build dedicated classifiers to assign suitable fuzzers for individual seeds automatically. 
+
+Adopt Multi-Level Diversity Metrics. Our results reveal that different diversity metrics capture distinct aspects of exploration. For example, SeqDivFuzz achieves high input diversity but low output diversity, while QDFuzz shows the opposite on BipedalWalker. These discrepancies indicate that diverse inputs do not necessarily induce diverse agent be-haviors. Researchers should evaluate diversity from multiple perspectives (e.g., seeds, trajectories) rather than relying on a single metric, and future work should investigate which diversity notions most closely correlate with practical safety benefits [2]. 
+
+Use Crash Data Judiciously for RL Repair. Although crash-triggering test inputs can improve robustness, not all detected crashes are equally beneficial for repair. We ob-serve that incorporating highly abnormal or out-of-distribution crashes, such as those generated by CureFuzz, can even reduce robustness against other fuzzers, such as Random Testing, due to distribution or contribution shifts during fine-tuning [57], as shown in Table VI. In addition, fine-tuning may still introduce regression faults (Table V). Therefore, practitioners should carefully curate repair data by prioritizing representative and informative crashes while filtering noisy or extreme samples. Repair pipelines should also explicitly monitor regression faults throughout the repair process to prevent unintended performance degradation [55]. These findings also motivate future research on more effective repair strategies that can better exploit crash data while reducing regressions. 
+
+Establish Standardized and Fair Evaluation Protocols. 
+
+Our findings affirm that inconsistent baselines, configurations, and benchmarks across studies hinder reliable comparison. Thus, we encourage researchers to consider a standardized evaluation protocol when developing new RL testing methods. This includes: 1) comparing against strong and updated base-lines (e.g., MDPFuzz and random testing). Random testing achieves competitive performance yet is frequently omitted in prior research, which deserves special attention. 2) testing on tasks of varying complexity, including realistic scenarios (e.g., CARLA), and 3) assessing not only crash counts but also practical utility. 
+
+Design Scalable and Generalizable RL Testing Fuzzers. 
+
+Many existing RL fuzzing methods [18, 29, 33, 34, 36, 53] are tightly coupled to specific environments, handcrafted features, or task-dependent assumptions, resulting in high adaptation costs when migrating to new scenarios. Differences in obser-vation spaces, action formats, and crash oracles often require substantial redesign, retraining, or manual tuning, limiting real-world applicability. Moreover, certain design choices fur-ther hinder scalability and robustness. For example, overly strict seed pruning (e.g., CureFuzz and SeqDivFuzz) can pre-maturely restrict exploration, sensitivity-driven guidance (e.g., MDPFuzz) may lead to local optima, manually engineered behavior descriptors (e.g., QDFuzz) reduce generalization, and heavy generative backbones (e.g., diffusion models in G-Model) introduce significant overhead in high-dimensional settings. Future fuzzing methods should prioritize lightweight, adaptive, and task-agnostic designs. Promising directions in-clude dynamic seed management, diversity-aware guidance to avoid local optima, automatically learned behavior represen-tations instead of handcrafted descriptors, and more scalable generative architectures. 
+
+Evaluate Under Realistic Deployment Scenarios. When designing and evaluating RL fuzzing methods, researchers should prioritize realistic deployment scenarios rather than relying solely on simplified or toy benchmarks. Many existing methods [18, 29, 33, 34, 36, 53] are primarily evaluated on small-scale or simulated environments, which may not adequately reflect the complexity and constraints of real-world applications. In practice, RL agents operate in dynamic and uncertain environments, where testing must satisfy stricter requirements on efficiency, resource consumption, and the practical relevance of detected crashes. For example, au-tonomous driving systems must respond to real-time environ-mental changes and ensure that discovered crashes correspond to meaningful safety risks or functional requirements (e.g., lane-changing or overtaking behaviors) [15]. Evaluations that overlook these constraints may overestimate the practical effectiveness of fuzzing methods. VI. T HREATS TO VALIDITY 
+
+Internal threat. First, implementation bias may affect the results. To mitigate this threat, we adopt the official replication JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 12 
+
+packages provided by the original authors whenever available, and avoid modifying their core logic beyond necessary inte-gration. Second, differences in computational resources and runtime environments could affect efficiency measurements. We therefore conduct all experiments using the same hardware platform under identical time budgets for fair comparisons. 
+
+External threat. First, to mitigate threats arising from biased benchmark selection, we conduct experiments on three repre-sentative RL benchmarks that cover increasing levels of com-plexity, ranging from low-dimensional control tasks to high-dimensional autonomous driving scenarios. Second, while we include five state-of-the-art fuzzing methods alongside random testing and employ their officially updated implementations to ensure fair comparison, other existing or newly proposed fuzzers may still demonstrate distinct behaviors. To address this threat, we carefully select the evaluated methods based on their representativeness in the literature and the availability of reproducible artifacts. Finally, the inherent randomness of fuzz testing can introduce variability in experimental results. To mitigate this effect, we repeat each experiment five times and report the average results. 
+
+Construct threat. Our study operationalizes fuzzing perfor-mance using several metrics across effectiveness, diversity, efficiency, and usefulness. While these metrics are widely adopted in prior work [18, 29, 33, 34, 36, 53] and provide measurable and comparable indicators, they inevitably approx-imate the underlying constructs rather than capturing them perfectly. To mitigate these threats, we adopt commonly used definitions, evaluate all methods under unified configurations, and assess multiple complementary metrics to provide a more comprehensive and balanced evaluation. VII. C ONCLUSION 
+
+This work presents a comprehensive empirical study that systematically investigates the effectiveness, diversity, effi-ciency, and practical utility of RL fuzzing methods. We benchmark five state-of-the-art methods alongside random testing across three representative environments with vary-ing complexity. Our evaluation yields several key findings. MDPFuzz consistently achieves the highest crash detection effectiveness and efficiency, while SeqDivFuzz demonstrates stronger performance in uncovering diverse crash behaviors. Additionally, we further show that fuzzing-generated test cases provide tangible downstream benefits: they can improve agent robustness by up to 41.5% through targeted repair and enable safety monitoring agents that generalize effectively across different fuzzing strategies. These results highlight that RL fuzzing is not only useful for exposing crashes but also valuable for enhancing agent reliability and operational safety. VIII. A CKNOWLEDGEMENT 
+
+This work was supported by the National Natural Science Foundation of China (Grant Nos. 62322208, 62232001) REFERENCES 
+
+[1] A. Arcuri and L. C. Briand, “A hitchhiker’s guide to statistical tests for assessing randomized algorithms in software engineering,” Softw. Test. Verification Reliab. ,vol. 24, no. 3, pp. 219–250, 2014. [2] A. Bartlett, C. C. S. Liem, and A. Panichella, “The pursuit of diversity: Multi-objective testing of deep rein-forcement learning agents,” in SSBSE , ser. Lecture Notes in Computer Science, vol. 16228. Springer, 2025, pp. 97–112. [3] A. G. Barto, “Reinforcement learning: An introduction. by richard’s sutton,” SIAM Rev , vol. 6, no. 2, p. 423, 2021. [4] Y. Benjamini and Y. Hochberg, “Controlling the false discovery rate: a practical and powerful approach to multiple testing,” Journal of the Royal statistical society: series B (Methodological) , vol. 57, no. 1, pp. 289–300, 1995. [5] M. Biagiola and P. Tonella, “Testing the plasticity of re-inforcement learning-based systems,” ACM Trans. Softw. Eng. Methodol. , vol. 31, no. 4, pp. 80:1–80:46, 2022. [6] ——, “Testing of deep reinforcement learning agents with surrogate models,” ACM Trans. Softw. Eng. Methodol. , vol. 33, no. 3, pp. 73:1–73:33, 2024. [7] M. Böhme, V. Pham, and A. Roychoudhury, “Coverage-based greybox fuzzing as markov chain,” IEEE Trans. Software Eng. , vol. 45, no. 5, pp. 489–506, 2019. [8] G. Brockman, V. Cheung, L. Pettersson, J. Schneider, J. Schulman, J. Tang, and W. Zaremba, “Openai gym,” 
+
+CoRR , vol. abs/1606.01540, 2016. [9] Y. Burda, H. Edwards, A. J. Storkey, and O. Klimov, “Exploration by random network distillation,” in ICLR (Poster) . OpenReview.net, 2019. [10] Y. Cai, X. Wan, Z. Liu, and Z. Zheng, “Drlfailuremon-itor: A dynamic failure monitoring approach for deep reinforcement learning system,” in ISSRE . IEEE, 2024, pp. 487–498. [11] J. Cohen, Statistical Power Analysis for the Behavioral Sciences , 2nd ed. Routledge, 1988. [Online]. Available: https://doi.org/10.4324/9780203771587 [12] E. E. Cureton, “Rank-biserial correlation,” Psychome-trika , vol. 21, pp. 287–290, 1956. [13] A. Dosovitskiy, G. Ros, F. Codevilla, A. M. López, and V. Koltun, “CARLA: an open urban driving simulator,” in 
+
+CoRL , ser. Proceedings of Machine Learning Research, vol. 78. PMLR, 2017, pp. 1–16. [14] M. Fatemi, “Prioritized replay for RL post-training,” 
+
+CoRR , vol. abs/2601.02648, 2026. [15] L. Giamattei, M. Biagiola, R. Pietrantuono, S. Russo, and P. Tonella, “Reinforcement learning for online testing of autonomous driving systems: a replication and extension study,” Empir. Softw. Eng. , vol. 30, no. 1, p. 19, 2025. [16] J. Guo, Y. Chen, Y. Hao, Z. Yin, Y. Yu, and S. Li, “Towards comprehensive testing on the robustness of co-operative multi-agent reinforcement learning,” in CVPR Workshops . IEEE, 2022, pp. 114–121. [17] F. U. Haq, D. Shin, and L. C. Briand, “Many-objective reinforcement learning for online testing of dnn-enabled systems,” in ICSE . IEEE, 2023, pp. 1814–1826. [18] J. He, Z. Yang, J. Shi, C. Yang, K. Kim, B. Xu, X. Zhou, and D. Lo, “Curiosity-driven testing for sequen-JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 13 
+
+tial decision-making process,” in ICSE . ACM, 2024, pp. 165:1–165:14. [19] V. J. Hodge, R. Hawkins, and R. Alexander, “Deep reinforcement learning for drone navigation using sensor data,” Neural Comput. Appl. , vol. 33, no. 6, pp. 2015– 2033, 2021. [20] Homepage, https://github.com/RWO-zb/fuzzers, 2026. [21] Y. Hou, L. Liu, Q. Wei, X. Xu, and C. Chen, “A novel DDPG method with prioritized experience replay,” in 
+
+SMC . IEEE, 2017, pp. 316–321. [22] B. Jaeger, D. Dauner, J. Beißwenger, S. Gerstenecker, K. Chitta, and A. Geiger, “Carl: Learning scalable plan-ning policies with simple rewards,” in Conference on Robot Learning . PMLR, 2025, pp. 5301–5338. [23] T. Johannink, S. Bahl, A. Nair, J. Luo, A. Kumar, M. Loskyll, J. A. Ojea, E. Solowjow, and S. Levine, “Residual reinforcement learning for robot control,” in 
+
+ICRA . IEEE, 2019, pp. 6023–6029. [24] P. W. Koh, T. Nguyen, Y. S. Tang, S. Mussmann, E. Pierson, B. Kim, and P. Liang, “Concept bottleneck models,” in ICML , ser. Proceedings of Machine Learning Research, vol. 119. PMLR, 2020, pp. 5338–5348. [25] P. Koopman, “Anatomy of a robotaxi crash: Lessons from the cruise pedestrian dragging mishap,” in SAFECOMP ,ser. Lecture Notes in Computer Science, vol. 14988. Springer, 2024, pp. 119–133. [26] S. Levine, A. Kumar, G. Tucker, and J. Fu, “Offline reinforcement learning: Tutorial, review, and perspectives on open problems,” CoRR , vol. abs/2005.01643, 2020. [27] S. Li, T. Hu, J. van de Weijer, F. S. Khan, T. Liu, L. Li, S. Yang, Y. Wang, M. Cheng, and J. Yang, “Faster diffusion: Rethinking the role of the encoder for diffusion model inference,” in NeurIPS , 2024. [28] T. Li, X. Wan, and M. M. Özbek, “Agentfuzz: Fuzzing for deep reinforcement learning systems,” in ISSRE Work-shops . IEEE, 2022, pp. 110–113. [29] Z. Li, X. Wu, D. Zhu, M. Cheng, S. Chen, F. Zhang, X. Xie, L. Ma, and J. Zhao, “Generative model-based testing on decision-making policies,” in ASE . IEEE, 2023, pp. 243–254. [30] H. Liu, D. Yang, X. Liu, X. Chen, Z. Liang, H. Wang, Y. Cui, and J. Gu, “Todynet: temporal dynamic graph neural network for multivariate time series classification,” 
+
+Information Sciences , vol. 677, p. 120914, 2024. [31] Y. Luo, J. Kay, E. Grefenstette, and M. P. Deisenroth, “Finetuning from offline reinforcement learning: Chal-lenges, trade-offs and practical solutions,” CoRR , vol. abs/2303.17396, 2023. [32] X. Ma, Y. Wang, J. Wang, X. Xie, B. Wu, S. Li, F. Xu, and Q. Wang, “Enhancing multi-agent system testing with diversity-guided exploration and adaptive critical state exploitation,” in ISSTA . ACM, 2024, pp. 1491– 1503. [33] Q. Mazouni, A. Gotlieb, M. Acher, and H. Spieker, “Fault diversity in reinforcement learning policy testing,” ACM Transactions on Software Engineering and Methodology .[34] Q. Mazouni, H. Spieker, A. Gotlieb, and M. Acher, “Policy testing with mdpfuzz (replicability study),” in 
+
+ISSTA . ACM, 2024, pp. 1567–1578. [35] J. P. O’Doherty, J. Cockburn, and W. M. Pauli, “Learning, reward, and decision making,” Annual review of psychol-ogy , vol. 68, no. 1, pp. 73–100, 2017. [36] Q. Pang, Y. Yuan, and S. Wang, “Mdpfuzz: testing models solving markov decision processes,” in ISSTA .ACM, 2022, pp. 378–390. [37] A. Paszke, S. Gross, F. Massa, A. Lerer, J. Bradbury, G. Chanan, T. Killeen, Z. Lin, N. Gimelshein, L. Antiga, A. Desmaison, A. Köpf, E. Z. Yang, Z. DeVito, M. Rai-son, A. Tejani, S. Chilamkurthy, B. Steiner, L. Fang, J. Bai, and S. Chintala, “Pytorch: An imperative style, high-performance deep learning library,” in NeurIPS ,2019, pp. 8024–8035. [38] K. Pei, Y. Cao, J. Yang, and S. Jana, “Deepxplore: automated whitebox testing of deep learning systems,” 
+
+Commun. ACM , vol. 62, no. 11, pp. 137–145, 2019. [39] T. Phan, T. Gabor, A. Sedlmeier, F. Ritz, B. Kempter, C. Klein, H. Sauer, R. N. Schmid, J. Wieghardt, M. Zeller, and C. Linnhoff-Popien, “Learning and testing resilience in cooperative multi-agent systems,” in AA-MAS . IFAAMAS, 2020, pp. 1055–1063. [40] M. L. Puterman, Markov decision processes: discrete stochastic dynamic programming . John Wiley & Sons, 2014. [41] A. Raffin, “Rl baselines3 zoo,” https://github.com/ DLR-RM/rl-baselines3-zoo, 2020. [42] A. Raffin, A. Hill, A. Gleave, A. Kanervisto, M. Ernestus, and N. Dormann, “Stable-baselines3: Reliable reinforce-ment learning implementations,” J. Mach. Learn. Res. ,vol. 22, pp. 268:1–268:8, 2021. [43] S. Rawat, V. Jain, A. Kumar, L. Cojocar, C. Giuffrida, and H. Bos, “Vuzzer: Application-aware evolutionary fuzzing,” in NDSS . The Internet Society, 2017. [44] T. Schaul, J. Quan, I. Antonoglou, and D. Silver, “Prior-itized experience replay,” in ICLR (Poster) , 2016. [45] A. Sunba, J. Hassine, and M. A. Ahmed, “Testing rein-forcement learning systems: A comprehensive review,” J. Syst. Softw. , vol. 231, p. 112563, 2026. [46] M. Tappler, F. C. Córdoba, B. K. Aichernig, and B. Könighofer, “Search-based testing of reinforcement learning,” in IJCAI . ijcai.org, 2022, pp. 503–510. [47] M. Tappler, A. Pferscher, B. K. Aichernig, and B. Könighofer, “Learning and repair of deep reinforce-ment learning policies from fuzz-testing data,” in ICSE .ACM, 2024, pp. 6:1–6:13. [48] M. J. Tehrani, J. Kim, and P. Tonella, “PCLA: Aframework for testing autonomous agents in the CARLA simulator,” in SIGSOFT FSE Companion . ACM, 2025, pp. 1040–1044. [49] D. Thomas, M. Biagiola, N. Humbatova, M. War-dat, G. Jahangirova, H. Rajan, and P. Tonella, “$\mu \text{PRL}$: A mutation testing pipeline for deep rein-forcement learning based on real faults,” in ICSE . IEEE, 2025, pp. 2238–2250. [50] M. Trujillo, M. Linares-Vásquez, C. Escobar-Velásquez, I. Dusparic, and N. Cardozo, “Does neuron coverage matter for deep reinforcement learning?: A preliminary JOURNAL OF L ATEX CLASS FILES, VOL. 18, NO. 9, SEPTEMBER 2020 14 
+
+study,” in ICSE (Workshops) . ACM, 2020, pp. 215–220. [51] J. Uesato, A. Kumar, C. Szepesvári, T. Erez, A. Rud-erman, K. Anderson, K. D. Dvijotham, N. Heess, and P. Kohli, “Rigorous agent evaluation: An adversarial approach to uncover catastrophic failures,” in ICLR (Poster) . OpenReview.net, 2019. [52] D. Wang, H. You, L. Zhu, K. Lin, Z. Chen, C. Yang, J. Yu, Z. Wang, and J. Chen, “A survey of reinforce-ment learning for software engineering,” arXiv preprint arXiv:2507.12483 , 2025. [53] K. Wang, Y. Wang, J. Wang, and Q. Wang, “Fuzzing with sequence diversity inference for sequential decision-making model testing,” in ISSRE . IEEE, 2023, pp. 706– 717. [54] R. F. Woolson, “Wilcoxon signed-rank test,” Wiley ency-clopedia of clinical trials , pp. 1–3, 2007. [55] H. You, “Regression fault detection and mitigation in the evolution of deep learning systems,” in SIGSOFT FSE Companion . ACM, 2025, pp. 1293–1294. [56] H. You, Z. Wang, J. Chen, S. Liu, and S. Li, “Regression fuzzing for deep learning systems,” in ICSE . IEEE, 2023, pp. 82–94. [57] H. You, Z. Wang, X. Chen, J. Chen, J. Sun, S. Liu, and Z. Dong, “Mitigating regression faults induced by feature evolution in deep learning systems,” ACM Trans. Softw. Eng. Methodol. , vol. 34, no. 6, pp. 171:1–171:33, 2025. [58] H. You, Z. Wang, Z. Dong, L. Mo, J. Zhao, and J. Chen, “A comprehensive study of deep learning model fixing approaches,” CoRR , vol. abs/2512.23745, 2025. [59] H. You, Z. Wang, B. Lin, and J. Chen, “Navigating the testing of evolving deep learning systems: An exploratory interview study,” in ICSE . IEEE, 2025, pp. 2726–2738. [60] J. Yu, S. Duan, and X. Ye, “A white-box testing for deep neural networks based on neuron coverage,” IEEE Trans. Neural Networks Learn. Syst. , vol. 34, no. 11, pp. 9185– 9197, 2023. [61] Z. Zhang, A. Liniger, D. Dai, F. Yu, and L. V. Gool, “End-to-end urban driving by imitating a reinforcement learning coach,” in ICCV . IEEE, 2021, pp. 15 202– 15 212. [62] Z. Zheng, D. Ren, H. Liu, T. Y. Chen, and T. Li, “Iden-tifying the failure-revealing test cases in metamorphic testing: A statistical approach,” ACM Transactions on Software Engineering and Methodology , vol. 34, no. 2, pp. 1–26, 2025. [63] J. Zhou, J. Chen, and D. Hao, “Parallel test prioritiza-tion,” ACM Trans. Softw. Eng. Methodol. , vol. 31, no. 1, pp. 8:1–8:50, 2022. [64] R. Zhou, J. Huang, M. Li, H. Li, H. Cao, and X. Song, “Knowledge transfer from simple to complex: A safe and efficient reinforcement learning framework for au-tonomous driving decision-making,” Adv. Eng. Informat-ics , vol. 65, p. 103188, 2025. [65] Z. Zhou and G. Liu, “Robustness testing for multi-agent reinforcement learning: State perturbations on critical agents,” in ECAI , ser. Frontiers in Artificial Intelligence and Applications, vol. 372. IOS Press, 2023, pp. 3131– 3139. [66] X. Zhu, S. Wen, S. Camtepe, and Y. Xiang, “Fuzzing: A survey for roadmap,” ACM Comput. Surv. , vol. 54, no. 11s, pp. 230:1–230:36, 2022. [67] A. Zolfagharian, M. Abdellatif, L. C. Briand, M. Bagherzadeh, and R. S., “A search-based testing approach for deep reinforcement learning agents,” IEEE Trans. Software Eng. , vol. 49, no. 7, pp. 3715–3735, 2023. [68] A. Zolfagharian, M. Abdellatif, L. C. Briand, and S. Ramesh, “SMARLA: A safety monitoring approach for deep reinforcement learning agents,” IEEE Trans. Software Eng. , vol. 51, no. 1, pp. 82–105, 2025.

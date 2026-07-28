@@ -6,40 +6,45 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-27
-- 运行时间：2026-07-27 21:31:32 UTC
+- 最新运行日期：2026-07-28
+- 运行时间：2026-07-28 21:41:17 UTC
 - 运行状态：成功
-- 本次总论文数：6
-- 精读区：3
-- 速读区：3
+- 本次总论文数：7
+- 精读区：5
+- 速读区：2
 
 ### 今日简报（AI）
-1) 今日精读3篇、速读3篇，聚焦Agentic根因分析与LLM Agent信息遗漏两大方向。  
-2) 最值得关注：9.0分《Agentic Root Cause Analysis》提出证据驱动的推理框架，同分《Where Facts Go Missing》构建了信息遗漏的分层归因模型。  
-3) 建议优先精读这两篇高分论文，掌握Agent系统行为可解释性与可靠性的提升方法。
-- 详情：[/202607/27/README](/202607/27/README)
+今日7篇推荐涵盖AI代理奖励机制、安全系统验证及代码优化，精读两篇高分研究值得深入。
+
+最值得关注方向：SeekJudge强化学习框架提升计算机代理决策能力，DiffTilt扩散引导搜索方法有效验证安全关键系统。
+
+建议普通读者优先了解AI代理的安全性与效率权衡，可关注TRIM等减少代码冗余的技术。
+- 详情：[/202607/28/README](/202607/28/README)
 
 ### 精读区论文标签
-1. [Agentic Root Cause Analysis through Evidence-Grounded Reasoning](/202607/27/2607.22385v1-agentic-root-cause-analysis-through-evidence-grounded-reasoning)  
+1. [SeekJudge: A Practical Reward Framework for Reinforcement Learning in Computer-Use Agents](/202607/28/2607.23263v1-seekjudge-a-practical-reward-framework-for-reinforcement-learning-in-computer-use-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：零样本agent框架用于基于证据的异常根因分析
-2. [Where FactsGo Missing: A LayerwiseTaxonomy and Per-Layer Attribution of Information Omissionin Air-Gapped LLM Agent Pipelines](/202607/27/2607.22448v1-where-factsgo-missing-a-layerwisetaxonomy-and-per-layer-attribution-of-information-omissionin-air-gapped-llm-agent-pipelines)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：检测LLM agent管道中的沉默遗漏异常
-3. [Workflow-Localized Mechanism Learning: Attribution-Guided Repair and Knowledge Reuse for Structured Agent Skills](/202607/27/2607.20999v1-workflow-localized-mechanism-learning-attribution-guided-repair-and-knowledge-reuse-for-structured-agent-skills)  
+   evidence：判断计算机使用代理的轨迹是否完成指令，直接检测错误
+2. [Diffusion-Guided Search via Exponential Tilting (DiffTilt): An Application to Falsification of Safety-Critical Systems](/202607/28/2607.23134v1-diffusion-guided-search-via-exponential-tilting-difftilt-an-application-to-falsification-of-safety-critical-systems)  
    标签：评分：8.0/10、query:agent-error
-   evidence：识别agent技能中的失败工作流节点和机制
+   evidence：通过扩散引导搜索发现安全关键系统失败，检测轨迹错误
+3. [Recursive Governance: A Graph-Theoretic Framework for Risk Propagation and Drift Detection in Agentic AI Systems](/202607/28/2607.23916v1-recursive-governance-a-graph-theoretic-framework-for-risk-propagation-and-drift-detection-in-agentic-ai-systems)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：检测代理AI系统中的漂移和风险传播，监控行为中的异常
+4. [Falsifiable Commitment Planning for Self-Correcting Web Agents](/202607/28/2607.24167v1-falsifiable-commitment-planning-for-self-correcting-web-agents)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：通过可证伪承诺单元检测Web代理偏离轨道，识别动作错误
+5. [Evaluating Fuzz Testing for Reinforcement Learning Agents](/202607/28/2607.24577v1-evaluating-fuzz-testing-for-reinforcement-learning-agents)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：评估模糊测试以发现强化学习智能体错误
 
 ### 速读区论文标签
-1. [CodeRescue: Budget-Calibrated Recovery Routing for Coding Agents](/202607/27/2607.19338v1-coderescue-budget-calibrated-recovery-routing-for-coding-agents)  
+1. [CORVUS: Context Optimization and Reduction Via Underlying Synchronization for LLM Coding Agents](/202607/28/2607.22711v1-corvus-context-optimization-and-reduction-via-underlying-synchronization-for-llm-coding-agents)  
    标签：评分：7.0/10、query:agent-error
-   evidence：关注编码智能体失败后的恢复路由，利用执行反馈
-2. [A Self-Calibrating Agentic AI Framework for Autonomous Edge Resource Allocation](/202607/27/2607.22400v1-a-self-calibrating-agentic-ai-framework-for-autonomous-edge-resource-allocation)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：针对LLM智能体操作漂移的自校准检测机制
-3. [Bridging the Gap Between Plausibility and Admissibility: Constraint-Aware Flow Maps for Dynamic Graph Systems](/202607/27/2607.21421v1-bridging-the-gap-between-plausibility-and-admissibility-constraint-aware-flow-maps-for-dynamic-graph-systems)  
+   evidence：解决LLM智能体轨迹中因过时快照导致的推理错误
+2. [TRIM: Reducing AI-Generated CodeSlop via Agent Trajectory Minimization](/202607/28/2607.18161v1-trim-reducing-ai-generated-codeslop-via-agent-trajectory-minimization)  
    标签：评分：6.0/10、query:agent-error
-   evidence：外部符号层通过约束检测并修复无效轨迹，可识别路径偏差
+   evidence：分析并减少智能体轨迹中的推测性编辑等错误
 
 
 <div class="dpr-home-promo-card">
