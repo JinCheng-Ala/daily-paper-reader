@@ -1,0 +1,1741 @@
+Title: Spatial Reasoning in LLM Game Agents: Impact of Causal Context and Multi-Step Planning
+
+URL Source: https://arxiv.org/pdf/2607.22732v1
+
+Published Time: Tue, 28 Jul 2026 00:06:55 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+# Spatial Reasoning in LLM Game Agents: Impact of Causal Context and Multi-Step Planning 
+
+Mohit Jiwatode 
+
+Institute for Information Processing Leibniz University Hannover 
+
+Hannover, Germany jiwatode@tnt.uni-hannover.de 
+
+Ronja Fuchs 
+
+Institute for Information Processing Leibniz University Hannover 
+
+Hannover, Germany fuchsron@tnt.uni-hannover.de 
+
+Robin Schm¨ ocker 
+
+Institute for Information Processing Leibniz University Hannover 
+
+Hannover, Germany schmoecker@tnt.uni-hannover.de 
+
+Bodo Rosenhahn 
+
+Institute for Information Processing Leibniz University Hannover 
+
+Hannover, Germany rosenhahn@tnt.uni-hannover.de 
+
+Alexander Dockhorn 
+
+SDU Metaverse Lab University of Southern Denmark 
+
+Odense, Denmark adoc@sdu.dk 
+
+Abstract —LLM-based game agents often perform poorly on more complex tasks. This work examines whether these failures are linked to limited spatial reasoning and evaluates whether causal prompt augmentation and multi-step planning can improve win-rates while managing response latency. Using the open-source Qwen3 model family, we conduct experiments across varying model scales, reasoning modes, and planning horizons. We further introduce a focused GVGAI benchmark consisting of three custom games with five difficulty levels to isolate spatial navigation. The evaluation follows two paradigms: an initial “positioning experiment” to test an agent’s ability to find its exact coordinates, and a study of game-play success. Our results show that while larger models with an enabled thinking mode identify their positions more accurately, overall performance in coordinate matching remains limited for smaller models. Win rates decrease as game levels and layout complexity increase, validating the benchmark’s difficulty scaling. Integrating causal context into the prompts tends to improve the agents’ success rates, particularly for bigger models. While enabling thinking mode and longer planning horizons significantly improve performance, multi-step planning further reduces mean per-step response times, offering a practical trade-off between reasoning depth and execution speed. 
+
+Index Terms —GVGAI, VGDL, Large Language Models, Spatial Reasoning, Planning 
+
+I. I NTRODUCTION 
+
+General game playing is a useful stress test for Large Language Model (LLM) agents, since it requires instruction following, state tracking, sequential control, and adaptation to unfamiliar rules [1, 2]. Especially in a language-based setting, such as the General Video Game AI (GVGAI) [3] framework, LLM agents can be tested well. GVGAI specifies games in the Video Game Description Language (VGDL), which exposes mechanics in symbolic form while still requiring step-by-step decision-making across diverse environments [3–6]. A model that performs well in GVGAI must interpret structured observations, ground actions correctly, update be-havior after each transition, and may even plan multiple steps ahead. This makes GVGAI relevant to recent work on grounded spatial reasoning and sequential instruction following, where performance depends on agent positioning, pathing, and coherent action selection with short-horizon intent over time [7–9]. However, recent work suggests that strong LLMs still perform poorly on these game-playing tasks [1]. While typical problems like large state or action spaces, long planning horizons, or limited learning due to sparse rewards remain, LLMs also face model-specific problems such as limited spatial reasoning capabilities, slow response times, and incongruent actions [1]. Rather than asking whether a model can solve the full GVGAI suite, we investigate common shortcomings of LLM agents and potential ways to overcome them. One motivation for our study is causal prompt augmentation, which proposes that LLMs benefit from explicit structural descriptions of environment dynamics and how they should be interpreted [10– 12]. Following this line of work, we compare the performance of LLM-based agents with and without causal prompt augmen-tation to assess whether it improves spatial reasoning in the environment. We further consider the agent’s thinking mode as another factor that may shape spatial reasoning. While enabling thinking mode often improves performance and response qual-ity, it also substantially increases response time [13]. To address this trade-off, we study multi-step planning and its interaction with causal augmentation and thinking mode as a means of mitigating the cumulative latency incurred by single-step action selection. Supplementary materials, including the appendix and the source code repository for experiment reproducibil-ity, are available under: https://drive.google.com/drive/folders/ 1c3iPa8RbW0xTOuBAkSr4AA8yvlsPM2eR?usp=sharing. To evaluate the LLM agent’s performance, we introduce a controlled spatial benchmark inside GVGAI with three custom games and five difficulty levels per game. For each of these, we test the LLM in various configurations to evaluate the impact 979-8-3315-9476-3/26/$31.00 ©2026 IEEE arXiv:2607.22732v1 [cs.AI] 22 Jul 2026 of causal context, thinking mode, and planning horizon on its spatial reasoning capabilities and overall success. Our contributions are:  
+
+> •
+
+We introduce a focused GVGAI benchmark consisting of three custom games across five difficulty levels, designed specifically to isolate symbolic navigation and geometric reasoning from complex game mechanics.  
+
+> •
+
+We quantify the impact of providing agents with structured environment dynamics in the form of a causal model on the win-rate, completion rates, and response latency.  
+
+> •
+
+We analyze how the thinking mode and planning horizon change both the success and the response time of tested LLM-based agents.  
+
+> •
+
+We provide an initial evaluation of how the Qwen3 model family (ranging from 0.6B to 8B parameters) handles symbolic tasks, highlighting the performance gap between model sizes and the challenges smaller models face with self-localization and 2D navigation. The remainder of this paper is organized as follows. Section II introduces the necessary foundations and Section III situates the work within the existing literature. Section IV outlines the experimental design and methodology, followed by a presentation of results in Section V and their discussion in Section VI. Limitations are discussed in Section VII. Finally, Section VIII summarizes the contributions and identifies directions for future work. II. F OUNDATIONS 
+
+A. Video Game Description Language (VGDL) and the General Video Game AI (GVGAI) framework 
+
+VGDL [4] is a high-level language for specifying 2D games. A VGDL game definition comprises both the game dynamics and one or more level layouts. Because games can be described compactly in VGDL, it is well-suited for the controlled environments used in this paper. We use VGDL to define these environments and to construct a symbolic observation space for the agent. This observation space includes a description of the game mechanics as well as the current state represented as a matrix of object names. In contrast to raw pixel arrays, such a symbolic representation is directly interpretable by LLMs. The concrete VGDL specifications of the games used in this work are provided in Section IV-B .While VGDL is used to describe the games, we rely on the GVGAI framework [3] to execute them and to evaluate agent performance. 
+
+B. Problem formalization 
+
+The interaction between a player and a single-player game defined in VGDL can be modeled as a sequential decision process. At time step i = 0 , an initial state s0 is selected from one of the predefined level layouts. At each subsequent step 
+
+i, the player receives an observation oi of the current state si,chooses a legal action ai, and the environment transitions to the next state si+1 while producing a reward ri. This process continues until a terminal condition is reached at time step N .The objective is to maximize the cumulative reward PN −1 
+
+> i=0
+
+ri
+
+and, where applicable, satisfy the game’s win condition. In this paper, the player in this interaction loop is an LLM-based agent. The prompting scheme used to interface with the LLM is described in Section IV-D. III. R ELATED WORK 
+
+The GVGAI framework is an established benchmark for general game-playing, as it consists of a diverse set of more than 100 games. Broader game benchmarks such as SmartPlay [14], GameBench [15], BALROG [16], and gg-bench [17] show that the difficulties observed in GVGAI are part of a wider pattern in LLM game reasoning. They emphasize strategic reasoning, long-horizon control, and generalization across game families. Our work does not attempt to compete with those suites as a broad benchmark. Instead, it uses a small, controlled GVGAI benchmark to test whether spatial reasoning and latency can be examined more cleanly than in a full sweep. A large body of research has been done concerning the usage of LLMs as the decision-maker in sequential decision-making problems. For example, Yao et al. [18] consider a fact verification task where the agent has to interact with the Wikipedia API. Park et al. [19] employ LLMs in a multi-agent sandbox environment which resembles The Sims 1, Wang et al. [20] showed that an LLM-based agent can accumulate skills over long trajectories in an open-ended game world, and Eberhardinger et al. [2] used LLMs for code generation, which was reframed as a sequential decision-making task. The causal augmentation used in this paper is motivated by work that treats environment dynamics as an explicit intermediate representation rather than leaving all reasoning implicit in the prompt-response loop. Recent work on mechanic induction from gameplay traces argues that LLMs can infer game rules from transitions and use those rules as structured knowledge [10]. Related work on causal-aware agents also suggests that explicit structure can improve decision-making in sequential environments [11, 12, 21–23]. In contrast, our work does not learn a full causal model online. Instead, it asks whether adding explicit causal context measurably improves performance in spatial GVGAI tasks. IV. M ETHODOLOGY 
+
+Li et al. [1] showed that the then state-of-the-art models struggled to solve games in the GVGAI framework. The two main issues are low win-rates and slow response times. It is important to understand why these problems occur and how to improve performance in these areas. In our work, we aim to quantify the ability of LLMs to solve symbolic spatial tasks and find out if causal context, thinking mode, and multi-step planning influence the overall performance of the model. In order to ensure consistency, we used the Goal-Question-Metric method as defined by Wohlin et al. [24] and formulated the following three research questions (RQs): 
+
+> 1https://www.ea.com/games/the-sims; Last accessed July 28, 2026
+
+RQ1 To what extent can an LLM-based agent solve simpli-fied symbolic spatial tasks, and how does performance degrade with increasing layout difficulty? 
+
+RQ2 Does added causal context improve spatial-control performance? 
+
+RQ3 How do causal augmentation, thinking mode, and multi-step planning affect the trade-off between success and response latency? 
+
+RQ1 quantifies the intrinsic spatial reasoning capabilities of LLMs within a symbolic environment. By focusing on tasks where the agent’s primary objectives are self-localization and path-finding toward a goal tile, we isolate geometric reasoning from complex game mechanics. This allows us to determine if an LLM can navigate based solely on the grid’s topology or if performance significantly degrades as layout complexity, such as grid size and the density of immovable walls, increases. 
+
+RQ2 evaluates whether providing the agent with structured game mechanics in the form of a causal model improves performance and reduces reasoning latency. We investigate whether an explicit causal structure negates the need for the LLM to model the environment dynamics during its internal reasoning process. By augmenting prompts with these structured descriptions, we determine if grounded logical context assists the LLM in interpreting symbolic observations and transition rules more efficiently than prose alone. This analysis clarifies whether spatial reasoning deficiencies stem from inherent reasoning limitations or from the lack of a structured framework to process environmental causal effects. 
+
+RQ3 tests whether multi-step planning improves win rates and reduces the mean time per step. Long-term planning evaluates extended spatial reasoning by requiring the agent to validate path reachability and maintain trajectory consistency within a single context window. This approach mitigates ”spatial drift” or the accumulation of local positioning errors during single-step execution by forcing the model to pre-calculate a coherent sequence of movements. Furthermore, we analyze the trade-off between the high response time of “thinking” modes and the efficiency gains of planning horizons to determine if increased depth reduces the average computational cost per action without compromising navigation success. To address these questions, we use three sets of metrics across three dimensions, i.e., the levels per game, the average per game, and the average across the whole benchmark: 
+
+M1.1 Completion Rate: The proportion of runs that reached any termination condition (win, loss, or timeout). 
+
+M1.2 Win-Rate: The proportion of runs that successfully reached the winning state. 
+
+M1.3 Mean Time per Step: The total execution time of a run divided by the number of steps taken. 
+
+M2.1 Causal Impact: The performance delta in metrics 
+
+M1.1–M1.3 between agents with and without causal prompt augmentation. 
+
+M3.1 Reasoning Impact: The performance delta in metrics 
+
+M1.1–M1.3 between agents using thinking mode versus standard inference. 
+
+M3.2 Planning Impact: The performance delta in metrics M1.1–M1.3 across planning horizons of 
+
+H ∈ { 1, 5, 10 }.
+
+A. Benchmark Design 
+
+The study utilizes three games focusing on spatial reasoning, called spatial game 1 , 2, and 3, representing games of increasing logical complexity. Each environment is defined in VGDL [4] and simulated using the GVGAI framework [3]. In addition to standard win/loss termination conditions, each game incorporates a fixed temporal limit (timeout) as a termination condition. 
+
+B. Game Taxonomy  
+
+> •
+
+Spatial Game 1: A fundamental path-planning task requiring the agent to navigate a static maze to reach the exit door in a dungeon.  
+
+> •
+
+Spatial Game 2: Copies the previous game mechan-ics and further introduces a sequential dependency. The agent must first acquire a key to unlock the exit. The challenge lies in the presence of a visible but locked exit.  
+
+> •
+
+Spatial Game 3: Copies the previous game mechan-ics and introduces a more complex multi-step task. The agent can collect a red and a blue key to open their respective doors before the final goal. Each opened door and obtained key increases the agent’s score. Each game consists of five levels (L0-L4) with increasing difficulty, controlled through grid size expansion (from 6 × 6 to 
+
+10 ×10 ) and the introduction of dense, maze-like structures and bottlenecks that necessitate advanced spatial reasoning. The games and the corresponding levels are shown in Figure 1 2.
+
+C. Experiment Setup 
+
+Leveraging the GVGAI framework [3, 5], game states are extracted as ASCII symbol-based grids. To render these observa-tions compatible with LLM inputs, we translate the raw symbols into their corresponding natural language descriptors using the game-specific LevelMapping . This semantic representation (shown in Figure 2) serves as a part of the input to the LLM, providing a structured overview of the current game state. Agents interact with the environment through a set of five available actions: four directional movements (Up, Down, Left, Right) and a static Nil action, which maintains the avatar’s current position. The rewards for the games are as follows: In Spatial Game 1, agents receive +1 for reaching the goal. Spatial Game 2 provides +1 for collecting the key and +2 for reaching the exit while holding it. Spatial Game 3 awards +1 for each colored key collected, +1 for each door opened, and +3 for reaching the final goal. Episodes terminate upon goal acquisition, avatar expiration, or the exhaustion of the allocated step and time limits. Fig. 1. Overview of all the levels in the spatial games.   
+
+> Fig. 2. An example of the current state provided to the LLM as an input.
+> Fig. 3. Prompt used to obtain next “x” actions from the LLMs
+
+Unlike the proprietary models used by Li et al. [1], we wanted to opt for open-source alternatives to ensure repro-ducibility of our experimental framework. Prior research [10] has shown that the Qwen3 [25] family of models shows good performance in understanding VGDL code and observations within the GVGAI games, and therefore, was chosen for our experiments. We specifically selected the 8B, 4B, 1.7B, and 0.6B parameter variants to ensure the experiments remain feasi-ble on consumer-grade hardware. The model hyperparameters were configured according to the official documentation page to ensure optimal response quality [26]. 
+
+> 2The VGDL files for the games can be found in the supplementary material.
+
+D. Prompts 
+
+The input prompt to the LLM agent consists of the following: 1) A natural language description of the game generated by the LLM from the VGDL file of the game, adopted from [1] 3.2) Optionally, the prompt is augmented with a causal model obtained by the LLM using a strict blueprint adopted from Jiwatode et al. [10] 4.3) A list of all the available actions, along with their meanings obtained from the game. 4) The current state of the game with the ASCII-based grid, with the symbols translated into the words using the level mappings from the VGDL. An example of a state is shown in Figure 2. 5) Optionally, in case of planning tasks, a prompt requiring the LLM to plan the next x actions; this step is specifically designed to enforce a concrete output format, which is detailed in Figure 3. 6) Optionally, in case of a self-localization task, a prompt requiring the LLM to find its own position on the grid in a strict format and return it along with the action feedback. 
+
+E. Experiment 0 - Self-Localization Capability 
+
+We conducted a preliminary experiment to determine if the LLM agent can accurately interpret the state representation by finding the avatar and returning its coordinates in a structured  
+
+> 3The prompt used for generation, along with an example of the generated description, can be found in the supplementary material.
+> 4The prompt used for generation of the causal model is in Figure 4, and the SCM blueprint can be found in the supplementary material. Fig. 4. Prompt used to generate causal model from VGDL, Level layout, and SCM blueprint
+
+format. We utilized the three custom spatial games across all five difficulty levels, yielding 15 base game-level combinations. For each combination, we generated 10 unique test cases by taking the original layout and randomly relocating the avatar to a random empty tile. We tested the four Qwen3 model sizes (0.6B, 1.7B, 4B, and 8B) under both standard and thinking modes. To isolate this capability, we used a planning horizon of 1 without causal augmentation. The prompt was augmented to require the LLM to output the current coordinates of the avatar on the grid alongside its single next action. This resulted in 300 total queries per model (3 games × 5 levels × 10 cases × 2 thinking modes). 
+
+F. Experiment 1 - Causal augmentation, Thinking, and Plan-ning Impact Study 
+
+The experimental framework to study the impact of the model’s internal reasoning, causal prompt augmentation and planning, follows a combinatorial design across four key dimensions: reasoning mode (thinking vs. non-thinking), model scale (8B, 4B, 1.7B, and 0.6B), causal augmentation (enabled vs. disabled), and planning horizon ( H ∈ {1, 5, 10 }). To account for the stochastic nature of the models induced by the non-zero temperature settings ( T = 0 .7 for standard and 
+
+T = 0 .6 for thinking mode), we conducted two independent trials for every unique parameter combination. V. R ESULTS 
+
+A. General Benchmark Data 
+
+Figure 5 shows the heatmap for the spatial benchmark over games and levels for all the models combined. The agent performs best in spatialgame1 (Win-rate ≈ 33%), while it performed worse in spatialgame2 (≈ 24%) and 
+
+spatialgame3 (≈ 17%). For levels, the best results were achieved in levels with lower complexity (level 0: ≈ 40%, level 1: ≈ 27%, level 2: ≈ 25%). In higher levels, the agent achieved a lower win-rate (level 3: ≈ 19%, level 4: ≈ 12%), Level                         
+
+> spatialgame1
+> spatialgame2
+> spatialgame3
+> Game
+> 0.37 0.40 0.37 0.32 0.17
+> 0.58 0.19 0.03 0.20 0.18
+> 0.26 0.22 0.33 0.04 0.00
+> Game Avg
+> 0.33
+> 0.24
+> 0.17
+> Level Avg
+> 0.40 0.27 0.25 0.19 0.12
+> Overall
+> 0.25
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> win_rate
+> Fig. 5. Win-rate heatmap for the spatial benchmark over games and levels. spatialgame1 spatialgame2 spatialgame3
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Win Rate
+> 0.08 0.10 0.05
+> 0.59
+> 0.38 0.32
+> thinking=off thinking=on
+> Fig. 6. Win rate by game, split by thinking mode.
+
+suggesting that as the levels become more complex, the agent also struggles more. The win-rate for each game with regard to thinking modes is shown in Figure 6. Overall, the model performed best with an enabled thinking mode. The difference in the win rates for the three games (1, 2, 3) was ≈ 51%, ≈ 28%, and ≈ 27%, respectively. Overall, the thinking or reasoning mode of the models improved the win-rates by ≈ 36% (see Table I). 
+
+B. Self localization 
+
+LLM localization was poor. Performance scaled with model size; the smallest model failed entirely. In larger models, exact match rates increased with size despite similar Euclidean errors. Thinking mode reduced Euclidean error but showed no consistent pattern for exact matches. 
+
+C. Spatial reasoning: causal prompting, thinking, and planning 
+
+Figure 9, Figure 10, Figure 11 and Table I show the win-rates, completion rates, and the mean time per step under different causal, thinking, and planning horizons.  
+
+> •
+
+Causal model augmentation shows a marginal overall improvement in the win-rates, while there’s a significant improvement when it comes to completion rate and the mean time per step. The win rate improvement becomes important for the 8B model; however, the same cannot be said for the smaller models.  
+
+> •
+
+Thinking or reasoning improves the performance the most, but also comes with a lower completion rate and a stark Fig. 7. Model-wise Exact Position Match Rate by Thinking Mode. The 8B model shows a significant increase in exact matches when the thinking mode is enabled, while smaller models struggle to output the exact coordinates. 
+
+Fig. 8. Model-wise Position Error by Thinking Mode. Enabling thinking mode consistently reduces the Mean Euclidean Distance between the predicted and actual coordinates across all evaluated model scales. 
+
+increase in the response time. This makes the models unreasonable to be used for game playing in practice in their current state. 
+
+• All the metrics show improvement for longer planning horizons, making it the most beneficial intervention in our study. A more granular analysis can be found in the supplementary material. VI. D ISCUSSION 
+
+The LLM-based agents exhibited a strong goal-oriented heuristic, particularly evident in spatialgame3 , in which they frequently navigated directly to the terminal goal tile while ignoring intermediate objectives, such as collecting colored keys and unlocking doors. This behavior suggests that while the agents can identify the primary win condition, they struggle with multi-objective optimization and maximizing cumulative rewards within a single trajectory. Regarding the self-localization experiments, the models demonstrated limited ability to output their exact coordinates. Interestingly, this poor global positioning did not universally translate to failure in gameplay. This discrepancy implies that agents may rely on local, relative spatial reasoning to navigate successfully, rather than maintaining a perfect global state representation. However, this deficiency in absolute spatial 0.00                          
+
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> Win Rate
+> 0.00 0.20 0.33
+> 0.60 0.63 0.70
+> 0.00 0.00 0.33
+> 0.73 0.73 0.80
+> qwen3-8b
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> Win Rate
+> 0.07
+> 0.13 0.17 0.27
+> 0.67 0.73
+> 0.07 0.07 0.03
+> 0.33 0.63 0.60
+> qwen3-4b
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> Win Rate
+> 0.07 0.07 0.07
+> 0.30 0.48
+> 0.69
+> 0.07 0.07 0.07
+> 0.32 0.60 0.69
+> qwen3-1.7b
+> 1510
+> Planning Horizon
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> Win Rate
+> 0.00 0.00
+> 0.00 0.00
+> 0.00
+> 0.00
+> 0.03
+> 0.00
+> 0.03
+> 0.00 0.00
+> 0.00
+> qwen3-0.6b
+> Thinking
+> thinking=on
+> thinking=off
+> Thinking
+> thinking=on
+> thinking=off
+> Causal
+> causal=on
+> causal=off
+
+Fig. 9. Win-rates vs. planning horizon for the models studied. Lines differentiate the configurations of variables causal augmentation and Thinking (on/off). 0.00                     
+
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> Completion Rate  1.00 1.00 1.00
+> 0.63 0.73 0.77
+> 0.93 0.97 1.00
+> 0.73 0.83 0.87
+> qwen3-8b
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> Completion Rate
+> 0.97
+> 0.97 1.00
+> 0.43
+> 0.70
+> 0.77
+> 1.00 1.00
+> 1.00
+> 0.53 0.63 0.60
+> qwen3-4b
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> Completion Rate  1.00 1.00
+> 1.00
+> 0.83
+> 0.97
+> 1.00
+> 1.00
+> 1.00
+> 0.93
+> 0.79
+> 0.80
+> 1.00
+> qwen3-1.7b
+> 1510
+> Planning Horizon
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> Completion Rate  1.00 1.00
+> 0.97
+> 0.20 0.10 0.07
+> 0.93 1.00
+> 1.00
+> 0.27 0.15
+> 0.30
+> qwen3-0.6b
+> Thinking
+> thinking=on
+> thinking=off
+> Thinking
+> thinking=on
+> thinking=off
+> Causal
+> causal=on
+> causal=off
+
+Fig. 10. Completion rates vs. planning horizon for the models studied. Lines differentiate the configurations of variables causal augmentation and Thinking (on/off). 50                     
+
+> 100
+> 150
+> Mean Time/Step (s)  158.14
+> 76.70 43.48 90.06 48.32 38.10
+> qwen3-8b
+> thinking=on
+> 0.50
+> 0.75
+> 0.60
+> 0.36 0.39
+> 0.71
+> 0.43
+> 0.68
+> thinking=off
+> 50
+> 100
+> 150
+> Mean Time/Step (s)  149.41
+> 66.20 66.40
+> 124.19
+> 51.20
+> 86.39
+> qwen3-4b
+> thinking=on
+> 0
+> 22.00
+> 0.25 0.19
+> 1.40 0.40 0.33
+> thinking=off
+> 25
+> 50
+> 75
+> Mean Time/Step (s)
+> 37.70 29.75 17.57
+> 59.45 72.36
+> 19.59
+> qwen3-1.7b
+> thinking=on
+> 0.5
+> 1.0
+> 1.5
+> 0.85 0.28 0.33
+> 1.43
+> 0.46 0.62
+> thinking=off
+> 100
+> 200
+> Mean Time/Step (s)  126.19
+> 189.38
+> 123.45
+> 97.10 127.18 87.35
+> qwen3-0.6b
+> thinking=on
+> 1510
+> Planning Horizon
+> 0.2
+> 0.3
+> 0.20
+> 0.24
+> 0.18
+> 0.33
+> 0.21 0.19
+> thinking=off
+> Thinking
+> thinking=on
+> thinking=off
+> Thinking
+> thinking=on
+> thinking=off
+> Causal
+> causal=on
+> causal=off
+
+Fig. 11. Mean time per step vs. planning horizon for the models studied. Lines differentiate the configurations of variables causal augmentation and Thinking (on/off). 
+
+grounding is a likely contributor to the imperfect win rates and trajectory inefficiencies observed both in our benchmark and in prior literature, such as the struggles noted by Li et al. [1]. A critical operational challenge in deploying LLMs as game agents is the necessity for strict output formatting to enable executable environment actions. Extracting parseable actions from the reasoning trace requires a high volume of heuristic parsing decisions. In instances where model outputs were unparseable, we opted to re-prompt the model rather than default to a fallback action, as automated fallbacks would obfuscate the model’s true behavioral capabilities and contaminate the analysis. This parsing fragility often stems from models becoming trapped in repetitive reasoning loops, a known limitation of smaller models [27]. Ultimately, these formatting bottlenecks underscore that prompt strategy remains the primary tuning factor for stabilizing sequential decision-making in LLMs. 
+
+TABLE I AVERAGE WIN RATE , COMPLETION RATE , AND MEAN TIME PER STEP BY CAUSAL MODE , THINKING MODE , AND HORIZON (ALL RUNS COMBINED ). 
+
+Category Win Rate Completion Mean Time/Step (s) 
+
+Causal 
+
+off 0.246 0.791 46.123 on 0.250 0.809 36.538 
+
+Thinking 
+
+off 0.078 0.986 0.544 on 0.433 0.597 85.776 
+
+Horizon 
+
+1 0.178 0.766 53.084 5 0.262 0.807 40.292 10 0.310 0.829 29.864 
+
+VII. L IMITATIONS 
+
+We discuss limitations of this work in alignment with the guidelines of Wohlin et al. [24]. 
+
+a) Construct validity: Because the benchmark is em-bedded in a playable game, it is inherently entangled with additional game-specific components. The developed tasks combine spatial formatting, symbolic state representation and interpretation, and action formatting. Nevertheless, their customization is intended to isolate spatial reasoning as far as possible. 
+
+b) Internal validity: The current study treats causal support only as a prompt context rather than as an integrated causal architecture. While this choice is motivated by related work [10], it may still result in the LLM-based agents ignoring the added information. In terms of planning horizon, we employed fixed short horizons rather than an adaptive replanning policy. However, given the deterministic design of the environment, fixed horizons were sufficient to capture the relevant decision structure while keeping the evaluation controlled and interpretable. 
+
+c) Conclusion validity: The small benchmark may limit the statistical breadth of our findings; however, this is an intentional feature of the work, as it enables a focused evaluation of the agent’s spatial reasoning capabilities. 
+
+d) External validity: The presented experiments study the capabilities of four LLM models due to practical local-compute constraints. Results may change for smaller/larger models, different models of similar size but different architecture, or a different prompt design. The benchmark simplifies many elements that make broader GVGAI tasks difficult, includ-ing moving enemies, hazards, or other complex dynamics between objects. Therefore, the present benchmark focuses on one capability and does not replace broader evaluation of LLM capabilities in games or other interactive environments. However, these simplifications isolate the spatial problem and are hence appropriate for this work. VIII. C ONCLUSION AND FUTURE WORK 
+
+In this work, we tested LLM-based game agents in the context of GVGAI to analyze LLMs’ shortcomings and evaluate approaches to tackle those. To evaluate the agent’s performance, we introduce a spatial benchmark inside GVGAI, holding three custom games with five difficulty levels each. This benchmark isolates symbolic navigation over tasks of varying difficulty. We further analyze how the augmentation of a structured causal model to the agent’s prompt affected its performance in the spatial reasoning games. This showed that on average for Qwen3-8B, causal models relatively improved the win rates by 
+
+≈ 5.35% and reduced the response time per step by ≈ 17 secs. Furthermore, multi-step planning resulted in an improvement of up to 45% while also significantly reducing the response time per step. Future work should build directly on the limitations identified in this study. Because our current setup uses fixed short planning horizons and represents causal knowledge only as prompt context, the next step is to move toward adaptive replanning, more reliable action interfaces, and causal support integrated into the decision loop itself. This is especially important in more dynamic GVGAI settings than those covered by our current spatial games, where moving enemies, hazards, or blocked routes can invalidate an open-loop plan. In such settings, the planner should output not only intended next actions but also explicitly abort conditions for early re-planning. This would shift the agent from brittle open-loop execution to a guarded planning policy that can replan before disruption becomes failure. Finally, shifting from external VGDL-based causal descriptions to an online induction framework would allow the agent to adapt its causal knowledge dynamically as game rules or environmental hazards are encountered. 
+
+Acknowledgments 
+
+Manuscript revisions for readability and flow were facilitated by Gemini AI. Separately, ChatGPT Codex was employed to support the technical implementation and coding of the study’s experiments. REFERENCES [1] Y. Li, C. Lin, M. U. Nasir, P. Bontrager, J. Liu, and J. Togelius, “Gvgai-llm: Evaluating large language model agents with infinite games,” arXiv preprint arXiv:2508.08501 , 2025. [2] M. Eberhardinger, J. Goodman, A. Dockhorn, D. Perez-Liebana, R. D. Gaina, D. Cakmak, S. Maghsudi, and S. Lucas, “From code to play: Benchmarking program search for games using large language models,” 
+
+IEEE Transactions on Games , 2025. [3] D. P. Li ´ebana, S. M. Lucas, R. D. Gaina, J. Togelius, A. Khalifa, and J. Liu, General video game artificial intelligence . Springer Nature, 2022. [4] T. Schaul, “An extensible description language for video games,” IEEE Transactions on Computational Intelligence and AI in Games , vol. 6, no. 4, pp. 325–331, 2014. [5] R. R. Torrado, P. Bontrager, J. Togelius, J. Liu, and D. Perez-Liebana, “Deep reinforcement learning for general video game ai,” in 2018 IEEE conference on computational intelligence and games (CIG) . IEEE, 2018, pp. 1–8. [6] D. Perez-Liebana, J. Liu, A. Khalifa, R. D. Gaina, J. Togelius, and S. M. Lucas, “General video game ai: A multitrack framework for evaluating agents, games, and content generation algorithms,” IEEE Transactions on Games , vol. 11, no. 3, pp. 195–214, 2019. [7] M. Janner, K. Narasimhan, and R. Barzilay, “Representation learning for grounded spatial reasoning,” Transactions of the Association for Computational Linguistics , vol. 6, pp. 49–61, 2018. [8] M. I. Rizvi, X. Zhu, and I. Gurevych, “Sparc and sparp: Spatial reasoning characterization and path generation for understanding spatial reasoning capability of large language models,” in Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , 2024, pp. 4750–4767. [9] X. Chen, B. Liao, J. Qi, P. Eustratiadis, C. Monz, A. Bisazza, and M. de Rijke, “The sifo benchmark: Investigating the sequential instruction following ability of large language models,” in Findings of the Association for Computational Linguistics: EMNLP 2024 , 2024, pp. 1691–1706. [10] M. Jiwatode, A. Dockhorn, and B. Rosenhahn, “From gameplay traces to game mechanics: Causal induction with large language models,” arXiv preprint arXiv:2602.00190 , 2026. [11] W. Chen, J. Zhang, H. Zhu, B. Xu, Z. Hao, K. Zhang, J. Ye, and R. Cai, “Causal-aware large language models: Enhancing decision-making through learning, adapting and acting,” arXiv preprint arXiv:2505.24710 ,2025. [12] D. Pan, W. Chen, J. Shi, C. Wu, D. Wang, C. S. Hong, and Z. Han, “Bayesian inference-aided large language model agents in infinitely repeated games: A dynamic network view,” IEEE Transactions on Network Science and Engineering , 2025. [13] P. Aggarwal, S. Kim, J. Lanchantin, S. Welleck, J. Weston, I. Kulikov, and S. Saha, “Optimalthinkingbench: Evaluating over and underthinking in llms,” arXiv preprint arXiv:2508.13141 , 2025. [14] Y. Wu, X. Tang, T. M. Mitchell, and Y. Li, “Smartplay: A benchmark for llms as intelligent agents,” arXiv preprint arXiv:2310.01557 , 2023. [15] A. Costarelli, M. Allen, R. Hauksson, G. Sodunke, S. Hariharan, C. Cheng, W. Li, J. Clymer, and A. Yadav, “Gamebench: Evaluating strate-gic reasoning abilities of llm agents,” arXiv preprint arXiv:2406.06613 ,2024. [16] D. Paglieri, B. Cupiał, S. Coward, U. Piterbarg, M. Wolczyk, A. Khan, E. Pignatelli, Ł. Kuci ´nski, L. Pinto, R. Fergus et al. , “Balrog: Bench-marking agentic llm and vlm reasoning on games,” arXiv preprint arXiv:2411.13543 , 2024. [17] V. Verma, D. Huang, W. Chen, D. Klein, and N. Tomlin, “Measuring gen-eral intelligence with generated games,” arXiv preprint arXiv:2505.07215 ,2025. [18] S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. R. Narasimhan, and Y. Cao, “React: Synergizing reasoning and acting in language models,” in The eleventh international conference on learning representations , 2022. [19] J. S. Park, J. O’Brien, C. J. Cai, M. R. Morris, P. Liang, and M. S. Bernstein, “Generative agents: Interactive simulacra of human behavior,” in Proceedings of the 36th annual acm symposium on user interface software and technology , 2023, pp. 1–22. [20] G. Wang, Y. Xie, Y. Jiang, A. Mandlekar, C. Xiao, Y. Zhu, L. Fan, and A. Anandkumar, “Voyager: An open-ended embodied agent with large language models,” arXiv preprint arXiv:2305.16291 , 2023. [21] S. Yu and C. Lu, “Adam: An embodied causal agent in open-world environments,” arXiv preprint arXiv:2410.22194 , 2024. [22] A. Lampinen, S. Chan, I. Dasgupta, A. Nam, and J. Wang, “Passive learning of active causal strategies in agents and language models,” 
+
+Advances in Neural Information Processing Systems , vol. 36, pp. 1283– 1297, 2023. [23] Z. Zhao, H. Li, H. Zhang, J. Wang, F. Faccio, J. Schmidhuber, and M. Yang, “Curious causality-seeking agents learn meta causal world,” 
+
+arXiv preprint arXiv:2506.23068 , 2025. [24] C. Wohlin, P. Runeson, M. H ¨ost, M. C. Ohlsson, B. Regnell, A. Wessl ´en 
+
+et al. , Experimentation in software engineering . Springer, 2012, vol. 236. [25] Qwen-Team, “Qwen3 technical report,” 2025. [Online]. Available: https://arxiv.org/abs/2505.09388 [26] “Qwen/qwen3-8b · hugging face - huggingface.co,” https://huggingface. co/Qwen/Qwen3-8B#best-practices, [Accessed 15-03-2026]. [27] C. Pipis, S. Garg, V. Kontonis, V. Shrivastava, A. Krishnamurthy, and D. Papailiopoulos, “Wait, wait, wait... why do reasoning models loop?” 
+
+arXiv preprint arXiv:2512.12895 , 2025. APPENDIX APROMPT TO TRANSLATE VGDL INTO NATURAL LANGUAGE AND AN EXAMPLE OF GENERATED NATURAL LANGUAGE DESCRIPTION 
+
+Fig. 12. Prompt used to translate VGDL into natural language 
+
+Fig. 13. An example of the natural language description of the game generated by the LLM from VGDL code. 
+
+APPENDIX BSCM BLUEPRINT  
+
+> 1
+
+nodes={  
+
+> 2
+
+# Design Layer  
+
+> 3
+
+"EntityTypes": "Static sprite types, roles (avatar, wall), & attrs (speed, hp). Not time-varying.",  
+
+> 4
+
+"ActionSpace": "Agent interventions/actions available at each step (move, shoot).",  
+
+> 5
+
+"GlobalMechanics": "Global state transitions independent of collisions (gravity, timers).",  
+
+> 6
+
+"InteractionMechanics": "Collision rules mapping (Entities, State_t, Action_t) -> State_{t+1} events (spawn, destroy).",  
+
+> 7
+
+"RewardMechanics": "Maps State_t/Interactions to Reward_t or Score_{t+1}.",  
+
+> 8
+
+"TerminationMechanics": "Win/loss conditions based on StateVariables (e.g., timeout, goals_met).",  
+
+> 9
+
+# Dynamics Layer  
+
+> 10
+
+"StateVariables": "Dynamic vars evolving over t(pos, hp). Eq: X_{t+1}=f(PA_X_t, Action_t, U_X). ",  
+
+> 11
+
+"InitialState": "StateVariables at t=0 derived from EntityTypes + LevelEncoding.",  
+
+> 12
+
+# Observation Layer  
+
+> 13
+
+"LevelEncoding": "ASCII grid mapping chars to entity instances/positions; induces InitialState. ",  
+
+> 14
+
+},  
+
+> 15
+
+edges=[  
+
+> 16
+
+("EntityTypes", "InitialState"), ("LevelEncoding ", "InitialState"), ("EntityTypes", "StateVariables"),  
+
+> 17
+
+("ActionSpace", "InteractionMechanics"), (" ActionSpace", "StateVariables"),  
+
+> 18
+
+("GlobalMechanics", "StateVariables"), (" InteractionMechanics", "StateVariables"),  
+
+> 19
+
+("StateVariables", "InteractionMechanics"), (" StateVariables", "RewardMechanics"),  
+
+> 20
+
+("InteractionMechanics", "RewardMechanics"), (" RewardMechanics", "StateVariables"),  
+
+> 21
+
+("StateVariables", "TerminationMechanics"), (" InteractionMechanics", "TerminationMechanics"),  
+
+> 22
+
+],  
+
+> 23
+
+scm_notes=[  
+
+> 24
+
+"Define DYNAMIC SCM with discrete time steps t=0,1...",  
+
+> 25
+
+"Separate STATIC design vars from DYNAMIC state vars.",  
+
+> 26
+
+"For dynamic X, define X_{t+1} = f(Parents_t, Action_t, Noise).",  
+
+> 27
+
+"Define Reward_t & Termination explicitly as equations.",  
+
+> 28
+
+"Output machine-readable format (JSON) with: static_nodes, dynamic_variables, edges, equations.",  
+
+> 29
+
+"Link LevelEncoding chars to InitialState.",  
+
+> 30
+
+], 
+
+Listing 1. SCM Blueprint Definition APPENDIX CVGDL S FOR THE GAMES AND LEVEL LAYOUTS 
+
+A. spatialgame1 
+
+L0 L1 L2 wwwwww wwwwwww wwwwwwww wA...w wA....w wA..w..w w.www. w.www.w w.w.w..w w...gw w...w.w w.w....w w....w w.w...w w...ww.w wwwwww w...g.w w.w....w wwwwwww w...wg.w wwwwwwww 
+
+Listing 2. Levels L0, L1, and L2 for SpatialGame1 
+
+L3 L4 wwwwwwwww wwwwwwwwww wA..w...w wA..w....w w.w.w.w.w w.w.w.ww.w w.w...w.w w.w...w..w w.www.w.w w.www.w..w w...w...w w...w.w..w w.w.www.w www.w.w..w w....g..w w...w....w wwwwwwwww w.wwwwwg.w wwwwwwwwww 
+
+Listing 3. Levels L3 and L4 for SpatialGame1  
+
+> 1
+
+BasicGame key_handler=Pulse square_size=40  
+
+> 2
+
+SpriteSet  
+
+> 3
+
+floor > Immovable hidden=True img=oryx/ floor3  
+
+> 4
+
+avatar > MovingAvatar img=oryx/knight1  
+
+> 5
+
+goal > Door color=GREEN img=oryx/ doorclosed1  
+
+> 6
+
+wall > Immovable img=oryx/wall3 autotiling= True  
+
+> 78
+
+LevelMapping  
+
+> 9
+
+A > avatar floor  
+
+> 10
+
+g > goal floor  
+
+> 11
+
+w > wall floor  
+
+> 12
+
+. > floor  
+
+> 13 14
+
+InteractionSet  
+
+> 15
+
+avatar wall > stepBack  
+
+> 16
+
+goal avatar > killSprite scoreChange=1  
+
+> 17 18
+
+TerminationSet  
+
+> 19
+
+SpriteCounter stype=goal limit=0 win=True  
+
+> 20
+
+SpriteCounter stype=avatar limit=0 win= False  
+
+> 21
+
+Timeout limit=6000 win=False 
+
+Listing 4. VGDL Game Description for SpatialGame1 
+
+B. spatialgame2 
+
+L0 L1 L2 wwwwww wwwwwww wwwwwwww wA.kew wA..w.w wA...w.w w....w w.w.k.w w.w.wk.w w....w w.w...w w.w.w..w w....w w...w.w w...ww.w wwwwww w..e..w w.w....w wwwwwww w...e..w wwwwwwww 
+
+Listing 5. Levels L0, L1, and L2 for SpatialGame2 
+
+L3 L4 wwwwwwwww wwwwwwwwww wA..w...w wA..w....w w.w.w.w.w w.w.w.ww.w w.w.k.w.w w.w.k.w..w w.www.w.w w.www.w..w w...w...w w...w.w..w w.w.www.w www.w.w..w w....e..w w...w....w wwwwwwwww w.wwwwwe.w wwwwwwwwww 
+
+Listing 6. Levels L3 and L4 for SpatialGame2  
+
+> 1
+
+BasicGame key_handler=Pulse square_size=40  
+
+> 2
+
+SpriteSet  
+
+> 3
+
+floor > Immovable hidden=True img=oryx/ floor3  
+
+> 4
+
+avatar > MovingAvatar  
+
+> 5
+
+nokey > img=oryx/rogue  
+
+> 6
+
+withkey > color=ORANGE img=oryx/ swordmankey1  
+
+> 7
+
+key > Passive img=oryx/key2  
+
+> 8
+
+exit > Door color=GREEN img=oryx/ doorclosed1  
+
+> 9
+
+wall > Immovable img=oryx/wall3 autotiling= True  
+
+> 10 11
+
+LevelMapping  
+
+> 12
+
+A > nokey floor  
+
+> 13
+
+k > key floor  
+
+> 14
+
+e > exit floor  
+
+> 15
+
+w > wall floor  
+
+> 16
+
+. > floor  
+
+> 17 18
+
+InteractionSet  
+
+> 19
+
+avatar wall > stepBack  
+
+> 20
+
+nokey key > transformTo stype=withkey scoreChange=1 killSecond=True  
+
+> 21
+
+exit nokey > stepBack  
+
+> 22
+
+exit withkey > killSprite scoreChange=2  
+
+> 23 24
+
+TerminationSet  
+
+> 25
+
+SpriteCounter stype=exit limit=0 win=True  
+
+> 26
+
+SpriteCounter stype=avatar limit=0 win= False  
+
+> 27
+
+Timeout limit=6000 win=False 
+
+Listing 7. VGDL Game Description for SpatialGame2 C. spatialgame3 
+
+L0 L1 L2 wwwwww wwwwwww wwwwwwww wA.r1w wA..r1w wA..w..w w....w w.w.w.w w.wrw1.w w..b2w w...b2w w.w.w..w w...gw w.w...w w..b.2.w wwwwww w...g.w w.w....w wwwwwww w...g..w wwwwwwww 
+
+Listing 8. Levels L0, L1, and L2 for SpatialGame3 
+
+L3 L4 wwwwwwwww wwwwwwwwww wA..w...w wA..w....w w.wrw1w.w w.wrw1ww.w w.w...w.w w.w...w..w w.www.w.w w.www.w..w w..b.2..w w..b.2w..w w.w.www.w www.w.w..w w....g..w w...w....w wwwwwwwww w.wwwwwg.w wwwwwwwwww 
+
+Listing 9. Levels L3 and L4 for SpatialGame3  
+
+> 1
+
+BasicGame key_handler=Pulse square_size=40  
+
+> 2
+
+SpriteSet  
+
+> 3
+
+floor > Immovable hidden=True img=oryx/ floor3  
+
+> 4
+
+avatar > MovingAvatar img=oryx/rogue  
+
+> 56
+
+key > Resource limit=1  
+
+> 7
+
+redkey > img=oryx/potion3  
+
+> 8
+
+bluekey > img=oryx/potion1  
+
+> 910
+
+door > Immovable  
+
+> 11
+
+reddoor > img=oryx/slime3  
+
+> 12
+
+bluedoor > img=oryx/slime1  
+
+> 13 14
+
+goal > Door color=GREEN img=oryx/ doorclosed1  
+
+> 15
+
+wall > Immovable img=oryx/wall3 autotiling= True  
+
+> 16 17
+
+LevelMapping  
+
+> 18
+
+A > avatar floor  
+
+> 19
+
+r > redkey floor  
+
+> 20
+
+b > bluekey floor  
+
+> 21
+
+1 > reddoor floor  
+
+> 22
+
+2 > bluedoor floor  
+
+> 23
+
+g > goal floor  
+
+> 24
+
+w > wall floor  
+
+> 25
+
+. > floor  
+
+> 26 27
+
+InteractionSet  
+
+> 28
+
+avatar wall door > stepBack  
+
+> 29
+
+key avatar > collectResource scoreChange=1  
+
+> 30 31
+
+reddoor avatar > killIfOtherHasMore resource=redkey limit=0 scoreChange=1  
+
+> 32
+
+avatar reddoor > changeResource resource= redkey value=-1  
+
+> 33 34
+
+bluedoor avatar > killIfOtherHasMore resource=bluekey limit=0 scoreChange=1  
+
+> 35
+
+avatar bluedoor > changeResource resource= bluekey value=-1  
+
+> 36 37
+
+goal avatar > killSprite scoreChange=3  
+
+> 38 39
+
+TerminationSet  
+
+> 40
+
+SpriteCounter stype=goal limit=0 win=True  
+
+> 41
+
+SpriteCounter stype=avatar limit=0 win= False  
+
+> 42
+
+Timeout limit=6000 win=False 
+
+Listing 10. VGDL Game Description for SpatialGame3 APPENDIX DEXTENDED SPATIAL REASONING VISUALIZATIONS 
+
+A. Causal & thinking diagnostics 
+
+This single causal heatmap highlights which combinations of causal context and horizon most consistently increase win rates, supporting the planning-enabled arguments in the main text. 1 5 10           
+
+> Planning Horizon
+> causal=off
+> causal=on
+> 0.03 0.10 0.14
+> 0.04 0.03 0.12
+> 1510
+> Planning Horizon
+> 0.29 0.45 0.50
+> 0.35 0.50 0.55
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Causal Mode
+
+Fig. 14. Win-rate heatmap comparing causal vs non-causal prompts across horizons. The heatmap on the left is for thinking=off and on the right for thinking=on B. Per-game, per-model, and per-level breakdowns 
+
+These plots zoom into how different models behave on the benchmarked games, tracking completion, timing, and win-percentage statistics. spatialgame1 
+
+spatialgame2 
+
+spatialgame3 
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0 
+
+> Completion Rate
+
+0.99 0.99 0.98 
+
+0.72 0.65 
+
+0.41 
+
+thinking=off thinking=on 
+
+Fig. 15. Completion rate per game when thinking mode is toggled. 0 1 2 3 4
+
+Level 
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Win Rate
+
+local-qwen3-0.6b-vllm 
+
+local-qwen3-1.7b-vllm 
+
+local-qwen3-4b-vllm 
+
+local-qwen3-8b-vllm     
+
+> 01234
+
+Level 
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Mean Normalized Reward
+
+local-qwen3-0.6b-vllm 
+
+local-qwen3-1.7b-vllm 
+
+local-qwen3-4b-vllm 
+
+local-qwen3-8b-vllm 
+
+Fig. 16. Per-model completion for SpatialGame1. 0 1 2 3 4
+
+Level 
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Win Rate
+
+local-qwen3-0.6b-vllm 
+
+local-qwen3-1.7b-vllm 
+
+local-qwen3-4b-vllm 
+
+local-qwen3-8b-vllm     
+
+> 01234
+
+Level 
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Mean Normalized Reward
+
+local-qwen3-0.6b-vllm 
+
+local-qwen3-1.7b-vllm 
+
+local-qwen3-4b-vllm 
+
+local-qwen3-8b-vllm 
+
+Fig. 17. Per-model completion for SpatialGame2. 0 1 2 3 4
+
+Level 
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Win Rate
+
+local-qwen3-0.6b-vllm 
+
+local-qwen3-1.7b-vllm 
+
+local-qwen3-4b-vllm 
+
+local-qwen3-8b-vllm     
+
+> 01234
+
+Level 
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Mean Normalized Reward
+
+local-qwen3-0.6b-vllm 
+
+local-qwen3-1.7b-vllm 
+
+local-qwen3-4b-vllm 
+
+local-qwen3-8b-vllm 
+
+Fig. 18. Per-model completion for SpatialGame3. 0.00 
+
+0.25 
+
+0.50 
+
+0.75 
+
+1.00 
+
+> Completion Rate
+
+1.00 1.00 1.00 
+
+0.63 
+
+0.93 
+
+0.57 
+
+1.00 0.97 0.93 0.93 
+
+0.80 0.70 
+
+qwen3-8b 
+
+0.00 
+
+0.25 
+
+0.50 
+
+0.75 
+
+1.00 
+
+> Completion Rate
+
+0.97 1.00 
+
+0.97 
+
+0.80 0.70 
+
+0.40 
+
+1.00 
+
+1.00 
+
+1.00 
+
+0.87 
+
+0.60 
+
+0.30 
+
+qwen3-4b 
+
+0.00 
+
+0.25 
+
+0.50 
+
+0.75 
+
+1.00 
+
+> Completion Rate
+
+1.00 1.00 1.00 
+
+0.93 
+
+0.87 0.95 0.97 
+
+1.00 0.97 0.97 
+
+0.69 0.88 
+
+qwen3-1.7b 
+
+spatialgame1 spatialgame2 spatialgame3 
+
+Game 
+
+0.00 
+
+0.25 
+
+0.50 
+
+0.75 
+
+1.00 
+
+> Completion Rate
+
+1.00 0.97 1.00 
+
+0.13 0.20 0.03 
+
+0.97 0.97 1.00 
+
+0.29 
+
+0.43 
+
+0.00 
+
+qwen3-0.6b 
+
+Thinking 
+
+thinking=on 
+
+thinking=off 
+
+Thinking 
+
+thinking=on 
+
+thinking=off 
+
+Causal 
+
+causal=on 
+
+causal=off 
+
+Fig. 19. Completion rate per model aggregated across games. 50 
+
+100 
+
+> Mean Time/Step (s)
+
+50.23 
+
+99.90 128.19 
+
+36.27 66.42 73.79 
+
+qwen3-8b 
+
+> thinking=on
+
+0.50 
+
+0.75 
+
+0.43 0.34 
+
+0.58 
+
+0.66 0.45 
+
+0.70 thinking=off 
+
+50 
+
+100 
+
+> Mean Time/Step (s)
+
+58.43 91.05 
+
+132.52 
+
+50.03 
+
+101.41 110.35 
+
+qwen3-4b 
+
+> thinking=on
+
+0
+
+2
+
+0.22 
+
+1.88 
+
+0.34 
+
+0.28 1.38 0.47 
+
+> thinking=off
+
+0
+
+100 
+
+> Mean Time/Step (s)
+
+14.35 42.29 43.09 14.00 
+
+94.80 67.55 
+
+qwen3-1.7b 
+
+> thinking=on
+
+0
+
+2
+
+0.23 0.99 0.24 
+
+0.42 
+
+1.81 
+
+0.28 
+
+> thinking=off
+
+100 
+
+200 
+
+> Mean Time/Step (s)
+
+125.60 96.59 
+
+216.81 
+
+84.97 70.95 
+
+150.69 
+
+qwen3-0.6b 
+
+> thinking=on
+
+spatialgame1 spatialgame2 spatialgame3 
+
+> Game
+
+0.2 
+
+0.3 
+
+0.14 0.19 
+
+0.30 
+
+0.18 
+
+0.28 0.28 
+
+> thinking=off
+
+Thinking 
+
+thinking=on 
+
+thinking=off 
+
+Thinking 
+
+thinking=on 
+
+thinking=off 
+
+Causal 
+
+causal=on 
+
+causal=off Fig. 20. Mean time per step grouped by game for each model. 0.00 
+
+0.25 
+
+0.50 
+
+0.75 
+
+1.00 
+
+> Win Rate
+
+0.40 
+
+0.07 
+
+0.07 
+
+0.63 
+
+0.77 
+
+0.53 
+
+0.27 
+
+0.00 
+
+0.07 
+
+0.87 0.77 0.63 
+
+qwen3-8b 
+
+0.00 
+
+0.25 
+
+0.50 
+
+0.75 
+
+1.00 
+
+> Win Rate
+
+0.00 
+
+0.20 
+
+0.17 
+
+0.80 
+
+0.50 
+
+0.37 
+
+0.00 0.13 
+
+0.03 
+
+0.80 
+
+0.47 
+
+0.30 
+
+qwen3-4b 
+
+0.00 
+
+0.25 
+
+0.50 
+
+0.75 
+
+1.00 
+
+> Win Rate
+
+0.00 
+
+0.20 
+
+0.00 
+
+0.57 0.26 0.47 
+
+0.00 0.20 0.00 
+
+0.80 
+
+0.23 0.25 
+
+qwen3-1.7b 
+
+spatialgame1 spatialgame2 spatialgame3 
+
+> Game
+
+0.00 
+
+0.25 
+
+0.50 
+
+0.75 
+
+1.00 
+
+> Win Rate
+
+0.00 
+
+0.00 
+
+0.00 
+
+0.00 
+
+0.00 
+
+0.00 
+
+0.00 
+
+0.03 
+
+0.03 
+
+0.00 0.00 0.00 
+
+qwen3-0.6b 
+
+Thinking 
+
+thinking=on 
+
+thinking=off 
+
+Thinking 
+
+thinking=on 
+
+thinking=off 
+
+Causal 
+
+causal=on 
+
+causal=off 
+
+Fig. 21. Win rate per game for each model. C. Heatmaps & distribution snapshots 
+
+These dense snapshots show where completion and win-rate failures cluster across game/level and model pairings. Level 
+
+> spatialgame1
+> spatialgame2
+> spatialgame3
+> Game
+
+0.86 0.88 0.89 0.83 0.82 
+
+0.82 0.93 0.71 0.82 0.83 
+
+0.72 0.78 0.83 0.64 0.61 
+
+Game Avg 
+
+0.86 
+
+0.82 
+
+0.72 
+
+> Level Avg
+
+0.80 0.86 0.81 0.76 0.75 
+
+Overall 
+
+0.80 
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> completion_rate
+
+Fig. 22. Completion-rate heatmap arranged by game and level difficulty. 0 1 2 3 4
+
+Level 
+
+> local-qwen3-0.6b-vllm
+> local-qwen3-1.7b-vllm
+> local-qwen3-4b-vllm
+> local-qwen3-8b-vllm
+
+0.01 0.00 0.01 0.00 0.00 
+
+0.58 0.18 0.20 0.11 0.10 
+
+0.47 0.36 0.35 0.24 0.15 
+
+0.57 0.53 0.40 0.39 0.22 
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+
+Fig. 23. Win-rate heatmap arranged by model scale and level difficulty. 
+
+D. Summary tables 
+
+The tables below summarize the causal, horizon, and thinking analyses referenced throughout the paper. Causal WinRate Completion Mean Time/Step (s) 
+
+off 0.411 0.856 46.610 
+
+on 0.433 0.889 29.716 
+
+Causal Summary (Model: qwen3-8b) 
+
+Causal WinRate Completion Mean Time/Step (s) 
+
+off 0.339 0.806 47.407 
+
+on 0.289 0.794 43.986 
+
+Causal Summary (Model: qwen3-4b) 
+
+Causal WinRate Completion Mean Time/Step (s) 
+
+off 0.235 0.963 13.986 
+
+on 0.247 0.922 22.731 
+
+Causal Summary (Model: qwen3-1.7b) 
+
+Causal WinRate Completion Mean Time/Step (s) 
+
+off 0.000 0.556 73.274 
+
+on 0.012 0.635 48.597 
+
+Causal Summary (Model: qwen3-0.6b) 
+
+Causal WinRate Completion Mean Time/Step (s) 
+
+off 0.246 0.791 46.123 
+
+on 0.250 0.809 36.538 
+
+Causal Summary (Model: Average) Fig. 24. Summary table for the causal prompt experiments. Horizon WinRate Completion Mean Time/Step (s) 
+
+1 0.333 0.825 62.376 
+
+5 0.392 0.883 31.451 
+
+10 0.542 0.908 20.662 
+
+Horizon Summary (Model: qwen3-8b) 
+
+Horizon WinRate Completion Mean Time/Step (s) 
+
+1 0.183 0.733 69.251 
+
+5 0.375 0.825 29.513 
+
+10 0.383 0.842 38.326 
+
+Horizon Summary (Model: qwen3-4b) 
+
+Horizon WinRate Completion Mean Time/Step (s) 
+
+1 0.186 0.907 24.273 
+
+5 0.275 0.954 21.393 
+
+10 0.270 0.978 6.409 
+
+Horizon Summary (Model: qwen3-1.7b) 
+
+Horizon WinRate Completion Mean Time/Step (s) 
+
+1 0.008 0.600 55.957 
+
+5 0.000 0.573 78.023 
+
+10 0.009 0.609 49.650 
+
+Horizon Summary (Model: qwen3-0.6b) 
+
+Horizon WinRate Completion Mean Time/Step (s) 
+
+1 0.178 0.766 53.084 
+
+5 0.262 0.807 40.292 
+
+10 0.310 0.829 29.864 
+
+Horizon Summary (Model: Average) Fig. 25. Summary table for the planning horizon comparisons. Thinking WinRate Completion Mean Time/Step (s) 
+
+off 0.144 0.983 0.526 
+
+on 0.700 0.761 75.800 
+
+Thinking Summary (Model: qwen3-8b) 
+
+Thinking WinRate Completion Mean Time/Step (s) 
+
+off 0.089 0.989 0.761 
+
+on 0.539 0.611 90.632 
+
+Thinking Summary (Model: qwen3-4b) 
+
+Thinking WinRate Completion Mean Time/Step (s) 
+
+off 0.067 0.989 0.661 
+
+on 0.471 0.882 41.525 
+
+Thinking Summary (Model: qwen3-1.7b) 
+
+Thinking WinRate Completion Mean Time/Step (s) 
+
+off 0.011 0.983 0.227 
+
+on 0.000 0.174 127.330 
+
+Thinking Summary (Model: qwen3-0.6b) 
+
+Thinking WinRate Completion Mean Time/Step (s) 
+
+off 0.078 0.986 0.544 
+
+on 0.433 0.597 85.776 
+
+Thinking Summary (Model: Average) Fig. 26. Summary table for the thinking-mode experiments.

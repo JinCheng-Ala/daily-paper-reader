@@ -1,0 +1,474 @@
+Title: SARC-DQ: Runtime Data-Quality Gating for Agentic AI: Silent Evidence Defects, the Incompetence Shield, and Downstream-Only Remediation
+
+URL Source: https://arxiv.org/pdf/2607.26313v1
+
+Published Time: Thu, 30 Jul 2026 00:14:24 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+# SARC-DQ: Runtime Data-Quality Gating for Agentic AI 
+
+Silent evidence defects, the incompetence shield, and downstream-only remediation Gaston Besanson Universidad Torcuato Di Tella Working paper — July 30, 2026 
+
+Abstract Problem. Agentic systems act, so a defect in the evidence they retrieve becomes a wrong action with a currency cost. Gap. The most dangerous enterprise defects are metadata-borne —a stale price, a superseded record—perfectly well-formed in the payload and betrayed only by freshness, lineage, or provenance. Such a defect never enters the agent’s context, so a payload-only reader cannot detect it regardless of model scale. Idea. We argue that the fix is archi-tectural: a cheap metadata-aware gate placed at the point of action enforces evidence quality where a stronger model cannot, remediating downstream-only (quarantine-and-substitute in a governed buffer; zero writes to source). Evidence. On a priced replenishment task we measure the silent conversion of a metadata-borne defect into a loss against a same-seed clean counter-factual, across a four-model tier ladder and eight defect classes. Result. Across four model tiers spanning approximately 15 × in inference price (haiku →sonnet →opus →fable), metadata-borne action-defect rates remain flat to slightly rising, while behavioral doubt markers stay at chance (AUC ≤ 0.50 ) and explicit data-quality flags remain absent ( 0% ). A metadata-aware Pre-Action Gate outperforms a realistic payload-only critic on the freshness and schema signals it covers; uncovered unit-consistency and plausible-outlier defects remain unresolved, and portfolio-level recovery is not achieved. A model-free analytical oracle derived from the task’s decision geom-etry tracks the measured agent ADR with MAE 0.015 and Pearson r = 0 .876 , the measured interval covering the prediction in 15/16 cells, giving the flat ladder an analytical form. Impact. 
+
+These results identify evidence integrity as a distinct systems axis from model capability, and show that mitigation effectiveness depends on enforcement placement and predicate coverage. 
+
+# 1 Introduction 
+
+An agent differs from a chatbot in one decisive way: it acts . A chatbot that reasons over a stale price emits a wrong sentence; an agent that reasons over a stale price places a wrong order, and the loss is realised in currency. The literature on agent robustness has studied degradation under generic noise, but the defects that matter most in enterprise data are not noisy—they are plausible . A price that is 120 days stale is a perfectly well-formed number; nothing in its payload betrays it. The tell is in the metadata : freshness, lineage, provenance, version. We call such defects metadata-borne ,and contrast them with payload-visible defects (duplicates, contradictions, schema drift) detectable from content alone. 
+
+The silent conversion chain. A metadata-borne defect propagates: data defect → (invisible in payload) → agent acts → action defect → loss .
+
+Each arrow is measurable. We price the last one against a same-seed clean counterfactual, so “loss” is a currency delta, not a task-success proxy (Fig. 1). 1arXiv:2607.26313v1 [cs.SE] 28 Jul 2026 stale price    
+
+> (payload valid)
+> agent acts confidently wrong order currency loss
+> invisible in payload no expressed doubt
+> Pre-Action Gate
+> (metadata-aware)
+> corrected order
+> detect + substitute
+
+Figure 1: The silent conversion of a metadata-borne defect (top): the payload is valid, so a payload-only agent acts confidently and converts the defect into a currency loss. A metadata-aware Pre-Action Gate (bottom) intercepts the same record where the signal actually lives—the metadata— and substitutes a governed value, yielding a corrected action. Model scale moves along the top row; enforcement placement adds the bottom one. 
+
+Competence buys conversion, not detection: the incompetence shield. One might hope a smarter agent would notice the bad price. We observe that it does not—the discriminating signal is absent from the payload context at every tested model tier. Worse, making the agent better at its task makes it more vulnerable: an agent that faithfully tracks the price it is given (high decision elasticity) inherits the corruption, while an agent that ignores the price (low elasticity) is accidentally shielded by its own incompetence—the incompetence shield . We therefore argue that detection must be placed where the signal lives—on the metadata, at the point of action—not bought with model scale. 
+
+Three claims. Everything below serves three messages, in order of importance. (M1) Metadata-borne defects are structurally invisible to a payload-only agent (we argue this from the architecture and show it in the channel measurements). (M2) Moving to higher tested model tiers does not fix M1—silence and loss-conversion are flat across the four-model tier ladder (we observe this, §7; the paper’s headline). (M3) The correct remedy is architectural: runtime metadata enforcement at the point of action (we argue this and give a gate that beats a realistic payload-only critic on its covered channel). The benchmark, formal invariants, economics, and governance mapping are 
+
+support for these three, not competing claims. 
+
+Two kinds of contribution. We separate what is scientific from what is a research artifact, so each can be judged on its own terms. 
+
+# 2 Related work 
+
+Agent robustness under noise. AgentNoiseBench [1] finds tool-side noise degrades agents more than user-side noise, and that strong reasoning models make confident errors under corrupted tool feedback; NoisyToolBench [2], ToolEmu [3], and “Tools Fail” [4] study silent tool errors; τ -bench / τ 2-bench [5] provide agentic task environments. These works inject generic noise and measure 
+
+task-success deltas. Our delta is precise: we isolate the metadata-borne channel (invisible-in-payload defects), price failures in currency rather than task-success, and supply and test an architectural remedy with downstream-only remediation. 2Contribution Evidence / where Validation                      
+
+> Scientific
+> Silent conversion of metadata-borne defects (M1) Channel model + H2 measurement (§3, 7) Pre-registered; measured Capability does not buy skepti-cism (M2) Four-model ladder, H1 (§7) Pre-registered; measured Enforcement-placement thesis (M3) Gate vs. realistic critic, H3/H4 (§7) Argued; partially measured Incompetence shield Phase 0 elasticity contrast (§5) Measured (pilot)
+> Research artifact
+> SARC-DQ predicate family +Pre-Action Gate §3; src/sarc_dq/ Typed, tested, mock+live Downstream-only remediation with lineage Architectural invariants (§4) Proved (Prop. 1) GIGO-Bench (frozen, priced benchmark) §6 make gigo-verify
+> Reproducible, provenance-linked pipeline §11; EXPERIMENT_STATUS.md Generated, deterministic
+
+Table 1: Scientific claims vs. the research artifact. Every paper value is generated from a committed 
+
+results/<exp>-live summary; nothing is hand-entered. 
+
+Action-side runtime enforcement. AgentSpec- and MI9-class systems [6, 7] and LLM guardrails enforce constraints on what the agent is about to do . SARC-DQ addresses the complementary input-side gap: whether the evidence the action rests on is trustworthy. 
+
+Data validation and DQ dimensions. ISO/IEC 5259 [8] frames data-quality dimensions; the data-cleaning benchmarks we use for Tier-2 validation—the Raha/Baran suite [9], multi-source-conflict datasets, Magellan/DeepMatcher [10] entity matching, and ALFRED archival vintages [22]—supply labeled real errors. 
+
+Taxonomy grounding. The eight corruption classes are not invented: they map onto the canonical data-quality taxonomies. Rahm and Do [13] split errors along single/multi-source ×
+
+schema/instance — our metadata-borne classes are the single-source instance-level cell; cross-source contradiction and duplicate-conflicting-terms are the multi-source cell. Kim et al. [14] enumerate 33 dirty-data types; each of our classes maps to a Kim type. The predicate dimensions (freshness, completeness, consistency, lineage) follow Wang and Strong [15] and ISO 8000 [16]; Sambasivan et al. [17] motivate why upstream data defects cascade into high-stakes AI failure. Prevalence. 
+
+Aggregate real-world corruption is high: 47% of newly created records carry at least one critical, work-impacting error and only 3% of data-quality scores are acceptable [18]; organizations self-estimate 17–32% of data inaccurate [19]; and sources conflict on ∼70% of items on the deep web [20]. GIGO’s sweep rates {2, 5, 10, 20%} therefore sit at or below this band — 20% is its low end, 2–10% model well-governed single sources. No injector parameter is arbitrary : each is computed from public labeled data (Raha/Baran [23], Magellan/DeepMatcher [24], Dong Stock/Flight [20], ALFRED [22] / schema-evolution vintages [21]), taken from cited literature, or declared as a flagged default; the provenance of every value is in src/sarc_dq/specs/taxonomy_v1_calibrated.yaml 
+
+and benchmarks/gigo/CALIBRATION.md .33 Architecture 
+
+SARC-DQ places a data-quality predicate family on the four SARC enforcement sites (Pre-Action Gate, Action-Time Monitor, Post-Action Auditor, Escalation Router). An evidence record has two channels: a payload (the field values a naive consumer sees) and metadata (freshness, lineage, provenance, version). A corruption class declares a channel : payload-visible or metadata-borne. This tag is load-bearing—a payload-only critic structurally cannot see a metadata-borne defect. 
+
+Predicates and responses. Six parameterized predicates— freshness(max_age) , lineage_present ,
+
+golden_record_unique , cross_source_consistent(tol) , schema_conformant , complete(required) —are authored as a YAML constraint spec (class ∈ hard/soft/escalation; verification point; response protocol; operating point). Responses are block , degrade autonomy , escalate , or quarantine-and-substitute .
+
+Downstream-only remediation. On quarantine-and-substitute , the gate replaces the offending value with a known-good value drawn only from a governed buffer—a downstream, versioned store keyed by content-addressed evidence IDs. The gate is read-only over the evidence set and never writes to any source store . Every admitted action logs the versioned evidence set it relied on, giving full lineage from action back to the exact records. 
+
+# 4 Architectural invariants 
+
+We state two properties of the architecture—not theorems we advertise as a contribution, but the guarantees a reviewer should be able to check. The first is a correctness guarantee (remediation cannot corrupt lineage); the second is an analytical decomposition showing precisely which term runtime gating multiplies, and why model capability does not appear in it. 
+
+Assumption 1. Each evidence record has a content-addressed identifier eid( r) = H(payload (r), metadata (r)) 
+
+for a collision-resistant H. Remediation creates new buffer records and never mutates a source record. 
+
+Proposition 1 (Lineage preservation under downstream-only remediation) . Under Assumption 1, for every admitted action a there is a recorded evidence set E(a) whose identifiers resolve to the exact records a relied upon, and every source record referenced by E(a) is bit-identical to its pre-action state. Proof. The gate logs E(a) = {eid( r) : r ∈ evidence (a)} at admission. A substitution introduces a new buffer record r′ with a fresh identifier eid( r′) and appends it to E(a); it performs no write to any r in a source store (Assumption 1). Hence every eid ∈ E(a) resolves, by collision-resistance of 
+
+H, to the unique record whose payload and metadata hash to it; and since no source record was written, each such source record equals its pre-action state. Therefore the map a 7 → E(a) 7 → records is total and state-preserving. 
+
+Proposition 2 (Evidence-error-to-ADR bound) . Let ε be the probability that an action’s evidence carries a material defect, and let ρ ∈ [0 , 1] upper-bound the conditional probability that such a defect induces a material action deviation. Let d be the gate’s detection probability on the defect’s channel and s the probability that a detected defect is successfully substituted. Under the stated independence 
+
+4(defect independent of the demand realisation) and non-interference (detection/recovery act only on detected defects) assumptions, 
+
+ADR no gate ≤ ερ, ADR gate ≤ ερ (1 − ds ).
+
+Proof sketch. A material action deviation requires both a material defect (prob. ε) and conversion (prob. at most ρ, since ρ upper-bounds the conditional); independence gives the product ερ as an upper bound. A gate removes a defect from the loss path when it both detects ( d) and successfully substitutes ( s); the surviving fraction is 1 − ds , scaling the bound. Both statements are upper bounds by construction of ρ; we do not assert equality. 
+
+Reading of the decomposition. Model capability does not appear in either bound. In the observed task, greater decision elasticity can raise ρ because the agent tracks the corrupted evidence more faithfully (the incompetence shield in reverse); model capability does not, however, create a nonzero metadata-channel detection term d when that metadata is absent from context. Only placement —the gate’s d and s—multiplies the ceiling by 1 − ds . This is the analytical form of M2 and M3: in this setting scale moves ρ the wrong way, while enforcement moves the factor that matters. 
+
+Honesty note. These are upper bounds , not equalities: ρ is defined as an upper bound and is not constant across episodes—the effective conversion is elasticity-weighted, which the pilot estimates empirically (elasticity 0.992 for the competent agent). We do not claim a tight closed form; the bound’s value is qualitative. 
+
+Corollary 1 (Closed-form conversion is model-independent) . On the newsvendor substrate the conversion factor ρ admits an explicit oracle form: for a corrupted episode the agent that acts on the newsvendor optimum for the shown price ˆc incurs a paired loss ℓ = C(q⋆(ˆ c)) − C(q⋆(c)) against the same realised demand, and the episode is material iff ℓ ≥ τm C(q⋆(c)) . The per-cell mean of this indicator is a closed-form upper estimate of ρ that contains no model term : the shown price ˆc is fixed by the injected corruption, not by the agent, so model tier cannot enter—metadata availability, not capability, is what is held fixed. Appendix A shows this oracle conversion tracks the measured agent ADR to a mean absolute error of 0.015 (Pearson r = 0 .876 ; measured CI covers the prediction in 15 /16 cells), which is the analytical form of M2. 
+
+The corollary is stated as an estimate of the same upper bound, not a tighter equality; the residual cell is reported honestly in the appendix rather than fitted away. 
+
+# 5 The Phase 0 pilot 
+
+We ran a three-run live pilot on a priced single-period (newsvendor) replenishment task, where the cost-minimising order depends on the unit price; a stale price yields a wrong order and a currency loss versus the same-seed clean counterfactual. Agent claude-sonnet-5 , judge claude-haiku-4-5 ;total spend $5.13. 
+
+Silence, and the incompetence shield. On the valid run (0c) the competent agent acts on the stale price 42% of the time—matching the metadata-blind oracle (43%)—while its transcripts carry no discriminating signal (marker AUC 0.505, judge AUC 0.500, both at chance; flags 0%). The naive agent (0a) converts 0%: it is inelastic (decision elasticity 0.000, derived from the 0a log; clean-arm regret $2520 versus the oracle), barely tracking the price, and is thus shielded from the defect only by being bad at the task. Making the agent competent (elasticity 0.992) made it vulnerable. 5run prompt scored verdict agent-ADR oracle-ADR elasticity 0a naive 89/100 AMBIGUOUS 0% 44% 0.000 0b policy 5/100 rejected — — 0.976 0c policy 100/100 SUPPORTED 42% 43% 0.992 
+
+Table 2: Phase 0 pilot (real live numbers, generated from the results branches). Behavioral marker/judge AUC on 0c: 0.505/0.500; explicit data-flags 0%. 0b is diagnostic only : its elas-ticity (0.976, n=5 scored pairs) comes from an invalid run — the instrumentation failure the Phase 0c validity gate was built to catch — and is not evidence; it is reported for methods integrity, never interpreted. 
+
+Methods integrity: GIGO in our own pipeline. Run 0b returned SUPPORTED on only 5/100 scored pairs—the agent’s replies were truncated before the decision line, and a brittle parser dropped the rest. A verdict read from five pairs is meaningless. We report 0b as-is; it motivated a validity precondition (any run scoring < 80 /100 is INVALID regardless of metrics). We caught garbage-in-garbage-out in our own measurement instrument—a fitting first result for a data-quality project, reported rather than hidden. 
+
+# 6 GIGO-Bench 
+
+GIGO-Bench freezes a conditions matrix: eight taxonomy-v0 corruption classes × four rates 
+
+{2, 5, 10 , 20% } × six mitigation arms (A no-gate, B advisory, C payload-only critic, D DQ gate, E oracle, F (v) upstream cleaning), = 192 cells. Metrics: ADR; loss (median/P90/P99/mean); detection rate by class ×arm; false-block rate; completion rate; recovery ratio; gate overhead latency; staleness-bound coverage. Seeds and workload-level splits are frozen; make gigo-verify 
+
+checks a re-run against the committed reference within per-cell tolerances. The checked-in reference is the deterministic mock matrix (a pipeline reference); live numbers land via the Part-4 experiment kits. 
+
+Arm information access (defined before results). What each arm may see determines what it can detect, so we fix it here. C (payload-only critic) sees record payloads with no freshness/lineage/provenance. D (Pre-Action Gate) evaluates metadata predicates and, on 
+
+quarantine-and-substitute , draws a governed-buffer value. E (oracle) acts on the true value—an upper bound, not deployable. F(v) is an idealized upstream-cleaning comparator : for a fraction v of corrupted episodes it restores the known clean benchmark value, so it has privileged ground-truth access in the synthetic benchmark and represents an optimistic, upper-bound-style cleaning mechanism rather than a deployable detector. The defensible operational comparison for the gate is therefore against the realistic payload-only critic C, not against E or F (v).
+
+Signed paired loss (defined before results). Loss is a same-seed difference : the realised cost of the agent’s order on the corrupted view minus its order on the true-price view, sharing one demand draw. Because the shared demand realisation still enters both realised costs, a corrupted or substituted path can occasionally yield a marginally lower realised cost than the clean-view path, so individual paired losses can be slightly negative. We retain signed values (no clipping; clipping was not preregistered) and interpret values near zero by their bootstrap interval: a small negative mean, or any interval crossing zero, is no established effect , never evidence of systematic improvement or of recovery beyond 100%. 67 Results (H1–H4) 
+
+All predictions were pre-registered (reports/prereg/ ) and frozen before any run; every number below is a macro generated from a committed results/<exp>-live summary (paper/scripts/ingest_results.py ), never hand-entered. All four experiments were re-run on the corrected, cap-hardened harness ( policy_instructed decider, paired counterfactual loss, rate-dependent sampler); the invalid first-wave and one cap-truncated run are retained on their branches for audit and are not ingested (see the deviations note and reports/FINDINGS.md ). 
+
+H1 (Silence) — SUPPORTED. Under the competent, metadata-blind decider, a corrupted price is silently converted into a material order defect on 60% of metadata-borne episodes, while the agent’s transcripts carry no discriminating doubt signal. The loss-conversion channel is real and the decider is silent about it, as predicted (agent-ADR ≥ 20% ; behavioral AUC ≤ 0.60 ). 
+
+H1 model-tier ladder — SUPPORTED (headline). Across four product tiers—haiku-4-5 → sonnet-5 → opus-4-8 → fable-5, increasingly expensive and nominally more capable, spanning 
+
+≈ 15 × in inference price—the metadata-borne ADR is flat-to-rising (60% at haiku, 62% at fable) while both silence signals stay pinned at the null: behavioral marker AUC ≤ 0.50 and explicit-flag fraction 0% at every rung. Capability does not buy skepticism : a frontier decider seeing only the payload is exactly as silent, and exactly as vulnerable, as a small one — the empirical core of the placement thesis. (The LLM-judge AUC, the second behavioral quantity, is deferred; the claim rests on the marker AUC and flag fraction.) 
+
+H2 (Detection asymmetry) — REFRAMED. The registered clean channel split (C ≈ Don payload-visible and C ≪ D on metadata-borne) was not supported. The honest evidence is per class (Table 3): detection follows the signal actually exposed to each mechanism and the predicates actually implemented, not the assigned taxonomy label. The gate strictly dominates the payload-only critic on freshness ( stale_master_data : critic 0%, gate 100%) and schema-conformance ( schema_drift : 0% → 100%; missing_mandatory_field : 72% → 100%) — signals the critic does not observe. Two labels cross the assigned boundary: schema_drift , registered as payload-visible, is missed by the critic and caught by the deterministic schema predicate; and 
+
+superseded_golden_record , registered as metadata-borne, is visible to the critic (100%) because the companion record creates a payload-level contradiction. Both mechanisms fail on the two un-covered defects ( silent_unit_change , plausible_outlier : 0%/0%), reported as coverage gaps, not patched. The experiment therefore converts the payload/metadata distinction from an assigned taxonomy into an empirically observed detection boundary : detectability depends on which repre-sentation and companion evidence a mechanism receives, and on the predicates it implements. The pooled metadata figures (critic 25%, gate 50%) are a secondary summary under the preregistered labels , and inherit those labels’ incompleteness. 
+
+7.1 The channel boundary is empirical rather than taxonomic 
+
+The payload/metadata split is often treated as a fixed property of a defect class . Our data shows it is instead a property of what a given mechanism is shown . Two registered labels cross their own boundary, and both directions matter. schema_drift is registered payload-visible, yet the realistic payload-only critic misses it (0%) while the deterministic schema predicate catches it (100%): a “payload-visible” defect is invisible to a reader that does not implement the right check. 
+
+superseded_golden_record is registered metadata-borne, yet the critic does see it (100%)—not 7corruption class critic C gate D registered channel 
+
+stale_master_data 0% [0, 4] 100% [96, 100] metadata-borne 
+
+schema_drift 0% [0, 4] 100% [96, 100] payload-visible †
+
+missing_mandatory_field 72% [63, 80] 100% [96, 100] payload-visible 
+
+superseded_golden_record 100% [96, 100] 100% [96, 100] metadata-borne †
+
+cross_source_contradiction 100% [96, 100] 100% [96, 100] payload-visible 
+
+duplicate_vendor_conflicting_terms 0% [0, 4] 0% [0, 4] payload-visible 
+
+silent_unit_change 0% [0, 4] 0% [0, 4] metadata-borne (gap) 
+
+plausible_outlier 0% [0, 4] 0% [0, 4] metadata-borne (gap) 
+
+Table 3: H2 per-class detection: payload-only critic (C) vs. metadata-aware gate (D), pooled over rate cells (generated from the committed summary). Each cell shows the point detection rate with its Wilson 95% interval in percentage points ( n = 100 corrupted episodes per class). † marks the two classes whose empirical detection crosses their preregistered channel label—the observed boundary is not the assigned one. through metadata, but because the current-golden companion record creates a payload-level con-tradiction the critic can read. Detectability is therefore determined by the triple (representation shown, companion evidence available, predicates implemented), not by the class name. This re-framing is what lets the same architecture port to a new domain without re-deriving a taxonomy (Appendix A): one moves the enforcement point to where the signal actually is, then implements the predicate that reads it. The boundary is drawn by the mechanism, not by the label. 
+
+H3 (Gating dominance) — NOT SUPPORTED as written. The registered Pareto-dominance claim (D dominates B, C, F (v)) fails for two honest reasons: the false-block axis is degenerate (every arm false-blocks at 0%, so no frontier is traced), and—as anticipated by the arm definition (§6)—F (v) benefits from benchmark ground truth and should not be interpreted as a realistic detection system. Against the realistic payload-only critic C, the gate D does dominate: residual loss 294 [104.1, 498.0] vs. 311 [120.3, 516.3] (bootstrap 95% CIs, §A) and detection 62% vs. 31% ( 2×) at equal zero false-block — the same metadata-channel advantage as H2. We retain F (v)
+
+(rather than drop it) so this optimistic upper bound stays visible. 
+
+H4 (Downstream sufficiency) — NOT SUPPORTED. The registered target (portfolio re-covery ≥ 0.80 ) is not met: portfolio recovery is -0.04. The decomposition is the honest result. Where the gate has a predicate (freshness), it fully recovers: stale_master_data loss falls from 134 [-31.9, 305.2] (ungated) to -0.5 [-3.7, 1.9] (gated; bootstrap 95% CIs, §A; the slightly-negative gated value is within noise of zero per the signed-loss convention of §6, not recovery beyond 100%). The portfolio number is dominated by silent_unit_change — the one class carrying a clearly non-zero ungated loss and exactly the defect the gate has no predicate for (a pre-registered coverage gap, unit consistency deferred to v1.1). Source-write and lineage predicates (P2/P3) hold by construction. More episodes cannot move the headline: the gap is structural, not statistical. 
+
+Ablations / Tier-2. Not run in this campaign; the harness and pre-registrations are in place for a follow-up. Taken together: the loss-conversion is real and flat across model tiers (H1), and the gate’s value is concentrated on the metadata channel it is designed for — it beats a realistic payload-only critic 8(H2, H3) and fully recovers the defects it covers (H4, freshness) — while being transparent about its named coverage gaps. Every figure is generated from logged results only; no number is hand-entered. 
+
+# 8 Implications 
+
+Two brief consequences of the three claims; both support M3 rather than extend it. 
+
+Economics. ADR is the action-level micro-foundation of the firm-level adoption bottleneck. If autonomous value is a min( ·) of complements—capability and trustworthy evidence—then raising capability while evidence quality lags does not move the min . ADR measures exactly the comple-ment that gating restores. 
+
+Governance. Metadata-borne evidence defects are precisely the data-quality management and “examination in view of possible biases” that EU AI Act Article 10 requires; ISO/IEC 5259 [8] supplies the dimension vocabulary. SARC-DQ’s versioned evidence sets (Prop. 1) are auditable artifacts for such obligations. This is the only place we use risk-tier language. 
+
+# 9 Threats to validity 
+
+Construct validity (are we measuring the right thing?). Loss is a currency delta against a same-seed clean counterfactual, so it isolates the corruption effect from the agent’s own decision noise—but it is defined on one realised demand draw per episode, so single-episode losses are noisy and we report them pooled with bootstrap CIs. “Silence” is operationalised as a behavioral doubt-marker AUC and an explicit-flag fraction; the third intended quantity, an LLM-judge AUC, is deferred, so the silence claim rests on two of three signals. Materiality uses a fixed threshold ( τm); we did not sweep it. 
+
+Internal validity (could an artifact explain the result?). The decider is the policy_instructed 
+
+agent, chosen after an initial run to remove a competence confound (Deviations §10, item i); both readings are reported. One re-run was silently truncated by a spend cap and caught in verification (item vii); the rate-axis re-runs (H3, H4) and the ladder are on the cap-hardened harness with zero API errors, and H1-full and H2 (run on the corrected harness before that hardening was added) were verified complete—all classes ran, no truncation. Seeds, sampler, prompt, loss definition, and per-run instrumentation are pinned per experiment ( EXPERIMENT_STATUS.md ). 
+
+External validity (does it generalise?). We establish a mechanism and a boundary con-dition, not universal effectiveness across enterprise workflows. The evidence is a single deci-sion domain (priced replenishment); corruption is injected , not observed in a live production sys-tem; the task has a known clean counterfactual, which is rarely available in production; the gate assumes metadata is present and correct; predicate coverage is incomplete by design; the ladder uses four Claude tiers from one vendor, so the flat-across-tiers result is shown within, not across, model families; and inference-price tier is not itself a scientific measure of capability. The mock GIGO matrix is a pipeline reference, not evidence about real models. Public base-rate evidence is absent for silent_unit_change and plausible_outlier : their injector param-eters are declared, flagged defaults, and Tier-2 calibration on public labeled data is future work (benchmarks/gigo/CALIBRATION.md )—surfacing which classes lack a public base rate is itself part 9of the calibration contribution. The central supported result is narrow: absent metadata cannot be recovered by model scaling alone, and a gate with access to the relevant signal can act where a payload-only mechanism cannot; the magnitude of operational benefit remains domain-, predicate-, and metadata-quality-dependent. 
+
+Statistical-conclusion validity (are the numbers robust?). Per-class H3/H4 estimates at 
+
+n=100 (rate axis) have wide CIs; only silent_unit_change carries a clearly non-zero ungated loss, and we say so rather than over-read the rest. The H2/H3/H4 headline predictions are reported as 
+
+not supported as written , with the honest decomposition, not re-fit to pass. 
+
+# 10 Deviations and clarifications 
+
+We disclose deviations from the pre-registration so verdicts are read against a transparent record (full detail in reports/FINDINGS.md and reports/prereg/ADDENDUM-2026-07-09.md ). (i) Prompt variant. The experiments were run under the policy_instructed agent (the explicit newsvendor policy, no data-quality language), pinned after an initial naive -prompt run returned a uniform-null ADR that reflects decision incompetence, not data quality; the variant existed in Phase 0b/0c pre-cisely to remove that confound, and both readings are reported. (ii) Loss instrumentation. Loss and materiality are measured against the same agent’s order on the true price (the paired Phase 0 defi-nition), not against the theoretical optimum; under the old definition an oracle acting on clean data was scored as heavily defective, i.e. the metric measured the agent’s own decision noise rather than corruption. (iii) Rate axis. H1/H2 fix a per-cell corrupted count (rate as a stratification label) so per-corrupted metrics rest on an equal n; H3/H4 keep true rates, which drive their false-block economics. (iv) Silence sub-claim. Transcript-based silence metrics were added and logged in the corrected runs: across the model-tier ladder the behavioral marker AUC ( ≤ 0.50 ) and explicit-flag fraction (0%) both support silence at every rung; the second behavioral quantity, the LLM-judge AUC, remains deferred (it requires a paid judge turn per transcript). (v) H2 outcome. The strict channel conjunc-tion is not supported: the payload/metadata boundary is empirical, the measurement reclassifies 
+
+schema_drift (gate-dominated) and superseded_golden_record (payload-detectable), and names two predicate coverage gaps ( silent_unit_change , plausible_outlier ) held as v1.1 future work rather than patched. (vi) H3/H4 outcomes. Both registered headline predictions are also not sup-ported as written and are reported as measured (Sec. 7): H3’s false-block frontier is degenerate and its F (v) arm is a partial oracle, so the fair comparison is gate-vs-realistic-critic (which the gate wins); H4’s portfolio recovery (-0.04) is dominated by the silent_unit_change coverage gap while the gate fully recovers the freshness channel it covers. (vii) Spend-cap incident and harness hardening. 
+
+One H4 re-run was silently truncated by an API spend cap — the client swallowed the transport er-ror and the run committed as apparently-complete (96/96) with a nonsensical recovery ratio. It was caught in verification, invalidated, and the harness was hardened so a transport failure is counted and the run aborts-and-resumes rather than committing silent zeros; the rate-axis re-runs (H3, H4) and the ladder then ran on this hardened harness ( instrumentation=api-error-aware-v1 , zero API errors), while H1-full and H2, which predate the hardening, were verified complete by direct inspection. All predictions are reported as measured, including where they fail. To state the integrity boundary plainly: No threshold, prediction, or verdict rule was altered at any point in this project; only instrument configuration, under a dated addendum. On the silence provenance: P1 (loss-conversion) is supported under policy_instructed and is flat across the model-tier ladder; the behavioral silence signals (P2 marker AUC, P3 flag fraction) are now measured and support silence at every rung, while the LLM-judge AUC remains deferred. On the superseded 10 first wave: All first-wave experiment runs are invalid and retained on their branches for audit. 
+
+And on H2: H2 failed its original registration on the corrected re-run and is reported as failed; the reframe, not a pass, is the contribution. 
+
+# 11 Reproducibility and research transparency 
+
+Commands. make quality (lint/type/test), make smoke (Phase 0 mock), make gigo-verify 
+
+(benchmark drift), make status (regenerate the experiment manifest), make arxiv (macros + camera-ready source). Phase 0 config hashes: naive c8202a18b58754d8 , policy e785bdc87009b84c .Per-experiment branch, SHA, prompt/sampler/loss version, and config_hash are in EXPERIMENT_STATUS.md 
+
+(the single source of truth); seeds, splits, and metric definitions in benchmarks/gigo/SPEC.md .
+
+Transparency (by construction, not assertion). We hold this project to the standard it studies. (i) No result is hand-entered : every printed value is a macro generated from a committed 
+
+results/<exp>-live summary. (ii) No historical data were deleted : invalid first-wave runs and one cap-truncated run remain on their branches and are listed, with grounds, in EXPERIMENT_STATUS.md .(iii) Every number is provenance-linked to a branch, SHA, and config_hash . (iv) Failures are re-ported, not hidden : a garbage-in-garbage-out event in our own parser (§5) and a spend-cap trun-cation (§10) are both written up as results. (v) No threshold, prediction, or verdict rule was ever altered ; only instrument configuration, under a dated addendum. 
+
+# 12 Conclusion 
+
+We set out three claims: metadata-borne defects are structurally invisible to a payload-only agent (M1); scaling to higher model tiers does not fix this—silence and loss-conversion are flat across four model tiers spanning ≈ 15 × in inference price (M2); and the remedy is architectural, a metadata-aware Pre-Action Gate at the point of action (M3). The gate wins on the channel it covers and, where it does not cover a defect, we report the gap rather than patch it. SARC-DQ does not eliminate upstream data-quality work and does not detect defects for which no predicate or trustworthy metadata exists; runtime gating complements rather than replaces upstream governance, and its benefit is predicate- and metadata-quality-dependent. Its contribution is narrower and architectural: when the discriminating signal exists outside the model’s payload context, reliability requires an enforcement mechanism that can access and act on that signal. The history of AI safety has largely focused on constraining model behavior . Our results suggest an equally important and largely orthogonal axis: constraining the quality of the evidence on which autonomous decisions are based. As agents move from answering to acting, runtime evidence governance may become as fundamental to enterprise AI as memory protection became to operating systems—a cheap, architectural guarantee that a fast, powerful process cannot act on state it was never allowed to trust. 
+
+The flat ladder is not only empirical. A model-free analytical oracle derived from the task’s decision geometry predicts the conversion of a metadata-borne defect into a loss without any model-tier term —the corrupted price it acts on is fixed by the injected defect, not by the agent—and this prediction tracks the measured ADR to MAE 0.015 (Pearson r = 0 .876 ; the measured interval covers the prediction in 15/16 cells, Appendix A). So the ladder’s flatness is explained, not merely observed: capability is absent from the mechanism that sets conversion, while enforcement placement is the 11 factor that changes it. We claim this only for the tested architecture and decision setting, not as universal model independence. 
+
+# References 
+
+[1] AgentNoiseBench. arXiv:2602.11348 (ICML 2026). [2] W. Wang, J. Shi, Z. Ling, Y.-K. Chan, C. Wang, C. Lee, Y. Yuan, J. Huang, W. Jiao, and M. R. Lyu. Learning to ask: when LLM agents meet unclear instruction (introduces NoisyToolBench). arXiv:2409.00557. [3] Y. Ruan et al. Identifying the risks of LM agents with an LM-emulated sandbox (ToolEmu). 
+
+ICLR 2024. arXiv:2309.15817. [4] J. Sun, S. Y. Min, Y. Chang, and Y. Bisk. Tools fail: detecting silent errors in faulty tools. 
+
+EMNLP 2024. arXiv:2406.19228. [5] S. Yao et al. τ -bench: a benchmark for tool-agent-user interaction. arXiv:2406.12045. [6] H. Wang, C. M. Poskitt, and J. Sun. AgentSpec: customizable runtime enforcement for safe and reliable LLM agents. ICSE 2026. arXiv:2503.18666. [7] C. L. Wang et al. MI9 — Agent Intelligence Protocol: runtime governance for agentic AI systems. arXiv:2508.03858. [8] ISO/IEC 5259 (2024 series), Data quality for analytics and ML. [9] See [23] (Raha/Baran). [10] See [24] (Magellan/DeepMatcher). [11] G. Besanson. SARC: a governance-by-architecture framework for agentic AI systems. arXiv:2605.07728. [12] G. Besanson. Green SARC: predictive cost and carbon governance for agentic AI systems. arXiv:2606.15954. [13] E. Rahm and H. H. Do. Data cleaning: problems and current approaches. IEEE Data Eng. Bull. 23(4), 2000. [14] W. Kim, B.-J. Choi, E.-K. Hong, S.-K. Kim, and D. Lee. A taxonomy of dirty data. Data Mining and Knowledge Discovery 7(1), 2003. [15] R. Y. Wang and D. M. Strong. Beyond accuracy: what data quality means to data consumers. 
+
+J. Management Information Systems 12(4), 1996. [16] ISO 8000, Data quality (multipart series; master-data parts). International Organization for Standardization. Part 1: Overview, ISO 8000-1:2022. [17] N. Sambasivan et al. “Everyone wants to do the model work, not the data work”: data cascades in high-stakes AI. CHI 2021. doi:10.1145/3411764.3445518. [18] T. Nagle, T. C. Redman, and D. Sammon. Only 3% of companies’ data meets basic quality standards. Harvard Business Review , 2017 (Friday Afternoon Measurement). 12 [19] Experian. Global data management benchmark reports, 2013–2017 (perception survey). [20] X. Li, X. L. Dong, K. Lyons, W. Meng, and D. Srivastava. Truth finding on the deep web: is the problem solved? PVLDB 6(2), 2013. [21] C. Curino, H. J. Moon, A. Deutsch, and C. Zaniolo. Automating the database schema evolution process. VLDB Journal 22(1), 2013 (MediaWiki). [22] Federal Reserve Bank of St. Louis. ALFRED: ArchivaL Federal Reserve Economic Data (vin-tage economic data). https://alfred.stlouisfed.org .[23] M. Mahdavi et al. Raha: a configuration-free error detection system. SIGMOD 2019. [24] P. Konda et al. Magellan: toward building entity matching management systems. PVLDB 
+
+9(12), 2016. 
+
+# A Analytical companion (deterministic, $0) 
+
+This appendix strengthens the empirical claims with analytical explanations and robustness analyses that add no new experiment. Every value and figure here is a deterministic, zero-cost recomputation from the frozen substrate, the frozen injectors, and the committed result summaries—produced by make analysis (package analysis/ , outputs in analysis/out/ , macros in generated/analysis.tex ). No threshold, verdict, or generated experiment value is altered; where an analytical prediction misses a measurement we report the discrepancy rather than fit it away. 
+
+A.1 The conversion law and its calibration (M2) 
+
+Corollary 1 gives a closed-form, model-independent estimate of the conversion factor ρ. Fig. 2 calibrates it against the measured agent ADR over the priced metadata-borne cells (h1-full, arm A): mean absolute error 0.015 , Pearson r = 0 .876 , and the measured 95% Wald interval cov-ers the oracle prediction in 15 /16 cells. Because the shown price is fixed by the injected cor-ruption and not by the agent, model tier is absent from the law by construction—the analytical form of the flat ladder (M2). The single cell whose interval excludes the prediction is retained in 
+
+analysis/out/conversion_law.json , not discarded. 
+
+A.2 H4 as a coverage-accounting identity 
+
+Portfolio recovery decomposes exactly as recovery = ( LA − LD)/(LA − LE ) with Lx = P 
+
+> c
+
+wc ℓx,c ,class weight wc = nc/N , and LE = 0 . Recomputed from the committed h4-recovery losses this identity reproduces the reported portfolio recovery ( −0.0411 ) to a residual of 0.000000 . The de-composition (Fig. 3) explains why the headline is low without any appeal to statistics: the single uncovered class silent_unit_change carries 83 % of the recoverable denominator, so a gate that (by design) has no predicate for it cannot move the portfolio number—exactly the pre-registered coverage gap. 
+
+A.3 Formal coverage matrix 
+
+Table 4 states, per class, where the discriminating signal lives, whether each mechanism can ob-serve it, the implemented v1 predicate, and the remaining limitation—the concise map of what the architecture does and does not cover. 13 0.0 0.2 0.4 0.6 0.8 1.0 
+
+> predicted oracle conversion
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> measured agent ADR
+
+Conversion law calibration 
+
+MAE=0.015, r=0.8758, CI cover 15/16 
+
+> perfect calibration
+
+Figure 2: Predicted oracle conversion vs. measured agent ADR. Proximity to the diagonal is the calibration; the agent tracks the closed-form, model-free prediction. 
+
+A.4 Statistical reporting: row-level uncertainty 
+
+Ladder flatness (H1). The “flat to slightly rising” claim is quantified from the committed h1-ladder pooled counts over the metadata-borne classes: the top-minus-bottom endpoint difference is 0.0125 
+
+with a two-proportion 95% Wald interval [−0.0551 , 0.0801] that includes zero, and the ordinary-least-squares trend is 0.0040 ADR per tier step. Flatness is thus a measured quantity with an interval, not an adjective. 
+
+H2 detection intervals. Table 3 reports a Wilson 95% interval for every per-class detection rate, for both the critic (C) and the gate (D). The detected count is recovered exactly per rate cell (each stored rate is an integer multiple of 1/25 ), never by multiplying a rounded pooled rate, and pooled to n = 100 corrupted episodes per class. 
+
+H3/H4 residual-loss intervals. The residual-loss quantities in §7 carry nonparametric bootstrap 95% intervals: 10000 percentile resamples (fixed seed 20260728 ) over the committed per-corrupted-episode paired losses, the resampling unit. The signed paired-loss convention is preserved (losses are never clipped), the point estimate is left at the committed pool mean, and an interval that crosses zero—such as the gated stale_master_data loss—is reported as consistent with zero, not as recovery beyond the measured value. 
+
+A.5 Robustness: leave-one-class-out, ablations, and threshold sensitivity 
+
+Removing the dominant uncovered class silent_unit_change from the portfolio moves recovery from −0.0411 to 0.6219 (Fig. 4)—a structural demonstration that this one class, not statistical noise, sets the headline. Predicate ablations ( analysis/out/robustness.json ) confirm that no v1 predicate subset recovers the portfolio, because none covers that class. Threshold sensitivity (Fig. 4) sweeps the materiality threshold on the oracle conversion—a faithful proxy, given the 0.015 
+
+calibration above—from a mean ADR of 0.6225 down to 0.3325 ; the registered τm = 0 .005 (ADR 14 0 50 100 150 200 250 300 
+
+> weighted denominator contribution (recoverable $)
+> silent_unit_change
+> superseded_golden_record
+> stale_master_data
+> plausible_outlier
+> duplicate_vendor_con fl icting_terms
+> cross_source_contradiction
+> missing_mandatory_ fi eld
+> schema_drift
+> H4 coverage accounting: silent_unit_change is 83% of the pool
+> gate-covered
+> uncovered gap
+
+Figure 3: Weighted denominator (recoverable $) by class; blue = gate-covered, red = uncovered gap. One uncovered, high-magnitude class dominates the recoverable pool. 
+
+class signal critic gate predicate remaining limitation 
+
+stale_master_data metadata no yes freshness needs a fresh clock 
+
+superseded_golden_record meta/payload yes yes golden-unique needs version/companion 
+
+schema_drift payload no yes schema needs the typed check 
+
+missing_mandatory_field payload yes yes complete —
+
+cross_source_contradiction payload yes yes consistency needs both sources keyed 
+
+duplicate_vendor_conflicting_terms payload yes no (consistency) alt-keyed rows not compared 
+
+silent_unit_change none printed no no — v1.1 unit-consistency gap 
+
+plausible_outlier lineage only no no — v1.1 outlier gap 
+
+Table 4: Coverage matrix (frozen gate design). “critic”/“gate” record whether the payload-only critic / metadata-aware gate can observe the defect; the last two classes are the declared, unpatched gaps. 
+
+0.6175 ) is one point on a smooth curve, not a cliff edge, so the verdicts do not hinge on the threshold choice. 
+
+A.6 Stress: dependence on metadata quality 
+
+The gate reads metadata, so its detection is only as good as the metadata it is handed. Fig. 5 re-runs the real gate on the covered classes under deterministic metadata-degradation operators. Pooled detection falls from 0.8333 (intact) to 0.6667 (all metadata degraded); the most fragile class is stale_master_data , whose freshness signal collapses when the clock is erased. This is an honest boundary: placement helps to the extent the metadata channel is intact. 
+
+A.7 Falsification: it is targeting, not frequency 
+
+A natural null is “the gate just intervenes more.” We falsify it (Fig. 6) by comparing, at the same 
+
+intervention budget, the real gate against corruption-blind controls over the full population. The gate recovers 0.2715 of the positive-loss pool versus 0.1636 for a frequency-matched random policy, 
+
+0.1336 for permuted flags, and 0.1173 for an adversarially mis-targeted policy (gate advantage 
+
+0.1079 ). Recovery tracks alignment with the corruption signal, not how often one intervenes. 15 −0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 
+
+> portfolio recovery with class removed
+> drop silent_unit_change
+> drop superseded_golden_record
+> drop cross_source_contradiction
+> drop plausible_outlier
+> drop duplicate_vendor_con fl icting_terms
+> drop missing_mandatory_ fi eld
+> drop schema_drift
+> drop stale_master_data
+
+Leave-one-class-out 
+
+> full portfolio
+
+10 −3 10 −2
+
+materiality threshold τm
+
+0.35 
+
+0.40 
+
+0.45 
+
+0.50 
+
+0.55 
+
+0.60 
+
+> mean oracle ADR
+
+Threshold sensitivity  
+
+> registered τm
+
+Figure 4: Top: portfolio recovery with each class removed (dashed = full portfolio). Bottom: oracle ADR vs. the materiality threshold; the registered τm is marked. 
+
+A.8 A second decision process: architectural portability 
+
+To show the architecture ports—not that it wins universally—we instantiate a structurally different decision: a B2C personalised-promotion eligibility task (a binary offer, priced and paired, not a newsvendor order). The same payload/metadata split and the same predicate family ( freshness ,
+
+golden_record_unique , complete ) apply. Six metadata-borne promo corruptions (expired cam-paign, superseded segmentation, stale score, outdated rules, missing consent, obsolete recommen-dation) yield a portfolio ADR of 0.3146 , and the reused gate recovers 1.0000 of the induced loss (Fig. 7). The ADR profile is domain-specific—eligibility-borne defects (expired campaign 0.9313 ,missing consent 0.9313 ) dominate here, unlike silent_unit_change in procurement—which is the point: the mechanism transfers even though the loss surface does not. 16 intact                         
+
+> stale_clock
+> version_erased
+> provenance_stripped
+> all_degraded
+> stale_master_data
+> superseded_golden_record
+> schema_drift
+> missing_mandatory_ fi eld
+> cross_source_contradiction
+> duplicate_vendor_con fl icting_terms
+> 1.00 0.00 1.00 1.00 0.00
+> 1.00 1.00 1.00 1.00 1.00
+> 1.00 1.00 1.00 1.00 1.00
+> 1.00 1.00 1.00 1.00 1.00
+> 1.00 1.00 1.00 1.00 1.00
+> 0.00 0.00 0.00 0.00 0.00
+
+Metadata-degradation stress (detection) 
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0 
+
+> gate detection rate
+
+Figure 5: Gate detection on covered classes under metadata degradation. Green survives; red collapses. Detection is a function of metadata quality, not a universal guarantee. gate_real 
+
+random_match 
+
+shu ffl ed_ fl ags 
+
+anti_correlated 
+
+0.00 
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+> recovered positive-loss fraction
+
+Falsi fi cation: same budget, di ff erent targets 
+
+Figure 6: Recovered positive-loss fraction at equal intervention budget. The metadata gate (blue) beats every corruption-blind control; the benefit is targeting, not frequency. 17 expired_campaign 
+
+> superseded_segmentation
+> stale_score
+> outdated_rules
+> missing_consent
+> obsolete_recommendation
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0 
+
+> rate
+
+Second domain: B2C promotion eligibility 
+
+> ADR (ungated)
+> gate recovery
+
+Figure 7: Second domain (B2C promotion eligibility): per-class ungated ADR (red) and gate re-covery (blue) using the identical predicate family. The architecture ports; performance is domain-specific. 18

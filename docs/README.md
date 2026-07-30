@@ -6,49 +6,47 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-29
-- 运行时间：2026-07-29 21:25:08 UTC
+- 最新运行日期：2026-07-30
+- 运行时间：2026-07-30 21:23:25 UTC
 - 运行状态：成功
 - 本次总论文数：9
-- 精读区：4
-- 速读区：5
+- 精读区：6
+- 速读区：3
 
 ### 今日简报（AI）
-1) 今日日报精选9篇论文，精读聚焦LLM多智能体网络的可靠性传播与后门早期检测两大安全方向。  
-2) 最值得关注的是两篇8分精读研究：可靠性传染机理与分布式后门检测，为多智能体系统安全性提供关键见解。  
-3) 建议优先阅读精读论文，把握智能体网络中的交互风险与防御策略。
-- 详情：[/202607/29/README](/202607/29/README)
+今日精读聚焦Agent能力评估与长运行监控，分别探讨协议有效性和可视化引导框架。值得关注Agent基准测试的标准化设计及AgentGUI在长周期任务中的实际应用。建议深入研究协议有效性案例，并尝试在复杂任务中引入AgentGUI工具以提升观察效率。
+- 详情：[/202607/30/README](/202607/30/README)
 
 ### 精读区论文标签
-1. [Reliability-Contagion Feasibility in LLM Multi-Agent Networks](/202607/29/2607.21912v1-reliability-contagion-feasibility-in-llm-multi-agent-networks)  
+1. [Do Agent Benchmarks Measure Capability? Protocol Validity in the Age of Agentic AI](/202607/30/2607.22368v1-do-agent-benchmarks-measure-capability-protocol-validity-in-the-age-of-agentic-ai)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：检测智能体通过无效评分路径和漏洞利用的作弊行为
+2. [AgentGUI: An Interface for Observing and Steering Long-Running AI Agents](/202607/30/2607.26300v1-agentgui-an-interface-for-observing-and-steering-long-running-ai-agents)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：观察和引导智能体轨迹，减少识别关键元素（包括错误）的时间
+3. [Forecasting Trajectory-Level Safety Risks in Black-Box Multi-Turn Interactions](/202607/30/2607.26820v1-forecasting-trajectory-level-safety-risks-in-black-box-multi-turn-interactions)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：黑盒多轮交互中轨迹级安全风险预测
+4. [Before Agents Speak: Pre-hoc Failure Risk Inference in Multi-Agent Systems](/202607/30/2607.26836v1-before-agents-speak-pre-hoc-failure-risk-inference-in-multi-agent-systems)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：LLM多智能体系统中幻觉传播的预先失败风险推断
+5. [SARC-DQ: Runtime Data-Quality Gating for Agentic AI: Silent Evidence Defects, the Incompetence Shield, and Downstream-Only Remediation](/202607/30/2607.26313v1-sarc-dq-runtime-data-quality-gating-for-agentic-ai-silent-evidence-defects-the-incompetence-shield-and-downstream-only-remediation)  
    标签：评分：8.0/10、query:agent-error
-   evidence：大语言模型多智能体网络中的错误传播模型
-2. [Early Detection of Distributed Backdoors in Multi-Agent LLM Systems: A Characterization Study](/202607/29/2607.24893v1-early-detection-of-distributed-backdoors-in-multi-agent-llm-systems-a-characterization-study)  
+   evidence：运行时检测导致代理错误的数据质量缺陷
+6. [Living-Harness Is an Interactive-Agent Evolver](/202607/30/2607.26598v1-living-harness-is-an-interactive-agent-evolver)  
    标签：评分：8.0/10、query:agent-error
-   evidence：在多智能体系统中早期检测分布式后门攻击
-3. [When Do Agent Loops Mistake Stagnation for Progress? Self-Evaluation Bias and Externally Grounded Verification in Long-Running Autonomous LLM Agent Loops](/202607/29/2607.25152v1-when-do-agent-loops-mistake-stagnation-for-progress-self-evaluation-bias-and-externally-grounded-verification-in-long-running-autonomous-llm-agent-loops)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：检测自主智能体循环中的进度幻象错误
-4. [Cooperative Multi-UAV Navigation in Complex Environments via Systematic Multi-Agent Deep Reinforcement Learning](/202607/29/2607.25754v1-cooperative-multi-uav-navigation-in-complex-environments-via-systematic-multi-agent-deep-reinforcement-learning)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：多智能体深度强化学习框架，检测并逃离无人机导航轨迹中的局部最优陷阱（错误）
+   evidence：利用轨迹评估器信号检测执行失败并更新架构
 
 ### 速读区论文标签
-1. [DocOps: A Verifiable Benchmark for Autonomous Agents in Complex Document Operations](/202607/29/2607.19865v1-docops-a-verifiable-benchmark-for-autonomous-agents-in-complex-document-operations)  
+1. [Domain-Prior-Regularized Graph Modeling for Anomaly Detection in Cyber-Physical Systems](/202607/30/2607.23197v1-domain-prior-regularized-graph-modeling-for-anomaly-detection-in-cyber-physical-systems)  
    标签：评分：7.0/10、query:agent-error
-   evidence：DocOps是一个用于评估自主智能体在文档操作中表现的可验证基准，有助于检测其任务轨迹中的错误
-2. [Evaluating VLMs for Autonomous Agent-Driven Geometry Clipping Detection in Video Game QA](/202607/29/2607.25921v1-evaluating-vlms-for-autonomous-agent-driven-geometry-clipping-detection-in-video-game-qa)  
+   evidence：基于领域先验正则化的图模型在时间序列异常检测中的应用
+2. [Conformal Changepoint Localization and Root Cause Analysis with Corrupted Observations](/202607/30/2607.26481v1-conformal-changepoint-localization-and-root-cause-analysis-with-corrupted-observations)  
    标签：评分：7.0/10、query:agent-error
-   evidence：使用代理驱动的轨迹进行游戏QA中的异常检测
-3. [NavVerse: Benchmarking Indoor-to-Outdoor Embodied Navigation in Continuous Robot Simulation](/202607/29/2607.19695v1-navverse-benchmarking-indoor-to-outdoor-embodied-navigation-in-continuous-robot-simulation)  
+   evidence：用于多代理系统监控的变点检测与根因分析
+3. [Spatial Reasoning in LLM Game Agents: Impact of Causal Context and Multi-Step Planning](/202607/30/2607.22732v1-spatial-reasoning-in-llm-game-agents-impact-of-causal-context-and-multi-step-planning)  
    标签：评分：6.0/10、query:agent-error
-   evidence：基准测试包含导航轨迹中的运动学失败和路径偏差检测
-4. [Socially Consistent Multi-Robot Navigation Using Decoupled Planning and Trajectory Coordination](/202607/29/2607.20772v1-socially-consistent-multi-robot-navigation-using-decoupled-planning-and-trajectory-coordination)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：关注安全且社会一致的轨迹规划，检测路径偏差以确保可预测性
-5. [Scaling GUI Agents with Visual State Transitions](/202607/29/2607.24112v1-scaling-gui-agents-with-visual-state-transitions)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：逆动力学从状态变化预测动作，可用于检测轨迹中的动作错误
+   evidence：分析LLM游戏智能体的空间推理失败，与路径规划错误检测相关
 
 
 <div class="dpr-home-promo-card">
