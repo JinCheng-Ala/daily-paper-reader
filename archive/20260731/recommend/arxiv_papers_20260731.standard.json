@@ -1,0 +1,358 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-31T21:47:10.691683+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2607.27294v1",
+      "source": "arxiv",
+      "title": "AgentS4D: Benchmarking Runtime Risks across the Execution Lifecycle of LLM-Based Workspace Agents",
+      "abstract": "Large language model (LLM)-based workspace agents execute stateful, multi-step workflows across heterogeneous resources, external tools, and persistent state. Their safety must therefore be assessed from actions, side effects, and state changes throughout execution. Although recent benchmarks have advanced executable safety testing and trajectory-aware verification, they rarely provide a unified account of where risks enter, how they elicit unsafe behavior, which harms they target, and where supporting evidence appears during execution. We introduce AgentS4D, a sandboxed benchmark for lifecycle-wide runtime safety evaluation. Its four-dimensional runtime-safety framework uses six risk-entry sources, six induction strategies, and nine target harms to guide case construction, while seven lifecycle checkpoints organize post-run evidence. AgentS4D contains 328 risk-injected cases. We evaluate all 20 combinations of four harnesses (Hermes, OpenClaw, Claude Code, and Codex) and five LLM backends (GPT-5.5, Gemini 3.1 Pro, DeepSeek-V4-Pro, MiniMax-M3, and Qwen3.7-Plus) on these cases, yielding 6,560 runs. Overall, 4,461 runs (68.0%) trigger prespecified unsafe signals. Across the 20 configurations, the observed safety of an agent system varies with both its harness-LLM pairing and how risk is introduced. Agent systems exhibit markedly different safety behavior when the same induction strategy reaches them through different risk carriers. They also respond differently to the same target harm when it is realized through different carriers and strategies. Moreover, 4,344 runs (66.22% overall) are unsafe yet complete. Thus, task completion cannot establish runtime safety, and testing only one form of a risk can conceal important weaknesses. Evaluations should examine complete agent configurations across diverse risk conditions and retain evidence throughout execution.",
+      "authors": [
+        "Jiajun Zhou",
+        "Zhaoxuan Ke",
+        "Jihang Ye",
+        "Xuanze Chen",
+        "Shanqing Yu",
+        "Qi Xuan"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-29T15:55:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.27294v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "lifecycle-wide runtime safety evaluation of LLM workspace agents with trajectory-aware verification",
+      "llm_evidence_cn": "面向LLM工作区智能体的全生命周期运行时安全评测，含轨迹感知验证",
+      "llm_evidence": "面向LLM工作区智能体的全生命周期运行时安全评测，含轨迹感知验证",
+      "canonical_evidence": "面向LLM工作区智能体的全生命周期运行时安全评测，含轨迹感知验证",
+      "llm_tldr_en": "AgentS4D benchmarks runtime risks across the execution lifecycle of LLM-based workspace agents, providing a four-dimensional framework for where risks enter, how unsafe behavior is elicited, and where evidence appears.",
+      "llm_tldr_cn": "现有LLM工作区智能体安全评测多聚焦可执行安全测试与轨迹验证，但未统一刻画风险来源、诱发方式、危害对象与证据位置。为此提出AgentS4D，一个沙箱化基准，利用六种风险入口和六种诱导策略，在四维运行时安全框架下对执行生命周期进行系统评测。该基准覆盖状态、动作与副作用等信号，为轨迹级运行时安全验证提供统一、可复现的评估工具。",
+      "llm_tldr": "现有LLM工作区智能体安全评测多聚焦可执行安全测试与轨迹验证，但未统一刻画风险来源、诱发方式、危害对象与证据位置。为此提出AgentS4D，一个沙箱化基准，利用六种风险入口和六种诱导策略，在四维运行时安全框架下对执行生命周期进行系统评测。该基准覆盖状态、动作与副作用等信号，为轨迹级运行时安全验证提供统一、可复现的评估工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.27360v1",
+      "source": "arxiv",
+      "title": "SkillMentor: LLM Agent Self-Evolution via Learning Blind-Spot Diagnosis",
+      "abstract": "Agent self-evolution has primarily focused on learning how to act, while overlooking an equally important capability: learning to discover what an agent does not know. Existing approaches typically assume that failure discovery is given, focusing on how to repair failures once they are identified. We ask whether blind-spot diagnosis itself can be learned. We thus study diagnosis as an agent capability separate from execution, and exclude two alternative sources of progress: executor adaptation and human supervision. Under these constraints, performance cannot improve through executor updates or annotated examples, forcing all improvements to originate from the learned diagnostic capability. We propose SkillMentor, which trains a Mentor policy via reinforcement learning to generate diagnostic tasks, identify recurrent failure modes, and curate them into reusable corrective skills. Across AppWorld and BFCLv3, SkillMentor improves executor performance by an average of 44.2%. These results suggest that blind-spot diagnosis is a learnable capability, enabling self-evolution without updating executor weights or relying on human-curated data.",
+      "authors": [
+        "Xiaoyi Bao",
+        "Yuanzhen Xie",
+        "Yunzhi Tan",
+        "Jinghang Gu",
+        "Zhongqing Wang",
+        "Chu-Ren Huang",
+        "Bo Hu",
+        "Zang Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-29T18:13:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.27360v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "learns blind-spot diagnosis, detecting agent failures and unknown errors",
+      "llm_evidence_cn": "学习盲点诊断，检测智能体失败和未知错误",
+      "llm_evidence": "学习盲点诊断，检测智能体失败和未知错误",
+      "canonical_evidence": "学习盲点诊断，检测智能体失败和未知错误",
+      "llm_tldr_en": "SkillMentor trains a Mentor policy via reinforcement learning to diagnose agent blind spots, showing that learned diagnostic capability alone can drive self-evolution without executor adaptation or human supervision.",
+      "llm_tldr_cn": "智能体自我进化通常只关注学习如何行动，而忽略了发现自身盲点的能力。SkillMentor提出将盲点诊断本身作为一种可学习的能力，通过强化学习训练Mentor策略，并排除执行器更新和人类标注的干扰。实验结果表明，在这种约束下，仅靠改进诊断能力就能带来性能提升。这项工作揭示了错误检测能力在智能体学习中不可或缺的地位，为构建更可靠的智能体提供了新路径。",
+      "llm_tldr": "智能体自我进化通常只关注学习如何行动，而忽略了发现自身盲点的能力。SkillMentor提出将盲点诊断本身作为一种可学习的能力，通过强化学习训练Mentor策略，并排除执行器更新和人类标注的干扰。实验结果表明，在这种约束下，仅靠改进诊断能力就能带来性能提升。这项工作揭示了错误检测能力在智能体学习中不可或缺的地位，为构建更可靠的智能体提供了新路径。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.27443v1",
+      "source": "arxiv",
+      "title": "Leveraging Trajectory Graphs for Pre-Execution Error Diagnosis in Agentic LLM Systems",
+      "abstract": "Large Language Model~(LLM)-based agents have demonstrated exceptional performance across a wide range of complex interactive tasks. However, they often struggle with long-horizon interactive tasks common in domains, such as embodied AI. The complexity and vast action spaces in these settings lead to compounding errors, where a single suboptimal action can derail an entire trajectory, causing the agent to exhaust its limited step budget on inefficient or unrecoverable paths. To overcome this without costly fine-tuning, we draw inspiration from software debugging, where execution logs are analyzed to preemptively catch errors. We propose \\textit{Trajectory Graph Copilot}, a novel framework that acts as a ``copilot'' for LLM agents by diagnosing potential action errors before they are executed. At its core,\\textit{Graph Debugger} models historical trajectories as a probabilistic graph and uses a Graph Neural Network to identify sequential action patterns that frequently lead to failure. Functioning as a proactive diagnostic sandbox, our method provides early warnings on potentially flawed actions, prompting the agent to self-correct. This pre-action error diagnosis prevents costly mistakes, significantly enhancing the agent's ability to complete long-horizon tasks successfully. The extensive experiments on four benchmarks with three LLM agents demonstrate a $14.69\\%$ pass ratio improvement on average.",
+      "authors": [
+        "Xu Zheng",
+        "Zhuomin Chen",
+        "Chaohao Lin",
+        "Hua Wei",
+        "Haifeng Chen",
+        "Wei Cheng",
+        "Dongsheng Luo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-29T20:14:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.27443v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Pre-execution error diagnosis for LLM agents using trajectory graphs",
+      "llm_evidence_cn": "利用轨迹图对智能体轨迹进行执行前错误诊断",
+      "llm_evidence": "利用轨迹图对智能体轨迹进行执行前错误诊断",
+      "canonical_evidence": "利用轨迹图对智能体轨迹进行执行前错误诊断",
+      "llm_tldr_en": "Proposes Trajectory Graph Copilot, a framework that diagnoses errors in LLM agent trajectories before execution to prevent compounding errors and inefficient paths.",
+      "llm_tldr_cn": "针对大语言模型智能体在长时程交互中因单次次优动作导致整个轨迹失效的问题，提出轨迹图协程框架，在执行前基于轨迹图诊断潜在错误。该方法借鉴软件调试思想，无需昂贵微调即可预判并纠正错误路径。实验表明可降低复合错误发生，提升智能体在复杂任务中的成功率。该工作为智能体轨迹错误检测提供了有效且经济的新思路。",
+      "llm_tldr": "针对大语言模型智能体在长时程交互中因单次次优动作导致整个轨迹失效的问题，提出轨迹图协程框架，在执行前基于轨迹图诊断潜在错误。该方法借鉴软件调试思想，无需昂贵微调即可预判并纠正错误路径。实验表明可降低复合错误发生，提升智能体在复杂任务中的成功率。该工作为智能体轨迹错误检测提供了有效且经济的新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.27782v1",
+      "source": "arxiv",
+      "title": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
+      "abstract": "Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforcement learning (RL) provides a practical way to improve deployed policies using rollout data, existing methods either ignore failure data or exploit it only at the trajectory level, resulting in low learning efficiency and persistent errors. We propose **RedFlow**, a fine-grained offline RL framework that redirects failure experiences into action-level corrective supervision for flow-matching VLA policies. RedFlow consists of two key components: (1) a **Context-Aware Corrective Matching** mechanism that identifies failure-inducing actions and retrieves successful alternatives from similar contexts as corrective targets, and (2) an **Adaptive Redirection Objective** that jointly reinforces successful actions, suppresses undesirable ones, and redirects recoverable failures toward corrective targets. By converting both successful and failed experiences into dense supervision, RedFlow enables robust recovery learning from mixed-quality data. Experiments on the LIBERO benchmark and three real-world manipulation tasks show that RedFlow consistently outperforms state-of-the-art offline RL baselines, improving the real-world success rate from 56.7% to 74.7%. It also matches strong on-policy methods (PPO, GRPO, and DDPO) while requiring roughly an order of magnitude fewer training samples.",
+      "authors": [
+        "Zhengyang Yan",
+        "Junhao Li",
+        "Fangqi Zhu",
+        "Zijun Wang",
+        "Quanxin Shou",
+        "Yikun Miao",
+        "Xiaoyi Pang",
+        "Zicong Hong",
+        "Song Guo"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-30T07:14:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.27782v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Proposes offline RL to detect failure-inducing action-level errors and correct them in flow-matching VLA policies.",
+      "llm_evidence_cn": "提出离线强化学习方法，在流匹配VLA策略中检测导致失败的动作级错误并进行修正。",
+      "llm_evidence": "提出离线强化学习方法，在流匹配VLA策略中检测导致失败的动作级错误并进行修正。",
+      "canonical_evidence": "提出离线强化学习方法，在流匹配VLA策略中检测导致失败的动作级错误并进行修正。",
+      "llm_tldr_en": "RedFlow introduces a fine-grained offline RL framework that uses failure data to provide action-level corrective supervision, improving learning efficiency and reducing persistent errors in VLA policies.",
+      "llm_tldr_cn": "本文针对流匹配视觉-语言-动作（VLA）策略在部署中因分布偏移产生复合错误的问题，提出RedFlow离线强化学习框架。该方法通过上下文感知校正匹配机制识别失败诱因，并将失败经验转化为动作级修正监督，而非仅轨迹级利用。实验表明RedFlow能有效降低持续性错误，提升策略学习效率。该工作为机器人操作中智能体轨迹的错误检测与修正提供了新途径。",
+      "llm_tldr": "本文针对流匹配视觉-语言-动作（VLA）策略在部署中因分布偏移产生复合错误的问题，提出RedFlow离线强化学习框架。该方法通过上下文感知校正匹配机制识别失败诱因，并将失败经验转化为动作级修正监督，而非仅轨迹级利用。实验表明RedFlow能有效降低持续性错误，提升策略学习效率。该工作为机器人操作中智能体轨迹的错误检测与修正提供了新途径。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.28037v1",
+      "source": "arxiv",
+      "title": "ClawTrack: Towards Trace-Level Evaluation and Improvement of Real-World Autonomous Agents",
+      "abstract": "As LLM-based agents are deployed in complex, multi-step workflows, a critical evaluation gap has emerged: most existing benchmarks judge only final outcomes, unable to distinguish reliable reasoning from lucky success or attribute failures to specific process deficiencies, hindering attribution in long-horizon tasks.   In this work, we present ClawTrack, a dual-assessment benchmark that simultaneously measures what an agent achieves (Task Score) and how it achieves it (Process Score). ClawTrack comprises 320 tasks across 8 domains with 25+ deterministic mock services. A Process Grader scores each reasoning turn along four dimensions (goal alignment, efficiency, information utilization, and result verification), anchored by 12,541 task-specific rubric items. Evaluating 21 models over 16,000+ trials, we find that: (1) process scores effectively attribute success and failure to specific reasoning dimensions, filtering lucky passes invisible to outcome-only evaluation; (2) the four dimensions are complementary, with result verification as the systematic bottleneck; (3) the framework is robust to evaluator choice across different judge LLMs; and (4) process-based trajectory filtering yields consistent post-training improvements across model scales.",
+      "authors": [
+        "Xingjian Wu",
+        "Xuhang Zhu",
+        "Xingchen Liu",
+        "Junlin Liu",
+        "Jianing Wang",
+        "Linsen Guo",
+        "Xiaoyu Li",
+        "Xuezhi Cao",
+        "Xunliang Cai"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-30T11:18:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.28037v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Trace-level process grading detects trajectory deficiencies",
+      "llm_evidence_cn": "轨迹级过程评分识别流程缺陷",
+      "llm_evidence": "轨迹级过程评分识别流程缺陷",
+      "canonical_evidence": "轨迹级过程评分识别流程缺陷",
+      "llm_tldr_en": "ClawTrack is a dual-assessment benchmark that evaluates both what an agent achieves and how it achieves it, scoring each reasoning turn on goal alignment, efficiency, information utilization and result verification, enabling attribution of failures to specific process deficiencies.",
+      "llm_tldr_cn": "现有基准多只评估最终结果，难以区分可靠推理与幸运成功，也无法定位失败原因。ClawTrack 提出双评估基准，同时衡量任务得分与过程得分，包含 8 个领域 320 个任务，并用 Process Grader 从目标对齐、效率、信息利用和结果验证四个维度逐轮评分。该方法有助于发现轨迹中的过程缺陷，是智能体轨迹错误检测的直接工具。",
+      "llm_tldr": "现有基准多只评估最终结果，难以区分可靠推理与幸运成功，也无法定位失败原因。ClawTrack 提出双评估基准，同时衡量任务得分与过程得分，包含 8 个领域 320 个任务，并用 Process Grader 从目标对齐、效率、信息利用和结果验证四个维度逐轮评分。该方法有助于发现轨迹中的过程缺陷，是智能体轨迹错误检测的直接工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.28609v1",
+      "source": "arxiv",
+      "title": "OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models",
+      "abstract": "Computer-using agents (CUAs) are advancing rapidly across the digital world. A CUA trajectory records the agent's actions, states, and reasoning. Verifying whether it fulfilled the task instruction is central to CUA evaluation, data curation, and reinforcement learning. Neither human-written verifiers nor human annotators can provide such verification at scale, so the field increasingly turns to vision-language models (VLMs) as judges of CUA trajectories. But a fundamental question has long gone unexamined: are these VLM judges reliable enough? To study it systematically, we introduce OSReward, a realistic, high-quality benchmark that evaluates VLM judges on CUA trajectories. The trajectories come from diverse agent backbones executing human-verified instructions across platforms, then rigorously labeled with ground-truth verdicts through multi-stage human annotation. Building on it, we derive OSReward-Hard, a challenge set concentrating genuinely hard cases, and OSReward-Multi for fine-grained efficiency and alignment scoring. The most comprehensive evaluation of VLM judges to date finds even state-of-the-art models fall short of an ideal judge, sharing a systematic leniency bias that mislabels failed runs as successes. The few reliable enough to trust are too expensive to run at scale, while affordable open models trail far behind. To close this gap, we construct and release OS-Shepherd-100K, an open corpus of reasoning-annotated trajectory judgments for the CUA community. On it, we train OS-Shepherd (9B and 35B), open reward models that supply low-cost, stable, and reliable reward signals, matching commercial judges at 30-60% lower cost than the frontier. Extensive analyses further inform the design of reliable CUA reward at scale. Our code, benchmark, dataset, and model checkpoints are available at https://os-copilot.github.io/OSReward-Home/.",
+      "authors": [
+        "Qiushi Sun",
+        "Kanzhi Cheng",
+        "Yian Wang",
+        "Bowen Yang",
+        "Hang Yan",
+        "Liheng Chen",
+        "Fangzhi Xu",
+        "Zichen Ding",
+        "Nuo Chen",
+        "Jialin Cao",
+        "Xingdong Gong",
+        "Zehao Li",
+        "Kaiming Jin",
+        "Xinfeng Yuan",
+        "Zhoumianze Liu",
+        "Jingyang Gong",
+        "Zhangyue Yin",
+        "Jiahui Gao",
+        "Zhiyong Wu",
+        "Tianbao Xie",
+        "Jianbing Zhang",
+        "Ben Kao",
+        "Lingpeng Kong"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.CV"
+      ],
+      "published": "2026-07-30T17:57:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.28609v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "evaluates VLM judges for verifying correctness of CUA trajectories",
+      "llm_evidence_cn": "评估视觉语言模型判断器对计算机使用智能体轨迹正确性的验证",
+      "llm_evidence": "评估视觉语言模型判断器对计算机使用智能体轨迹正确性的验证",
+      "canonical_evidence": "评估视觉语言模型判断器对计算机使用智能体轨迹正确性的验证",
+      "llm_tldr_en": "Introduces OSReward benchmark to evaluate VLM judges on verifying whether computer-using agent trajectories fulfill task instructions, addressing reliability of trajectory-level error detection.",
+      "llm_tldr_cn": "计算机使用智能体轨迹验证是其评测、数据整理和强化学习的关键，但视觉语言模型裁判的可靠性未被系统检验。本文提出OSReward基准，在多样智能体骨干生成的轨迹上评估VLM裁判的验证能力。工作为轨迹级错误检测与奖励建模建立了标准化评测方法。",
+      "llm_tldr": "计算机使用智能体轨迹验证是其评测、数据整理和强化学习的关键，但视觉语言模型裁判的可靠性未被系统检验。本文提出OSReward基准，在多样智能体骨干生成的轨迹上评估VLM裁判的验证能力。工作为轨迹级错误检测与奖励建模建立了标准化评测方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.26314v1",
+      "source": "arxiv",
+      "title": "StealthBench: Measuring Operational Stealth in Autonomous Offensive-Security Agents",
+      "abstract": "Stealth, the discipline of achieving an objective without revealing your presence, capabilities, or collected intelligence, is what separates sophisticated operators from detectable ones. Elite security researchers and advanced persistent threats achieve their objectives unnoticed; autonomous agents increasingly inherit the same offensive tasks, but do they inherit the tradecraft? We introduce StealthBench,a benchmark that measures operational stealth in autonomous offensive-security agents across six operational security (OPSEC) dimensions. We extract 11 hand-verified OPSEC incidents from real bug-bounty and red-team trajectories, expanded into 14 dockerized task scenarios, where agents, despite finding real vulnerabilities, committed stealth failures inconsistent with standard operational tradecraft: embedding credentials in public uploads, deleting production resources to prove access, force-adding uninvolved users to demonstrate a race condition.   We evaluate agent trajectories using a 3-model large language model (LLM) judge panel with majority-vote aggregation, measuring safe success rate (solved and stealthy), Stealth@Solve (tradecraft quality among successful solves), and reckless solve rate (solved but cover blown). Our results show that no model exceeds 54% safe success rate (the compound metric requiring both task completion and stealth), confirming that OPSEC failures are systematic across model families. We release StealthBench as a public benchmark to support both the development of stealth-aware agents and automated OPSEC monitoring for autonomous offensive-security deployments. The interactive leaderboard, evaluation harness, and dataset are available at https://stealthbench.com.",
+      "authors": [
+        "Ads Dawson",
+        "Adrian Wood"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-07-28T22:23:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.26314v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "extracts OPSEC incidents from real red-team trajectories as errors in autonomous agent behavior",
+      "llm_evidence_cn": "从真实红队轨迹中提取OPSEC违规事件作为自主智能体行为错误",
+      "llm_evidence": "从真实红队轨迹中提取OPSEC违规事件作为自主智能体行为错误",
+      "canonical_evidence": "从真实红队轨迹中提取OPSEC违规事件作为自主智能体行为错误",
+      "llm_tldr_en": "StealthBench measures operational stealth of autonomous offensive-security agents, extracting 11 hand-verified OPSEC incidents from real trajectories and scaling to 14 dockerized tasks to reveal where agents commit stealth errors.",
+      "llm_tldr_cn": "进攻性安全智能体虽能发现漏洞，但常在操作隐蔽性上犯错并暴露自身踪迹，现有评测缺乏对此类操作安全失误的系统度量。为此提出StealthBench，从真实bug bounty与红队轨迹中提取11个经人工核实的OPSEC违规事件，扩展为14个docker化任务场景，从六维操作安全框架评估智能体是否在执行中暴露存在。结果表明智能体并未继承顶尖研究者的隐蔽技艺，为安全智能体轨迹错误检测提供了新基准。",
+      "llm_tldr": "进攻性安全智能体虽能发现漏洞，但常在操作隐蔽性上犯错并暴露自身踪迹，现有评测缺乏对此类操作安全失误的系统度量。为此提出StealthBench，从真实bug bounty与红队轨迹中提取11个经人工核实的OPSEC违规事件，扩展为14个docker化任务场景，从六维操作安全框架评估智能体是否在执行中暴露存在。结果表明智能体并未继承顶尖研究者的隐蔽技艺，为安全智能体轨迹错误检测提供了新基准。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.27881v1",
+      "source": "arxiv",
+      "title": "RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents",
+      "abstract": "Vision-Language-Action (VLA) models have attracted growing interest as a scalable approach to robotic manipulation. While these models are effective action predictors, deploying them as robotic agents exposes critical gaps: no mechanism for failure recovery, inconsistent execution over long horizons, and limited robustness to shifts in observations, tasks, or embodiments. Existing solutions address these limitations individually through model retraining or environment-specific modules, yet what is needed is a general framework that systematically transforms a pretrained VLA into a robotic agent. We present RoboBRIDGE, a modular framework that provides an orchestration layer over five coordinated modules, namely Monitor, Perceptor, Planner, Controller, and Robot Interface, to compose robust robotic agents from off-the-shelf components, including pretrained VLAs. The Monitor pairs rapid failure detection with hierarchical recovery to correct errors before they cascade. When the environment diverges from the current plan, the Planner triggers replanning while the Perceptor updates scene understanding asynchronously, avoiding execution stalls. Within the Controller, primitive skill fine-tuning factors manipulation into domain-invariant primitives with dedicated LoRA adapters, reducing sensitivity to domain shifts when a VLA is used. Across LIBERO, RoboCasa, and real-world case studies spanning multiple robot platforms and VLA backbones, RoboBRIDGE consistently outperforms both standalone policies and prior augmented VLA deployments. These results suggest that reliable robotic agency does not arise from scaling action predictors alone, but from structured orchestration around them.",
+      "authors": [
+        "Sihyung Yoon",
+        "Minjong Yoo",
+        "Sanghyun Ahn",
+        "Seojeong Choi",
+        "Honguk Woo"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-30T08:55:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.27881v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Monitor module and failure recovery in robotic agent framework, relevant to monitoring agent behavior for errors",
+      "llm_evidence_cn": "机器人智能体框架中的监控模块与失败恢复，与智能体行为错误监测相关",
+      "llm_evidence": "机器人智能体框架中的监控模块与失败恢复，与智能体行为错误监测相关",
+      "canonical_evidence": "机器人智能体框架中的监控模块与失败恢复，与智能体行为错误监测相关",
+      "llm_tldr_en": "Presents RoboBRIDGE, a modular framework with Monitor, Perceptor, Planner modules that enhances VLA models with failure recovery and robust long-horizon execution, relevant to agent behavior monitoring.",
+      "llm_tldr_cn": "针对视觉-语言-动作模型部署为机器人智能体时缺乏失败恢复与长程鲁棒性的问题，提出RoboBRIDGE模块化框架，集成监控、感知、规划等五个模块，将预训练VLA系统性地转变为可实际部署的智能体。该框架通过监控模块实现失败恢复与行为调整，提高跨任务、跨场景的鲁棒性。实验表明其能有效弥补VLA在真实世界中的不足。对智能体行为监测与错误处理具有借鉴意义。",
+      "llm_tldr": "针对视觉-语言-动作模型部署为机器人智能体时缺乏失败恢复与长程鲁棒性的问题，提出RoboBRIDGE模块化框架，集成监控、感知、规划等五个模块，将预训练VLA系统性地转变为可实际部署的智能体。该框架通过监控模块实现失败恢复与行为调整，提高跨任务、跨场景的鲁棒性。实验表明其能有效弥补VLA在真实世界中的不足。对智能体行为监测与错误处理具有借鉴意义。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
