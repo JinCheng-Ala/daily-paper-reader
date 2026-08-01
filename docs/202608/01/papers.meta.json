@@ -1,0 +1,69 @@
+{
+  "label": "2026-08-01",
+  "date": "2026-08-01",
+  "generated_at": "2026-08-01T20:14:55",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202608/01/2607.25877v1-runtime-uncertainty-monitoring-for-llm-based-multi-agent-systems-using-bayesian-networks",
+      "section": "deep",
+      "title_en": "Runtime Uncertainty Monitoring for LLM-Based Multi-Agent Systems Using Bayesian Networks",
+      "authors": "Bart Custers, Koorosh Aslansefat",
+      "date": "2026-07-28",
+      "pdf": "https://arxiv.org/pdf/2607.25877v1",
+      "score": "8.0",
+      "evidence": "使用贝叶斯网络对LLM多智能体输出进行运行时不确定性监控",
+      "tldr": "针对LLM多智能体系统在高风险精算工作流中因概率性输出和智能体间依赖导致的不确定性问题，提出了一种经中心枢纽协调的专业智能体框架。该方法利用token级log概率并转换为校准的任务级置信度，再通过贝叶斯网络传播不确定性。实验表明该框架在保持基线精算性能的同时，提供了工作流稳定性与运行时不确定性的额外洞察，为高风险决策支持提供了更可靠的量化手段。",
+      "tags": "query:agent-error",
+      "abstract_en": "This paper investigates how multi-agent systems (MAS)-based on large language models (LLMs) can support actuarial risk modelling, with a particular focus on uncertainty quantification. Actuarial workflows represent a high-stakes decision-support setting where unreliable outputs may lead to incorrect risk assessment, unfair pricing, and regulatory non-compliance. To address uncertainty introduced by the probabilistic nature of LLMs and dependencies between agents, a multi-agent framework is proposed in which specialised agents perform data preparation, modelling, review, and explanation tasks under a central hub. The main contribution is a novel approach to uncertainty propagation using token-level log-probabilities and a Bayesian Network. Importantly, log probabilities are not treated as direct probabilities of correctness or task success. Instead, length-normalised log-probability summaries are transformed into calibrated task-level confidence estimates before incorporation into the Bayesian Network. Results show that the framework reproduces baseline actuarial performance while providing additional insight into workflow stability and runtime uncertainty propagation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/01/2607.27283v1-benchmarking-the-residual-what-long-horizon-evaluations-add-beyond-matched-short-task-performance",
+      "section": "quick",
+      "title_en": "Benchmarking the Residual: What Long-Horizon Evaluations Add Beyond Matched Short-Task Performance",
+      "authors": "Chao Peng, Zhiheng Lyu, Peijie Dong, Hande Dong, Qiang Lin",
+      "date": "2026-07-29",
+      "pdf": "https://arxiv.org/pdf/2607.27283v1",
+      "score": "7.0",
+      "evidence": "分析长时程智能体任务中轨迹导致的性能退化和错误累积",
+      "tldr": "长期基准常显示智能体随任务变长而失败加剧，但仅凭现象无法区分错误累积、单步难度增加还是上下文退化。本文提出“horizon residual”：利用同一配置下短阶段表现预测完整任务成功率，并与实际结果取对数比。该指标能够量化完整轨迹相对基线的偏差，从而验证是否存在真正的长期失败。研究强调基准需预先指定阶段、信息与预算，并配合针对性实验揭示退化机理。",
+      "tags": "query:agent-error",
+      "abstract_en": "Long-horizon benchmarks often show that agents fail more as tasks become longer. This observation is useful for deployment, but it does not by itself explain why failure occurs. More stages create more opportunities for ordinary errors to compound; longer tasks may also contain harder individual decisions or become harder as conversation history, tool outputs, and environment changes accumulate. We use trajectory-induced degradation to mean this last possibility: earlier execution makes later work harder. When the harmful accumulation is specifically the text visible to the model, it is often called context rot. In this position paper, we argue that to claim a \"long-horizon failure\", benchmarks must compare actual full-task success against a baseline prediction built from short, individual stages. We call the log-ratio between this prediction and actual success the horizon residual. The comparison must use the same agent configuration and specify in advance how stages, checkpoints, information, and budgets will be chosen. The residual shows that the full rollout differs from the chosen baseline; targeted experiments are still needed to explain why.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/01/2607.28399v1-why-are-gui-agents-correct-but-late-decode-on-the-decision-time-critical-path-tested-with-pre-compiled-policy-trees",
+      "section": "quick",
+      "title_en": "Why Are GUI Agents Correct but Late? Decode on the Decision-Time Critical Path, Tested with Pre-Compiled Policy Trees",
+      "authors": "Zihan Dong, Rui Qian, Qishi Zhan, Dongshen Peng, Kaixin Li, Yu Li",
+      "date": "2026-07-30",
+      "pdf": "https://arxiv.org/pdf/2607.28399v1",
+      "score": "7.0",
+      "evidence": "分析GUI智能体轨迹中一类具体错误（动作正确但太迟），并提出AAPT加以预防，为检测和规避时间性动作错误提供方法。",
+      "tldr": "图形界面代理常因决策关键路径上的自回归解码延迟，在瞬态事件窗口关闭后才给出正确动作。为此提出AAPT，用空闲期预编译带守卫与截止时间的条件策略树，事件发生时由轻量观察者匹配分支并立即执行，避免实时解码。配对试验成功率由0.50升至0.79且无错误动作，独立模型126对试验也显著复现。工作揭示了分支路由是主要瓶颈，并表明AAPT适用于候选动作可预先枚举的场景。",
+      "tags": "query:agent-error",
+      "abstract_en": "Computer-use agents often fail on transient GUI events because they produce the correct action only after the relevant window has already closed. We identify the main cause as expensive autoregressive decoding on the decision-time critical path. We propose Adaptive Anticipatory Policy Trees (AAPT), which eliminates this delay without modifying the underlying model. During idle screen periods, the same frozen multimodal model constructs a bounded conditional policy tree with observable guards, pre-authorized actions, and branch-specific deadlines. The tree is sized to cover the model's own decoding latency. When an event occurs, a lightweight observer matches change-gated frames to a prepared branch and immediately executes the corresponding action without generating new text. In paired trials with pre-registered endpoints and exact McNemar tests, AAPT improves the success rate from 0.50 to 0.79 within a contested decision window ($p=1.8\\times10^{-3}$), while producing no incorrect actions. Both open-loop and predict-and-replan baselines achieve zero success because they still decode during execution. A preparation-time sweep shows that the gain emerges where the latency-based tree-sizing rule predicts, and ablations reveal three key requirements: fast observer decoding, valid tree planning, and accurate branch routing. A pre-registered oracle probe rejects our initial hypothesis and instead points to branch routing as the causal bottleneck. We further reproduce the effect on an independent general-purpose multimodal model over 126 paired trials ($p=4.9\\times10^{-13}$). On an external benchmark, AAPT matches the overall performance of a reactive baseline, although the two methods exhibit complementary strengths. Together, these results suggest that AAPT performs best when candidate actions can be enumerated in advance, whereas reactive execution remains stronger when they cannot.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/01/2607.28527v1-manta-multi-agent-network-topology-adaptation-for-self-evolving-multi-agent-systems",
+      "section": "quick",
+      "title_en": "MANTA: Multi-Agent Network Topology Adaptation for Self-Evolving Multi-Agent Systems",
+      "authors": "Mao-xun Huang, Jerry Wang, Yi-Cheng Lai, Zhengxin Zhang, Claire Cardie, Hen-Hsen Huang",
+      "date": "2026-07-30",
+      "pdf": "https://arxiv.org/pdf/2607.28527v1",
+      "score": "6.0",
+      "evidence": "监控协作轨迹以检测多智能体组织不足并自适应调整拓扑",
+      "tldr": "现有大模型多智能体系统通常将通信拓扑视为固定设计或离线优化目标，缺乏推理时的自适应能力。MANTA框架提出在推理时让通信结构自我进化：先从历史经验初始化任务条件拓扑，再在部署中监测协作轨迹并施加有界结构调整，可修改角色、链接、顺序等，同时保留任务接口与预算。在五个基准上取得平均74.0分，超过最强基线5.8个百分点，并在PlanCraft上最优。表明推理时自改进能扩展到协作架构本身，为自适应多智能体系统提供新方向。",
+      "tags": "query:agent-error",
+      "abstract_en": "Large language model-based multi-agent systems improve complex problem solving through task decomposition, agent specialization, information exchange, and intermediate validation. However, existing systems typically treat communication topology as a fixed design choice or an offline optimization target. We introduce MANTA, a framework for Multi-Agent Network Topology Adaptation that enables communication structures to self-evolve at inference time. Before execution, MANTA initializes a task-conditioned topology from prior structural experience. During deployment, it monitors collaboration traces and applies bounded structural updates when the current organization becomes insufficient. These updates can modify agent roles, communication links, execution order, information visibility, and validation pathways while preserving the task interface and agent budget. We evaluate MANTA against representative single-agent and multi-agent baselines on five benchmarks spanning information seeking, tool use, planning, workflow execution, and mathematical reasoning. MANTA achieves the highest average score of 74.0, outperforming the strongest baseline by 5.8 percentage points and obtaining the best result on PlanCraft. These results show that inference-time self-improvement can extend to the architecture of collaboration itself.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
