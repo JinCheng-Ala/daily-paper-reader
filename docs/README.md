@@ -6,34 +6,28 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-01
-- 运行时间：2026-08-01 20:14:48 UTC
+- 最新运行日期：2026-08-02
+- 运行时间：2026-08-02 20:54:50 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：1
-- 速读区：3
+- 本次总论文数：1
+- 精读区：0
+- 速读区：1
 
 ### 今日简报（AI）
-今日聚焦4篇多智能体与评估论文，精读重点为基于贝叶斯网络的运行时不确定性监控。  
-最值得看：贝叶斯网络为多智能体不确定性提供量化框架，而GUI代理“正确但延迟”的决策路径分析直击部署痛点。  
-建议优先精读这两篇，它们分别对应可靠性监控与效率问题的可操作改进方向。
-- 详情：[/202608/01/README](/202608/01/README)
+今日共速读1篇论文，重点聚焦多智能体系统的信息流安全。
+
+最值得关注的是《SafeFlow》提出的语义信息流控制方法，用于阻断恶意传播，综合评分6.0。
+
+建议对多智能体安全感兴趣者可深入研读该文，后续可关注实际部署与对抗场景验证。
+- 详情：[/202608/02/README](/202608/02/README)
 
 ### 精读区论文标签
-1. [Runtime Uncertainty Monitoring for LLM-Based Multi-Agent Systems Using Bayesian Networks](/202608/01/2607.25877v1-runtime-uncertainty-monitoring-for-llm-based-multi-agent-systems-using-bayesian-networks)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：使用贝叶斯网络对LLM多智能体输出进行运行时不确定性监控
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Benchmarking the Residual: What Long-Horizon Evaluations Add Beyond Matched Short-Task Performance](/202608/01/2607.27283v1-benchmarking-the-residual-what-long-horizon-evaluations-add-beyond-matched-short-task-performance)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：分析长时程智能体任务中轨迹导致的性能退化和错误累积
-2. [Why Are GUI Agents Correct but Late? Decode on the Decision-Time Critical Path, Tested with Pre-Compiled Policy Trees](/202608/01/2607.28399v1-why-are-gui-agents-correct-but-late-decode-on-the-decision-time-critical-path-tested-with-pre-compiled-policy-trees)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：分析GUI智能体轨迹中一类具体错误（动作正确但太迟），并提出AAPT加以预防，为检测和规避时间性动作错误提供方法。
-3. [MANTA: Multi-Agent Network Topology Adaptation for Self-Evolving Multi-Agent Systems](/202608/01/2607.28527v1-manta-multi-agent-network-topology-adaptation-for-self-evolving-multi-agent-systems)  
+1. [SafeFlow: Semantic Information-Flow Control for Blocking Malicious Propagation in Multi-Agent Systems](/202608/02/2607.25255v1-safeflow-semantic-information-flow-control-for-blocking-malicious-propagation-in-multi-agent-systems)  
    标签：评分：6.0/10、query:agent-error
-   evidence：监控协作轨迹以检测多智能体组织不足并自适应调整拓扑
+   evidence：检测并阻断多智能体轨迹中的恶意意图传播
 
 
 <div class="dpr-home-promo-card">

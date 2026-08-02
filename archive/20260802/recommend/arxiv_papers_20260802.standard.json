@@ -1,0 +1,65 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-02T20:54:01.560760+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.25255v1",
+      "source": "arxiv",
+      "title": "SafeFlow: Semantic Information-Flow Control for Blocking Malicious Propagation in Multi-Agent Systems",
+      "abstract": "Multi-agent systems improve capability through task decomposition and role specialization, but these same mechanisms introduce an important safety blind spot: a harmful objective can be fragmented into locally plausible subtasks, allowing malicious intent to evade detection by any single agent. This is a growing social-impact challenge: systems handling sensitive information or consequential tools can turn routine delegation into unauthorized disclosure or unsafe action. We argue that this failure mode is better understood as a semantic information-flow problem than as a single-turn prompt classification task. To address this, we propose SafeFlow, a defense framework for multi-agent systems that formalizes malicious cross-agent propagation as a semantic information-flow problem. SafeFlow attaches structured semantic taints to root requests, propagates them through a dynamic collaboration graph, and performs workflow-level validation to reconstruct the global risk context before irreversible actions are committed. Evaluated on four benchmarks spanning prompt injection, jailbreak-based unsafe tool use, risky code execution, and harmful web-agent behavior, SafeFlow reduces attack success rates compared to undefended baselines and external defenses while retaining high benign task completion and a high paired safe--harm success rate. Our findings show that multi-agent systems still lack mechanisms for preserving risk semantics across delegation boundaries. This gap can turn routine delegation into privacy harms or unsafe actions that affect people and organizations. SafeFlow keeps this risk visible throughout the workflow, before it results in harm.",
+      "authors": [
+        "Haowen Dai",
+        "Zonghao Ying",
+        "Wenfeng Li",
+        "Xiangfan Wu",
+        "Yisong Xiao",
+        "Tianyuan Zhang",
+        "Jiaye Lin",
+        "Lei Wei",
+        "Guangyuan Dong",
+        "Xitong Ling",
+        "Xixun Lin",
+        "Quanchen Zou",
+        "Xiangzheng Zhang"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.CR"
+      ],
+      "published": "2026-07-28T03:55:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.25255v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "detecting and blocking malicious intent propagation in multi-agent trajectories",
+      "llm_evidence_cn": "检测并阻断多智能体轨迹中的恶意意图传播",
+      "llm_evidence": "检测并阻断多智能体轨迹中的恶意意图传播",
+      "canonical_evidence": "检测并阻断多智能体轨迹中的恶意意图传播",
+      "llm_tldr_en": "Proposes SafeFlow, a defense framework that formalizes malicious cross-agent propagation as semantic information-flow control to block fragmented malicious subtasks. It addresses the safety blind spot of task decomposition in multi-agent systems.",
+      "llm_tldr_cn": "多智能体系统通过任务分解与角色分工提升能力，但恶意目标可能被分解为局部合理的子任务，从而绕过单一智能体的检测。SafeFlow 将这种失效模式视为语义信息流问题，而非简单的单轮提示分类任务。它提出一种防御框架，形式化地控制跨智能体的恶意传播。该工作有助于保护处理敏感信息或重要工具的多智能体系统，防止未授权披露或危险动作。",
+      "llm_tldr": "多智能体系统通过任务分解与角色分工提升能力，但恶意目标可能被分解为局部合理的子任务，从而绕过单一智能体的检测。SafeFlow 将这种失效模式视为语义信息流问题，而非简单的单轮提示分类任务。它提出一种防御框架，形式化地控制跨智能体的恶意传播。该工作有助于保护处理敏感信息或重要工具的多智能体系统，防止未授权披露或危险动作。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

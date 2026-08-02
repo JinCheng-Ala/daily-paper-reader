@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-08-02 <!--dpr-date:20260802-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/02/2607.25255v1-safeflow-semantic-information-flow-control-for-blocking-malicious-propagation-in-multi-agent-systems" data-sidebar-item="{&quot;title&quot;: &quot;SafeFlow: Semantic Information-Flow Control for Blocking Malicious Propagation in Multi-Agent Systems&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.25255v1-safeflow-semantic-information-flow-control-for-blocking-malicious-propagation-in-multi-agent-systems&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;agent-error&quot;}], &quot;evidence&quot;: &quot;检测并阻断多智能体轨迹中的恶意意图传播&quot;}">SafeFlow: Semantic Information-Flow Control for Blocking Malicious Propagation in Multi-Agent Systems</a>
   * 2026-08-01 <!--dpr-date:20260801-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/01/2607.25877v1-runtime-uncertainty-monitoring-for-llm-based-multi-agent-systems-using-bayesian-networks" data-sidebar-item="{&quot;title&quot;: &quot;Runtime Uncertainty Monitoring for LLM-Based Multi-Agent Systems Using Bayesian Networks&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.25877v1-runtime-uncertainty-monitoring-for-llm-based-multi-agent-systems-using-bayesian-networks&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;agent-error&quot;}], &quot;evidence&quot;: &quot;使用贝叶斯网络对LLM多智能体输出进行运行时不确定性监控&quot;}">Runtime Uncertainty Monitoring for LLM-Based Multi-Agent Systems Using Bayesian Networks</a>
