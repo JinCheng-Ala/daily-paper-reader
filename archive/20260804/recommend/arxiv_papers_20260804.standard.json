@@ -1,0 +1,349 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-04T21:57:55.087947+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2608.01558v1",
+      "source": "arxiv",
+      "title": "Securing Agentic AI: From Per-Action Checks to Trajectory Assurance",
+      "abstract": "Autonomous agents are increasingly used to execute consequential tasks in environments governed by operational constraints, organizational policies, regulatory requirements, and technical standards. Their safety is therefore determined not by the correctness of individual actions, but by whether their overall behavior remains consistent with the rules and invariants of the systems in which they operate. As large language model (LLM)-based agents become more autonomous and increasingly delegate tasks across organizational boundaries, securing them evolves from a single challenge into a broad and interconnected landscape spanning the entire agentic stack. At the single-agent level, untrusted inputs through prompts, memory, retrieved knowledge, and tool interfaces create attack surfaces. In multi-agent settings, delegation and communication introduce challenges related to identity, trust, capability control, and decision transparency, while the underlying model routing and execution control plane remains vulnerable to manipulation and to unverified model provenance. Perhaps the most fundamental challenge is behavioral containment: sequences of individually permissible actions may collectively violate system-level constraints and safety invariants. At the broader level, supply-chain integrity, provenance, accountability, and end-to-end observability remain largely open problems. A common principle unifies these directions: security must become a verifiable property of the architectures, protocols, and runtimes that govern agent behavior, rather than an optional layer of guidance. Charting these challenges provides a roadmap toward trustworthy autonomous agent deployment.",
+      "authors": [
+        "Alireza Lotfi",
+        "Subangkar Karmaker Shanto",
+        "Imtiaz Karim",
+        "Elisa Bertino"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CR",
+        "cs.MA"
+      ],
+      "published": "2026-08-03T00:28:49+00:00",
+      "link": "https://arxiv.org/pdf/2608.01558v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Directly addresses monitoring agent trajectories for rule violations and behavioral errors",
+      "llm_evidence_cn": "直接面向智能体轨迹的规则违规与行为错误监测",
+      "llm_evidence": "直接面向智能体轨迹的规则违规与行为错误监测",
+      "canonical_evidence": "直接面向智能体轨迹的规则违规与行为错误监测",
+      "llm_tldr_en": "Security of autonomous agents depends on whole-trajectory consistency with rules, not just individual action correctness. The paper proposes shifting from per-action checks to trajectory assurance, monitoring agent behavior against constraints and invariants across the agentic stack. It provides a systematic framework for detecting violations and errors in agent trajectories.",
+      "llm_tldr_cn": "随着大语言模型智能体在执行任务时越来越自主，安全由整体行为是否遵守系统规则决定，而非单个动作。论文提出从逐动作检查转向轨迹保证的视角，在单个和跨组织层级上监测智能体行为是否与约束和不变量一致。这为检测轨迹中的违规和错误提供了系统性框架，是保障智能体安全的重要基础设施。",
+      "llm_tldr": "随着大语言模型智能体在执行任务时越来越自主，安全由整体行为是否遵守系统规则决定，而非单个动作。论文提出从逐动作检查转向轨迹保证的视角，在单个和跨组织层级上监测智能体行为是否与约束和不变量一致。这为检测轨迹中的违规和错误提供了系统性框架，是保障智能体安全的重要基础设施。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.02011v1",
+      "source": "arxiv",
+      "title": "Before Reasoning Fails: Pre-Evidence Procedural Failures in Agentic RAG",
+      "abstract": "Agentic retrieval-augmented generation (RAG) systems can fail before evidence-conditioned reasoning is tested: an agent may retrieve candidate snippets but finalize without inspecting them. We study this failure mode as a procedural property of the agent trajectory, decomposing wrong answers into pre-evidence discipline failures and post-gold-read failures using saved tool-call traces, retrieved evidence, read passages, and final answers. Across 12,000 paired trajectories on HotpotQA, 2WikiMultiHopQA, and MuSiQue, the two failure types are largely non-redundant: the both-trigger rate is in [11.2%, 13.1%] across regex and spaCy entity extractors. We then evaluate Read-Gate, a minimal runtime invariant requiring an agent to read after search and before finalization. Forced reading improves LLM-Acc by 14.9-19.9 points on trajectories that would otherwise skip reading and by 3.2-9.4 points on full minimal-reasoning cells. Additional diagnostics show that larger hidden thinking budgets do not necessarily increase evidence inspection. Together, these results indicate that evidence-gathering should be evaluated as a trajectory-level control problem, separately from answer-side reasoning.",
+      "authors": [
+        "Daeyoung Roh",
+        "Donghee Han"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-03T10:09:19+00:00",
+      "link": "https://arxiv.org/pdf/2608.02011v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "decomposes wrong agentic-RAG answers into pre-evidence procedural failures using saved tool-call traces",
+      "llm_evidence_cn": "利用工具调用轨迹将智能体RAG错误答案分解为证据前程序性失败",
+      "llm_evidence": "利用工具调用轨迹将智能体RAG错误答案分解为证据前程序性失败",
+      "canonical_evidence": "利用工具调用轨迹将智能体RAG错误答案分解为证据前程序性失败",
+      "llm_tldr_en": "Proposes analyzing agentic RAG trajectories to detect pre-evidence procedural failures and evaluates Read-Gate, a runtime invariant that forces reading after search, directly addressing error detection in agent trajectories.",
+      "llm_tldr_cn": "该文指出智能体RAG系统可能在检索后不查看证据就直接给出答案，这类失败是轨迹层面的程序性问题。作者基于保存的工具调用痕迹将错误答案分解为证据前纪律失败与证据后失败，并评估了Read-Gate这一最小运行时不变量，要求智能体在检索后、作答前必须阅读证据。实验覆盖12000条轨迹、多个数据集，发现两类失败基本不冗余，Read-Gate能有效减少过早作答错误。该工作直接展示了如何从智能体轨迹中检测并干预程序性错误。",
+      "llm_tldr": "该文指出智能体RAG系统可能在检索后不查看证据就直接给出答案，这类失败是轨迹层面的程序性问题。作者基于保存的工具调用痕迹将错误答案分解为证据前纪律失败与证据后失败，并评估了Read-Gate这一最小运行时不变量，要求智能体在检索后、作答前必须阅读证据。实验覆盖12000条轨迹、多个数据集，发现两类失败基本不冗余，Read-Gate能有效减少过早作答错误。该工作直接展示了如何从智能体轨迹中检测并干预程序性错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.01597v1",
+      "source": "arxiv",
+      "title": "HindSearch: Trajectory-Level Hindsight Critique for Search-Augmented Reinforcement Learning",
+      "abstract": "Search-augmented LM agents are typically trained with a binary exact-match reward, which throws away most of what a failed trajectory tells us about why it failed. We introduce HindSearch, a hindsight self-distillation procedure for GRPO: after each rollout, a frozen judge writes a short critique of every failed trajectory using the gold answer, and the critique supplies an auxiliary on-policy distillation signal on the student's search actions. On the standard seven-benchmark suite with Qwen2.5-3B-Instruct, HindSearch reaches 39.4% average EM, outperforming prior search-RL baselines. Removing the judge's access to the gold answer erases most of the gain, isolating hindsight as the source of the improvement.",
+      "authors": [
+        "Haowei Liu",
+        "Jiamian Wang",
+        "Hsin-Tai Wu",
+        "Zhiqiang Tao",
+        "Yi Fang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.IR"
+      ],
+      "published": "2026-08-03T02:06:29+00:00",
+      "link": "https://arxiv.org/pdf/2608.01597v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Uses a frozen judge to critique failed trajectories, identifying why they failed",
+      "llm_evidence_cn": "使用冻结裁判对失败轨迹进行批评，找出失败原因",
+      "llm_evidence": "使用冻结裁判对失败轨迹进行批评，找出失败原因",
+      "canonical_evidence": "使用冻结裁判对失败轨迹进行批评，找出失败原因",
+      "llm_tldr_en": "HindSearch uses a frozen judge to critique each failed trajectory, providing an auxiliary distillation signal to GRPO. It achieves 39.4% average EM on seven benchmarks, and removing gold-answer access erases most gains.",
+      "llm_tldr_cn": "现有搜索增强语言模型智能体通常使用二值精确匹配奖励进行训练，这丢弃了失败轨迹中丰富的错误信息。本文提出HindSearch，一种事后自我蒸馏方法，在GRPO每次采样后，让冻结的裁判基于黄金答案对失败轨迹撰写简短批评，并将批评作为学生搜索动作的辅助蒸馏信号。在七个基准套件上，HindSearch以Qwen2.5-3B-Instruct达到39.4%的平均EM，超过此前搜索强化学习基线。去除裁判对黄金答案的访问会消除大部分增益，证明事后批评是性能提升的关键来源。",
+      "llm_tldr": "现有搜索增强语言模型智能体通常使用二值精确匹配奖励进行训练，这丢弃了失败轨迹中丰富的错误信息。本文提出HindSearch，一种事后自我蒸馏方法，在GRPO每次采样后，让冻结的裁判基于黄金答案对失败轨迹撰写简短批评，并将批评作为学生搜索动作的辅助蒸馏信号。在七个基准套件上，HindSearch以Qwen2.5-3B-Instruct达到39.4%的平均EM，超过此前搜索强化学习基线。去除裁判对黄金答案的访问会消除大部分增益，证明事后批评是性能提升的关键来源。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.28367v1",
+      "source": "arxiv",
+      "title": "How Benchmarks Mis-Score Computer-Use Agents",
+      "abstract": "Computer-use agents (CUA) are being deployed to browse the web and operate desktop software, yet their benchmark scores are still commonly produced by brittle scripted oracles. A score is the output of a pipeline in which tasks can be stale, trajectories can omit decisive visual evidence, evaluators can reject valid alternatives, and aggregate reports can hide the cause of failure. We organize these problems into a reliability framework spanning task construction, trajectory observation, scoring, and reporting. We then audit 150 public failure-scored trajectories from five web, enterprise-workflow, and desktop-control benchmarks, find that 15.3\\% of FAIL verdicts are wrong: 10.7\\% are evaluator false negatives and 4.7\\% are broken tasks. For genuine failures, a three-tier diagnostic taxonomy shows that verification/feedback and planning failures dominate execution/grounding errors, while a single scalar success rate can not explain. We connect these findings to newer long-horizon CUA benchmarks and derive stage-specific design rules for CUA evaluation.",
+      "authors": [
+        "Zihan Dong",
+        "Zhiyuan Ma",
+        "Zekun Wang",
+        "Yunqing Li",
+        "Zirou Liu",
+        "Ruixuan Deng",
+        "Qishi Zhan",
+        "Rui Qian"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-30T15:29:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.28367v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Audits failure-scored trajectories to detect evaluator false negatives and diagnose genuine failures",
+      "llm_evidence_cn": "审计失败评分轨迹以发现评估误差并诊断真性失败",
+      "llm_evidence": "审计失败评分轨迹以发现评估误差并诊断真性失败",
+      "canonical_evidence": "审计失败评分轨迹以发现评估误差并诊断真性失败",
+      "llm_tldr_en": "This paper organizes benchmark scoring problems into a reliability framework spanning task construction, trajectory observation, scoring, and reporting, audits 150 failure-scored trajectories from five computer-use benchmarks, finds 15.3% of FAIL verdicts are wrong, and proposes a three-tier diagnosis for genuine failures.",
+      "llm_tldr_cn": "计算机使用智能体的基准分数常由脆弱的脚本式评估器产生，存在任务过时、轨迹缺失关键视觉证据、评估器拒绝正确方案以及报告隐藏失败原因等问题。本文提出一个涵盖任务构建、轨迹观察、评分和报告的可靠性框架，并审计了五个基准中的150条失败轨迹，发现其中15.3%的FAIL判定有误，10.7%为评估器假阴性，4.7%为任务损坏。对真实失败给出三层诊断，为改进基准评估和失败定位提供了系统性方法。",
+      "llm_tldr": "计算机使用智能体的基准分数常由脆弱的脚本式评估器产生，存在任务过时、轨迹缺失关键视觉证据、评估器拒绝正确方案以及报告隐藏失败原因等问题。本文提出一个涵盖任务构建、轨迹观察、评分和报告的可靠性框架，并审计了五个基准中的150条失败轨迹，发现其中15.3%的FAIL判定有误，10.7%为评估器假阴性，4.7%为任务损坏。对真实失败给出三层诊断，为改进基准评估和失败定位提供了系统性方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.00485v1",
+      "source": "arxiv",
+      "title": "SERL-SQL: Selective Hindsight Distillation for Text-to-SQL Reinforcement Agentic Learning",
+      "abstract": "Recent Text-to-SQL systems increasingly rely on multi-turn interaction, execution feedback, and reinforcement learning. However, most existing methods use execution correctness only as a trajectory-level reward, which provides limited guidance for identifying the SQL decisions responsible for success or failure. We propose SERL-SQL, a selective execution-grounded reinforcement learning framework for multi-turn Text-to-SQL agents. SERL-SQL samples on-policy SQL interaction trajectories and uses a training-only teacher to re-score student actions with execution feedback. The resulting teacher--student likelihood gap is converted into bounded, masked weights that reweight GRPO advantages only on SQL and tool-action tokens. In this way, task rewards preserve the optimization direction, while execution hindsight provides localized credit assignment. Experiments on BIRD, Spider, and cross-domain benchmarks show that SERL-SQL achieves competitive performance, reaching 76.56% execution accuracy on BIRD-Dev and 89.92% on Spider-Test. Moreover, our reward-based selection strategy closely approaches the oracle Best-of-N upper bound and consistently outperforms consistency-based selection, showing that SERL-SQL produces high-quality candidates that can be reliably identified by lightweight execution-grounded rewards. Our code will be released at https://github.com/Ffunkytao/SERL-SQL.",
+      "authors": [
+        "Tao Liu",
+        "Tao Feng",
+        "Xiangheng Li",
+        "Jinwang Song",
+        "Yifan Li",
+        "Xiaoqing Cheng",
+        "Dixuan Zhang",
+        "Siquan Li",
+        "Lin Lan",
+        "Hongying Zan",
+        "Kunli Zhang",
+        "Chao Wu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-08-01T07:24:12+00:00",
+      "link": "https://arxiv.org/pdf/2608.00485v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Identifies action-level errors in SQL agent trajectories via execution feedback",
+      "llm_evidence_cn": "通过执行反馈识别SQL智能体轨迹中的动作级错误",
+      "llm_evidence": "通过执行反馈识别SQL智能体轨迹中的动作级错误",
+      "canonical_evidence": "通过执行反馈识别SQL智能体轨迹中的动作级错误",
+      "llm_tldr_en": "SERL-SQL uses a training-only teacher to re-score student actions with execution feedback, converting the teacher-student likelihood gap into bounded masked weights that reweight GRPO advantages only on SQL and tool-action tokens, enabling fine-grained identification of decisions responsible for success or failure.",
+      "llm_tldr_cn": "在Text-to-SQL场景中，现有方法仅以轨迹级执行正确性作为奖励，难以定位具体是哪个SQL决策导致了失败。SERL-SQL提出选择性执行导向强化学习框架，仅用训练阶段的教师模型对学生动作进行执行反馈重打分，将教师-学生似然差距转换为有界掩码权重，以重加权GRPO优势。实验表明，该方法能更精准地识别关键SQL和工具动作，提升多轮文本到SQL智能体的学习效果与最终性能，为执行级反馈归因提供了新框架。",
+      "llm_tldr": "在Text-to-SQL场景中，现有方法仅以轨迹级执行正确性作为奖励，难以定位具体是哪个SQL决策导致了失败。SERL-SQL提出选择性执行导向强化学习框架，仅用训练阶段的教师模型对学生动作进行执行反馈重打分，将教师-学生似然差距转换为有界掩码权重，以重加权GRPO优势。实验表明，该方法能更精准地识别关键SQL和工具动作，提升多轮文本到SQL智能体的学习效果与最终性能，为执行级反馈归因提供了新框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.00335v1",
+      "source": "arxiv",
+      "title": "RMSWeb: Reflection, Failure-Mode Mining, and Salvage-DS for Web Agent Reinforcement Learning",
+      "abstract": "Compact web agents can reduce deployment cost, but training them poses challenges in both data collection and post-SFT reinforcement learning (RL). Successful trajectories are expensive to collect and often contain inefficient detours. After supervised fine-tuning (SFT), full trajectory corpora are dominated by routine states; moreover, when group-relative RL is applied to web actions, inadequately designed action-level rewards can yield weak or misleading relative updates, while groups rejected as unsuitable for such updates receive no fallback learning signal. We present RMSWeb, a three-part recipe for Qwen3-VL-Instruct at 8B and 32B. Reflection-conditioned retries increase collection yield and shorten successful trajectories; failure-mode mining concentrates offline RL on critical states exposed by the SFT policy; and Salvage-DS combines an action-semantic polarized reward, contrast-and-competence-gated dynamic sampling, and an action-only anchor for rejected groups. Policies trained with reflection-collected data use up to 19.7% fewer action steps on solved tasks. On WebVoyager, Online-Mind2Web, and WebTailBench, RMSWeb improves over SFT by 2.4-7.0 points at 8B and 1.2-7.7 points at 32B. Our 8B model also achieves the strongest reported Online-Mind2Web result among similarly sized open-weight models in our comparison and a leading reported accuracy-cost trade-off on WebVoyager and WebTailBench, with the caveat that external evaluation protocols differ.",
+      "authors": [
+        "Chengbo Liu",
+        "Lifang Zhou",
+        "Ruijie Yan",
+        "Pei Tan",
+        "Ao Sun",
+        "Haojun Huang",
+        "Guichun Hua",
+        "Sining Wei",
+        "Yining Chen",
+        "Yingying He",
+        "Yutao Xie"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-07-31T22:57:16+00:00",
+      "link": "https://arxiv.org/pdf/2608.00335v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Mines failure modes from agent trajectories to identify anomalous states and improve RL",
+      "llm_evidence_cn": "从智能体轨迹中挖掘失败模式，识别异常状态并改善强化学习",
+      "llm_evidence": "从智能体轨迹中挖掘失败模式，识别异常状态并改善强化学习",
+      "canonical_evidence": "从智能体轨迹中挖掘失败模式，识别异常状态并改善强化学习",
+      "llm_tldr_en": "RMSWeb addresses training compact web agents by combining reflection-conditioned retries, failure-mode mining, and salvage-DS for reinforcement learning. It identifies failure states in trajectories and provides fallback learning signals, improving training. The failure-mode mining component effectively performs anomaly detection on agent trajectories.",
+      "llm_tldr_cn": "训练紧凑Web智能体时，成功轨迹收集昂贵且常含低效绕路，动作级奖励又可能误导相对更新。RMSWeb提出三部分方案：反思条件重试提高成功轨迹产出并缩短长度；失败模式挖掘从完整轨迹中发现常见失败状态；Salvage-DS给被拒绝的组提供回退学习信号。在8B和32B的Qwen3-VL-Instruct上验证了效果，该失败模式挖掘本身也是一种轨迹异常检测方法。",
+      "llm_tldr": "训练紧凑Web智能体时，成功轨迹收集昂贵且常含低效绕路，动作级奖励又可能误导相对更新。RMSWeb提出三部分方案：反思条件重试提高成功轨迹产出并缩短长度；失败模式挖掘从完整轨迹中发现常见失败状态；Salvage-DS给被拒绝的组提供回退学习信号。在8B和32B的Qwen3-VL-Instruct上验证了效果，该失败模式挖掘本身也是一种轨迹异常检测方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.01133v1",
+      "source": "arxiv",
+      "title": "Policy Optimality Measurement for Multi-Vehicle Decision-Making: From Extrinsic Indicators to Intrinsic Quality",
+      "abstract": "Evaluating Multi-Agent Reinforcement Learning (MARL) policies in autonomous driving fundamentally relies on extrinsic statistical indicators (e.g., reward curves and success rates), which often mask intrinsic policy degradation and algorithmic blind spots. To break this black-box evaluation, this letter proposes a novel information-theoretic diagnostic framework. By leveraging a fully converged Monte Carlo Tree Search (MCTS) as an asymptotic oracle, we establish a theoretical ground-truth baseline distribution. We formulate a bounded policy optimality score ($\\mathcal{M}_{opt}$) using the forward KL divergence to rigorously penalize fatal collaborative omissions. Crucially, we semantically decouple this metric into lateral and longitudinal dimensions, creating a granular \"semantic microscope\". Extensive spatial and temporal diagnostics on state-of-the-art MARL architectures and exploration mechanisms demonstrate that our framework conclusively exposes hidden directional biases, identifies temporal average-policy traps, and transforms heuristic hyperparameter tuning into a visually trackable trajectory optimization. This framework establishes a rigorous, model-agnostic standard for benchmarking intrinsic multi-agent policy quality.",
+      "authors": [
+        "Ye Han",
+        "Lijun Zhang",
+        "Dejian Meng"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-02T10:21:58+00:00",
+      "link": "https://arxiv.org/pdf/2608.01133v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Information-theoretic framework to detect intrinsic policy degradation in multi-agent RL",
+      "llm_evidence_cn": "信息论框架，检测多智能体强化学习中的策略内在退化",
+      "llm_evidence": "信息论框架，检测多智能体强化学习中的策略内在退化",
+      "canonical_evidence": "信息论框架，检测多智能体强化学习中的策略内在退化",
+      "llm_tldr_en": "Evaluating MARL policies with extrinsic indicators masks intrinsic degradation. This paper proposes an information-theoretic diagnostic framework using converged MCTS as an oracle and a bounded optimality score based on forward KL divergence. It detects policy errors and collaborative omissions, offering a way to monitor RL agent behavior.",
+      "llm_tldr_cn": "多智能体强化学习评估常依赖奖励曲线等外部指标，掩盖策略内在退化。论文利用完全收敛的MCTS作为渐近最优基准，基于前向KL散度构造有界策略最优性分数，惩罚致命协作遗漏。该方法能识别策略退化与算法盲区，为多车决策提供内在质量诊断，也为RL智能体行为错误监测提供了新的度量工具。",
+      "llm_tldr": "多智能体强化学习评估常依赖奖励曲线等外部指标，掩盖策略内在退化。论文利用完全收敛的MCTS作为渐近最优基准，基于前向KL散度构造有界策略最优性分数，惩罚致命协作遗漏。该方法能识别策略退化与算法盲区，为多车决策提供内在质量诊断，也为RL智能体行为错误监测提供了新的度量工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.02276v1",
+      "source": "arxiv",
+      "title": "Harness-R1: Learning to Edit Executable Runtime Harnesses from Agent Failure Trajectories",
+      "abstract": "Agents built around large language models continually accumulate interaction trajectories during deployment, yet their behavior typically remains fixed. Beyond updating model weights, these trajectories can improve the agent harness that constructs context, mediates tools, validates actions, and recovers execution. We introduce Harness-R1, the first method, to our knowledge, that makes failure-conditioned, lifecycle-wide editing of an existing executable runtime a learned capability. It post-trains a dedicated harness engineer with online reinforcement learning so that its edits are optimized for the realized task success they produce, rather than proposed by a fixed editor. A separate 9B engineer converts batches of target-agent failures into validated executable patches; fresh same-batch reruns of the frozen target provide outcome rewards, so training updates only the engineer. Cold-start supervised fine-tuning initializes this editing policy, which is then trained online with group-relative policy optimization. Across WebShop, ALFWorld, and DBBench, Harness-R1 raises vanilla Qwen3.5-9B success from 44.3% to 53.6% (+9.3 percentage points). After direct target-agent fine-tuning, a target-specific engineer raises the average further from 59.2% to 64.2% (+5.0 points); because these gains hold both before and after fine-tuning the target, Harness-R1 points toward co-evolving the harness engineer and the target agent.",
+      "authors": [
+        "Shuai Shao",
+        "Kangning Zhang",
+        "Qingyao Li",
+        "Shijian Wang",
+        "Hao Wang",
+        "Wenxiang Jiao",
+        "Yuan Lu",
+        "Yi Guo",
+        "Weiwen Liu",
+        "Weinan Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-03T14:12:18+00:00",
+      "link": "https://arxiv.org/pdf/2608.02276v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "learns to edit agent runtime harnesses from failure trajectories to validate actions and recover execution",
+      "llm_evidence_cn": "从失败轨迹学习编辑智能体运行时，以验证动作并恢复执行",
+      "llm_evidence": "从失败轨迹学习编辑智能体运行时，以验证动作并恢复执行",
+      "canonical_evidence": "从失败轨迹学习编辑智能体运行时，以验证动作并恢复执行",
+      "llm_tldr_en": "Introduces Harness-R1, which post-trains a harness engineer with RL to edit agent runtimes from failure trajectories, optimizing edits for realized task success.",
+      "llm_tldr_cn": "大型语言模型智能体在部署中不断产生轨迹，但其行为往往固定不变。本文提出Harness-R1，首个将失败条件下对可执行运行时的全生命周期编辑作为可学习能力的方法。它利用在线强化学习后训练一个9B的工程师模型，使编辑优化直接面向任务成功率。结果显示，该方案能从失败轨迹中自动改进智能体运行时，为轨迹驱动的自适应监测与执行恢复提供了新途径。",
+      "llm_tldr": "大型语言模型智能体在部署中不断产生轨迹，但其行为往往固定不变。本文提出Harness-R1，首个将失败条件下对可执行运行时的全生命周期编辑作为可学习能力的方法。它利用在线强化学习后训练一个9B的工程师模型，使编辑优化直接面向任务成功率。结果显示，该方案能从失败轨迹中自动改进智能体运行时，为轨迹驱动的自适应监测与执行恢复提供了新途径。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

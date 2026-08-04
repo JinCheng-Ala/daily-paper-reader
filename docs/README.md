@@ -6,40 +6,46 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-03
-- 运行时间：2026-08-03 21:51:58 UTC
+- 最新运行日期：2026-08-04
+- 运行时间：2026-08-04 22:05:16 UTC
 - 运行状态：成功
-- 本次总论文数：6
-- 精读区：4
-- 速读区：2
+- 本次总论文数：8
+- 精读区：3
+- 速读区：5
 
 ### 今日简报（AI）
-今日精读聚焦智能体失败定位与编码智能体过早承诺问题，速读覆盖具身导航与科学发现环境。  
-最值得关注的方向是：用交互中心分类法诊断智能体失败，以及用证据条件执行层防止编码智能体过早承诺。  
-建议普通读者优先理解这两项高分工作的核心思想，后续可结合具身智能与科学发现场景验证其通用性。
-- 详情：[/202608/03/README](/202608/03/README)
+1) 今日聚焦8篇智能体研究，核心指向Agentic AI的安全性、失败模式与评测陷阱。  
+2) 最值得精读两篇9分工作：从单步检查升级到轨迹级保障的《Securing Agentic AI》，以及揭示RAG系统“证据前流程故障”的《Before Reasoning Fails》；速读批驳了计算机使用智能体基准的错评问题。  
+3) 建议关注“流程失败诊断”方向，并警惕现有基准对智能体能力的系统性误判。
+- 详情：[/202608/04/README](/202608/04/README)
 
 ### 精读区论文标签
-1. [Model or Harness? An Interaction-Centric Taxonomy for Localizing Agent Failures](/202608/03/2607.28802v1-model-or-harness-an-interaction-centric-taxonomy-for-localizing-agent-failures)  
+1. [Securing Agentic AI: From Per-Action Checks to Trajectory Assurance](/202608/04/2608.01558v1-securing-agentic-ai-from-per-action-checks-to-trajectory-assurance)  
    标签：评分：9.0/10、query:agent-error
-   evidence：以交互为中心的智能体失败定位分类学
-2. [Preventing Premature Commitment in Coding Agents with an Evidence-Conditioned Execution Layer](/202608/03/2607.28815v1-preventing-premature-commitment-in-coding-agents-with-an-evidence-conditioned-execution-layer)  
+   evidence：直接面向智能体轨迹的规则违规与行为错误监测
+2. [Before Reasoning Fails: Pre-Evidence Procedural Failures in Agentic RAG](/202608/04/2608.02011v1-before-reasoning-fails-pre-evidence-procedural-failures-in-agentic-rag)  
    标签：评分：9.0/10、query:agent-error
-   evidence：证据条件化执行层跟踪轨迹条件并阻止过早动作
-3. [Autonomous Repair for Multi-Agent Systems via Monte-Carlo Tree Search](/202608/03/2607.29055v1-autonomous-repair-for-multi-agent-systems-via-monte-carlo-tree-search)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：通过检查智能体轨迹进行失败归因并利用MCTS自动化修复
-4. [Beyond Component Testing: Validating Agentic AI Systems](/202608/03/2607.29405v1-beyond-component-testing-validating-agentic-ai-systems)  
+   evidence：利用工具调用轨迹将智能体RAG错误答案分解为证据前程序性失败
+3. [HindSearch: Trajectory-Level Hindsight Critique for Search-Augmented Reinforcement Learning](/202608/04/2608.01597v1-hindsearch-trajectory-level-hindsight-critique-for-search-augmented-reinforcement-learning)  
    标签：评分：8.0/10、query:agent-error
-   evidence：综述覆盖智能体系统在逐步轨迹中的运行时监控与验证方法，直接针对监控智能体行为以发现错误。
+   evidence：使用冻结裁判对失败轨迹进行批评，找出失败原因
 
 ### 速读区论文标签
-1. [Embodied Agents Take Control: Minimal-Interface Zero-Shot Agents Rival Industrial-Scale Policies in Vision-and-Language Navigation](/202608/03/2607.26148v1-embodied-agents-take-control-minimal-interface-zero-shot-agents-rival-industrial-scale-policies-in-vision-and-language-navigation)  
+1. [How Benchmarks Mis-Score Computer-Use Agents](/202608/04/2607.28367v1-how-benchmarks-mis-score-computer-use-agents)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：审计失败评分轨迹以发现评估误差并诊断真性失败
+2. [RMSWeb: Reflection, Failure-Mode Mining, and Salvage-DS for Web Agent Reinforcement Learning](/202608/04/2608.00335v1-rmsweb-reflection-failure-mode-mining-and-salvage-ds-for-web-agent-reinforcement-learning)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：从智能体轨迹中挖掘失败模式，识别异常状态并改善强化学习
+3. [Harness-R1: Learning to Edit Executable Runtime Harnesses from Agent Failure Trajectories](/202608/04/2608.02276v1-harness-r1-learning-to-edit-executable-runtime-harnesses-from-agent-failure-trajectories)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：从失败轨迹学习编辑智能体运行时，以验证动作并恢复执行
+4. [SERL-SQL: Selective Hindsight Distillation for Text-to-SQL Reinforcement Agentic Learning](/202608/04/2608.00485v1-serl-sql-selective-hindsight-distillation-for-text-to-sql-reinforcement-agentic-learning)  
    标签：评分：6.0/10、query:agent-error
-   evidence：具身导航智能体通过验证与自我纠正检测路径错误，实现零样本自主控制
-2. [Scaling Scientific Discovery Environments for Turn-Level Agentic RL](/202608/03/2607.28990v1-scaling-scientific-discovery-environments-for-turn-level-agentic-rl)  
+   evidence：通过执行反馈识别SQL智能体轨迹中的动作级错误
+5. [Policy Optimality Measurement for Multi-Vehicle Decision-Making: From Extrinsic Indicators to Intrinsic Quality](/202608/04/2608.01133v1-policy-optimality-measurement-for-multi-vehicle-decision-making-from-extrinsic-indicators-to-intrinsic-quality)  
    标签：评分：6.0/10、query:agent-error
-   evidence：通过验证器在交互中检查分析进度，过滤错误轨迹
+   evidence：信息论框架，检测多智能体强化学习中的策略内在退化
 
 
 <div class="dpr-home-promo-card">
