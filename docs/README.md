@@ -6,46 +6,56 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-04
-- 运行时间：2026-08-04 22:05:16 UTC
+- 最新运行日期：2026-08-07
+- 运行时间：2026-08-07 00:47:18 UTC
 - 运行状态：成功
-- 本次总论文数：8
-- 精读区：3
-- 速读区：5
+- 本次总论文数：12
+- 精读区：6
+- 速读区：6
 
 ### 今日简报（AI）
-1) 今日聚焦8篇智能体研究，核心指向Agentic AI的安全性、失败模式与评测陷阱。  
-2) 最值得精读两篇9分工作：从单步检查升级到轨迹级保障的《Securing Agentic AI》，以及揭示RAG系统“证据前流程故障”的《Before Reasoning Fails》；速读批驳了计算机使用智能体基准的错评问题。  
-3) 建议关注“流程失败诊断”方向，并警惕现有基准对智能体能力的系统性误判。
-- 详情：[/202608/04/README](/202608/04/README)
+今日精读6篇、速读6篇，重点聚焦手术机器人模仿策略的故障检测与Agentic RAG的事前流程失败诊断。最值得关注两项高分工作：流匹配世界模型可提前识别手术机器人操作故障（9.0分），代理型RAG需在证据检索前就防范流程失误（9.0分）。建议普通读者优先关注这两个可落地的可靠性改进方向，同时速读中多智能体规划与工具使用鲁棒性研究也具参考价值。
+- 详情：[/202608/07/README](/202608/07/README)
 
 ### 精读区论文标签
-1. [Securing Agentic AI: From Per-Action Checks to Trajectory Assurance](/202608/04/2608.01558v1-securing-agentic-ai-from-per-action-checks-to-trajectory-assurance)  
+1. [Failure Detection for Surgical Robot Imitation Policies via Flow-Matching World Modeling](/202608/07/2607.27511v1-failure-detection-for-surgical-robot-imitation-policies-via-flow-matching-world-modeling)  
    标签：评分：9.0/10、query:agent-error
-   evidence：直接面向智能体轨迹的规则违规与行为错误监测
-2. [Before Reasoning Fails: Pre-Evidence Procedural Failures in Agentic RAG](/202608/04/2608.02011v1-before-reasoning-fails-pre-evidence-procedural-failures-in-agentic-rag)  
+   evidence：利用流匹配世界模型对手术机器人代理轨迹进行失败检测
+2. [Before Reasoning Can Fail: Pre-Evidence Procedural Failures in Agentic RAG](/202608/07/2608.02011v2-before-reasoning-can-fail-pre-evidence-procedural-failures-in-agentic-rag)  
    标签：评分：9.0/10、query:agent-error
-   evidence：利用工具调用轨迹将智能体RAG错误答案分解为证据前程序性失败
-3. [HindSearch: Trajectory-Level Hindsight Critique for Search-Augmented Reinforcement Learning](/202608/04/2608.01597v1-hindsearch-trajectory-level-hindsight-critique-for-search-augmented-reinforcement-learning)  
+   evidence：将错误智能体轨迹分解为证据前程序性失败和证据读取后失败，并用Read-Gate运行时约束检测
+3. [CUADebug: Diagnosing and Repairing Computer-Use Agent Failures](/202608/07/2608.02643v1-cuadebug-diagnosing-and-repairing-computer-use-agent-failures)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：直接针对智能体轨迹中的故障诊断与修复，通过检查可疑步骤定位错误。
+4. [From Routes to Steps: Separating Semantic Progress from Local Execution in Vision-and-Language Navigation](/202608/07/2608.03143v1-from-routes-to-steps-separating-semantic-progress-from-local-execution-in-vision-and-language-navigation)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：直接区分智能体轨迹中的进度追踪错误与执行错误，支持路径偏离检测。
+5. [Fail-Fast, Restart-Smart: Early Failure Prediction and Restart for SWE Agentic Tasks](/202608/07/2608.03222v1-fail-fast-restart-smart-early-failure-prediction-and-restart-for-swe-agentic-tasks)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：使用轻量监控器对软件工程代理轨迹进行早期失败预测
+6. [LEDGERMIND: Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger](/202608/07/2607.28374v1-ledgermind-provenance-constrained-multimodal-agentic-reasoning-with-a-structured-evidence-ledger)  
    标签：评分：8.0/10、query:agent-error
-   evidence：使用冻结裁判对失败轨迹进行批评，找出失败原因
+   evidence：用证据账本与接地检查监控代理轨迹中的无据声明
 
 ### 速读区论文标签
-1. [How Benchmarks Mis-Score Computer-Use Agents](/202608/04/2607.28367v1-how-benchmarks-mis-score-computer-use-agents)  
+1. [Towards Robust Tool Use in Agents via Experience-Driven Adaptive Guidance](/202608/07/2608.03403v1-towards-robust-tool-use-in-agents-via-experience-driven-adaptive-guidance)  
    标签：评分：7.0/10、query:agent-error
-   evidence：审计失败评分轨迹以发现评估误差并诊断真性失败
-2. [RMSWeb: Reflection, Failure-Mode Mining, and Salvage-DS for Web Agent Reinforcement Learning](/202608/04/2608.00335v1-rmsweb-reflection-failure-mode-mining-and-salvage-ds-for-web-agent-reinforcement-learning)  
+   evidence：从历史执行轨迹分析工具调用质量以提升智能体鲁棒性
+2. [An Actionable Diagnosis of Multilingual, Multi-Agent Planning Failures](/202608/07/2608.03735v1-an-actionable-diagnosis-of-multilingual-multi-agent-planning-failures)  
    标签：评分：7.0/10、query:agent-error
-   evidence：从智能体轨迹中挖掘失败模式，识别异常状态并改善强化学习
-3. [Harness-R1: Learning to Edit Executable Runtime Harnesses from Agent Failure Trajectories](/202608/04/2608.02276v1-harness-r1-learning-to-edit-executable-runtime-harnesses-from-agent-failure-trajectories)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：从失败轨迹学习编辑智能体运行时，以验证动作并恢复执行
-4. [SERL-SQL: Selective Hindsight Distillation for Text-to-SQL Reinforcement Agentic Learning](/202608/04/2608.00485v1-serl-sql-selective-hindsight-distillation-for-text-to-sql-reinforcement-agentic-learning)  
+   evidence：从失败的多代理任务执行中诊断规划-落地错误
+3. [SERL-SQL: Selective Hindsight Distillation for Text-to-SQL Reinforcement Agentic Learning](/202608/07/2608.00485v2-serl-sql-selective-hindsight-distillation-for-text-to-sql-reinforcement-agentic-learning)  
    标签：评分：6.0/10、query:agent-error
-   evidence：通过执行反馈识别SQL智能体轨迹中的动作级错误
-5. [Policy Optimality Measurement for Multi-Vehicle Decision-Making: From Extrinsic Indicators to Intrinsic Quality](/202608/04/2608.01133v1-policy-optimality-measurement-for-multi-vehicle-decision-making-from-extrinsic-indicators-to-intrinsic-quality)  
+   evidence：利用执行反馈重新评分学生动作，识别造成失败的SQL决策
+4. [From Failures to Supervision: DynamicEnvPlan for Robust Long-Horizon Embodied Planning](/202608/07/2608.00613v1-from-failures-to-supervision-dynamicenvplan-for-robust-long-horizon-embodied-planning)  
    标签：评分：6.0/10、query:agent-error
-   evidence：信息论框架，检测多智能体强化学习中的策略内在退化
+   evidence：在长期具身规划中利用环境偏差与执行不确定性，将故障作为可学习信号
+5. [SyncPlan: Long-Horizon LLM Coordination with Explicit Synchronization and Adaptive Correction](/202608/07/2608.01652v1-syncplan-long-horizon-llm-coordination-with-explicit-synchronization-and-adaptive-correction)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：在长程多智能体执行轨迹中识别计划失效并自适应纠正，可服务于路径偏差检测
+6. [$S^3$: Improving Agent Safety through Multi-Stage Defense](/202608/07/2608.02683v1-s3-improving-agent-safety-through-multi-stage-defense)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：在智能体工作流各阶段检测并缓解风险，提出带阶段语义的安全技能
 
 
 <div class="dpr-home-promo-card">

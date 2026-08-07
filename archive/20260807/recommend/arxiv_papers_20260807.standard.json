@@ -1,0 +1,522 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-07T00:37:24.068690+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2607.27511v1",
+      "source": "arxiv",
+      "title": "Failure Detection for Surgical Robot Imitation Policies via Flow-Matching World Modeling",
+      "abstract": "Imitation learning has shown increasing promise for autonomous robotic surgery, yet safe deployment remains challenging due to the safety-critical nature of surgical tasks and the complexity and variability of surgical environments. Failure detection is therefore an essential safeguard, but its development remains difficult due to the challenges of scarce failure data, highly variable manipulation dynamics, and the need to balance missed detections against disruptive false alarms. To address these challenges, we introduce FoMo-FD (Flow-Matching World Model for Failure Detection), a failure detection method that learns nominal short-horizon visual dynamics with an action-conditioned flow-matching world model. FoMo-FD scores the inverse-transport nonconformity of observed endpoint latents, enabling window-level detection of visual-action inconsistencies without requiring failure demonstrations. Detection thresholds are obtained by conformal calibration on successful executions, yielding task-specific alarms without assuming future failure types. We evaluate FoMo-FD on four surgically relevant manipulation tasks with twenty failure modes across simulation and real-world experiments using the da Vinci Research Kit (dVRK). Results show that FoMo-FD outperforms observation-level anomaly baselines and a prediction-error variant of the same world model, with the wrist-camera view achieving the strongest performance, including a 96.6% failure detection rate (FDR) at a 1.3% false alarm rate (FAR).",
+      "authors": [
+        "Zhefeng Huang",
+        "Yilin Cai",
+        "Ankit Patel",
+        "Mohammad Hajiha",
+        "Brendan Browne",
+        "Yue Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-29T22:55:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.27511v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Failure detection for surgical robot agent trajectories via flow-matching world model",
+      "llm_evidence_cn": "利用流匹配世界模型对手术机器人代理轨迹进行失败检测",
+      "llm_evidence": "利用流匹配世界模型对手术机器人代理轨迹进行失败检测",
+      "canonical_evidence": "利用流匹配世界模型对手术机器人代理轨迹进行失败检测",
+      "llm_tldr_en": "Introduces FoMo-FD, a flow-matching world model that learns nominal short-horizon visual dynamics to detect failures in surgical robot imitation policies, scoring trajectory inverse likelihood and balancing missed detections against false alarms.",
+      "llm_tldr_cn": "针对手术机器人模仿学习中失败数据稀缺与动力学高度可变的问题，本文提出FoMo-FD，使用动作条件下的流匹配世界模型学习正常短时视觉动态，并基于轨迹逆似然进行失败检测。方法无需显式失败样本即可识别异常行为，同时兼顾漏检与误报的平衡。实验表明该方法在安全关键的手术任务中能够有效提升失败检测性能，为自主手术的安全部署提供了重要保障。",
+      "llm_tldr": "针对手术机器人模仿学习中失败数据稀缺与动力学高度可变的问题，本文提出FoMo-FD，使用动作条件下的流匹配世界模型学习正常短时视觉动态，并基于轨迹逆似然进行失败检测。方法无需显式失败样本即可识别异常行为，同时兼顾漏检与误报的平衡。实验表明该方法在安全关键的手术任务中能够有效提升失败检测性能，为自主手术的安全部署提供了重要保障。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.02011v2",
+      "source": "arxiv",
+      "title": "Before Reasoning Can Fail: Pre-Evidence Procedural Failures in Agentic RAG",
+      "abstract": "Agentic retrieval-augmented generation (RAG) systems can fail before evidence-conditioned reasoning is tested: an agent may retrieve candidate snippets but finalize without inspecting them. We study this failure mode as a procedural property of the agent trajectory, decomposing wrong answers into pre-evidence discipline failures and post-gold-read failures using saved tool-call traces, retrieved evidence, read passages, and final answers. Across 12,000 paired trajectories on HotpotQA, 2WikiMultiHopQA, and MuSiQue, the two failure types are largely non-redundant: the both-trigger rate is in [11.2%, 13.1%] across regex and spaCy entity extractors. We then evaluate Read-Gate, a minimal runtime invariant requiring an agent to read after search and before finalization. Forced reading improves LLM-Acc by 14.9-19.9 points on trajectories that would otherwise skip reading and by 3.2-9.4 points on full minimal-reasoning cells. Additional diagnostics show that larger hidden thinking budgets do not necessarily increase evidence inspection. Together, these results indicate that evidence-gathering should be evaluated as a trajectory-level control problem, separately from answer-side reasoning.",
+      "authors": [
+        "Daeyoung Roh",
+        "Donghee Han"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-03T10:09:19+00:00",
+      "link": "https://arxiv.org/pdf/2608.02011v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Decomposes wrong agent trajectories into pre-evidence procedural failures and post-gold-read failures, and uses Read-Gate runtime invariant",
+      "llm_evidence_cn": "将错误智能体轨迹分解为证据前程序性失败和证据读取后失败，并用Read-Gate运行时约束检测",
+      "llm_evidence": "将错误智能体轨迹分解为证据前程序性失败和证据读取后失败，并用Read-Gate运行时约束检测",
+      "canonical_evidence": "将错误智能体轨迹分解为证据前程序性失败和证据读取后失败，并用Read-Gate运行时约束检测",
+      "llm_tldr_en": "Analyzes agentic RAG failures as procedural trajectory properties, separating pre-evidence discipline failures from post-gold-read failures, and shows Read-Gate, a minimal runtime invariant, can prevent the former without harming accuracy.",
+      "llm_tldr_cn": "智能体检索增强生成系统可能在基于证据推理之前就出错，例如检索后不阅读证据便直接给出答案。本文将错误答案分解为证据前纪律失败与证据读取后失败两类，在12,000条配对轨迹上验证两者基本不重叠（同时触发率仅11.2%-13.1%）。进一步提出最小运行时约束Read-Gate，要求智能体搜索后必须阅读再回答，有效抑制证据前程序性失败。这为从轨迹中检测与预防智能体程序性错误提供了可解释的方法。",
+      "llm_tldr": "智能体检索增强生成系统可能在基于证据推理之前就出错，例如检索后不阅读证据便直接给出答案。本文将错误答案分解为证据前纪律失败与证据读取后失败两类，在12,000条配对轨迹上验证两者基本不重叠（同时触发率仅11.2%-13.1%）。进一步提出最小运行时约束Read-Gate，要求智能体搜索后必须阅读再回答，有效抑制证据前程序性失败。这为从轨迹中检测与预防智能体程序性错误提供了可解释的方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.02643v1",
+      "source": "arxiv",
+      "title": "CUADebug: Diagnosing and Repairing Computer-Use Agent Failures",
+      "abstract": "Computer-use agents (CUAs) operate real desktop and web interfaces through screenshots, mouse and keyboard actions, and stateful UI feedback, yet their failures remain difficult to diagnose and repair. Unlike text-only agents, CUA failures arise from coupled visual perception, spatial grounding, low-level interaction, task reasoning, and environment dynamics, making debugging a distinctive multimodal causal localization problem. We introduce CUADebug, a framework for diagnosing and repairing CUA failures. CUADebug includes a CUA-specific error taxonomy, CUAErrorBench, a human-annotated OSWorld failure benchmark, and CUADebugger, a tool-augmented debugger. Instead of prompting over the full trajectory once, CUADebugger actively inspects suspicious steps with paired before/after screenshots and action traces, then submits a structured diagnosis containing the root-cause step, error type, grounded evidence, and corrective strategy for re-execution. Human annotations over 204 failed trajectories show that task reasoning and control is the largest failure family (110/204), followed by perception (36), grounding/interaction (25), external/system (13), and an others category of 20 OSWorld infeasible-task cases. On the main Claude-agent split, CUADebugger improves joint subtype-and-step diagnosis from 11.2% to 19.6% with Gemini 2.5 Pro and improves consistently across debugger backbones. In single re-execution package evaluation, RCA-based conditions achieve higher task completion than history-only continuation (28.47% with machine RCA and 29.90% with our method, versus 13.89%); in continual re-execution, our method improves success from 12.2% to 25.86%, while human-oracle guidance reaches 29.21%. These results show that CUA root-cause diagnosis can provide actionable repair signals rather than merely post-hoc explanations.",
+      "authors": [
+        "Weijia Zhang",
+        "Kunlun Zhu",
+        "Zeyi Liu",
+        "Yinting Chen",
+        "Tianyi Ma",
+        "Jiateng Liu",
+        "Jiaxun Zhang",
+        "Bingxuan Li",
+        "Xiangru Tang",
+        "Heng Ji",
+        "Jiaxuan You"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-07-31T13:59:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.02643v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Directly addresses diagnosing and repairing agent failures by inspecting suspicious trajectory steps.",
+      "llm_evidence_cn": "直接针对智能体轨迹中的故障诊断与修复，通过检查可疑步骤定位错误。",
+      "llm_evidence": "直接针对智能体轨迹中的故障诊断与修复，通过检查可疑步骤定位错误。",
+      "canonical_evidence": "直接针对智能体轨迹中的故障诊断与修复，通过检查可疑步骤定位错误。",
+      "llm_tldr_en": "CUADebug diagnoses and repairs computer-use agent failures with a dedicated error taxonomy, benchmark, and tool-augmented debugger that inspects suspicious steps along trajectories.",
+      "llm_tldr_cn": "本文针对计算机使用智能体在真实桌面和网页界面中难以诊断和修复的故障问题，提出CUADebug框架。该框架包含面向CUA的故障分类体系、大规模人工标注的失败基准以及工具增强的调试器，后者不再一次性提示完整轨迹，而是主动检查可疑步骤并定位多模态因果故障。实验验证了该方法能有效提升故障定位和修复的准确性，为计算机使用智能体的可靠部署提供了重要支撑。",
+      "llm_tldr": "本文针对计算机使用智能体在真实桌面和网页界面中难以诊断和修复的故障问题，提出CUADebug框架。该框架包含面向CUA的故障分类体系、大规模人工标注的失败基准以及工具增强的调试器，后者不再一次性提示完整轨迹，而是主动检查可疑步骤并定位多模态因果故障。实验验证了该方法能有效提升故障定位和修复的准确性，为计算机使用智能体的可靠部署提供了重要支撑。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.03143v1",
+      "source": "arxiv",
+      "title": "From Routes to Steps: Separating Semantic Progress from Local Execution in Vision-and-Language Navigation",
+      "abstract": "Vision-and-Language Navigation (VLN) requires an agent to follow a route-level instruction by executing its constituent steps from egocentric visual observations. Existing VLM-based navigators typically supervise both capabilities through next-action prediction alone, making progress-tracking errors difficult to distinguish from execution errors. When an agent deviates from the route, a corrective action label may recover the next movement but does not indicate whether the agent selected the wrong sub-instruction or failed to execute the correct one. Consequently, the agent may continue making decisions from an erroneous progress state. To resolve this ambiguity, we propose \\textbf{Route2Step}, a framework that decouples semantic progress tracking from action generation through an explicit step-level interface. The Instruction Analysis Module ($\\mathcal{M}_{\\mathrm{IA}}$) predicts this state from the global instruction and visual history. Conditioned on the predicted state and recent observations, the Action Generation Module ($\\mathcal{M}_{\\mathrm{AG}}$) generates local action chunks. To supervise the progress state without manual temporal labels, E-SPA, a step-alignment procedure, associates sub-instructions with their corresponding portions of route-level demonstrations. These alignments enable state supervision for incorrect progress estimates, while direct action supervision is reserved for rollout groups that repeatedly fail under the correct active sub-instruction. On R2R-CE, Route2Step improves SR from 48.1\\% to 55.3\\% and SPL from 43.3\\% to 48.2\\%, using 190K state-level corrective samples while requiring only 11.5K directly action-supervised states. Experiments in real-world indoor and outdoor environments further demonstrate the practical applicability of Route2Step. The project page is: https://sisyphus-hxy.github.io/Route2Step/.",
+      "authors": [
+        "Xiangyun Huang",
+        "Xiangchen Wang",
+        "Runfeng Lin",
+        "Yihao Xu",
+        "Kangyu Huang",
+        "Jiang Hengchen",
+        "Xiwang Dong",
+        "Lin Jiarong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-08-04T05:14:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.03143v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Directly separates progress-tracking errors from execution errors in agent trajectories, enabling deviation detection.",
+      "llm_evidence_cn": "直接区分智能体轨迹中的进度追踪错误与执行错误，支持路径偏离检测。",
+      "llm_evidence": "直接区分智能体轨迹中的进度追踪错误与执行错误，支持路径偏离检测。",
+      "canonical_evidence": "直接区分智能体轨迹中的进度追踪错误与执行错误，支持路径偏离检测。",
+      "llm_tldr_en": "Route2Step separates semantic progress tracking from local execution, enabling clear distinction between progress-tracking errors and execution errors in VLN agent trajectories for error detection.",
+      "llm_tldr_cn": "本文针对视觉语言导航中路线级指令与逐步执行难以协调的问题，指出现有监督仅用下一动作预测会混淆进度追踪错误与执行错误。为此提出Route2Step框架，将语义进度选择与局部执行分离，从而在智能体偏离路线时准确区分是选错了子指令还是未正确执行当前子指令。实验结果表明该框架能有效消除错误进度状态导致的决策偏差，提升导航成功率，对智能体轨迹中的路径偏离检测具有重要意义。",
+      "llm_tldr": "本文针对视觉语言导航中路线级指令与逐步执行难以协调的问题，指出现有监督仅用下一动作预测会混淆进度追踪错误与执行错误。为此提出Route2Step框架，将语义进度选择与局部执行分离，从而在智能体偏离路线时准确区分是选错了子指令还是未正确执行当前子指令。实验结果表明该框架能有效消除错误进度状态导致的决策偏差，提升导航成功率，对智能体轨迹中的路径偏离检测具有重要意义。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.03222v1",
+      "source": "arxiv",
+      "title": "Fail-Fast, Restart-Smart: Early Failure Prediction and Restart for SWE Agentic Tasks",
+      "abstract": "Software engineering (SWE) agents resolve repository-level issues through long trajectories that grow increasingly expensive as context accumulates. Failed runs tend to be longer and exhibit redundant exploration or looping, suggesting that some failures may be detectable before completion. Early termination, however, risks interrupting trajectories that would otherwise succeed; conversely, an unsuccessful trajectory may still contain useful repository edits. We present FailFast-RestartSmart, a two-stage controller for a single active trajectory. FailFast is a lightweight 0.6B monitor trained with terminal and dense fail-to-pass supervision to predict failure from observable prefixes without policy logits or hidden states. Upon an alarm, RestartSmart launches a fresh same-policy rollout without prior prompt history and offers the interrupted repository diff as an optional overlay that the agent may inspect, apply, or discard. On SWE-bench Verified, a monitor trained solely on Qwen3.6-27B trajectories transfers to three other policies, including a closed-API model, and saves 14.6%-20.4% of execution tokens at a target 5% false-positive rate; on Qwen3.6-27B, its 20.4% saving exceeds the 12.5% achieved by our per-step AgentStop adaptation. At a target 25% false-positive rate, RestartSmart raises Qwen3.6-27B resolution from 66.6% to 71.8%, whereas cold restart reaches only 66.8%. Together, these results support early termination with sequential same-policy recovery.",
+      "authors": [
+        "Chenyu Wang",
+        "Yunbo Lyu",
+        "Junda He",
+        "Zhou Yang",
+        "Chenxing Zhong",
+        "Yaniv Harel",
+        "David Lo"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-08-04T06:55:46+00:00",
+      "link": "https://arxiv.org/pdf/2608.03222v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Early failure prediction for software engineering agent trajectories using lightweight monitor",
+      "llm_evidence_cn": "使用轻量监控器对软件工程代理轨迹进行早期失败预测",
+      "llm_evidence": "使用轻量监控器对软件工程代理轨迹进行早期失败预测",
+      "canonical_evidence": "使用轻量监控器对软件工程代理轨迹进行早期失败预测",
+      "llm_tldr_en": "Presents FailFast-RestartSmart, a two-stage controller that predicts failure of SWE agent trajectories from observable prefixes using a lightweight 0.6B monitor, enabling early termination and smart restart to save cost while preserving useful edits.",
+      "llm_tldr_cn": "软件工程代理的长轨迹执行成本高昂，且失败往往伴随冗余探索和循环。本文提出FailFast-RestartSmart两阶段控制器，其中FailFast是一个0.6B的轻量监控器，仅基于可观测前缀预测轨迹失败概率，无需策略内部状态。该系统在失败早期触发告警并智能重启，既能避免无效投入，又保留轨迹中可能有效的仓库编辑。实验表明该方法能准确预测失败并显著提升任务效率，为代理轨迹错误检测提供了实用范本。",
+      "llm_tldr": "软件工程代理的长轨迹执行成本高昂，且失败往往伴随冗余探索和循环。本文提出FailFast-RestartSmart两阶段控制器，其中FailFast是一个0.6B的轻量监控器，仅基于可观测前缀预测轨迹失败概率，无需策略内部状态。该系统在失败早期触发告警并智能重启，既能避免无效投入，又保留轨迹中可能有效的仓库编辑。实验表明该方法能准确预测失败并显著提升任务效率，为代理轨迹错误检测提供了实用范本。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.28374v1",
+      "source": "arxiv",
+      "title": "LEDGERMIND: Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger",
+      "abstract": "Multimodal agents for visual question answering increasingly operate as multi-step trajectories that interleave perception, retrieval, and reasoning, yet evaluation still largely reduces to final-answer accuracy. This aggregate signal cannot tell whether a correct answer was reached through grounded evidence, language priors, or accidental error cancellation. We propose to treat a multimodal agent trajectory as a provenance-constrained state machine: tool outputs are normalized into a Structured Evidence Ledger that serves as the trajectory state, downstream reasoning and decision claims may cite only active ledger entries, grounding is checked at the entity and numeric level, and repair is realized as typed state transitions that cannot introduce content without tool-produced provenance. We instantiate this design as LedgerMind (Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger), augmented by a Three-Layer Grounding Protocol, an Adaptive Dual-Path Dispatcher that matches reasoning depth to question complexity, and an Event-Triggered Verification-and-Repair engine with a formal provenance non-amplification guarantee. We use LedgerMind to target four recurring failure patterns that final-answer accuracy tends to obscure: unsupported intermediate reasoning, citation-backed entity hallucination (Phantom Grounding), over-reasoning on simple queries, and repair-time amplification. Experiments across multiple multimodal reasoning benchmarks and backbone MLLMs show that LedgerMind improves both answer accuracy and trajectory-level faithfulness.",
+      "authors": [
+        "Enjun Du",
+        "Hange Zhou",
+        "Chenxu Du",
+        "Siyi Liu",
+        "Zirong Chen",
+        "Ziyu Zheng",
+        "Yongqi Zhang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-30T15:35:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.28374v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "uses evidence ledger and grounding checks to monitor unsupported claims in agent trajectories",
+      "llm_evidence_cn": "用证据账本与接地检查监控代理轨迹中的无据声明",
+      "llm_evidence": "用证据账本与接地检查监控代理轨迹中的无据声明",
+      "canonical_evidence": "用证据账本与接地检查监控代理轨迹中的无据声明",
+      "llm_tldr_en": "LEDGERMIND models multimodal agent trajectories as provenance-constrained state machines with a structured evidence ledger, grounding checks, and typed repair transitions to expose unsupported reasoning.",
+      "llm_tldr_cn": "多模态智能体轨迹评估通常只看最终答案准确率，无法判断推理是否基于证据或由语言先验偶然得出。该文将轨迹视为受溯源约束的状态机，工具输出规范化到结构化证据账本，推理只能引用活跃条目，并在实体和数值级别进行接地性检查。通过类型化状态转换实现修复，该方法能识别无根据的推理声明，提高评估的可解释性与可靠性。",
+      "llm_tldr": "多模态智能体轨迹评估通常只看最终答案准确率，无法判断推理是否基于证据或由语言先验偶然得出。该文将轨迹视为受溯源约束的状态机，工具输出规范化到结构化证据账本，推理只能引用活跃条目，并在实体和数值级别进行接地性检查。通过类型化状态转换实现修复，该方法能识别无根据的推理声明，提高评估的可解释性与可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.03403v1",
+      "source": "arxiv",
+      "title": "Towards Robust Tool Use in Agents via Experience-Driven Adaptive Guidance",
+      "abstract": "The performance bottleneck of agents is increasingly shifting from model capability to the robustness of their execution processes. Tools play a central role as the primary interface through which agents interact with external environments, yet existing methods rarely focus on ensuring robust tool use across diverse runtime conditions. To address this problem, we propose ExpG, a mechanism that builds and refines adaptive guidance capturing each tool's capability boundaries and best practices, thereby enabling agents to use tools more robustly and effectively. ExpG consists of three phases: (1) experience acquisition, which analyzes tool invocation quality from historical execution trajectories, producing structured learnable experiences through multi-aspect attribution; (2) experience distillation, which keeps the experience pool effective by filtering unhelpful experiences, selecting representative ones with an equivalence-class-based method, and summarizing them into generalizable guidance; and (3) experience reuse, which applies the guidance adaptively during future task solving. Extensive experiments show that ExpG brings consistent improvements across the tool selection, tool calling, and response generation tasks, enabling smaller agents to outperform larger ones that do not use ExpG. Moreover, ExpG achieves particularly strong gains in challenging settings, suggesting a promising path toward more robust tool use. Our code, experiments, and results are available.",
+      "authors": [
+        "Can Wang",
+        "Haoran Chen",
+        "Li Yu",
+        "Ding Hao",
+        "Bohai Zhao",
+        "Zhaoyang Liu",
+        "Zhiying Tu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-04T09:56:31+00:00",
+      "link": "https://arxiv.org/pdf/2608.03403v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "analyzes tool invocation quality from historical execution trajectories for robust agent behavior",
+      "llm_evidence_cn": "从历史执行轨迹分析工具调用质量以提升智能体鲁棒性",
+      "llm_evidence": "从历史执行轨迹分析工具调用质量以提升智能体鲁棒性",
+      "canonical_evidence": "从历史执行轨迹分析工具调用质量以提升智能体鲁棒性",
+      "llm_tldr_en": "ExpG builds adaptive guidance by analyzing tool invocation quality in historical execution trajectories, capturing capability boundaries to help agents use tools robustly across runtime conditions.",
+      "llm_tldr_cn": "智能体执行瓶颈正从模型能力转向执行过程鲁棒性，工具使用常因运行条件变化而失败。该文提出ExpG机制，从历史执行轨迹中分析工具调用质量，生成结构化可学习的经验，捕捉每个工具的能力边界与最佳实践。通过获取、提炼和自适应引导，代理能更稳健有效地使用工具，降低运行时错误。",
+      "llm_tldr": "智能体执行瓶颈正从模型能力转向执行过程鲁棒性，工具使用常因运行条件变化而失败。该文提出ExpG机制，从历史执行轨迹中分析工具调用质量，生成结构化可学习的经验，捕捉每个工具的能力边界与最佳实践。通过获取、提炼和自适应引导，代理能更稳健有效地使用工具，降低运行时错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.00485v2",
+      "source": "arxiv",
+      "title": "SERL-SQL: Selective Hindsight Distillation for Text-to-SQL Reinforcement Agentic Learning",
+      "abstract": "Recent Text-to-SQL systems increasingly rely on multi-turn interaction, execution feedback, and reinforcement learning. However, most existing methods use execution correctness only as a trajectory-level reward, which provides limited guidance for identifying the SQL decisions responsible for success or failure. We propose SERL-SQL, a selective execution-grounded reinforcement learning framework for multi-turn Text-to-SQL agents. SERL-SQL samples on-policy SQL interaction trajectories and uses a training-only teacher to re-score student actions with execution feedback. The resulting teacher--student likelihood gap is converted into bounded, masked weights that reweight GRPO advantages only on SQL and tool-action tokens. In this way, task rewards preserve the optimization direction, while execution hindsight provides localized credit assignment. Experiments on BIRD, Spider, and cross-domain benchmarks show that SERL-SQL achieves competitive performance, reaching 76.56% execution accuracy on BIRD-Dev and 89.92% on Spider-Test. Moreover, our reward-based selection strategy closely approaches the oracle Best-of-N upper bound and consistently outperforms consistency-based selection, showing that SERL-SQL produces high-quality candidates that can be reliably identified by lightweight execution-grounded rewards. Our code will be released at https://github.com/Ffunkytao/SERL-SQL.",
+      "authors": [
+        "Tao Liu",
+        "Tao Feng",
+        "Xiangheng Li",
+        "Jinwang Song",
+        "Yifan Li",
+        "Xiaoqing Cheng",
+        "Dixuan Zhang",
+        "Siquan Li",
+        "Lin Lan",
+        "Hongying Zan",
+        "Kunli Zhang",
+        "Chao Wu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-08-01T07:24:12+00:00",
+      "link": "https://arxiv.org/pdf/2608.00485v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Uses execution feedback to re-score student actions and identify SQL decisions responsible for failure",
+      "llm_evidence_cn": "利用执行反馈重新评分学生动作，识别造成失败的SQL决策",
+      "llm_evidence": "利用执行反馈重新评分学生动作，识别造成失败的SQL决策",
+      "canonical_evidence": "利用执行反馈重新评分学生动作，识别造成失败的SQL决策",
+      "llm_tldr_en": "SERL-SQL reweights GRPO advantages on SQL and tool-action tokens using a teacher-student likelihood gap derived from execution feedback, enabling more fine-grained credit assignment in multi-turn Text-to-SQL agent trajectories.",
+      "llm_tldr_cn": "多轮文本到SQL智能体中，仅用轨迹级执行正确性作为奖励难以定位导致失败的SQL决策。SERL-SQL采用训练专用教师模型重新评分学生动作，将执行反馈转化为有界掩码权重，只对SQL和工具动作标记重加权GRPO优势。这样能够更细粒度地对轨迹中的动作进行成功/失败归因，改善强化学习训练效果。该框架展示了执行反馈在轨迹错误归因中的价值。",
+      "llm_tldr": "多轮文本到SQL智能体中，仅用轨迹级执行正确性作为奖励难以定位导致失败的SQL决策。SERL-SQL采用训练专用教师模型重新评分学生动作，将执行反馈转化为有界掩码权重，只对SQL和工具动作标记重加权GRPO优势。这样能够更细粒度地对轨迹中的动作进行成功/失败归因，改善强化学习训练效果。该框架展示了执行反馈在轨迹错误归因中的价值。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.03735v1",
+      "source": "arxiv",
+      "title": "An Actionable Diagnosis of Multilingual, Multi-Agent Planning Failures",
+      "abstract": "Multilingual multi-agent systems exhibit substantial degradation beyond English, yet prior work rarely identifies how task-critical information is lost when user requests are converted into executable plans. We study the planner in a multi-agent system as the request-to-action interface and derive an actionable taxonomy of planning-grounding failures from failed real-world task executions. LLM-based analysis shows that these failures constitute an increasing share of unsuccessful executions as language-resource availability declines, with the strongest effects in low-resource languages. To test whether the taxonomy supports mitigation, we introduce TART, Taxonomy-Guided Actionable Representation, that makes the taxonomy's key aspects explicit to the planner and downstream sub-agents. Across multiple languages, three LLM backbones, two datasets, and two agentic configurations, TART consistently improves performance. On multilingual GAIA, it raises a state-of-the-art system's accuracy by 5.6 percentage points averaged across eleven languages spanning low- to high-resource settings.",
+      "authors": [
+        "Vikas Pahuja",
+        "Jonathan Brokman",
+        "Omer Hofman",
+        "Tamir Nizri",
+        "Daniel Vishna",
+        "Seraphina Goldfarb-Tarrant",
+        "Kelly Marchisio",
+        "Hisashi Kojima",
+        "Roman Vainshtein"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.CL"
+      ],
+      "published": "2026-08-04T14:29:14+00:00",
+      "link": "https://arxiv.org/pdf/2608.03735v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Diagnoses planning-grounding failures from failed multi-agent task executions",
+      "llm_evidence_cn": "从失败的多代理任务执行中诊断规划-落地错误",
+      "llm_evidence": "从失败的多代理任务执行中诊断规划-落地错误",
+      "canonical_evidence": "从失败的多代理任务执行中诊断规划-落地错误",
+      "llm_tldr_en": "This paper studies failures in multilingual multi-agent systems, deriving an actionable taxonomy of planning-grounding failures from failed executions and introducing TART to expose key aspects to planners.",
+      "llm_tldr_cn": "针对多语言多代理系统在非英语环境下性能严重下降的问题，本文从真实失败的任务执行中归纳出规划-落地失败的可操作分类法，并利用LLM分析表明低资源语言中此类失败占比更高。为验证分类法的价值，作者提出TART表示，将分类关键显式注入规划器，从而支持失败监测与缓解。该工作为多代理系统轨迹中的错误诊断提供了系统化方法。",
+      "llm_tldr": "针对多语言多代理系统在非英语环境下性能严重下降的问题，本文从真实失败的任务执行中归纳出规划-落地失败的可操作分类法，并利用LLM分析表明低资源语言中此类失败占比更高。为验证分类法的价值，作者提出TART表示，将分类关键显式注入规划器，从而支持失败监测与缓解。该工作为多代理系统轨迹中的错误诊断提供了系统化方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.00613v1",
+      "source": "arxiv",
+      "title": "From Failures to Supervision: DynamicEnvPlan for Robust Long-Horizon Embodied Planning",
+      "abstract": "Physical-world interaction is inherently dynamic, as environments can evolve during execution, requiring agents to adapt their plans under non-stationary conditions. We study this challenge through long-horizon embodied planning under environment deviations and execution uncertainty. Existing embodied-task benchmarks can expose such failures, but these failures are usually treated as evaluation outcomes instead of learnable signals for training agents to recover. In this work, we introduce DynamicEnvPlan, a closed-loop framework for high-level planning in dynamic environments. It extends embodied task execution with humanoid agents, high-level primitive skills, structured semantic memory, and controllable perturbations. Our data synthesis design consists of planning, perturbation, and guarded correction modules that turn dynamic execution states into recovery-oriented traces. The resulting traces are used for staged supervised fine-tuning, enabling the planner to learn from both nominal execution and perturbed recovery trajectories. Using 104 task-scene combinations spanning i.i.d., compositional generalization, and out-of-distribution settings for fine-tuning and evaluation, DynamicEnvPlan boosts success rate from 33.3% for the base planner to 76.2%, while improving across all seven evaluation metrics critical to physical-world interaction, including safety and affordance compliance.",
+      "authors": [
+        "Hao Yuan",
+        "Yuxin Wang",
+        "Lei Ji",
+        "Zhiwei Yu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-01T12:09:47+00:00",
+      "link": "https://arxiv.org/pdf/2608.00613v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learns from failures and environment deviations in long-horizon embodied planning; uses failures as supervision",
+      "llm_evidence_cn": "在长期具身规划中利用环境偏差与执行不确定性，将故障作为可学习信号",
+      "llm_evidence": "在长期具身规划中利用环境偏差与执行不确定性，将故障作为可学习信号",
+      "canonical_evidence": "在长期具身规划中利用环境偏差与执行不确定性，将故障作为可学习信号",
+      "llm_tldr_en": "DynamicEnvPlan is a closed-loop framework that treats environment deviations as learnable signals, using structured semantic memory and controllable perturbations to train humanoid agents to recover from plan failures in long-horizon tasks.",
+      "llm_tldr_cn": "长期具身规划中环境可能动态变化，智能体计划执行易受环境偏差干扰，但现有基准仅将这些失败当作评估结果。DynamicEnvPlan提出闭环框架，将执行失败转化为监督信号，引入可控扰动和结构化语义记忆。实验表明该方法能提升智能体在动态环境下的鲁棒性，说明失败检测与恢复训练可以互相促进。",
+      "llm_tldr": "长期具身规划中环境可能动态变化，智能体计划执行易受环境偏差干扰，但现有基准仅将这些失败当作评估结果。DynamicEnvPlan提出闭环框架，将执行失败转化为监督信号，引入可控扰动和结构化语义记忆。实验表明该方法能提升智能体在动态环境下的鲁棒性，说明失败检测与恢复训练可以互相促进。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.01652v1",
+      "source": "arxiv",
+      "title": "SyncPlan: Long-Horizon LLM Coordination with Explicit Synchronization and Adaptive Correction",
+      "abstract": "LLM-based multi-agent coordination faces a fundamental trade-off between efficiency and adaptivity in dynamic environments. Existing approaches typically rely on repeated LLM invocations or multi-round communication to adapt decisions during execution, introducing substantial latency and making coordination vulnerable to asynchronous progress and environmental changes. Conversely, one-shot planning reduces coordination overhead but produces open-loop plans that can quickly become stale or fail when actions depend on other agents and the environment. We introduce SyncPlan, a plan-execute-correct framework for long-horizon coordination through explicit synchronization and adaptive correction. Given the state and team-level task, a centralized LLM coordinator generates per-agent action chains in a single planning call. During execution, explicit wait primitives and deadlock detection enforce inter-agent and agent-environment dependencies, while a lightweight Plan Staleness Detector continuously assesses the remaining plan and triggers replanning when environmental changes invalidate its assumptions. We further optimize the coordinator through SFT and planning-oriented RL with dense task progress and outcome-level execution feedback. Experiments on the public Overcooked benchmark and the complex Honor of Kings environment show that SyncPlan achieves state-of-the-art task success rates while using less than 0.05% of the wall-clock runtime compared with existing LLM-based coordinators. Code and datasets will be made publicly available.",
+      "authors": [
+        "Shen You",
+        "Xiaoming Zhu",
+        "Weining Weng",
+        "Hefei Mei",
+        "Weixuan Wang",
+        "Zhongshen Li",
+        "Zeji LI",
+        "Ye-Wen Wang",
+        "Zijun Liao",
+        "Juchao Zhuo",
+        "Yang Wei",
+        "Fuhao Qiu",
+        "Siqin Li",
+        "Zhenjie Lian",
+        "Danei Gong",
+        "Junkai Ji",
+        "Xiangtao Li",
+        "Qiuzhen Lin",
+        "Liang Wang",
+        "Ka-Chun Wong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-03T03:43:57+00:00",
+      "link": "https://arxiv.org/pdf/2608.01652v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "plan-execute-correct framework detects stale or failed plans in long-horizon multi-agent trajectories and adaptively corrects them",
+      "llm_evidence_cn": "在长程多智能体执行轨迹中识别计划失效并自适应纠正，可服务于路径偏差检测",
+      "llm_evidence": "在长程多智能体执行轨迹中识别计划失效并自适应纠正，可服务于路径偏差检测",
+      "canonical_evidence": "在长程多智能体执行轨迹中识别计划失效并自适应纠正，可服务于路径偏差检测",
+      "llm_tldr_en": "Long-horizon LLM coordination suffers from latency versus adaptivity tradeoffs. SyncPlan introduces a plan-execute-correct framework with explicit synchronization and adaptive correction, detecting stale or failed plans and correcting them based on state and team tasks. This supports detecting path deviations and execution errors in multi-agent trajectories.",
+      "llm_tldr_cn": "长程大语言模型多智能体协调面临效率与自适应性的权衡：频繁调用或通信延迟高，而一次性开环计划容易在异步进展和环境变化下失效。为此提出 SyncPlan 计划-执行-校正框架，通过显式同步和自适应校正识别并纠正失效的计划。该方法在保持较低协调开销的同时增强对动态环境的适应性，降低计划偏差和任务失败。这类执行期纠错机制可迁移用于代理轨迹中的路径偏差与错误检测。",
+      "llm_tldr": "长程大语言模型多智能体协调面临效率与自适应性的权衡：频繁调用或通信延迟高，而一次性开环计划容易在异步进展和环境变化下失效。为此提出 SyncPlan 计划-执行-校正框架，通过显式同步和自适应校正识别并纠正失效的计划。该方法在保持较低协调开销的同时增强对动态环境的适应性，降低计划偏差和任务失败。这类执行期纠错机制可迁移用于代理轨迹中的路径偏差与错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.02683v1",
+      "source": "arxiv",
+      "title": "$S^3$: Improving Agent Safety through Multi-Stage Defense",
+      "abstract": "Large Language Model (LLM) agents rely on multi-stage agentic workflows, with stages such as memory, planning, and tool execution, to accomplish complex tasks. However, risks may emerge at different stages, propagate across steps, and become difficult to detect and mitigate. Existing safety methods protect only isolated stages and are difficult to integrate, leaving agents without comprehensive protection throughout the workflow. To address these limitations, we introduce Stage-Specific Safety Skills, a unified abstraction that represents heterogeneous safety designs as reusable and composable components with explicit stage semantics. We further develop an automated transformation pipeline that converts existing safety designs into reusable safety skills and establish a community-driven safety skill library. Building on this abstraction, we propose $S^3$, a multi-stage defense framework in which a guard agent orchestrates stage-specific safety skills for risk detection and mitigation throughout the agentic workflow. We also construct the Multi-Stage Risk Benchmark (MSRB) to evaluate representative risks across workflow stages. Experimental results show that $S^3$ consistently outperforms representative state-of-the-art baselines in both safety effectiveness and utility preservation. These results demonstrate the potential of stage-specific safety skills as a scalable and composable foundation for building resilient and trustworthy agent systems.",
+      "authors": [
+        "Zibo Xiao",
+        "Haoyu Wang",
+        "Jun Sun"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-03T02:06:06+00:00",
+      "link": "https://arxiv.org/pdf/2608.02683v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Detects and mitigates risks across agent workflow stages; safety skills with stage semantics",
+      "llm_evidence_cn": "在智能体工作流各阶段检测并缓解风险，提出带阶段语义的安全技能",
+      "llm_evidence": "在智能体工作流各阶段检测并缓解风险，提出带阶段语义的安全技能",
+      "canonical_evidence": "在智能体工作流各阶段检测并缓解风险，提出带阶段语义的安全技能",
+      "llm_tldr_en": "Presents Stage-Specific Safety Skills as composable components with stage semantics and an automated pipeline to convert existing safety designs, enabling detection and mitigation of risks across multi-stage LLM agent workflows.",
+      "llm_tldr_cn": "大模型智能体的多阶段工作流中，风险可能在不同阶段出现、跨步骤传播，难以检测与缓解。S3提出阶段特定安全技能这一统一抽象，将异构安全设计表示为可复用、可组合的组件，并开发自动转换流程把现有安全设计转化为安全技能。该方法能对记忆、规划、工具执行等阶段进行联合防护，强化对智能体行为风险的监控与错误处置。这提供了一种面向多阶段轨迹的模块化安全检测与缓解框架。",
+      "llm_tldr": "大模型智能体的多阶段工作流中，风险可能在不同阶段出现、跨步骤传播，难以检测与缓解。S3提出阶段特定安全技能这一统一抽象，将异构安全设计表示为可复用、可组合的组件，并开发自动转换流程把现有安全设计转化为安全技能。该方法能对记忆、规划、工具执行等阶段进行联合防护，强化对智能体行为风险的监控与错误处置。这提供了一种面向多阶段轨迹的模块化安全检测与缓解框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
