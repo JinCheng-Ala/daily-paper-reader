@@ -7,55 +7,57 @@
 
 ## 每次日报
 - 最新运行日期：2026-08-07
-- 运行时间：2026-08-07 00:47:18 UTC
+- 运行时间：2026-08-07 21:01:24 UTC
 - 运行状态：成功
 - 本次总论文数：12
 - 精读区：6
 - 速读区：6
 
 ### 今日简报（AI）
-今日精读6篇、速读6篇，重点聚焦手术机器人模仿策略的故障检测与Agentic RAG的事前流程失败诊断。最值得关注两项高分工作：流匹配世界模型可提前识别手术机器人操作故障（9.0分），代理型RAG需在证据检索前就防范流程失误（9.0分）。建议普通读者优先关注这两个可落地的可靠性改进方向，同时速读中多智能体规划与工具使用鲁棒性研究也具参考价值。
+今日聚焦智能体轨迹错误溯源与RAG流程失败分析，共筛选12篇论文，精读2篇、速读3篇。  
+最值得关注：TRAJDEBUG用错误生命周期定位长程轨迹关键失败（满分10），以及Agentic RAG在证据之前的程序性失效（9分）。  
+建议从这两篇入手，理解“失败发生在哪一步”比只看结果更能提升智能体调试与设计效率。
 - 详情：[/202608/07/README](/202608/07/README)
 
 ### 精读区论文标签
-1. [Failure Detection for Surgical Robot Imitation Policies via Flow-Matching World Modeling](/202608/07/2607.27511v1-failure-detection-for-surgical-robot-imitation-policies-via-flow-matching-world-modeling)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：利用流匹配世界模型对手术机器人代理轨迹进行失败检测
+1. [TRAJDEBUG: Tracing Error Lifecycle to Identify Critical Failures in Long-Horizon Agent Trajectories](/202608/07/2608.06346v1-trajdebug-tracing-error-lifecycle-to-identify-critical-failures-in-long-horizon-agent-trajectories)  
+   标签：评分：10.0/10、query:agent-error
+   evidence：通过错误生命周期追踪定位长时程智能体轨迹中的关键失败
 2. [Before Reasoning Can Fail: Pre-Evidence Procedural Failures in Agentic RAG](/202608/07/2608.02011v2-before-reasoning-can-fail-pre-evidence-procedural-failures-in-agentic-rag)  
    标签：评分：9.0/10、query:agent-error
-   evidence：将错误智能体轨迹分解为证据前程序性失败和证据读取后失败，并用Read-Gate运行时约束检测
+   evidence：将智能体轨迹分解为证据前与证据后失败类型
 3. [CUADebug: Diagnosing and Repairing Computer-Use Agent Failures](/202608/07/2608.02643v1-cuadebug-diagnosing-and-repairing-computer-use-agent-failures)  
    标签：评分：9.0/10、query:agent-error
-   evidence：直接针对智能体轨迹中的故障诊断与修复，通过检查可疑步骤定位错误。
+   evidence：提出错误分类法并主动检查轨迹中的可疑步骤
 4. [From Routes to Steps: Separating Semantic Progress from Local Execution in Vision-and-Language Navigation](/202608/07/2608.03143v1-from-routes-to-steps-separating-semantic-progress-from-local-execution-in-vision-and-language-navigation)  
    标签：评分：9.0/10、query:agent-error
-   evidence：直接区分智能体轨迹中的进度追踪错误与执行错误，支持路径偏离检测。
+   evidence：面向智能体导航轨迹中的进度跟踪错误与执行错误检测，以及路径偏离识别
 5. [Fail-Fast, Restart-Smart: Early Failure Prediction and Restart for SWE Agentic Tasks](/202608/07/2608.03222v1-fail-fast-restart-smart-early-failure-prediction-and-restart-for-swe-agentic-tasks)  
    标签：评分：9.0/10、query:agent-error
-   evidence：使用轻量监控器对软件工程代理轨迹进行早期失败预测
-6. [LEDGERMIND: Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger](/202608/07/2607.28374v1-ledgermind-provenance-constrained-multimodal-agentic-reasoning-with-a-structured-evidence-ledger)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：用证据账本与接地检查监控代理轨迹中的无据声明
+   evidence：从可观察前缀对软件工程智能体轨迹进行早期失败预测
+6. [StepReflect: Structured UI Transition Reflection for Mobile GUI Agents](/202608/07/2608.05587v1-stepreflect-structured-ui-transition-reflection-for-mobile-gui-agents)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：对智能体轨迹中的每一步动作进行结构化转换校验以检测错误
 
 ### 速读区论文标签
-1. [Towards Robust Tool Use in Agents via Experience-Driven Adaptive Guidance](/202608/07/2608.03403v1-towards-robust-tool-use-in-agents-via-experience-driven-adaptive-guidance)  
+1. [OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models](/202608/07/2607.28609v2-osreward-instituting-standardized-evaluation-for-cross-platform-computer-use-reward-models)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：评测视觉语言模型评委对CUA轨迹是否完成任务指令的判定能力
+2. [From Failures to Supervision: DynamicEnvPlan for Robust Long-Horizon Embodied Planning](/202608/07/2608.00613v1-from-failures-to-supervision-dynamicenvplan-for-robust-long-horizon-embodied-planning)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：利用执行失败与环境偏差作为监督信号，检测并恢复具身智能体轨迹中的计划错误
+3. [$S^3$: Improving Agent Safety through Multi-Stage Defense](/202608/07/2608.02683v1-s3-improving-agent-safety-through-multi-stage-defense)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：多阶段智能体工作流中的风险检测与缓解
+4. [An Actionable Diagnosis of Multilingual, Multi-Agent Planning Failures](/202608/07/2608.03735v1-an-actionable-diagnosis-of-multilingual-multi-agent-planning-failures)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：从失败的多智能体执行轨迹中诊断规划-落地失败，并提供可操作的错误分类
+5. [SkillTV-Bench: Benchmarking How Well Judges Perform on Skill-Augmented Agentic Execution](/202608/07/2608.05573v1-skilltv-bench-benchmarking-how-well-judges-perform-on-skill-augmented-agentic-execution)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：基于681条真实智能体轨迹的基准，评估技能感知的轨迹验证与失败检测
+6. [OneDayAgent: Towards a Long-Horizon Harness for Autonomous Agents](/202608/07/2608.05013v1-onedayagent-towards-a-long-horizon-harness-for-autonomous-agents)  
    标签：评分：7.0/10、query:agent-error
-   evidence：从历史执行轨迹分析工具调用质量以提升智能体鲁棒性
-2. [An Actionable Diagnosis of Multilingual, Multi-Agent Planning Failures](/202608/07/2608.03735v1-an-actionable-diagnosis-of-multilingual-multi-agent-planning-failures)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：从失败的多代理任务执行中诊断规划-落地错误
-3. [SERL-SQL: Selective Hindsight Distillation for Text-to-SQL Reinforcement Agentic Learning](/202608/07/2608.00485v2-serl-sql-selective-hindsight-distillation-for-text-to-sql-reinforcement-agentic-learning)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：利用执行反馈重新评分学生动作，识别造成失败的SQL决策
-4. [From Failures to Supervision: DynamicEnvPlan for Robust Long-Horizon Embodied Planning](/202608/07/2608.00613v1-from-failures-to-supervision-dynamicenvplan-for-robust-long-horizon-embodied-planning)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：在长期具身规划中利用环境偏差与执行不确定性，将故障作为可学习信号
-5. [SyncPlan: Long-Horizon LLM Coordination with Explicit Synchronization and Adaptive Correction](/202608/07/2608.01652v1-syncplan-long-horizon-llm-coordination-with-explicit-synchronization-and-adaptive-correction)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：在长程多智能体执行轨迹中识别计划失效并自适应纠正，可服务于路径偏差检测
-6. [$S^3$: Improving Agent Safety through Multi-Stage Defense](/202608/07/2608.02683v1-s3-improving-agent-safety-through-multi-stage-defense)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：在智能体工作流各阶段检测并缓解风险，提出带阶段语义的安全技能
+   evidence：长时程执行框架通过维护执行记忆并验证中间执行应对目标漂移和状态丢失
 
 
 <div class="dpr-home-promo-card">
