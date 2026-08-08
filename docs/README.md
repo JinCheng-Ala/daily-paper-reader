@@ -6,58 +6,40 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-07
-- 运行时间：2026-08-07 21:01:24 UTC
+- 最新运行日期：2026-08-08
+- 运行时间：2026-08-08 20:28:33 UTC
 - 运行状态：成功
-- 本次总论文数：12
-- 精读区：6
-- 速读区：6
+- 本次总论文数：6
+- 精读区：2
+- 速读区：4
 
 ### 今日简报（AI）
-今日聚焦智能体轨迹错误溯源与RAG流程失败分析，共筛选12篇论文，精读2篇、速读3篇。  
-最值得关注：TRAJDEBUG用错误生命周期定位长程轨迹关键失败（满分10），以及Agentic RAG在证据之前的程序性失效（9分）。  
-建议从这两篇入手，理解“失败发生在哪一步”比只看结果更能提升智能体调试与设计效率。
-- 详情：[/202608/07/README](/202608/07/README)
+今日精读6篇论文，核心聚焦AI Agent安全风险与工具规范，另涉自动驾驶、电商等方向。  
+最值得关注：工具规范不当会引发智能体安全风险，且已有针对模块化安全智能体的轨迹风险认证方法。  
+建议普通读者优先关注智能体工具使用的安全边界与风险缓解策略。
+- 详情：[/202608/08/README](/202608/08/README)
 
 ### 精读区论文标签
-1. [TRAJDEBUG: Tracing Error Lifecycle to Identify Critical Failures in Long-Horizon Agent Trajectories](/202608/07/2608.06346v1-trajdebug-tracing-error-lifecycle-to-identify-critical-failures-in-long-horizon-agent-trajectories)  
-   标签：评分：10.0/10、query:agent-error
-   evidence：通过错误生命周期追踪定位长时程智能体轨迹中的关键失败
-2. [Before Reasoning Can Fail: Pre-Evidence Procedural Failures in Agentic RAG](/202608/07/2608.02011v2-before-reasoning-can-fail-pre-evidence-procedural-failures-in-agentic-rag)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：将智能体轨迹分解为证据前与证据后失败类型
-3. [CUADebug: Diagnosing and Repairing Computer-Use Agent Failures](/202608/07/2608.02643v1-cuadebug-diagnosing-and-repairing-computer-use-agent-failures)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：提出错误分类法并主动检查轨迹中的可疑步骤
-4. [From Routes to Steps: Separating Semantic Progress from Local Execution in Vision-and-Language Navigation](/202608/07/2608.03143v1-from-routes-to-steps-separating-semantic-progress-from-local-execution-in-vision-and-language-navigation)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：面向智能体导航轨迹中的进度跟踪错误与执行错误检测，以及路径偏离识别
-5. [Fail-Fast, Restart-Smart: Early Failure Prediction and Restart for SWE Agentic Tasks](/202608/07/2608.03222v1-fail-fast-restart-smart-early-failure-prediction-and-restart-for-swe-agentic-tasks)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：从可观察前缀对软件工程智能体轨迹进行早期失败预测
-6. [StepReflect: Structured UI Transition Reflection for Mobile GUI Agents](/202608/07/2608.05587v1-stepreflect-structured-ui-transition-reflection-for-mobile-gui-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：对智能体轨迹中的每一步动作进行结构化转换校验以检测错误
+1. [Tool Specifications Matter: Uncovering and Mitigating Safety Risks in AI Agents](/202608/08/2607.29254v1-tool-specifications-matter-uncovering-and-mitigating-safety-risks-in-ai-agents)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：监控智能体工具执行以检测并拦截不安全动作
+2. [Post-Hoc Trajectory-Risk Certification for Modular LLM-Based Security Agents](/202608/08/2608.05199v1-post-hoc-trajectory-risk-certification-for-modular-llm-based-security-agents)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：为模块化LLM智能体提供轨迹级风险认证，处理跨阶段相关错误
 
 ### 速读区论文标签
-1. [OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models](/202608/07/2607.28609v2-osreward-instituting-standardized-evaluation-for-cross-platform-computer-use-reward-models)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：评测视觉语言模型评委对CUA轨迹是否完成任务指令的判定能力
-2. [From Failures to Supervision: DynamicEnvPlan for Robust Long-Horizon Embodied Planning](/202608/07/2608.00613v1-from-failures-to-supervision-dynamicenvplan-for-robust-long-horizon-embodied-planning)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：利用执行失败与环境偏差作为监督信号，检测并恢复具身智能体轨迹中的计划错误
-3. [$S^3$: Improving Agent Safety through Multi-Stage Defense](/202608/07/2608.02683v1-s3-improving-agent-safety-through-multi-stage-defense)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：多阶段智能体工作流中的风险检测与缓解
-4. [An Actionable Diagnosis of Multilingual, Multi-Agent Planning Failures](/202608/07/2608.03735v1-an-actionable-diagnosis-of-multilingual-multi-agent-planning-failures)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：从失败的多智能体执行轨迹中诊断规划-落地失败，并提供可操作的错误分类
-5. [SkillTV-Bench: Benchmarking How Well Judges Perform on Skill-Augmented Agentic Execution](/202608/07/2608.05573v1-skilltv-bench-benchmarking-how-well-judges-perform-on-skill-augmented-agentic-execution)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：基于681条真实智能体轨迹的基准，评估技能感知的轨迹验证与失败检测
-6. [OneDayAgent: Towards a Long-Horizon Harness for Autonomous Agents](/202608/07/2608.05013v1-onedayagent-towards-a-long-horizon-harness-for-autonomous-agents)  
+1. [Latent-Centroid Steering: Single-Pass Classifier-Free Guidance for Command-Aligned Autonomous Driving](/202608/08/2608.00237v1-latent-centroid-steering-single-pass-classifier-free-guidance-for-command-aligned-autonomous-driving)  
    标签：评分：7.0/10、query:agent-error
-   evidence：长时程执行框架通过维护执行记忆并验证中间执行应对目标漂移和状态丢失
+   evidence：识别自动驾驶轨迹预测中的指令跟随缺失与关键决策点的错误行为
+2. [Agentic Commerce World: An Auditable and Verifiable Environment for Vibe Commerce](/202608/08/2608.02441v1-agentic-commerce-world-an-auditable-and-verifiable-environment-for-vibe-commerce)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：在更新共享交易状态前验证智能体动作，检测智能体轨迹中的动作错误
+3. [Towards Robust Tool Use in Agents via Experience-Driven Adaptive Guidance](/202608/08/2608.03403v1-towards-robust-tool-use-in-agents-via-experience-driven-adaptive-guidance)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：通过分析智能体历史执行轨迹中的工具调用质量来识别潜在错误并提供自适应指导
+4. [SCOPE: Field-of-View-Aware Path Planning in Unknown 3D Environments via Safety-Volume Certification](/202608/08/2608.04420v1-scope-field-of-view-aware-path-planning-in-unknown-3d-environments-via-safety-volume-certification)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：认证安全体积以检测不安全的路径段
 
 
 <div class="dpr-home-promo-card">

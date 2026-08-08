@@ -1,0 +1,254 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-08T20:22:26.394822+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2607.29254v1",
+      "source": "arxiv",
+      "title": "Tool Specifications Matter: Uncovering and Mitigating Safety Risks in AI Agents",
+      "abstract": "AI agents extend large language models (LLMs) with external tools, enabling them to perform complex tasks and translate model outputs into consequential real-world actions. Yet LLMs often become substantially less safe when deployed as agents, and the source of this degradation remains poorly understood. In this paper, we identify schema-formatted tool specifications as a primary source of agent safety degradation and show, through white-box representation analysis, that they weaken the model's internal refusal signals and contribute to unsafe tool execution. Building on this finding, we propose SafeKeep, an inference-time safeguard that decouples safety judgment from tool execution: it assesses requests using flattened textual tool specifications while retaining the original schema-formatted specifications for execution. Across two representative benchmarks and four LLMs, including both white-box and black-box models, SafeKeep increases the average refusal rate for harmful requests from 23.8% to 70.6% and reduces the average attack success rate under observation-level prompt injection from 25.6% to 2.5%. It also outperforms existing safeguards and preserves task-handling capability. We release the code and data at https://github.com/snowcatsmoking/SafeKeep .",
+      "authors": [
+        "Minghui Pan",
+        "Jiayuxuan Yang",
+        "Yuanyuan Yuan",
+        "Yu Jiang",
+        "Zhenpeng Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-31T10:25:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.29254v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monitors agent tool execution to detect and block unsafe actions",
+      "llm_evidence_cn": "监控智能体工具执行以检测并拦截不安全动作",
+      "llm_evidence": "监控智能体工具执行以检测并拦截不安全动作",
+      "canonical_evidence": "监控智能体工具执行以检测并拦截不安全动作",
+      "llm_tldr_en": "This paper identifies schema-formatted tool specifications as a key source of agent safety degradation, weakening refusal signals and leading to unsafe tool execution. It proposes SafeKeep, an inference-time safeguard that decouples safety judgment from execution, reducing safety risks without harming task performance.",
+      "llm_tldr_cn": "该论文发现工具规范说明会削弱LLM的拒绝信号，导致智能体执行不安全工具调用。作者提出SafeKeep，在推理时将安全判断与工具执行解耦，用扁平化的工具文本规范评估请求。实验显示SafeKeep能显著降低不安全工具执行，同时保持任务性能，为智能体行为监控提供了有效方案。",
+      "llm_tldr": "该论文发现工具规范说明会削弱LLM的拒绝信号，导致智能体执行不安全工具调用。作者提出SafeKeep，在推理时将安全判断与工具执行解耦，用扁平化的工具文本规范评估请求。实验显示SafeKeep能显著降低不安全工具执行，同时保持任务性能，为智能体行为监控提供了有效方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.05199v1",
+      "source": "arxiv",
+      "title": "Post-Hoc Trajectory-Risk Certification for Modular LLM-Based Security Agents",
+      "abstract": "Autonomous security agents operate as staged pipelines, such as classifying network traffic and then attributing attacks to a specific technique. Split conformal prediction gives each stage finite-sample coverage, but deployment requires a trajectory-level guarantee across the full chain. These guarantees do not compose automatically when stages are independently trained and calibrated. Bonferroni allocation is distribution-free but conservative under correlated errors. We show that a natural pairwise-correlation extension to three or more stages is invalid because it gives a lower rather than an upper bound, and derive a valid spanning-tree alternative. We distinguish whether stages are dependent from whether an audit sample is large enough to certify that dependence, and give matching upper and information-theoretic lower sample-complexity bounds. We also show that coarse-to-fine label selection can create near-perfect measured correlation without learned dependence.   On a two-stage intrusion-detection pipeline across 6 open LLMs and 2 datasets, removing this artifact reduces measured correlation from near 1 to 0-0.78. A direct audit of trajectory failure becomes 13.7% tighter than Bonferroni once the audit reaches the required sample size, but is worse when undersized. A modular certificate using per-stage certificates and a pairwise overlap bound yields a positive average gain of 0.6%, quantifying the cost of lacking joint access. Same-model, cross-model, and permuted-pairing tests show that residual dependence reflects shared sample difficulty, not shared model representations. Average trajectory coverage across 12 configurations is 92.7% +/- 2.4% at alpha = 0.10. Under cross-dataset deployment, single-step miscoverage reaches 100% even when accuracy remains 78%, showing that distribution shift destroys calibrated confidence before raw accuracy.",
+      "authors": [
+        "Zhenpeng Li"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-04T23:48:36+00:00",
+      "link": "https://arxiv.org/pdf/2608.05199v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "trajectory-level risk certification for modular LLM-based security agents, detecting correlated errors across stages",
+      "llm_evidence_cn": "为模块化LLM智能体提供轨迹级风险认证，处理跨阶段相关错误",
+      "llm_evidence": "为模块化LLM智能体提供轨迹级风险认证，处理跨阶段相关错误",
+      "canonical_evidence": "为模块化LLM智能体提供轨迹级风险认证，处理跨阶段相关错误",
+      "llm_tldr_en": "Presents a valid spanning-tree alternative to compose stage-level conformal guarantees into trajectory-level risk certification for modular security agents, addressing correlated errors across stages.",
+      "llm_tldr_cn": "模块化安全智能体分阶段执行，各阶段独立校准使轨迹级风险保证难以组合。作者发现自然的三阶段以上相关性扩展会得到下界而非上界，并推导出有效的生成树替代方案，在相关误差下也能给出轨迹级风险上界。该方法为智能体轨迹误差与风险提供可认证的检测边界，可推广到任意多阶段智能体流水线。",
+      "llm_tldr": "模块化安全智能体分阶段执行，各阶段独立校准使轨迹级风险保证难以组合。作者发现自然的三阶段以上相关性扩展会得到下界而非上界，并推导出有效的生成树替代方案，在相关误差下也能给出轨迹级风险上界。该方法为智能体轨迹误差与风险提供可认证的检测边界，可推广到任意多阶段智能体流水线。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.00237v1",
+      "source": "arxiv",
+      "title": "Latent-Centroid Steering: Single-Pass Classifier-Free Guidance for Command-Aligned Autonomous Driving",
+      "abstract": "Vision-language models (VLMs) have recently emerged as a promising paradigm for end-to-end autonomous driving, enabling agents to map multimodal inputs and high-level navigation instructions directly to executable trajectories. However, in practice, these models exhibit a persistent command-following gap: predicted trajectories often show weak sensitivity to navigation commands, resulting in incorrect behavior at critical decision points. We identify this issue as a form of conditional policy collapse, where regression-based training under multimodal trajectory distributions encourages the model to rely on dominant visual priors while marginalizing the language-conditioned signal. To address this issue, we introduce a principled formulation of classifier-free guidance (CFG) for regression-based vision-language driving. We show that CFG can be interpreted as isolating the instruction-induced residual in the action space by contrasting conditional and unconditional predictions, thereby explicitly amplifying the effect of the navigation command at inference time. However, a standard two-pass CFG introduces prohibitive latency for real-time control and produces noisy instance-level guidance directions. Building on a mean-shift interpretation of CFG, we propose Latent-Centroid Steering (LCS), a single-pass guidance mechanism that replaces instance-level residuals with class-level latent shifts. By projecting conditional representations toward precomputed command-specific centroids, LCS performs class-level latent steering based on cluster geometry that is both more stable and computationally efficient. We demonstrate that LCS reduces inference latency by approximately 50% while achieving stronger command adherence and improved driving performance on both closed-loop (Bench2Drive) and open-loop (nuScenes) benchmarks. Code will be released.",
+      "authors": [
+        "Meibo Hu",
+        "Jiamian Wang",
+        "Pichao Wang",
+        "Zhiqiang Tao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-31T19:32:28+00:00",
+      "link": "https://arxiv.org/pdf/2608.00237v1",
+      "tags": [
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "identifies action-level command-following errors (conditional policy collapse) in predicted driving trajectories",
+      "llm_evidence_cn": "识别自动驾驶轨迹预测中的指令跟随缺失与关键决策点的错误行为",
+      "llm_evidence": "识别自动驾驶轨迹预测中的指令跟随缺失与关键决策点的错误行为",
+      "canonical_evidence": "识别自动驾驶轨迹预测中的指令跟随缺失与关键决策点的错误行为",
+      "llm_tldr_en": "Identifies a command-following gap in VLM-based autonomous driving where predicted trajectories show weak sensitivity to navigation commands, attributes it to conditional policy collapse, and proposes latent-centroid steering for single-pass classifier-free guidance to align trajectories.",
+      "llm_tldr_cn": "针对视觉语言模型端到端自动驾驶中轨迹对导航指令不敏感、在关键决策点出现错误行为的问题，论文将其归因于条件策略坍缩，并提出潜在质心引导这一单次分类器无关引导方法。该方法在不增加推理开销的情况下增强轨迹对高层指令的依赖，减少错误决策，提升命令对齐能力，为自动驾驶轨迹规划中的动作级错误矫正提供新思路。",
+      "llm_tldr": "针对视觉语言模型端到端自动驾驶中轨迹对导航指令不敏感、在关键决策点出现错误行为的问题，论文将其归因于条件策略坍缩，并提出潜在质心引导这一单次分类器无关引导方法。该方法在不增加推理开销的情况下增强轨迹对高层指令的依赖，减少错误决策，提升命令对齐能力，为自动驾驶轨迹规划中的动作级错误矫正提供新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.03403v1",
+      "source": "arxiv",
+      "title": "Towards Robust Tool Use in Agents via Experience-Driven Adaptive Guidance",
+      "abstract": "The performance bottleneck of agents is increasingly shifting from model capability to the robustness of their execution processes. Tools play a central role as the primary interface through which agents interact with external environments, yet existing methods rarely focus on ensuring robust tool use across diverse runtime conditions. To address this problem, we propose ExpG, a mechanism that builds and refines adaptive guidance capturing each tool's capability boundaries and best practices, thereby enabling agents to use tools more robustly and effectively. ExpG consists of three phases: (1) experience acquisition, which analyzes tool invocation quality from historical execution trajectories, producing structured learnable experiences through multi-aspect attribution; (2) experience distillation, which keeps the experience pool effective by filtering unhelpful experiences, selecting representative ones with an equivalence-class-based method, and summarizing them into generalizable guidance; and (3) experience reuse, which applies the guidance adaptively during future task solving. Extensive experiments show that ExpG brings consistent improvements across the tool selection, tool calling, and response generation tasks, enabling smaller agents to outperform larger ones that do not use ExpG. Moreover, ExpG achieves particularly strong gains in challenging settings, suggesting a promising path toward more robust tool use. Our code, experiments, and results are available.",
+      "authors": [
+        "Can Wang",
+        "Haoran Chen",
+        "Li Yu",
+        "Ding Hao",
+        "Bohai Zhao",
+        "Zhaoyang Liu",
+        "Zhiying Tu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-04T09:56:31+00:00",
+      "link": "https://arxiv.org/pdf/2608.03403v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "analyzes historical agent trajectories to assess tool invocation quality and provides adaptive guidance to prevent execution errors",
+      "llm_evidence_cn": "通过分析智能体历史执行轨迹中的工具调用质量来识别潜在错误并提供自适应指导",
+      "llm_evidence": "通过分析智能体历史执行轨迹中的工具调用质量来识别潜在错误并提供自适应指导",
+      "canonical_evidence": "通过分析智能体历史执行轨迹中的工具调用质量来识别潜在错误并提供自适应指导",
+      "llm_tldr_en": "Agent robustness depends on reliable tool use. ExpG mines historical execution trajectories to capture each tool's capability boundaries and best practices, then supplies adaptive guidance to improve tool use and reduce execution errors.",
+      "llm_tldr_cn": "智能体的性能瓶颈逐渐从模型能力转向执行过程的鲁棒性，而工具使用是核心环节。现有方法很少针对多样化运行时条件保障工具使用的稳健性。本文提出ExpG机制，通过经验获取阶段分析历史执行轨迹中的工具调用质量，构建并迭代细化每个工具的能力边界与最佳实践，从而生成自适应指导。实验表明该方法能显著提升智能体工具使用的鲁棒性和有效性，并从轨迹中沉淀可复用的经验以支持执行质量监控。",
+      "llm_tldr": "智能体的性能瓶颈逐渐从模型能力转向执行过程的鲁棒性，而工具使用是核心环节。现有方法很少针对多样化运行时条件保障工具使用的稳健性。本文提出ExpG机制，通过经验获取阶段分析历史执行轨迹中的工具调用质量，构建并迭代细化每个工具的能力边界与最佳实践，从而生成自适应指导。实验表明该方法能显著提升智能体工具使用的鲁棒性和有效性，并从轨迹中沉淀可复用的经验以支持执行质量监控。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.02441v1",
+      "source": "arxiv",
+      "title": "Agentic Commerce World: An Auditable and Verifiable Environment for Vibe Commerce",
+      "abstract": "In vibe coding, people describe software in natural language and delegate implementation to AI agents. By analogy, vibe commerce allows people to express buying or selling goals in natural language and delegate the corresponding tasks to agents. Commerce, however, requires independently controlled Buyer and Merchant agents to interact in a shared market while preserving their private objectives and distinct authority. We introduce Agentic Commerce World (ACWorld), an environment for evaluating such agents across ongoing transactions. Through its Vibe Commerce Protocol (VCP), ACWorld validates agent actions before updating shared transaction state and records the resulting interactions, making agent behavior auditable and evaluation reproducible. The ACWorld Benchmark contains a 200-task capability-coverage track and a 60-task large-catalog track that searches 785,022 transactable listings. Across ten models, mean scores range from 65.9% to 85.6% and from 56.1% to 91.4%, respectively. Our analysis shows that process-level evidence is necessary: final state alone can miss evaluated errors, incomplete trajectories still retain useful process signals, and large-catalog tasks expose bottlenecks across stages.",
+      "authors": [
+        "Shicheng Fan",
+        "Mingdai Yang",
+        "Duohao Wang",
+        "Canyu Chen",
+        "Yongfeng Zhang",
+        "Hua Wei",
+        "Manling Li",
+        "Julian McAuley",
+        "Kun Zhang",
+        "Philip S. Yu",
+        "Kejing Yu",
+        "Zhiwei Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-03T16:20:17+00:00",
+      "link": "https://arxiv.org/pdf/2608.02441v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "validates agent actions before updating shared transaction state, detecting action errors in agent trajectories",
+      "llm_evidence_cn": "在更新共享交易状态前验证智能体动作，检测智能体轨迹中的动作错误",
+      "llm_evidence": "在更新共享交易状态前验证智能体动作，检测智能体轨迹中的动作错误",
+      "canonical_evidence": "在更新共享交易状态前验证智能体动作，检测智能体轨迹中的动作错误",
+      "llm_tldr_en": "An environment with a protocol that validates agent actions before updating shared transaction state, making agent behavior auditable and evaluations reproducible across ongoing transactions.",
+      "llm_tldr_cn": "在“氛围编程”式商业场景中，买卖双方智能体需要在共享市场中保持各自目标与权限。ACWorld 通过 Vibe Commerce 协议在更新交易状态前验证智能体动作，并记录所有交互，使智能体行为可审计、评测可复现。该机制可直接用于监测智能体动作错误和轨迹异常，提供了动作级验证的手段。",
+      "llm_tldr": "在“氛围编程”式商业场景中，买卖双方智能体需要在共享市场中保持各自目标与权限。ACWorld 通过 Vibe Commerce 协议在更新交易状态前验证智能体动作，并记录所有交互，使智能体行为可审计、评测可复现。该机制可直接用于监测智能体动作错误和轨迹异常，提供了动作级验证的手段。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.04420v1",
+      "source": "arxiv",
+      "title": "SCOPE: Field-of-View-Aware Path Planning in Unknown 3D Environments via Safety-Volume Certification",
+      "abstract": "Safe navigation with a body-mounted limited-field-of-view sensor requires the complete robot-inflated volume of an intended motion to be observed and verified free before execution. We formulate this requirement as online safety-volume certification in an unknown voxel map and construct a certified graph whose vertices correspond exactly to positions with fully known-free safety volumes. Based on this representation, we propose SCOPE (Safety Certification through Observation Planning and Execution), a planning framework that decouples optimistic goal-directed guidance from certified execution. SCOPE converts the first uncertified point along an optimistic route into an explicit observation obligation, resolves it through target-centric viewpoint search, and recursively clears intermediate obligations when useful viewpoints are not yet certified-reachable. A certified preview mechanism and an observation-aware trajectory optimization backend enable smooth execution. We prove conditional complete planning: under ideal monotone sensing and exhaustive finite-domain graph search, SCOPE reaches the goal whenever a finite feasible sequence of certified sensing actions exists within its planning primitives. Across 60 randomized tasks in three unknown 3D environments, SCOPE reaches every goal while maintaining near-zero entry into non-certified inflated space. Preview reduces mean mission time by 27%, and real-robot demonstrations in two representative scenarios validate the complete system.",
+      "authors": [
+        "Junbin Yuan",
+        "Muqing Cao",
+        "Yunwoo Lee",
+        "Brady Moon",
+        "Sebastian Scherer"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-05T04:01:38+00:00",
+      "link": "https://arxiv.org/pdf/2608.04420v1",
+      "tags": [
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "certifies safety volumes to detect unsafe path segments",
+      "llm_evidence_cn": "认证安全体积以检测不安全的路径段",
+      "llm_evidence": "认证安全体积以检测不安全的路径段",
+      "canonical_evidence": "认证安全体积以检测不安全的路径段",
+      "llm_tldr_en": "SCOPE tackles safe navigation with limited field-of-view sensors by formulating online safety-volume certification in unknown voxel maps. It constructs a certified graph and turns uncertified points into explicit observation obligations, ensuring each motion's safety volume is verified before execution.",
+      "llm_tldr_cn": "该论文针对有限视场传感器下的安全导航，提出SCOPE框架。它通过在线安全体积认证构造己认证图，将未认证点转化为显式观测义务，从而保证整个运动体积被验证安全。该方法在未知三维环境中实现安全路径规划，为路径错误检测提供了可靠基础。",
+      "llm_tldr": "该论文针对有限视场传感器下的安全导航，提出SCOPE框架。它通过在线安全体积认证构造己认证图，将未认证点转化为显式观测义务，从而保证整个运动体积被验证安全。该方法在未知三维环境中实现安全路径规划，为路径错误检测提供了可靠基础。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

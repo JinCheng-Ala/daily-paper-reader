@@ -1,0 +1,1456 @@
+Title: Post-Hoc Trajectory-Risk Certification for Modular LLM-Based Security Agents
+
+URL Source: https://arxiv.org/pdf/2608.05199v1
+
+Published Time: Fri, 07 Aug 2026 00:01:34 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+> 1
+
+# Post-Hoc Trajectory-Risk Certification for Modular LLM-Based Security Agents 
+
+Zhenpeng Li 
+
+Abstract —Autonomous security agents increasingly operate as staged decision pipelines, e.g., classifying network traffic and then attributing detected attacks to a specific technique. Split conformal prediction gives each stage a finite-sample coverage guarantee, but deployment requires a trajectory-level guarantee across the whole chain, and the two do not compose for free—especially for stages that are already independently trained and calibrated and cannot be jointly recalibrated. Bonferroni allocation gives a valid distribution-free trajectory bound but is conservative when stage errors are correlated. We show a natural pairwise-correlation extension of this bound to three or more stages is invalid—a lower, not upper, bound—and give a provably valid spanning-tree alternative. We then separate two questions routinely conflated in practice: whether stages are dependent at all, and whether a finite audit sample is large enough to certify that dependence, giving matching upper and information-theoretic lower sample-complexity bounds for both. We further prove that a common design pattern—using a coarse category to select a fine-grained label space—mechanically manufactures near-perfect measured stage correlation with no learned dependence behind it. On a two-stage intrusion-detection pipeline (traffic classification, then attack-variant attribution) across 6 open LLMs and 2 datasets, avoiding this labeling artifact drops measured correlation from near-1 to a genuine, task-dependent 0–0.78 . A direct audit of the full trajectory-failure event, requiring simultaneous access to both stages, becomes 13 .7% tighter than Bonferroni once the audit is scaled to the sample complexity our theory requires—worse than Bonferroni at an under-sized audit sample, consistent with the derived threshold; our modular certificate, which composes only per-stage certificates and a pairwise overlap bound, recovers a smaller but strictly positive certified gain (0.6% on average) at the same scale, quantifying the cost of not having joint access to both stages. A same-model/cross-model/permuted-pairing test shows the residual dependence reflects shared sample difficulty, not shared model representations. Trajectory coverage holds at the nominal 
+
+α = 0 .10 target on average across all 12 tested configurations (92 .7% ± 2.4% ), and deploying one dataset’s calibrated classifier on another’s real traffic drives single-step miscoverage to 100% 
+
+even when raw classification accuracy remains as high as 78% :calibrated confidence, not accuracy, is what distribution shift destroys. 
+
+Index Terms —Conformal prediction, trajectory coverage, multi-step agents, intrusion detection, autonomous security, large language models, uncertainty quantification. 
+
+I. I NTRODUCTION 
+
+Security Operations Centers (SOCs) face alert volumes that consistently exceed human analyst capacity. LLM-based autonomous agents—exemplified by Microsoft Copilot for Security and Google Security AI Workbench—are emerging as first responders that triage, classify, and act on network 
+
+Zhenpeng Li is with Guangzhou Health Science College, No. 248 Guangyuan Middle Road, Guangzhou, Guangdong 510405, China (e-mail: 2025301001@gzws.edu.cn). Corresponding author: Zhenpeng Li. 
+
+intrusions without human intervention, rarely in a single decision: a typical autonomous IDS pipeline chains traffic classification (benign vs. attack category) with threat attribution 
+
+(mapping to a specific MITRE ATT&CK technique), and a production system may chain a third step—automated response (block, quarantine, escalate)—onto both. If the first step misclassifies a denial-of-service attack as benign, the second step never gets the chance to attribute it correctly. Split conformal prediction (CP) [1], [2] provides distribution-free, finite-sample guarantees for individual classification decisions: given a user-specified miscoverage budget α, the conformal prediction set C(x) satisfies Pr[ y / ∈ C(x)] ≤ α—a guarantee on the set , not on the model’s raw softmax confidence, which is well known to be poorly calibrated on its own [3]. This single-step guarantee underlies the IDS abstention problem. However, per-step guarantees do not compose into trajectory-level guarantees without additional analysis. If each step independently satisfies Pr[ yk /∈ Ck(x)] ≤ α, the probability that at least one step in a K-step pipeline fails to cover the true label can be as large as Kα . The standard remedy is Bonferroni correction: allocate α/K per step, ensuring the trajectory-level error rate is at most α. But this comes at a steep cost. For a 3-step pipeline with α = 0 .10 , each step receives only α/ 3 ≈ 0.033 , producing prediction sets so large that the agent must escalate (abstain) on a far greater fraction of inputs than necessary. In SOC environments where every unnecessary escalation consumes analyst time, this conservatism directly undermines the value of automation. The central question of this paper is: how should per-step risk certificates compose into a valid and informative trajectory-level guarantee, and what does this composition reveal in LLM-based security pipelines? The first half is a general question about any chain of calibrated decisions; the second is the concrete instance we study in depth. We treat the general question as the frame and the two-step IDS pipeline as its primary—and, in this paper, only—worked instantiation. The post-hoc certification framework and the K = 2 identity (Sections IV-A, IV-D) are directly exercised on this pipeline in Section VI; the general-K results ( K ≥ 3 non-identifiability, the spanning-tree bound’s multi-edge tree selection, and the dependence-duality redundant-system comparison) characterize the extension beyond K = 2 and its limits, and are not tested on a real multi-step pipeline in this paper. The composition question has two parts. The distribution-free part of the answer is the Bonferroni trajectory bound, which holds unconditionally. Beyond that guarantee, we show that a correlation-aware inclusion–exclusion estimate can be tighter in the studied IDS pipeline, that a naive extension of this estimate arXiv:2608.05199v1 [cs.CR] 4 Aug 2026 2
+
+to more than two steps is invalid, and that a distribution-free alternative exists. Whether the two-step correlation-aware estimate helps in a given deployment, and how much, depends on the task: across 2 datasets and 6 LLMs, using a genuinely independent attack-variant classifier for Step 2 (Section V), the mean computable inter-step Pearson correlation is ¯ρ = 0 .30 ,ranging from ≈ 0 on CIC-IDS-2018/DoS to 0.58 on RT-IoT2022/Probe. Hard samples tend to be hard at both stages on RT-IoT2022, less so on CIC-IDS-2018. We show this heterogeneity is not noise but is governed by each task’s underlying joint-failure rate q12 , and by whether the joint audit sample is large enough to certify it (Section IV-D). 
+
+Contributions. This paper makes the following contribu-tions: 1) A general composition framework for marginally risk-controlled chains. We formalize trajectory-level coverage for any marginally risk-controlled chain —a sequence of decisions each with a per-step risk certificate—as an abstrac-tion that subsumes conformal prediction, conformal risk control, and other calibrated decision rules (Section IV-A). Bonferroni composition and a stronger multiplicative com-position under a survival-conditional guarantee follow as special cases of a single theorem; we instantiate and evaluate this framework only on split CP in our experiments. 2) Post-hoc certification of dependence gain for frozen modular chains. For a chain whose stages cannot be jointly recalibrated, we separate a chain’s true dependence gain into a structural component (what a pairwise-only audit could reveal with infinite data) and a statistical component (what a finite audit actually proves), via matching oracle 
+
+and certifiable gains (Definition 5, Theorem 15) and a post-hoc certificate valid under data-dependent tree selection (Theorem 7). We give matching upper and information-theoretic lower audit-size bounds for certifying any positive gain (Theorems 10–11), distinct from the harder question of beating the nominal Bonferroni threshold (Section IV-D)— this framework, not the inclusion–exclusion identity below, is what explains why our own certified bound reverses sign with audit sample size (Section VI-D). 3) Correcting the naive K > 2 extension, and a valid replacement. We show that the natural pairwise-correlation extension of the K = 2 inclusion–exclusion identity is a 
+
+lower bound, not an upper bound, for K > 2; derive the exact threshold at which it spuriously degenerates to zero (Theorem 5); prove that pairwise information—correlations or exact overlaps—cannot determine trajectory risk once 
+
+K ≥ 3 (Theorem 13); and give a distribution-free, finite-sample-certifiable upper bound that remains valid at any K
+
+(the Spanning-Tree Pairwise Bound, Theorem 6). 4) Why positive dependence is an asset here, not a liability. 
+
+We prove that positive association helps a union-type trajectory failure criterion while it would hurt an intersection-type redundant-system criterion (Theorem 17), resolving an apparent tension with standard reliability-engineering intuition about correlated component failures. 5) Label-induced coupling and an empirical mechanism test. We prove that a deterministic (or near-deterministic) coarse-to-fine label mapping mechanically nests the two stages’ failure events, producing near-maximal correla-tion with no learned behavior involved (Theorem 16); a genuinely independent attack-variant classification task instead exhibits heterogeneous, task-dependent coupling (¯ρ = 0 .30 ). A same-model/cross-model/permuted pairing experiment attributes the residual coupling to shared per-sample difficulty rather than a same-model representation-sharing increment (Section VI-D). 6) Comprehensive evaluation. Across 2 datasets, 6 LLMs, 3 α levels, and 5 random seeds (36 configurations), we verify that Bonferroni trajectory coverage holds at the marginal level, report the full oracle/certifiable/marginal decomposition of the dependence gain (not only the final certified value), and report the tested α-budget allocations. 7) Exchangeability failure under real cross-dataset shift. 
+
+Deploying a stage’s own fine-tuned checkpoint on a different dataset’s real traffic drives single-step miscoverage to 100% in all 12 tested cells, even at 78% top-1 accuracy—calibrated confidence, not raw accuracy, is what exchangeability violation destroys, though the resulting empty prediction sets (rate 0.96 –1.00 ) are a stark, label-free symptom available at inference time (Section VI-G). II. R ELATED WORK 
+
+A. Conformal Prediction for Classification 
+
+Conformal prediction [1] provides distribution-free coverage guarantees for prediction sets. Split (inductive) conformal prediction [2] computes nonconformity scores on a held-out calibration set and selects a threshold ˆq such that the prediction set C(x) = {y : s(x, y ) ≤ ˆq} satisfies Pr[ y / ∈ C(x)] ≤ α.Conformal risk control (CRC) [4] generalizes this to arbitrary monotone loss functions. These methods guarantee coverage for individual predictions; our work addresses the orthogo-nal problem of guaranteeing coverage across sequences of predictions. 
+
+B. Multiple Testing and Bonferroni Corrections 
+
+The Bonferroni correction provides a valid union bound under arbitrary dependence. The ˇ Sid´ ak correction [5] is tighter but, unlike Bonferroni, is exact only under independence and valid more generally only under specific positive-dependence structures [5]; we therefore build on Bonferroni, not ˇ Sid´ ak, as the distribution-free baseline throughout this paper. Both corrections are well-known to be conservative when errors are positively correlated [6]. Holm [7] and Benjamini–Hochberg [8] offer less conservative alternatives for independent or positively dependent test statistics. Our setting differs from classical multiple testing: we seek to control the probability of any 
+
+miscoverage in a fixed-length pipeline, not the family-wise error rate across many hypotheses. The key distinction is that pipeline steps are structurally coupled through shared inputs and LLM representations, producing the positive inter-step correlation that our inclusion–exclusion analysis measures. 3
+
+C. Sequential and Multi-Step Conformal Prediction 
+
+Gibbs and Cand` es [9] introduce Adaptive Conformal Infer-ence (ACI) for online settings where exchangeability is violated over time. Barber et al. [10] extend CP beyond exchangeability via weighted quantiles. These methods address temporal non-exchangeability (distribution drift across time steps) rather than compositional non-independence (coverage across pipeline stages within a single input). Bates et al. [11] develop risk-controlling prediction sets with probably approximately correct (PAC)-Bayes bounds that can, in principle, handle compound losses, but require additional held-out data for posterior optimization. Our approach is complementary: it uses observed inter-step error coupling to measure how loose the Bonferroni trajectory bound is in the studied pipeline. Most directly related is PASC [12], which reduces multi-stage joint coverage to a single scalar conformal problem on the 
+
+joint maximum nonconformity score across all K stages, giving a distribution-free joint-coverage guarantee tight to 1/(n + 1) .PASC and our framework target different deployment regimes rather than competing on the same problem. PASC requires simultaneous access to every stage’s nonconformity score on a common calibration set, so that the joint-maximum score can be computed and calibrated as a single quantile; this is the right tool whenever the pipeline can be jointly recalibrated end-to-end. Our post-hoc modular certificate (Section IV-D) instead targets stages that have already been independently trained and calibrated, expose only per-stage certificates (or binary pass/fail indicators) rather than raw nonconformity scores, and so cannot be jointly recalibrated even though no retraining is required—joint recalibration is a post-hoc statistical step, but it still needs simultaneous access to every stage’s raw score on a shared calibration set, which the setting we study does not provide. This is the common case when stages come from different vendors, different release cycles, or heterogeneous score spaces that are not directly comparable, or when only a pass/fail audit log is retained rather than raw scores. Where PASC asks “what is the tightest joint prediction set achievable if we control the whole pipeline,” we ask “what can be certified about a pipeline we do not control, from audit data alone, and how much that certification costs.” When joint recalibration is available, PASC’s construction should be preferred; our contribution is the regime where it is not. Non-exchangeable conformal risk control [13] relaxes exchangeability itself, complementary to our Section VI-G finding that a fixed threshold gives no certified warning under exchangeability violation; class-conditional conformal prediction with many classes [14] addresses per-class validity within one classifier rather than the cross-stage composition we study. Our audit-size requirements connect to sequential testing [15] and time-uniform confidence sequences [16], [17], which would let the audit sample size itself be data-dependent, an alternative to our fixed-n construction. Outside NLP, audited post-hoc verification of a frozen, deployed system under distribution shift has been studied for power-grid contingency screening [18], suggesting this certification regime is not specific to language-model pipelines. 
+
+D. LLM-Based Security Agents 
+
+LLM-based autonomous agents for cybersecurity have at-tracted growing attention [19]–[21]. Microsoft Copilot for Se-curity and Google Security AI Workbench represent production deployments. Prior work on the safety of autonomous security decisions has largely treated each decision in isolation—either its adversarial robustness or its single-step conformal guarantee, e.g. conformal prediction for online intrusion-detection models under concept drift [22] or inductive conformal anomaly detection for anomalous sub-trajectories [23], both single-stage. Trajectory-level guarantees for frozen, independently-calibrated multi-step security pipelines specifically—as opposed to jointly recalibrated pipelines, which PASC [12] addresses—have not been previously addressed in this domain. III. P ROBLEM FORMULATION 
+
+A. Multi-Step Security Agent Pipeline 
+
+We model an autonomous IDS agent as a K-step pipeline operating on network traffic input x ∈ X . At each step k ∈{1, . . . , K }, the agent produces a prediction ˆyk for the true label yk: 
+
+> •
+
+Step 1—Traffic Classification. Given raw network flow features x, the LLM classifies the traffic into one of L1
+
+categories (e.g., Normal, DoS, Probe, Exploit).  
+
+> •
+
+Step 2—Threat Attribution. Given x and the Step 1 output, the LLM maps detected attacks to MITRE ATT&CK techniques (e.g., T1498 Network Denial of Service, T1110 Brute Force), producing one of L2 attributions.  
+
+> •
+
+Step k > 2—Response or Further Analysis. Additional steps (e.g., response recommendation, severity scoring) follow the same structure. Each step uses a conformal predictor to quantify uncertainty. Specifically, let sk(x, y ) denote the nonconformity score at step k for input x and candidate label y. Given a calibration set Dcal = {(xi, y i, 1, . . . , y i,K )}ni=1 , the conformal prediction set at step k is (Eq. (1)): 
+
+Ck(x; αk) = {y : sk(x, y ) ≤ ˆqk(αk)}, (1) where ˆqk(αk) is the ⌈(1 − αk)( n + 1) ⌉/n quantile of the calibration nonconformity scores at step k.
+
+B. Trajectory Coverage 
+
+Definition 1 (Trajectory Coverage) . A K-step trajectory τ =(x, y 1, . . . , y K ) is covered if the true label at every step lies within the corresponding conformal prediction set (Eq. (2) ): covered (τ ) ⇐⇒ 
+
+> K
+
+^
+
+> k=1
+
+[yk ∈ Ck(x; αk)] . (2) 
+
+The trajectory coverage rate is: TC = Pr 
+
+" K^
+
+> k=1
+
+yk ∈ Ck(x; αk)
+
+#
+
+. (3) 4
+
+Definition 2 (Trajectory Miscoverage Rate) . The trajectory miscoverage rate is the probability that at least one step fails to cover the true label: TMR = 1 − TC = Pr 
+
+" K_
+
+> k=1
+
+yk /∈ Ck(x; αk)
+
+#
+
+. (4) TMR is a statistical risk quantity, not a directly observable operational one: evaluating covered (τ ) requires the true labels 
+
+y1, . . . , y K , which are unavailable at inference time. TMR is therefore what a trajectory-level conformal guarantee controls, not what a deployed agent can monitor online. A deployment separately needs an observable escalation rule, e.g. Ak =
+
+{| Ck(X)|̸ = 1 } (escalate whenever a step’s prediction set is not a singleton) or a more general policy Ak = {πk(Ck(X)) = 
+
+escalate }; the resulting trajectory escalation rate TER =Pr[ S 
+
+> k
+
+Ak] is generally not equal to TMR, since prediction-set size and miscoverage are related but distinct random quantities. We report TMR throughout this paper because it is what our theorems control; we do not compute TER, and readers should not conflate the two. 
+
+C. The α-Allocation Problem 
+
+Given a total trajectory-level miscoverage budget α, the deployment operator must choose per-step budgets α1, . . . , α K
+
+such that: TMR ≤ α. (5) The goal is to satisfy (5) while minimizing TMR, the statistical risk that the trajectory-level guarantee controls (TMR is distinct from the observable escalation rate TER; Definition 2). Section IV derives bounds on TMR as a function of α1, . . . , α K and the inter-step correlation structure. IV. T RAJECTORY -L EVEL CONFORMAL FRAMEWORK 
+
+Five proofs that are mechanical given their stated theorem or proposition (Second-Order Degeneracy Threshold, Dependence Duality, Finite-Sample Certifiability Gap, Sample Complexity of Beating the Nominal Target, and, in Section IV-E, Coupling Provenance Decomposition) are given in full in the supplemen-tary material and summarized here; all theorem, proposition, and corollary statements are complete in the main text. We present the framework in seven parts. Theorem 2 establishes the baseline Bonferroni bound as a special case of a method-agnostic composition principle (Theorem 1) that applies to any calibrated decision chain, not only conformal prediction. Theorem 3 gives the exact K = 2 inclusion– exclusion identity. Theorem 6 gives a valid, certifiable upper bound for arbitrary K that a naive extension of the K = 2 
+
+identity does not provide. Section IV-D separates this structural bound from its statistical certifiability from a finite joint audit sample: it distinguishes the oracle dependence gain a chain actually has from the certifiable gain a given audit size can prove (Theorem 7), gives the convergence rate of the resulting gap (Theorem 9), and gives matching upper and information-theoretic lower bounds on the sample size needed to certify any positive gain at all (Theorems 10–11). Theorem 13 shows why pairwise information alone cannot determine trajectory risk for K ≥ 3, and Theorem 14 gives the exact size of the resulting identification gap. Section IV-E separates two mechanisms that can produce apparent inter-step coupling: deterministic label nesting (Theorem 16) and model-specific representation sharing versus shared sample difficulty (Proposition 2). Theorem 17 explains, from first principles, why positive inter-step dependence helps trajectory-level coverage even though the same kind of dependence would hurt a redundant (parallel) system. Proposition 3 characterizes the optimal α allocation. 
+
+A. Method-Agnostic Composition 
+
+Definition 3 (Marginally Risk-Controlled Chain) . A K-step decision chain is a collection of measurable failure events 
+
+E1, . . . , E K on a common probability space. Let Zk = 1Ek
+
+and pk = Pr[ Ek]. The chain is marginally risk-controlled at budgets α1, . . . , α K if pk ≤ αk for all k. No assumption is made on how the individual per-step rules are constructed: split conformal prediction, conformal risk control [4], risk-controlling prediction sets [11], learn-then-test calibration [24], and non-conformal calibrated classifiers are all instances whenever they provide a marginal guarantee of this form. 
+
+Theorem 1 (Universal and Conditional Composition) . For every marginally risk-controlled chain, TMR = Pr 
+
+" K[
+
+> k=1
+
+Ek
+
+#
+
+≤
+
+> K
+
+X
+
+> k=1
+
+pk ≤
+
+> K
+
+X
+
+> k=1
+
+αk. (6) 
+
+If, in addition, the chain satisfies the stronger survival-conditional guarantees 
+
+Pr 
+
+Ek
+
+\
+
+> j<k
+
+Ecj
+
+ ≤ αk, k = 1 , . . . , K, (7) 
+
+then TC ≥
+
+> K
+
+Y
+
+> k=1
+
+(1 − αk), TMR ≤ 1 −
+
+> K
+
+Y
+
+> k=1
+
+(1 − αk). (8) 
+
+Proof. Inequality (6) is Boole’s inequality (union bound) followed by the marginal guarantees pk ≤ αk; it holds for arbitrary events without independence or distributional assumptions. For the second statement, the chain rule of probability gives TC = Pr 
+
+" K\
+
+> k=1
+
+Eck
+
+#
+
+=
+
+> K
+
+Y
+
+> k=1
+
+Pr 
+
+Eck
+
+\
+
+> j<k
+
+Ecj
+
+ ≥
+
+> K
+
+Y
+
+> k=1
+
+(1 − αk),
+
+(9) using (7) on each factor. Taking complements proves (8). 
+
+Theorem 2 (Bonferroni Trajectory Bound) . Setting αk = α/K 
+
+in (6) ensures TMR ≤ α. This is the Bonferroni trajectory bound used throughout this paper: it is distribution-free— valid for any joint distribution of errors, with no estimated parameters. 
+
+While universally valid, Theorem 2 treats per-step errors as potentially adversarially combined. When errors are positively correlated—as we document in Section VI—the bound is 5
+
+substantially loose. The multiplicative statement (8) is strictly stronger but requires the survival-conditional guarantee (7), which ordinary split CP’s marginal coverage does not automat-ically provide; we return to this distinction in Proposition 3. 
+
+B. Correlation-Aware Inclusion–Exclusion Identity ( K = 2 )
+
+Let ρkk ′ = Cor (1Ek , 1Ek′ ) denote the Pearson correlation between the indicator variables of miscoverage events at steps 
+
+k and k′.
+
+Theorem 3 (Inclusion–Exclusion Trajectory Identity) . For 
+
+K = 2 steps with per-step miscoverage rates pk = Pr[ Ek] and inter-step correlation ρ12 ∈ [−1, 1] (no sign restriction): TMR = p1 + p2 − p1p2 − ρ12 
+
+pp1(1 − p1) p2(1 − p2). (10) 
+
+Dropping the non-negative −p1p2 term from (10) gives a valid upper bound for any ρ12 :TMR ≤ p1 + p2 − ρ12 
+
+pp1(1 − p1) p2(1 − p2). (11) 
+
+This bound is only an improvement over the Bonferroni sum p1 + p2 when ρ12 ≥ 0; for ρ12 < 0 it is a valid but looser statement than Bonferroni. We report the plug-in estimate (12) uniformly across all configurations without clipping to Bonferroni, so a handful of CIC-IDS-2018/DoS configurations with ˆρ12 < 0 (Table VI) correctly show a plug-in value slightly above 0.10 in Table IV—an operator should always report min {Bonferroni , bBIE } in practice, but we leave the raw value visible here to show the theorem’s actual behavior under negative correlation. In experiments, we report the following plug-in operational estimate: 
+
+bBIE = α1 + α2 − ˆρ12 
+
+pα1(1 − α1) α2(1 − α2), (12) 
+
+where ˆρ12 is estimated from held-out evaluation splits after calibration. Proof. By inclusion–exclusion: 
+
+Pr[ E1 ∪ E2] = Pr[ E1] + Pr[ E2] − Pr[ E1 ∩ E2]. (13) The joint probability can be written via the Pearson correlation of Bernoulli indicators: 
+
+ρ12 = Pr[ E1 ∩ E2] − p1p2
+
+pp1(1 − p1) p2(1 − p2) , (14) so Pr[ E1 ∩ E2] = p1p2 + ρ12 
+
+pp1(1 − p1) p2(1 − p2). Substi-tuting yields (10). Inequality (11) drops the −p1p2 term (non-positive, since p1p2 ≥ 0) to obtain a simpler, larger—hence still valid as an upper bound—expression. Equation (12) is a plug-in version used for empirical tightness analysis; its validity depends on the accuracy and conservativeness of ˆρ12 .
+
+Remark 1 (Eq. (12) is an estimate, not a bound) . Unlike Theorem 2, the plug-in quantity bBIE in (12) relies on the cali-bration estimate ˆρ12 and is therefore an empirically calibrated point estimate , not a distribution-free or certified guarantee: when ˆρ12 overestimates the true population correlation, the empirical TMR can exceed bBIE , which we report as a residual (not a “bound violation”) throughout the paper. The estimate is close to the true TMR when (i) the per-step CP miscoverage rate is close to αk (saturated CP) and (ii) ˆρ12 accurately estimates the population correlation. Section VI-D gives a certified alternative that does not require either condition. C. Why the Naive K > 2 Extension Fails, and a Valid Alternative 
+
+A natural guess for K > 2 is to subtract every pairwise joint-failure term from the Bonferroni sum. Writing ˆqkk ′ ≜ αkαk′ +ˆρkk ′
+
+pαk(1 − αk) αk′ (1 − αk′ ) for the plug-in estimate of the pairwise overlap qkk ′ (the same identity used in Theorem 3), this gives 
+
+S1 − S2 ≜
+
+> K
+
+X
+
+> k=1
+
+αk − X
+
+> k<k ′
+
+ˆqkk ′ . (15) This expression is not a valid upper bound on TMR for K > 2;the correct classical statement (Bonferroni’s inequalities on the alternating inclusion–exclusion partial sums) is that S1 − S2
+
+is a lower bound on TMR, not an upper bound: 
+
+Theorem 4 (Bonferroni Parity) . Let Sr = P 
+
+> i1<··· <i r
+
+Pr[ Ei1 ∩· · · ∩ Eir ]. For every m for which the sums are defined, 
+
+> 2m
+
+X
+
+> r=1
+
+(−1) r+1 Sr ≤ TMR ≤
+
+> 2m−1
+
+X
+
+> r=1
+
+(−1) r+1 Sr . (16) 
+
+In particular S1 − S2 is a lower bound, not an upper bound, whenever K > 2.
+
+The clipped quantity L2 = max {0, S 1 − S2} can hit zero well before TMR is actually small. A minimal example makes this concrete: if E1 = · · · = EK (all steps fail on exactly the same trajectories), the true union is Pr[ E1] = p for every K,but S1 − S2 = Kp −  K
+
+> 2
+
+p becomes non-positive starting at 
+
+K = 3 . The following result characterizes exactly when this clipped quantity degenerates. 
+
+Theorem 5 (Second-Order Degeneracy Threshold) . Under the homogeneous model pi = α/K and ρij = ρ ≥ 0 for all i̸ = j,
+
+L2 = 0 if and only if 
+
+(K − 1) 
+
+h
+
+ρ + (1 − ρ) αK
+
+i
+
+≥ 2. (17) 
+
+The smallest degenerate integer depth is the smallest integer 
+
+K satisfying K ≥ K+(α, ρ ), where, writing D(α, ρ ) ≜ ρ +2 − (1 − ρ)α for brevity, 
+
+K+(α, ρ ) = D(α, ρ ) + pD(α, ρ )2 + 4 ρ(1 − ρ)α
+
+2ρ . (18) 
+
+As α ↓ 0, K+(α, ρ ) = 1+2 /ρ +O(α). At α = 0 .10 , ρ = 0 .298 ,
+
+K+ ≈ 7.51 , so K = 3 through K = 7 all remain positive and 
+
+K = 8 is the first degenerate depth—consistent with the value in Table IX. ( ¯ρ = 0 .298 is the mean over the 12 CIC-IDS-2018/DoS and RT-IoT2022/Probe configurations at α = 0 .10 
+
+used throughout Section VI-B and Table VI.) Proof. Algebraic; solving L2 = 0 for the homogeneous model yields the stated threshold, and treating it as an equality in 
+
+K gives a quadratic whose positive root is K+(α, ρ ) (full derivation in the supplementary material). 6
+
+Remark 2 (This threshold is a truncation artifact, not a struc-tural limit) . K+ characterizes when the even-order truncation 
+
+S1 − S2 stops being informative, not when trajectory risk itself becomes unrecoverable. Full inclusion–exclusion is exact for every finite K; the limitation is that pairwise correlation information alone stops determining TMR once K ≥ 3, which we make precise next. 
+
+A valid alternative uses joint pairwise overlap probabilities 
+
+qij = Pr[ Ei ∩ Ej ] directly, together with a spanning tree over the K steps [25]: 
+
+Theorem 6 (Spanning-Tree Pairwise Upper Bound) . Let T be any spanning tree on vertices {1, . . . , K }. Then TMR ≤
+
+> K
+
+X
+
+> k=1
+
+pk − X
+
+> (i,j )∈T
+
+qij . (19) 
+
+Consequently, if pk ≤ αk and simultaneous lower confidence bounds qij ≥ ℓij are available from held-out data, then with the corresponding confidence, TMR ≤ min 
+
+1,
+
+> K
+
+X
+
+> k=1
+
+αk − max  
+
+> T∈T K
+
+X
+
+> (i,j )∈T
+
+ℓij 
+
+ , (20) 
+
+where the maximizing T is a maximum-weight spanning tree under edge weights ℓij . This bound uses only K − 1 certified pairwise overlaps and remains valid for every K, with no third-order terms. Proof. Root T at an arbitrary vertex and order every parent be-fore its children; let π(k) denote the parent of non-root vertex k.The exact disjoint-increment decomposition of a union over this order gives Pr[ S 
+
+> k
+
+Ek] = proot + P  
+
+> k̸=root
+
+Pr[ Ek \ S 
+
+> j<k
+
+Ej ] ≤
+
+proot + P  
+
+> k̸=root
+
+Pr[ Ek \ Eπ(k)] = P 
+
+> k
+
+pk − P  
+
+> k̸=root
+
+qk,π (k),where the inequality holds because S 
+
+> j<k
+
+Ej ⊇ Eπ(k). This proves (19); substituting the certified bounds and optimizing over T proves (20). Unlike the Pearson-correlation plug-in (12), qij remains well-defined even when pi is near zero and admits an exact one-sided confidence bound (e.g. Clopper–Pearson) with no normality approximation. Section VI-D computes q12 and its lower confidence bound for our K = 2 pipeline. 
+
+D. Realized-Chain Risk Certification and the Certifiability Gap 
+
+Theorem 6 and (20) already sketch a certified version of the spanning-tree bound. We now make the two-level structure of that certificate explicit, because our own experiments (Section VI-D) conflated two different objects: a marginal 
+
+guarantee averaged over calibration randomness, and a realized-chain guarantee for the one specific trained-and-calibrated pipeline that is actually deployed. Let Θ denote all randomness used to train and calibrate the deployed chain, and write pk(θ), qij (θ), and R(θ) = Pr θ [S 
+
+> k
+
+Ek] for the corresponding quantities conditional on a realized chain Θ = θ.
+
+Definition 4 (Marginal and realized-chain trajectory risk) .
+
+The marginal trajectory risk averages over both calibration randomness and a fresh trajectory, Rmarg = EΘ[R(Θ)] . The realized-chain risk R(θ) is the deployment risk of the particular trained and calibrated chain that is actually deployed. 
+
+Proposition 1 (What marginal stage-wise guarantees compose) .
+
+If EΘ[pk(Θ)] ≤ αk for k = 1 , . . . , K , then Rmarg ≤ P 
+
+> k
+
+αk
+
+(Theorem 2, restated at the marginal level). This conclusion concerns Rmarg and does not imply R(θ) ≤ P 
+
+> k
+
+αk for every realized chain θ.
+
+The remainder of this subsection conditions on a fixed realized chain θ and asks when a finite joint audit sample can certify R(θ) below the marginal-only bound—the relevant question when deciding whether one particular deployed chain is safe enough to automate. Let An = {Z(t)}nt=1 be an i.i.d. audit sample from the fixed chain, independent of the data used to select any threshold, and write bpk = 1
+
+> n
+
+P 
+
+> t
+
+Z(t) 
+
+> k
+
+,
+
+bqij = 1
+
+> n
+
+P 
+
+> t
+
+Z(t) 
+
+> i
+
+Z(t) 
+
+> j
+
+. The framework accepts any construction satisfying 
+
+Pr 
+
+> An
+
+[pk ≤ Uk ∀k] ≥ 1 − δp, (21) 
+
+Pr 
+
+> An
+
+[Lij ≤ qij ∀i < j ] ≥ 1 − δq , (22) with no independence required between the two families. 
+
+Definition 5 (Oracle and certifiable dependence gain) . With 
+
+TK the spanning trees on {1, . . . , K }, the oracle pairwise dependence gain is Goracle = max T ∈T K
+
+P 
+
+> (i,j )∈T
+
+qij , and the finite-sample certifiable dependence gain is Gcert =max T ∈T K
+
+P 
+
+> (i,j )∈T
+
+Lij . The dependence certifiability gap is 
+
+∆dep = Goracle − Gcert .
+
+Theorem 7 (Post-hoc modular trajectory certificate) . As-sume (21) and (22) , and let bT ∈ arg max T ∈T K
+
+P 
+
+> (i,j )∈T
+
+Lij 
+
+be chosen from the audit data. Then, with probability at least 
+
+1 − δp − δq ,
+
+R(θ) ≤ Bcert ≜ min 
+
+(
+
+1,
+
+> K
+
+X
+
+> k=1
+
+Uk − Gcert 
+
+)
+
+. (23) 
+
+The data-dependent choice of bT does not invalidate the certificate, because Theorem 6’s spanning-tree bound holds 
+
+simultaneously for every T ∈ T K , and (21) –(22) sandwich 
+
+pk, q ij simultaneously over all k and all pairs; selecting the maximizing tree after seeing the data therefore stays inside the same validity event. Proof. For any fixed T , Theorem 6 gives R(θ) ≤ P 
+
+> k
+
+pk −P 
+
+> (i,j )∈T
+
+qij . On the event where (21)–(22) both hold, P 
+
+> k
+
+pk −P 
+
+> (i,j )∈T
+
+qij ≤ P 
+
+> k
+
+Uk − P 
+
+> (i,j )∈T
+
+Lij simultaneously for every T , hence in particular for bT . A union bound over the two validity events gives probability at least 1 − δp − δq ; clipping at one preserves validity. 
+
+Corollary 1 (Exact two-stage form) . For K = 2 , R(θ) = 
+
+p1 + p2 − q12 exactly, and with probability at least 1 − δp − δq ,
+
+R(θ) ≤ U1 + U2 − L12 . The certifiable dependence gain over the marginal-only certificate U1 + U2 is exactly L12 .
+
+Remark 3 (A direct audit of the union event is a distinct, tighter alternative at K = 2 ). Corollary 1 decomposes the 7
+
+certificate through three separately-audited quantities ( U1, U2,
+
+L12 ), which is necessary when only pairwise summaries are available or when K > 2 requires selecting among several candidate trees. When K = 2 and the full joint failure vector 
+
+(Z1, Z 2) is observed on every audit trajectory—exactly our setting—one may instead construct a single exact one-sided Clopper–Pearson upper bound U∪ directly on r = Pr[ E1 ∪E2 |C] from the Binomial count X∪ = P 
+
+> t
+
+1{Z(t)1 ∪ Z(t)2 }, at the same overall confidence level. The decomposed certificate pays the CP slack of three separately-constructed intervals (two upper, one lower) combined by a union bound over their confidence budgets, while U∪ pays the slack of one interval on the compound event directly; combining marginal bounds this way is generally weakly more conservative than a direct joint construction at matched confidence, and U∪ < U 1 + U2 − L12 
+
+holds in every one of our 12 configurations (Section VI-D). Both are valid 1 − δ certificates for R(θ); U∪ is the one an operator with full joint audit data should actually deploy, and it is the quantity we report as the primary result in Section VI-D. We report the decomposed certificate alongside it because it is the object Theorem 7 formally proves and the one that generalizes to K > 2 and to pairwise-only audit data; the gap between U∪ and U1 + U2 − L12 is itself informative about how much conservatism the decomposition costs. 
+
+Remark 4 (Overlap, not correlation, is the certification primitive) . As in (10) , qij = pipj + ρij 
+
+ppi(1 − pi)pj (1 − pj )
+
+relates overlap to correlation, but qij is the quantity that directly enters (23) . It stays well defined when a marginal rate is near zero and admits an exact one-sided binomial confidence bound with no normality approximation—Pearson correlation should be reported descriptively, not used as the certification object itself. 
+
+Let M =  K
+
+> 2
+
+. For δp, δ q ∈ (0 , 1) , Hoeffding’s inequality with a union bound gives valid simultaneous bounds 
+
+Uk = min {1, bpk + ap}, ap =
+
+q log( K/δ p)2n , (24) 
+
+Lij = max {0, bqij − aq }, aq =
+
+q log( M/δ q )2n . (25) 
+
+Theorem 8 (Closed-form finite-sample validity) . The quantities in (24) –(25) satisfy (21) –(22) , so (23) is a valid 1 − δp − δq
+
+certificate for R(θ), with no independence required among stages or among edge statistics. Proof. For each k, Hoeffding’s inequality gives Pr[ bpk − pk <
+
+−ap] ≤ e−2na 2 
+
+> p
+
+= δp/K ; a union bound over K stages gives simultaneous validity of all Uk. Likewise Pr[ bqij − qij > a q ] ≤
+
+e−2na 2 
+
+> q
+
+= δq /M for each pair, and a union bound over the M
+
+pairs gives simultaneous validity of all Lij .Writing bp, b q for the same expressions with δp, δ q replaced by second confidence levels βp, β q :Let Boracle = min {1, P 
+
+> k
+
+pk −Goracle } denote the certificate an infinite audit sample would recover. 
+
+Theorem 9 (Finite-sample certifiability gap) . With probability at least 1 − δq − βq ,
+
+0 ≤ ∆dep ≤ (K − 1)( aq + bq ) (26) 
+
+before clipping at one. Consequently, a sufficient audit size for 
+
+∆dep ≤ η is 
+
+n ≥ (K − 1) 2
+
+2η2
+
+q 
+
+log( M/δ q ) + 
+
+q
+
+log( M/β q )
+
+2
+
+. (27) 
+
+Separately, with probability at least 1 − δp − δq − βp − βq (a union bound over all four validity events), 
+
+0 ≤ Bcert − Boracle ≤ K(ap + bp) + ( K − 1)( aq + bq ), (28) 
+
+before clipping at one—the marginal-side terms δp, β p enter only this combined statement, not the ∆dep -only bound (26) .Proof. A second Hoeffding application at confidence levels 
+
+βq (resp. βp) bounds bqij (resp. bpk) away from qij (resp. pk)with high probability; combined with Lij ≥ qij − (aq + bq )
+
+summed over the oracle-maximizing tree’s edges, this gives both bounds by a union bound over the relevant validity events (full derivation in the supplementary material). 
+
+a) When can any positive gain be certified at all?: The convergence rate above controls the magnitude of the certifia-bility gap once some overlap is detected; a separate question is how much audit data is needed to detect any overlap in the first place, which is what our own K = 2 pipeline runs into directly. For K = 2 , let X = P 
+
+> t
+
+Z(t)1 Z(t)2 ∼ Binomial( n, q 12 )
+
+and let LCP be the exact one-sided Clopper–Pearson lower bound for q12 .
+
+Theorem 10 (Exact positive-gain probability) . LCP (X; n, δ ) >
+
+0 ⇐⇒ X ≥ 1, hence Pr q12 [Gcert > 0] = 1 − (1 − q12 )n.Obtaining a strictly tighter certificate than the marginal-only bound with probability at least 1 − β requires n ≥
+
+log β/ log(1 − q12 ), i.e. n ≈ log(1 /β )/q 12 when q12 is small. Proof. The exact one-sided Clopper–Pearson bound equals zero exactly when X = 0 and is a positive beta quantile otherwise, giving the equivalence. Pr[ X = 0] = (1 − q12 )n
+
+gives the stated probability; solving 1 − (1 − q12 )n ≥ 1 − β for 
+
+n, using log(1 − q) = −q + o(q) for the small-q approximation, completes the proof. This is not an artifact of the Clopper–Pearson construction: it is a rate that any valid procedure must pay. 
+
+Theorem 11 (Information-theoretic limit on detecting positive overlap) . Let L ∈ [0 , 1] be any procedure based on n i.i.d. Bernoulli overlap observations satisfying inf q Pr q [L ≤ q] ≥
+
+1 − δ, with β + δ < 1. If Pr q [L > 0] ≥ 1 − β at some q > 0,then n ≥ log( β + δ)/ log(1 − q).Proof. Validity at q = 0 gives Pr 0[L > 0] ≤ δ. Since P n
+
+> 0
+
+concentrates on the all-zero sample, TV( P n 
+
+> 0
+
+, P nq ) = 1 − (1 −
+
+q)n, so Pr q [L > 0] ≤ δ + 1 − (1 − q)n. Combining with 
+
+Pr q [L > 0] ≥ 1 − β gives (1 − q)n ≤ β + δ, which rearranges to the stated bound. Theorem 10 is therefore rate-optimal in the rare-overlap regime: certifying any dependence gain costs Θ(1 /q 12 ) audit trajectories, while certifying a gain to additive precision η
+
+costs the usual Θ(1 /η 2) via a Bretagnolle–Huber testing argument applied to two overlap levels q0 < q 1, which gives 8
+
+n ≥ log(1 /[2( δ + β)]) /kl( q0∥q1) = Ω 
+
+ q0(1 −q0) 
+
+> η2
+
+log 1
+
+> δ+β
+
+
+
+for 
+
+q1 = q0 + 2 η and small η. Section VI-D reports where our two IDS attack-variant tasks fall relative to this threshold. 
+
+b) Beating the nominal target is a different, harder event than detecting a positive gain.: Theorems 10–11 characterize when a dependence-aware certificate can be shown to be 
+
+strictly tighter than the marginal-only certificate it replaces . A practitioner instead usually wants to know when the certificate beats the nominal budget α itself. For K = 2, writing 
+
+R = p1 + p2 − q12 for the true realized-chain risk (Corollary 1) and γ = α − R > 0 for the true safety margin, and letting 
+
+bR = 1
+
+> n
+
+P 
+
+> t
+
+Z(t) 
+
+> ∪
+
+be the direct empirical estimate of the union-event rate on n i.i.d. audit trajectories with Clopper–Pearson (equivalently Hoeffding) upper bound U∪:
+
+Theorem 12 (Sample complexity of beating the nominal target) . A sufficient condition for Pr[ U∪ < α ] ≥ 1 − β, using the Hoeffding-form bound U∪ = bR + plog(1 /δ )/(2 n) at confidence 1 − δ, is 
+
+n ≥
+
+plog(1 /δ ) + plog(1 /β )
+
+2
+
+2γ2 . (29) 
+
+Conversely, for any procedure U satisfying inf r Pr r [U ≥ r] ≥
+
+1 − δ (uniform validity as an upper bound at every true rate 
+
+r), if Pr R[U < α ] ≥ 1 − β at true rate R = α − γ, then 
+
+n ≥ log(1 /[2( δ + β)]) kl( α ∥ α − γ) = Ω 
+
+ α(1 − α)
+
+γ2 log 1
+
+δ + β
+
+
+
+(30) 
+
+for small γ. Both (29) and (30) scale as Θ(1 /γ 2), matching up to the confidence-dependent constant—the usual estimation rate, not the Θ(1 /q 12 ) detection rate of Theorem 10. Proof. The upper bound follows from Hoeffding’s inequality applied to bR; the lower bound follows from the Bretagnolle– Huber testing inequality applied to the Bernoulli union event 
+
+Z∪, comparing true rates α and α − γ (full derivation in the supplementary material). 
+
+Corollary 2 (Positive gain and nominal crossing are distinct events) . L12 > 0 (Theorem 10) is strictly weaker than 
+
+U1 + U2 − L12 < α whenever the marginal-only certificate 
+
+U1 + U2 itself already exceeds α: the two events have different sample-complexity rates, Θ(1 /q 12 ) versus Θ(1 /γ 2), so a configuration can certify a strictly positive dependence gain (Theorem 10) without its final certificate beating Bonferroni (Theorem 12)—this is not an inconsistency between the two claims, since they are different statistical events with different evidence requirements. 
+
+Why can pairwise information not be pushed further? Because, in general, it cannot—even with exact pairwise probabilities, not just correlations. 
+
+Theorem 13 (Pairwise Non-Identifiability for K ≥ 3).
+
+Marginal probabilities and all pairwise joint probabilities do not determine TMR once K ≥ 3. For K = 3 , there exist two exchangeable laws with identical p1 = p2 = p3 = 0 .5,identical q12 = q13 = q23 = 0 .27 (hence identical ρij = 0 .08 
+
+for every pair), but with trajectory failure probabilities 0.73 
+
+and 0.96 , respectively—straddling the independence value 
+
+1 − (1 − 0.5) 3 = 0 .875 on both sides. Proof. Let N = Z1 + Z2 + Z3 and, conditional on N = n,distribute probability uniformly over the  3
+
+> n
+
+ binary vectors with exactly n ones (this preserves exchangeability). Under law A: Pr[ N =0] = 0 .27 , Pr[ N =2] = 0 .69 , Pr[ N =3] = 0 .04 .Under law B: Pr[ N =0] = 0 .04 , Pr[ N =1] = 0 .69 , Pr[ N =3] = 0.27 . Both give pi = E[N ]/3 = 0 .5 and qij = E N
+
+> 2
+
+/3 = 0.27 , hence identical marginals and pairwise correlations. Yet 
+
+Pr[ N > 0] = 1 − Pr[ N =0] equals 0.73 under A and 0.96 
+
+under B. 
+
+Remark 5. This is precisely why we report the exact K =2 identity (Theorem 3) as empirically validated, use the distribution-free Hunter bound (Theorem 6) for any K we do measure, and do not attempt to certify TMR at K ≥ 3
+
+from pairwise correlations alone—Table IX’s K = 3 row is reported strictly as an illustrative extrapolation, consistent with Remark 2. 
+
+The counterexample above shows non-identifiability quali-tatively; for K = 3 the exact size of the resulting uncertainty has a closed form. 
+
+Theorem 14 (Sharp identified interval for K = 3 ). Let S1 =
+
+p1 + p2 + p3, S2 = q12 + q13 + q23 , and t = Pr[ E1 ∩ E2 ∩ E3],so R = S1 − S2 + t by inclusion–exclusion. Given feasible pi
+
+and qij , define 
+
+tmin = max {0, q 12 +q13 −p1, q 12 +q23 −p2, q 13 +q23 −p3},
+
+(31) 
+
+tmax = min {q12 , q 13 , q 23 , 1 − S1 + S2}. (32) 
+
+Then R ∈ [S1 − S2 + tmin , S 1 − S2 + tmax ], and every value in this interval is attained by some joint distribution with the specified marginals and pairwise overlaps. Proof. The eight atom probabilities of (Z1, Z 2, Z 3) can be written in terms of t as π111 = t; π110 = q12 −t, π101 = q13 −t,
+
+π011 = q23 − t; π100 = p1 − q12 − q13 + t (cyclically for 
+
+π010 , π 001 ); and π000 = 1 − S1 + S2 − t. Nonnegativity of all eight atoms is equivalent to tmin ≤ t ≤ tmax , and conversely every t in that range yields a valid joint law with the required marginals and pairwise overlaps. Since R = 1 − π000 = S1 −
+
+S2 + t, the interval is both valid and sharp. 
+
+Corollary 3 (Exact non-identifiability condition) . For K = 3 ,marginals and pairwise overlaps identify R exactly iff tmin =
+
+tmax ; otherwise the irreducible pairwise-information width is Wpair = tmax − tmin > 0. The upper endpoint of the sharp interval coincides with the clipped spanning-tree bound (Theorem 6) at K = 3 , so that bound is sharp among all bounds using only marginals and pairwise overlaps; the interval width 
+
+is what quantifies the information lost by not observing the triple overlap. For general K, the analogous sharp interval is the solution to a linear program over the 2K joint atom probabilities, subject to the marginal and pairwise-overlap constraints. 
+
+The results of this section, together with Section IV-D, separate three distinct quantities that are easy to conflate under 9
+
+a single label of “dependence gain.” Let Gtrue ≜ P 
+
+> k
+
+pk −R be the actual reduction a realized chain’s true dependence structure achieves over the marginal sum, where R = Pr[ S 
+
+> k
+
+Ek] is the chain’s true trajectory risk; recall Goracle (pairwise-only, exact overlaps) and Gcert (pairwise-only, finite-sample lower bounds) from Definition 5. 
+
+Theorem 15 (Structural and statistical gain decomposition) .
+
+0 ≤ Gcert ≤ Goracle ≤ Gtrue , and 
+
+Gtrue − Gcert = ( Gtrue − Goracle )
+
+| {z }
+
+> structural gap
+
++ ( Goracle − Gcert )
+
+| {z }
+
+> certifiability gap
+
+. (33) 
+
+For K = 2 , Gtrue = Goracle = q12 exactly (the structural gap vanishes: there is only one pair, so pairwise information is already everything there is to know), and the entire decomposition reduces to the certifiability gap of Theorem 9. For K ≥ 3, the structural gap is generically strictly positive and does not vanish as n → ∞ : by Corollary 3, Gtrue is not even identified by exact marginals and pairwise overlaps, so no amount of pairwise-only audit data—however large—can close it. Proof. Gcert ≤ Goracle holds because Lij ≤ qij for every edge under the validity event (Theorem 9’s proof). Goracle ≤ Gtrue 
+
+is the spanning-tree bound of Theorem 6 restated as a gain: 
+
+R ≤ P 
+
+> k
+
+pk − Goracle rearranges to Goracle ≤ P 
+
+> k
+
+pk − R =
+
+Gtrue . Equation (33) is immediate algebra. For K = 2 there is a unique pair and R = p1 + p2 − q12 exactly (Corollary 1), so 
+
+Gtrue = q12 = Goracle . For K ≥ 3, Corollary 3 exhibits, for fixed marginals and pairwise overlaps, joint laws with different 
+
+R (hence different Gtrue ) and identical Goracle ; since no audit of pairwise statistics alone can distinguish these laws, the structural gap persists regardless of audit size. This decomposition is why Sections IV-D and IV-E–VI-D are one question, not two: the certifiability gap asks how much of the dependence a pairwise audit could in principle reveal is lost to finite-sample noise, while the structural gap asks how much of the chain’s true dependence a pairwise audit could never reveal even with infinite data, because it lives in interactions the audit does not observe. Every dependence-aware bound in this paper pays one, the other, or both costs, and Table VII’s finding that same-model pairing adds no material covariance beyond cross-model pairing (Section VI-D) says the residual coupling we do certify is fully explained by pairwise, shared-difficulty structure—for this K = 2 pipeline, there is no hidden higher-order term for the structural gap to hide in. 
+
+E. Two Sources of Apparent Coupling 
+
+Two mechanisms can produce the strongly positive ˆρ we originally measured (Section VI-D), and it matters which one is at work: one is a property of task construction, the other a property of the model. 
+
+a) Deterministic label nesting.: Let Yf be a fine-grained label and Yc = g(Yf ) its coarse label, with prediction sets 
+
+Cf (x), C c(x) and failure events Ef = {Yf /∈ Cf (X)}, Ec =
+
+{Yc /∈ Cc(X)}.
+
+Theorem 16 (Deterministic label nesting induces nested failures) . If the prediction sets are label-consistent, g(Cf (x)) ⊆
+
+Cc(x) for every x, then Ec ⊆ Ef and qcf = Pr[ Ec ∩Ef ] = pc.If 0 < p c ≤ pf < 1, the resulting Bernoulli correlation is 
+
+ρcf =
+
+s
+
+pc(1 − pf )
+
+pf (1 − pc) . (34) 
+
+In the special case of a deterministic one-to-one relabeling (Ec = Ef ), ρcf = 1 .Proof. Yf ∈ Cf (X) ⇒ Yc = g(Yf ) ∈ g(Cf (X)) ⊆ Cc(X),so the contrapositive gives Ec ⊆ Ef , hence qcf = Pr[ Ec] = pc.Substituting into ρcf = ( qcf − pcpf )/ppc(1 − pc)pf (1 − pf )
+
+and simplifying gives (34); pc = pf gives ρcf = 1 .
+
+Corollary 4 (Approximate nesting) . If Pr[ Ec \ Ef ] ≤ ε, then 
+
+qcf ≥ pc − ε and ρcf is bounded below accordingly. Near-deterministic label mappings can therefore mechanically pro-duce large observed coupling with no model-specific mechanism required. 
+
+This is the exact mechanism behind our originally reported 
+
+¯ρ = 0 .78 (Section VI-D): the ATT&CK attribution label used in that measurement was, for every one of 20,958 audited samples, a deterministic renaming of the coarse traffic-category label, so Theorem 16’s degenerate case applies almost exactly. 
+
+b) Model-specific coupling versus shared difficulty.: 
+
+When the second stage is a genuinely independent classification task (not a relabeling of the first), residual coupling can still arise from two distinct sources: samples that are simply hard for every model at every stage, and coupling specific to using the same model instance for both stages. 
+
+Proposition 2 (Coupling provenance decomposition) . Let D
+
+denote latent trajectory difficulty and Z1m, Z 2m′ the stage-wise failure indicators from model instances m, m ′, with Z1m ⊥
+
+Z2m′ | D for m̸ = m′. Writing μk(D) = E[Zkm | D] and 
+
+c(D) = Cov( Z1m, Z 2m | D) for a shared instance, the law of total covariance gives 
+
+Cov cross (Z1, Z 2) = Cov( μ1(D), μ 2(D)) , (35) 
+
+Cov same (Z1, Z 2) = Cov( μ1(D), μ 2(D)) + E[c(D)] , (36) 
+
+so Cov same − Cov cross = E[c(D)] is the model-specific increment. Independently permuting trajectories across stages destroys the shared-D pairing and yields zero covariance in expectation. Proof. Law of total covariance; full derivation in the supple-mentary material. Proposition 2 gives the same-model / cross-model / permuted design (Section VI-D) a precise reading: same ≈ cross >
+
+permuted ≈ 0 means the observed dependence is attributable to shared trajectory difficulty, Cov( μ1(D), μ 2(D)) , with no detectable model-specific increment E[c(D)] —as opposed to 
+
+same ≫ cross , which would indicate a genuine shared-representation effect. 10 
+
+F. When Positive Dependence Helps or Hurts 
+
+The preceding results raise a conceptual question: engineer-ing intuition about redundant systems typically treats correlated component failures as a reliability liability (it defeats the point of redundancy). Our empirical finding is that positively correlated step errors instead tighten the trajectory bound relative to the worst case. These two intuitions are not in conflict; they concern different failure criteria. 
+
+Definition 6 (Association) . A Bernoulli vector (Z1, . . . , Z K )
+
+is associated if Cov( f (Z), g (Z)) ≥ 0 for every pair of coordinatewise nondecreasing functions f, g for which the covariance exists. 
+
+Theorem 17 (Dependence Duality) . If Z is associated [26], then 
+
+Pr 
+
+" K[
+
+> k=1
+
+Ek
+
+#
+
+≤ 1 −
+
+> K
+
+Y
+
+> k=1
+
+(1 − pk), (37) 
+
+Pr 
+
+" K\
+
+> k=1
+
+Ek
+
+#
+
+≥
+
+> K
+
+Y
+
+> k=1
+
+pk. (38) 
+
+Positive association is therefore favorable for a union-type 
+
+failure criterion, where the trajectory fails if any step fails (our setting), but unfavorable for an intersection-type criterion, where a redundant system fails only if all components fail. Proof. Association applied to the nondecreasing indicators 
+
+1Ek gives (38) by induction; applying it to the nonincreasing 
+
+1 − 1Ek and taking complements gives (37) (full derivation in the supplementary material). 
+
+Remark 6 (Pairwise positivity alone is not enough) . The-orem 17 requires association, a higher-order concordance condition—not merely ρij ≥ 0 for every pair. Theorem 13 already shows that all-positive pairwise correlations are compatible with a TMR above the independence baseline (0.96 > 0.875 in that construction), so that law cannot be asso-ciated despite satisfying every pairwise positivity check. Positive dependence helps the trajectory metric specifically when it concentrates a bounded number of step failures onto the same hard trajectories, rather than spreading failures independently across otherwise-easy trajectories; it does not, by itself, change the expected number of failed steps E[P 
+
+> k
+
+Zk] = P 
+
+> k
+
+pk.
+
+Example 1 (The same dependence structure as asset and liability) . Take p1 = p2 = 0.05 and ρ12 = 0.298 ,our measured mean at α = 0.10 . Then q12 = p1p2 +
+
+ρ12 
+
+pp1(1 − p1)p2(1 − p2) ≈ 0.0025 + 0 .298(0 .0475) ≈
+
+0.0167 . Under independence ( ρ12 = 0 ), Pr[ E1 ∪ E2] = 0 .0975 
+
+and Pr[ E1 ∩ E2] = 0 .0025 . Under this measured correlation, 
+
+Pr[ E1 ∪ E2] = p1 + p2 − q12 ≈ 0.0833 (15% lower than independence) while Pr[ E1 ∩ E2] = q12 ≈ 0.0167 (6.7×
+
+higher than independence). The identical dependence structure that tightens the union-type trajectory bound by 15% would, for the same two steps used instead as a 2-of-2 redundant AND-gate (both must fail for the gate to fail), raise the joint-failure probability by the same factor. We do not evaluate an actual redundant deployment of this pipeline; this is a numerical illustration of Theorem 17 using our own measured ρ12 , not a separate experiment. G. α-Budget Allocation 
+
+Given the trajectory bound (12), a natural question is how to allocate the total budget α across steps. 
+
+Proposition 3 (Equal Allocation Maximizes the Certified Coverage Lower Bound) . Suppose the chain satisfies the survival-conditional guarantee Pr[ Ek | T 
+
+> j<k
+
+Ecj ] ≤ αk for all k (a strictly stronger assumption than the marginal per-step guarantee pk ≤ αk that ordinary split CP provides; see Remark 7), and that the total nominal risk budget is fully committed, P 
+
+> k
+
+αk = α. Then TC ≥ Q
+
+> k
+
+(1 − αk) by Theorem 1, and among all allocations satisfying P 
+
+> k
+
+αk = α,equal allocation αk = α/K maximizes this lower bound. Proof. log(1 −x) is concave on [0 , 1) , so by Jensen’s inequality 
+
+> 1
+> K
+
+P 
+
+> k
+
+log(1 − αk) ≤ log  1 − 1
+
+> K
+
+P 
+
+> k
+
+αk
+
+ = log(1 − α/K ),with equality iff all αk are equal. Exponentiating, Q
+
+> k
+
+(1 −
+
+αk) ≤ (1 − α/K )K , so the equal-split allocation attains the largest achievable value of the lower bound Q
+
+> k
+
+(1 −αk) among allocations summing to α.
+
+Remark 7 (Scope of this optimality claim) . Two caveats bound what Proposition 3 does and does not say. First, under the marginal-only Bonferroni guarantee (Theorem 2) alone, every allocation with the same total P 
+
+> k
+
+αk = α yields the identical upper bound TMR ≤ α: that bound cannot distinguish equal from unequal splits, so Proposition 3 requires the strictly stronger survival-conditional guarantee (7) , which ordinary split CP’s marginal coverage does not automatically provide and which we do not separately verify in our experiments. Second, Proposition 3 optimizes a certified lower bound on TC ,not necessarily the true achieved trajectory coverage or the operational escalation rate; if per-step difficulties are strongly asymmetric, an allocation that shifts budget toward the harder step could achieve better actual performance while making this particular certified bound looser. Section VI-E reports which allocation performs best empirically , which is a separate question from which allocation this proposition favors in the worst case. 
+
+Section VI-E reports, purely empirically, that equal allocation achieves the highest observed TC and lowest observed TMR among the three tested strategies in our two-stage pipeline; we do not claim this empirical result as a direct consequence of Proposition 3, since verifying the survival-conditional guarantee itself is left to future work. V. E XPERIMENTAL SETUP 
+
+A. Two-Step Security Agent Pipeline 
+
+We instantiate the framework with a K = 2 pipeline:  
+
+> •
+
+Step 1: Traffic Classification. The LLM classifies each network flow x into one of L1 = 5 categories (Normal, DoS, Probe, CredentialAccess, Exploitation; Table I). Nonconfor-mity scores are computed as s1(x, y ) = 1 − p(y | x), where 
+
+p(y | x) is the LLM’s softmax probability derived from next-token log-probabilities. 11  
+
+> •
+
+Step 2: Attack-Variant Attribution. For traffic classified as an attack category c in Step 1, the same LLM classifies it into one of L2 = 4 attack variants specific to c (e.g., for DoS: Hulk, GoldenEye, Slowloris, SlowHTTPTest— the dataset’s native fine-grained attack-tool labels), via a dedicated LoRA adapter fine-tuned per (model, category) pair on these labels. These variants are not themselves cataloged MITRE ATT&CK sub-technique IDs (T1498 Network DoS has two: T1498.001 Direct Network Flood and T1498.002 Reflection Amplification [27]); we use them as a genuinely fine-grained attribution task nested under the coarse ATT&CK technique, not as a claim of one-to-one MITRE sub-technique mapping. This replaces an earlier design in which Step 2 used a fixed one-to-one mapping from coarse category to ATT&CK technique; we verified that design made E1 and E2 deterministically nested ( q12 = pc
+
+for every one of 20,958 audited samples, Theorem 16), so its near-1 correlation reflected the label mapping, not the agent’s learned behavior. Nonconformity scores s2(x, y ) are computed identically from the LLM’s attack-variant log-probabilities. 
+
+Routing protocol. A deployed agent must decide, upon seeing Step 1’s output, which Step 2 adapter(s) to invoke. We use set-routing : Step 2 is invoked once per category in Step 1’s conformal prediction set C1(x) (every category whose nonconformity score clears q1, not only the top-1 prediction), and the trajectory is scored as covered iff the true category c⋆
+
+is itself in C1(x) and the corresponding adapter’s prediction set C2(x) covers the true attack variant—exactly Ec 
+
+> 1
+
+∩ Ec 
+
+> 2
+
+as defined above. This is the routing rule a conformal deployment would actually use, since C1(x), not the single top-1 label, is the object with a coverage guarantee; a trajectory where c⋆ /∈
+
+C1(x) fails regardless of what Step 2 would have said, which is already captured by E1. Section VI-A additionally reports a 
+
+top-1-routing variant, which invokes only the single argmax category’s adapter and fails immediately on an argmax error, as a descriptive comparison; top-1 routing has no distribution-free coverage guarantee of its own and is not the protocol our theorems certify. Both steps share the same input x and are served by the same LLM, but operate on different label spaces ( L1 vs. 
+
+L2) and different prompt templates. This shared input and shared model are two plausible, observationally distinct sources of inter-step correlation: the input alone could make some samples harder for any model at both tasks (a shared-difficulty account), or the shared model could additionally couple the two steps’ uncertainty through shared internal representations (a representation-sharing account). Section VI-D (E8) distin-guishes these by re-scoring Step 1 and Step 2 with different models on the same underlying samples, and by an additional sample-permuted control; we describe that protocol in full there, since it depends on materials (the six models’ cross-paired outputs) not otherwise used in this paper. 
+
+B. Datasets 
+
+We evaluate on two network intrusion datasets (Table I). HIKARI-2021 is excluded: its dedicated Step-2 attack-variant                        
+
+> TABLE I DATASETS USED IN THE TRAJECTORY COVERAGE EVALUATION . S TEP 1
+> USES THE UNIFIED 5-CATEGORY TAXONOMY (N ORMAL , D OS, P ROBE ,CREDENTIAL ACCESS , E XPLOITATION ); S TEP 2USES A GENUINELY INDEPENDENT ATTACK -VARIANT CLASSIFIER RESTRICTED TO THE LISTED CATEGORY ,SIZED TO SATISFY THE SAMPLE -COMPLEXITY REQUIREMENT OF THEOREM 10.
+> Dataset Year Step-2 category L2Ncal Ntest
+> CIC-IDS-2018 [28] 2018 DoS 4500 3,500 RT-IoT2022 [29] 2022 Probe 4150 1,376
+
+classifier did not discriminate above chance for any of the 6 tested LLMs despite a large raw feature gap between candidate labels, a training-data issue we could not resolve within this paper’s scope (Section VII-B). For each remaining (dataset, category) pair, Step 1 and Step 2 are evaluated jointly on the full available sample pool for that category in the dataset’s test split (16,000 for CIC-IDS-2018/DoS, of which we draw 
+
+4,000 ; all 1,526 available for RT-IoT2022/Probe), matched by sample index between the two steps. We draw Ncal calibration samples uniformly at random (without replacement) from this pool, using 5 random seeds {42 , 123 , 456 , 789 , 2024 }; the remaining samples form the test set, whose size Ntest is the audit sample size that enters every Clopper–Pearson construction in Section VI-D (calibration samples select the conformal threshold and are not part of the audit). Ntest is chosen to clear the worst-case per-model requirement from Theorem 10 for at least one dataset (Section VI-D reports the resulting per-configuration certifiability, including the 5 CIC-IDS-2018/DoS configurations where it is not fully cleared). 
+
+C. Models 
+
+We evaluate six open-source LLMs spanning three architec-ture families and three parameter scales:  
+
+> •
+
+Qwen-3 family: 8B, 14B, 32B [30]  
+
+> •
+
+Gemma-2 9B [31]  
+
+> •
+
+LLaMA-3 8B [32]  
+
+> •
+
+Mistral 7B [33] All models are deployed via vLLM [34] with greedy decoding. Log-probabilities for all candidate labels are extracted per step to compute nonconformity scores. 
+
+D. Fine-Tuning and Scoring Protocol 
+
+Both steps use LoRA adapters [35] ( r=16 , α=32 , dropout 
+
+0.05 , target modules {q,k,v,o }_proj ), trained for 5 epochs with AdamW at learning rate 10 −4, effective batch 16. Step 1 adapters are trained per (model, dataset) pair on the coarse 5-category label; Step 2 adapters are trained per (model, category) pair on the category’s attack-variant labels from the base model, using the same optimizer settings. Splits use group-aware stratified splitting ( StratifiedGroupKFold , grouped by exact serialized-prompt text) to prevent near-duplicate-prompt leakage, verified reproducible given a fixed seed. Each can-didate label is scored by teacher-forcing total negative log-likelihood: prompt and label are tokenized separately and concatenated directly (never re-tokenizing the joined string, 12 
+
+which can merge tokens across the boundary and silently corrupt the score); the per-token mean loss is multiplied by label token count for a length-comparable total NLL. Gemma-2 9B requires chat-template-wrapped prompts for both training and scoring; the other five models use raw prompt text. We use the final-epoch checkpoint throughout; all 12 Step-2 adapters converged to ≥ 99 .9% argmax accuracy on a held-out balanced evaluation set before deployment on the audit pool (Table I). 
+
+E. Metrics  
+
+> •
+
+Trajectory Coverage (TC) : fraction of test samples where both steps simultaneously cover the true label (Definition 1).  
+
+> •
+
+Trajectory Miscoverage Rate (TMR) : 1 − TC; probability that at least one step fails to cover the true label (Definition 2). TMR is a statistical risk quantity requiring ground-truth labels, not a directly observable deployment metric (see the discussion following Definition 2).  
+
+> •
+
+Per-Step Miscoverage Rate (SMR k): fraction where step 
+
+k alone fails to cover.  
+
+> •
+
+Inter-Step Correlation ( ˆρ): Pearson correlation of binary miscoverage indicators between Step 1 and Step 2, computed on held-out evaluation splits after conformal calibration. In deployment, the same quantity should be estimated on a validation stream or replaced by a conservative lower confidence bound.  
+
+> •
+
+Bonferroni Slack : P 
+
+> k
+
+αk − TMR empirical ; measures conser-vatism of the Bonferroni bound.  
+
+> •
+
+Theorem 3 Slack : bound from (12) minus TMR empirical ;measures tightness of the correlated bound. 
+
+F. Experimental Configurations 
+
+We evaluate 36 configurations: 2 datasets × 6 models ×
+
+3 α levels ( α ∈ {0.05 , 0.10 , 0.20 }), each with 5 random calibration/test splits. Equal α-allocation ( αk = α/ 2) is the default; non-equal allocations are compared in the allocation experiment (Section VI-E). 
+
+Trajectory pairing. Step 2 is evaluated only on samples whose Step 1 ground-truth category matches the Step 2 task’s target category (DoS for CIC-IDS-2018, Probe for RT-IoT2022). Step 1 and Step 2 outputs are joined by an explicit per-sample index stored in both output files (not by generation order), and we verified for all 12 dataset–model pairs that the resulting joined index set is identical between the Step-1-restricted pool and the Step-2 output pool (zero missing or extra indices on either side). VI. R ESULTS AND ANALYSIS 
+
+A. Trajectory Coverage Verification (E1) 
+
+Table II summarizes the trajectory coverage results across all 36 configurations. At α = 0 .05 and α = 0 .20 , all 12 configurations satisfy TC ≥ 1 − α. At the primary operating point α = 0 .10 , mean trajectory coverage is 0.927 ± 0.024 (target ≥ 0.900 ), but one configuration (CIC-IDS-2018/LLaMA-3 8B, TC = 0 .894 ) falls marginally below the nominal target. This is within ordinary finite-sample calibration noise for a single α check on ncal =                                                                               
+
+> TABLE II TRAJECTORY COVERAGE SUMMARY ACROSS 12 DATASET –MODEL CONFIGURATIONS PER αLEVEL (K= 2 ,EQUAL ALLOCATION , 5-SEED AVERAGE ±STD ACROSS CONFIGURATIONS ).
+> αTarget TC TC TC min TMR n
+> 0.05 ≥0.950 0.970 ±0.016 0.953 0.030 ±0.016 12 0.10 ≥0.900 0.927 ±0.024 0.894 0.073 ±0.024 12 0.20 ≥0.800 0.849 ±0.031 0.811 0.151 ±0.031 12 TABLE III TRAJECTORY COVERAGE UNDER SET -ROUTING (CERTIFIED , S ECTION V) VS .
+> TOP -1-ROUTING (DESCRIPTIVE ONLY )AT α= 0 .10 .
+> Model / Dataset Set-routed TC Top-1-routed TC
+> CIC/DoS, Gemma-2 9B 0.901 0.923 CIC/DoS, LLaMA-3 8B 0.894 0.915 CIC/DoS, Mistral 7B 0.902 0.918 CIC/DoS, Qwen-3 8B 0.913 0.931 CIC/DoS, Qwen-3 14B 0.900 0.914 CIC/DoS, Qwen-3 32B 0.906 0.925 RT-IoT/Probe, Gemma-2 9B 0.954 0.964 RT-IoT/Probe, LLaMA-3 8B 0.962 0.971 RT-IoT/Probe, Mistral 7B 0.952 0.962 RT-IoT/Probe, Qwen-3 8B 0.952 0.965 RT-IoT/Probe, Qwen-3 14B 0.960 0.967 RT-IoT/Probe, Qwen-3 32B 0.934 0.967 Mean 0.927 0.943
+
+500 (Section VII-B discusses this further), not a systematic violation: the same configuration comfortably satisfies coverage at both other α levels, and Theorem 2’s marginal guarantee is unaffected, since it is a statement about Rmarg averaged over calibration draws, not about every individual realized split (Definition 4). 
+
+Set-routing vs. top-1-routing. Table III compares the certified set-routing protocol (Section V) against the descriptive top-1-routing variant at α = 0 .10 . Top-1-routing achieves higher TC in all 12 configurations (mean 0.943 vs. 0.927 )—an argmax-correct prediction is more common than a prediction whose probability clears the conformal threshold q1, since q1
+
+is calibrated to a 1 − α1 marginal target rather than to argmax correctness. This is expected, not a reason to prefer top-1-routing operationally: only set-routing inherits Theorem 2’s distribution-free guarantee, because only C1(x), not the bare top-1 label, is constructed to satisfy Pr[ y / ∈ C1(x)] ≤ α1. Top-1-routing’s lower miscoverage here is an empirical property of these six models on this task, with no finite-sample certificate behind it. 
+
+Prediction-set size: the operational cost of the certificate. 
+
+Coverage alone does not show operational usefulness—always outputting the full label set trivially achieves perfect coverage at zero informativeness. At α = 0.10 , mean |C1(x)| is 
+
+0.964 (of 5 categories) and mean |C2(x)| is 0.957 (of 4 candidates), averaged across all 12 configurations; both equal their singleton rate exactly, since size ≥ 2 occurs in under 
+
+0.1% of samples. In practice C1(x)/C2(x) are almost always either a single confident label (covered) or empty (miscovered— exactly SMR 1/SMR 2 from Section VI-A), essentially never an ambiguous multi-label set requiring analyst escalation: the 13                                                               
+
+> TABLE IV BONFERRONI BOUND VS .PLUG -IN IE ESTIMATE AT α= 0 .10 (EQUAL ALLOCATION ,ALL 12 DATASET –MODEL CONFIGURATIONS ;SEE
+> SECTION VI-C). T HE PLUG -IN ESTIMATE IS AN UNCERTIFIED POINT ESTIMATE ,NOT A PROVEN BOUND (R EMARK 1); S ECTION VI-D REPORTS A CERTIFIED ALTERNATIVE .
+> Quantity Value vs. Bonferroni
+> Bonferroni upper bound 0.100 —Plug-in IE estimate 0.086 −14% Empirical TMR 0.073 —Plug-in IE residual 0.013 —Mean ˆρ12 0.298 —TABLE V BOUND COMPARISON ACROSS αLEVELS (ALL 12 CONFIGURATIONS ). B OTH THE ESTIMATED CORRELATION AND THE RELATIVE IMPROVEMENT VARY WITH αAND ARE SMALLER AND NOISIER THAN UNDER THE DETERMINISTIC STEP -2 MAPPING WE ORIGINALLY USED .
+> αnBonf. Thm. 3 Emp. ˆρImpr.
+> 0.05 12 0.050 0.045 0.030 0.203 −10% 0.10 12 0.100 0.086 0.073 0.298 −14% 0.20 12 0.200 0.178 0.151 0.240 −11%
+
+certificate does not purchase coverage by inflating set size, with no intermediate “narrowed-but-still-ambiguous” outcome to handle. 
+
+B. Bonferroni vs. the Plug-in IE Estimate (E2) 
+
+Table IV presents the core tightness result. At α = 0 .10 , the Bonferroni bound guarantees TMR ≤ 0.100 , while the plug-in inclusion–exclusion estimate is 0.086—a 14% reduction in the reported operational risk estimate, computed per-configuration using each configuration’s estimated ˆρ12 and then averaged. This is substantially smaller than the 37% we originally reported under the deterministic ATT&CK mapping, because the mean correlation itself is smaller (0.30 vs. 0.78) once Step 2 is a genuinely independent task: the two datasets pull in differ-ent directions, with CIC-IDS-2018/DoS contributing ˆρ ≈ 0
+
+(essentially no exploitable coupling) and RT-IoT2022/Probe contributing ˆρ ∈ [0 .15 , 0.78] .The estimate is moderately tight: the mean residual ( bBIE 
+
+minus empirical TMR) is 0.013, indicating about one percent-age point of average overestimation, consistent across both the original and corrected pipelines. The per-configuration breakdown (Table XI) and confidence intervals (Table VI) provide the evidence; we discuss deployment implications in Section VII-B. The gap between Bonferroni and the Theorem 3 plug-in estimate is present but modest at all three α levels (Table V); empirical TMR tracks the plug-in estimate closely, though point-estimate correlation alone provides no distribution-free guarantee. Table V extends the comparison across all three α levels. Unlike under the deterministic Step-2 mapping, the estimated correlation ˆρ does not vary monotonically with α (0.203, 0.298, 0.240), and all values are far below the ¯ρ ≈ 0.78 we originally reported. This is consistent with ˆρ now measuring a genuine, task-dependent statistical property rather than a near-deterministic label artifact (Theorem 16). The relative improvement of Theorem 3 over Bonferroni is real at every level (10–14%) but an order of magnitude smaller than the improvement we originally reported, and the gain is concentrated in RT-IoT2022/Probe rather than shared evenly across both datasets (Table VI). 
+
+C. Inter-Step Correlation Analysis (E4) 
+
+Table VI reports the inter-step correlation ˆρ12 across all dataset–model pairs, using the dedicated attack-variant Step-2 classifier. Two patterns emerge, both markedly different from what we originally reported under the deterministic ATT&CK mapping. 
+
+(1) Correlation is task-dependent, not universally strong. 
+
+On CIC-IDS-2018/DoS, ˆρ12 is close to zero for every model (−0.042 to 0.049 ), with three of six models producing a small negative point estimate. On RT-IoT2022/Probe, ˆρ12 is moderate to strong (0.145 to 0.780). The grand mean over all 12 configurations is ¯ρ = 0 .298 —far below the ¯ρ = 0 .779 we originally reported, because that number was, we now know, measuring a near-deterministic label artifact (Theorem 16) rather than a genuine statistical property of the pipeline. 
+
+(2) Model-dependent variation within RT-IoT2022/Probe. 
+
+Qwen-3 32B shows the lowest correlation (0.145) and Qwen-3 14B the highest (0.780) on this task, a 5× spread across models. Section VI-D tests directly whether this reflects shared-difficulty variation across models (which alone can produce large between-model spread, since each model’s own accuracy profile shifts μ1(D), μ 2(D)) or an additional same-model representation-sharing increment, via same-model/cross-model/permuted pairing. On CIC-IDS-2018/DoS, all six models cluster near zero regardless of architecture or scale, suggesting the near-zero correlation there is a property of the task (attack variants distinguished almost entirely by features Step 1 already resolves) rather than of any particular model. 
+
+D. A Certified Union Bound via Seed-wise Exact Intervals, and the Mechanism Behind ˆρ (E8) 
+
+The plug-in estimate (12) in Table IV uses Pearson correla-tion, which provides no finite-sample guarantee. A first attempt at a certified alternative might pool all 5 seeds’ test observations and construct a single confidence interval on the union event 
+
+Z = 1(E1 ∪ E2) or on the joint overlap q12 = Pr[ E1 ∩ E2].This does not work: our 5 seeds resample ncal = 500 (CIC-IDS-2018/DoS) or 150 (RT-IoT2022/Probe) calibration points without replacement from the same finite pool per configuration (Table I), so the five test sets overlap substantially, and pooling them into one interval would silently treat thousands of repeated measurements of the same underlying flows as independent trials, understating the true estimation uncertainty. (We resample ncal = 500 /150 , Table I, from the same fixed pool per configuration, so this overlap concern applies identically at the boosted audit scale used throughout this section.) We instead condition on each seed’s own realized calibration set. Given seed s’s calibration data Cs, the conformal threshold is a fixed, deterministic function of Cs, so seed s’s 
+
+ns test-set evaluations are i.i.d. Bernoulli draws with parameter 14                                                     
+
+> TABLE VI INTER -STEP MISCOVERAGE -INDICATOR CORRELATION ˆρ12 BY DATASET AND MODEL ,USING THE DEDICATED ATTACK -VARIANT STEP -2 CLASSIFIER
+> (COMPUTED AT α= 0 .10 , 5-SEED AVERAGE ). 95% CI S ARE t-INTERVALS OVER 5SEEDS .
+> Model CIC/DoS 95% CI RT-IoT/Probe 95% CI
+> Gemma-2 9B −0.027 [−0.04 ,−0.02] 0.645 [0 .57 ,0.72]
+> LLaMA-3 8B 0.039 [−0.03 ,0.11] 0.734 [0 .71 ,0.76]
+> Mistral 7B −0.042 [−0.07 ,−0.02] 0.741 [0 .60 ,0.88]
+> Qwen-3 8B 0.049 [0 .03 ,0.07] 0.451 [0 .36 ,0.54]
+> Qwen-3 14B 0.029 [0 .00 ,0.05] 0.780 [0 .69 ,0.87]
+> Qwen-3 32B 0.028 [0 .00 ,0.05] 0.145 [0 .12 ,0.17]
+> ρdataset 0.013 0.583
+
+rs = Pr[ E1 ∪ E2 | C s]—this holds regardless of how much seed s’s test set overlaps with any other seed’s, since we never pool across seeds. We adopt the standard superpopulation evaluation model throughout this section: benchmark flows are treated as i.i.d. draws from an underlying deployment distribution, and the random calibration/test split only partitions a finite sample from that distribution rather than sampling without replacement from a population whose size bounds the inference (which would instead call for a hypergeometric, not Bernoulli, count). We construct an exact one-sided Clopper– Pearson upper bound U∪,s for rs directly on the union event at level δs = 0.05 /5 = 0.01 within each seed—this is the direct-audit certificate of Remark 3, not the decomposed 
+
+U1 + U2 − L12 of Corollary 1—then combine the 5 per-seed guarantees with a union (Boole’s inequality) bound, which requires no independence assumption between seeds: 
+
+Pr[ rs ≤ U∪,s for all s = 1 , . . . , 5] ≥ 1−P 
+
+> s
+
+δs = 0 .95 . (39) On this event, the average realized risk ¯r = 15
+
+P 
+
+> s
+
+rs satisfies 
+
+¯r ≤ 15
+
+P 
+
+> s
+
+U∪,s ≜ ¯U∪. We construct U1,s , U2,s (per-step CP upper bounds) and L12 ,s (CP lower bound on q12 ) by the identical seed-wise-then-union construction, giving ¯Bmarg =
+
+U1 + U2, ¯Bdep = U1 + U2 − L12 , and ¯Gcert = L12 , the three quantities of Corollary 1. 
+
+The audit scale matters, exactly as Theorem 10 predicts. 
+
+At an original, smaller scale (pool n = 497 /139 , test-audit 
+
+397 /109 ), ¯U∪ = 0 .124 averaged over the 12 configurations— 
+
+worse than Bonferroni’s 0.10, with two CIC-IDS-2018 con-figurations observing zero joint failures ( ¯Gcert = 0 ). The required audit size implied by each configuration’s own q12 
+
+at β = 0 .05 ranges from 102 to 2,966, several exceeding that pool. We therefore scaled the joint audit sample to Table I’s 
+
+n = 4 ,000 /1,526 (test-audit 3,500 /1,376 after calibration— the n entering every CP construction below), clearing the worst-case requirement for one dataset and testing the theory’s prediction on the other. At this scale, ¯U∪ = 0 .086 (13 .7% tighter than Bonferroni) and ¯Gcert = L12 = 0 .0069 > 0 in all 12 configurations (up from 0.0024 with two zero-gain configurations)—confirming the theory’s prediction that clearing the audit-size threshold restores a positive certifiable gain. The decomposed certificate is more conservative ( ¯Bmarg = 0 .106 , ¯Bdep = 0 .099 , only 0.6% 
+
+over Bonferroni) because summing two separately-audited per-step bounds compounds their slack before any dependence correction. Per Remark 3 we report ¯U∪ as the primary result— the tighter certificate available whenever full joint audit data is in hand, our setting; the gap to ¯Bdep = 0 .099 is the cost of the three-interval decomposition, not a disagreement about the underlying risk. The improvement is not uniform: 7 of 12 configurations individually satisfy ¯U∪ < 0.10 (all 6 RT-IoT2022/Probe, range 
+
+0.052 –0.083 , plus 1 CIC-IDS-2018/DoS), while the remaining 5 CIC-IDS-2018/DoS configurations stay slightly above (range 
+
+0.099 –0.119 ) even after an 8× audit increase—consistent with that task’s small q12 (≈ 0.001 –0.005 ) sitting near the boundary where Theorem 9’s convergence rate is still slow. Averaging over the 5 realized chains per configuration also obscures chain-level variation (Definition 4): across all 60 realized (dataset, model, seed) chains, L12 ,s > 0 in 56 and U∪,s < 0.10 in 38—the configuration-level averages above summarize this distribution, not a claim that every chain clears both thresholds. By Corollary 2, this is expected rather than anomalous: our 5 CIC-IDS-2018/DoS configurations that certify ¯Gcert >
+
+0 without individually beating Bonferroni are instances of the Θ(1 /q 12 ) detection event without the Θ(1 /γ 2) nominal-crossing event, which Theorem 12 shows is a strictly harder, differently-rated statistical target, not a contradiction. 
+
+Testing the mechanism behind ˆρ. Proposition 2 gives two observationally distinct accounts for residual coupling once Step 2 is a genuinely independent task: (i) Step 1 and Step 2 share the same underlying LLM and may therefore share internal representations that couple their uncertainty (a 
+
+shared-representation account, predicting same > cross), or (ii) some input samples are simply harder for any model at both tasks, independent of which specific model is used (a shared-difficulty account, predicting same ≈ cross). We distinguish these by re-running the K = 2 pipeline three ways on the same underlying network flows, joined by the explicit per-sample index verified identical across all six models’ Step-1-restricted pools (Section V): (a) same-model , the original setting, Step 1 and Step 2 scored by the same LLM; (b) cross-model , Step 1 scored by model A and Step 2 by a different model B̸ = A, all 30 ordered pairs per dataset; (c) permuted , same-model scoring but with the Step 2 sample order shuffled independently per seed, breaking the true sample correspondence as a null control. Table VII shows same ≈ cross ≫ permuted ≈ 0 on both datasets, consistent with the shared-difficulty prediction rather than the shared-representation prediction we originally reported under the deterministic mapping. Permuted pairing collapses to 
+
+≈ 0 on both datasets ( |ˆρ| ≤ 0.006 ), ruling out the possibility 15                                                       
+
+> TABLE VII INTER -STEP CORRELATION UNDER THREE PAIRING CONDITIONS (α= 0 .10 ,
+> MEAN OVER CONFIGURATIONS ,BOOSTED AUDIT SCALE ). P ERMUTED PAIRING ISOLATES ESTIMATION ARTIFACTS .
+> Dataset Same-model Cross-model Permuted
+> CIC-IDS-2018/DoS 0.013 0.028 −0.004 RT-IoT2022/Probe 0.513 †0.509 0.006
+> †CIC-IDS-2018/DoS’s same-model column exactly reproduces Table VI’s dataset mean (0.013); RT-IoT2022/Probe’s 0.513 differs from Table VI’s 0.583 by ordinary seed-split realization variance (same 5 seeds, different calibration/test permutation ordering)—both are valid 5-seed averages supporting the same same ≈cross conclusion. TABLE VIII COMPARISON OF α-ALLOCATION STRATEGIES ACROSS ALL 12
+> CONFIGURATIONS (K= 2 , 5-SEED AVERAGE ). W ILCOXON SIGNED -RANK TEST p-VALUES COMPARE EACH STRATEGY AGAINST EQUAL ALLOCATION .
+> αStrategy α1α2TC TMR p
+> 0.05 Equal 0.025 0.025 0.967 0.033 —Step-1 heavy 0.035 0.015 0.961 0.039 0.001 Step-2 heavy 0.015 0.035 0.959 0.041 0.008 0.10 Equal 0.050 0.050 0.923 0.077 —Step-1 heavy 0.070 0.030 0.923 0.077 0.633 Step-2 heavy 0.030 0.070 0.918 0.082 0.026
+
+that the observed correlation on RT-IoT2022/Probe is an artifact of marginal rate levels or the estimation procedure itself—if it were, shuffling the Step 2 labels would not remove it. Correlation alone does not identify the model-specific increment when same-model and cross-model marginal rates differ (Proposition 2 is stated in terms of covariance), so we compute b∆model = dCov same − dCov cross directly, with a model-pair bootstrap 95% CI (2,000 resamples over the 6 same-model and 30 cross-model pairs): b∆model = −0.0007 ,CI [−0.0026 , 0.0010] on CIC-IDS-2018/DoS, and b∆model =0.0002 , CI [−0.0057 , 0.0053] on RT-IoT2022/Probe. Both intervals are centered near zero and exclude any practically material positive effect at the scale of the total same-model covariance itself (0.0006 and 0.018 respectively). Cross-model pairing therefore preserves essentially all of the observed coupling, and the estimated same-model increment is not distinguishable from zero: the residual coupling on RT-IoT2022/Probe is attributable to shared trajectory difficulty under the tested pairing design, not to a detectable same-model representation-sharing mechanism. This directly contradicts what we originally concluded from the same experiment design under the deterministic Step-2 mapping, where the apparent same-model increment was itself an artifact of that mapping (Section VI-C). 
+
+E. α-Budget Allocation (E5) 
+
+Table VIII compares three α-allocation strategies across all 12 configurations. At α = 0 .05 , equal allocation achieves the highest TC and the paired difference is statistically significant against both alternatives (Wilcoxon signed-rank test, p = 0 .001 
+
+and p = 0 .008 ). At α = 0 .10 , equal allocation still beats Step-2-heavy ( p = 0 .026 ) but is statistically indistinguishable from Step-1-heavy ( p = 0 .633 , mean TC identical to three decimal                            
+
+> TABLE IX TRAJECTORY ERROR ESTIMATES AS A FUNCTION OF PIPELINE DEPTH K
+> (α= 0 .10 ,EQUAL ALLOCATION ). K= 2 IS EMPIRICAL ;K= 3 IS A SECOND -ORDER EXTRAPOLATION USING ˆρ= 0 .298 FROM K= 2 DATA .
+> KαkBonf. Plug-in IE Source
+> 20.050 0.100 0.086 Empirical 30.033 0.100 0.068 Theoretical
+
+places)—a weaker result than the p < 0.01 significance we originally reported at both levels, consistent with the smaller, more heterogeneous configuration count (12 vs. 18) and the more moderate inter-step coupling under the real Step-2 task. For this two-stage IDS pipeline, equal allocation remains a reasonable default, but the evidence for its superiority over all alternatives is weaker at looser α than we originally reported. We do not claim it is universally optimal; if future pipelines have strongly asymmetric stages, the allocation should be re-estimated (Proposition 3). 
+
+F. Trajectory Scaling with K (E3) 
+
+Table IX examines how the trajectory estimate scales with pipeline depth. Under Bonferroni, the bound is always α
+
+regardless of K (by construction: K · α/K = α). The clipped second-order plug-in quantity L2 = max {0, S 1 −S2} decreases as K increases because the number of pairwise subtraction terms grows as  K
+
+> 2
+
+; by Theorem 5, it degenerates to zero once K ≥ K+(α, ¯ρ) ≈ 7.51 at our measured ¯ρ = 0 .298 and 
+
+α = 0 .10 —markedly further out than the K+ ≈ 3.55 we originally reported under the deterministic Step-2 mapping’s inflated correlation, because K+ grows approximately as 2/ρ 
+
+(Theorem 5) and our corrected ¯ρ is under half its original value. At K = 3, the plug-in quantity is 0.068, closer to the Bonferroni bound than the tighter 0.021 we originally extrapolated, reflecting the weaker measured correlation. We report this strictly as a diagnostic of how large the pairwise-correlation correction could be if a third stage had comparable error coupling, not as a certified bound: Theorem 13 shows that pairwise information cannot pin down TMR once K ≥ 3, so this number should not be interpreted as an empirical guarantee for a real three-stage agent. A real three-step deployment should instead use the Spanning-Tree Pairwise Upper Bound (Theorem 6), which remains a valid, certifiable upper bound at any K given genuine joint-overlap measurements from that pipeline. We restrict the table to K ≤ 3 for exactly this reason: beyond the point where L2 degenerates, the second-order plug-in number carries no information at all about the true trajectory risk, and reporting it further would be misleading rather than merely imprecise. 
+
+G. Behavior Under Distribution Shift (E7) 
+
+Step 2’s label space is dataset-specific under the corrected design (CIC-IDS-2018’s four DoS variants and RT-IoT2022’s four Probe variants do not overlap, Section V), so a cross-dataset Step-2 transfer experiment is not well-defined. Step 1’s 16                                                                                        
+
+> TABLE X STEP -1 SINGLE -STEP MISCOVERAGE RATE (SMR 1)UNDER CROSS -DATASET DISTRIBUTION SHIFT (α= 0 .10 ,REAL INFERENCE ,n= 2 ,000 PER CELL ). ONLY STEP 1IS TESTED (S ECTION V: S TEP 2’ S LABEL SPACE IS DATASET -SPECIFIC ,SO TRAJECTORY -LEVEL SHIFT IS NOT EVALUABLE ). A RGMAX ACCURACY IS REPORTED SEPARATELY FROM SMR 1BECAUSE A MODEL CAN REMAIN PARTIALLY ACCURATE UNDER SHIFT WHILE ITS calibrated confidence
+> NO LONGER CLEARS THE IN -DOMAIN THRESHOLD q1.
+> Model Cal. →Test q1Argmax Acc. SMR 1Empty-Set Rate
+> Gemma-2 9B CIC →RT-IoT 0.0000 0.779 1.000 1.000 Gemma-2 9B RT-IoT →CIC 0.0000 0.006 1.000 0.957 LLaMA-3 8B CIC →RT-IoT 0.0142 0.773 1.000 1.000 LLaMA-3 8B RT-IoT →CIC 0.0149 0.248 1.000 1.000 Mistral 7B CIC →RT-IoT 0.0021 0.040 1.000 1.000 Mistral 7B RT-IoT →CIC 0.0013 0.296 1.000 1.000 Qwen-3 8B CIC →RT-IoT 0.0215 0.100 1.000 0.997 Qwen-3 8B RT-IoT →CIC 0.0159 0.261 1.000 1.000 Qwen-3 14B CIC →RT-IoT 0.0536 0.137 1.000 1.000 Qwen-3 14B RT-IoT →CIC 0.0024 0.252 1.000 1.000 Qwen-3 32B CIC →RT-IoT 0.0085 0.104 1.000 1.000 Qwen-3 32B RT-IoT →CIC 0.0116 0.105 1.000 1.000
+
+coarse 5-category label space (Normal, DoS, Probe, Creden-tialAccess, Exploitation) is shared across both datasets, so we test exchangeability violation at Step 1: take the LoRA adapter fine-tuned and conformally calibrated on dataset A and deploy it—same weights, same threshold q1—on dataset B’s test traffic, real out-of-domain input scored by real inference (not the deterministic-mapping design of an earlier draft). Table X shows SMR 1 = 1 .000 (zero of 2,000 test samples covered) in all 12 cells, with no exceptions. Argmax accuracy varies widely (0.6%–78%), showing this is not simply “the model got worse”: Gemma-2 9B and LLaMA-3 8B retain 77–78% top-1 accuracy on CIC-trained-calibrated-then-RT-IoT-tested traffic, yet still achieve zero conformal coverage, because q1 was calibrated to the model’s in-domain confidence distribution (small q1, e.g. 0.0000 for Gemma-2 9B, reflecting near-certain in-domain predictions) and out-of-domain con-fidence never reaches that bar even when the top-1 label is correct—the maximum observed true-label probability across all 2,000 Qwen-3 32B/RT-IoT →CIC test samples is 0.866, short of the required 1 − q1 = 0 .988 . This is exactly the failure mode Theorem 2 predicts: the coverage guarantee 
+
+requires exchangeable calibration and test data, and gives no certified warning when that assumption breaks. The prediction sets themselves, however, are not silent: the empty-set rate reaches 0.96 –1.00 in all 12 cells (final table column)—under exchangeability, an empty conformal set is a rare event by construction (bounded by α1), so a set that is empty on essentially every input is a stark, observable, label-free symptom available at inference time, well before any delayed ground truth could confirm the shift. This sharpens, rather than repeats, the deployment recommendation of monitoring singleton rate and mean set size (Section VII): under this severe a shift, the signal is not subtle. A high SMR 1 itself remains a statistical quantity requiring ground truth to compute (Definition 2), but the empty-set rate that produces it does not. Recalibration on target-environment data, or a drift-adaptive extension such as adaptive conformal inference [9] or conformal prediction beyond exchangeability [10], is required before cross-environment deployment. 
+
+H. Per-Configuration Breakdown 
+
+Table XI provides a per-configuration breakdown at α =0.10 . Several observations complement the aggregate results: (i) CIC-IDS-2018/DoS/Qwen-3 8B is the easiest CIC configura-tion (TMR = 0 .087 ), while CIC-IDS-2018/DoS/LLaMA-3 8B is the only configuration to fall marginally below the nominal target (TC = 0 .894 , TMR = 0 .106 )—within ordinary finite-sample calibration noise (Section VII-B), not a systematic violation, since Theorem 2’s guarantee concerns Rmarg aver-aged over calibration draws; (ii) per-step miscoverage rates SMR 1 and SMR 2 are comparable within each configuration, consistent with the two steps having similar difficulty; (iii) on CIC-IDS-2018/DoS, near-zero ˆρ12 (including 3 negative point estimates) makes the plug-in IE residual small and occasionally negative (LLaMA-3 8B and Qwen-3 14B), i.e. a mild point-estimate underestimate, not a bound violation (Remark 1); (iv) on RT-IoT2022/Probe, moderate-to-strong ˆρ12 produces a consistently positive residual (+0.017 to +0.030), meaning the plug-in estimate remains a useful, if uncertified, operational guide there. The Bonferroni bound (Theorem 2) holds for all 12 configurations at the marginal level without exception; the certified seed-wise union bound (Section VI-D) satisfies 
+
+¯U < 0.10 for 7 of 12 configurations, with the remaining 5 (all CIC-IDS-2018/DoS) certifying a positive but small dependence gain that does not fully close the gap to Bonferroni at this audit scale. VII. D ISCUSSION 
+
+A. Practical Deployment Guidelines 
+
+Based on our findings, we recommend the following for deploying multi-step LLM-based security agents with trajectory coverage guarantees: 1) Use equal α-allocation as the default , unless validation data show clear stage asymmetry—the best tested allocation in our pipeline (Section VI-E). 2) Estimate inter-step error coupling conservatively on a validation stream; if the lower confidence bound on ˆρ12 
+
+remains positive, the inclusion–exclusion estimate is tighter than Bonferroni. 17                                                                                                                         
+
+> TABLE XI PER -CONFIGURATION TRAJECTORY COVERAGE RESULTS AT α= 0 .10 (K= 2 ,EQUAL ALLOCATION , 5-SEED AVERAGE ,BOOSTED AUDIT SCALE ). 1 OF 12
+> CONFIGURATIONS (MARKED ‡)FALLS MARGINALLY BELOW TC ≥0.900 ;SEE DISCUSSION BELOW AND SECTION VII-B. R ESIDUAL =PLUG -IN IE
+> ESTIMATE (E Q. (12)) −EMPIRICAL TMR; NEGATIVE VALUES INDICATE PLUG -IN UNDERESTIMATION ,NOT A BOUND VIOLATION (R EMARK 1).
+> Dataset/Category Model TC TMR SMR 1SMR 2ˆρ12 Residual
+> CIC-IDS-2018/DoS Gemma-2 9B 0.901 0.100 0.049 0.052 −0.027 +0.002 CIC-IDS-2018/DoS LLaMA-3 8B ‡0.894 0.106 0.052 0.059 0.039 −0.008 CIC-IDS-2018/DoS Mistral 7B 0.902 0.098 0.045 0.054 −0.042 +0.004 CIC-IDS-2018/DoS Qwen-3 8B 0.913 0.087 0.037 0.053 0.049 +0.011 CIC-IDS-2018/DoS Qwen-3 14B 0.900 0.100 0.050 0.055 0.029 −0.002 CIC-IDS-2018/DoS Qwen-3 32B 0.906 0.094 0.049 0.049 0.028 +0.005 RT-IoT2022/Probe Gemma-2 9B 0.954 0.047 0.033 0.036 0.645 +0.023 RT-IoT2022/Probe LLaMA-3 8B 0.962 0.038 0.033 0.027 0.734 +0.027 RT-IoT2022/Probe Mistral 7B 0.952 0.048 0.037 0.039 0.741 +0.017 RT-IoT2022/Probe Qwen-3 8B 0.952 0.049 0.029 0.035 0.451 +0.030 RT-IoT2022/Probe Qwen-3 14B 0.960 0.040 0.032 0.033 0.780 +0.023 RT-IoT2022/Probe Qwen-3 32B 0.934 0.066 0.040 0.032 0.145 +0.027
+
+3) Monitor observable prediction-set statistics (singleton rate, mean set size) as a proxy for periodic TMR re-estimation , since TMR itself requires ground truth and cannot be observed at inference time (Definition 2); recalibrate if the re-estimated TMR exceeds the calibrated operating range. 4) Recalibrate, do not cross-deploy. Exchangeability is essential to Theorem 2’s guarantee; calibrating on one environment and deploying on another can push TMR arbitrarily high with no warning from the threshold itself (Section VI-G). 
+
+B. Limitations 
+
+L1: Empirical validation limited to K = 2 . The Spanning-Tree Pairwise Upper Bound (Theorem 6) remains distribution-free-certifiable for any K given real joint-overlap measure-ments, but Table IX’s K = 3 row is a theoretical extrapolation, not a real three-step measurement; Theorem 13 shows such an evaluation cannot rely on pairwise information alone once 
+
+K ≥ 3.
+
+L2: Correlation estimation uncertainty. 95% t-interval widths for ˆρ12 range from 0.02 to 0.28 across the 12 con-figurations (Table VI), and several CIC-IDS-2018/DoS point estimates cannot reliably distinguish sign from zero at this scale, producing small plug-in underestimates (LLaMA-3 8B, −0.008 ;Qwen-3 14B, −0.002 )—not bound violations (Remark 1). Section VI-D avoids this via seed-wise exact intervals on q12 
+
+directly; a finite-sample correction for ˆρ12 itself remains open. 
+
+L3: Exchangeability assumption. The trajectory guarantee holds under exchangeability of calibration and test data, as for single-step CP; it may fail under shift (Section VI-G). Combining trajectory guarantees with adaptive CP methods [9], [10], [13] is natural future work. 
+
+L4: HIKARI-2021 excluded; attack-variant classifier did not train. HIKARI-2021’s CredentialAccess task (Bruteforce vs. Bruteforce-XML) has a large raw feature gap between candidates (flow pkts per sec differs by up to 16 ×), yet fine-tuning did not exceed near-chance accuracy for any of the 6 LLMs. Two candidate bugs were identified in the training-data construction (a token-boundary tokenization artifact, a length correction applied twice) but neither was confirmed before we excluded HIKARI-2021 rather than report unverified data—a limitation of our fine-tuning pipeline, not evidence the task is unlearnable. 
+
+L5: Audit sample size determines certifiability, not just precision. Theorems 10 and 12 predict, and Section VI-D confirms, that detecting a positive gain needs Θ(1 /q 12 ) audit trajectories while beating the nominal Bonferroni target needs the harder Θ(1 /γ 2): at ntest = 397 /109 , ¯U∪ was worse than Bonferroni; at 3,500 /1,376 , it was 13 .7% better (5 of 12 configurations still short individually). Dependence-aware bounds should therefore report audit sample size alongside the certified value—too small an audit makes real dependence indistinguishable from a genuine null result. 
+
+L6: Pairwise information is fundamentally insufficient for K ≥ 3. Theorem 13 proves no amount of pairwise-only information can identify TMR once K ≥ 3; the Spanning-Tree bound sidesteps this by only claiming an upper bound. Certifying a tight two-sided estimate for deeper pipelines requires third-order measurements or an explicit dependence model. VIII. C ONCLUSION 
+
+We formalize trajectory-level coverage for staged LLM-based security agents as an instance of a general problem: how marginal, per-step risk guarantees compose across a decision chain, and how much of that composition a finite post-hoc audit can actually certify. Beyond the distribution-free Bonferroni bound, we correct a natural but invalid extension of the two-step inclusion–exclusion identity to more steps—a lower, not upper, bound—and replace it with a spanning-tree certificate that separates the true, oracle, and certifiable dependence gain (Theorem 15) and remains valid and certifiable at any K.Pairwise information alone cannot determine trajectory risk once three or more steps are involved, yet positive inter-step dependence is a statistical asset for a union-type trajectory-failure criterion precisely where it would be a liability for an intersection-type redundant system. Empirically, a fixed coarse-to-fine label mapping mechan-ically nests two stages’ failure events, manufacturing near-1 measured correlation independent of any learned behavior 18 
+
+(Theorem 16); a genuinely independent attack-variant classifier instead reveals real but heterogeneous, often hard-to-certify coupling. The resulting certified bound flips from worse than Bonferroni to 13 .7% tighter purely as a function of audit sample size, exactly as our sample-complexity theory predicts, while the modular pairwise certificate improves only marginally— quantifying the certification cost of not having joint access to both stages. A same-model/cross-model/permuted-pairing test attributes the residual coupling to shared sample difficulty, not shared model representations. We view this methodological lesson—that a plausible task design can manufacture the very dependence a paper reports as a discovery, and that a certified bound can flip sign with audit size alone—as no less a contribution than the numerical results themselves. Separately, a real cross-dataset shift test drives single-step miscoverage to 100% even at high top-1 accuracy, though the resulting empty prediction sets are a stark, label-free symptom available before any delayed ground truth could confirm the shift. Future work includes resolving the training-data issue that prevented a validated HIKARI-2021 attack-variant classifier (L4), extending empirical validation to deeper pipelines ( K > 
+
+3), developing higher-order bounds informative for large K,and combining trajectory guarantees with adaptive CP methods for drift-robust multi-step agents. REFERENCES [1] V. Vovk, A. Gammerman, and G. Shafer, Algorithmic Learning in a Random World , 01 2005. [2] H. Papadopoulos, K. Proedrou, V. Vovk, and A. Gammerman, “Inductive confidence machines for regression,” in Proceedings of the 13th European Conference on Machine Learning , ser. ECML’02. Berlin, Heidelberg: Springer-Verlag, 2002, p. 345–356. [Online]. Available: https://doi.org/10.1007/3-540-36755-1 29 [3] C. Guo, G. Pleiss, Y. Sun, and K. Q. Weinberger, “On calibration of modern neural networks,” arXiv preprint arXiv:1706.04599 , 2017. [4] A. N. Angelopoulos, S. Bates, A. Fisch, L. Lei, and T. Schuster, “Conformal risk control,” in The Twelfth International Conference on Learning Representations , 2024. [Online]. Available: https: //openreview.net/forum?id=33XGfHLtZg [5] Z. ˇ Sid´ ak, “Rectangular confidence regions for the means of multivariate normal distributions,” Journal of the American Statistical Association ,vol. 62, pp. 626–633, 1967. [6] Y. HOCHBERG, “A sharper bonferroni procedure for multiple tests of significance,” Biometrika , vol. 75, no. 4, pp. 800–802, 12 1988. [Online]. Available: https://doi.org/10.1093/biomet/75.4.800 [7] S. Holm, “A simple sequentially rejective multiple test procedure,” 
+
+Scandinavian Journal of Statistics , vol. 6, pp. 65–70, 1979. [8] Y. Benjamini and Y. Hochberg, “Controlling the false discovery rate: A practical and powerful approach to multiple testing,” 
+
+Journal of the Royal Statistical Society: Series B (Methodological) ,vol. 57, no. 1, pp. 289–300, 01 1995. [Online]. Available: https://doi.org/10.1111/j.2517-6161.1995.tb02031.x [9] I. Gibbs and E. J. Cand` es, “Adaptive conformal inference under distribution shift,” in Proceedings of the 35th International Conference on Neural Information Processing Systems , ser. NIPS ’21. Red Hook, NY, USA: Curran Associates Inc., 2021. [10] R. Barber, E. Cand` es, A. Ramdas, and R. Tibshirani, “Conformal prediction beyond exchangeability,” The Annals of Statistics , vol. 51, 04 2023. [11] S. Bates, A. Angelopoulos, L. Lei, J. Malik, and M. Jordan, “Distribution-free, risk-controlling prediction sets,” J. ACM , vol. 68, no. 6, Sep. 2021. [Online]. Available: https://doi.org/10.1145/3478535 [12] V. Kotte, “Pasc: Pipeline-aware conformal prediction with joint coverage guarantees for multi-stage NLP and LLM pipelines,” arXiv preprint arXiv:2605.18812 , 2026. [13] A. Farinhas, C. Zerva, D. T. Ulmer, and A. Martins, “Non-exchangeable conformal risk control,” in International Conference on Learning Representations (ICLR) , 2024. [14] T. Ding, A. Angelopoulos, S. Bates, M. Jordan, and R. J. Tibshirani, “Class-conditional conformal prediction with many classes,” in Advances in Neural Information Processing Systems , 2023. [15] A. Wald, “Sequential tests of statistical hypotheses,” Annals of Mathe-matical Statistics , vol. 16, pp. 117–186, 1945. [16] S. R. Howard, A. Ramdas, J. McAuliffe, and J. Sekhon, “Time-uniform, nonparametric, nonasymptotic confidence sequences,” Annals of Statistics ,vol. 49, no. 2, pp. 1055–1080, 2021. [17] H. Khosravi and X. Huo, “Conformal selective acting: Anytime-valid risk control for RLVR-trained LLMs,” arXiv preprint arXiv:2605.20270 ,2026. [18] J. Manoharan, “Audited selective verification for risk-controlled n-1 thermal contingency screening under deployment shift,” 2026. [19] F. N. Motlagh, M. Hajizadeh, M. Majd, P. Najafi, F. Cheng, and C. Meinel, “Large language models in cybersecurity: State-of-the-art,” in 
+
+International Conference on Information Systems Security and Privacy ,2024. [20] J. Xu, J. W. Stokes, G. McDonald, X. Bai, D. Marshall, S. Wang, A. Swaminathan, and Z. Li, “Autoattacker: A large language model guided system to implement automatic cyber-attacks,” ArXiv , vol. abs/2403.01038, 2024. [21] H. Xu, S. Wang, N. Li, K. Wang, Y. Zhao, K. Chen, T. Yu, Y. Liu, and H. Wang, “Large language models for cyber security: A systematic literature review,” 2025. [22] D. Escudero Garc´ ıa and N. DeCastro-Garc´ ıa, “Conformal prediction for labelling and updating online models in the presence of concept drift in cybersecurity,” Journal of Information Security and Applications , vol. 93, 2025. [23] R. Laxhammar and G. Falkman, “Inductive conformal anomaly detection for sequential detection of anomalous sub-trajectories,” Annals of Mathematics and Artificial Intelligence , vol. 74, no. 1–2, 2015. [24] A. N. Angelopoulos, S. Bates, E. J. Cand` es, M. I. Jordan, and L. Lei, “Learn then test: Calibrating predictive algorithms to achieve risk control,” 
+
+The Annals of Applied Statistics , vol. 19, no. 2, pp. 1641–1662, 2025. [25] D. Hunter, “An upper bound for the probability of a union,” Journal of Applied Probability , vol. 13, no. 3, p. 597–603, 1976. [26] J. D. Esary, F. Proschan, and D. W. Walkup, “Association of random variables, with applications,” The Annals of Mathematical Statistics , vol. 38, no. 5, pp. 1466–1474, 1967. [Online]. Available: http://www.jstor.org/stable/2238962 [27] MITRE ATT&CK, “T1498: Network denial of service,” https://attack. mitre.org/techniques/T1498/, 2026. [28] I. Sharafaldin, A. H. Lashkari, and A. A. Ghorbani, “Toward generating a new intrusion detection dataset and intrusion traffic characterization,” in 
+
+International Conference on Information Systems Security and Privacy ,2018. [29] B. S. Sharmila and R. Nagapadma, “Quantized autoencoder (qae) intrusion detection system for anomaly detection in resource-constrained iot devices using rt-iot2022 dataset,” Cybersecurity , vol. 6, pp. 1–15, 2023. [30] A. Yang et al. , “Qwen2 technical report,” ArXiv , vol. abs/2407.10671, 2024. [31] G. Team et al. , “Gemma 2: Improving open language models at a practical size,” ArXiv , vol. abs/2408.00118, 2024. [32] A. Grattafiori et al. , “The llama 3 herd of models,” 2024. [Online]. Available: https://arxiv.org/abs/2407.21783 [33] A. Q. Jiang et al. , “Mistral 7b,” 2023. [Online]. Available: https://arxiv.org/abs/2310.06825 [34] W. Kwon et al. , “Efficient memory management for large language model serving with pagedattention,” Proceedings of the 29th Symposium on Operating Systems Principles , 2023. [35] E. J. Hu et al. , “LoRA: Low-rank adaptation of large language models,” in International Conference on Learning Representations (ICLR) , 2022.
