@@ -1,0 +1,69 @@
+{
+  "label": "2026-08-09",
+  "date": "2026-08-09",
+  "generated_at": "2026-08-09T19:38:15",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202608/09/2608.03591v1-diagchain-a-diagnostic-benchmark-for-evaluating-llm-agents-on-evidence-grounded-attack-chain-reconstruction",
+      "section": "deep",
+      "title_en": "DiagChain: A Diagnostic Benchmark for Evaluating LLM Agents on Evidence-Grounded Attack Chain Reconstruction",
+      "authors": "Xuyang Liu, Yibin Han, Zhenwei Zhang, Kai Chang, Zhiwei Xu, Tian Qiu, Weixian Deng, Jiabao Gao, Xiaolin Peng, Hai Wan, Xibin Zhao",
+      "date": "2026-08-04",
+      "pdf": "https://arxiv.org/pdf/2608.03591v1",
+      "score": "9.0",
+      "evidence": "诊断基准支持对LLM智能体进行分阶段评估，揭示中间推理阶段错误的产生与传播",
+      "tldr": "LLM智能体在攻击链重建中需检索并解释异构遥测证据，但现有基准只看最终输出，难辨中间推理错误。为此提出DiagChain诊断基准：构建69个跨OS、多噪声与链长场景，引入证据检索与链演化结构耦合的ECRAG，配合五个互补指标实现阶段级诊断。在6种LLM上，最强配置对849个参考步骤的完成率仅39.6%；小模型难融入证据，大模型则瓶颈在证据排序。这表明阶段式诊断比端到端准确率更能定位瓶颈，为优化安全智能体提供指导。",
+      "tags": "query:agent-error",
+      "abstract_en": "Large Language Model (LLM) agents offer a promising approach to attack chain reconstruction by retrieving and interpreting heterogeneous telemetry to infer ordered attacker actions. However, existing benchmarks mainly evaluate final outputs or aggregate accuracy, providing limited insight into how errors arise and propagate across intermediate reasoning stages. We present DiagChain, a diagnostic benchmark for evidence-grounded attack chain reconstruction that enables stage-wise evaluation of LLM agents. DiagChain includes MAIN-69, a suite of 69 scenarios spanning multiple operating systems, evidence noise levels, and chain lengths. It further introduces Evidence-Centric Retrieval-Augmented Generation (ECRAG), which couples evidence retrieval with an evolving structured representation of the reconstructed chain. Five complementary metrics are introduced to assess distinct stages of the reconstruction process and support systematic failure diagnosis. Based on evaluations using 6 LLMs, DiagChain reveals that even the strongest configuration succeeds on only 39.6% of the 849 reference steps in MAIN-69. Our analysis further shows that smaller models struggle with the more basic task of incorporating retrieved evidence into their outputs, whereas larger models can proceed to later steps, where correctly ordering that evidence becomes the main bottleneck. These results validate the importance of diagnostic evaluation beyond end-to-end accuracy and provide actionable insights for improving evidence-grounded cybersecurity agents.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/09/2608.05212v1-searchauditor-auditing-and-attributing-failures-in-long-horizon-search-agents",
+      "section": "deep",
+      "title_en": "SearchAuditor: Auditing and Attributing Failures in Long-Horizon Search Agents",
+      "authors": "Zhixiang Liang, Yifei Liu, Yidan Huang, Haozhe Zhao, Beichen Huang, Jiaqi Wang, Nan Duan, Qiong Cao",
+      "date": "2026-08-05",
+      "pdf": "https://arxiv.org/pdf/2608.05212v1",
+      "score": "9.0",
+      "evidence": "提出对长时程智能体轨迹中的故障进行定位、归因与修复的基准",
+      "tldr": "长程搜索代理在复杂网页交互中易因微小错误累积而产生错误答案，人工排查长轨迹成本极高。为此，论文构建了SearchAuditBench基准，含1243条专家标注的失败轨迹，并提出SearchAuditor多视角审计框架，通过证据裁决实现错误定位、归因与修复。实验表明，在最强基线仅26.6%端到端通过率的情况下，SearchAuditor达到32.3%，并能利用修复使代理更好恢复。该工作显著降低了审计成本，推动搜索代理的可信部署。",
+      "tags": "query:agent-error",
+      "abstract_en": "Deep search agents tackle challenging questions through long-horizon web interactions, a process that is both complex and fragile: small reasoning errors may propagate through long, noisy trajectories into fluent but incorrect answers. Diagnosing such failures is difficult, requiring the manual inspection of extremely long execution traces, which could be beyond human capacity. We therefore introduce SearchAuditBench, a benchmark that evaluates whether LLM auditors can localize, attribute, and repair these failures, thereby reducing the human burden. SearchAuditBench comprises 1,243 failed trajectories, averaging 73.1 messages and 65.1K tokens, collected from eight open-weight models on five deep-search benchmarks, each expert-annotated with the critical error step, a search-specific root cause, and a reference repair with grading rubrics. We further propose SearchAuditor, a multi-perspective auditing framework that effectively localizes, attributes, and repairs search-agent failures through evidence-grounded adjudication. Experimental results show that even the strongest baseline, when powered by a frontier model like GPT-5.5, attains only a 26.6% end-to-end pass rate. In contrast, our SearchAuditor consistently outperforms all baselines across different frontier models, achieving an end-to-end pass rate of 32.3%, and resuming failed runs with its repairs enables agents to better recover from errors.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/09/2608.01652v1-syncplan-long-horizon-llm-coordination-with-explicit-synchronization-and-adaptive-correction",
+      "section": "quick",
+      "title_en": "SyncPlan: Long-Horizon LLM Coordination with Explicit Synchronization and Adaptive Correction",
+      "authors": "Shen You, Xiaoming Zhu, Weining Weng, Hefei Mei, Weixuan Wang, Zhongshen Li, Zeji LI, Ye-Wen Wang, Zijun Liao, Juchao Zhuo, Yang Wei, Fuhao Qiu, Siqin Li, Zhenjie Lian, Danei Gong, Junkai Ji, Xiangtao Li, Qiuzhen Lin, Liang Wang, Ka-Chun Wong",
+      "date": "2026-08-03",
+      "pdf": "https://arxiv.org/pdf/2608.01652v1",
+      "score": "6.0",
+      "evidence": "多智能体协作过程中对过时或失败计划的自适应纠正",
+      "tldr": "多智能体LLM协调面临效率与适应性权衡：反复调用或多轮通信延迟高，单次规划又易失效。SyncPlan提出计划-执行-纠正框架，通过显式同步与死锁检测保障依赖关系，并用轻量过时检测触发重规划，结合SFT与规划强化学习优化协调器。在Overcooked和王者荣耀中取得SOTA成功率，运行时长不足已有方法的0.05%，为长时程协调提供了高效自适应方案。",
+      "tags": "query:agent-error",
+      "abstract_en": "LLM-based multi-agent coordination faces a fundamental trade-off between efficiency and adaptivity in dynamic environments. Existing approaches typically rely on repeated LLM invocations or multi-round communication to adapt decisions during execution, introducing substantial latency and making coordination vulnerable to asynchronous progress and environmental changes. Conversely, one-shot planning reduces coordination overhead but produces open-loop plans that can quickly become stale or fail when actions depend on other agents and the environment. We introduce SyncPlan, a plan-execute-correct framework for long-horizon coordination through explicit synchronization and adaptive correction. Given the state and team-level task, a centralized LLM coordinator generates per-agent action chains in a single planning call. During execution, explicit wait primitives and deadlock detection enforce inter-agent and agent-environment dependencies, while a lightweight Plan Staleness Detector continuously assesses the remaining plan and triggers replanning when environmental changes invalidate its assumptions. We further optimize the coordinator through SFT and planning-oriented RL with dense task progress and outcome-level execution feedback. Experiments on the public Overcooked benchmark and the complex Honor of Kings environment show that SyncPlan achieves state-of-the-art task success rates while using less than 0.05% of the wall-clock runtime compared with existing LLM-based coordinators. Code and datasets will be made publicly available.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/09/2608.04905v1-primal3-pathfinding-via-reinforcement-and-imitation-multi-agent-learning---leveraging-lacam3",
+      "section": "quick",
+      "title_en": "PRIMAL3: Pathfinding via Reinforcement and Imitation Multi-Agent Learning - Leveraging LaCAM3",
+      "authors": "Chengyang He, Tanishq Duhan, Gadiel Sznaier Camps, Fangyuan Wang, Yuhong Cao, Jiankai Sun, Ge Sun, Mac Schwager, Guillaume Sartoretti",
+      "date": "2026-08-05",
+      "pdf": "https://arxiv.org/pdf/2608.04905v1",
+      "score": "6.0",
+      "evidence": "针对多智能体路径规划中的拓扑关键状态失效",
+      "tldr": "多智能体路径规划（MAPF）在瓶颈、死胡同及持续冲突等拓扑关键状态下面临严峻的协调挑战。PRIMAL3 融合强化学习、拓扑感知图通信、LaCAM3 指导训练与 PIBT 动作细化：训练中由策略熵识别不确定智能体，LaCAM3 提供置信度触发的干预和标签平滑模仿目标；执行时以优先级感知 PIBT 保证无碰撞。在十万智能体的城市级规模上大幅超越现有学习方法，并成功部署于实物机器人系统。",
+      "tags": "query:agent-error",
+      "abstract_en": "We present PRIMAL3, an ultra-large-scale learning-based framework for multi-agent pathfinding (MAPF) that integrates reinforcement learning, topology-aware communication, LaCAM3-guided training, and PIBT-based action refinement. PRIMAL3 targets failures at topologically critical states, where agents must coordinate decisively around bottlenecks, dead ends, and persistent conflicts. Each agent is represented using features derived from cut vertices, dead-end regions, shortest-path distances, and blocking estimates. Two complementary graphs capture agent interactions: a same-direction following graph propagates multihop context along compatible paths, while a different-direction conflict graph differentiates agents competing for shared space through masked attention and relative features. During training, we propose to let policy entropy identify uncertain agents, for which LaCAM3 provides confidence-triggered action interventions and label-smoothed imitation targets. During execution, a priority-aware PIBT module refines the proposed joint actions using persistent, learned, and distance-aware priorities together with policy-aware fallback preferences while maintaining collision-free execution. The resulting framework combines learned exploration with structured expert guidance without requiring LaCAM3 at inference. Experiments demonstrate that PRIMAL3 substantially outperforms state-of-the-art learning-based baselines and scales to ultra-large instances with up to city-level 100,000 agents. Real-world experiments further demonstrate the feasibility of deploying PRIMAL3 on physical robotic systems and ablation studies validate the individual contributions the components we proposed. Project page: https://marmotlab.github.io/PRIMAL3/",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,202 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-09T19:32:40.811330+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2608.03591v1",
+      "source": "arxiv",
+      "title": "DiagChain: A Diagnostic Benchmark for Evaluating LLM Agents on Evidence-Grounded Attack Chain Reconstruction",
+      "abstract": "Large Language Model (LLM) agents offer a promising approach to attack chain reconstruction by retrieving and interpreting heterogeneous telemetry to infer ordered attacker actions. However, existing benchmarks mainly evaluate final outputs or aggregate accuracy, providing limited insight into how errors arise and propagate across intermediate reasoning stages. We present DiagChain, a diagnostic benchmark for evidence-grounded attack chain reconstruction that enables stage-wise evaluation of LLM agents. DiagChain includes MAIN-69, a suite of 69 scenarios spanning multiple operating systems, evidence noise levels, and chain lengths. It further introduces Evidence-Centric Retrieval-Augmented Generation (ECRAG), which couples evidence retrieval with an evolving structured representation of the reconstructed chain. Five complementary metrics are introduced to assess distinct stages of the reconstruction process and support systematic failure diagnosis. Based on evaluations using 6 LLMs, DiagChain reveals that even the strongest configuration succeeds on only 39.6% of the 849 reference steps in MAIN-69. Our analysis further shows that smaller models struggle with the more basic task of incorporating retrieved evidence into their outputs, whereas larger models can proceed to later steps, where correctly ordering that evidence becomes the main bottleneck. These results validate the importance of diagnostic evaluation beyond end-to-end accuracy and provide actionable insights for improving evidence-grounded cybersecurity agents.",
+      "authors": [
+        "Xuyang Liu",
+        "Yibin Han",
+        "Zhenwei Zhang",
+        "Kai Chang",
+        "Zhiwei Xu",
+        "Tian Qiu",
+        "Weixian Deng",
+        "Jiabao Gao",
+        "Xiaolin Peng",
+        "Hai Wan",
+        "Xibin Zhao"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-04T12:43:47+00:00",
+      "link": "https://arxiv.org/pdf/2608.03591v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "diagnostic benchmark enables stage-wise evaluation of LLM agents, revealing how errors arise and propagate across intermediate reasoning stages",
+      "llm_evidence_cn": "诊断基准支持对LLM智能体进行分阶段评估，揭示中间推理阶段错误的产生与传播",
+      "llm_evidence": "诊断基准支持对LLM智能体进行分阶段评估，揭示中间推理阶段错误的产生与传播",
+      "canonical_evidence": "诊断基准支持对LLM智能体进行分阶段评估，揭示中间推理阶段错误的产生与传播",
+      "llm_tldr_en": "A diagnostic benchmark enabling stage-wise evaluation of LLM agents in attack chain reconstruction, revealing how errors arise and propagate across intermediate reasoning stages.",
+      "llm_tldr_cn": "现有基准主要评估最终输出或总体准确率，难以洞察LLM智能体在攻击链重构过程中错误的产生与传播。DiagChain提出一个诊断基准，支持对智能体进行分阶段评估，包含69个跨多操作系统、证据噪声和链长场景的MAIN-69套件，并引入ECRAG方法。实验表明该基准能有效揭示中间推理阶段的错误模式，为智能体错误检测与调试提供细粒度工具。",
+      "llm_tldr": "现有基准主要评估最终输出或总体准确率，难以洞察LLM智能体在攻击链重构过程中错误的产生与传播。DiagChain提出一个诊断基准，支持对智能体进行分阶段评估，包含69个跨多操作系统、证据噪声和链长场景的MAIN-69套件，并引入ECRAG方法。实验表明该基准能有效揭示中间推理阶段的错误模式，为智能体错误检测与调试提供细粒度工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.05212v1",
+      "source": "arxiv",
+      "title": "SearchAuditor: Auditing and Attributing Failures in Long-Horizon Search Agents",
+      "abstract": "Deep search agents tackle challenging questions through long-horizon web interactions, a process that is both complex and fragile: small reasoning errors may propagate through long, noisy trajectories into fluent but incorrect answers. Diagnosing such failures is difficult, requiring the manual inspection of extremely long execution traces, which could be beyond human capacity. We therefore introduce SearchAuditBench, a benchmark that evaluates whether LLM auditors can localize, attribute, and repair these failures, thereby reducing the human burden. SearchAuditBench comprises 1,243 failed trajectories, averaging 73.1 messages and 65.1K tokens, collected from eight open-weight models on five deep-search benchmarks, each expert-annotated with the critical error step, a search-specific root cause, and a reference repair with grading rubrics. We further propose SearchAuditor, a multi-perspective auditing framework that effectively localizes, attributes, and repairs search-agent failures through evidence-grounded adjudication. Experimental results show that even the strongest baseline, when powered by a frontier model like GPT-5.5, attains only a 26.6% end-to-end pass rate. In contrast, our SearchAuditor consistently outperforms all baselines across different frontier models, achieving an end-to-end pass rate of 32.3%, and resuming failed runs with its repairs enables agents to better recover from errors.",
+      "authors": [
+        "Zhixiang Liang",
+        "Yifei Liu",
+        "Yidan Huang",
+        "Haozhe Zhao",
+        "Beichen Huang",
+        "Jiaqi Wang",
+        "Nan Duan",
+        "Qiong Cao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-05T09:09:00+00:00",
+      "link": "https://arxiv.org/pdf/2608.05212v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "introduces a benchmark for localizing, attributing, and repairing failures in long-horizon agent trajectories",
+      "llm_evidence_cn": "提出对长时程智能体轨迹中的故障进行定位、归因与修复的基准",
+      "llm_evidence": "提出对长时程智能体轨迹中的故障进行定位、归因与修复的基准",
+      "canonical_evidence": "提出对长时程智能体轨迹中的故障进行定位、归因与修复的基准",
+      "llm_tldr_en": "SearchAuditBench evaluates whether LLM auditors can localize, attribute, and repair failures in long-horizon search agent trajectories, comprising 1,243 expert-annotated failed trajectories averaging 73.1 messages.",
+      "llm_tldr_cn": "长时程搜索智能体在复杂问题回答中容易因微小推理错误在冗长轨迹中传播而失败，人工检查数十万tokens的轨迹负担巨大。为此作者提出SearchAuditBench基准，包含1243条来自八个开源模型在五个深度搜索基准上的失败轨迹，每条轨迹由专家标注。该基准评估LLM审计者能否定位、归因并修复故障，从而减轻人工负担。实验表明该基准可有效衡量审计能力，为自动诊断智能体轨迹错误提供支撑。",
+      "llm_tldr": "长时程搜索智能体在复杂问题回答中容易因微小推理错误在冗长轨迹中传播而失败，人工检查数十万tokens的轨迹负担巨大。为此作者提出SearchAuditBench基准，包含1243条来自八个开源模型在五个深度搜索基准上的失败轨迹，每条轨迹由专家标注。该基准评估LLM审计者能否定位、归因并修复故障，从而减轻人工负担。实验表明该基准可有效衡量审计能力，为自动诊断智能体轨迹错误提供支撑。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.01652v1",
+      "source": "arxiv",
+      "title": "SyncPlan: Long-Horizon LLM Coordination with Explicit Synchronization and Adaptive Correction",
+      "abstract": "LLM-based multi-agent coordination faces a fundamental trade-off between efficiency and adaptivity in dynamic environments. Existing approaches typically rely on repeated LLM invocations or multi-round communication to adapt decisions during execution, introducing substantial latency and making coordination vulnerable to asynchronous progress and environmental changes. Conversely, one-shot planning reduces coordination overhead but produces open-loop plans that can quickly become stale or fail when actions depend on other agents and the environment. We introduce SyncPlan, a plan-execute-correct framework for long-horizon coordination through explicit synchronization and adaptive correction. Given the state and team-level task, a centralized LLM coordinator generates per-agent action chains in a single planning call. During execution, explicit wait primitives and deadlock detection enforce inter-agent and agent-environment dependencies, while a lightweight Plan Staleness Detector continuously assesses the remaining plan and triggers replanning when environmental changes invalidate its assumptions. We further optimize the coordinator through SFT and planning-oriented RL with dense task progress and outcome-level execution feedback. Experiments on the public Overcooked benchmark and the complex Honor of Kings environment show that SyncPlan achieves state-of-the-art task success rates while using less than 0.05% of the wall-clock runtime compared with existing LLM-based coordinators. Code and datasets will be made publicly available.",
+      "authors": [
+        "Shen You",
+        "Xiaoming Zhu",
+        "Weining Weng",
+        "Hefei Mei",
+        "Weixuan Wang",
+        "Zhongshen Li",
+        "Zeji LI",
+        "Ye-Wen Wang",
+        "Zijun Liao",
+        "Juchao Zhuo",
+        "Yang Wei",
+        "Fuhao Qiu",
+        "Siqin Li",
+        "Zhenjie Lian",
+        "Danei Gong",
+        "Junkai Ji",
+        "Xiangtao Li",
+        "Qiuzhen Lin",
+        "Liang Wang",
+        "Ka-Chun Wong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-03T03:43:57+00:00",
+      "link": "https://arxiv.org/pdf/2608.01652v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "adaptive correction of stale or failed plans during multi-agent coordination",
+      "llm_evidence_cn": "多智能体协作过程中对过时或失败计划的自适应纠正",
+      "llm_evidence": "多智能体协作过程中对过时或失败计划的自适应纠正",
+      "canonical_evidence": "多智能体协作过程中对过时或失败计划的自适应纠正",
+      "llm_tldr_en": "SyncPlan introduces a plan-execute-correct framework with explicit synchronization and adaptive correction to handle stale or failing plans in long-horizon LLM coordination, balancing efficiency and adaptivity.",
+      "llm_tldr_cn": "针对LLM多智能体协作中重复调用延迟高、一次性规划易过时失效的问题，SyncPlan提出显式同步与自适应纠正的“计划-执行-纠正”框架。它根据状态和任务实时检测计划执行偏差，并通过同步点进行纠正，在保持低通信开销的同时提升动态环境下的协作鲁棒性。实验表明SyncPlan在长时程协调任务中优于现有方法。",
+      "llm_tldr": "针对LLM多智能体协作中重复调用延迟高、一次性规划易过时失效的问题，SyncPlan提出显式同步与自适应纠正的“计划-执行-纠正”框架。它根据状态和任务实时检测计划执行偏差，并通过同步点进行纠正，在保持低通信开销的同时提升动态环境下的协作鲁棒性。实验表明SyncPlan在长时程协调任务中优于现有方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.04905v1",
+      "source": "arxiv",
+      "title": "PRIMAL3: Pathfinding via Reinforcement and Imitation Multi-Agent Learning - Leveraging LaCAM3",
+      "abstract": "We present PRIMAL3, an ultra-large-scale learning-based framework for multi-agent pathfinding (MAPF) that integrates reinforcement learning, topology-aware communication, LaCAM3-guided training, and PIBT-based action refinement. PRIMAL3 targets failures at topologically critical states, where agents must coordinate decisively around bottlenecks, dead ends, and persistent conflicts. Each agent is represented using features derived from cut vertices, dead-end regions, shortest-path distances, and blocking estimates. Two complementary graphs capture agent interactions: a same-direction following graph propagates multihop context along compatible paths, while a different-direction conflict graph differentiates agents competing for shared space through masked attention and relative features. During training, we propose to let policy entropy identify uncertain agents, for which LaCAM3 provides confidence-triggered action interventions and label-smoothed imitation targets. During execution, a priority-aware PIBT module refines the proposed joint actions using persistent, learned, and distance-aware priorities together with policy-aware fallback preferences while maintaining collision-free execution. The resulting framework combines learned exploration with structured expert guidance without requiring LaCAM3 at inference. Experiments demonstrate that PRIMAL3 substantially outperforms state-of-the-art learning-based baselines and scales to ultra-large instances with up to city-level 100,000 agents. Real-world experiments further demonstrate the feasibility of deploying PRIMAL3 on physical robotic systems and ablation studies validate the individual contributions the components we proposed. Project page: https://marmotlab.github.io/PRIMAL3/",
+      "authors": [
+        "Chengyang He",
+        "Tanishq Duhan",
+        "Gadiel Sznaier Camps",
+        "Fangyuan Wang",
+        "Yuhong Cao",
+        "Jiankai Sun",
+        "Ge Sun",
+        "Mac Schwager",
+        "Guillaume Sartoretti"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-05T14:33:59+00:00",
+      "link": "https://arxiv.org/pdf/2608.04905v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "targets failures at topologically critical states in multi-agent pathfinding",
+      "llm_evidence_cn": "针对多智能体路径规划中的拓扑关键状态失效",
+      "llm_evidence": "针对多智能体路径规划中的拓扑关键状态失效",
+      "canonical_evidence": "针对多智能体路径规划中的拓扑关键状态失效",
+      "llm_tldr_en": "PRIMAL3 combines reinforcement learning, imitation learning, topology-aware communication, LaCAM3-guided training, and PIBT refinement to overcome coordination failures at bottlenecks, dead ends, and conflicts in ultra-large-scale multi-agent pathfinding.",
+      "llm_tldr_cn": "针对多智能体路径规划中在瓶颈、死胡同和冲突等拓扑关键状态出现的决策失败问题，PRIMAL3将强化学习、模仿学习、拓扑感知通信、LaCAM3引导训练与PIBT动作细化相结合，利用割点、死区等特征表示智能体状态，并通过同向跟随图与异向冲突图建模交互。实验表明该方法在超大规模场景下显著提升路径规划成功率，尤其在关键状态处的协调能力。",
+      "llm_tldr": "针对多智能体路径规划中在瓶颈、死胡同和冲突等拓扑关键状态出现的决策失败问题，PRIMAL3将强化学习、模仿学习、拓扑感知通信、LaCAM3引导训练与PIBT动作细化相结合，利用割点、死区等特征表示智能体状态，并通过同向跟随图与异向冲突图建模交互。实验表明该方法在超大规模场景下显著提升路径规划成功率，尤其在关键状态处的协调能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
