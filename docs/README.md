@@ -6,32 +6,37 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-09
-- 运行时间：2026-08-09 19:38:10 UTC
+- 最新运行日期：2026-08-10
+- 运行时间：2026-08-10 20:55:38 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：2
+- 本次总论文数：5
+- 精读区：3
 - 速读区：2
 
 ### 今日简报（AI）
-今日精读聚焦大模型智能体的证据溯源与长程搜索可靠性，速读涵盖长程协作规划与多智能体路径规划。最值得关注的是DiagChain与SearchAuditor两篇高分论文，均直指智能体在复杂任务中的可解释性与纠错能力。建议优先研读上述精读论文，后续可关注智能体协同与路径规划领域的应用扩展。
-- 详情：[/202608/09/README](/202608/09/README)
+今日聚焦AI智能体研究，从5篇论文中精读2篇、速读2篇，覆盖编程智能体监控与参数化技能优化。  
+最值得看的是《Online Monitoring and Corrective Steering of Programming Agents》（9.0）与《TRACE》基准（8.0），前者关注智能体运行时的纠偏控制，后者强调人机协同在漂移与故障下的表现。  
+若想快速把握趋势，可优先阅读精读两篇，并留意速读中的自进化技能方法，后续可重点跟踪智能体可靠性与人类协作的评估框架。
+- 详情：[/202608/10/README](/202608/10/README)
 
 ### 精读区论文标签
-1. [DiagChain: A Diagnostic Benchmark for Evaluating LLM Agents on Evidence-Grounded Attack Chain Reconstruction](/202608/09/2608.03591v1-diagchain-a-diagnostic-benchmark-for-evaluating-llm-agents-on-evidence-grounded-attack-chain-reconstruction)  
+1. [Online Monitoring and Corrective Steering of Programming Agents](/202608/10/2608.06701v1-online-monitoring-and-corrective-steering-of-programming-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：诊断基准支持对LLM智能体进行分阶段评估，揭示中间推理阶段错误的产生与传播
-2. [SearchAuditor: Auditing and Attributing Failures in Long-Horizon Search Agents](/202608/09/2608.05212v1-searchauditor-auditing-and-attributing-failures-in-long-horizon-search-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：提出对长时程智能体轨迹中的故障进行定位、归因与修复的基准
+   evidence：在线检测与纠正编程智能体行为漂移与错误
+2. [TRACE: A Multi-Layer Benchmark for Human AI Controller Coordination Under Drift and Failure](/202608/10/2608.06657v1-trace-a-multi-layer-benchmark-for-human-ai-controller-coordination-under-drift-and-failure)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：面向智能体轨迹漂移与故障检测的基准
+3. [Long-Horizon Agent Trajectory Attribution: A Unified Benchmark and Fine-Grained Annotation Framework](/202608/10/2608.06909v1-long-horizon-agent-trajectory-attribution-a-unified-benchmark-and-fine-grained-annotation-framework)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：细粒度轨迹归因基准与标注框架，可支持定位智能体轨迹中的易错组件
 
 ### 速读区论文标签
-1. [SyncPlan: Long-Horizon LLM Coordination with Explicit Synchronization and Adaptive Correction](/202608/09/2608.01652v1-syncplan-long-horizon-llm-coordination-with-explicit-synchronization-and-adaptive-correction)  
+1. [SkillProx: Self-Evolving Agent Skills via Proximal Textual Gradient Descent](/202608/10/2608.07449v1-skillprox-self-evolving-agent-skills-via-proximal-textual-gradient-descent)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：对智能体轨迹进行闭环诊断进化以精化技能
+2. [Gated-BEPO: Confidence-Gated Bellman Credit Assignment for Large Language Model Agents](/202608/10/2608.06861v1-gated-bepo-confidence-gated-bellman-credit-assignment-for-large-language-model-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：多智能体协作过程中对过时或失败计划的自适应纠正
-2. [PRIMAL3: Pathfinding via Reinforcement and Imitation Multi-Agent Learning - Leveraging LaCAM3](/202608/09/2608.04905v1-primal3-pathfinding-via-reinforcement-and-imitation-multi-agent-learning---leveraging-lacam3)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：针对多智能体路径规划中的拓扑关键状态失效
+   evidence：从经验回放图推导步级信用，区分失败轨迹中的有效动作与成功轨迹中的无效动作，接近动作错误检测。
 
 
 <div class="dpr-home-promo-card">
