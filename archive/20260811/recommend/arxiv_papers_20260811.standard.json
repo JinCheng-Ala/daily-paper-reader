@@ -1,0 +1,384 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-11T19:47:50.237173+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2608.07899v1",
+      "source": "arxiv",
+      "title": "TelemetrySuffBench: Is Agent Telemetry Sufficient for Failure-Origin Diagnosis?",
+      "abstract": "Agent systems increasingly expose execution traces, yet telemetry that reveals a failure may still be inadequate for identifying where that failure originated. We introduce TelemetrySuffBench, a controlled benchmark that separates failure detection, fault-origin localization, and safe abstention under insufficient evidence. The benchmark constructs canonical multi-component traces with delayed-binding faults and renders them as paired coarse views, seven-factor telemetry masks, and exact-equal ambiguous origin pairs. We evaluate five frontier language models using unified protocols, explicit candidate sets, invalid-output accounting, subgroup analyses, and a frozen blind holdout. With full telemetry, origin-step Top-1 accuracy ranges from 33.8% to 97.2% across models. Metadata, OpenTelemetry-compatible, and OpenInference-compatible views retain 99.5% to 100% detection F1 while limiting origin-step accuracy to at most 0.5%, exposing a robust detection-localization gap. Factor ablations further show that removing decision content reduces origin-step accuracy to zero for every model, while provenance removal also causes large model-dependent losses. On rich ambiguous inputs that require abstention, evidence gating reduces unsupported unique-origin answers by 12.5 to 48.6 percentage points for three models, whereas two models still answer every case, revealing strong model dependence in safe abstention. Results on the frozen holdout reproduce the central pattern within the same generator family. These findings show that terminal status can support detection, whereas reliable causal attribution requires explicit decision-to-provenance links and abstention safeguards that remain effective across models. The dataset and benchmark implementation are available at https://anonymous.4open.science/r/TelemetrySuffBench-E635/README.md.",
+      "authors": [
+        "Yuxuan Zhu",
+        "Peng Pu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-08T03:54:22+00:00",
+      "link": "https://arxiv.org/pdf/2608.07899v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "A benchmark separating failure detection and fault-origin localization in agent execution traces, evaluating whether telemetry is sufficient to diagnose where a failure originated.",
+      "llm_evidence_cn": "一个将故障检测与故障来源定位分离的基准，利用智能体执行轨迹评估遥测是否足够诊断失败起源。",
+      "llm_evidence": "一个将故障检测与故障来源定位分离的基准，利用智能体执行轨迹评估遥测是否足够诊断失败起源。",
+      "canonical_evidence": "一个将故障检测与故障来源定位分离的基准，利用智能体执行轨迹评估遥测是否足够诊断失败起源。",
+      "llm_tldr_en": "TelemetrySuffBench is a controlled benchmark for failure-origin diagnosis in agent traces, using canonical multi-component traces with delayed-binding faults and telemetry masks to evaluate five frontier LLMs; even with full telemetry, origin-step Top-1 accuracy averages only 33.8%.",
+      "llm_tldr_cn": "智能体执行轨迹中，即使遥测数据揭示了失败，往往仍不足以定位失败根源。本文提出TelemetrySuffBench，一个将故障检测、故障来源定位和证据不足时安全弃权相分离的受控基准。基准通过规范化的多组件轨迹、七因素遥测掩码和完全等价的模糊来源对来评估五个前沿语言模型。结果显示在完整遥测下，来源步骤Top-1准确率仅为33.8%，表明现有智能体遥测在诊断失败来源上仍不充分。该工作为智能体轨迹错误检测与诊断提供了标准化评估手段。",
+      "llm_tldr": "智能体执行轨迹中，即使遥测数据揭示了失败，往往仍不足以定位失败根源。本文提出TelemetrySuffBench，一个将故障检测、故障来源定位和证据不足时安全弃权相分离的受控基准。基准通过规范化的多组件轨迹、七因素遥测掩码和完全等价的模糊来源对来评估五个前沿语言模型。结果显示在完整遥测下，来源步骤Top-1准确率仅为33.8%，表明现有智能体遥测在诊断失败来源上仍不充分。该工作为智能体轨迹错误检测与诊断提供了标准化评估手段。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.07895v1",
+      "source": "arxiv",
+      "title": "Auditing Instruction-Trajectory Mismatches in Multimodal Robot Demonstrations",
+      "abstract": "Robot demonstration datasets used to train vision-language-action policies can contain a subtle but harmful failure mode: trajectories that are behaviorally correct but paired with the wrong language instruction. We study post-hoc auditing of these Instruction-Trajectory Mismatches (ITMs). Unlike failed rollouts, ITMs often look plausible, and can corrupt the language-behavior mapping learned by the policy. We propose Multimodal Probabilistic Fusion (MMPF), a training-free auditing framework that treats each modality as an expert, estimates a task-label distribution from local neighborhood agreement and global prototype similarity, and then fuses modalities with predictive-entropy weighting in a product of experts. Across LIBERO benchmarks with injected instruction mismatches and noisy real-robot data, MMPF achieves the strongest overall ITM detection and label correction accuracy. We also show that auditing improves most downstream policy learning in settings where language is needed to disambiguate the task. We demonstrate in real robot experiments that our method can achieve improved policy performance and show the trade-off of filtering demonstrations compared to relabeling.",
+      "authors": [
+        "Simon Holk",
+        "Ryosuke Takanami",
+        "Tatsuya Matsushima",
+        "Yusuke Iwasawa",
+        "Yutaka Matsuo",
+        "Yueh-Hua Wu",
+        "Kei Ota"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-08-08T03:43:58+00:00",
+      "link": "https://arxiv.org/pdf/2608.07895v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Auditing instruction-trajectory mismatches in robot demonstrations, detecting trajectories that are behaviorally correct but paired with wrong language instructions.",
+      "llm_evidence_cn": "审计机器人演示中的指令-轨迹不匹配，检测行为正确但语言指令错误的轨迹。",
+      "llm_evidence": "审计机器人演示中的指令-轨迹不匹配，检测行为正确但语言指令错误的轨迹。",
+      "canonical_evidence": "审计机器人演示中的指令-轨迹不匹配，检测行为正确但语言指令错误的轨迹。",
+      "llm_tldr_en": "Introduces MMPF, a training-free auditing framework that fuses multimodal experts with predictive-entropy weighting to detect instruction-trajectory mismatches in robot demonstrations, preventing corrupted language-behavior mappings; evaluated on LIBERO benchmarks.",
+      "llm_tldr_cn": "机器人演示数据集中存在一类隐蔽且有害的错误：轨迹行为正确但所配语言指令错误，即指令-轨迹不匹配（ITM）。本文提出了免训练的审计框架MMPF，将每个模态视为专家，通过局部邻域一致性和全局原型相似性估计任务标签分布，并以预测熵加权进行概率融合。在LIBERO基准中，该框架能有效检测这类隐藏错误，防止其破坏策略的语言-行为映射。这为多模态机器人数据审计和轨迹错误检测提供了有效工具。",
+      "llm_tldr": "机器人演示数据集中存在一类隐蔽且有害的错误：轨迹行为正确但所配语言指令错误，即指令-轨迹不匹配（ITM）。本文提出了免训练的审计框架MMPF，将每个模态视为专家，通过局部邻域一致性和全局原型相似性估计任务标签分布，并以预测熵加权进行概率融合。在LIBERO基准中，该框架能有效检测这类隐藏错误，防止其破坏策略的语言-行为映射。这为多模态机器人数据审计和轨迹错误检测提供了有效工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.09153v1",
+      "source": "arxiv",
+      "title": "TRACE: TRajectory Attribution for Automated Context Engineering",
+      "abstract": "Production AI agents fail when their context sources -- system prompts, knowledge bases, tool descriptions, and procedural skills -- contain errors or gaps. Current maintenance relies on manual log review and ad-hoc debugging, creating a scalability bottleneck as interaction volume grows.   We present TRACE (TRajectory Attribution for Automated Context Engineering), an automated feedback loop that mines historical agent trajectories to diagnose and remediate context failures. Our key insight is that trajectories are rich with implicit dissatisfaction signals -- user corrections, rephrasing, abandonment cues -- that reveal precisely where context sources failed, without explicit feedback collection. Unlike model fine-tuning, TRACE operates on the context layer, enabling rapid iteration without retraining.   We make four contributions: (1) a trajectory mining framework that systematically extracts diagnostic information from historical agent executions; (2) multi-component causal attribution that extends textual gradients from monolithic prompt optimization to heterogeneous context sources (skills, knowledge bases, tools, prompts); (3) exploratory verification, where agents actively read context sources to distinguish content gaps requiring CREATE from stale content requiring UPDATE, achieving 96% operation accuracy; and (4) a reusable simulation methodology and verifiable benchmark addressing the absence of open datasets for context debugging, with a six-category fault taxonomy, ground truth annotations, and a cross-layer verification protocol.   On 60 dissatisfaction traces spanning three complexity tiers (up to 16 execution nodes), TRACE achieves 72.7% root cause attribution and 82% end-to-end fix effectiveness, showing that over 80% of context-layer failures can be automatically diagnosed and remediated by mining historical trajectories, an overlooked resource in production systems.",
+      "authors": [
+        "Yikai Zhao",
+        "Pradeep Kumar Misra",
+        "Saurabh Pandey"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-08-10T06:01:03+00:00",
+      "link": "https://arxiv.org/pdf/2608.09153v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "directly mines historical agent trajectories to diagnose context failures and detect implicit dissatisfaction signals, matching error detection in agent trajectories",
+      "llm_evidence_cn": "直接挖掘历史智能体轨迹以诊断上下文故障并检测隐含不满信号，符合智能体轨迹错误检测",
+      "llm_evidence": "直接挖掘历史智能体轨迹以诊断上下文故障并检测隐含不满信号，符合智能体轨迹错误检测",
+      "canonical_evidence": "直接挖掘历史智能体轨迹以诊断上下文故障并检测隐含不满信号，符合智能体轨迹错误检测",
+      "llm_tldr_en": "TRACE is an automated feedback loop that mines historical agent trajectories to diagnose and remediate context source failures by exploiting implicit dissatisfaction signals such as user corrections and abandonment cues, addressing the scalability bottleneck of manual log review.",
+      "llm_tldr_cn": "论文提出TRACE，一个自动化反馈循环，通过挖掘历史智能体轨迹来诊断和修复上下文源故障。其核心洞察是轨迹中蕴含丰富的隐含不满信号，如用户纠正、重述和放弃线索，无需显式反馈即可定位失败位置。与模型微调不同，TRACE作用于上下文层，为生产环境智能体的错误检测与修复提供了可扩展方案。",
+      "llm_tldr": "论文提出TRACE，一个自动化反馈循环，通过挖掘历史智能体轨迹来诊断和修复上下文源故障。其核心洞察是轨迹中蕴含丰富的隐含不满信号，如用户纠正、重述和放弃线索，无需显式反馈即可定位失败位置。与模型微调不同，TRACE作用于上下文层，为生产环境智能体的错误检测与修复提供了可扩展方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.08277v1",
+      "source": "arxiv",
+      "title": "WirelessOpsAgent: A Benchmark and Agent Design for Action Assurance in Wireless Networks",
+      "abstract": "Large language model (LLM) agents are emerging as planners for autonomous wireless network operations. Yet a task answer that is correct at proposal time can still be unsafe at execution time if supporting telemetry is stale or inconsistent. Existing benchmarks mainly evaluate task solving from fixed observations and leave support checking at execution time untested. We introduce WirelessOptBench, a benchmark for action assurance in wireless operations. It turns wireless tasks into execution state decision episodes with controlled telemetry faults and action constraints. We further develop WirelessOpsAgent, which grounds candidate actions in current evidence and repairs recoverable support failures before execution. Across three backbone evaluations with 600 episodes each, WirelessOpsAgent achieves up to 0.983 Exact Action Accuracy. On Claude Sonnet 4.6, the Unsafe APPLY Rate decreases from 82.2% to 10.3% relative to the safest baseline. We make WirelessOptBench available at https://anonymous.4open.science/r/wirelessopsbench-artifact-D969/.",
+      "authors": [
+        "Zijian Lu",
+        "Yiping Zuo",
+        "Hao Xu",
+        "Weicong Chen",
+        "Xin He",
+        "Jiajia Guo",
+        "Shi Jin"
+      ],
+      "primary_category": "cs.NI",
+      "categories": [
+        "cs.NI"
+      ],
+      "published": "2026-08-08T18:12:15+00:00",
+      "link": "https://arxiv.org/pdf/2608.08277v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "grounds candidate actions in current evidence and repairs support failures before execution",
+      "llm_evidence_cn": "在执行前基于当前证据检查动作可支持性并修复支撑故障，等同错误检测",
+      "llm_evidence": "在执行前基于当前证据检查动作可支持性并修复支撑故障，等同错误检测",
+      "canonical_evidence": "在执行前基于当前证据检查动作可支持性并修复支撑故障，等同错误检测",
+      "llm_tldr_en": "Introduces WirelessOptBench and WirelessOpsAgent for action assurance in wireless networks, detecting stale-telemetry support failures and unsafe actions before execution.",
+      "llm_tldr_cn": "针对LLM智能体在无线网络操作中可能因遥测数据陈旧或矛盾而在执行期出现不安全动作的问题，本文提出WirelessOptBench基准和WirelessOpsAgent设计。基准将任务转化为执行状态决策片段并注入受控遥测故障与动作约束；智能体在执行前用当前证据验证候选动作，并修复可恢复的支撑失败。该方法实质上是在执行轨迹中检测并纠正动作错误。",
+      "llm_tldr": "针对LLM智能体在无线网络操作中可能因遥测数据陈旧或矛盾而在执行期出现不安全动作的问题，本文提出WirelessOptBench基准和WirelessOpsAgent设计。基准将任务转化为执行状态决策片段并注入受控遥测故障与动作约束；智能体在执行前用当前证据验证候选动作，并修复可恢复的支撑失败。该方法实质上是在执行轨迹中检测并纠正动作错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.09476v1",
+      "source": "arxiv",
+      "title": "ActBench: Self-Evolving Benchmark of Behavioral Safety in Cowork Agents",
+      "abstract": "Cowork agents may complete benign tasks while disclosing protected data, manipulating unauthorized state, invocate unauthorized API. We define behavioral safety and introduce ActBench, a self-evolving benchmark that evaluates such behavior risk from execution trajectories rather than final responses. Each case pairs a benign task with an adversarial variant that preserves its instruction, configuration, initial state, rating model, and trusted records while injecting a task-reachable payload. ActBench contains 600 cases from 213 scenarios, spanning 15 risk behaviors, six execution spaces, and 48 web-service APIs.To move beyond static payloads, we propose a reward-guided beam search method that jointly optimizes attack effectiveness and task utility, while reflection diagnoses failed execution checkpoint and guides payload revision. Besides, we propose a dual evidence verification mechanism that verifies agent execution safety and utility through log evidence and LLM-based trajectory evidence.We evaluate 15 LLMs and 6 open-source cowork agents over 24,000 trajectories. Under a fixed harness, attack success rates ranges from 10.1% to 94.4% across models, while under a fixed base model, they range from 73.7% to 94.4% across agents.These results show greater variation across models than agent harness, while attacks remain highly successful across all tested harnesses.Our benchmark is released at: https://github.com/zjuicsr/ActBench.",
+      "authors": [
+        "Hongwei Yao",
+        "Yiming Liu",
+        "Meihui Chen",
+        "Jieling Chen",
+        "Zikun Chen",
+        "Yiling He",
+        "Wangze Ni",
+        "Cong Wang",
+        "Kui Ren"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-10T11:45:03+00:00",
+      "link": "https://arxiv.org/pdf/2608.09476v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "evaluates behavior risk from execution trajectories to detect unsafe actions",
+      "llm_evidence_cn": "从执行轨迹评估行为风险，检测越权、泄密等异常动作",
+      "llm_evidence": "从执行轨迹评估行为风险，检测越权、泄密等异常动作",
+      "canonical_evidence": "从执行轨迹评估行为风险，检测越权、泄密等异常动作",
+      "llm_tldr_en": "Introduces ActBench, a self-evolving benchmark that assesses behavioral safety of cowork agents from execution trajectories, with adversarial payloads and beam search to expose unsafe actions.",
+      "llm_tldr_cn": "针对协作智能体可能在完成良性任务的同时泄露数据、越权操作等问题，本文提出ActBench自进化基准，从执行轨迹而非最终回复评估行为安全风险。基准包含600个案例和15种风险行为，并采用奖励引导的束搜索生成对抗变体，以有效暴露智能体在轨迹中的异常与不安全动作。",
+      "llm_tldr": "针对协作智能体可能在完成良性任务的同时泄露数据、越权操作等问题，本文提出ActBench自进化基准，从执行轨迹而非最终回复评估行为安全风险。基准包含600个案例和15种风险行为，并采用奖励引导的束搜索生成对抗变体，以有效暴露智能体在轨迹中的异常与不安全动作。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.06909v1",
+      "source": "arxiv",
+      "title": "Long-Horizon Agent Trajectory Attribution: A Unified Benchmark and Fine-Grained Annotation Framework",
+      "abstract": "Large language model (LLM) agents increasingly operate through long-horizon trajectories involving user instructions, tool use, external observations, and memory. Existing benchmarks primarily evaluate behavioral outcomes but provide limited support for fine-grained attribution analysis. We introduce trajectory attribution and develop a benchmark and annotation framework for this task. The benchmark organizes heterogeneous trajectories under a unified component schema and provides annotations of the primary attribution component, together with attack and execution chains where applicable. Instantiating the benchmark with trajectories from AgentDojo and the Stage and Canary settings of Agent3Sigma yields more than 1,300 annotated trajectories covering task-aligned actions, unsafe actions, and safety refusals. The benchmark defines two evaluation tasks, primary attribution localization and attribution-chain recovery, and provides reference baselines based on incremental trajectory contribution and component-level leave-one-out perturbation. It captures diverse attribution settings, including local and long-range attribution as well as structured attribution chains. Reference baseline results exhibit substantial performance differences across these settings, providing an initial characterization of the benchmark's attribution challenges. Beyond this initial instantiation, we release a reusable annotation skill that enables trajectories generated by new agent models to be standardized, annotated, and evaluated under the same framework. Project resources and future releases are available at https://github.com/chenjing-2024/agent-trajectory-attribution.",
+      "authors": [
+        "Jing Chen",
+        "Yang Sun",
+        "Li Zhang",
+        "Lin Xu",
+        "Jie Shi"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-07T07:43:12+00:00",
+      "link": "https://arxiv.org/pdf/2608.06909v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "trajectory attribution benchmark and fine-grained annotation framework enabling analysis of components that lead to failures or errors in long-horizon agent trajectories",
+      "llm_evidence_cn": "提供轨迹归因基准与细粒度标注框架，可分析长程智能体轨迹中导致失败或错误的关键组件",
+      "llm_evidence": "提供轨迹归因基准与细粒度标注框架，可分析长程智能体轨迹中导致失败或错误的关键组件",
+      "canonical_evidence": "提供轨迹归因基准与细粒度标注框架，可分析长程智能体轨迹中导致失败或错误的关键组件",
+      "llm_tldr_en": "Introduces trajectory attribution with a unified benchmark and fine-grained annotation framework for long-horizon LLM agent trajectories, organizing components and annotating primary attribution, attack and execution chains, yielding over 1,300 annotations to support detailed failure analysis.",
+      "llm_tldr_cn": "大型语言模型智能体越来越多地通过长程轨迹运行，涉及用户指令、工具使用、外部观察和记忆，但现有基准主要评估结果，缺乏对轨迹组件的细粒度归因分析支持。论文引入轨迹归因任务并构建统一基准与标注框架，将异构轨迹组织为统一组件模式，提供主归因组件及攻击与执行链标注。基于AgentDojo和Agent3Sigma轨迹实例化得到超过1300条标注，为定位轨迹中的关键决策与失败原因提供数据基础，有助于智能体轨迹的错误检测与诊断。",
+      "llm_tldr": "大型语言模型智能体越来越多地通过长程轨迹运行，涉及用户指令、工具使用、外部观察和记忆，但现有基准主要评估结果，缺乏对轨迹组件的细粒度归因分析支持。论文引入轨迹归因任务并构建统一基准与标注框架，将异构轨迹组织为统一组件模式，提供主归因组件及攻击与执行链标注。基于AgentDojo和Agent3Sigma轨迹实例化得到超过1300条标注，为定位轨迹中的关键决策与失败原因提供数据基础，有助于智能体轨迹的错误检测与诊断。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.03609v1",
+      "source": "arxiv",
+      "title": "Formal Verification of Agentic Systems over Operational Data",
+      "abstract": "Agentic systems driven by large language models (LLMs) are increasingly deployed in real-world workflows where they act on persistent operational data. Before deployment, these systems need to be verified against business requirements that govern workflow execution and data evolution. However, existing approaches do not provide such system-level guarantees, as they mainly constrain or analyse behaviour at the agent's interface level. We study here the verification of agentic systems comprising a single LLM and a tool orchestration harness over relational operational data. We formalise them as Stateful Tool-Enabled Agentic Deployments (STEADs), give their semantics, define the problem of verifying them against First-Order Computation Tree Logic (FO-CTL) specifications, and show that it is undecidable. We identify sufficient conditions for exact preservation of FO-CTL specifications under a finite-domain restriction, over which verification is PSPACE-complete. The key requirement is that renaming opaque identifiers in the data must correspondingly rename the selected tool calls. We show that LLM-driven agents can violate this condition and introduce a canonical deployment wrapper that guarantees it for arbitrary base agents while preserving already-equivariant behaviour. We prove that computing canonical representations required by this construction is graph-isomorphism-hard. Finally, we illustrate our framework on an LLM agent orchestrating a case-management workflow.",
+      "authors": [
+        "Alejandro J. Mercado",
+        "Alessio Lomuscio"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-04T13:01:30+00:00",
+      "link": "https://arxiv.org/pdf/2608.03609v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "formal verification of agentic systems against FO-CTL specifications, providing system-level guarantees that can be used to detect behavioral errors",
+      "llm_evidence_cn": "基于FO-CTL规范对智能体系统进行形式化验证，为检测行为错误提供系统级保证",
+      "llm_evidence": "基于FO-CTL规范对智能体系统进行形式化验证，为检测行为错误提供系统级保证",
+      "canonical_evidence": "基于FO-CTL规范对智能体系统进行形式化验证，为检测行为错误提供系统级保证",
+      "llm_tldr_en": "This paper formalizes agentic systems as Stateful Tool-Enabled Agentic Deployments and verifies them against FO-CTL specifications, enabling system-level error detection over operational data.",
+      "llm_tldr_cn": "现有方法主要在智能体接口层面约束行为，缺乏系统级保证。该论文将LLM智能体与工具编排形式化为状态化工具使能智能体部署（STEAD），给出其语义，并研究如何基于运行数据验证是否满足一阶计算树逻辑（FO-CTL）规范。该方法能够在业务流程和数据演化层面对智能体系统进行正式验证，为部署前的错误检测和合规性审查提供了可靠框架。",
+      "llm_tldr": "现有方法主要在智能体接口层面约束行为，缺乏系统级保证。该论文将LLM智能体与工具编排形式化为状态化工具使能智能体部署（STEAD），给出其语义，并研究如何基于运行数据验证是否满足一阶计算树逻辑（FO-CTL）规范。该方法能够在业务流程和数据演化层面对智能体系统进行正式验证，为部署前的错误检测和合规性审查提供了可靠框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.08570v1",
+      "source": "arxiv",
+      "title": "FailForge: Distilling Procedural Competence from Persistent Failures into Code Agents",
+      "abstract": "Rejection sampling fine-tuning (RFT) is widely used to train code agents by generating trajectories on verifiable software engineering tasks, retaining those that pass the tests, and fine-tuning on the successful rollouts. However, even strong code agents repeatedly fail on a substantial fraction of such tasks, and standard RFT simply discards these failures. The discarded samples are precisely the hardest and most informative ones, drawn from verifiable instances that are costly to curate. Stronger base models may reduce the number of failures, but the remaining hard cases still define the frontier for further improvement. We propose FailForge, an agentic framework that converts failed rollouts into training signal. For each failed instance, an agent diagnoses the failure from error feedback and execution traces, distills the diagnosis into a concise and actionable skill, and injects the skill into the agent context for a guided second attempt. Trajectories that succeed under skill guidance are folded back into the RFT corpus. Crucially, the skill is removed at training time, so the model internalizes the recovered behavior rather than relying on external hints at inference. FailForge recovers over 26% of previously failed instances at marginal additional cost, and training Qwen3.5-4B on the augmented corpus improves the SWE-bench Verified resolve rate by 6.6 points over a strong RFT baseline, with gains concentrated on the hardest problems.",
+      "authors": [
+        "Dongyi Lv",
+        "Fushun E",
+        "Aichen Cai",
+        "Liang Huang",
+        "Ya Zhang",
+        "Qiuyu Ding",
+        "Canhui Wu",
+        "Zhi Wang",
+        "Yuesong Zhang",
+        "Jiaqi Wang",
+        "Nan Duan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-09T08:22:57+00:00",
+      "link": "https://arxiv.org/pdf/2608.08570v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "converts failed rollouts into training signal, requiring analysis of errors in agent trajectories",
+      "llm_evidence_cn": "将失败轨迹转化为训练信号，需要分析轨迹中的错误",
+      "llm_evidence": "将失败轨迹转化为训练信号，需要分析轨迹中的错误",
+      "canonical_evidence": "将失败轨迹转化为训练信号，需要分析轨迹中的错误",
+      "llm_tldr_en": "Proposes FailForge, an agentic framework that mines failed rollouts of code agents to generate training signal, improving performance on hard verifiable tasks.",
+      "llm_tldr_cn": "针对标准拒绝采样微调丢弃失败轨迹、未利用最难样本的问题，本文提出FailForge框架。它从每个失败实例中提取程序性知识，将失败回滚转化为可学习的监督信号，补充到代码智能体的训练中。实验证明，该方法能显著提高困难代码任务上的通过率，使智能体从持续失败中获取过程性能力，同时降低数据筛选成本。",
+      "llm_tldr": "针对标准拒绝采样微调丢弃失败轨迹、未利用最难样本的问题，本文提出FailForge框架。它从每个失败实例中提取程序性知识，将失败回滚转化为可学习的监督信号，补充到代码智能体的训练中。实验证明，该方法能显著提高困难代码任务上的通过率，使智能体从持续失败中获取过程性能力，同时降低数据筛选成本。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.09885v1",
+      "source": "arxiv",
+      "title": "SHE: Trajectory-driven Safety Harness Evolution for LLM Agents",
+      "abstract": "The safety of large language model (LLM) agents depends not only on model weights but also on the agent harness that manages context, memory, tools, permissions, and runtime control. Existing safety mechanisms often treat the harness as a fixed deployment artifact, limiting their ability to evolve with emerging risks. Moreover, coupled functions across harness components obscure safety responsibility attribution, making localized evolution difficult. We propose Safety Harness Evolution (SHE), a framework that learns evolving safe boundaries from rollout trajectories. SHE decomposes the harness into four artifacts with explicit safety responsibilities, including the System Prompt, Rule Bank, Safety Memory, and Tool Policy, defining clear functional boundaries for localized evolution. Based on this decomposition, SHE introduces an attribution-guided evolution loop that converts trajectory failures into structured diagnoses, learns artifact-specific boundary refinements, and selects evolved harnesses through safety-utility validation. Experiments on Agent-SafetyBench demonstrate that SHE effectively enhances safety through harness evolution, achieving a 3.1x ASR reduction compared with static SafeHarness, while also improving benign utility. The evolved harness further generalizes to unseen risks on the held-out AgentHarm benchmark and transfers across agent models without additional evolution.",
+      "authors": [
+        "Wanying Qu",
+        "Qinghua Mao",
+        "Yu Li",
+        "Jiyao Liu",
+        "Xin Zhang",
+        "Dadi Guo",
+        "Yanxu Zhu",
+        "Qingyu Liu",
+        "Leitao Yuan",
+        "Xi Lin",
+        "Shanfeng Zhu",
+        "Yanwei Fu",
+        "Jing Shao",
+        "Xia Hu",
+        "Dongrui Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-08-10T17:35:08+00:00",
+      "link": "https://arxiv.org/pdf/2608.09885v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "trajectory-driven evolution of safe harness boundaries to manage runtime risks in LLM agents",
+      "llm_evidence_cn": "通过轨迹驱动进化安全接口边界以管理LLM智能体运行时风险",
+      "llm_evidence": "通过轨迹驱动进化安全接口边界以管理LLM智能体运行时风险",
+      "canonical_evidence": "通过轨迹驱动进化安全接口边界以管理LLM智能体运行时风险",
+      "llm_tldr_en": "SHE learns evolving safe boundaries for LLM agents from rollout trajectories, decomposing the harness into System Prompt, Rule Bank, Safety Memory, and Tool Policy with explicit safety responsibilities.",
+      "llm_tldr_cn": "LLM智能体的安全不仅依赖模型权重，还依赖管理上下文、内存、工具和运行权限的智能体接口（harness）。SHE提出从回放轨迹中学习不断演化的安全边界，将接口分解为系统提示、规则库、安全记忆和工具策略四个职责明确的部分，使安全机制能够随新风险出现而持续演化，并让安全责任的归因更加清晰，从而提升智能体的运行时安全性。",
+      "llm_tldr": "LLM智能体的安全不仅依赖模型权重，还依赖管理上下文、内存、工具和运行权限的智能体接口（harness）。SHE提出从回放轨迹中学习不断演化的安全边界，将接口分解为系统提示、规则库、安全记忆和工具策略四个职责明确的部分，使安全机制能够随新风险出现而持续演化，并让安全责任的归因更加清晰，从而提升智能体的运行时安全性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

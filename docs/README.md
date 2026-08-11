@@ -6,37 +6,49 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-10
-- 运行时间：2026-08-10 20:55:38 UTC
+- 最新运行日期：2026-08-11
+- 运行时间：2026-08-11 19:54:02 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：3
-- 速读区：2
+- 本次总论文数：9
+- 精读区：5
+- 速读区：4
 
 ### 今日简报（AI）
-今日聚焦AI智能体研究，从5篇论文中精读2篇、速读2篇，覆盖编程智能体监控与参数化技能优化。  
-最值得看的是《Online Monitoring and Corrective Steering of Programming Agents》（9.0）与《TRACE》基准（8.0），前者关注智能体运行时的纠偏控制，后者强调人机协同在漂移与故障下的表现。  
-若想快速把握趋势，可优先阅读精读两篇，并留意速读中的自进化技能方法，后续可重点跟踪智能体可靠性与人类协作的评估框架。
-- 详情：[/202608/10/README](/202608/10/README)
+聚焦智能体遥测与多模态机器人演示审计，精读两篇高影响力论文。  
+最值得关注：满分研究质疑“遥测数据是否足以定位故障根源”，另一篇则提出审计机器人演示中的指令-轨迹不匹配方法。  
+建议读者延伸关注长期轨迹归因基准与从失败中提炼能力的代码智能体方向。
+- 详情：[/202608/11/README](/202608/11/README)
 
 ### 精读区论文标签
-1. [Online Monitoring and Corrective Steering of Programming Agents](/202608/10/2608.06701v1-online-monitoring-and-corrective-steering-of-programming-agents)  
+1. [TelemetrySuffBench: Is Agent Telemetry Sufficient for Failure-Origin Diagnosis?](/202608/11/2608.07899v1-telemetrysuffbench-is-agent-telemetry-sufficient-for-failure-origin-diagnosis)  
+   标签：评分：10.0/10、query:agent-error
+   evidence：一个将故障检测与故障来源定位分离的基准，利用智能体执行轨迹评估遥测是否足够诊断失败起源。
+2. [Auditing Instruction-Trajectory Mismatches in Multimodal Robot Demonstrations](/202608/11/2608.07895v1-auditing-instruction-trajectory-mismatches-in-multimodal-robot-demonstrations)  
    标签：评分：9.0/10、query:agent-error
-   evidence：在线检测与纠正编程智能体行为漂移与错误
-2. [TRACE: A Multi-Layer Benchmark for Human AI Controller Coordination Under Drift and Failure](/202608/10/2608.06657v1-trace-a-multi-layer-benchmark-for-human-ai-controller-coordination-under-drift-and-failure)  
+   evidence：审计机器人演示中的指令-轨迹不匹配，检测行为正确但语言指令错误的轨迹。
+3. [TRACE: TRajectory Attribution for Automated Context Engineering](/202608/11/2608.09153v1-trace-trajectory-attribution-for-automated-context-engineering)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：直接挖掘历史智能体轨迹以诊断上下文故障并检测隐含不满信号，符合智能体轨迹错误检测
+4. [WirelessOpsAgent: A Benchmark and Agent Design for Action Assurance in Wireless Networks](/202608/11/2608.08277v1-wirelessopsagent-a-benchmark-and-agent-design-for-action-assurance-in-wireless-networks)  
    标签：评分：8.0/10、query:agent-error
-   evidence：面向智能体轨迹漂移与故障检测的基准
-3. [Long-Horizon Agent Trajectory Attribution: A Unified Benchmark and Fine-Grained Annotation Framework](/202608/10/2608.06909v1-long-horizon-agent-trajectory-attribution-a-unified-benchmark-and-fine-grained-annotation-framework)  
+   evidence：在执行前基于当前证据检查动作可支持性并修复支撑故障，等同错误检测
+5. [ActBench: Self-Evolving Benchmark of Behavioral Safety in Cowork Agents](/202608/11/2608.09476v1-actbench-self-evolving-benchmark-of-behavioral-safety-in-cowork-agents)  
    标签：评分：8.0/10、query:agent-error
-   evidence：细粒度轨迹归因基准与标注框架，可支持定位智能体轨迹中的易错组件
+   evidence：从执行轨迹评估行为风险，检测越权、泄密等异常动作
 
 ### 速读区论文标签
-1. [SkillProx: Self-Evolving Agent Skills via Proximal Textual Gradient Descent](/202608/10/2608.07449v1-skillprox-self-evolving-agent-skills-via-proximal-textual-gradient-descent)  
+1. [Long-Horizon Agent Trajectory Attribution: A Unified Benchmark and Fine-Grained Annotation Framework](/202608/11/2608.06909v1-long-horizon-agent-trajectory-attribution-a-unified-benchmark-and-fine-grained-annotation-framework)  
    标签：评分：7.0/10、query:agent-error
-   evidence：对智能体轨迹进行闭环诊断进化以精化技能
-2. [Gated-BEPO: Confidence-Gated Bellman Credit Assignment for Large Language Model Agents](/202608/10/2608.06861v1-gated-bepo-confidence-gated-bellman-credit-assignment-for-large-language-model-agents)  
+   evidence：提供轨迹归因基准与细粒度标注框架，可分析长程智能体轨迹中导致失败或错误的关键组件
+2. [FailForge: Distilling Procedural Competence from Persistent Failures into Code Agents](/202608/11/2608.08570v1-failforge-distilling-procedural-competence-from-persistent-failures-into-code-agents)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：将失败轨迹转化为训练信号，需要分析轨迹中的错误
+3. [Formal Verification of Agentic Systems over Operational Data](/202608/11/2608.03609v1-formal-verification-of-agentic-systems-over-operational-data)  
    标签：评分：6.0/10、query:agent-error
-   evidence：从经验回放图推导步级信用，区分失败轨迹中的有效动作与成功轨迹中的无效动作，接近动作错误检测。
+   evidence：基于FO-CTL规范对智能体系统进行形式化验证，为检测行为错误提供系统级保证
+4. [SHE: Trajectory-driven Safety Harness Evolution for LLM Agents](/202608/11/2608.09885v1-she-trajectory-driven-safety-harness-evolution-for-llm-agents)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：通过轨迹驱动进化安全接口边界以管理LLM智能体运行时风险
 
 
 <div class="dpr-home-promo-card">
