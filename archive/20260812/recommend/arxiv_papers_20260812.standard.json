@@ -1,0 +1,254 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-12T21:09:58.910642+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2608.08793v1",
+      "source": "arxiv",
+      "title": "Evidence-Calibrated Runtime Reconstruction for Agent Skills Across Heterogeneous Coding Agents",
+      "abstract": "Agent Skills package reusable instructions and assets for tool-using language-model agents. Progressive loading creates failure boundaries poorly represented by session-, model-, or tool-centric traces: a Skill can be discovered but not activated, activated without instructions, or appear successful without an independently verified outcome. We present Skill Runtime Intelligence, a passive runtime-intelligence system that reconstructs supported Skill-lifecycle stages across heterogeneous harnesses while preserving unsupported stages as unknown. Its Run Panorama separates immutable events, deterministic relations, inferred diagnoses, and controlled outcomes with four evidence grades; optional trace import and OTLP/HTTP export support existing observability deployments.   Across six frozen repository profiles, three coding agents, and seven clean or fault-injected conditions, all 126 executions preserve source worktrees and each correlates to exactly one source session. Yet adapters expose three distinct semantics: no Skill runs; complete runs but no failure-like events; or failure-like events in every operational-failure and clean session. In a seven-template diagnostic study, semantic aliases and Panorama localize the same six non-clean boundaries but differ in exact/status behavior; both Raw views emit a failure status on all 18 clean cases, while Panorama emits none. A known-rule graph conforms to 126/126 frozen contracts, whereas a second model completes only 228/378 calls. These observations motivate executable adapter qualification and show that event presence is not boundary fidelity, composite exact scores mask distinct errors, and model explanations must not overwrite deterministic facts.",
+      "authors": [
+        "Xueping Gao"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-08-09T16:18:13+00:00",
+      "link": "https://arxiv.org/pdf/2608.08793v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "detects failure modes in Skill lifecycle stages via runtime reconstruction across heterogeneous agents",
+      "llm_evidence_cn": "通过跨异构智能体的运行时重建检测技能生命周期阶段的失败模式",
+      "llm_evidence": "通过跨异构智能体的运行时重建检测技能生命周期阶段的失败模式",
+      "canonical_evidence": "通过跨异构智能体的运行时重建检测技能生命周期阶段的失败模式",
+      "llm_tldr_en": "Presents Skill Runtime Intelligence, a passive runtime-intelligence system that reconstructs supported Skill-lifecycle stages across heterogeneous coding agents and exposes failure boundaries such as discovered but not activated or success without verified outcomes.",
+      "llm_tldr_cn": "针对渐进式加载导致技能生命周期失败难以用会话、模型或工具痕迹刻画的问题，论文提出一种被动运行时智能系统Skill Runtime Intelligence。它通过Run Panorama将不可变事件、确定性关系、推断诊断与受控结果分别赋予证据等级，跨异构编码智能体重建技能生命周期阶段，并保留未知阶段。该系统能识别技能被装载但未激活、激活但缺少指令、貌似成功但未验证等错误，为监测智能体技能执行错误提供坚实基础。",
+      "llm_tldr": "针对渐进式加载导致技能生命周期失败难以用会话、模型或工具痕迹刻画的问题，论文提出一种被动运行时智能系统Skill Runtime Intelligence。它通过Run Panorama将不可变事件、确定性关系、推断诊断与受控结果分别赋予证据等级，跨异构编码智能体重建技能生命周期阶段，并保留未知阶段。该系统能识别技能被装载但未激活、激活但缺少指令、貌似成功但未验证等错误，为监测智能体技能执行错误提供坚实基础。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.10646v1",
+      "source": "arxiv",
+      "title": "ASCon: A Direction-Aware Reciprocal Agent--Step Contextualization Model for Failure Attribution in Multi-Agent Systems",
+      "abstract": "Failure attribution in LLM-based multi-agent systems (MAS) aims to answer who caused failures, when they occurred, and why by identifying responsible targets including faulty agents, erroneous steps, and failure modes. Existing methods have primarily focused on developing dedicated models for specific attribution targets, with limited attention to the evidential dependencies among them. Despite these attribution targets are different, they rely on common diagnostic evidence from MAS trajectories, including task constraints, agent roles, behavioral histories and inter-agent interactions. This commonality motivates us to develop a unified representation model that aggregates the trajectory evidence into individual agent and step representations, which can subsequently be adapted to different attribution targets. Accordingly, we propose ASCon, a direction-aware reciprocal \\textbf{A}gent--\\textbf{S}tep \\textbf{Con}textualization model for multiple failure attribution targets. ASCon introduces direction-aware graph attention to model execution context, masked step-to-agent attention to construct behavior-aware agent representations, and agent-conditioned step contextualization to incorporate agent context back into step representations. The resulting contextualized representations enable different attribution targets through lightweight target-specific heads. Experiments show that ASCon can improve faulty-agent detection by 5.83\\%+ in micro-accuracy, faulty-step detection by 10.63\\%+ in micro-accuracy, and failure-mode detection by 14.73\\%+ in Macro-F1. Meanwhile, it can also substantially enhance the LLM-based methods' attribution capabilities in out-of-domain scenarios.",
+      "authors": [
+        "Shuyu Jiang",
+        "Yue Ran",
+        "Kaiyu Xu",
+        "Xingshu Chen",
+        "Yi Zhang",
+        "Hao Ren",
+        "Rui Tang",
+        "Tianwei Zhang"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-08-11T08:31:23+00:00",
+      "link": "https://arxiv.org/pdf/2608.10646v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Failure attribution identifies erroneous steps and failure modes from multi-agent trajectories",
+      "llm_evidence_cn": "失败归因从多智能体轨迹中识别错误步骤与失败模式",
+      "llm_evidence": "失败归因从多智能体轨迹中识别错误步骤与失败模式",
+      "canonical_evidence": "失败归因从多智能体轨迹中识别错误步骤与失败模式",
+      "llm_tldr_en": "ASCon attributes failures in LLM-based multi-agent systems by modeling reciprocal dependencies between agents and steps, aggregating trajectory evidence such as roles, behaviors, and interactions, improving identification of faulty agents, erroneous steps, and failure modes.",
+      "llm_tldr_cn": "针对LLM多智能体系统失败归因中证据依赖被忽视的问题，ASCon提出统一表征模型，聚合轨迹中的任务约束、智能体角色、行为历史与交互信息，并通过方向感知的双向上下文建模刻画智能体与步骤之间的依赖关系。该方法同时服务于故障智能体、错误步骤和失败模式等不同归因目标。实验证明其能有效提升各类失败归因的准确性，为复杂多智能体系统的可诊断性提供了统一框架。",
+      "llm_tldr": "针对LLM多智能体系统失败归因中证据依赖被忽视的问题，ASCon提出统一表征模型，聚合轨迹中的任务约束、智能体角色、行为历史与交互信息，并通过方向感知的双向上下文建模刻画智能体与步骤之间的依赖关系。该方法同时服务于故障智能体、错误步骤和失败模式等不同归因目标。实验证明其能有效提升各类失败归因的准确性，为复杂多智能体系统的可诊断性提供了统一框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.07639v1",
+      "source": "arxiv",
+      "title": "SkillConsist: Detecting Inconsistencies in Agent Skills via Bidirectional Graph Alignment",
+      "abstract": "Agent Skills provide reusable capabilities to LLM agents. Agent Skill inconsistencies can expose undisclosed dangerous behavior or cause wrong Skill selection. Recent Agent Skill research has increasingly examined Agent Skill consistency detection. Existing methods evaluate behaviors or security-property graphs against predefined categories or declared scopes. More recently, PL-HCL uses an LLM-based model to learn consistency across metadata, instructions, and resources. However, declaration and implementation behavior can be mixed across text and code, and a concise declaration can correspond to multiple connected implementation steps. We present SkillConsist to address both challenges. An LLM separates declaration and implementation content into behavior records on the implementation and declaration sides, while static analysis supplements implementation records. These records form declaration and implementation behavior graphs, respectively. Starting from a behavior record on either side, bidirectional graph alignment searches the other graph for a candidate subgraph and expands it along behavior relations until it completely expresses the source-side behavior. Graph differencing identifies conflicts between aligned subgraphs and outputs the detection results. We construct a 633-Skill benchmark from ClawHub's 500 most-downloaded public Skills and 133 Skill-Inject packages. The benchmark contains 319 inconsistent and 314 consistent Skills and 442 localized inconsistency annotations. On this benchmark, SkillConsist achieves 86.85% precision, 89.03% recall, and 87.93% F1 for package-level detection, improving F1 over the best baseline by 20.43 percentage points. For localization, it achieves 67.60% precision, 58.14% recall, and 62.52% F1.",
+      "authors": [
+        "Chaofan Meng",
+        "Yuhang Zheng",
+        "Yingnan Zhou",
+        "Sihan Xu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-07T16:04:21+00:00",
+      "link": "https://arxiv.org/pdf/2608.07639v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "detects inconsistencies between skill declaration and implementation, a form of agent behavior error",
+      "llm_evidence_cn": "检测技能声明与实现之间的不一致，属于智能体行为错误",
+      "llm_evidence": "检测技能声明与实现之间的不一致，属于智能体行为错误",
+      "canonical_evidence": "检测技能声明与实现之间的不一致，属于智能体行为错误",
+      "llm_tldr_en": "SkillConsist detects inconsistencies between Agent Skill declarations and implementations via bidirectional graph alignment, addressing dangerous behavior and wrong skill selection in LLM agents.",
+      "llm_tldr_cn": "针对Agent Skill中声明与实现行为可能混合在文本和代码中导致不一致的问题，论文提出SkillConsist，利用LLM将声明与实现分离，并通过双向图对齐检测两者之间的不一致，从而揭示未公开的危险行为或错误技能选择。该方法优于现有基于预定义类别或作用域的方法，为智能体能力一致性检测提供了新思路。",
+      "llm_tldr": "针对Agent Skill中声明与实现行为可能混合在文本和代码中导致不一致的问题，论文提出SkillConsist，利用LLM将声明与实现分离，并通过双向图对齐检测两者之间的不一致，从而揭示未公开的危险行为或错误技能选择。该方法优于现有基于预定义类别或作用域的方法，为智能体能力一致性检测提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.08605v1",
+      "source": "arxiv",
+      "title": "ForestBench: A Unified Graph Framework for Evaluating Multi-Agent Collaboration",
+      "abstract": "Multi-agent systems (MAS) built on Large Language Models (LLMs) are proliferating rapidly, but their heterogeneous execution traces provide no common basis for evaluation across methods. Outcome-only benchmarks discard collaborations, whereas LLM-as-Judge evaluation requires additional, model-dependent inference and can vary with the LLM and rubric. We introduce a generalizable evaluation framework that maps native MAS traces into a shared space of unified collaboration graphs, enabling different methods to be evaluated under the same representation, reference set, and metric panel. Candidate graphs are compared with a query-specific reference forest. Each forest is a benchmark-provided collection of verified-success graphs: it records diverse ways in which representative MAS methods can complete the task, rather than prescribing a unique optimal process. Instantiating the framework as ForestBench, we filter $844$ collaboration-necessary queries from seven public datasets, precompute ten successful target-conditioned reference graphs per query, and evaluate six representative MAS frameworks. Controlled backbone, reference-construction, and perturbation studies test the stability and scope of evaluation. Once the benchmark forests are built, ForestBench scores a trace in milliseconds without further LLM inference, providing a reusable structural basis for comparing diverse MAS collaboration traces.",
+      "authors": [
+        "Guo Chen",
+        "Ziwen Li",
+        "Reed Li",
+        "Yu Lu",
+        "Haibo Shi",
+        "Bingbing Xu",
+        "Junjie Huang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-09T09:38:52+00:00",
+      "link": "https://arxiv.org/pdf/2608.08605v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Unified graph comparison against reference forest can reveal deviations from verified-success trajectories",
+      "llm_evidence_cn": "通过与验证成功参考森林对比，可揭示轨迹与成功行为的偏离",
+      "llm_evidence": "通过与验证成功参考森林对比，可揭示轨迹与成功行为的偏离",
+      "canonical_evidence": "通过与验证成功参考森林对比，可揭示轨迹与成功行为的偏离",
+      "llm_tldr_en": "ForestBench maps heterogeneous multi-agent execution traces into unified collaboration graphs and compares them with benchmark-provided reference forests of verified-success graphs, enabling consistent, model-independent evaluation of collaboration across methods.",
+      "llm_tldr_cn": "针对LLM多智能体系统执行轨迹异构、难以统一评估的问题，ForestBench将原生轨迹映射为统一的协作图，并设计参考森林作为成功行为基准。候选图通过与查询相关的参考森林比较，能够在同一表示、同一参考集与统一指标面板下评估不同协作方法，避免了对额外LLM推理的依赖。该框架为多智能体协作提供了更可靠、可复现的评估基础，同时也能揭示轨迹与成功行为的偏离，对代理轨迹异常分析具有方法价值。",
+      "llm_tldr": "针对LLM多智能体系统执行轨迹异构、难以统一评估的问题，ForestBench将原生轨迹映射为统一的协作图，并设计参考森林作为成功行为基准。候选图通过与查询相关的参考森林比较，能够在同一表示、同一参考集与统一指标面板下评估不同协作方法，避免了对额外LLM推理的依赖。该框架为多智能体协作提供了更可靠、可复现的评估基础，同时也能揭示轨迹与成功行为的偏离，对代理轨迹异常分析具有方法价值。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.08605v2",
+      "source": "arxiv",
+      "title": "ForestBench: A Unified Graph Framework for Evaluating Multi-Agent Collaboration",
+      "abstract": "Multi-agent systems (MAS) built on Large Language Models (LLMs) are proliferating rapidly, but their heterogeneous execution traces provide no common basis for evaluation across methods. Outcome-only benchmarks discard collaborations, whereas LLM-as-Judge evaluation requires additional, model-dependent inference and can vary with the LLM and rubric. We introduce a generalizable evaluation framework that maps native MAS traces into a shared space of unified collaboration graphs, enabling different methods to be evaluated under the same representation, reference set, and metric panel. Candidate graphs are compared with a query-specific reference forest. Each forest is a benchmark-provided collection of verified-success graphs: it records diverse ways in which representative MAS methods can complete the task, rather than prescribing a unique optimal process. Instantiating the framework as ForestBench, we filter $844$ collaboration-necessary queries from seven public datasets, precompute ten successful target-conditioned reference graphs per query, and evaluate six representative MAS frameworks. Controlled backbone, reference-construction, and perturbation studies test the stability and scope of evaluation. Once the benchmark forests are built, ForestBench scores a trace in milliseconds without further LLM inference, providing a reusable structural basis for comparing diverse MAS collaboration traces.",
+      "authors": [
+        "Guo Chen",
+        "Ziwen Li",
+        "Reed Li",
+        "Yu Lu",
+        "Haibo Shi",
+        "Bingbing Xu",
+        "Junjie Huang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-09T09:38:52+00:00",
+      "link": "https://arxiv.org/pdf/2608.08605v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Unified graph comparison against reference forest can reveal deviations from verified-success trajectories",
+      "llm_evidence_cn": "通过与验证成功参考森林对比，可揭示轨迹与成功行为的偏离",
+      "llm_evidence": "通过与验证成功参考森林对比，可揭示轨迹与成功行为的偏离",
+      "canonical_evidence": "通过与验证成功参考森林对比，可揭示轨迹与成功行为的偏离",
+      "llm_tldr_en": "ForestBench maps heterogeneous multi-agent execution traces into unified collaboration graphs and compares them with benchmark-provided reference forests of verified-success graphs, enabling consistent, model-independent evaluation of collaboration across methods.",
+      "llm_tldr_cn": "针对LLM多智能体系统执行轨迹异构、难以统一评估的问题，ForestBench将原生轨迹映射为统一的协作图，并设计参考森林作为成功行为基准。候选图通过与查询相关的参考森林比较，能够在同一表示、同一参考集与统一指标面板下评估不同协作方法，避免了对额外LLM推理的依赖。该框架为多智能体协作提供了更可靠、可复现的评估基础，同时也能揭示轨迹与成功行为的偏离，对代理轨迹异常分析具有方法价值。",
+      "llm_tldr": "针对LLM多智能体系统执行轨迹异构、难以统一评估的问题，ForestBench将原生轨迹映射为统一的协作图，并设计参考森林作为成功行为基准。候选图通过与查询相关的参考森林比较，能够在同一表示、同一参考集与统一指标面板下评估不同协作方法，避免了对额外LLM推理的依赖。该框架为多智能体协作提供了更可靠、可复现的评估基础，同时也能揭示轨迹与成功行为的偏离，对代理轨迹异常分析具有方法价值。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.09184v1",
+      "source": "arxiv",
+      "title": "Agentic Router: An Execution-Grounded Continual Learning Approach With Memory",
+      "abstract": "Large language model (LLM) agents provide a promising interface for command-line-based network operations, but a plausible command may still fail or introduce operational risk after execution. Existing approaches mainly focus on command generation or final configuration correctness, and do not use execution-grounded experience to jointly improve candidate coverage and action selection. We propose an execution-grounded dual-path consequence-aware agent for CLI-based SONiC operations, which generates multiple complete actions, predicts their execution consequences, and selects the final action through utility- and risk-aware reranking. The proposal-side path abstracts reusable operational lessons into retrievable guidance to improve feasible-action coverage without modifying the proposal LLM, while the selection-side path adapts the consequence predictor through session-level LoRA updates using real SSH feedback to improve conditional selection quality. Experiments over multi-turn SONiC operation sessions with different Qwen3 proposal models show that the framework improves feasible-action coverage and top-1 execution success, and that the two adaptation paths provide complementary gains over interaction.",
+      "authors": [
+        "Yuxuan Chen",
+        "Rongpeng Li",
+        "Zhifeng Zhao",
+        "Yuntao Liu",
+        "Xing Xu",
+        "Honggang Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-10T06:53:24+00:00",
+      "link": "https://arxiv.org/pdf/2608.09184v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "predicts execution consequences and uses risk-aware reranking to detect and avoid action failures",
+      "llm_evidence_cn": "预测执行后果并通过风险感知重排序检测并避免动作失败",
+      "llm_evidence": "预测执行后果并通过风险感知重排序检测并避免动作失败",
+      "canonical_evidence": "预测执行后果并通过风险感知重排序检测并避免动作失败",
+      "llm_tldr_en": "Proposes an execution-grounded dual-path agent for CLI operations that generates multiple actions, predicts their consequences, and selects the final action through utility- and risk-aware reranking to reduce operational failures.",
+      "llm_tldr_cn": "针对命令行网络操作中看似合理的命令仍可能在执行后失败或带来风险的问题，论文提出一种基于执行的持续学习智能体，它生成多个完整动作并预测执行后果，通过效用与风险感知重排序选择最终动作，并将可复用的操作经验抽象为可检索指南以提升候选覆盖与动作选择。实验表明该方法可显著减少执行失败与操作风险。",
+      "llm_tldr": "针对命令行网络操作中看似合理的命令仍可能在执行后失败或带来风险的问题，论文提出一种基于执行的持续学习智能体，它生成多个完整动作并预测执行后果，通过效用与风险感知重排序选择最终动作，并将可复用的操作经验抽象为可检索指南以提升候选覆盖与动作选择。实验表明该方法可显著减少执行失败与操作风险。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
