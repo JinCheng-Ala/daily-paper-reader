@@ -6,38 +6,38 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-12
-- 运行时间：2026-08-12 21:16:28 UTC
+- 最新运行日期：2026-08-13
+- 运行时间：2026-08-13 20:56:34 UTC
 - 运行状态：成功
 - 本次总论文数：6
-- 精读区：2
-- 速读区：4
+- 精读区：3
+- 速读区：3
 
 ### 今日简报（AI）
-今日精读聚焦异质编码智能体技能重建与多智能体故障归因，速读覆盖技能一致性与协作评估框架；最高分两篇均达9.0，建议优先关注“证据校准的运行时重建”与“方向感知的上下文归因”方法；下一步可尝试将这两项技术结合，用于提升多智能体协作系统的可解释性与容错能力。
-- 详情：[/202608/12/README](/202608/12/README)
+今日精读聚焦移动Agent评估基准与海量轨迹异常检测，速读覆盖Agent混沌工程、轨迹强化学习与技能进化。最值得关注的是LLM作为移动Agent裁判的可靠性（9.0分），以及Terabyte级AIS数据聚类方案STCAD的规模化实践。建议优先深入这两篇高价值论文，并留意Agent系统稳定性与技能自进化方向。
+- 详情：[/202608/13/README](/202608/13/README)
 
 ### 精读区论文标签
-1. [Evidence-Calibrated Runtime Reconstruction for Agent Skills Across Heterogeneous Coding Agents](/202608/12/2608.08793v1-evidence-calibrated-runtime-reconstruction-for-agent-skills-across-heterogeneous-coding-agents)  
+1. [Benchmarking LLM Judges for Mobile Agent Evaluation](/202608/13/2608.11434v1-benchmarking-llm-judges-for-mobile-agent-evaluation)  
    标签：评分：9.0/10、query:agent-error
-   evidence：通过跨异构智能体的运行时重建检测技能生命周期阶段的失败模式
-2. [ASCon: A Direction-Aware Reciprocal Agent--Step Contextualization Model for Failure Attribution in Multi-Agent Systems](/202608/12/2608.10646v1-ascon-a-direction-aware-reciprocal-agent--step-contextualization-model-for-failure-attribution-in-multi-agent-systems)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：失败归因从多智能体轨迹中识别错误步骤与失败模式
+   evidence：面向移动智能体轨迹的LLM评判器基准，用于检测任务完成错误
+2. [STCAD: Scalable Trajectory Clustering and Anomaly Detection on Terabyte-Scale AIS Data](/202608/13/2608.10249v1-stcad-scalable-trajectory-clustering-and-anomaly-detection-on-terabyte-scale-ais-data)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：在大规模轨迹数据上进行轨迹聚类和异常检测
+3. [Retry, Switch, or Abstain? Learning Strategy-Aware Tool-Use Policies via Controlled Error Injection](/202608/13/2608.11977v1-retry-switch-or-abstain-learning-strategy-aware-tool-use-policies-via-controlled-error-injection)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：通过受控错误注入将无失败基准转化为随机环境，研究代理对工具调用错误的检测与应对策略
 
 ### 速读区论文标签
-1. [SkillConsist: Detecting Inconsistencies in Agent Skills via Bidirectional Graph Alignment](/202608/12/2608.07639v1-skillconsist-detecting-inconsistencies-in-agent-skills-via-bidirectional-graph-alignment)  
+1. [AgentChaos: Chaos Engineering for Agent Systems via Programmatic Fault Injection](/202608/13/2608.06790v1-agentchaos-chaos-engineering-for-agent-systems-via-programmatic-fault-injection)  
    标签：评分：7.0/10、query:agent-error
-   evidence：检测技能声明与实现之间的不一致，属于智能体行为错误
-2. [ForestBench: A Unified Graph Framework for Evaluating Multi-Agent Collaboration](/202608/12/2608.08605v1-forestbench-a-unified-graph-framework-for-evaluating-multi-agent-collaboration)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：通过与验证成功参考森林对比，可揭示轨迹与成功行为的偏离
-3. [ForestBench: A Unified Graph Framework for Evaluating Multi-Agent Collaboration](/202608/12/2608.08605v2-forestbench-a-unified-graph-framework-for-evaluating-multi-agent-collaboration)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：通过与验证成功参考森林对比，可揭示轨迹与成功行为的偏离
-4. [Agentic Router: An Execution-Grounded Continual Learning Approach With Memory](/202608/12/2608.09184v1-agentic-router-an-execution-grounded-continual-learning-approach-with-memory)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：预测执行后果并通过风险感知重排序检测并避免动作失败
+   evidence：通过对LLM API注入故障来诱发并暴露代理轨迹中的错误
+2. [Trajectory-Relative Hindsight Distillation for Agentic Reinforcement Learning](/202608/13/2608.07371v1-trajectory-relative-hindsight-distillation-for-agentic-reinforcement-learning)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：轨迹相对事后回顾可识别强化学习轨迹中的次优动作
+3. [Branch2Skill: Efficient Skill Evolution Through Reasoning Trees](/202608/13/2608.08677v1-branch2skill-efficient-skill-evolution-through-reasoning-trees)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：利用推理树中的失败轨迹与早期推理错误生成密集监督信号，实现技能演化中的错误诊断
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,269 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-13T20:51:59.185681+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2608.11434v1",
+      "source": "arxiv",
+      "title": "Benchmarking LLM Judges for Mobile Agent Evaluation",
+      "abstract": "Mobile agent benchmarks increasingly rely on LLM-based judges to evaluate task completion, yet the reliability of these judges on mobile agent trajectories remains largely unexamined. We introduce MobileJudgeBench, a benchmark for systematically evaluating LLM-as-judge methods on mobile agent trajectories. Our benchmark comprises 931 human-annotated trajectories spanning 6 mobile agent benchmarks, 4 agent models, and 68 apps. We evaluate 6 judge methods (five adapted from SPA-Bench, A3 with two modes, AndroidArena, and AgentRewardBench, plus a simple baseline we design) across multiple LLM backends. Our experiments reveal three key findings. First, a simple baseline judge with sampled screenshots is competitive with, and often exceeds, purpose-built methods, indicating that more elaborate judge pipelines do not consistently improve judge quality; among competitive methods, the LLM backbone is the primary driver. Second, benchmark quality metrics reliably predict real-world judge utility: they correlate with both agent ranking fidelity for evaluation and downstream performance when judges serve as reward signals for on-policy reinforcement learning. Third, failure analysis across two LLM backends uncovers qualitatively opposite failure profiles, one conservative and the other permissive, linked to the backbone's precision-recall characteristics.",
+      "authors": [
+        "Ziqiang Wan",
+        "Li Gu",
+        "Zhixiang Chi",
+        "Zhi Liu",
+        "Seyed Mehdi Ayyoubzadeh",
+        "Yuanhao Yu",
+        "Yang Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.CV"
+      ],
+      "published": "2026-08-11T21:00:46+00:00",
+      "link": "https://arxiv.org/pdf/2608.11434v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "benchmark for LLM judges to detect task completion errors in mobile agent trajectories",
+      "llm_evidence_cn": "面向移动智能体轨迹的LLM评判器基准，用于检测任务完成错误",
+      "llm_evidence": "面向移动智能体轨迹的LLM评判器基准，用于检测任务完成错误",
+      "canonical_evidence": "面向移动智能体轨迹的LLM评判器基准，用于检测任务完成错误",
+      "llm_tldr_en": "MobileJudgeBench benchmarks LLM-as-judge methods on mobile agent trajectories, showing a simple sampled-screenshot baseline is competitive with purpose-built judges in detecting task completion errors.",
+      "llm_tldr_cn": "针对移动智能体轨迹的任务完成评估缺乏可靠性检验的问题，构建MobileJudgeBench基准，包含931条人工标注轨迹、6个智能体基准和68个应用。系统评估6种LLM评判方法后发现，简单采样截图的基线评判器竞争性极强，甚至超越专用方法。该基准为智能体轨迹中的任务完成错误检测提供了标准化评测平台，并为选择实用评判器提供了依据。",
+      "llm_tldr": "针对移动智能体轨迹的任务完成评估缺乏可靠性检验的问题，构建MobileJudgeBench基准，包含931条人工标注轨迹、6个智能体基准和68个应用。系统评估6种LLM评判方法后发现，简单采样截图的基线评判器竞争性极强，甚至超越专用方法。该基准为智能体轨迹中的任务完成错误检测提供了标准化评测平台，并为选择实用评判器提供了依据。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.10249v1",
+      "source": "arxiv",
+      "title": "STCAD: Scalable Trajectory Clustering and Anomaly Detection on Terabyte-Scale AIS Data",
+      "abstract": "We present a scalable framework for unsupervised clustering of maritime trajectories derived from terabyte-scale Automatic Identification System (AIS) archives. Variable-length trajectories are encoded with a custom BERT-based model trained via masked token modeling and clustered using CURE hierarchical clustering, producing physically interpretable trajectory groups without requiring a predefined number of clusters. An intrinsic unsupervised anomaly detection method based on reconstruction loss and clustering noise assignment identifies irregular navigation patterns. The framework is demonstrated on a national-scale AIS dataset comprising billions of messages spanning one year, yielding stable trajectory clusters and a clear separation between nominal and anomalous vessel behavior.",
+      "authors": [
+        "Bertram Hage",
+        "Alexander Schiøtz",
+        "Felix Thomsen",
+        "Christian Rand",
+        "Peder Heiselberg"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-10T21:32:42+00:00",
+      "link": "https://arxiv.org/pdf/2608.10249v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "trajectory clustering and anomaly detection on large-scale trajectory data",
+      "llm_evidence_cn": "在大规模轨迹数据上进行轨迹聚类和异常检测",
+      "llm_evidence": "在大规模轨迹数据上进行轨迹聚类和异常检测",
+      "canonical_evidence": "在大规模轨迹数据上进行轨迹聚类和异常检测",
+      "llm_tldr_en": "Presents a scalable framework for trajectory clustering and intrinsic unsupervised anomaly detection on terabyte-scale AIS data, using BERT-based encoding and reconstruction loss.",
+      "llm_tldr_cn": "针对海量轨迹数据异常检测计算困难的问题，提出可扩展的STCAD框架。对变长轨迹用自定义BERT模型编码，利用CURE层次聚类得到可解释的轨迹分组，并借助重建损失和聚类噪声分配实现无监督异常检测。在国家级AIS数据集上验证了框架的稳定性和分离效果，为通用轨迹异常检测提供了可迁移方法。",
+      "llm_tldr": "针对海量轨迹数据异常检测计算困难的问题，提出可扩展的STCAD框架。对变长轨迹用自定义BERT模型编码，利用CURE层次聚类得到可解释的轨迹分组，并借助重建损失和聚类噪声分配实现无监督异常检测。在国家级AIS数据集上验证了框架的稳定性和分离效果，为通用轨迹异常检测提供了可迁移方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.11977v1",
+      "source": "arxiv",
+      "title": "Retry, Switch, or Abstain? Learning Strategy-Aware Tool-Use Policies via Controlled Error Injection",
+      "abstract": "Tool-using LLM agents are commonly trained and evaluated in environments where tool calls succeed reliably, yet deployed tools can fail transiently, persistently, or silently. Robust recovery therefore requires more than repeated retries: an agent may need to retry the same path, switch to an alternative, or recognize that no viable path remains. We present BENCH2ROBUST, a framework that converts failure-free tool-use benchmarks into controlled stochastic environments with scenario-controlled solvability, where episodes explicitly require retrying, switching, or stopping after available paths are exhausted. We use BENCH2ROBUST to study two complementary interventions: structured runtime recovery context through Bayesian Tool Memory (BTM), and curriculum-controlled reinforcement learning. Across 7 models from 4 families and two multi-turn benchmark families, tool failures produce a near-universal robustness gap. On held-out Retail tasks, BTM improves robustness by up to 16.8 percentage points without retraining, while RL learns complementary recovery behavior that remains beneficial without inference-time BTM. Combining the two reaches 40.8-45.5% under injection while preserving failure-free performance. These results suggest that robust tool use benefits from combining environment-specific recovery knowledge with learned recovery behavior.",
+      "authors": [
+        "Chaoran Chen",
+        "Vy Nguyen",
+        "Ziji Zhang",
+        "Abhinav Gullapalli",
+        "Ziyi Wang",
+        "Yuxuan Lu",
+        "Dakuo Wang",
+        "Jing Huang",
+        "Zhou Yu",
+        "Jin Lai"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-12T12:08:39+00:00",
+      "link": "https://arxiv.org/pdf/2608.11977v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Framework converting failure-free benchmarks into stochastic environments with controlled error injection, studying agents' detection and response to tool-call failures",
+      "llm_evidence_cn": "通过受控错误注入将无失败基准转化为随机环境，研究代理对工具调用错误的检测与应对策略",
+      "llm_evidence": "通过受控错误注入将无失败基准转化为随机环境，研究代理对工具调用错误的检测与应对策略",
+      "canonical_evidence": "通过受控错误注入将无失败基准转化为随机环境，研究代理对工具调用错误的检测与应对策略",
+      "llm_tldr_en": "BENCH2ROBUST converts failure-free tool-use benchmarks into controlled stochastic environments requiring retrying, switching, or abstaining, studying structured runtime recovery context and policy learning for tool failures.",
+      "llm_tldr_cn": "针对工具使用代理在部署中常遇工具调用失败但训练环境过于可靠的问题，论文提出BENCH2ROBUST框架，将无失败基准转换为场景可控的随机环境，使场景明确需要重试、切换或放弃。该框架研究了结构化运行时恢复上下文与贝叶斯策略学习两种干预，帮助代理识别失败类型并选择合适应对策略。实验表明该框架能有效提升代理对工具错误的鲁棒性，为错误检测与恢复策略研究提供平台。",
+      "llm_tldr": "针对工具使用代理在部署中常遇工具调用失败但训练环境过于可靠的问题，论文提出BENCH2ROBUST框架，将无失败基准转换为场景可控的随机环境，使场景明确需要重试、切换或放弃。该框架研究了结构化运行时恢复上下文与贝叶斯策略学习两种干预，帮助代理识别失败类型并选择合适应对策略。实验表明该框架能有效提升代理对工具错误的鲁棒性，为错误检测与恢复策略研究提供平台。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.06790v1",
+      "source": "arxiv",
+      "title": "AgentChaos: Chaos Engineering for Agent Systems via Programmatic Fault Injection",
+      "abstract": "Agent systems rely on LLM APIs for every response, but these APIs can return server errors, truncated responses, or corrupted content that propagates through downstream agents and causes task failure. Evaluating robustness under these faults is crucial for reliable deployment. Existing fault injection methods are offline, require source code modification, or cannot modify specific response fields. A comprehensive evaluation also requires a systematic fault taxonomy because different fault types affect downstream agents differently. We propose AgentChaos, a chaos engineering framework for controlled, runtime, non-intrusive LLM API fault injection. Since all agent systems access LLMs through the same HTTP interface, we inject faults at this shared layer without modifying source code. We define crash, omission, and value faults on content and tool call fields, intercept and modify LLM API responses at runtime, and verify whether each fault is triggered to filter untriggered tasks and avoid underestimating fault impact. Evaluations across agent systems, benchmarks, and backbone LLMs under 65 fault configurations show that all systems degrade under fault injection, with pass@1 dropping by up to 50 percentage points. The ranking is consistent across models, suggesting that robustness depends on system implementation rather than model capability. Existing fault diagnosis methods achieve below 53% accuracy on fault type and below 56% on fault step, leaving room for improvement. We further reveal practical findings for agent system developers.",
+      "authors": [
+        "Gou Tan",
+        "Zhensu Sun",
+        "Jieke Shi",
+        "Ting Zhang",
+        "Zilong He",
+        "Qingfu Wu",
+        "Shuai Liang",
+        "Weifeng Sun",
+        "Junda He",
+        "Pengfei Chen",
+        "Chuanfu Zhang",
+        "Lwin Khin Shar",
+        "David Lo"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-08-07T04:24:29+00:00",
+      "link": "https://arxiv.org/pdf/2608.06790v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Fault injection into LLM APIs to induce and expose errors in agent trajectories",
+      "llm_evidence_cn": "通过对LLM API注入故障来诱发并暴露代理轨迹中的错误",
+      "llm_evidence": "通过对LLM API注入故障来诱发并暴露代理轨迹中的错误",
+      "canonical_evidence": "通过对LLM API注入故障来诱发并暴露代理轨迹中的错误",
+      "llm_tldr_en": "Presents AgentChaos, a chaos engineering framework for controlled, runtime, non-intrusive fault injection into LLM APIs, enabling systematic evaluation of agent robustness under faults.",
+      "llm_tldr_cn": "论文针对代理系统依赖LLM API过程中可能出现的服务器错误、截断响应等故障，提出AgentChaos混沌工程框架。该框架在运行时通过HTTP接口非侵入式注入指定故障，并建立系统化故障分类。实验表明不同故障类型对下游代理影响不同，AgentChaos能有效评估代理在各种故障下的鲁棒性，为代理轨迹错误检测提供了故障注入测试基础。",
+      "llm_tldr": "论文针对代理系统依赖LLM API过程中可能出现的服务器错误、截断响应等故障，提出AgentChaos混沌工程框架。该框架在运行时通过HTTP接口非侵入式注入指定故障，并建立系统化故障分类。实验表明不同故障类型对下游代理影响不同，AgentChaos能有效评估代理在各种故障下的鲁棒性，为代理轨迹错误检测提供了故障注入测试基础。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.07371v1",
+      "source": "arxiv",
+      "title": "Trajectory-Relative Hindsight Distillation for Agentic Reinforcement Learning",
+      "abstract": "Recent agentic reinforcement learning methods use hindsight to complement sparse outcome rewards. However, a completed rollout can yield many such signals, leaving their appropriate allocation across turns unclear. We introduce TRIAL, a trajectory-relative hindsight distillation framework with a unified turn-aligned scoring protocol. For each decision turn, TRIAL extracts an outcome view of that decision's realized consequence and evaluates the same response under ordinary and hindsight-conditioned contexts. The signed log-probability gap determines the direction and local strength of token-level supervision, while turn-level magnitudes are normalized jointly over the realized trajectory. The resulting allocation multipliers have an eligible-token-weighted mean of one, redistributing dense supervision across turns while fixing its average multiplier. Experiments on WebShop and ALFWorld with different backbones show that TRIAL outperforms GRPO across all eight combinations of backbone, environment, and evaluation metric, while achieving the best or tied-best performance among six methods on six of them. On WebShop with Qwen3-1.7B, TRIAL improves the success rate from 56.4% to 75.2% and the task score from 78.7% to 85.7%. Controlled ablations further show that trajectory-relative turn allocation provides substantial gains beyond those of dense hindsight distillation alone.",
+      "authors": [
+        "Haoyu Zheng",
+        "Yun Zhu",
+        "Qing Wang",
+        "Wenqiao Zhang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-08-07T16:12:58+00:00",
+      "link": "https://arxiv.org/pdf/2608.07371v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "trajectory-relative hindsight identifies suboptimal actions in RL rollouts",
+      "llm_evidence_cn": "轨迹相对事后回顾可识别强化学习轨迹中的次优动作",
+      "llm_evidence": "轨迹相对事后回顾可识别强化学习轨迹中的次优动作",
+      "canonical_evidence": "轨迹相对事后回顾可识别强化学习轨迹中的次优动作",
+      "llm_tldr_en": "TRIAL proposes a trajectory-relative hindsight distillation framework that uses signed log-probability gaps to allocate token-level supervision in agentic RL, effectively highlighting erroneous turns in trajectories.",
+      "llm_tldr_cn": "针对智能体强化学习中稀疏奖励难以分配监督信号的问题，提出TRIAL框架，按决策回合从轨迹中提取结果视角，比较普通与事后条件下的响应，利用符号对数概率差确定令牌级监督方向与强度。该方法能够在整条轨迹上归一化分配事后信号，突出次优决策，进而提升学习效率。实验表明其分配策略可有效指导智能体改进，对轨迹级错误识别与强化学习有参考价值。",
+      "llm_tldr": "针对智能体强化学习中稀疏奖励难以分配监督信号的问题，提出TRIAL框架，按决策回合从轨迹中提取结果视角，比较普通与事后条件下的响应，利用符号对数概率差确定令牌级监督方向与强度。该方法能够在整条轨迹上归一化分配事后信号，突出次优决策，进而提升学习效率。实验表明其分配策略可有效指导智能体改进，对轨迹级错误识别与强化学习有参考价值。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.08677v1",
+      "source": "arxiv",
+      "title": "Branch2Skill: Efficient Skill Evolution Through Reasoning Trees",
+      "abstract": "Skill evolution improves agent skills through feedback over time, with failed trajectories often providing informative signals by revealing incomplete or misleading behaviors. However, existing methods mainly rely on single trajectories, where early reasoning errors can propagate through subsequent steps and weaken the feedback available for skill refinement. Consequently, improving skills requires repeated cycles of rollout, diagnosis, and update, incurring substantial token costs. To address this challenge, we introduce Branch2Skill, an efficient framework that transforms a single reasoning tree into dense supervision for skill evolution. For each task or problem, Branch2Skill performs Monte Carlo tree search under a fixed budget to obtain diverse reasoning trajectories, then compares an elite path with sibling alternatives sharing the same prefixes to extract step-wise evidence about which reasoning patterns to retain, revise, or avoid. Finally, Branch2Skill distills multi-step evidence into reusable updates, allowing one reasoning tree to provide supervision across multiple reasoning steps and reducing the need for repeated rollout-update cycles. Across six benchmarks covering reasoning and agentic tasks, Branch2Skill consistently improves task performance while enhancing skill evolution efficiency. For example, with GPT 5.5 as the target model, Branch2Skill uses 73.2% fewer tokens than SkillOpt, while achieving superior performance. These results demonstrate that reasoning trees can support not only more effective trajectory search, but also richer supervision for more efficient skill improvement. Code will be published.",
+      "authors": [
+        "Yanwei Ren",
+        "Haotian Zhang",
+        "Likang Xiao",
+        "Jiaxing Huang",
+        "Jiayan Qiu",
+        "Baosheng Yu",
+        "Quan Chen",
+        "Liu Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-09T12:48:10+00:00",
+      "link": "https://arxiv.org/pdf/2608.08677v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Uses failed trajectories and early reasoning errors in reasoning trees to generate dense supervision for skill refinement",
+      "llm_evidence_cn": "利用推理树中的失败轨迹与早期推理错误生成密集监督信号，实现技能演化中的错误诊断",
+      "llm_evidence": "利用推理树中的失败轨迹与早期推理错误生成密集监督信号，实现技能演化中的错误诊断",
+      "canonical_evidence": "利用推理树中的失败轨迹与早期推理错误生成密集监督信号，实现技能演化中的错误诊断",
+      "llm_tldr_en": "Branch2Skill converts a single reasoning tree from MCTS into dense supervision for skill evolution, using failed trajectories and propagated early errors to reduce rollout, diagnosis, and update cycles.",
+      "llm_tldr_cn": "针对现有技能演化依赖单条轨迹、早期推理错误会传播并削弱反馈的问题，Branch2Skill 通过蒙特卡洛树搜索在固定预算下生成多样推理路径，并将单个推理树转化为密集监督信号。该方法将失败轨迹中的错误转化为可学习的反馈，显著减少技能改进所需的反复试错与诊断成本。实验表明其能高效利用错误轨迹完成技能演化，为基于轨迹错误反馈的代理学习提供新思路。",
+      "llm_tldr": "针对现有技能演化依赖单条轨迹、早期推理错误会传播并削弱反馈的问题，Branch2Skill 通过蒙特卡洛树搜索在固定预算下生成多样推理路径，并将单个推理树转化为密集监督信号。该方法将失败轨迹中的错误转化为可学习的反馈，显著减少技能改进所需的反复试错与诊断成本。实验表明其能高效利用错误轨迹完成技能演化，为基于轨迹错误反馈的代理学习提供新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "How to detect errors in agent trajectories?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
