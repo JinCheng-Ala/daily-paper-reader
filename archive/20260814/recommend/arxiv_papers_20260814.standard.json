@@ -1,0 +1,263 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-14T21:02:50.496009+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2608.11967v1",
+      "source": "arxiv",
+      "title": "LoongReflect: Boosting Long-Horizon Reflection in Search Agents via Global Perspective Distillation",
+      "abstract": "Large language model agents increasingly rely on long-horizon reasoning to solve complex tasks involving planning, tool use, and memory. A critical capability in such settings is reflection: assessing trajectory progress, identifying missing evidence and unreliable intermediate states, and deciding whether to continue, revise, or abandon the current branch. Learning effective reflection, however, is challenging because reflection is performed locally within the current branch, whereas its utility can only be determined by its contribution to the final trajectory outcome. This local-global mismatch makes outcome-based reinforcement learning provide only local, sparse and delayed supervision for reflective decisions. To solve these, we propose LoongReflect, a training framework that formulates reflection as a memory-control policy. The agent operates over a reversible trajectory tree using explicit reflect and backtrack actions. Reflection consolidates verified facts, missing evidence, and branch-specific risks into working memory, while backtracking removes an unreliable branch from the active context and preserves a concise corrective lesson. To learn this policy, LoongReflect combines two complementary signals through a look-ahead, extragradient-style coordination mechanism. A fast channel distills globally informed reflective behavior from a privileged teacher, with supervision restricted to reflection and backtracking tokens. A slow channel optimizes complete trajectories using outcome-based GRPO, aligning local control decisions with final task success. Experiments on multi-hop retrieval-augmented generation and mathematical reasoning benchmarks demonstrate consistent improvements over outcome-only reinforcement learning and self-distillation baselines.",
+      "authors": [
+        "Zhixin Zhang",
+        "Xinke Jiang",
+        "Zhibang Yang",
+        "Weixuan Xu",
+        "Guohong Qiu",
+        "Xu Chu",
+        "Junfeng Zhao",
+        "Yasha Wang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-12T11:56:03+00:00",
+      "link": "https://arxiv.org/pdf/2608.11967v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Reflection assesses trajectory progress and identifies unreliable intermediate states, directly related to error monitoring.",
+      "llm_evidence_cn": "反思评估轨迹进展并识别不可靠中间状态，直接关联错误监控。",
+      "llm_evidence": "反思评估轨迹进展并识别不可靠中间状态，直接关联错误监控。",
+      "canonical_evidence": "反思评估轨迹进展并识别不可靠中间状态，直接关联错误监控。",
+      "llm_tldr_en": "Long-horizon agents need reflection to assess trajectory progress and find unreliable states. LoongReflect distills global-perspective utility into local reflective decisions, helping agents decide whether to continue, revise, or abandon the current branch.",
+      "llm_tldr_cn": "长程推理智能体的反思能力对发现轨迹中的缺失证据和不可靠中间状态至关重要，但局部反思只能得到稀疏延迟的监督。LoongReflect 提出全局视角蒸馏方法，将整个轨迹结局带来的全局效用蒸馏到局部反思决策中，指导智能体判断继续、修订还是放弃当前分支。实验表明该方法显著增强长程搜索智能体的轨迹质量与错误识别能力。",
+      "llm_tldr": "长程推理智能体的反思能力对发现轨迹中的缺失证据和不可靠中间状态至关重要，但局部反思只能得到稀疏延迟的监督。LoongReflect 提出全局视角蒸馏方法，将整个轨迹结局带来的全局效用蒸馏到局部反思决策中，指导智能体判断继续、修订还是放弃当前分支。实验表明该方法显著增强长程搜索智能体的轨迹质量与错误识别能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.07751v1",
+      "source": "arxiv",
+      "title": "CoCoNav: Conformal Control for Safe Robot Navigation in Crowds",
+      "abstract": "Safe and efficient robot navigation in crowds requires anticipating pedestrian motion despite uncertain and potentially shifting prediction errors. Existing reactive methods can produce oscillatory behavior, while predictive planners often treat forecasts as exact or rely on restrictive error models. Incorporating conservative uncertainty sets as hard constraints can also render model predictive control (MPC) infeasible. We propose \\textit{CoCoNav}, a crowd-navigation framework that combines online conformal calibration with runtime-certified planning. A horizon-specific conformal proportional--integral controller adapts trajectory-error bounds to regulate long-run empirical coverage, enabling the framework to respond to changing prediction errors. A \\textit{relax-then-verify} planner preserves solver feasibility by generating nominal trajectories with soft-constrained MPC and separately certifying them, together with contingency maneuvers, against the calibrated bounds before execution. Simulations and quadruped experiments show that CoCoNav achieves a favorable balance among collision avoidance, task success, and navigation efficiency relative to the evaluated baselines.",
+      "authors": [
+        "Cheng Guo",
+        "Mingzhe Ni",
+        "Zheng Liang",
+        "Yihu Ling",
+        "Yuan Hu",
+        "Michele Caprio",
+        "Daniele Pucci",
+        "Wei Pan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-08-07T20:34:52+00:00",
+      "link": "https://arxiv.org/pdf/2608.07751v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "online conformal calibration of trajectory-error bounds for safe crowd navigation",
+      "llm_evidence_cn": "在线保形校准轨迹误差界，用于人群中的安全导航",
+      "llm_evidence": "在线保形校准轨迹误差界，用于人群中的安全导航",
+      "canonical_evidence": "在线保形校准轨迹误差界，用于人群中的安全导航",
+      "llm_tldr_en": "CoCoNav combines online conformal calibration with runtime-certified planning for safe crowd navigation. A conformal PI controller adapts trajectory-error bounds to ensure coverage and avoid MPC infeasibility under shifting prediction errors.",
+      "llm_tldr_cn": "人群导航中预测误差不稳定且难以预先界定，保守硬约束又容易使模型预测控制不可行。CoCoNav将在线保形校准与运行时认证规划结合，通过面向时域的保形比例-积分控制器动态调整轨迹误差界，维持长期覆盖率。该方法能够响应变化的预测误差，同时保证规划的可行性。这为导航路径规划中的误差监测与自适应提供了新途径。",
+      "llm_tldr": "人群导航中预测误差不稳定且难以预先界定，保守硬约束又容易使模型预测控制不可行。CoCoNav将在线保形校准与运行时认证规划结合，通过面向时域的保形比例-积分控制器动态调整轨迹误差界，维持长期覆盖率。该方法能够响应变化的预测误差，同时保证规划的可行性。这为导航路径规划中的误差监测与自适应提供了新途径。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.08239v1",
+      "source": "arxiv",
+      "title": "The Replay Gap: Static Evaluation of Model Switching in LLM Agents Scores the Wrong World",
+      "abstract": "LLM routers promise efficiency by matching each request to the cheapest adequate model, and are increasingly applied per step inside multi-step agents. Yet agentic routers are evaluated like single-turn routers: by replaying logged trajectories and substituting another model's recorded outputs, assuming the rest of the trajectory is unaffected. We test this assumption with branching rollouts: we fork live SWE-bench agent trajectories at controlled points, rebuild the environment, continue each fork with a different model, and compare against same-model control forks that isolate sampling and replay noise. Across six paired runs (~900 rollouts), swaps exceed their matched control floors by +0.25 to +0.66 normalized edit distance (multiplicity-corrected CIs exclude zero), rewriting 61-94% of post-fork actions; 74-77% of early swaps diverge at the first post-fork action, versus 6-35% of controls, leaving only 3% of replayed states valid. Divergence decreases with fork depth in both directions. All five outcome flips we observe occur in swap arms, upgrades rescuing unsolved instances and a downgrade losing the sole solve, and zero occur across 359 control forks. Scoring these same swaps with a log-stitching replay evaluator, replay mispredicts every success-relevant outcome call and predicts patches with 0.00-0.11 similarity to reality. Auditing the noise floor, temperature-0 \"determinism\" is configuration-dependent: FP8-served controls diverge on over 90% of forks while AWQ-served ones remain near-identical; and under tight budgets the stronger model more often exhausts its steps without submitting. Replay-based benchmarks score the wrong world for agentic routing; we release our harness and all trajectories.",
+      "authors": [
+        "Ashritha Gonuguntla"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-08-08T17:07:11+00:00",
+      "link": "https://arxiv.org/pdf/2608.08239v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "uses branching rollouts and edit distance to quantify trajectory divergence in LLM agents",
+      "llm_evidence_cn": "使用分支回放和编辑距离量化LLM智能体中的轨迹偏差",
+      "llm_evidence": "使用分支回放和编辑距离量化LLM智能体中的轨迹偏差",
+      "canonical_evidence": "使用分支回放和编辑距离量化LLM智能体中的轨迹偏差",
+      "llm_tldr_en": "This paper reveals that static replay evaluation of model switching in LLM agents is flawed by showing that swapped models alter subsequent trajectories. It introduces branching rollouts with controlled forks and same-model controls, measuring divergence via normalized edit distance.",
+      "llm_tldr_cn": "该论文发现LLM智能体中模型切换的静态重放评估存在根本缺陷：替换模型输出会改变后续轨迹，破坏静态评估假设。作者提出分支回放方法，在受控点分叉轨迹、重建环境并用不同模型继续执行，同时设置同模型对照以隔离采样噪声。在SWE-bench上约900次回放中，模型交换的轨迹偏差显著高于对照基线（归一化编辑距离增加0.25至0.66）。这表明评估代理模型切换必须采用动态回放，而非静态轨迹重放。",
+      "llm_tldr": "该论文发现LLM智能体中模型切换的静态重放评估存在根本缺陷：替换模型输出会改变后续轨迹，破坏静态评估假设。作者提出分支回放方法，在受控点分叉轨迹、重建环境并用不同模型继续执行，同时设置同模型对照以隔离采样噪声。在SWE-bench上约900次回放中，模型交换的轨迹偏差显著高于对照基线（归一化编辑距离增加0.25至0.66）。这表明评估代理模型切换必须采用动态回放，而非静态轨迹重放。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.12996v1",
+      "source": "arxiv",
+      "title": "ATOBench: Tracing How Autonomous Penetration-Testing Agents Verify Vulnerabilities When Target Evidence Lies",
+      "abstract": "Autonomous penetration-testing agents rely on target responses. These responses guide both subsequent actions and the final report. A deceptive response can therefore redirect both the attack trajectory and the agent's verification process. However, final reports reveal little about how an agent interprets conflicting evidence, changes course, decides to stop, or turns observations into a vulnerability claim. We introduce ATOBench, an evaluation framework that makes this verification process observable. ATOBench injects registered response transformations at runtime and pairs each transformed episode with a native episode under the same environment. Each pair is aligned at the first affected response. A source-linked reconstruction then follows later actions, evidence recovery, stopping, and report support. Three frozen observation contracts cover exploit proof, resource ownership, and reusable artifacts. We evaluate five model routes over 450 episodes. The analysis shows that increased activity can mask a broken verification chain, while successful recovery depends on finding usable evidence and preserving it through reporting. ATOBench turns deceptive target observations into a reproducible probe of evidence handling in autonomous penetration testing. This process-level view extends offensive pentest agent evaluation beyond final outcomes by revealing how untrusted observations shape actions, verification, and reporting.",
+      "authors": [
+        "Qiyang Chen",
+        "Yixi Li",
+        "Fengwei Zhang",
+        "Junlin Liu"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR"
+      ],
+      "published": "2026-08-13T09:20:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.12996v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "injects deceptive target evidence to make agent verification process observable, tracing how agents interpret conflicting evidence and change course",
+      "llm_evidence_cn": "注入欺骗性目标证据使智能体验证过程可观察，追踪智能体如何解读矛盾证据并改变行动",
+      "llm_evidence": "注入欺骗性目标证据使智能体验证过程可观察，追踪智能体如何解读矛盾证据并改变行动",
+      "canonical_evidence": "注入欺骗性目标证据使智能体验证过程可观察，追踪智能体如何解读矛盾证据并改变行动",
+      "llm_tldr_en": "ATOBench injects registered response transformations into penetration-testing agent episodes and pairs them with native episodes to expose how agents verify vulnerabilities, interpret conflicting evidence, and detect lies.",
+      "llm_tldr_cn": "针对自主渗透测试智能体在面对虚假目标响应时验证过程不透明的问题，ATOBench 在运行时注入可注册的响应变换，并将变换后的回合与原始回合对齐，从而观察智能体如何解读矛盾证据、改变行动或停止，最终把验证过程和错误推理暴露出来。该方法为研究智能体轨迹中的错误辨识提供了可量化的评测框架。",
+      "llm_tldr": "针对自主渗透测试智能体在面对虚假目标响应时验证过程不透明的问题，ATOBench 在运行时注入可注册的响应变换，并将变换后的回合与原始回合对齐，从而观察智能体如何解读矛盾证据、改变行动或停止，最终把验证过程和错误推理暴露出来。该方法为研究智能体轨迹中的错误辨识提供了可量化的评测框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.08523v1",
+      "source": "arxiv",
+      "title": "Discovering Diverse Planning Policies for Multimodal Embodied Agents with Quality-Diversity Optimization",
+      "abstract": "Multimodal embodied agents are increasingly required to solve long-horizon tasks by integrating visual observations, textual goals, and interaction history into closed-loop decision making. However, state-of-the-art large-model-based planners often rely on a single dominant planning style during execution. Once this execution mode becomes ineffective, the agent may remain stalled for many steps, repeatedly interacting with the environment without making meaningful progress. We address this limitation by proposing a Quality-Diversity (QD) framework for discovering diverse planning policies for multimodal embodied agents. The proposed method treats planning-policy templates as evolvable individuals and organizes them into a behavior-indexed archive rather than collapsing search to a single prompt style. In the offline stage, rollout trajectories are summarized into structured success and failure experiences, which guide policy variation through recombination and experience-guided mutation. The resulting policies are mapped into a behavior space defined by interaction intensity and goal-directedness, and the highest-quality policy in each niche is retained in the archive. In the online stage, the agent executes one policy at a time while monitoring task progress. When persistent stall is detected, the system rolls back to the latest checkpoint and switches to a behaviorally distinct archive policy to resume execution. Experiments on the ThreeDWorld transport benchmark show that the proposed framework improves both task success and interaction efficiency over representative baseline planners. These results suggest that discovering diverse policy repertoires is an effective way to support adaptive multimodal planning and online failure recovery.",
+      "authors": [
+        "Pengfei Xu",
+        "Yong Liu",
+        "Xiaoya Nan",
+        "Qiang Yang",
+        "Peilan Xu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-09T06:41:53+00:00",
+      "link": "https://arxiv.org/pdf/2608.08523v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "identifies and mitigates agent stalling (ineffective execution mode) by discovering diverse planning policies",
+      "llm_evidence_cn": "通过发现多样规划策略来识别并缓解智能体停滞（无效执行模式）",
+      "llm_evidence": "通过发现多样规划策略来识别并缓解智能体停滞（无效执行模式）",
+      "canonical_evidence": "通过发现多样规划策略来识别并缓解智能体停滞（无效执行模式）",
+      "llm_tldr_en": "This paper proposes a Quality-Diversity framework to discover diverse planning policies for multimodal embodied agents, addressing the problem of an agent stalling when its dominant planning style becomes ineffective.",
+      "llm_tldr_cn": "针对多模态具身智能体长期依赖单一主导规划风格、一旦失效便陷入停滞的问题，该论文提出基于质量-多样性（QD）优化的规划策略发现框架，将规划策略模板作为可进化个体并组织成多样性种群，从而在无效时快速切换策略。该方法能够缓解智能体在轨迹中长时间无进展的错误状态，提升闭环决策鲁棒性。",
+      "llm_tldr": "针对多模态具身智能体长期依赖单一主导规划风格、一旦失效便陷入停滞的问题，该论文提出基于质量-多样性（QD）优化的规划策略发现框架，将规划策略模板作为可进化个体并组织成多样性种群，从而在无效时快速切换策略。该方法能够缓解智能体在轨迹中长时间无进展的错误状态，提升闭环决策鲁棒性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.13417v1",
+      "source": "arxiv",
+      "title": "Beyond Final Scores: A Systematic Evaluation of Agents for Long-Horizon AI Research and Development",
+      "abstract": "Autonomous agents are increasingly capable of improving models, systems, and other technical artifacts through long-horizon experimentation. To understand the current state of this capability, however, evaluation must go beyond final scores, which neither reveal where progress is gained or lost nor indicate whether accumulated experience improves later decisions. We therefore present a systematic evaluation of seven frontier models on 36 long-horizon tasks based on a new framework that uses rule-based metrics to characterize within-run behavior through Solution Framing, Execution, and Feedback Control and controlled comparisons to assess experience reuse within and across tasks. The results show that current agents operate more like engineering optimizers than fully autonomous researchers: they can formulate and implement practical solutions, but their performance varies substantially across runs, their strongest solutions mainly adapt or combine established techniques, and genuine methodological novelty remains rare. Detailed analysis reveals that observed performance is shaped by multiple factors, including distinct process bottlenecks behind similar final outcomes, experience reuse that can help or mislead subsequent decisions, and harness designs that affect performance stability. These findings suggest concrete directions for improving model training, inference-time strategies, experience management, and harness design.",
+      "authors": [
+        "Yiwei Li",
+        "Wanli Yang",
+        "Hexiang Tan",
+        "Xiangzhou Huang",
+        "Zhengyu Chen",
+        "Ziran Li",
+        "Borun Chen",
+        "Shanglin Lei",
+        "Huaisheng Zhu",
+        "Hao Tian",
+        "Fei Sun",
+        "Xunliang Cai",
+        "Jingang Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-13T16:11:22+00:00",
+      "link": "https://arxiv.org/pdf/2608.13417v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "systematic evaluation framework that characterizes within-run behavior to reveal where progress is gained or lost",
+      "llm_evidence_cn": "系统评估框架，刻画运行内行为以揭示进展得失之处",
+      "llm_evidence": "系统评估框架，刻画运行内行为以揭示进展得失之处",
+      "canonical_evidence": "系统评估框架，刻画运行内行为以揭示进展得失之处",
+      "llm_tldr_en": "This paper presents a systematic evaluation framework for long-horizon agents, using rule-based metrics to analyze Solution Framing, Execution, and Feedback Control, revealing where progress is gained or lost and whether experience is reused.",
+      "llm_tldr_cn": "针对长时程 AI 研发任务中只看最终分数无法定位进展得失的问题，该论文提出系统评估框架，用规则化指标刻画运行中的 Solution Framing、Execution 与 Feedback Control，并通过受控比较评估经验复用。对 7 个前沿模型在 36 个任务上的评测显示，当前智能体的运行行为存在明显差异。该工作为监测智能体轨迹中的错误与停滞提供了更细致的分析维度。",
+      "llm_tldr": "针对长时程 AI 研发任务中只看最终分数无法定位进展得失的问题，该论文提出系统评估框架，用规则化指标刻画运行中的 Solution Framing、Execution 与 Feedback Control，并通过受控比较评估经验复用。对 7 个前沿模型在 36 个任务上的评测显示，当前智能体的运行行为存在明显差异。该工作为监测智能体轨迹中的错误与停滞提供了更细致的分析维度。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
