@@ -6,46 +6,35 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-15
-- 运行时间：2026-08-15 20:08:29 UTC
+- 最新运行日期：2026-08-16
+- 运行时间：2026-08-16 20:12:45 UTC
 - 运行状态：成功
-- 本次总论文数：8
-- 精读区：6
-- 速读区：2
+- 本次总论文数：4
+- 精读区：4
+- 速读区：0
 
 ### 今日简报（AI）
-今日共扫描8篇论文，精读6篇、速读2篇，核心聚焦智能体的长视频推理与函数调用诊断。
-最值得关注的是《SCOUT》与《PluginEval》（均9.0分），前者解决超长时序视频中的工具推理自检，后者细粒度定位函数调用错误来源。
-建议普通读者优先了解工具调用中的错误归因方法，并留意Agent运行时安全与感知溯源方向（8.0与7.0分）。
-- 详情：[/202608/15/README](/202608/15/README)
+今日精读两篇8分论文，聚焦长程复杂任务循环策略与航拍视觉语言导航。  
+最值得关注：OpenLoopEvolve的可验证自进化框架，以及RecoverFly的故障感知强化学习后训练。  
+建议结合两者思路，探索复杂任务中自主适应与容错的协同设计。
+- 详情：[/202608/16/README](/202608/16/README)
 
 ### 精读区论文标签
-1. [SCOUT: Self-Checking and Recovery-Aware Tool-Thought Agents for Ultra-Long Egocentric Video Reasoning](/202608/15/2608.07959v1-scout-self-checking-and-recovery-aware-tool-thought-agents-for-ultra-long-egocentric-video-reasoning)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：自检智能体框架，能检测工具使用轨迹中的错误并恢复
-2. [PluginEval: A Diagnostic Benchmark for Fine-Grained Error Attribution in Function Calling](/202608/15/2608.08700v1-plugineval-a-diagnostic-benchmark-for-fine-grained-error-attribution-in-function-calling)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：两阶段诊断基准，面向函数调用进行细粒度错误归因
-3. [Diagnosis Before Recovery: Turning Agent Failures into Selective Self-Correction](/202608/15/2608.11772v1-diagnosis-before-recovery-turning-agent-failures-into-selective-self-correction)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：从轨迹诊断智能体失败以实现选择性自我纠正
-4. [EMAS: Stabilizing Multi-Agent System Evolution through Evidence-Guided Revision](/202608/15/2608.07196v1-emas-stabilizing-multi-agent-system-evolution-through-evidence-guided-revision)  
+1. [OpenLoopEvolve: A Verifiable Self-Evolution Framework for Loop Policies in Long-Horizon Complex Tasks](/202608/16/2608.09380v1-openloopevolve-a-verifiable-self-evolution-framework-for-loop-policies-in-long-horizon-complex-tasks)  
    标签：评分：8.0/10、query:agent-error
-   evidence：将智能体轨迹转换为结构化诊断
-5. [$A^2E$ : An End-to-End Agent Auditing Engine](/202608/15/2608.07346v2-a2e--an-end-to-end-agent-auditing-engine)  
+   evidence：框架包含验证和恢复模块，可监控智能体循环行为中的错误
+2. [RecoverFly: A Failure-Aware Reinforcement Learning Post-Training Framework for Aerial Vision-Language Navigation](/202608/16/2608.09467v1-recoverfly-a-failure-aware-reinforcement-learning-post-training-framework-for-aerial-vision-language-navigation)  
    标签：评分：8.0/10、query:agent-error
-   evidence：端到端智能体审计引擎，通过自动插桩监控器捕获标准化执行轨迹，直接支持智能体行为监控
-6. [Long SKILL Compliance as Logical Reasoning: Closure-Grounded Detection with Scaling-Guided On-Policy Distillation](/202608/15/2608.08146v1-long-skill-compliance-as-logical-reasoning-closure-grounded-detection-with-scaling-guided-on-policy-distillation)  
+   evidence：故障感知强化学习框架检测并纠正无人机视觉语言导航轨迹中的失败动作
+3. [Agentic Harnesses: LLM-Driven Verification Layers for Robot Autonomy](/202608/16/2608.09857v1-agentic-harnesses-llm-driven-verification-layers-for-robot-autonomy)  
    标签：评分：8.0/10、query:agent-error
-   evidence：基于图的智能体行为合规检测，对照SKILL文档
+   evidence：验证层在执行前监控并检测不允许或不安全的智能体动作
+4. [FIRE-VLA: Failure-Informed Self-Evolution for Vision-Language-Action Models in Autonomous Driving](/202608/16/2608.13395v1-fire-vla-failure-informed-self-evolution-for-vision-language-action-models-in-autonomous-driving)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：识别强化学习采样轨迹中的失败区域并将其转化为特权监督
 
 ### 速读区论文标签
-1. [Agent Safety Should Be a Runtime Contract](/202608/15/2608.11274v1-agent-safety-should-be-a-runtime-contract)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：主张通过轨迹监控器、输出过滤器等运行时机制阻断危险动作，直接关联智能体行为错误监控
-2. [PIPES: Securing Agent Perception with Provenance and Priors](/202608/15/2608.12789v1-pipes-securing-agent-perception-with-provenance-and-priors)  
-   标签：评分：7.0/10、query:agent-error
-   evidence：利用来源与轨迹上下文筛选智能体响应，识别污染攻击
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">
