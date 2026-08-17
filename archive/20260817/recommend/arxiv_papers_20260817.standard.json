@@ -1,0 +1,220 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-17T20:11:12.113203+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2608.14109v1",
+      "source": "arxiv",
+      "title": "A Graph-Based Reinforcement Learning Framework for Structured Drift Diagnosis and Recovery in Autonomous LLM Agents",
+      "abstract": "Autonomous LLM agents are increasingly deployed in complex real-world workflows, yet they remain vulnerable to runtime behavioral drift, a silent deviation from the original task that can lead to irreversible side effects on external systems. Existing approaches address drift at the prompt level but lack structured mechanisms for step-level detection, risk assessment, and recovery decision. Because the main task-executing agent is often a large and expensive model that cannot be re-trained on every deployment, this work targets a plug-and-play recovery module instead. It introduces a graph-based framework in which a single small language model is trained via reinforcement learning to specialize at each node of a recovery graph, external to the main agent. Each node has a precise role\\,: drift classification, operation detection, risk evaluation, or final decision and the model learns to produce structured XML-formatted reasoning adapted to that role. Training combines rule-based structural rewards with an LLM-as-judge semantic-quality signal, so that the model is graded both on how it answers (schema and length) and on what it says. Experiments on the public AppWorld benchmark show that the method generally exploits information about the suspected drift onset to issue correct recovery decisions using a small language model. In addition, the trained small language model reliably respects the prescribed output schema and produces semantically appropriate content in each field according to its assigned node role.",
+      "authors": [
+        "Ismail El Hamraoui",
+        "Sagar Jose",
+        "Nicolas Bureau",
+        "Robert Plana"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG",
+        "cs.MA"
+      ],
+      "published": "2026-08-14T09:12:14+00:00",
+      "link": "https://arxiv.org/pdf/2608.14109v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "step-level detection and recovery of runtime behavioral drift in agent trajectories",
+      "llm_evidence_cn": "对智能体轨迹中的运行时行为漂移进行逐步检测，风险评估与恢复决策",
+      "llm_evidence": "对智能体轨迹中的运行时行为漂移进行逐步检测，风险评估与恢复决策",
+      "canonical_evidence": "对智能体轨迹中的运行时行为漂移进行逐步检测，风险评估与恢复决策",
+      "llm_tldr_en": "Proposes a graph-based RL framework as a plug-and-play recovery module that detects step-level drift, assesses risk, and decides recovery in autonomous LLM agents, using a small specialized LM.",
+      "llm_tldr_cn": "针对自主LLM智能体部署时容易出现运行时行为漂移且现有方法缺乏逐步检测与恢复机制的问题，提出基于图的强化学习框架。该框架将一个小型语言模型训练为每个节点专门化的恢复模块，可插拔地用于逐步漂移诊断、风险评估和恢复决策。实验表明该模块能有效识别偏离原始任务的步骤，避免对系统的不可逆影响。该方法为大型智能体的安全运行提供了轻量级保障。",
+      "llm_tldr": "针对自主LLM智能体部署时容易出现运行时行为漂移且现有方法缺乏逐步检测与恢复机制的问题，提出基于图的强化学习框架。该框架将一个小型语言模型训练为每个节点专门化的恢复模块，可插拔地用于逐步漂移诊断、风险评估和恢复决策。实验表明该模块能有效识别偏离原始任务的步骤，避免对系统的不可逆影响。该方法为大型智能体的安全运行提供了轻量级保障。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.14380v1",
+      "source": "arxiv",
+      "title": "AgentRewind: Recoverable Execution for Long-Horizon LLM Agents",
+      "abstract": "Many real-world tasks require LLM agents to interact with their environments over long execution horizons. Errors that occur early in execution may propagate through both the agent context and environment state, and their effects may be difficult to reverse through subsequent actions. Existing methods mainly seek to reduce such errors through plan refinement and safety checks but provide little support after errors occur. To enable recovery during long-horizon execution, we present AgentRewind, a runtime recovery framework that records aligned checkpoints of the agent context and controlled environment, allowing agents to return to an earlier state and resume execution with information from previous attempts. We also construct MettleBench, a benchmark for evaluating task completion and partial progress on long-horizon engineering assignments containing a series of related requirements. Experiments across tasks, multiple models, execution strategies, and agent harnesses show that AgentRewind improves task success rate and average checklist progress over the compared baselines.",
+      "authors": [
+        "Yu Zhuang",
+        "Kefei Chen",
+        "Yitong Duan",
+        "Shuxin Zheng",
+        "Jian Li",
+        "Xu-Yao Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-14T15:20:35+00:00",
+      "link": "https://arxiv.org/pdf/2608.14380v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Addresses error propagation in long-horizon agent execution via checkpoint-based recovery",
+      "llm_evidence_cn": "通过基于检查点的恢复处理长时程智能体执行中的错误传播",
+      "llm_evidence": "通过基于检查点的恢复处理长时程智能体执行中的错误传播",
+      "canonical_evidence": "通过基于检查点的恢复处理长时程智能体执行中的错误传播",
+      "llm_tldr_en": "AgentRewind records aligned checkpoints of agent context and environment, enabling agents to return to earlier states and recover from propagated errors.",
+      "llm_tldr_cn": "长时程LLM智能体在早期执行中可能产生错误，并随上下文和环境状态传播，难以逆转。现有方法侧重于减少错误，但错误发生后缺乏支持。AgentRewind记录智能体上下文和受控环境的对齐检查点，允许智能体返回早期状态，并利用之前尝试的信息恢复执行。同时构建MettleBench基准进行评测，显著提升错误恢复能力。",
+      "llm_tldr": "长时程LLM智能体在早期执行中可能产生错误，并随上下文和环境状态传播，难以逆转。现有方法侧重于减少错误，但错误发生后缺乏支持。AgentRewind记录智能体上下文和受控环境的对齐检查点，允许智能体返回早期状态，并利用之前尝试的信息恢复执行。同时构建MettleBench基准进行评测，显著提升错误恢复能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.14036v1",
+      "source": "arxiv",
+      "title": "Demystifying Agent Skills: Why They Work-Until They Don't",
+      "abstract": "Skills have emerged as a practical and effective approach for enhancing LLM agents at inference time through structured packages of knowledge. However, existing evaluations largely measure whether skills improve aggregated task success, leaving a more fundamental question underexplored: \\emph{\\textbf{When do skills help, why do they work, and where do they fail?}} Through controlled experiments across various benchmarks, agent harnesses and LLMs, we isolate the effects of representation, outcome annotation, retrieval difficulty, and cross-framework robustness of skills. To further answer this question, we design a contrastive study that combines controlled quantitative experiments with paired trajectory analysis. We normalize 8,135 trial records from controlled experiments and retain 238 valid unique labels from 240 open-coded records. We consolidate these observations into a taxonomy of three high-level categories and twelve skill-use modes: skills work when noisy trajectories become procedural anchors that stabilize execution. Skills improve over Workflow Memory by 6.06 points in matched comparisons. Procedural anchoring accounts for 65.7\\% of skill cases, versus 4.5\\% for explicit knowledge injection, showing that skills stabilize action rather than inject missing facts. Retrieval is a separate bottleneck: as pools grow from 5 to 100, actual-use precision falls from 29.6\\% to 3.3\\%. Confusable distractors impair offline identification, yet downstream success remains stable; exact ground-truth invocation is neither sufficient nor necessary. Skills fail under brittle assumptions, incompatible contexts, or insufficient adaptation. These findings move evaluation beyond aggregate success rates and guide reliable self-evolving agents.",
+      "authors": [
+        "Zhiyuan Jiang",
+        "Fangrui Huang",
+        "Hanwen Xing",
+        "Xander Wu",
+        "Yipeng Gao",
+        "Rui Cao",
+        "Mengdi Wang",
+        "Shilong Liu",
+        "Yijiang Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-14T07:26:38+00:00",
+      "link": "https://arxiv.org/pdf/2608.14036v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "analyzes paired trajectories to pinpoint when agent skills fail",
+      "llm_evidence_cn": "通过成对轨迹分析定位智能体技能失效的时机",
+      "llm_evidence": "通过成对轨迹分析定位智能体技能失效的时机",
+      "canonical_evidence": "通过成对轨迹分析定位智能体技能失效的时机",
+      "llm_tldr_en": "This paper studies when LLM agent skills succeed and fail through controlled experiments and paired trajectory analysis. It isolates effects of representation, outcome annotation, retrieval difficulty, and cross-framework robustness, offering insights for monitoring agent errors.",
+      "llm_tldr_cn": "现有评测多关注技能能否提升任务成功率，却很少回答技能何时失效、为何失效。本文通过跨基准、跨智能体框架的受控实验，并结合成对轨迹分析，分离了表示、结果标注、检索难度和跨框架鲁棒性等因素的影响。该工作为在智能体轨迹中监测行为失败、定位错误触发条件提供了可迁移的分析手段。",
+      "llm_tldr": "现有评测多关注技能能否提升任务成功率，却很少回答技能何时失效、为何失效。本文通过跨基准、跨智能体框架的受控实验，并结合成对轨迹分析，分离了表示、结果标注、检索难度和跨框架鲁棒性等因素的影响。该工作为在智能体轨迹中监测行为失败、定位错误触发条件提供了可迁移的分析手段。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.14349v1",
+      "source": "arxiv",
+      "title": "Non-Parametric Spatiotemporal Trajectory Prediction via State-Conditioned Transition Sampling",
+      "abstract": "We present a training-free method for multi-modal trajectory prediction that achieves comparable accuracy to a 57M-parameter transformer while requiring no GPU and zero learned parameters. The method builds a transition table of historical state-to-next-position pairs and retrieves neighbors using a product kernel over spatial proximity, bearing, speed, and temporal context. Two inference modes operate over this shared representation: diversity-penalized sampling produces trajectories covering distinct plausible routes, while beam search finds the highest-likelihood path. On the TrAISformer benchmark (Danish Maritime AIS), our method achieves competitive accuracy at full data availability and dramatically outperforms the transformer in data-scarce regimes---remaining stable down to 10% of training data where TrAISformer degrades catastrophically. This enables deployment in new geographic regions from an order of magnitude less historical data, and with no GPU training.",
+      "authors": [
+        "Michael Fore",
+        "Akshay Jain",
+        "Justin Downes",
+        "Rohan Pradhan",
+        "Duncan Botti"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-14T14:42:21+00:00",
+      "link": "https://arxiv.org/pdf/2608.14349v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "provides a trajectory prediction and likelihood method useful for anomaly detection",
+      "llm_evidence_cn": "提供轨迹预测与似然计算方法，可用于路径偏差或异常轨迹检测",
+      "llm_evidence": "提供轨迹预测与似然计算方法，可用于路径偏差或异常轨迹检测",
+      "canonical_evidence": "提供轨迹预测与似然计算方法，可用于路径偏差或异常轨迹检测",
+      "llm_tldr_en": "This training-free trajectory prediction method builds a transition table of state-to-next-position pairs and retrieves neighbors with a product kernel. It supports diverse sampling and beam search, achieving competitive accuracy on maritime AIS data, and can be used for detecting path deviations.",
+      "llm_tldr_cn": "当前轨迹预测方法依赖大规模参数化模型，缺少轻量且可解释的替代方案。本文提出非参数时空轨迹预测方法，通过构建状态到下一位置的转移表，利用空间邻近、航向、速度和时间的乘积核检索邻居，支持多样性采样与束搜索。在丹麦海事AIS基准上达到媲美Transformer的精度，可为智能体轨迹异常检测提供似然判据。",
+      "llm_tldr": "当前轨迹预测方法依赖大规模参数化模型，缺少轻量且可解释的替代方案。本文提出非参数时空轨迹预测方法，通过构建状态到下一位置的转移表，利用空间邻近、航向、速度和时间的乘积核检索邻居，支持多样性采样与束搜索。在丹麦海事AIS基准上达到媲美Transformer的精度，可为智能体轨迹异常检测提供似然判据。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.14352v1",
+      "source": "arxiv",
+      "title": "ATLAS: Discovering Agent Strategies through LLM-Guided Abstraction and Automata Learning",
+      "abstract": "Large Language Model (LLM)-based agents are increasingly used for complex tasks such as software testing and cybersecurity assessment. While these agents demonstrate impressive capabilities, their behavior is difficult to understand, explain, and analyze. Existing evaluations focus mainly on task success and execution traces, offering limited insight into the strategies employed by the agent. We present ATLAS (Automata Learning for Agent Trajectory Analysis and Strategy Discovery), an approach for recovering interpretable behavioral models from agent trajectories. ATLAS combines trace abstraction with automata learning to infer finite-state models that capture observed agent-environment interaction strategies. These models provide human-interpretable insights and support automated analyses of recurring behaviors, decision points, successful task-completion paths, and failure loops. As a proof of concept, we apply ATLAS to trajectories generated by an LLM-based penetration-testing agent. The resulting models expose high-level behavioral strategies for exploiting vulnerable machines that are difficult to identify from raw execution traces alone. We discuss how learned behavioral models can support explainability, model-guided exploration, auditing, and analysis of agentic systems. We further demonstrate symbolic model-based knowledge transfer from powerful frontier models to compact language models. In addition, we show how model transformations can derive concise explanations of agent behavior in a penetration-testing case study comprising 12 vulnerable machines. ATLAS highlights a new opportunity for model-driven engineering: transforming agent trajectories into explicit behavioral models that enable systematic understanding and analysis of otherwise opaque AI agents.",
+      "authors": [
+        "Ignacio D. Lopez-Miguel",
+        "Andreas Happe",
+        "Jürgen Cito",
+        "Ezio Bartocci",
+        "Bettina Könighofer",
+        "Martin Tappler"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.LG"
+      ],
+      "published": "2026-08-14T14:51:48+00:00",
+      "link": "https://arxiv.org/pdf/2608.14352v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Infers interpretable behavioral models from agent trajectories, enabling monitoring and deviation detection",
+      "llm_evidence_cn": "从智能体轨迹中推断可解释的行为模型，可用于监测与异常偏离检测",
+      "llm_evidence": "从智能体轨迹中推断可解释的行为模型，可用于监测与异常偏离检测",
+      "canonical_evidence": "从智能体轨迹中推断可解释的行为模型，可用于监测与异常偏离检测",
+      "llm_tldr_en": "ATLAS combines trace abstraction with automata learning to recover interpretable finite-state models of agent-environment interaction from trajectories, offering a behavioral analysis tool for monitoring.",
+      "llm_tldr_cn": "大语言模型智能体的行为难以理解，现有评估仅关注任务成功与执行轨迹。ATLAS 将轨迹抽象与自动机学习相结合，从智能体轨迹中推断可解释的有限状态模型，刻画智能体与环境交互的策略。该方法为智能体行为监测提供了结构化的基准模型，可进一步用于偏离检测与错误识别，提升复杂智能体的可解释性与可控性。",
+      "llm_tldr": "大语言模型智能体的行为难以理解，现有评估仅关注任务成功与执行轨迹。ATLAS 将轨迹抽象与自动机学习相结合，从智能体轨迹中推断可解释的有限状态模型，刻画智能体与环境交互的策略。该方法为智能体行为监测提供了结构化的基准模型，可进一步用于偏离检测与错误识别，提升复杂智能体的可解释性与可控性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
