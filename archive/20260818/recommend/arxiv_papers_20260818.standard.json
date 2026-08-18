@@ -1,0 +1,498 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-18T20:37:06.943614+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2608.15242v1",
+      "source": "arxiv",
+      "title": "LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures",
+      "abstract": "When a long-horizon agent execution fails, outcome-level evaluation reveals the unsuccessful result but not where the decisive error entered the trajectory. Developers must then inspect the full execution to identify the responsible role and localize the earliest decisive root-cause step. Existing failure-attribution benchmarks largely focus on shorter traces, leaving diagnosis across hundreds of recorded steps underexplored. We introduce LongRCA Bench, comprising 1,140 failed trajectories across five domains without injected errors. It provides independently scored human labels for the responsible role and earliest decisive root-cause step. The median trajectory contains 145 steps, and the strongest baseline reaches only 13.2% exact root-step accuracy. We further present Root-Cause Trajectory Attribution (RCTA), a training-free method that retrieves candidate error steps from segment summaries and traces them to available earlier handoff instructions. Using the same backbone, benchmark instances, and scoring protocol, RCTA reaches 51.1% responsible-role accuracy and 24.1% exact root-step accuracy. These results highlight the need to evaluate responsible-role attribution and exact root-step localization as separate targets in long-trajectory failure diagnosis.",
+      "authors": [
+        "Yunfei Zhang",
+        "Boyu Feng",
+        "Changhua Pei",
+        "Zexin Wang",
+        "Zhihuang Peng",
+        "Xinlong Liu",
+        "Hengyue Jiang",
+        "Difeng Ma",
+        "Jiayi Zhang",
+        "Yongzhou Yao",
+        "Yanan Zhao",
+        "Fei Sun",
+        "Yintong Huo",
+        "Zhaoyang Liu",
+        "Jingjing Li",
+        "Gaogang Xie",
+        "Dan Pei"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-08-15T14:06:02+00:00",
+      "link": "https://arxiv.org/pdf/2608.15242v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Directly localizes the earliest decisive error step in long-horizon agent trajectories and identifies responsible roles",
+      "llm_evidence_cn": "直接定位长程智能体轨迹中最先决定性出错步骤并识别责任角色",
+      "llm_evidence": "直接定位长程智能体轨迹中最先决定性出错步骤并识别责任角色",
+      "canonical_evidence": "直接定位长程智能体轨迹中最先决定性出错步骤并识别责任角色",
+      "llm_tldr_en": "Introduces LongRCA Bench with 1,140 failed long-horizon agent trajectories across five domains and human labels for responsible role and earliest root-cause step; exact diagnosis is difficult because the strongest baseline reaches only 13.2%.",
+      "llm_tldr_cn": "现有评估只能发现长程智能体执行失败的结果，却无法定位错误最早进入轨迹的位置。为此提出了LongRCA Bench基准，包含5个领域、1140条失败轨迹，并人工标注了负责任角色和最早根因步骤。实验表明最强基线仅在13.2%的轨迹上精确命中，说明该诊断任务极具挑战。该基准为智能体轨迹错误检测与归因提供了系统化评测基础。",
+      "llm_tldr": "现有评估只能发现长程智能体执行失败的结果，却无法定位错误最早进入轨迹的位置。为此提出了LongRCA Bench基准，包含5个领域、1140条失败轨迹，并人工标注了负责任角色和最早根因步骤。实验表明最强基线仅在13.2%的轨迹上精确命中，说明该诊断任务极具挑战。该基准为智能体轨迹错误检测与归因提供了系统化评测基础。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.16002v1",
+      "source": "arxiv",
+      "title": "From Sequence to Structure: Relational Uncertainty Propagation for LLM Agents",
+      "abstract": "Reliable uncertainty quantification (UQ) is essential for deploying large language model (LLM) agents in complex interactive environments. Existing UQ methods largely rely on local signals, such as token probabilities, predictive entropy, or per-step confidence, and therefore overlook the long-range dependencies through which errors accumulate across an execution trajectory. As a result, they may fail to identify agent failures whose causes originate several reasoning or interaction steps before the final answer. We propose RUPA (Relational Uncertainty Propagation for Agents), a trajectory-level UQ framework for LLM agents. RUPA represents an execution history as a directed trajectory graph in which reasoning states, tool interactions, and environment feedback are nodes connected by temporal and semantic dependency edges. It then propagates uncertainty over this graph to capture how execution risk accumulates and transfers across interaction steps. The propagated signal is combined with trajectory-level behavioral features and goal-alignment information to produce a confidence estimate for the full agent trajectory. We evaluate RUPA on representative agent benchmarks, including $τ$-2, Terminal-Bench-2, and GAIA, using 6 open-source LLMs spanning multiple model families. Experimental results show that RUPA consistently outperforms existing UQ methods by providing more accurate uncertainty estimates, enabling earlier failure detection, and improving uncertainty-guided agent execution across diverse agent tasks. These results demonstrate that explicitly modeling relational dependency is crucial to reliable UQ for long-horizon LLM agents, providing a practical foundation for trustworthy agent execution.",
+      "authors": [
+        "Zhengzhao Ma. Boxi Cao",
+        "Yaojie Lu",
+        "Hongyu Lin",
+        "Xianpei Han",
+        "Le Sun"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-08-17T01:40:14+00:00",
+      "link": "https://arxiv.org/pdf/2608.16002v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Trajectory-level uncertainty propagation to identify LLM agent failures",
+      "llm_evidence_cn": "在轨迹层面传播不确定性，以识别LLM智能体故障",
+      "llm_evidence": "在轨迹层面传播不确定性，以识别LLM智能体故障",
+      "canonical_evidence": "在轨迹层面传播不确定性，以识别LLM智能体故障",
+      "llm_tldr_en": "Proposes RUPA, a trajectory-level uncertainty quantification framework for LLM agents that propagates uncertainty over a trajectory graph to identify failures whose causes occur many steps earlier.",
+      "llm_tldr_cn": "针对现有不确定性量化方法仅依赖局部信号、难以发现轨迹中早期错误根源的问题，提出RUPA框架，将智能体执行历史建模为有向轨迹图并在图上传播不确定性，从而在轨迹层面识别agent故障。实验表明该方法能有效定位长程依赖导致的失败，提升了错误检测的可靠性。",
+      "llm_tldr": "针对现有不确定性量化方法仅依赖局部信号、难以发现轨迹中早期错误根源的问题，提出RUPA框架，将智能体执行历史建模为有向轨迹图并在图上传播不确定性，从而在轨迹层面识别agent故障。实验表明该方法能有效定位长程依赖导致的失败，提升了错误检测的可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.16411v1",
+      "source": "arxiv",
+      "title": "Towards Risk-free AI Agent Deployment",
+      "abstract": "LLM-based agents are rapidly moving from research prototypes into the core business processes of organizations, but these agents pose deployment risks to security, compliance, and functionality. In this article, we argue that risk-free deployment must be grounded in the agent's trajectory: the recorded sequence of reasoning steps, tool invocations, and environmental observations. Trajectories are available for any agent, and many failures are visible only in the trajectory. To make agents deployable and sustainable, we advocate agent testing and debugging as a systematic research direction for detecting and mitigating these risks. This article begins with the challenges of testing agents, including the oracle problem, non-determinism, trajectory validation, and the absence of adequacy metrics. We then turn to debugging agents, from automated failure attribution to repair and self-evolution. We distill these directions into a practical deployment-readiness checklist covering the full deployment lifecycle. Finally, we identify open problems, i.e., formal adequacy metrics, root-cause attribution over long-horizon trajectories, and the reliability of self-evolving agents, that the community must address to enable trustworthy agent deployment.",
+      "authors": [
+        "Yintong Huo",
+        "Rangeet Pan",
+        "Abhik Roychoudhury"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-08-17T11:07:07+00:00",
+      "link": "https://arxiv.org/pdf/2608.16411v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "advocates detecting failures through agent trajectory validation, testing, and debugging",
+      "llm_evidence_cn": "主张通过智能体轨迹验证、测试与调试来检测失败",
+      "llm_evidence": "主张通过智能体轨迹验证、测试与调试来检测失败",
+      "canonical_evidence": "主张通过智能体轨迹验证、测试与调试来检测失败",
+      "llm_tldr_en": "Risk-free LLM-agent deployment requires grounding in agent trajectories of reasoning, tool calls, and observations. Agent testing and debugging for failure detection, with trajectory validation and oracle problems, is a key research direction.",
+      "llm_tldr_cn": "LLM智能体正在进入组织核心业务流程，但其安全、合规与功能方面的部署风险日益突出。本文认为无风险部署必须以智能体轨迹为根基，即推理步骤、工具调用与环境观测的完整记录，因为许多失败仅在轨迹中可见。文章主张将智能体测试与调试作为系统性研究方向，用于检测与缓解这些风险。该立场为轨迹级错误检测提供了关键问题清单和研究议程。",
+      "llm_tldr": "LLM智能体正在进入组织核心业务流程，但其安全、合规与功能方面的部署风险日益突出。本文认为无风险部署必须以智能体轨迹为根基，即推理步骤、工具调用与环境观测的完整记录，因为许多失败仅在轨迹中可见。文章主张将智能体测试与调试作为系统性研究方向，用于检测与缓解这些风险。该立场为轨迹级错误检测提供了关键问题清单和研究议程。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.12851v1",
+      "source": "arxiv",
+      "title": "Practice Makes Unsafe: Skill Misevolution in Self-Improving LLM Agents",
+      "abstract": "Self-improving LLM agents convert successful trajectories into persistent cross-task state. An unsafe success can thereby become reusable policy after its triggering input disappears. Skill evolution makes this failure measurable by distilling operational trajectories into executable, transferable, and inspectable procedures. Because evolution optimizes task outcomes rather than procedure safety, compromised experience can cause skill misevolution. Existing benchmarks measure current behavior or static artifacts but cannot attribute risk across authoring, retrieval, and later execution. To expose this lifecycle, we introduce SkillMisevo-Gym, a lifecycle-aware harness that versions skill state across agent frameworks, and SkillMisevo-Bench, a frozen design from malicious exposure to carryover tasks, with concept-aligned benign tasks and nine lifecycle metrics. We also introduce SafeEvolve, a wrapper that repairs unsafe content and governs subsequent reuse. Across 25 agent-method configurations, each covering 525 tasks in 25 episodes, all 21 evolved configurations author unsafe artifacts, while only fifteen lead to fresh-session harm. In the exposure sweep, three malicious tasks raise carryover ASR from 16.0% to 35.3%. Across representative skill evolution methods, SafeEvolve reduces unsafe retrieval and fresh-session harm by 26.7 and 17.3 percentage points, respectively, while mean benign utility changes by only 0.4 points. Together, persistent-adaptation safety must govern what updates write and what future executors reuse. Code is available at https://github.com/henrymao2004/misevolve.",
+      "authors": [
+        "Xutao Mao",
+        "Liangjie Zhao",
+        "Xiang Zheng",
+        "Cong Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-13T05:47:43+00:00",
+      "link": "https://arxiv.org/pdf/2608.12851v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Detects unsafe successes/skill misevolution in self-improving LLM agent trajectories",
+      "llm_evidence_cn": "检测自进化LLM智能体轨迹中的不安全成功与技能误演化",
+      "llm_evidence": "检测自进化LLM智能体轨迹中的不安全成功与技能误演化",
+      "canonical_evidence": "检测自进化LLM智能体轨迹中的不安全成功与技能误演化",
+      "llm_tldr_en": "Introduces SkillMisevo-Gym and SkillMisevo-Bench to expose and measure unsafe success (skill misevolution) in self-improving LLM agents, attributing risk across authoring, retrieval, and execution. Directly addresses error/anomaly detection in agent trajectories.",
+      "llm_tldr_cn": "该论文针对自进化LLM智能体将不安全成功轨迹固化为可复用策略的风险，提出技能误演化概念，并构建生命周期感知的SkillMisevo-Gym与SkillMisevo-Bench基准，以跨创作、检索与执行阶段归因风险。通过在智能体轨迹中检测不安全成功，该方法直接服务于轨迹错误与异常检测需求。实验表明，该基准能暴露现有基准无法覆盖的生命周期风险，从而提升了安全轨迹评估的能力。",
+      "llm_tldr": "该论文针对自进化LLM智能体将不安全成功轨迹固化为可复用策略的风险，提出技能误演化概念，并构建生命周期感知的SkillMisevo-Gym与SkillMisevo-Bench基准，以跨创作、检索与执行阶段归因风险。通过在智能体轨迹中检测不安全成功，该方法直接服务于轨迹错误与异常检测需求。实验表明，该基准能暴露现有基准无法覆盖的生命周期风险，从而提升了安全轨迹评估的能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.14707v1",
+      "source": "arxiv",
+      "title": "Semantic Uncertainty-Guided Orchestration in Hierarchical Multi-Agent Systems",
+      "abstract": "As large language model (LLM)-based multi-agent systems become increasingly capable, coordinating agents under uncertainty becomes a fundamental challenge. Existing orchestration strategies typically rely on fixed interaction patterns and often lack mechanisms for assessing the reliability of intermediate reasoning steps, allowing errors and hallucinations to propagate through the system. This paper introduces a semantic-uncertainty-guided orchestration approach, HASSUM as a general framework for uncertainty-aware coordination in multi-agent systems. The method estimates uncertainty using semantic entropy and semantic density, which measure trust at the level of answer semantics rather than output probabilities. These signals enable adaptive orchestration decisions, including output verification, selective reprompting, additional deliberation, and confidence-aware response selection. Because the approach operates independently of any particular agent architecture, it can be integrated into a broad range of hierarchical and collaborative multi-agent systems. The evaluations demonstrate an implementation within a hierarchical agent framework and evaluate it on StrategyQA, JailbreakBench, and TruthfulQA benchmarks. Across tasks that require complex reasoning and are prone to ambiguity or hallucinations, uncertainty-guided orchestration yields more reliable outcomes than uncertainty-unaware coordination. Semantic entropy and semantic density in tandem outperformed either metric alone. Ablations testing different thresholds and model sizes demonstrated that both influence the effectiveness of semantic metrics. The results suggest that semantic uncertainty is a practical and general-purpose signal for improving robustness and trustworthiness in agentic AI systems.",
+      "authors": [
+        "John Knowlton",
+        "Aritra Guha",
+        "Risto Miikkulainen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-11T03:55:53+00:00",
+      "link": "https://arxiv.org/pdf/2608.14707v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Uses semantic entropy/density to assess reliability of intermediate reasoning steps and prevent error propagation in multi-agent trajectories",
+      "llm_evidence_cn": "利用语义熵与语义密度评估中间推理步骤的可信度，防止多智能体轨迹中错误与幻觉传播",
+      "llm_evidence": "利用语义熵与语义密度评估中间推理步骤的可信度，防止多智能体轨迹中错误与幻觉传播",
+      "canonical_evidence": "利用语义熵与语义密度评估中间推理步骤的可信度，防止多智能体轨迹中错误与幻觉传播",
+      "llm_tldr_en": "HASSUM uses semantic entropy and semantic density to estimate uncertainty of intermediate steps and guides adaptive orchestration in hierarchical multi-agent systems, suppressing error and hallucination propagation.",
+      "llm_tldr_cn": "在多智能体协同中，固定交互模式难以评估中间推理步骤的可靠性，导致错误与幻觉不断传播。HASSUM提出基于语义熵和语义密度的不确定性估计，从答案语义层面衡量信任度，并据此进行自适应编排。该方法将不确定性信号融入协调机制，能够在不依赖输出概率的情况下识别不可靠步骤。实验表明该方法能有效抑制错误传播，提升整体系统可靠性。",
+      "llm_tldr": "在多智能体协同中，固定交互模式难以评估中间推理步骤的可靠性，导致错误与幻觉不断传播。HASSUM提出基于语义熵和语义密度的不确定性估计，从答案语义层面衡量信任度，并据此进行自适应编排。该方法将不确定性信号融入协调机制，能够在不依赖输出概率的情况下识别不可靠步骤。实验表明该方法能有效抑制错误传播，提升整体系统可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.15191v1",
+      "source": "arxiv",
+      "title": "When Deep Research Agents Stagnate: Enhancing Reasoning with Retrieval-Aware Agent Control",
+      "abstract": "In this paper, we analyze the reasoning trajectories of a variety of DRAs and show that existing agents often suffer from reasoning stagnation: the majority of iterations contribute little or no improvement to final performance, while agents lack awareness of their trajectories and are therefore ineffective at adapting their search strategies or determining when to terminate. To address this issue, we introduce a set of unsupervised signals and a Retrieval-Aware Agent Controller (RAAC), which assists the agent in selecting optimal actions at each stage of the research process. RAAC incorporates key information retrieval principles, namely search novelty and information coverage, resulting in more effective reasoning trajectories that improve overall performance while reducing unnecessary iterations, and consequently cost and latency. Specifically on BrowseComp-Plus and across a large set of DRAs, adding RAAC reduces the number of search calls by an average of 14, significantly improves the best-performing DRA on recall and accuracy, and achieves an accuracy gain of up to 10% (3% on average).",
+      "authors": [
+        "Heydar Soudani",
+        "Elizabeth Lingg",
+        "Faegheh Hasibi",
+        "Navid Rekabsaz"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-08-15T12:14:38+00:00",
+      "link": "https://arxiv.org/pdf/2608.15191v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects reasoning stagnation in agent trajectories and uses unsupervised signals to adapt actions",
+      "llm_evidence_cn": "检测智能体轨迹中的推理停滞，并用无监督信号调整动作",
+      "llm_evidence": "检测智能体轨迹中的推理停滞，并用无监督信号调整动作",
+      "canonical_evidence": "检测智能体轨迹中的推理停滞，并用无监督信号调整动作",
+      "llm_tldr_en": "Analyzes reasoning trajectories of deep research agents and shows they stagnate; introduces a Retrieval-Aware Agent Controller with search-novelty and coverage signals to detect low-value iterations and adapt actions, producing more effective trajectories.",
+      "llm_tldr_cn": "深度研究智能体在推理中常陷入停滞，且缺乏对自身轨迹的感知。针对该问题，分析多种智能体的推理轨迹并提出一系列无监督停滞信号，构建检索感知控制器（RAAC）。该控制器在每步结合搜索新颖性与信息覆盖率，帮助智能体调整检索策略并判断终止时机，从而减少无效迭代。实验表明该方法显著改善轨迹质量，为智能体终端行为的在线监测与异常检测提供了新途径。",
+      "llm_tldr": "深度研究智能体在推理中常陷入停滞，且缺乏对自身轨迹的感知。针对该问题，分析多种智能体的推理轨迹并提出一系列无监督停滞信号，构建检索感知控制器（RAAC）。该控制器在每步结合搜索新颖性与信息覆盖率，帮助智能体调整检索策略并判断终止时机，从而减少无效迭代。实验表明该方法显著改善轨迹质量，为智能体终端行为的在线监测与异常检测提供了新途径。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.15491v1",
+      "source": "arxiv",
+      "title": "HxAgent: Iterative Agent Planning for End-to-End Web Application Testing",
+      "abstract": "In automated web testing, generating test cases and performing testing using functionality descriptions in natural-language is crucial for improving efficacy. These tasks require such a testing agent to carry out tasks on the target application and generating tests autonomously. We introduce HxAgent, an iterative LLM-based planning agent with a proactive correction strategy. After each step, HxAgent reassesses the web state to determine the next action using (1) current observations, (2) short-term memory of past actions, and (3) long-term experience extracted from past (in)correct sequences of actions. HxAgent achieves 97.4% Exact-Match accuracy on MiniWoB++, comparable to the best baselines without human demonstrations and surpassing the recent WALT by 10.5%. On a dataset of 350 web tasks, it attains 83.8% Exact-Match and 91.8% Prefix-Match, exceeding WALT by 13.4%. On OnlineMind2Web, it further improves over WALT by 4.6%.",
+      "authors": [
+        "Tu Nguyen",
+        "Duy Cao",
+        "Viet Nguyen",
+        "Phu Nguyen",
+        "Vy Le",
+        "Nguyen TK Nguyen",
+        "Tien N. Nguyen",
+        "Vu Nguyen"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-08-16T02:40:37+00:00",
+      "link": "https://arxiv.org/pdf/2608.15491v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proactive correction strategy that reassesses web state and uses past incorrect sequences to correct actions",
+      "llm_evidence_cn": "主动校正策略，重新评估web状态并利用过去错误序列修正动作",
+      "llm_evidence": "主动校正策略，重新评估web状态并利用过去错误序列修正动作",
+      "canonical_evidence": "主动校正策略，重新评估web状态并利用过去错误序列修正动作",
+      "llm_tldr_en": "HxAgent is an iterative LLM planning agent for web application testing that reassesses web state after each step and uses short-term memory and long-term experience from past incorrect action sequences to proactively correct its plan. It achieves 97.4% exact-match accuracy on MiniWoB++.",
+      "llm_tldr_cn": "该论文提出HxAgent，一种用于端到端Web应用测试的迭代LLM规划代理。它在每一步后重新评估Web状态，结合当前观察、短期动作记忆以及从过去正确/不正确序列中提取的长期经验，主动选择下一步动作并校正计划。HxAgent在MiniWoB++上达到97.4%的精确匹配准确率，无需人工演示即超越最新基线。该工作通过利用错误序列实现动作纠错，与代理轨迹中动作错误检测与修正高度相关。",
+      "llm_tldr": "该论文提出HxAgent，一种用于端到端Web应用测试的迭代LLM规划代理。它在每一步后重新评估Web状态，结合当前观察、短期动作记忆以及从过去正确/不正确序列中提取的长期经验，主动选择下一步动作并校正计划。HxAgent在MiniWoB++上达到97.4%的精确匹配准确率，无需人工演示即超越最新基线。该工作通过利用错误序列实现动作纠错，与代理轨迹中动作错误检测与修正高度相关。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.08950v1",
+      "source": "arxiv",
+      "title": "Independent Patch Verification for Coding Agents with a Bidirectional Reconstruct-and-Verify Framework",
+      "abstract": "Autonomous coding agents powered by large language models can now generate code patches directly from bug reports, but a fundamental gap remains: once a patch is produced, no mechanism independently verifies whether it truly resolves the reported problem. Prior work has sought to address this through iterative self-refinement and inference-time scaling, but these approaches either review the patch under the same interpretation that produced it or broaden candidate generation without verifying individual patches, and neither provides an explicit verification signal for assessing patch correctness. We propose RETRACE, a training-free post-generation verification framework that derives such a signal through bidirectional reconstruction and reconciliation. When a coding agent generates a candidate patch for an issue, RETRACE performs forward reconstruction to build an explicit repair rationale from the issue and the agent's trajectory; backward reconstruction then independently infers, from the patch and its trajectory alone and without access to the original issue, a description of the problem the patch appears to address, and compares this reconstruction against the original issue to produce an alignment verdict; a reconciliation stage then checks the consistency between the forward rationale and the patch, diagnoses the source of any misalignment, and either submits the patch or produces targeted revision guidance. Evaluated on SWE-bench Verified with two backbones (GPT-5-mini and MiniMax-2.5), RETRACE lifts Pass@1 by 7.0% and 3.6% respectively on the mini-SWE-agent scaffold, and delivers comparable gains on OpenHands without modification. Ablation experiments show that both the forward and backward stages contribute to the overall improvement and that adding reconciliation yields further gains.",
+      "authors": [
+        "Chenglin Li",
+        "Yisen Xu",
+        "Zehao Wang",
+        "Shin Hwei Tan",
+        "Tse-Hsun",
+        "Chen"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-08-09T22:59:13+00:00",
+      "link": "https://arxiv.org/pdf/2608.08950v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "derives explicit verification signal for patch correctness, independently verifying agent output",
+      "llm_evidence_cn": "导出补丁正确性的显式验证信号，独立验证智能体输出",
+      "llm_evidence": "导出补丁正确性的显式验证信号，独立验证智能体输出",
+      "canonical_evidence": "导出补丁正确性的显式验证信号，独立验证智能体输出",
+      "llm_tldr_en": "RETRACE is a training-free post-generation verification framework that derives an explicit signal for whether a code patch truly resolves a bug, avoiding self-confirmation bias in coding-agent error detection.",
+      "llm_tldr_cn": "针对编码智能体生成补丁后缺乏独立验证的缺陷，提出免训练的RETRACE框架。该框架通过双向重构对比生成显式的补丁正确性信号，判断补丁是否真正解决问题。实验显示其能有效避免自我确认偏差，为智能体补丁错误提供独立验证途径，提升自动修复的可信度。",
+      "llm_tldr": "针对编码智能体生成补丁后缺乏独立验证的缺陷，提出免训练的RETRACE框架。该框架通过双向重构对比生成显式的补丁正确性信号，判断补丁是否真正解决问题。实验显示其能有效避免自我确认偏差，为智能体补丁错误提供独立验证途径，提升自动修复的可信度。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.15145v1",
+      "source": "arxiv",
+      "title": "ACTS-SQL: Agentic and Critic-Oriented Tree-Structured SQL Correctness with Large Language Models",
+      "abstract": "Large Language Models (LLMs) have been increasingly adopted in Text-to-SQL systems, yet SQL errors remain a major obstacle in real-world Text-to-SQL inference pipelines. Existing SQL correction approaches either rely on large-scale, high-quality training data with substantial overhead, or adopt single-path agentic workflows that are brittle to early mistakes and prone to error propagation.   To develop a practical SQL correctness system for industrial scenarios, we present a training-free framework that formulates SQL correction as a plan-guided, tree-structured debugging process. By maintaining multiple correction strategies and enabling backtracking, the framework mitigates error accumulation during iterative refinement. We further integrate execution-based verification and clause-level diagnostic tools to support strategy pruning and precise error localization.   We evaluate the system on the BIRD-Critic benchmark and observe consistent accuracy gains over strong LLM backbones and representative agent-based baselines, achieving a 9.42% improvement over the previous state-of-the-art method. The framework is also deployed in the Torch Log Service (TLS) of Volcano Engine to support an online Text-to-TLS API. In production, it improves execution accuracy from 36.77% to 53.61% on real user queries with a representative strong LLM backbone (GPT-5). These results demonstrate the effectiveness and stability of our approach in real-world deployments.",
+      "authors": [
+        "Xinmei Huang",
+        "Jie Song",
+        "Peng Li",
+        "Fuxin Jiang",
+        "Jing Zhang",
+        "Tieying Zhang",
+        "Jianjun Chen",
+        "Chenming Liu",
+        "Tao Yang",
+        "Maoyin Liu",
+        "Wenda Li",
+        "Hong Chen",
+        "Cuiping Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-15T09:43:57+00:00",
+      "link": "https://arxiv.org/pdf/2608.15145v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "formulates SQL correction as plan-guided tree-structured debugging, backtracking to mitigate error propagation",
+      "llm_evidence_cn": "将SQL纠错构建为计划引导的树状调试，通过回溯减少错误传播",
+      "llm_evidence": "将SQL纠错构建为计划引导的树状调试，通过回溯减少错误传播",
+      "canonical_evidence": "将SQL纠错构建为计划引导的树状调试，通过回溯减少错误传播",
+      "llm_tldr_en": "Presents a training-free SQL correction framework that formulates error correction as a plan-guided tree-structured debugging process with multiple strategies and backtracking, mitigating error accumulation in agentic inference.",
+      "llm_tldr_cn": "针对文本到SQL系统中SQL错误频发且现有纠错方法脆弱的问题，提出免训练的ACTS-SQL框架。该方法将SQL纠错视为计划引导的树状调试过程，通过维护多种纠错策略并支持回溯，缓解迭代修正中的错误累积。实验表明该框架能有效提升SQL正确性，为工业场景提供实用纠错方案。",
+      "llm_tldr": "针对文本到SQL系统中SQL错误频发且现有纠错方法脆弱的问题，提出免训练的ACTS-SQL框架。该方法将SQL纠错视为计划引导的树状调试过程，通过维护多种纠错策略并支持回溯，缓解迭代修正中的错误累积。实验表明该框架能有效提升SQL正确性，为工业场景提供实用纠错方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.15727v1",
+      "source": "arxiv",
+      "title": "FirstDiff: One-Step Diffusion-Based Anomaly Detection for Multivariate Time Series via Initial Noise Prediction",
+      "abstract": "Diffusion models have recently shown strong potential for multivariate time-series anomaly detection by learning the distribution of normal data through iterative denoising. Existing diffusion-based approaches, however, typically perform anomaly detection after completing the reverse diffusion process, relying primarily on the final reconstructed signal and overlooking informative representations produced during denoising. This design incurs substantial computational cost and limits the use of intermediate diffusion information for anomaly detection.   In this paper, we propose FirstDiff, a diffusion-based anomaly detection framework based on the observation that the predicted diffusion noise at the initial reverse-diffusion evaluation already contains sufficient information for accurate anomaly detection. FirstDiff models the statistical distribution of predicted diffusion noise under normal behavior using validation data, enabling anomaly inference from a single denoising-network evaluation rather than completing the reverse diffusion trajectory.   To model complex temporal and inter-sensor dependencies, FirstDiff employs a Diffusion Transformer as the denoising backbone. Extensive experiments on five public benchmark datasets demonstrate that FirstDiff achieves state-of-the-art performance while reducing diffusion inference from the full reverse trajectory to a single denoising-network evaluation.",
+      "authors": [
+        "Ali Boudaghi",
+        "Alireza Nemati",
+        "Hadi Zare"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "stat.ML"
+      ],
+      "published": "2026-08-16T12:59:38+00:00",
+      "link": "https://arxiv.org/pdf/2608.15727v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "anomaly detection method for multivariate time series applicable to agent trajectory anomaly detection",
+      "llm_evidence_cn": "针对多元时间序列的异常检测方法，可适用于代理轨迹异常检测",
+      "llm_evidence": "针对多元时间序列的异常检测方法，可适用于代理轨迹异常检测",
+      "canonical_evidence": "针对多元时间序列的异常检测方法，可适用于代理轨迹异常检测",
+      "llm_tldr_en": "FirstDiff is a one-step diffusion-based anomaly detection framework for multivariate time series that uses the predicted diffusion noise at the initial reverse step, reducing computation and leveraging intermediate denoising representations. It is a transferable anomaly detection method for trajectory-like data.",
+      "llm_tldr_cn": "该论文提出FirstDiff，一种基于扩散模型的一步多元时间序列异常检测框架。现有扩散方法需完整反向扩散后依赖最终重构信号进行检测，计算开销大且忽略中间去噪表示。FirstDiff利用初始反向步骤预测的扩散噪声来执行异常检测，仅需一步即可完成，显著降低计算成本。该方法在多元时间序列异常检测上具有通用性，其核心思想可迁移至智能体轨迹异常检测，通过建模正常轨迹分布来识别异常偏差。",
+      "llm_tldr": "该论文提出FirstDiff，一种基于扩散模型的一步多元时间序列异常检测框架。现有扩散方法需完整反向扩散后依赖最终重构信号进行检测，计算开销大且忽略中间去噪表示。FirstDiff利用初始反向步骤预测的扩散噪声来执行异常检测，仅需一步即可完成，显著降低计算成本。该方法在多元时间序列异常检测上具有通用性，其核心思想可迁移至智能体轨迹异常检测，通过建模正常轨迹分布来识别异常偏差。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.16041v1",
+      "source": "arxiv",
+      "title": "ScenarioCharacterization: A Modular Toolkit for Characterizing Safety across Trajectory Datasets",
+      "abstract": "We introduce ScenarioCharacterization, an open-source framework for automated, dataset-agnostic profiling of driving scenarios in trajectory datasets. Our framework is packaged as a modular, configuration-driven pipeline of three layers: a dataset adapter that maps custom datasets onto an open Scenario representation, a characterizer that performs feature extraction, behavior probing, and criticality scoring at scenario and agent levels, and an analysis layer for scenario visualization and feature, score, and probe analyses. Because the layers communicate only through Pydantic-validated schemas composed via configurations, a new dataset can easily plug in without rewriting the characterization and analysis stack.   This technical report describes the design and APIs, shows example outputs on Waymo Open Motion, Argoverse2, and nuPlan, and discusses downstream uses of the approach. The framework is available at https://github.com/navarrs/ScenarioCharacterization.",
+      "authors": [
+        "Ingrid Navarro",
+        "Yutong Duan",
+        "Jonathan Francis",
+        "Jean Oh"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-17T03:10:01+00:00",
+      "link": "https://arxiv.org/pdf/2608.16041v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Modular toolkit for criticality scoring and behavior probing on trajectory datasets",
+      "llm_evidence_cn": "面向轨迹数据集的关键性评分与行为探测的模块化工具包",
+      "llm_evidence": "面向轨迹数据集的关键性评分与行为探测的模块化工具包",
+      "canonical_evidence": "面向轨迹数据集的关键性评分与行为探测的模块化工具包",
+      "llm_tldr_en": "ScenarioCharacterization is a dataset-agnostic, modular pipeline for profiling driving scenarios, extracting features, probing behavior, and scoring criticality at scenario and agent levels.",
+      "llm_tldr_cn": "针对轨迹数据集安全分析缺乏统一工具的问题，提出ScenarioCharacterization开源框架，以模块化配置驱动管道将数据集适配、特征提取、行为探测与关键性评分分层解耦。不同数据集可通过适配器无缝接入，支持场景级和智能体级的安全特征刻画与分析，为轨迹异常和风险识别提供通用工具。",
+      "llm_tldr": "针对轨迹数据集安全分析缺乏统一工具的问题，提出ScenarioCharacterization开源框架，以模块化配置驱动管道将数据集适配、特征提取、行为探测与关键性评分分层解耦。不同数据集可通过适配器无缝接入，支持场景级和智能体级的安全特征刻画与分析，为轨迹异常和风险识别提供通用工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.16178v1",
+      "source": "arxiv",
+      "title": "Agent-Native Telemetry: Verifiable State-Delta Evidence for Autonomous Operations",
+      "abstract": "Operational telemetry is predominantly engineered for human reading: systems repeatedly serialize verbose prose, static keys, and redundant context across billions of log lines. As autonomous AI agents become primary operational consumers, feeding them traditional logs wastes scarce context capacity parsing lexical syntax rather than reasoning over system state changes -- all while lacking cryptographic guarantees of provenance or collection completeness.   This paper introduces agent-native telemetry, an operational evidence architecture for autonomous machine operators founded on verifiable state deltas rather than human prose. We present the Agent Telemetry Protocol (ATP) and the State-Delta Evidence Ledger, an implementation that structures operational facts into four core evidence primitives (Transitions, Observations, Relations, and State Checkpoints) governed by content-addressed schemas, while isolating uncurated text as digest-verified opaque references. Producers sign and hash-chain batches for atomic collector append. Verified records feed two parallel agent access paths: a stateless protocol decoder emitting compact positional rows, and a stateful semantic gateway serving bounded graph capsules. We prove an information-preservation lower bound and formalize a ledger-relative verified negative theorem for provable event non-occurrence. On distributed microservice benchmarks (AIOpsLab and OpenTelemetry Astronomy Shop), ATP reduces raw wire payload and modeled cloud query scan costs by 96.4% relative to OpenTelemetry JSON, reduces LLM context tokens by 88.8% and query operations by 66.2%, detects all 500 tested adversarial storage mutations, and yields zero successful prompt injections across 50 adversarial trials per ATP configuration.",
+      "authors": [
+        "Jun He",
+        "Deying Yu"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.AI"
+      ],
+      "published": "2026-08-17T06:50:12+00:00",
+      "link": "https://arxiv.org/pdf/2608.16178v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Verifiable state-delta telemetry for monitoring autonomous agent operations",
+      "llm_evidence_cn": "面向自主智能体运行监控的可验证状态增量遥测",
+      "llm_evidence": "面向自主智能体运行监控的可验证状态增量遥测",
+      "canonical_evidence": "面向自主智能体运行监控的可验证状态增量遥测",
+      "llm_tldr_en": "Introduces agent-native telemetry, an evidence architecture with the Agent Telemetry Protocol and State-Delta Evidence Ledger, enabling verifiable state-delta monitoring for autonomous agents.",
+      "llm_tldr_cn": "针对传统日志不适合自主AI智能体消费且缺乏可验证性的问题，提出智能体原生遥测架构，以可验证状态增量而非人类散文记录系统状态变化，并实现Agent Telemetry Protocol和State-Delta Evidence Ledger。该架构为自主智能体的运行监控提供了机器可读、带来源保证的证据，有助于异常检测和错误定位。",
+      "llm_tldr": "针对传统日志不适合自主AI智能体消费且缺乏可验证性的问题，提出智能体原生遥测架构，以可验证状态增量而非人类散文记录系统状态变化，并实现Agent Telemetry Protocol和State-Delta Evidence Ledger。该架构为自主智能体的运行监控提供了机器可读、带来源保证的证据，有助于异常检测和错误定位。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
