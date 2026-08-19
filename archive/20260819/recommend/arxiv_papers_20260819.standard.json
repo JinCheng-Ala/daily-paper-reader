@@ -1,0 +1,328 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-19T20:41:49.184857+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2608.17718v1",
+      "source": "arxiv",
+      "title": "Beyond Suspicious Steps: Ontological Trust in Long-Horizon Agents",
+      "abstract": "Long-horizon agents increasingly operate across many steps, tools, and observa- tions. In this setting, the relevant oversight question is not only whether each action is locally valid, but whether the evolving trajectory still corresponds to the task the user authorized. Drift can accumulate quietly: an agent may call the right tool with plausible arguments at every step, while its prefix moves toward a broader role, an adjacent objective, or evidence the user never supplied. Existing monitors mostly check local compliance, deliver final-trace verdicts, or score generic risk; they do not directly estimate this prefix-level relation. We introduce ontological trust, a task-conditioned property of trajectory prefixes, and instantiate it as RGE, an online monitor that decomposes trust along Role, Goal, and Evidence. RGE uses LLMs only to derive structured task and step representations; trust-state updates, projec- tions, and intervention decisions are deterministic, so the output is a replayable and auditable trust trajectory rather than a single end-to-end judge verdict. We construct a cross-domain trajectory corpus from OSWorld, FinanceBench, and EICU-AC, covering benign executions, prefix-paired drift, and pseudo-consistency failures. On this corpus, RGE outperforms adapted rule-, judge-, and shield-style baselines on prefix-paired drift detection. With the two larger estimator models, it exceeds 93% Drift F1 on every benchmark while keeping benign coverage at or above 95.8%. Pseudo-consistency is harder: detection depends on whether task completion is externally visible, a structural limit we characterize empirically.",
+      "authors": [
+        "An He",
+        "Yao Wang",
+        "Haibin Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-18T12:44:43+00:00",
+      "link": "https://arxiv.org/pdf/2608.17718v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "online monitor RGE estimates task-conditioned trust of trajectory prefixes to detect drift",
+      "llm_evidence_cn": "在线监控器RGE估计轨迹前缀的任务条件信任，检测轨迹漂移",
+      "llm_evidence": "在线监控器RGE估计轨迹前缀的任务条件信任，检测轨迹漂移",
+      "canonical_evidence": "在线监控器RGE估计轨迹前缀的任务条件信任，检测轨迹漂移",
+      "llm_tldr_en": "RGE is an online monitor that estimates ontological trust of long-horizon agent trajectory prefixes, detecting subtle drift toward unauthorized tasks that per-step local checks miss.",
+      "llm_tldr_cn": "论文指出长时程智能体的监控不仅应检查单步动作合法性，还需判断轨迹前缀是否偏离用户授权任务。现有监控器只做局部合规或最终判定，难以发现逐步合法但整体漂移的错误。提出本体信任这一任务条件属性，并实现在线监控器RGE，持续估计轨迹前缀与授权目标的关系，从而在运行中捕获隐蔽漂移，提升可监督性。",
+      "llm_tldr": "论文指出长时程智能体的监控不仅应检查单步动作合法性，还需判断轨迹前缀是否偏离用户授权任务。现有监控器只做局部合规或最终判定，难以发现逐步合法但整体漂移的错误。提出本体信任这一任务条件属性，并实现在线监控器RGE，持续估计轨迹前缀与授权目标的关系，从而在运行中捕获隐蔽漂移，提升可监督性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.16402v1",
+      "source": "arxiv",
+      "title": "A Policy Algebra for Trust-Preserving Agentic AI Execution",
+      "abstract": "Large language model-based agentic frameworks primarily optimize capability: whether an agent can reason, retrieve information, call tools, delegate work, and complete a goal. Enterprise execution requires a stronger property. A successful result is not reliable if it was produced through unauthorized data access, widened delegated authority, unapproved side effects, unrecoverable budget consumption, or incomplete evidence. This paper defines reliable capability as a path property: an agent is reliably capable only when it completes a task through action events that remain admissible under identity, profile, tool, data, memory, budget, artifact, approval, and audit constraints. We propose a policy algebra that defines the reliability envelope within which agent capability may be exercised. Security profiles and runtime obligations compose through joins, intersections, budget narrowing, approval inheritance, and evidence accumulation; the resulting composition is both trust-preserving and the least restrictive state satisfying all governing inputs. The algebra also propagates restrictions across multi-agent calls and introduces cost-aware artifact materialization, which redirects open-ended execution toward a recoverable outcome as budget exposure grows. The evaluation is interpreted as a reliability-capability trade-off rather than a capability benchmark: the policy-algebra runtime intervenes on 94.8% of policy-violating events while retaining an 86.9% task-completion rate, eliminates the observed profile-monotonicity and zero-artifact-exhaustion violations, and increases audit completeness to 98.6%. The method provides researchers and practitioners with formal correctness conditions, executable decision semantics, and trace evidence for building agents that are not only capable, but reliably capable.",
+      "authors": [
+        "Bhaskar Tripathi",
+        "Anurag Kumar",
+        "Ramendra Kumar",
+        "Bhavesh Gadhe"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-17T10:59:15+00:00",
+      "link": "https://arxiv.org/pdf/2608.16402v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "defines reliable capability as a path property by checking action events against identity, tool, data, approval and audit constraints",
+      "llm_evidence_cn": "将可靠能力定义为路径属性，检查动作事件是否满足身份、工具、数据、审批与审计等约束",
+      "llm_evidence": "将可靠能力定义为路径属性，检查动作事件是否满足身份、工具、数据、审批与审计等约束",
+      "canonical_evidence": "将可靠能力定义为路径属性，检查动作事件是否满足身份、工具、数据、审批与审计等约束",
+      "llm_tldr_en": "Policy Algebra formalizes reliable agentic execution as a path property, checking each action event against identity, tool, data, budget, approval and audit constraints, enabling detection of non-compliant actions in agent trajectories.",
+      "llm_tldr_cn": "企业级LLM代理执行不仅要求完成任务，还要求产生结果的每个动作都符合身份、工具、数据、预算、审批和审计等约束。该文将可靠能力定义为路径性质，提出策略代数来界定代理在合规包络内的可执行动作。通过检查整条轨迹中的动作事件是否违规，可以在错误结果出现前发现未经授权的数据访问、越权委托等异常行为。这一形式化框架为代理轨迹的行为监控与错误检测提供了理论基础。",
+      "llm_tldr": "企业级LLM代理执行不仅要求完成任务，还要求产生结果的每个动作都符合身份、工具、数据、预算、审批和审计等约束。该文将可靠能力定义为路径性质，提出策略代数来界定代理在合规包络内的可执行动作。通过检查整条轨迹中的动作事件是否违规，可以在错误结果出现前发现未经授权的数据访问、越权委托等异常行为。这一形式化框架为代理轨迹的行为监控与错误检测提供了理论基础。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.17318v1",
+      "source": "arxiv",
+      "title": "If, Then, Otherwise: Diagnosing Conditional Branching in Vision-Language Navigation",
+      "abstract": "Vision-language navigation agents are often evaluated on their ability to follow route-like instructions toward a fixed goal. Yet, real navigation instructions often depend on observed states of the environment: if a condition holds, then follow one path, otherwise take another. Such instructions require an agent to evaluate scene evidence, select the correct logical branch, and execute the corresponding navigation behavior. Existing evaluations provide limited control over conditional branch execution, making it difficult to determine whether agents fail because of perception, grounding, navigation, or logical decision-making. We introduce CondVLN, a scene-graph-grounded benchmark for diagnosing conditional branching in vision-language navigation. CondVLN programmatically generates instructions whose branch conditions are grounded in verifiable 3D scene-graph predicates, with controlled variation in branch depth, dependency chain length, spatial composition, evidence observability, and instruction horizon. CondVLN contains over 11,500 generated conditional instructions across AI2-THOR, Matterport3D, Gibson, and ReplicaCAD, and evaluates agents using standard VLN metrics and branch-specific diagnostics: Branch Selection Accuracy and Conditional Success Rate. Evaluating four state-of-the-art VLN agents (VLN-Zero, NaVid, NaVILA, and Open-Nav) shows that conditional branching exposes failures that are not captured by standard success rate or path length alone: agents can navigate plausibly while committing to a branch inconsistent with the observed scene condition. We also present a lightweight neurosymbolic branch-selection model that separates condition grounding from navigation execution, improving performance by 2x. CondVLN provides a reusable testbed for measuring whether embodied agents can not only follow instructions, but follow the right instruction under the right condition.",
+      "authors": [
+        "Seoyoung Lee",
+        "Neel P. Bhatt",
+        "Pranay Samineni",
+        "Cong Liu",
+        "S P Sharan",
+        "Timothy Barclay",
+        "Gregory M. Wagner",
+        "Daniel Milan",
+        "Sandeep Chinchali",
+        "Ufuk Topcu",
+        "Atlas Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-08-18T03:22:29+00:00",
+      "link": "https://arxiv.org/pdf/2608.17318v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "benchmark for diagnosing conditional branching failures; isolates perception, grounding, navigation, or logical decision-making errors in navigation agents",
+      "llm_evidence_cn": "用于诊断条件分支故障的基准；区分导航智能体在感知、接地、导航或逻辑决策中的错误",
+      "llm_evidence": "用于诊断条件分支故障的基准；区分导航智能体在感知、接地、导航或逻辑决策中的错误",
+      "canonical_evidence": "用于诊断条件分支故障的基准；区分导航智能体在感知、接地、导航或逻辑决策中的错误",
+      "llm_tldr_en": "Introduces CondVLN, a scene-graph-grounded benchmark for diagnosing conditional branching in vision-language navigation, isolating whether agent failures arise from perception, grounding, navigation, or logical decision-making.",
+      "llm_tldr_cn": "现实导航指令常依赖环境状态条件分支，但现有评估难以判断智能体失败源于感知、接地、导航还是逻辑决策。为此提出CondVLN，一个基于场景图的条件分支诊断基准，通过受控分支执行分离各环节，并在不同条件下定位失败模块。实验揭示了不同阶段的错误类型，为智能体导航轨迹中的路径偏差与动作错误诊断提供了细粒度评测工具。",
+      "llm_tldr": "现实导航指令常依赖环境状态条件分支，但现有评估难以判断智能体失败源于感知、接地、导航还是逻辑决策。为此提出CondVLN，一个基于场景图的条件分支诊断基准，通过受控分支执行分离各环节，并在不同条件下定位失败模块。实验揭示了不同阶段的错误类型，为智能体导航轨迹中的路径偏差与动作错误诊断提供了细粒度评测工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.17195v1",
+      "source": "arxiv",
+      "title": "Graphectory Viewer: A Tool for Process-Centric Analysis of Agentic Software Trajectories",
+      "abstract": "We present Graphectory Viewer, a web-based tool for interactive, process-centric analysis of software-agent trajectories. Building on the Graphectory representation introduced in our previous work, Graphectory Viewer transforms heterogeneous raw trajectories into phase-aware graphs that connect low-level execution details with higher-level behavioral structures. The tool supports trajectories from multiple agent frameworks and provides interactive graph construction; node-level inspection of thoughts, actions, and observations; search and filtering over large trajectory collections; and Sankey-style summaries of problem-solving phase transitions. These capabilities enable researchers and practitioners to inspect individual executions, identify recurring behavioral patterns, compare successful and failed runs, and analyze large trajectory corpora beyond final task outcomes. To support reproducibility and further research, we release Graphectory Viewer as an open-source artifact together with documentation, precomputed graphs, and the large-scale trajectory corpus.",
+      "authors": [
+        "Charlie Jyu",
+        "Shuyang Liu",
+        "Reyhaneh Jabbarvand"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-08-17T23:17:04+00:00",
+      "link": "https://arxiv.org/pdf/2608.17195v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Interactive tool for process-centric analysis of agent trajectories with node-level inspection, enabling error monitoring",
+      "llm_evidence_cn": "提供交互式工具对智能体轨迹进行以过程为中心的分析，支持节点级检查，可用于监控错误",
+      "llm_evidence": "提供交互式工具对智能体轨迹进行以过程为中心的分析，支持节点级检查，可用于监控错误",
+      "canonical_evidence": "提供交互式工具对智能体轨迹进行以过程为中心的分析，支持节点级检查，可用于监控错误",
+      "llm_tldr_en": "Presents Graphectory Viewer, a web tool for interactive process-centric analysis of agent trajectories, enabling inspection and filtering to support error monitoring.",
+      "llm_tldr_cn": "本文提出Graphectory Viewer，一个基于Web的交互式工具，用于智能体软件轨迹的以过程为中心的分析。该工具将异构原始轨迹转换为感知阶段的图，连接底层执行细节与高层行为结构；支持多框架轨迹、交互式图构建、对想法、动作和观察的节点级检查，以及大规模轨迹的搜索过滤和Sankey式阶段转移摘要。这些能力帮助研究者和从业者检查个体执行轨迹，从而便于发现和监控智能体行为中的错误。",
+      "llm_tldr": "本文提出Graphectory Viewer，一个基于Web的交互式工具，用于智能体软件轨迹的以过程为中心的分析。该工具将异构原始轨迹转换为感知阶段的图，连接底层执行细节与高层行为结构；支持多框架轨迹、交互式图构建、对想法、动作和观察的节点级检查，以及大规模轨迹的搜索过滤和Sankey式阶段转移摘要。这些能力帮助研究者和从业者检查个体执行轨迹，从而便于发现和监控智能体行为中的错误。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.17319v1",
+      "source": "arxiv",
+      "title": "Wuying-Browser-Agent: Real-World Centric Fundamental Long-Horizon Browser Agents",
+      "abstract": "Browser agents perform well on short, clean demonstrations, but real deployment is fundamentally different: agents must sustain dozens of decisions on live websites while recovering from mistakes and navigating complex UIs. We argue that closing this gap requires alignment at every level of the pipeline, including execution, supervision, optimization, and evaluation, rather than scale alone. We present Wuying-Browser-Agent, a unified framework that addresses each of these levels. A structured browser harness provides stable execution primitives and decision-oriented context management. Reflection and UI-specialized Curriculum SFT (RUIC-SFT) explicitly trains on recovery trajectories and complex-UI interactions. Divergence-Aware Online GRPO (DAO-GRPO) improves long-horizon credit assignment through potential-based reward shaping and divergence-aware step weighting. Finally, we introduce BrowserBench, a bilingual real-web benchmark of 350 tasks averaging 37.9 steps, because most existing benchmarks are too short to expose long-horizon failure modes. Wuying-Browser-Agent-27B achieves 80.6\\% on WebVoyager, 66.7\\% on Online-Mind2Web, and 65.1\\% on BrowserBench, establishing a new open-source state of the art on browser-use benchmarks. The same pipeline also transfers beyond browser use, demonstrating strong general agentic ability and reaching an average score of 73.8 on Tau2-Bench, Claw-Eval, and BFCL-v4.",
+      "authors": [
+        "AIMAE Team",
+        "Tianxiang Chen",
+        "Yan Cheng",
+        "Zhangye Han",
+        "Xiaowei Li",
+        "Chang Liu",
+        "Cheng Liu",
+        "Zhongqiang Ma",
+        "Long Peng",
+        "Xiaobing Tu",
+        "Yinggui Wang",
+        "Hongliang Wei",
+        "Chen Wu",
+        "Daiping Xin",
+        "Kunyu Zhou",
+        "Pengyang Zhou",
+        "Peiyuan Chen",
+        "Ziyuan Chen",
+        "Yutao Deng",
+        "Chunyu Dong",
+        "Xiangyu Fu",
+        "Yicheng Feng",
+        "Ruian He",
+        "Haochen Li",
+        "Miancan Liu",
+        "Zhengqin Liu",
+        "Wei Peng",
+        "Jinkui Ren",
+        "Haoyu Tan",
+        "Dong Xiao",
+        "Rongkun Xue",
+        "Shujian Yang",
+        "Xianhang Ye",
+        "Ziqi Yuan",
+        "Ziyang Yu",
+        "Linghan Zhang",
+        "Xiantao Zhang",
+        "Xuanpu Zhao",
+        "Yinan Zhao",
+        "Zhenghui Zhao",
+        "Bin Zhu",
+        "Likai Zou"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-18T03:23:31+00:00",
+      "link": "https://arxiv.org/pdf/2608.17319v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Trains browser agents to recover from mistakes on live websites, emphasizing recovery trajectories and error recovery",
+      "llm_evidence_cn": "训练浏览器智能体在实时网站上从错误中恢复，强调恢复轨迹和错误恢复能力",
+      "llm_evidence": "训练浏览器智能体在实时网站上从错误中恢复，强调恢复轨迹和错误恢复能力",
+      "canonical_evidence": "训练浏览器智能体在实时网站上从错误中恢复，强调恢复轨迹和错误恢复能力",
+      "llm_tldr_en": "Presents Wuying-Browser-Agent, a unified framework for long-horizon browser agents that explicitly trains on recovery trajectories to handle mistakes in real deployment.",
+      "llm_tldr_cn": "本文提出Wuying-Browser-Agent，一个面向真实世界长时浏览器智能体的统一框架。作者认为真实部署与短演示不同，智能体必须在实时网站上做出数十个决策并不断从错误中恢复。框架包括结构化浏览器钩子、反思与UI专用课程SFT（RUIC-SFT）显式训练恢复轨迹和复杂UI交互，以及分歧感知在线GRPO优化。该工作通过执行、监督、优化和评估各层面的对齐，显著提升了智能体在真实网页上的错误恢复能力。",
+      "llm_tldr": "本文提出Wuying-Browser-Agent，一个面向真实世界长时浏览器智能体的统一框架。作者认为真实部署与短演示不同，智能体必须在实时网站上做出数十个决策并不断从错误中恢复。框架包括结构化浏览器钩子、反思与UI专用课程SFT（RUIC-SFT）显式训练恢复轨迹和复杂UI交互，以及分歧感知在线GRPO优化。该工作通过执行、监督、优化和评估各层面的对齐，显著提升了智能体在真实网页上的错误恢复能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.17341v1",
+      "source": "arxiv",
+      "title": "LLM-Only PDDL Domain Repair with Open-Weight Models",
+      "abstract": "AI planning is concerned with finding a sequence of actions that achieves a specified goal. It relies on explicit models of the world, commonly represented in the Planning Domain Definition Language (PDDL). An active line of research investigates how errors in such models can be detected and repaired. For example, users may provide positive test plans that are solutions, and negative test plans that fail during execution. Automated repair methods then modify the PDDL model to satisfy these constraints. In this paper, we evaluate the ability of recent open-weight large language models to perform this repair task using an LLM-only approach. Our experiments show that the symbolic baseline achieves an $F_1$ score of $.49$, while the best-performing LLM reaches $.87$ with high reasoning effort, an absolute improvement of $.38$. However, that setting has a mean test pass rate of only $.82$, falling to $.06$ on the Thoughtful domain; even the best setting that includes the test traces reaches only $.92$. Thus, current open-weight models cannot guarantee satisfaction of the test constraints required for reliable automated model repair.",
+      "authors": [
+        "Nader Karimi Bavandpour",
+        "Pascal Bercher"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-18T04:00:02+00:00",
+      "link": "https://arxiv.org/pdf/2608.17341v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Detects and repairs errors in PDDL planning models using failing test plans, relevant to error detection in planning traces",
+      "llm_evidence_cn": "利用执行失败的测试计划检测和修复PDDL规划模型中的错误，与规划轨迹中的错误检测相关",
+      "llm_evidence": "利用执行失败的测试计划检测和修复PDDL规划模型中的错误，与规划轨迹中的错误检测相关",
+      "canonical_evidence": "利用执行失败的测试计划检测和修复PDDL规划模型中的错误，与规划轨迹中的错误检测相关",
+      "llm_tldr_en": "Evaluates open-weight LLMs for repairing PDDL domain models from positive and negative test plans, showing LLMs achieve F1 of 0.87 vs symbolic 0.49.",
+      "llm_tldr_cn": "本文研究如何利用开放权重大语言模型修复规划领域定义语言（PDDL）模型中的错误。给定作为解决方案的正测试计划和执行失败的负测试计划，自动修复方法需修改模型以满足约束。实验显示，符号基线F1值为0.49，而最佳LLM达到0.87。这表明LLM在规划模型错误检测与修复中具有显著潜力，为规划轨迹相关的错误处理提供了新思路。",
+      "llm_tldr": "本文研究如何利用开放权重大语言模型修复规划领域定义语言（PDDL）模型中的错误。给定作为解决方案的正测试计划和执行失败的负测试计划，自动修复方法需修改模型以满足约束。实验显示，符号基线F1值为0.49，而最佳LLM达到0.87。这表明LLM在规划模型错误检测与修复中具有显著潜力，为规划轨迹相关的错误处理提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.17834v1",
+      "source": "arxiv",
+      "title": "AdaLens: Interactive Storyline for Monitoring and Steering Long-Running Agentic Data Analysis",
+      "abstract": "Large language models are pushing data science toward increasingly autonomous and agentic workflows, with recent systems already supporting multi-step and long-running analyses. As these workflows become more autonomous, conventional interfaces no longer provide adequate support for two critical requirements: observability for understanding an agent's evolving reasoning and evidence, and steerability for redirecting low-value directions or deepening promising ones during execution. Existing interactive approaches improve process visibility and open intervention points, but they remain largely designed for discrete, turn-by-turn exchanges rather than the parallel branches and evolving decision structures of long-running agentic analysis. We study this need as interactive oversight in long-running agentic data analysis and present AdaLens, an interactive system for monitoring and steering ongoing runs. AdaLens combines a storyline-based representation that unifies analytical plans, execution progress, intermediate findings, and data-column involvement with steering interactions grounded in these analytical elements for directional guidance and execution control. We evaluate AdaLens through two case studies and a user study, examining how it supports analysts in monitoring and steering long-running agentic data analysis.",
+      "authors": [
+        "Yangtian Liu",
+        "Yan Miao",
+        "Shuhan Liu",
+        "Yunfan Zhou",
+        "Dae Hyun Kim",
+        "Di Weng",
+        "Yingcai Wu"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC",
+        "cs.AI"
+      ],
+      "published": "2026-08-18T14:34:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.17834v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "observability into agent evolving reasoning and evidence; interactive monitoring and steering; supports human oversight of agent behavior",
+      "llm_evidence_cn": "对智能体演化推理与证据的可观察性；交互式监控与引导；支持人工监管智能体行为",
+      "llm_evidence": "对智能体演化推理与证据的可观察性；交互式监控与引导；支持人工监管智能体行为",
+      "canonical_evidence": "对智能体演化推理与证据的可观察性；交互式监控与引导；支持人工监管智能体行为",
+      "llm_tldr_en": "AdaLens provides an interactive storyline for monitoring and steering long-running agentic data analyses, addressing observability and steerability gaps in interfaces for parallel and evolving agent decisions.",
+      "llm_tldr_cn": "针对长时间运行的智能体数据分析中可观测性不足与引导能力缺乏的问题，AdaLens提出交互式故事线界面，以平行分支与演化决策结构呈现智能体的推理过程和证据。该方法帮助用户理解智能体行为并适时调整分析方向，提升了人工对自主工作流的感知与干预能力。该工作为智能体行为监控提供了界面支撑，但并非自动错误检测机制。",
+      "llm_tldr": "针对长时间运行的智能体数据分析中可观测性不足与引导能力缺乏的问题，AdaLens提出交互式故事线界面，以平行分支与演化决策结构呈现智能体的推理过程和证据。该方法帮助用户理解智能体行为并适时调整分析方向，提升了人工对自主工作流的感知与干预能力。该工作为智能体行为监控提供了界面支撑，但并非自动错误检测机制。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

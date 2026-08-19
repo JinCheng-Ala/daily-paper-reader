@@ -6,60 +6,43 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-18
-- 运行时间：2026-08-18 20:44:42 UTC
+- 最新运行日期：2026-08-19
+- 运行时间：2026-08-19 20:49:15 UTC
 - 运行状态：成功
-- 本次总论文数：12
-- 精读区：6
-- 速读区：6
+- 本次总论文数：7
+- 精读区：3
+- 速读区：4
 
 ### 今日简报（AI）
-今日精读两篇高分论文，聚焦长时智能体故障根因分析与关系不确定性传播；速读涵盖网页测试、代码验证及SQL生成。
-
-最值得关注的是智能体故障责任归因（LongRCA Bench）和结构化不确定性传播方法，两篇均获9.0/10分。
-
-建议优先精读这两篇高分论文，把握智能体长时任务诊断与不确定推理的前沿思路。
-- 详情：[/202608/18/README](/202608/18/README)
+今日研究聚焦长程智能体的信任机制与执行策略，并拓展至浏览器任务与规划修复。  
+最值得关注精读论文《Beyond Suspicious Steps》与《A Policy Algebra》，前者提出本体论信任，后者构建保信任的策略代数。  
+建议普通读者优先了解这两篇对自主代理信任维护的核心观点，以把握Agent可靠运行的关键。
+- 详情：[/202608/19/README](/202608/19/README)
 
 ### 精读区论文标签
-1. [LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures](/202608/18/2608.15242v1-longrca-bench-diagnosing-responsible-roles-and-root-causes-in-long-horizon-agent-failures)  
+1. [Beyond Suspicious Steps: Ontological Trust in Long-Horizon Agents](/202608/19/2608.17718v1-beyond-suspicious-steps-ontological-trust-in-long-horizon-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：直接定位长程智能体轨迹中最先决定性出错步骤并识别责任角色
-2. [From Sequence to Structure: Relational Uncertainty Propagation for LLM Agents](/202608/18/2608.16002v1-from-sequence-to-structure-relational-uncertainty-propagation-for-llm-agents)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：在轨迹层面传播不确定性，以识别LLM智能体故障
-3. [Towards Risk-free AI Agent Deployment](/202608/18/2608.16411v1-towards-risk-free-ai-agent-deployment)  
-   标签：评分：9.0/10、query:agent-error
-   evidence：主张通过智能体轨迹验证、测试与调试来检测失败
-4. [Practice Makes Unsafe: Skill Misevolution in Self-Improving LLM Agents](/202608/18/2608.12851v1-practice-makes-unsafe-skill-misevolution-in-self-improving-llm-agents)  
+   evidence：在线监控器RGE估计轨迹前缀的任务条件信任，检测轨迹漂移
+2. [A Policy Algebra for Trust-Preserving Agentic AI Execution](/202608/19/2608.16402v1-a-policy-algebra-for-trust-preserving-agentic-ai-execution)  
    标签：评分：8.0/10、query:agent-error
-   evidence：检测自进化LLM智能体轨迹中的不安全成功与技能误演化
-5. [Semantic Uncertainty-Guided Orchestration in Hierarchical Multi-Agent Systems](/202608/18/2608.14707v1-semantic-uncertainty-guided-orchestration-in-hierarchical-multi-agent-systems)  
+   evidence：将可靠能力定义为路径属性，检查动作事件是否满足身份、工具、数据、审批与审计等约束
+3. [If, Then, Otherwise: Diagnosing Conditional Branching in Vision-Language Navigation](/202608/19/2608.17318v1-if-then-otherwise-diagnosing-conditional-branching-in-vision-language-navigation)  
    标签：评分：8.0/10、query:agent-error
-   evidence：利用语义熵与语义密度评估中间推理步骤的可信度，防止多智能体轨迹中错误与幻觉传播
-6. [When Deep Research Agents Stagnate: Enhancing Reasoning with Retrieval-Aware Agent Control](/202608/18/2608.15191v1-when-deep-research-agents-stagnate-enhancing-reasoning-with-retrieval-aware-agent-control)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：检测智能体轨迹中的推理停滞，并用无监督信号调整动作
+   evidence：用于诊断条件分支故障的基准；区分导航智能体在感知、接地、导航或逻辑决策中的错误
 
 ### 速读区论文标签
-1. [HxAgent: Iterative Agent Planning for End-to-End Web Application Testing](/202608/18/2608.15491v1-hxagent-iterative-agent-planning-for-end-to-end-web-application-testing)  
+1. [Graphectory Viewer: A Tool for Process-Centric Analysis of Agentic Software Trajectories](/202608/19/2608.17195v1-graphectory-viewer-a-tool-for-process-centric-analysis-of-agentic-software-trajectories)  
    标签：评分：7.0/10、query:agent-error
-   evidence：主动校正策略，重新评估web状态并利用过去错误序列修正动作
-2. [Independent Patch Verification for Coding Agents with a Bidirectional Reconstruct-and-Verify Framework](/202608/18/2608.08950v1-independent-patch-verification-for-coding-agents-with-a-bidirectional-reconstruct-and-verify-framework)  
+   evidence：提供交互式工具对智能体轨迹进行以过程为中心的分析，支持节点级检查，可用于监控错误
+2. [Wuying-Browser-Agent: Real-World Centric Fundamental Long-Horizon Browser Agents](/202608/19/2608.17319v1-wuying-browser-agent-real-world-centric-fundamental-long-horizon-browser-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：导出补丁正确性的显式验证信号，独立验证智能体输出
-3. [ACTS-SQL: Agentic and Critic-Oriented Tree-Structured SQL Correctness with Large Language Models](/202608/18/2608.15145v1-acts-sql-agentic-and-critic-oriented-tree-structured-sql-correctness-with-large-language-models)  
+   evidence：训练浏览器智能体在实时网站上从错误中恢复，强调恢复轨迹和错误恢复能力
+3. [LLM-Only PDDL Domain Repair with Open-Weight Models](/202608/19/2608.17341v1-llm-only-pddl-domain-repair-with-open-weight-models)  
    标签：评分：6.0/10、query:agent-error
-   evidence：将SQL纠错构建为计划引导的树状调试，通过回溯减少错误传播
-4. [FirstDiff: One-Step Diffusion-Based Anomaly Detection for Multivariate Time Series via Initial Noise Prediction](/202608/18/2608.15727v1-firstdiff-one-step-diffusion-based-anomaly-detection-for-multivariate-time-series-via-initial-noise-prediction)  
+   evidence：利用执行失败的测试计划检测和修复PDDL规划模型中的错误，与规划轨迹中的错误检测相关
+4. [AdaLens: Interactive Storyline for Monitoring and Steering Long-Running Agentic Data Analysis](/202608/19/2608.17834v1-adalens-interactive-storyline-for-monitoring-and-steering-long-running-agentic-data-analysis)  
    标签：评分：6.0/10、query:agent-error
-   evidence：针对多元时间序列的异常检测方法，可适用于代理轨迹异常检测
-5. [ScenarioCharacterization: A Modular Toolkit for Characterizing Safety across Trajectory Datasets](/202608/18/2608.16041v1-scenariocharacterization-a-modular-toolkit-for-characterizing-safety-across-trajectory-datasets)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：面向轨迹数据集的关键性评分与行为探测的模块化工具包
-6. [Agent-Native Telemetry: Verifiable State-Delta Evidence for Autonomous Operations](/202608/18/2608.16178v1-agent-native-telemetry-verifiable-state-delta-evidence-for-autonomous-operations)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：面向自主智能体运行监控的可验证状态增量遥测
+   evidence：对智能体演化推理与证据的可观察性；交互式监控与引导；支持人工监管智能体行为
 
 
 <div class="dpr-home-promo-card">
