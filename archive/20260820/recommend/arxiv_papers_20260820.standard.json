@@ -1,0 +1,290 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-20T20:48:51.053563+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2608.16002v2",
+      "source": "arxiv",
+      "title": "From Sequence to Structure: Relational Uncertainty Propagation for LLM Agents",
+      "abstract": "Reliable uncertainty quantification (UQ) is essential for deploying large language model (LLM) agents in complex interactive environments. Existing UQ methods largely rely on local signals, such as token probabilities, predictive entropy, or per-step confidence, and therefore overlook the long-range dependencies through which errors accumulate across an execution trajectory. As a result, they may fail to identify agent failures whose causes originate several reasoning or interaction steps before the final answer. We propose RUPA (Relational Uncertainty Propagation for Agents), a trajectory-level UQ framework for LLM agents. RUPA represents an execution history as a directed trajectory graph in which reasoning states, tool interactions, and environment feedback are nodes connected by temporal and semantic dependency edges. It then propagates uncertainty over this graph to capture how execution risk accumulates and transfers across interaction steps. The propagated signal is combined with trajectory-level behavioral features and goal-alignment information to produce a confidence estimate for the full agent trajectory. We evaluate RUPA on representative agent benchmarks, including $τ$-2, Terminal-Bench-2, and GAIA, using 6 open-source LLMs spanning multiple model families. Experimental results show that RUPA consistently outperforms existing UQ methods by providing more accurate uncertainty estimates, enabling earlier failure detection, and improving uncertainty-guided agent execution across diverse agent tasks. These results demonstrate that explicitly modeling relational dependency is crucial to reliable UQ for long-horizon LLM agents, providing a practical foundation for trustworthy agent execution.",
+      "authors": [
+        "Zhengzhao Ma",
+        "Boxi Cao",
+        "Yaojie Lu",
+        "Hongyu Lin",
+        "Xianpei Han",
+        "Le Sun"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-08-17T01:40:14+00:00",
+      "link": "https://arxiv.org/pdf/2608.16002v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "trajectory-level relational uncertainty propagation to identify agent failures whose causes originate early",
+      "llm_evidence_cn": "通过轨迹级关系不确定性传播找出起因于早期步骤的智能体失败",
+      "llm_evidence": "通过轨迹级关系不确定性传播找出起因于早期步骤的智能体失败",
+      "canonical_evidence": "通过轨迹级关系不确定性传播找出起因于早期步骤的智能体失败",
+      "llm_tldr_en": "This paper proposes RUPA, a trajectory-level uncertainty quantification framework for LLM agents. It represents execution history as a directed graph and propagates uncertainty to detect failures caused by errors several steps before the final answer, overcoming limitations of local UQ methods.",
+      "llm_tldr_cn": "现有LLM智能体的不确定性量化依赖局部信号，无法捕捉轨迹级长程依赖，导致难以发现原因出现在最终答案前多步的失败。为此本文提出RUPA框架，将执行历史建模为有向轨迹图，并在推理状态、工具交互和环境节点间传播关系不确定性。该方法能够有效定位轨迹层级的错误来源，为智能体失败检测提供了结构化新思路。",
+      "llm_tldr": "现有LLM智能体的不确定性量化依赖局部信号，无法捕捉轨迹级长程依赖，导致难以发现原因出现在最终答案前多步的失败。为此本文提出RUPA框架，将执行历史建模为有向轨迹图，并在推理状态、工具交互和环境节点间传播关系不确定性。该方法能够有效定位轨迹层级的错误来源，为智能体失败检测提供了结构化新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.18575v1",
+      "source": "arxiv",
+      "title": "Beyond LLM-Based Reasoning: Lightweight GNNs for Agent Failure Attribution",
+      "abstract": "Large language model (LLM)-based multi-agent systems (MAS) often exhibit complex failure modes, which frequently cause agents to produce incorrect outcomes. This motivates the task of Agent Failure Attribution: given a failed multi-agent trajectory, identify the faulty agents and their corresponding error types. Existing approaches predominantly rely on LLMs to perform failure attribution, either through direct prompting, fine-tuning on synthetic data or complex agentic pipelines. While effective, these methods incur substantial computational overhead due to long-context processing, expensive post-training and handcrafted workflows. Moreover, empirical evidence shows that even state-of-the-art models achieve limited accuracy on existing benchmarks, suggesting that scaling model size alone is insufficient. In this work, we revisit this task and question the necessity of such expensive generative solutions. We introduce AFANet, a lightweight graph-based framework that models interaction trajectories through step-level semantic signals and agent-level relationships. We show that with significantly fewer parameters and near-zero inference cost, AFANet (i) matches or outperforms LLM-based baselines, including fine-tuned models on in-domain benchmarks, (ii) maintains robust performance across different GNN architectures and (iii) can be further improved with inexpensive test-time adaptation on the OOD benchmark. Our results suggest that effective agent failure attribution does not require heavy LLM reasoning and a lightweight, structured approach can achieve strong performance.",
+      "authors": [
+        "Ting-Wei Li",
+        "Yuanchen Bei",
+        "Xiao Lin",
+        "Hanghang Tong"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-08-19T06:16:09+00:00",
+      "link": "https://arxiv.org/pdf/2608.18575v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "directly addresses detecting errors in failed agent trajectories",
+      "llm_evidence_cn": "直接针对失败智能体轨迹中的错误检测",
+      "llm_evidence": "直接针对失败智能体轨迹中的错误检测",
+      "canonical_evidence": "直接针对失败智能体轨迹中的错误检测",
+      "llm_tldr_en": "Proposes lightweight GNNs for Agent Failure Attribution, identifying faulty agents and error types from failed multi-agent trajectories, reducing computational overhead of LLM-based methods.",
+      "llm_tldr_cn": "针对LLM多智能体系统复杂失败模式难以归因的问题，提出轻量级GNN方法进行智能体失败归因。给定失败的智能体轨迹，识别出错的智能体及其错误类型。相比依赖LLM的现有方法，该方法大幅降低计算开销，并在基准上取得有竞争力的准确率。这项工作直接支撑了智能体轨迹错误检测任务的自动化。",
+      "llm_tldr": "针对LLM多智能体系统复杂失败模式难以归因的问题，提出轻量级GNN方法进行智能体失败归因。给定失败的智能体轨迹，识别出错的智能体及其错误类型。相比依赖LLM的现有方法，该方法大幅降低计算开销，并在基准上取得有竞争力的准确率。这项工作直接支撑了智能体轨迹错误检测任务的自动化。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.18351v1",
+      "source": "arxiv",
+      "title": "Task-Conditioned Least-Privilege Learning for Executable Terminal and MCP Agents",
+      "abstract": "Tool-using large language-model agents can complete a task while exercising authority that the user did not grant or the task does not need, causing excess-authority errors. Traditional permission gating systems alone for validating agent environments are insufficient. We study whether post-training can teach a 4B-parameter model to choose task-conditioned authority in executable terminal and Model Context Protocol (MCP) environments to complement those measures. We propose a framework where each action is audited before execution and again from observed effects along six dimensions of risk. This auditing is conducted using deterministic verifiers that score completion, evidence, exact state, prohibited attempts, and safe success. In conjunction with predefined task-specific sufficient-authority envelopes, we determine task-specific excess privilege values for trajectories, which are then optimized for in post-training. We find that after training using this framework on Qwen3.5-4B over 1,500 tasks, the selected seed reaches 98.48% safe success across 2,896 evaluation episodes spanning all 500 held-out tasks, compared with 64.36% for the base policy, and reduces excess-authority error events from 4.56% to 0.79%. Furthermore, external tests show capability retention and prompt-directed improvement. A 400 task continuation study also found evidence of generalization, reducing excess-authority events by 6.99 percentage points while maintaining previous capabilities. We conclude learned restraint through least-privilege aware post-training is therefore useful as an additional control layer for tool-using agents in executable terminal and MCP environments, but it does not replace permission gates and sandboxing.",
+      "authors": [
+        "Alexander Tu",
+        "Michael Tu"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.LG",
+        "eess.SY"
+      ],
+      "published": "2026-08-18T22:07:23+00:00",
+      "link": "https://arxiv.org/pdf/2608.18351v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Audits each agent action before execution and from observed effects to detect excess-authority errors.",
+      "llm_evidence_cn": "在执行前和执行后从观察效果对每个智能体动作进行审计，以检测过度权限错误。",
+      "llm_evidence": "在执行前和执行后从观察效果对每个智能体动作进行审计，以检测过度权限错误。",
+      "canonical_evidence": "在执行前和执行后从观察效果对每个智能体动作进行审计，以检测过度权限错误。",
+      "llm_tldr_en": "Proposes a framework that audits every agent action along six risk dimensions using deterministic verifiers, detecting excess-authority errors in executable terminal and MCP agents.",
+      "llm_tldr_cn": "该论文聚焦工具使用型大语言模型智能体的过度权限错误，指出传统权限门控无法充分验证智能体环境。作者提出一个后训练框架，在执行前和观察效果后对每个动作沿六个风险维度进行审计，并采用确定性验证器评分完成度、证据、状态、禁止尝试和安全成功等指标。实验表明4B参数模型能够学会按任务条件选择合适的权限，从而有效降低过度授权风险。此方法直接支持对智能体动作错误的监测与检测。",
+      "llm_tldr": "该论文聚焦工具使用型大语言模型智能体的过度权限错误，指出传统权限门控无法充分验证智能体环境。作者提出一个后训练框架，在执行前和观察效果后对每个动作沿六个风险维度进行审计，并采用确定性验证器评分完成度、证据、状态、禁止尝试和安全成功等指标。实验表明4B参数模型能够学会按任务条件选择合适的权限，从而有效降低过度授权风险。此方法直接支持对智能体动作错误的监测与检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.18398v1",
+      "source": "arxiv",
+      "title": "LEDGER: Claim-to-Evidence Trace Graphs for Auditing LLM Agents",
+      "abstract": "Large language model (LLM) agents can now carry out long-horizon technical workflows involving complex tool use, code execution, file edits, and generated artifacts. As agents do more work faster, the productivity bottleneck shifts from producing outputs to auditing whether those outputs are correct and trustworthy. Agent observability systems make fine-grained execution events visible, but visibility alone still leaves reviewers to reconstruct which actions, artifacts, and validation steps matter for a particular conclusion. We introduce LEDGER - Layered Evidence and Decision Graphs for Execution Review, a tracing and review system that builds layered trace graphs over observed agent sessions. LEDGER preserves Trace Records while grouping them into Evidence Nodes and Workflow Nodes, representing artifacts as evidence anchors, and adding typed semantic edges that connect claims to supporting actions, artifacts, and checks. Through data-analysis and coding examples, we show how the resulting traces expose workflow decisions, artifact lineage, repair steps, validation coverage, and claim-support paths for evidence-centered audit.",
+      "authors": [
+        "Daehong Kim",
+        "Haichao Miao",
+        "Shusen Liu"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC",
+        "cs.AI"
+      ],
+      "published": "2026-08-19T00:10:04+00:00",
+      "link": "https://arxiv.org/pdf/2608.18398v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "builds layered trace graphs over observed agent sessions for auditing correctness and trustworthiness",
+      "llm_evidence_cn": "在观测到的智能体会话上构建分层追踪图，用于审计正确性与可信度",
+      "llm_evidence": "在观测到的智能体会话上构建分层追踪图，用于审计正确性与可信度",
+      "canonical_evidence": "在观测到的智能体会话上构建分层追踪图，用于审计正确性与可信度",
+      "llm_tldr_en": "LEDGER builds layered trace graphs over observed agent sessions, grouping actions, artifacts, and validation steps into evidence nodes to let reviewers audit the correctness and trustworthiness of long-horizon LLM agent workflows.",
+      "llm_tldr_cn": "随着LLM智能体执行长周期技术工作流，审计其输出正确性和可信度成为瓶颈。LEDGER在观测到的智能体会话上构建分层追踪图，将轨迹记录按证据节点分组，帮助审查者重建哪些动作、产物和验证步骤支撑特定结论。该系统提升了代理执行的可审计性，使错误检测和信任判断更高效。",
+      "llm_tldr": "随着LLM智能体执行长周期技术工作流，审计其输出正确性和可信度成为瓶颈。LEDGER在观测到的智能体会话上构建分层追踪图，将轨迹记录按证据节点分组，帮助审查者重建哪些动作、产物和验证步骤支撑特定结论。该系统提升了代理执行的可审计性，使错误检测和信任判断更高效。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.19161v1",
+      "source": "arxiv",
+      "title": "Beyond the Transcript: Detecting Covert Co ordination in Latent Multi-Agent Communication",
+      "abstract": "Language-model agents can communicate through continuous hidden states that are invisible in public transcripts, creating opportunities for covert harmful coordination. We introduce Verifiable Latent Alignments (VLA), an activation-aware framework for monitoring and steering these private communication channels. For every monitored decision, VLA links the private latent-state record and channel status to the resulting public action using a shared event identifier, enabling matched causal analysis. Our first contribution is a neutral-only three-layer monitor combining representation anomaly detection, counterfactual action-distribution influence, and sparse-autoencoder interpretation support. Our second contribution is a steerability framework spanning black-box behavioral instructions and white-box matched-neutral counterfactuals. Our third contribution is an evaluation on a controlled multi-agent auction benchmark covering homogeneous and heterogeneous model pairs, many-agent scalability, and intervention effectiveness. The sequential monitor achieves mean area under the receiver operating characteristic curve (AUROC) of 0.993 for homogeneous agents and 0.854 for heterogeneous pairs when text- and latent-collusion rows are pooled as positives. In Qwen3-0.6B auctions with 25-100 bidders, monitoring requires only a small normalized load relative to all possible directed pairs, while full white-box steering achieves 100% bid-distribution recovery and reduces collusive low-bid behavior by 47.3 percentage points. Because full white-box steering replays the matched neutral counterfactual, its exact recovery is a sanity check by construction. Overall, the controlled study shows that the evaluated private channel attacks can be monitored without training the primary monitor on attack examples and mitigated when matched counterfactual access is available.",
+      "authors": [
+        "Ramneet Kaur",
+        "Pradyumna Chari",
+        "Ramesh Raskar",
+        "Jugad Singh",
+        "Sumit Kumar Jha",
+        "Anirban Roy"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CR"
+      ],
+      "published": "2026-08-19T17:43:22+00:00",
+      "link": "https://arxiv.org/pdf/2608.19161v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monitors agent latent states and uses representation anomaly detection to detect covert harmful coordination",
+      "llm_evidence_cn": "监控智能体隐藏状态并通过表征异常检测识别隐秘有害协作",
+      "llm_evidence": "监控智能体隐藏状态并通过表征异常检测识别隐秘有害协作",
+      "canonical_evidence": "监控智能体隐藏状态并通过表征异常检测识别隐秘有害协作",
+      "llm_tldr_en": "This paper introduces Verifiable Latent Alignments (VLA), a framework to monitor and steer private latent communication channels in LLM agents. It combines representation anomaly detection, counterfactual action-distribution influence, and sparse-autoencoder interpretation to detect covert harmful coordination.",
+      "llm_tldr_cn": "语言模型智能体可通过连续隐藏状态进行公开记录中不可见的隐秘交流，本文提出可验证潜在对齐(VLA)框架，将私有潜状态与公开行为关联，并构建由表征异常检测、反事实动作分布影响和稀疏自编码器解释组成的三层监控器。该工作为监控智能体异常行为和潜在有害协作提供了因果可解释的新方法。",
+      "llm_tldr": "语言模型智能体可通过连续隐藏状态进行公开记录中不可见的隐秘交流，本文提出可验证潜在对齐(VLA)框架，将私有潜状态与公开行为关联，并构建由表征异常检测、反事实动作分布影响和稀疏自编码器解释组成的三层监控器。该工作为监控智能体异常行为和潜在有害协作提供了因果可解释的新方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.18490v1",
+      "source": "arxiv",
+      "title": "Bayesian Partner Modelling enables Adaptive Replanning for LLM Coordination",
+      "abstract": "Multi-agent Large Language Model (LLM) systems often struggle to collaborate with new teammates whose strategies shift mid-task. Because agents execute multi-step or temporally extended skills, they frequently continue executing outdated plans long after public evidence shows that a partner has changed its skill. Existing methods either treat partner tracking as passive context-leaving the agent aware of the shift but slow to act-or replan indiscriminately. We introduce BayesBeliefAgent, which pairs a hierarchical LLM planner with a Bayesian tracking module. Rather than replanning constantly, our agent interrupts its current skill only when a partner's actions directly contradict the inferred skill. Beyond standard reward, we evaluate performance using replanning efficiency and the belief-action gap: the fraction of total decisions where an agent with a correct partner estimate executes a non-complementary skill. Across benchmark Overcooked environments, contradiction-conditioned control drastically narrows this belief-action gap while requiring an order of magnitude fewer replans than heuristic methods",
+      "authors": [
+        "Harsh Goel",
+        "Aditya Sai Ellendula",
+        "Vaishnav Tadiparthi",
+        "Ehsan Moradi Pari",
+        "Hossein Nourkhiz Mahjoub",
+        "Sandeep P. Chinchali"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-08-19T03:29:32+00:00",
+      "link": "https://arxiv.org/pdf/2608.18490v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Detects when a partner's actions contradict the inferred skill, i.e., path deviation in interaction trajectories.",
+      "llm_evidence_cn": "检测合作伙伴动作与推断技能相矛盾的情况，即交互轨迹中的路径偏差。",
+      "llm_evidence": "检测合作伙伴动作与推断技能相矛盾的情况，即交互轨迹中的路径偏差。",
+      "canonical_evidence": "检测合作伙伴动作与推断技能相矛盾的情况，即交互轨迹中的路径偏差。",
+      "llm_tldr_en": "Pairs a hierarchical LLM planner with a Bayesian tracking module to detect skill contradictions and trigger adaptive replanning in multi-agent LLM coordination.",
+      "llm_tldr_cn": "该论文针对多智能体LLM协作中队友技能可能中途变化的问题，提出BayesBeliefAgent，将层级LLM规划器与贝叶斯跟踪模块结合。系统仅在伙伴动作与推断技能直接矛盾时中断当前技能并重新规划，而不是持续重规划。实验表明该方法能快速适应伙伴策略变化，减少过时计划带来的损失。这实际上是在检测协作轨迹中合作伙伴行为的异常偏差，与轨迹偏差检测高度相关。",
+      "llm_tldr": "该论文针对多智能体LLM协作中队友技能可能中途变化的问题，提出BayesBeliefAgent，将层级LLM规划器与贝叶斯跟踪模块结合。系统仅在伙伴动作与推断技能直接矛盾时中断当前技能并重新规划，而不是持续重规划。实验表明该方法能快速适应伙伴策略变化，减少过时计划带来的损失。这实际上是在检测协作轨迹中合作伙伴行为的异常偏差，与轨迹偏差检测高度相关。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.14239v1",
+      "source": "arxiv",
+      "title": "A Temporal Barrier Framework for Collision Avoidance in Multi-Agent Autonomous Aerial Vehicles",
+      "abstract": "Operating teams of autonomous aircraft in dynamic, uncertain, and potentially adversarial environments requires safety protocols that are reliable yet selective, and allow agents to fly in close proximity while making progress toward mission objectives. We introduce adversarial time-to-collision (aTTC), a risk metric that quantifies, for a given agent, how quickly any surrounding agent could reach it assuming adversarial intent. We embed aTTC into the control barrier function (CBF) framework, defining the barrier directly in time rather than distance or velocity. The resulting aTTC-CBF is inherently anticipatory: agents modulate their own velocity based not on whether a peer is on a collision course, but on how quickly one could reach collision given its dynamical constraints. A differentiable neural-network surrogate makes the aTTC computable in real time within a standard CBF quadratic program. Across long time-horizon simulations of 3D independent-pursuit and formation-flight scenarios, the aTTC-CBF achieves up to twice the waypoint progress at half the collision rate of a higher-order distance-based CBF baseline.",
+      "authors": [
+        "Benedikt Barthel Sorensen",
+        "Mitchell Black",
+        "Erfaun Noorani",
+        "Themistoklis Sapsis"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "cs.RO",
+        "math.OC"
+      ],
+      "published": "2026-08-14T12:15:00+00:00",
+      "link": "https://arxiv.org/pdf/2608.14239v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "uses adversarial time-to-collision within control barrier functions to detect imminent collisions and adjust trajectories",
+      "llm_evidence_cn": "在控制屏障函数中结合对抗性碰撞时间，检测即将发生的碰撞并调整轨迹",
+      "llm_evidence": "在控制屏障函数中结合对抗性碰撞时间，检测即将发生的碰撞并调整轨迹",
+      "canonical_evidence": "在控制屏障函数中结合对抗性碰撞时间，检测即将发生的碰撞并调整轨迹",
+      "llm_tldr_en": "This paper introduces adversarial time-to-collision (aTTC), a risk metric for multi-agent aerial vehicles, embedded into a control barrier function to define time-based safety barriers. Agents proactively modulate velocity based on how quickly others could collide, enabling reliable yet selective collision avoidance.",
+      "llm_tldr_cn": "在动态不确定且可能对抗的多智能体空域中，为避免碰撞而不过度保守，本文提出对抗性碰撞时间(aTTC)指标，并将其嵌入控制屏障函数，形成基于时间的安全屏障(aTTC-CBF)。该方法使智能体能主动调节速度以规避潜在碰撞风险，同时保持任务进度，为多智能体轨迹安全提供前瞻性保障。",
+      "llm_tldr": "在动态不确定且可能对抗的多智能体空域中，为避免碰撞而不过度保守，本文提出对抗性碰撞时间(aTTC)指标，并将其嵌入控制屏障函数，形成基于时间的安全屏障(aTTC-CBF)。该方法使智能体能主动调节速度以规避潜在碰撞风险，同时保持任务进度，为多智能体轨迹安全提供前瞻性保障。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

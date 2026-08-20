@@ -6,43 +6,41 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-19
-- 运行时间：2026-08-19 20:49:15 UTC
+- 最新运行日期：2026-08-20
+- 运行时间：2026-08-20 20:52:48 UTC
 - 运行状态：成功
 - 本次总论文数：7
-- 精读区：3
-- 速读区：4
+- 精读区：5
+- 速读区：2
 
 ### 今日简报（AI）
-今日研究聚焦长程智能体的信任机制与执行策略，并拓展至浏览器任务与规划修复。  
-最值得关注精读论文《Beyond Suspicious Steps》与《A Policy Algebra》，前者提出本体论信任，后者构建保信任的策略代数。  
-建议普通读者优先了解这两篇对自主代理信任维护的核心观点，以把握Agent可靠运行的关键。
-- 详情：[/202608/19/README](/202608/19/README)
+今日精读5篇、速读2篇，聚焦LLM智能体的结构化推理与失败归因。最值得关注的是两篇9.0分工作：将序列转结构以传播关系不确定性，以及用轻量GNN替代纯推理实现Agent失败归因，均显著提升可靠性。下一步建议读者优先精读这两篇，结合速读中的自适应重规划，系统补强多智能体协作短板。
+- 详情：[/202608/20/README](/202608/20/README)
 
 ### 精读区论文标签
-1. [Beyond Suspicious Steps: Ontological Trust in Long-Horizon Agents](/202608/19/2608.17718v1-beyond-suspicious-steps-ontological-trust-in-long-horizon-agents)  
+1. [From Sequence to Structure: Relational Uncertainty Propagation for LLM Agents](/202608/20/2608.16002v2-from-sequence-to-structure-relational-uncertainty-propagation-for-llm-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：在线监控器RGE估计轨迹前缀的任务条件信任，检测轨迹漂移
-2. [A Policy Algebra for Trust-Preserving Agentic AI Execution](/202608/19/2608.16402v1-a-policy-algebra-for-trust-preserving-agentic-ai-execution)  
+   evidence：通过轨迹级关系不确定性传播找出起因于早期步骤的智能体失败
+2. [Beyond LLM-Based Reasoning: Lightweight GNNs for Agent Failure Attribution](/202608/20/2608.18575v1-beyond-llm-based-reasoning-lightweight-gnns-for-agent-failure-attribution)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：直接针对失败智能体轨迹中的错误检测
+3. [Task-Conditioned Least-Privilege Learning for Executable Terminal and MCP Agents](/202608/20/2608.18351v1-task-conditioned-least-privilege-learning-for-executable-terminal-and-mcp-agents)  
    标签：评分：8.0/10、query:agent-error
-   evidence：将可靠能力定义为路径属性，检查动作事件是否满足身份、工具、数据、审批与审计等约束
-3. [If, Then, Otherwise: Diagnosing Conditional Branching in Vision-Language Navigation](/202608/19/2608.17318v1-if-then-otherwise-diagnosing-conditional-branching-in-vision-language-navigation)  
+   evidence：在执行前和执行后从观察效果对每个智能体动作进行审计，以检测过度权限错误。
+4. [LEDGER: Claim-to-Evidence Trace Graphs for Auditing LLM Agents](/202608/20/2608.18398v1-ledger-claim-to-evidence-trace-graphs-for-auditing-llm-agents)  
    标签：评分：8.0/10、query:agent-error
-   evidence：用于诊断条件分支故障的基准；区分导航智能体在感知、接地、导航或逻辑决策中的错误
+   evidence：在观测到的智能体会话上构建分层追踪图，用于审计正确性与可信度
+5. [Beyond the Transcript: Detecting Covert Co ordination in Latent Multi-Agent Communication](/202608/20/2608.19161v1-beyond-the-transcript-detecting-covert-co-ordination-in-latent-multi-agent-communication)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：监控智能体隐藏状态并通过表征异常检测识别隐秘有害协作
 
 ### 速读区论文标签
-1. [Graphectory Viewer: A Tool for Process-Centric Analysis of Agentic Software Trajectories](/202608/19/2608.17195v1-graphectory-viewer-a-tool-for-process-centric-analysis-of-agentic-software-trajectories)  
+1. [Bayesian Partner Modelling enables Adaptive Replanning for LLM Coordination](/202608/20/2608.18490v1-bayesian-partner-modelling-enables-adaptive-replanning-for-llm-coordination)  
    标签：评分：7.0/10、query:agent-error
-   evidence：提供交互式工具对智能体轨迹进行以过程为中心的分析，支持节点级检查，可用于监控错误
-2. [Wuying-Browser-Agent: Real-World Centric Fundamental Long-Horizon Browser Agents](/202608/19/2608.17319v1-wuying-browser-agent-real-world-centric-fundamental-long-horizon-browser-agents)  
+   evidence：检测合作伙伴动作与推断技能相矛盾的情况，即交互轨迹中的路径偏差。
+2. [A Temporal Barrier Framework for Collision Avoidance in Multi-Agent Autonomous Aerial Vehicles](/202608/20/2608.14239v1-a-temporal-barrier-framework-for-collision-avoidance-in-multi-agent-autonomous-aerial-vehicles)  
    标签：评分：6.0/10、query:agent-error
-   evidence：训练浏览器智能体在实时网站上从错误中恢复，强调恢复轨迹和错误恢复能力
-3. [LLM-Only PDDL Domain Repair with Open-Weight Models](/202608/19/2608.17341v1-llm-only-pddl-domain-repair-with-open-weight-models)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：利用执行失败的测试计划检测和修复PDDL规划模型中的错误，与规划轨迹中的错误检测相关
-4. [AdaLens: Interactive Storyline for Monitoring and Steering Long-Running Agentic Data Analysis](/202608/19/2608.17834v1-adalens-interactive-storyline-for-monitoring-and-steering-long-running-agentic-data-analysis)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：对智能体演化推理与证据的可观察性；交互式监控与引导；支持人工监管智能体行为
+   evidence：在控制屏障函数中结合对抗性碰撞时间，检测即将发生的碰撞并调整轨迹
 
 
 <div class="dpr-home-promo-card">
