@@ -1,0 +1,152 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-21T20:42:55.369317+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2608.15242v2",
+      "source": "arxiv",
+      "title": "LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures",
+      "abstract": "When a long-horizon agent execution fails, outcome-level evaluation reveals the unsuccessful result but not where the decisive error entered the trajectory. Developers must then inspect the full execution to identify the responsible role and localize the earliest decisive root-cause step. Existing failure-attribution benchmarks largely focus on shorter traces, leaving diagnosis across hundreds of recorded steps underexplored. We introduce LongRCA Bench, comprising 1,140 failed trajectories across five domains without injected errors. It provides independently scored human labels for the responsible role and earliest decisive root-cause step. The median trajectory contains 145 steps, and the strongest baseline reaches only 13.2% exact root-step accuracy. We further present Root-Cause Trajectory Attribution (RCTA), a training-free method that retrieves candidate error steps from segment summaries and traces them to available earlier handoff instructions. Using the same backbone, benchmark instances, and scoring protocol, RCTA reaches 51.1% responsible-role accuracy and 24.1% exact root-step accuracy. These results highlight the need to evaluate responsible-role attribution and exact root-step localization as separate targets in long-trajectory failure diagnosis.",
+      "authors": [
+        "Yunfei Zhang",
+        "Boyu Feng",
+        "Changhua Pei",
+        "Zexin Wang",
+        "Zhihuang Peng",
+        "Xinlong Liu",
+        "Hengyue Jiang",
+        "Difeng Ma",
+        "Jiayi Zhang",
+        "Yongzhou Yao",
+        "Yanan Zhao",
+        "Fei Sun",
+        "Yintong Huo",
+        "Zhaoyang Liu",
+        "Jingjing Li",
+        "Gaogang Xie",
+        "Dan Pei"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-08-15T14:06:02+00:00",
+      "link": "https://arxiv.org/pdf/2608.15242v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "benchmark for localizing earliest decisive root-cause step in long-horizon agent failure trajectories",
+      "llm_evidence_cn": "构建基准定位长时程失败轨迹中最早的决定性根因步骤",
+      "llm_evidence": "构建基准定位长时程失败轨迹中最早的决定性根因步骤",
+      "canonical_evidence": "构建基准定位长时程失败轨迹中最早的决定性根因步骤",
+      "llm_tldr_en": "LongRCA Bench provides 1,140 failed long-horizon agent trajectories with human labels for responsible role and earliest decisive root-cause step, showing that current baselines achieve only 13.2% accuracy, motivating better error diagnosis.",
+      "llm_tldr_cn": "长时程智能体执行失败时，结果级评估无法说明错误从哪一步进入轨迹，开发者需手工检查全部过程。为此LongRCA Bench构建了1,140条跨五个域的真实失败轨迹，并为每条轨迹提供责任角色和最早关键根因步骤的人工标注，中位轨迹145步。最强基线仅达到13.2%的精确匹配准确率，显示当前方法在长时间跨度错误定位上严重不足。该基准为轨迹错误检测和根因诊断研究提供了标准化评测依据，推动更鲁棒的失败归因方法发展。",
+      "llm_tldr": "长时程智能体执行失败时，结果级评估无法说明错误从哪一步进入轨迹，开发者需手工检查全部过程。为此LongRCA Bench构建了1,140条跨五个域的真实失败轨迹，并为每条轨迹提供责任角色和最早关键根因步骤的人工标注，中位轨迹145步。最强基线仅达到13.2%的精确匹配准确率，显示当前方法在长时间跨度错误定位上严重不足。该基准为轨迹错误检测和根因诊断研究提供了标准化评测依据，推动更鲁棒的失败归因方法发展。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.19803v1",
+      "source": "arxiv",
+      "title": "MileGPO: Milestone Inference with Local Evidence for Graph-Based Policy Optimization of Long-Horizon LLM Agents",
+      "abstract": "Credit assignment is challenging in long-horizon agentic reinforcement learning, where supervision often comes only from final rewards. Existing methods refine trajectory-level signals into step-level credits through step grouping or graph-based advantage estimation, but can overlook meaningful intermediate milestones. We propose MileGPO (Milestone Inference with Local Evidence for Graph-Based Policy Optimization), which derives process-level credit from grouped on-policy rollouts through three designs. Milestone Discovery identifies candidate milestones on successful rollouts and recurring traps on failed ones. Reliability-Calibrated Shaping (RCS) weights these candidates by outcome-based confidence, strengthening reliable milestones and traps while down-weighting uncertain ones. Progress-Contrastive Calibration (PCC) further tests whether a candidate reflects local progress and whether its incoming ansition outperforms observed alternatives from the same state.MileGPO requires neither auxiliary models nor additional environment interaction. Experiments on ALFWorld and WebShop show state-of-the-art performance and a small in-distribution to out-of-distribution gap on ALFWorld. Ablations and credit diagnostics indicate that reliability weighting, local progress, and same-state branch evidence complement milestone discovery and resolve ambiguous intermediate credit.",
+      "authors": [
+        "Bo Qian",
+        "Yuting Wu",
+        "Shuang Zeng",
+        "Huaiyu Wan",
+        "Dalin Zhang",
+        "Jiqiang Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-08-20T08:58:27+00:00",
+      "link": "https://arxiv.org/pdf/2608.19803v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Discovers recurring traps on failed rollouts and derives process-level credit for RL agent trajectories",
+      "llm_evidence_cn": "在失败轨迹中发现重复陷阱并推导过程级奖励信号，面向RL轨迹错误识别",
+      "llm_evidence": "在失败轨迹中发现重复陷阱并推导过程级奖励信号，面向RL轨迹错误识别",
+      "canonical_evidence": "在失败轨迹中发现重复陷阱并推导过程级奖励信号，面向RL轨迹错误识别",
+      "llm_tldr_en": "MileGPO infers milestones and recurring traps from grouped on-policy rollouts to assign process-level credit in long-horizon agentic RL, addressing credit assignment and failure localization in RL agent trajectories.",
+      "llm_tldr_cn": "长时程智能体强化学习中只有最终奖励时，轨迹级信用分配困难。MileGPO提出从分组在线回放中推断里程碑与失败轨迹上的重复陷阱，并通过可靠性校准塑造信号，把轨迹级信号转化为过程级信用。该方法不仅能提升策略优化，还蕴含在RL轨迹中定位错误步骤/失败模式的能力，与轨迹错误检测目标高度相关。",
+      "llm_tldr": "长时程智能体强化学习中只有最终奖励时，轨迹级信用分配困难。MileGPO提出从分组在线回放中推断里程碑与失败轨迹上的重复陷阱，并通过可靠性校准塑造信号，把轨迹级信号转化为过程级信用。该方法不仅能提升策略优化，还蕴含在RL轨迹中定位错误步骤/失败模式的能力，与轨迹错误检测目标高度相关。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.19729v1",
+      "source": "arxiv",
+      "title": "SafeBranch: Branch-Pair Safety Alignment for Embodied Agents",
+      "abstract": "Vision-language-model-based embodied agents can complete instructed tasks but often violate safety constraints in the process, a problem recently framed as interactive safety. Training such agents to act safely is difficult, since safety and task success are distinct objectives, and safety arises only at a small number of safety-critical steps within a trajectory. Standard supervision is insufficient: imitating safe trajectories teaches behavior without explaining why it is safe, and contrasting arbitrary safe and unsafe trajectories mixes the safety signal with unrelated differences. We propose SafeBranch, a framework that aligns an embodied actor on safety through branch pairs constructed from the actor's own unsafe rollouts via environment rollback. SafeBranch rolls each unsafe rollout back to the safety-critical step that caused the violation, queries the actor for a safe alternative, and pairs the original action with the alternative so that the two branches differ only at that step. The trained actor acts safely at deployment with no critic in the loop. On IS-Bench, SafetyALFRED, and out-of-distribution variants with unseen tasks and objects, it handles safety reliably without sacrificing task success, achieving roughly ten times more safe successes than the untrained baseline on the unseen-object variant.",
+      "authors": [
+        "Hyunse Lee",
+        "Jiwoo Jeong",
+        "Haneul Lee",
+        "Kyochul Jang",
+        "Youngjae Yu",
+        "Woojin Lee"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-08-20T07:29:07+00:00",
+      "link": "https://arxiv.org/pdf/2608.19729v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "constructs branch pairs from unsafe rollouts to localize safety-critical steps in embodied agent trajectories",
+      "llm_evidence_cn": "通过环境回滚构建分支对，定位轨迹中安全关键步骤",
+      "llm_evidence": "通过环境回滚构建分支对，定位轨迹中安全关键步骤",
+      "canonical_evidence": "通过环境回滚构建分支对，定位轨迹中安全关键步骤",
+      "llm_tldr_en": "SafeBranch aligns embodied agents on safety by constructing branch pairs from the actor's own unsafe rollouts, isolating safety-critical trajectory steps and improving safety without sacrificing task success.",
+      "llm_tldr_cn": "视觉语言具身智能体能完成任务但常违反安全约束，而安全只在轨迹中的少数关键步骤显现，标准监督难以聚焦这些步骤。SafeBranch通过环境回滚从智能体自身的不安全轨迹构建分支对，将安全信号与无关差异分离，从而在关键步骤上对齐安全行为。实验表明该方法能在保持任务成功率的同时显著提升交互安全性，为具身智能体的安全对齐提供了一种可扩展的轨迹级训练框架。",
+      "llm_tldr": "视觉语言具身智能体能完成任务但常违反安全约束，而安全只在轨迹中的少数关键步骤显现，标准监督难以聚焦这些步骤。SafeBranch通过环境回滚从智能体自身的不安全轨迹构建分支对，将安全信号与无关差异分离，从而在关键步骤上对齐安全行为。实验表明该方法能在保持任务成功率的同时显著提升交互安全性，为具身智能体的安全对齐提供了一种可扩展的轨迹级训练框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "label": "2026-08-21",
+  "date": "2026-08-21",
+  "generated_at": "2026-08-21T20:47:53",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202608/21/2608.15242v2-longrca-bench-diagnosing-responsible-roles-and-root-causes-in-long-horizon-agent-failures",
+      "section": "deep",
+      "title_en": "LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures",
+      "authors": "Yunfei Zhang, Boyu Feng, Changhua Pei, Zexin Wang, Zhihuang Peng, Xinlong Liu, Hengyue Jiang, Difeng Ma, Jiayi Zhang, Yongzhou Yao, Yanan Zhao, Fei Sun, Yintong Huo, Zhaoyang Liu, Jingjing Li, Gaogang Xie, Dan Pei",
+      "date": "2026-08-15",
+      "pdf": "https://arxiv.org/pdf/2608.15242v2",
+      "score": "9.0",
+      "evidence": "构建基准定位长时程失败轨迹中最早的决定性根因步骤",
+      "tldr": "长程智能体失败诊断在数百步轨迹中定位责任角色与最早根因步骤尚缺乏基准。本文构建含1,140条无注入失败轨迹的LongRCA Bench，最强基线根因步骤准确率仅13.2%。提出免训练方法RCTA，从片段摘要检索候选错误步骤并追溯至早期指令，实现51.1%角色准确率与24.1%根因步骤准确率。表明应将责任角色归因与根因步骤定位作为独立目标评估。",
+      "tags": "query:agent-error",
+      "abstract_en": "When a long-horizon agent execution fails, outcome-level evaluation reveals the unsuccessful result but not where the decisive error entered the trajectory. Developers must then inspect the full execution to identify the responsible role and localize the earliest decisive root-cause step. Existing failure-attribution benchmarks largely focus on shorter traces, leaving diagnosis across hundreds of recorded steps underexplored. We introduce LongRCA Bench, comprising 1,140 failed trajectories across five domains without injected errors. It provides independently scored human labels for the responsible role and earliest decisive root-cause step. The median trajectory contains 145 steps, and the strongest baseline reaches only 13.2% exact root-step accuracy. We further present Root-Cause Trajectory Attribution (RCTA), a training-free method that retrieves candidate error steps from segment summaries and traces them to available earlier handoff instructions. Using the same backbone, benchmark instances, and scoring protocol, RCTA reaches 51.1% responsible-role accuracy and 24.1% exact root-step accuracy. These results highlight the need to evaluate responsible-role attribution and exact root-step localization as separate targets in long-trajectory failure diagnosis.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/21/2608.19803v1-milegpo-milestone-inference-with-local-evidence-for-graph-based-policy-optimization-of-long-horizon-llm-agents",
+      "section": "deep",
+      "title_en": "MileGPO: Milestone Inference with Local Evidence for Graph-Based Policy Optimization of Long-Horizon LLM Agents",
+      "authors": "Bo Qian, Yuting Wu, Shuang Zeng, Huaiyu Wan, Dalin Zhang, Jiqiang Liu",
+      "date": "2026-08-20",
+      "pdf": "https://arxiv.org/pdf/2608.19803v1",
+      "score": "8.0",
+      "evidence": "在失败轨迹中发现重复陷阱并推导过程级奖励信号，面向RL轨迹错误识别",
+      "tldr": "长视界LLM智能体强化学习中信用分配困难，监督仅来自最终奖励，易丢失中间里程碑。MileGPO通过里程碑发现、可靠性校准塑形和进展对比校准，从分组在线rollout中推导过程级信用。在ALFWorld和WebShop上取得最先进性能，且ALFWorld分布外泛化差距小。方法无需辅助模型或额外环境交互，有效解决模糊中间信用。",
+      "tags": "query:agent-error",
+      "abstract_en": "Credit assignment is challenging in long-horizon agentic reinforcement learning, where supervision often comes only from final rewards. Existing methods refine trajectory-level signals into step-level credits through step grouping or graph-based advantage estimation, but can overlook meaningful intermediate milestones. We propose MileGPO (Milestone Inference with Local Evidence for Graph-Based Policy Optimization), which derives process-level credit from grouped on-policy rollouts through three designs. Milestone Discovery identifies candidate milestones on successful rollouts and recurring traps on failed ones. Reliability-Calibrated Shaping (RCS) weights these candidates by outcome-based confidence, strengthening reliable milestones and traps while down-weighting uncertain ones. Progress-Contrastive Calibration (PCC) further tests whether a candidate reflects local progress and whether its incoming ansition outperforms observed alternatives from the same state.MileGPO requires neither auxiliary models nor additional environment interaction. Experiments on ALFWorld and WebShop show state-of-the-art performance and a small in-distribution to out-of-distribution gap on ALFWorld. Ablations and credit diagnostics indicate that reliability weighting, local progress, and same-state branch evidence complement milestone discovery and resolve ambiguous intermediate credit.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/21/2608.19729v1-safebranch-branch-pair-safety-alignment-for-embodied-agents",
+      "section": "quick",
+      "title_en": "SafeBranch: Branch-Pair Safety Alignment for Embodied Agents",
+      "authors": "Hyunse Lee, Jiwoo Jeong, Haneul Lee, Kyochul Jang, Youngjae Yu, Woojin Lee",
+      "date": "2026-08-20",
+      "pdf": "https://arxiv.org/pdf/2608.19729v1",
+      "score": "6.0",
+      "evidence": "通过环境回滚构建分支对，定位轨迹中安全关键步骤",
+      "tldr": "VLM具身代理在完成指令任务时常常违反安全约束，而安全行为只体现在少数关键步骤上，标准模仿与对比监督无法有效区分安全与非安全差异。为此提出SafeBranch框架，利用环境回滚将不安全rollout回退到导致违规的步骤，查询actor的安全替代动作，并构造仅在该步骤不同的分支对进行对齐训练。在IS-Bench、SafetyALFRED及未见物体/任务的分布外变体上，SafeBranch在不牺牲任务成功率的同时大幅提升安全成功次数，未见物体变体上安全成功约为未训练基线的十倍。该框架无需critic参与部署，为具身智能体提供了一种轻量而可靠的安全对齐方案。",
+      "tags": "query:agent-error",
+      "abstract_en": "Vision-language-model-based embodied agents can complete instructed tasks but often violate safety constraints in the process, a problem recently framed as interactive safety. Training such agents to act safely is difficult, since safety and task success are distinct objectives, and safety arises only at a small number of safety-critical steps within a trajectory. Standard supervision is insufficient: imitating safe trajectories teaches behavior without explaining why it is safe, and contrasting arbitrary safe and unsafe trajectories mixes the safety signal with unrelated differences. We propose SafeBranch, a framework that aligns an embodied actor on safety through branch pairs constructed from the actor's own unsafe rollouts via environment rollback. SafeBranch rolls each unsafe rollout back to the safety-critical step that caused the violation, queries the actor for a safe alternative, and pairs the original action with the alternative so that the two branches differ only at that step. The trained actor acts safely at deployment with no critic in the loop. On IS-Bench, SafetyALFRED, and out-of-distribution variants with unseen tasks and objects, it handles safety reliably without sacrificing task success, achieving roughly ten times more safe successes than the untrained baseline on the unseen-object variant.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
