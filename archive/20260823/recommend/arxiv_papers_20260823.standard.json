@@ -1,0 +1,261 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-23T20:18:41.600269+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2608.16156v1",
+      "source": "arxiv",
+      "title": "TRCA: Transition-wise Rubric Credit Assignment for Long-horizon LLM Agents",
+      "abstract": "Long-horizon large language model (LLM) agents are typically optimized with sparse terminal outcomes, making fine-grained credit assignment across multi-step interactions difficult. Existing approaches either rely on process evaluators, which incur annotation and inference costs, or derive step-level credit from successful trajectories. However, successful trajectories are extremely scarce during early-stage reinforcement learning, substantially weakening anchor-based methods. We propose Transition-wise Rubric Credit Assignment (TRCA), which derives step-level supervision directly from action-induced transitions without learned evaluators or successful anchors. TRCA evaluates each transition using Evidence, Execution, and Invalidity rubrics to capture task-relevant information acquisition, valid task execution, and invalid or regressive behavior. From these judgments, Foundational Rubric Reward measures local transition quality, while Breakthrough Rubric Reward tracks newly covered Evidence and Execution conditions to reward incremental task progress. Combined with terminal outcomes, these signals produce fine-grained step-level advantages for policy optimization. Experiments on ALFWorld, WebShop, and seven search-augmented question-answering benchmarks show consistent improvements over the evaluated baselines. With Qwen2.5-7B-Instruct, TRCA improves the WebShop score by 6.0%-12.6%; with Qwen2.5-3B-Instruct, it improves the average SearchQA score by 1.9%-18.3%. These results demonstrate the effectiveness of transition-wise rubric credit assignment for long-horizon tasks with sparse successful anchors.",
+      "authors": [
+        "Huan Zhang",
+        "Mingju Chen",
+        "Dongxu Zhou",
+        "Can Lv",
+        "Heng Chang",
+        "Sen Cui",
+        "Faguo Wu",
+        "Shiji Zhou"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-17T06:19:12+00:00",
+      "link": "https://arxiv.org/pdf/2608.16156v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Uses invalidity rubric per transition to detect erroneous actions in RL agent trajectories",
+      "llm_evidence_cn": "通过无效性指标逐转换识别强化学习智能体轨迹中的错误动作",
+      "llm_evidence": "通过无效性指标逐转换识别强化学习智能体轨迹中的错误动作",
+      "canonical_evidence": "通过无效性指标逐转换识别强化学习智能体轨迹中的错误动作",
+      "llm_tldr_en": "Proposes TRCA, which derives step-level supervision for long-horizon LLM agents directly from action-induced transitions using Evidence, Execution, and Invalidity rubrics, avoiding learned evaluators and successful anchors, improving RL training and enabling error identification.",
+      "llm_tldr_cn": "长时程LLM智能体常因稀疏终局奖励而难以进行细粒度信用分配，现有方法依赖过程评估器或成功轨迹。本文提出基于转换的Rubric信用分配方法TRCA，无需学习式评估器和成功锚点，直接利用动作引发的转换产生逐步监督信号，并通过证据、执行和无效性三个维度评估每个转换。该方法在早期强化学习中尤为有效，显著改善训练效率，也可用于识别轨迹中的异常动作。",
+      "llm_tldr": "长时程LLM智能体常因稀疏终局奖励而难以进行细粒度信用分配，现有方法依赖过程评估器或成功轨迹。本文提出基于转换的Rubric信用分配方法TRCA，无需学习式评估器和成功锚点，直接利用动作引发的转换产生逐步监督信号，并通过证据、执行和无效性三个维度评估每个转换。该方法在早期强化学习中尤为有效，显著改善训练效率，也可用于识别轨迹中的异常动作。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.19861v1",
+      "source": "arxiv",
+      "title": "PolicyGuide: From Guarding One Action to Guiding the Whole Workflow for Policy-Compliant LLM Agents",
+      "abstract": "Customer-service LLM agents must follow organizational policy when acting on a user's behalf. Compliance failures arise from either forbidden actions, such as granting an ineligible change, or omitted procedural requirements, such as identification or confirmation. Runtime safeguards can intervene on risky actions, but action-local checks do not guide an agent through a multi-step procedure. Workflow-following systems support prescribed process execution, but primarily target workflow completion rather than safeguarding agent behavior. PolicyGuide instead compiles each domain policy into a workflow graph and invokes a proactive verifier at user-turn boundaries. From persisted graph state, the verifier reconciles open requests and returns step-specific remediation along a policy-compliant path. Across the $τ^2$-bench airline, retail, and telecom domains with a GPT-5.4 agent and verifier, PolicyGuide raises mean $\\mathrm{Pass}^4$ from $0.42$ to $0.62$, with the largest gain on telecom ($0.19$ to $0.61$), the most workflow-structured domain. The same workflows transfer to Claude Sonnet 4.6 and Gemini 2.5 Pro agents. Complementary evaluations find the lowest observed attack-success rate under adversarial users and the strongest procedural compliance in an author-designed workflow-level validation.",
+      "authors": [
+        "Seongjae Kang",
+        "Taehyung Yu",
+        "Sung Ju Hwang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-08-20T10:13:19+00:00",
+      "link": "https://arxiv.org/pdf/2608.19861v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Detects forbidden actions and omitted procedural requirements in LLM agent workflows, i.e., action-level errors in agent trajectories",
+      "llm_evidence_cn": "检测LLM智能体工作流中的禁止动作与遗漏程序要求，即轨迹中的动作级错误",
+      "llm_evidence": "检测LLM智能体工作流中的禁止动作与遗漏程序要求，即轨迹中的动作级错误",
+      "canonical_evidence": "检测LLM智能体工作流中的禁止动作与遗漏程序要求，即轨迹中的动作级错误",
+      "llm_tldr_en": "PolicyGuide compiles domain policies into workflow graphs and invokes a proactive verifier at user-turn boundaries to detect compliance failures such as forbidden actions or omitted procedures in customer-service LLM agents, enabling whole-workflow guidance.",
+      "llm_tldr_cn": "客服LLM智能体执行操作时可能违背后台政策，表现为执行了被禁止的动作或遗漏了身份确认等必需程序。PolicyGuide将领域政策编译为工作流图，并在用户回合边界调用主动验证器，基于持久化图状态来调和未决请求，从而检测动作级错误并引导完整流程。相比仅守护单次动作的运行时防护，它实现了对整个工作流的合规保障。",
+      "llm_tldr": "客服LLM智能体执行操作时可能违背后台政策，表现为执行了被禁止的动作或遗漏了身份确认等必需程序。PolicyGuide将领域政策编译为工作流图，并在用户回合边界调用主动验证器，基于持久化图状态来调和未决请求，从而检测动作级错误并引导完整流程。相比仅守护单次动作的运行时防护，它实现了对整个工作流的合规保障。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.17965v2",
+      "source": "arxiv",
+      "title": "Too Sure to Be Safe: Model Calibration for Reliable Log Anomaly Detection",
+      "abstract": "Online log anomaly detection is critical for maintaining the reliability of large-scale computing systems. Although recent language model-based log anomaly detectors achieve strong detection performance, their confidence estimates remain poorly calibrated. We show that these detectors frequently assign excessive confidence to incorrect predictions, particularly for anomalous logs under severe class imbalance. Moreover, confidence on erroneous predictions remains persistently high even when conventional calibration metrics indicate good calibration, creating a critical reliability gap for operational monitoring systems. To address this issue, we propose Log Reconstruction and Distance (LoRD), a lightweight post-hoc calibration framework for reliable log anomaly detection. LoRD learns prediction-route-specific reliability models from latent representations of correctly classified validation samples and estimates prediction reliability through route-wise reconstruction distances. Based on the estimated reliability, LoRD selectively recalibrates high-risk predictions to suppress overconfident errors while preserving reliable predictions. Extensive experiments on four large-scale log benchmark datasets and multiple language model-based detectors demonstrate that LoRD consistently improves confidence reliability and substantially reduces overconfident anomaly-related errors without sacrificing anomaly detection performance.",
+      "authors": [
+        "Bin Li",
+        "Dongdong Wang",
+        "Siyang Lu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-08-18T16:19:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.17965v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Presents a calibration framework for reliable anomaly detection in logs, transferable to agent trajectory anomaly detection",
+      "llm_evidence_cn": "提出日志异常检测的校准框架，可迁移到智能体轨迹异常检测",
+      "llm_evidence": "提出日志异常检测的校准框架，可迁移到智能体轨迹异常检测",
+      "canonical_evidence": "提出日志异常检测的校准框架，可迁移到智能体轨迹异常检测",
+      "llm_tldr_en": "Identifies calibration issues in LM-based log anomaly detectors and introduces LoRD, a post-hoc calibration framework that improves confidence reliability for anomaly detection.",
+      "llm_tldr_cn": "本文发现基于语言模型的日志异常检测器在置信度上存在严重校准问题，常对错误预测过度自信。为此提出LoRD，一种轻量级事后校准框架，通过日志重建与距离计算来修正置信度，使异常检测在类别不均衡下更为可靠。该方法可推广到智能体轨迹日志的异常检测，提升监控系统的可信度。",
+      "llm_tldr": "本文发现基于语言模型的日志异常检测器在置信度上存在严重校准问题，常对错误预测过度自信。为此提出LoRD，一种轻量级事后校准框架，通过日志重建与距离计算来修正置信度，使异常检测在类别不均衡下更为可靠。该方法可推广到智能体轨迹日志的异常检测，提升监控系统的可信度。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.15591v1",
+      "source": "arxiv",
+      "title": "Agent Gym: A Framework for Continuous Evaluation and Evolution of LLM Agents Through Human-in-the-Loop Feedback",
+      "abstract": "Large Language Model (LLM) agents deployed in production environments face a fundamental tension: the agent's behavior is frozen at deployment time, while the business rules and edge cases it must handle continue to evolve. Existing approaches address agent construction and one-time evaluation but provide no structured mechanism for continuous post-deployment behavioral correction without modifying the agent's source code. Most of the approaches offered in the market, require intense collection of logs and traces, and re-examining the agent design by the engineering team, a process which is heavy, long and negates the economical value of agentic transformation. We introduce Agent Gym, a modular, domain-agnostic framework that wraps any existing LLM-based agent in a continuous evaluation-and-evolution loop. The framework provides six composable capabilities --- Act, Evaluate, Investigate, Correct, Learn, and Observe --- organized across three architectural zones: a constitution layer that codifies domain knowledge in configuration artifacts, a runtime inference pipeline that chains acting, investigation, and adaptive correction, and a learning loop that enables subject matter experts to discover and validate new correction rules through natural language interaction. The key technical contributions include a hybrid deterministic-LLM correction engine with 21 condition operators and three-tier actions, a three-layer investigation architecture for ground-truth-free compliance validation, and a programmatic safety loop that guarantees rule correctness before human approval. We further introduce the Spec-to-Note Gap, an autoencoder-inspired view of agentic system transparency. An open-source reference implementation for invoice processing demonstrates that the framework is fully operational and ready for adoption.",
+      "authors": [
+        "Pouya Ghiasnezhad Omran",
+        "Michael Zimmermann",
+        "Duncan Cambridge",
+        "Ashmita Kapoor",
+        "Tanya Dixit"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-16T07:27:26+00:00",
+      "link": "https://arxiv.org/pdf/2608.15591v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Provides a framework for continuous post-deployment evaluation and correction of LLM agents using logs and traces, supporting monitoring of agent behavior for errors",
+      "llm_evidence_cn": "提供基于日志与轨迹对LLM智能体进行持续评估和纠错的框架，支持监控智能体行为错误",
+      "llm_evidence": "提供基于日志与轨迹对LLM智能体进行持续评估和纠错的框架，支持监控智能体行为错误",
+      "canonical_evidence": "提供基于日志与轨迹对LLM智能体进行持续评估和纠错的框架，支持监控智能体行为错误",
+      "llm_tldr_en": "Agent Gym introduces a modular, domain-agnostic framework enabling continuous evaluation and behavioral correction of deployed LLM agents through human-in-the-loop feedback without modifying source code, reducing heavy log/trace inspection burden.",
+      "llm_tldr_cn": "部署后的LLM智能体行为冻结而业务规则持续演变，现有方法需大量收集日志并重新设计。提出Agent Gym，一种模块化、领域无关的框架，通过人在环反馈对智能体进行持续评估和行为纠正，无需修改源代码。它降低了日志与轨迹排查的工程成本，为智能体行为的持续监控与错误修正提供了新机制。",
+      "llm_tldr": "部署后的LLM智能体行为冻结而业务规则持续演变，现有方法需大量收集日志并重新设计。提出Agent Gym，一种模块化、领域无关的框架，通过人在环反馈对智能体进行持续评估和行为纠正，无需修改源代码。它降低了日志与轨迹排查的工程成本，为智能体行为的持续监控与错误修正提供了新机制。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.17965v1",
+      "source": "arxiv",
+      "title": "Too Sure to Be Safe: Model Calibration for Reliable Log Anomaly Detection",
+      "abstract": "Online log anomaly detection is critical for maintaining the reliability of large-scale computing systems. Although recent language model-based log anomaly detectors achieve strong detection performance, their confidence estimates remain poorly calibrated. We show that these detectors frequently assign excessive confidence to incorrect predictions, particularly for anomalous logs under severe class imbalance. Moreover, confidence on erroneous predictions remains persistently high even when conventional calibration metrics indicate good calibration, creating a critical reliability gap for operational monitoring systems. To address this issue, we propose Log Reconstruction and Distance (LoRD), a lightweight post-hoc calibration framework for reliable log anomaly detection. LoRD learns prediction-route-specific reliability models from latent representations of correctly classified validation samples and estimates prediction reliability through route-wise reconstruction distances. Based on the estimated reliability, LoRD selectively recalibrates high-risk predictions to suppress overconfident errors while preserving reliable predictions. Extensive experiments on four large-scale log benchmark datasets and multiple language model-based detectors demonstrate that LoRD consistently improves confidence reliability and substantially reduces overconfident anomaly-related errors without sacrificing anomaly detection performance.",
+      "authors": [
+        "Bin Li",
+        "Dongdong Wang",
+        "Siyang Lu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-08-18T16:19:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.17965v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Provides a calibration method for log anomaly detection, potentially transferable to monitoring anomalous events in agent trajectories",
+      "llm_evidence_cn": "提出日志异常检测的校准方法，可迁移到智能体轨迹中的异常事件监测",
+      "llm_evidence": "提出日志异常检测的校准方法，可迁移到智能体轨迹中的异常事件监测",
+      "canonical_evidence": "提出日志异常检测的校准方法，可迁移到智能体轨迹中的异常事件监测",
+      "llm_tldr_en": "LoRD is a lightweight post-hoc calibration framework that corrects overconfident predictions in language model-based log anomaly detectors, improving reliability for operational monitoring systems; methods can inform anomaly detection in agent behavior logs.",
+      "llm_tldr_cn": "基于语言模型的日志异常检测器在类别不平衡下常对错误预测过度自信，传统校准指标不能反映这一点。提出LoRD，一种轻量级事后校准框架，通过日志重建与距离度量改进置信度估计，减小错误预测的置信度。虽面向系统日志异常检测，但其校准方法可迁移至智能体行为日志的异常检测与监控。",
+      "llm_tldr": "基于语言模型的日志异常检测器在类别不平衡下常对错误预测过度自信，传统校准指标不能反映这一点。提出LoRD，一种轻量级事后校准框架，通过日志重建与距离度量改进置信度估计，减小错误预测的置信度。虽面向系统日志异常检测，但其校准方法可迁移至智能体行为日志的异常检测与监控。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.19741v1",
+      "source": "arxiv",
+      "title": "One Success Isn't Reliability: Thinkingbox, a Sandbox and Benchmark for Agents in Stateful Business Workflows",
+      "abstract": "Recent agent benchmarks increasingly ground evaluation in executable environments, from code repair to web navigation, app APIs, and function calling. Yet completing consequential work beyond code requires more than producing a plausible response or valid tool call: agents must gather missing information over multiple turns, follow domain policies, coordinate dependent tools, and realize the correct persistent state transition without collateral effects. In this paper, we introduce Thinkingbox, a sandbox for tool-agent-user interaction that provides isolated MCP-compatible tool sessions, complete execution traces, and outcome evaluation over terminal backend state. Built on this sandbox, Thinkingbox-bench contains 507 policy-conditioned workflows across numerous scenarios, including retail, hospitality, auto insurance, neobank internal IT, and consulting IT/HR support. Each attempt is evaluated by task-specific executable checks that accept valid trajectories while rejecting wrong, missing, or extra effects; designated tasks additionally check required properties of the final response. Across proprietary and open-weight models, the strongest achieves 65.36% pass@1, but only 25.25% pass^20. Moreover, many failed trials show clean termination and valid state-changing actions, showing that response or tool-call-level signals are not clear proxies for end-to-end task completion. Thinkingbox-bench reveals a large gap between occasionally finding a successful trajectory and reliably completing stateful business tasks. We release both Thinkingbox and Thinkingbox-Bench: https://github.com/microsoft/thinkingbox",
+      "authors": [
+        "Zhuochun Li",
+        "Youngmin Ko",
+        "Ali Keramati",
+        "Nicola Ferri",
+        "Susana Palmaz Lopez Pelaez",
+        "Liang-Chun Tsai",
+        "Calvin Wang",
+        "Mirco Milletari",
+        "Tuhin Kundu",
+        "Vadim Smolyakov",
+        "Kjartan Olafsson",
+        "Tommy Guy"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.DB"
+      ],
+      "published": "2026-08-20T07:37:57+00:00",
+      "link": "https://arxiv.org/pdf/2608.19741v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Sandbox with complete execution traces and backend-state outcome evaluation to detect incorrect action transitions",
+      "llm_evidence_cn": "提供完整执行轨迹与后端状态结果评估，用于检测错误的动作转换",
+      "llm_evidence": "提供完整执行轨迹与后端状态结果评估，用于检测错误的动作转换",
+      "canonical_evidence": "提供完整执行轨迹与后端状态结果评估，用于检测错误的动作转换",
+      "llm_tldr_en": "Introduces Thinkingbox, a sandbox and benchmark for stateful business workflows that provides isolated tool sessions, complete execution traces, and terminal-state outcome evaluation, enabling the detection of wrong actions and persistent state transitions.",
+      "llm_tldr_cn": "现有智能体基准大多只评估最终答案或工具调用，忽略了多轮交互中状态转换是否正确以及副作用。为此提出Thinkingbox沙盒与基准，提供隔离的MCP兼容工具会话、完整执行轨迹和基于后端终态的结果评估。它可将智能体轨迹中的动作序列与预期状态转换比对，精确定位错误动作与持久状态偏差，为有状态业务流程中的智能体错误检测提供了可操作的评测环境。",
+      "llm_tldr": "现有智能体基准大多只评估最终答案或工具调用，忽略了多轮交互中状态转换是否正确以及副作用。为此提出Thinkingbox沙盒与基准，提供隔离的MCP兼容工具会话、完整执行轨迹和基于后端终态的结果评估。它可将智能体轨迹中的动作序列与预期状态转换比对，精确定位错误动作与持久状态偏差，为有状态业务流程中的智能体错误检测提供了可操作的评测环境。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
