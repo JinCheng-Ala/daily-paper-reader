@@ -1,0 +1,339 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-24T20:25:19.784200+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2608.20563v1",
+      "source": "arxiv",
+      "title": "Beyond End-to-End Success: Diagnosing Failures in Long-Horizon Security LLM Agents",
+      "abstract": "Long-horizon security LLM agents must carry information and decisions across many dependent interactions, where later actions often depend on services, state, or access discovered much earlier. This makes final task success difficult to interpret: an agent may fail before it ever reaches the point where the capability of interest can be exercised. We present a diagnostic methodology that instruments security tasks with checkpoints, separates failures before and after capability exposure, and uses controlled interventions to test suspected upstream bottlenecks. We evaluate the methodology across four task families involving delayed reuse of discovered information, reuse of observed state, recovery from failed strategies, and decision making after uncertain outcomes. On observed state reuse, checkpoint analysis shows that many Gemini 2.5 Flash failures occur before the model observes the state it is later expected to reuse. In a pre-specified 92-seed study, targeted protocol-disambiguation guidance increases state observation from 65.5\\% under a matched non-guidance control message to 95.4\\%. Repeating the same design with Gemini 3.7 Flash produces the opposite effect, while state observation no longer reliably predicts task completion. These results show that the dominant source of failure can shift across model generations, motivating evaluation that diagnoses where and why long-horizon security agents fail rather than relying only on aggregate task success.",
+      "authors": [
+        "Wei Shao",
+        "Chongzhou Fang",
+        "Zuxiong Tan",
+        "Zequan Liang",
+        "Setareh Rafatirad",
+        "Avesta Sasan",
+        "Houman Homayoun"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-20T20:55:22+00:00",
+      "link": "https://arxiv.org/pdf/2608.20563v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "diagnostic methodology with checkpoints and interventions to locate failures in long-horizon security LLM agents",
+      "llm_evidence_cn": "使用检查点与干预实验定位长时程安全LLM智能体中的失败",
+      "llm_evidence": "使用检查点与干预实验定位长时程安全LLM智能体中的失败",
+      "canonical_evidence": "使用检查点与干预实验定位长时程安全LLM智能体中的失败",
+      "llm_tldr_en": "This paper presents a checkpoint-based diagnostic methodology to separate and pinpoint failures before or after capability exposure in long-horizon security LLM agents, beyond end-to-end success metrics.",
+      "llm_tldr_cn": "长时程安全LLM智能体的最终成功难以解释，因为智能体可能在能力被用到之前就已经失败。作者提出一种诊断方法，在安全任务中设置检查点，区分能力暴露前后的失败，并通过受控干预检验上游瓶颈。在四个涉及延迟信息重用、状态复用、策略恢复和决策的任务系列上验证了有效性。该方法为长期智能体轨迹的失败定位提供了系统化工具。",
+      "llm_tldr": "长时程安全LLM智能体的最终成功难以解释，因为智能体可能在能力被用到之前就已经失败。作者提出一种诊断方法，在安全任务中设置检查点，区分能力暴露前后的失败，并通过受控干预检验上游瓶颈。在四个涉及延迟信息重用、状态复用、策略恢复和决策的任务系列上验证了有效性。该方法为长期智能体轨迹的失败定位提供了系统化工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.20627v1",
+      "source": "arxiv",
+      "title": "When Failures Propagate: Causal Failure Attribution in Agentic Retrieval-Augmented Generation",
+      "abstract": "Agentic retrieval-augmented generation (RAG) interleaves retrieval, reasoning, and answer generation across multiple hops. A retrieval error at hop 1 can surface only as a wrong answer at hop 3, while later retrieval can also repair the trajectory. This paper introduces AgenticRAG-FP, an interventional benchmark for causal failure attribution in agentic RAG. The benchmark injects a certified fault at a specified hop, re-executes the downstream trajectory, and evaluates diagnosers against the known intervention. Its central question is whether a post-hoc trace still identifies the injected hop after the suffix changes. In the completed strict dense Claude Haiku 4.5 sweep on 80 three-hop MuSiQue questions, coverage-based diagnosis is 0.91 at hop 1 and 0.00 at hops 2 and 3 (n=43,36,21 failed trajectories). A smaller content-corruption study changes an answer-bearing or bridge fact in topically intact evidence. At depth 2, where 18 failed cases remain after filtering, coverage-based diagnosis is 0.00 and a frozen-hop counterfactual probe is 0.67 in an exploratory pooled comparison. Depth-3 content estimates are descriptive only because they contain three failed cases. These results make propagation depth an explicit evaluation axis for diagnosing agentic RAG failures while distinguishing broad evidence of post-hoc signal loss from small-sample method comparisons.",
+      "authors": [
+        "Lauren Pothuru"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-08-20T23:56:34+00:00",
+      "link": "https://arxiv.org/pdf/2608.20627v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Causal failure attribution in multi-hop agentic RAG trajectories",
+      "llm_evidence_cn": "多跳代理式RAG轨迹中的因果故障归因",
+      "llm_evidence": "多跳代理式RAG轨迹中的因果故障归因",
+      "canonical_evidence": "多跳代理式RAG轨迹中的因果故障归因",
+      "llm_tldr_en": "Introduces AgenticRAG-FP, an interventional benchmark that injects faults at specific hops of agentic RAG trajectories and evaluates diagnosers' ability to identify the failure origin, showing the challenge of post-hoc attribution.",
+      "llm_tldr_cn": "代理式检索增强生成(RAG)在多个跳步中交织检索、推理与答案生成，早期跳步的错误可能到后期才显现。该论文提出了AgenticRAG-FP，一个因果故障归因的干预式基准，通过在指定跳步注入已认证故障并重放下游轨迹，检验诊断器能否识别出真正的故障来源。在80个三跳MuSiQue问题上的实验表明，基于覆盖率的诊断仍面临挑战。该工作为理解和检测代理轨迹中的传播性错误提供了关键评测工具。",
+      "llm_tldr": "代理式检索增强生成(RAG)在多个跳步中交织检索、推理与答案生成，早期跳步的错误可能到后期才显现。该论文提出了AgenticRAG-FP，一个因果故障归因的干预式基准，通过在指定跳步注入已认证故障并重放下游轨迹，检验诊断器能否识别出真正的故障来源。在80个三跳MuSiQue问题上的实验表明，基于覆盖率的诊断仍面临挑战。该工作为理解和检测代理轨迹中的传播性错误提供了关键评测工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.21310v1",
+      "source": "arxiv",
+      "title": "Beyond Fault Localization: A Trajectory-Level Study of LLM Agents for Microservice Root Cause Analysis",
+      "abstract": "Existing evaluations of automated root cause analysis (RCA) for microservices assess diagnostic performance mainly by endpoint correctness: whether a method localizes the responsible service. This criterion enables comparison but does not reveal the evidentiary basis of a diagnosis or the fault-propagation route connecting the source to observed symptoms, both of which an on-call site reliability engineer needs to judge whether action is warranted. We therefore treat RCA as an observable diagnostic process. Our trajectory-level framework evaluates agent executions against manually curated service-level fault-propagation paths. Applied to a public microservice RCA benchmark, it analyzes 3,500 diagnostic trajectories, characterizing where agents investigate and how they use retrieved telemetry. We find a disconnect between answer correctness and diagnostic quality: an agent may localize the fault source yet fail to reconstruct its propagation. Successful investigations stay on the fault-impact surface, act on retrieved evidence, and broaden their query repertoire as the search deepens. Failures arise when decisive evidence is omitted, retrieved evidence is misinterpreted, or unsupported inference substitutes for missing evidence. We operationalize this taxonomy as DiagGuard, a two-stage defense-in-depth architecture in which grounding surveys available observations before localization and verification audits the diagnosis against them. In an independent setting with a different model, benchmark, and service topology, DiagGuard raises Acc@1 from 43.5% to 52.5%. These results show that trajectory-level evaluation exposes limitations hidden by final-answer metrics and provides actionable guidance for improving automated RCA.",
+      "authors": [
+        "Qisheng Lu",
+        "Aoyang Fang",
+        "Junjielong Xu",
+        "Jin'ao Shang",
+        "Songhan Zhang",
+        "Yifan Yang",
+        "Xiaochuan Yan",
+        "Pinjia He"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-08-21T17:13:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.21310v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Trajectory-level study of LLM agents for microservice fault propagation detection",
+      "llm_evidence_cn": "基于LLM智能体轨迹的微服务故障传播检测",
+      "llm_evidence": "基于LLM智能体轨迹的微服务故障传播检测",
+      "canonical_evidence": "基于LLM智能体轨迹的微服务故障传播检测",
+      "llm_tldr_en": "This paper proposes a trajectory-level evaluation framework for microservice RCA agents, aligning agent executions with manually curated fault-propagation paths and analyzing 3,500 trajectories to go beyond endpoint correctness.",
+      "llm_tldr_cn": "现有微服务根因分析评估只看端点正确性，无法反映诊断依据和故障传播路径。该论文将RCA视为可观测诊断过程，提出轨迹级评估框架，把智能体执行轨迹与人工整理的故障传播路径比对。在公开基准上分析3500条轨迹，揭示智能体诊断过程的深层特征，为根因分析提供过程性证据。",
+      "llm_tldr": "现有微服务根因分析评估只看端点正确性，无法反映诊断依据和故障传播路径。该论文将RCA视为可观测诊断过程，提出轨迹级评估框架，把智能体执行轨迹与人工整理的故障传播路径比对。在公开基准上分析3500条轨迹，揭示智能体诊断过程的深层特征，为根因分析提供过程性证据。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.18307v1",
+      "source": "arxiv",
+      "title": "ComponentBench: Diagnosing Component-Level Failures in Computer-Use Agents",
+      "abstract": "Current evaluation of computer-use agents is split between long-horizon workflow benchmarks and atomic GUI-grounding tests. This leaves an under-instrumented middle layer: realistic component-centered interactions (e.g., toggle a button set) that are short enough to diagnose and rich enough to capture the burdens of modern interfaces. We present ComponentBench, a benchmark and diagnostic pipeline for component-level evaluation of computer-use agents on modern web UIs. ComponentBench is organized around a library-agnostic ontology of 97 canonical UI components instantiated as 2,910 programmatically verified tasks across widely used component libraries, paired with cleaned human reference trajectories that enable evaluation of both task success and interaction efficiency. Beyond task collection, we introduce a scalable pipeline for auditing realized structural difficulty after implementation and synthesizing structured failure analyses across tasks and component families. Evaluating seven models -- GPT-5.4, Gemini 3 Flash, GPT-5.4 mini, GPT-5 mini, Gemini 3.1 Flash-Lite, Qwen3-VL-235B, and UI-TARS-1.5-7B -- across four observation and action spaces, we show that these design choices critically impact performance. Within a single shared harness, changing only the observation and action space shifts task success by more than 30% for the same model: GPT-5 mini falls from 83.1% with accessibility-tree observations to 48.9% with coordinate-only Pixel control. Moreover, even the fastest configuration takes 3.7x as long as the matched human reference, and spatial manipulations that are trivial for humans continue to challenge current agents.",
+      "authors": [
+        "Tianchen Guan",
+        "Xinlei Lin",
+        "Royce Cheng-Yue",
+        "Xiangjun Wang",
+        "Shuyan Zhou"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.HC"
+      ],
+      "published": "2026-08-18T20:38:26+00:00",
+      "link": "https://arxiv.org/pdf/2608.18307v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "benchmark and diagnostic pipeline for detecting component-level failures in computer-use agent trajectories",
+      "llm_evidence_cn": "面向计算机使用代理轨迹的组件级故障检测基准与诊断流程",
+      "llm_evidence": "面向计算机使用代理轨迹的组件级故障检测基准与诊断流程",
+      "canonical_evidence": "面向计算机使用代理轨迹的组件级故障检测基准与诊断流程",
+      "llm_tldr_en": "ComponentBench provides a library-agnostic ontology of 97 UI components and 2,910 verified tasks with human reference trajectories to diagnose component-level failures of computer-use agents.",
+      "llm_tldr_cn": "针对计算机使用代理评估缺乏组件级中间层的问题，论文提出ComponentBench基准与诊断流程，覆盖97个典型UI组件及2910个程序化验证任务，并配有人类参考轨迹。该基准支持同时评估任务成功率和组件级失败诊断，弥补了长周期工作流与原子性GUI测试之间的空白，有助于细粒度识别代理轨迹中的错误步骤。",
+      "llm_tldr": "针对计算机使用代理评估缺乏组件级中间层的问题，论文提出ComponentBench基准与诊断流程，覆盖97个典型UI组件及2910个程序化验证任务，并配有人类参考轨迹。该基准支持同时评估任务成功率和组件级失败诊断，弥补了长周期工作流与原子性GUI测试之间的空白，有助于细粒度识别代理轨迹中的错误步骤。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.20797v1",
+      "source": "arxiv",
+      "title": "Automated Trajectory Evaluation for Mobile Agents via Step-Level Consequence Reasoning and Aggregation",
+      "abstract": "Evaluating language-guided mobile agents has recently shifted from rule-based to model-based approaches to achieve scalable and automated assessments. However, existing holistic evaluation paradigms process entire trajectories at once, leading to substantial context overload. Moreover, they primarily focus on task completion while overlooking operational safety. To address these limitations, we introduce CRATE, a novel two-stage VLM-as-judge framework for automated mobile agent evaluation that is compatible with both open- and closed-source models. Leveraging a step-level consequence reasoning mechanism, CRATE independently extracts task-relevant visual clues and infers action-conditioned state changes at each step. The resulting step-level textual evidence is then synthesized through trajectory-level aggregation to deliver an evidence-grounded evaluation of task completion. Building upon this evaluation scheme, we further extend CRATE to CRATE-S for operational safety assessment. Extensive experiments validate the effectiveness and robustness of both CRATE and CRATE-S. Powered by Qwen2.5-VL-72B-Instruct, CRATE achieves an F1-score of 0.833 on AndroidWorld (outperforming SPA-Bench by 20%), while CRATE-S reaches an F1-score of 0.697 on MobileRisk, demonstrating strong alignment with benchmark ground truths. Code is available at https://anonymous.4open.science/r/CRATE-D580.",
+      "authors": [
+        "Pengshuai Yang",
+        "Zijing Gao",
+        "Xue Yu",
+        "Benhui Zhuang",
+        "Bo Yuan",
+        "Junlan Feng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-21T07:16:36+00:00",
+      "link": "https://arxiv.org/pdf/2608.20797v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Step-level consequence reasoning for automated trajectory evaluation and action safety",
+      "llm_evidence_cn": "基于步骤级后果推理的轨迹评估与动作安全",
+      "llm_evidence": "基于步骤级后果推理的轨迹评估与动作安全",
+      "canonical_evidence": "基于步骤级后果推理的轨迹评估与动作安全",
+      "llm_tldr_en": "CRATE is a two-stage VLM-as-judge framework for mobile agent trajectory evaluation that uses step-level consequence reasoning to infer action-conditioned state changes and includes operational safety in assessments.",
+      "llm_tldr_cn": "现有移动智能体轨迹评估整体处理轨迹，导致上下文过载且忽视安全性。CRATE提出两阶段VLM裁判框架，利用步骤级后果推理独立提取视觉线索并推断动作导致的状态变化，同时兼顾任务完成与操作安全。该方法兼容开源和闭源模型，实现可扩展的自动化评估，提升了评估准确性和安全性。",
+      "llm_tldr": "现有移动智能体轨迹评估整体处理轨迹，导致上下文过载且忽视安全性。CRATE提出两阶段VLM裁判框架，利用步骤级后果推理独立提取视觉线索并推断动作导致的状态变化，同时兼顾任务完成与操作安全。该方法兼容开源和闭源模型，实现可扩展的自动化评估，提升了评估准确性和安全性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.20614v1",
+      "source": "arxiv",
+      "title": "Evaluating Skills, Not Just Agents: Agentic Continuous Evaluation of Skills",
+      "abstract": "Enterprise agent programs are moving from prototypes into production, where reusable skills, tools, and workflow packages must be reviewed with evidence rather than prose. Current gates often scan these artifacts for structure, style, and security, but they do not answer the deployment question: does the capability package help a live agent complete enterprise tasks under the same model, sandbox, and grading policy?   We present ACES (Agentic Continuous Evaluation of Skills), a repository-native framework for evaluating skills and product capability packages as executable agent artifacts. ACES runs paired live trials with and without a target skill, normalizes trajectories into the Agent Trajectory Interchange Format (ATIF), grades six default runtime metrics, and reports Skill Lift: the target skill's added value for a fixed task, harness, workspace, and scorer. The same protocol supports product-owned task suites that compare baseline, skill, bundle, team-skill, and plugin targets.   On 145 real skills from internal enterprise repositories and public catalogs, scan-only gates surface useful authoring issues but measure complementary facets (structural versus LLM-judge Spearman $ρ= 0.14$). Across 947 scored paired cases from 58 of 64 production skills and four primary harnesses, mean composite Skill Lift is 0.2134 (95\\% paired-case CI [0.1967, 0.2301]); mean outcome-only lift, the average of accuracy and goal accuracy, is 0.1799. Composite lift is positive in 72.8\\% of paired cases. The largest process-metric gains appear in skill execution, behavior check, and skill efficiency---signals about discovery, routing, workflow following, and tool use that document scans cannot observe. An open-source implementation of the methodology is available in NVIDIA SkillEvaluator.",
+      "authors": [
+        "Christopher Kevin",
+        "Narendran Raghavan",
+        "Jean-Francois Puget",
+        "Roshni Malani",
+        "Meghana Puvvadi",
+        "Moshe Abramovitch",
+        "Mohit Gupta",
+        "Rama Akkiraju",
+        "Subodh Prabhu",
+        "Yogesh Dangi",
+        "Wei Luo",
+        "Seong Hee Lee"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-20T23:26:14+00:00",
+      "link": "https://arxiv.org/pdf/2608.20614v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Continuous evaluation of agent skills via trajectory grading and paired live trials",
+      "llm_evidence_cn": "通过配对试验和轨迹评分对智能体技能进行持续评估",
+      "llm_evidence": "通过配对试验和轨迹评分对智能体技能进行持续评估",
+      "canonical_evidence": "通过配对试验和轨迹评分对智能体技能进行持续评估",
+      "llm_tldr_en": "ACES is a repository-native framework for continuously evaluating reusable agent skills as executable artifacts via paired live trials and normalized trajectory grading, providing deployment evidence for production readiness.",
+      "llm_tldr_cn": "现有技能评估缺乏对可复用技能包的部署级验证。本文提出ACES框架，通过配对实时试验将轨迹标准化为ATIF格式并自动评分，实现对技能包的持续评估。结果表明该方法能提供基于执行证据的审核依据，支撑技能从原型走向生产。",
+      "llm_tldr": "现有技能评估缺乏对可复用技能包的部署级验证。本文提出ACES框架，通过配对实时试验将轨迹标准化为ATIF格式并自动评分，实现对技能包的持续评估。结果表明该方法能提供基于执行证据的审核依据，支撑技能从原型走向生产。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.19858v1",
+      "source": "arxiv",
+      "title": "Online Test-Time Adaptation for Generalizable Dynamic Graph Anomaly Detection",
+      "abstract": "Generalizable dynamic graph anomaly detection (DGAD) enables pretrained detectors to identify anomalies in unseen target domains without costly retraining. However, existing methods often fail for two reasons. First, they mainly rely on domain-agnostic patterns and miss domain-specific patterns that keep evolving. Second, they assume access to the full target domain data, whereas in more practical online test-time adaptation settings, target data arrive sequentially in unlabeled chunks. To address these limitations, we formulate online test-time adaptation for generalizable DGAD and propose OTTA-DGAD. OTTA-DGAD first extracts dynamic prototypes, i.e., evolving representations of normal and anomalous patterns, from temporal ego-graphs and stores them in a memory buffer. The buffer selectively retains general patterns shared across the source domains used for pretraining while incorporating new patterns from the target domain. An anomaly scorer then compares incoming edge representations against these prototypes to identify both general and domain-specific anomalies. During adaptation, OTTA-DGAD updates the memory buffer using reliable pseudo-labels identified through confidence-based detection. It further enriches each target chunk with relevant representations retained from previous chunks, compensating for information loss resulting from the sequential arrival of data. Extensive experiments under strict test-then-adapt OTTA settings demonstrate state-of-the-art performance on ten real-world datasets from diverse domains.",
+      "authors": [
+        "Jialun Zheng",
+        "Hanchen Yang",
+        "Jiannong Cao",
+        "Yankai Chen",
+        "Yuanjing Feng",
+        "Philip S. Yu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-20T10:07:39+00:00",
+      "link": "https://arxiv.org/pdf/2608.19858v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "online test-time adaptation for anomaly detection, transferable to trajectory streams",
+      "llm_evidence_cn": "在线测试时自适应的异常检测方法，可迁移至轨迹流数据",
+      "llm_evidence": "在线测试时自适应的异常检测方法，可迁移至轨迹流数据",
+      "canonical_evidence": "在线测试时自适应的异常检测方法，可迁移至轨迹流数据",
+      "llm_tldr_en": "OTTA-DGAD formulates online test-time adaptation for dynamic graph anomaly detection, extracting evolving prototypes to identify anomalies in sequentially arriving unlabeled target chunks.",
+      "llm_tldr_cn": "针对动态图异常检测在目标域数据连续到达且无标签的在线场景下泛化能力不足的问题，论文提出OTTA-DGAD，从时间演化子图中提取动态原型，并在测试时自适应更新正常与异常模式。该方法面向流式数据块进行检测，克服了对完整目标数据集的依赖，为轨迹等序列数据的在线异常检测提供了可借鉴的自适应思路。",
+      "llm_tldr": "针对动态图异常检测在目标域数据连续到达且无标签的在线场景下泛化能力不足的问题，论文提出OTTA-DGAD，从时间演化子图中提取动态原型，并在测试时自适应更新正常与异常模式。该方法面向流式数据块进行检测，克服了对完整目标数据集的依赖，为轨迹等序列数据的在线异常检测提供了可借鉴的自适应思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.20771v1",
+      "source": "arxiv",
+      "title": "CAS: Conformalized Agentic Search via Adaptive Retrieval and Policy Weighting",
+      "abstract": "Search Agents face a severe reliability crisis during reinforcement learning (RL) fine-tuning. Heuristic Top-K retrieval often causes critical evidence loss or noise inclusion, while over-confidence induced by progressive RL leads to hallucinated answers and redundant searches.   To build highly reliable agents, we introduce Conformal Prediction (CP) and propose Conformalized Agentic Search (CAS). This framework establishes reliability guarantees on both the retrieval and training sides: on the retrieval side, an Adaptive Prediction Set (APS), a specific CP realization, translates statistical coverage into dynamic document truncation to construct prediction sets that are adaptive in size; on the training side, Adaptive Conformal Inference (ACI), a dynamic CP algorithm, dynamically constructs prediction sets with controllable coverage to quantify answer confidence, which is then used to penalize low-confidence trajectories within the Group Relative Policy Optimization (GRPO) objective, ensuring the model learns only from reliable ones.   Experiments across single-hop and multi-hop QA datasets demonstrate that our framework significantly improves reasoning accuracy while drastically reducing redundant tool invocations, establishing a highly reliable and efficient agent paradigm. Our code is available at https://github.com/S1llyBird/CAS.",
+      "authors": [
+        "Zixi Zhu",
+        "Jiayuan Su",
+        "Jian Zhang",
+        "Yu Lin",
+        "Hongwei Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-21T06:29:52+00:00",
+      "link": "https://arxiv.org/pdf/2608.20771v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Conformal prediction for reliability guarantees in agentic search, addressing hallucination and redundant searches",
+      "llm_evidence_cn": "利用共形预测为智能体搜索提供可靠性保证，减少幻觉和冗余搜索",
+      "llm_evidence": "利用共形预测为智能体搜索提供可靠性保证，减少幻觉和冗余搜索",
+      "canonical_evidence": "利用共形预测为智能体搜索提供可靠性保证，减少幻觉和冗余搜索",
+      "llm_tldr_en": "CAS applies conformal prediction to agentic search, using Adaptive Prediction Sets for dynamic retrieval truncation and Adaptive Conformal Inference for training-side reliability, mitigating hallucinated answers and redundant searches.",
+      "llm_tldr_cn": "搜索智能体在RL微调中面临证据丢失、噪声和幻觉等可靠性危机。CAS将共形预测引入智能体搜索，检索侧用自适应预测集动态截断文档，训练侧用自适应共形推断提供统计保证。该方法在两侧建立可靠性保障，显著提升搜索智能体的可靠性，减少幻觉与冗余搜索。",
+      "llm_tldr": "搜索智能体在RL微调中面临证据丢失、噪声和幻觉等可靠性危机。CAS将共形预测引入智能体搜索，检索侧用自适应预测集动态截断文档，训练侧用自适应共形推断提供统计保证。该方法在两侧建立可靠性保障，显著提升搜索智能体的可靠性，减少幻觉与冗余搜索。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
