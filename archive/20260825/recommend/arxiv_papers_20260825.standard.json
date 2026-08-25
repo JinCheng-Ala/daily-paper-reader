@@ -1,0 +1,379 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-25T20:23:47.113031+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2608.22130v1",
+      "source": "arxiv",
+      "title": "PropUQ-MAS: Propagation-Aware Uncertainty Quantification for LLM Multi-Agent Systems",
+      "abstract": "LLM-based multi-agent systems (MAS) solve complex tasks through communication among role-specialized agents. However, inter-agent dependencies introduce reliability risks beyond isolated agent failures. For instance, errors in intermediate messages could be inherited and amplified by downstream agents. Existing uncertainty quantification (UQ) methods mainly target isolated responses or single-agent reasoning, and therefore fail to capture uncertainty propagation in MAS. To this end, we propose PropUQ-MAS, an error propagation-aware UQ framework that represents MAS execution as a communication-structured graph and estimates each step's reliability by combining local uncertainty with uncertainty inherited from upstream messages. Extensive experiments demonstrate that PropUQ-MAS consistently improves UQ in MAS, with average relative gains of +6.10% in AUROC and +47.58% in PRR.",
+      "authors": [
+        "Yaokun Liu",
+        "Yifan Liu",
+        "Daniel Yue Zhang",
+        "Ruichen Yao",
+        "Zelin Li",
+        "Dong Wang"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.CL"
+      ],
+      "published": "2026-08-22T23:07:39+00:00",
+      "link": "https://arxiv.org/pdf/2608.22130v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "propagates uncertainty over communication-structured graph to estimate per-step reliability and catch inherited/amplified errors",
+      "llm_evidence_cn": "在通信结构图上传播不确定性,估计每步可靠性,捕捉继承并放大的错误",
+      "llm_evidence": "在通信结构图上传播不确定性,估计每步可靠性,捕捉继承并放大的错误",
+      "canonical_evidence": "在通信结构图上传播不确定性,估计每步可靠性,捕捉继承并放大的错误",
+      "llm_tldr_en": "PropUQ-MAS propagates uncertainty along a communication-structured graph to estimate step reliability in LLM multi-agent systems, capturing how intermediate message errors are inherited and amplified.",
+      "llm_tldr_cn": "LLM多智能体系统中,中间消息的错误会沿依赖链传播并被下游放大,现有不确定性量化方法无法捕捉这种传播。PropUQ-MAS将系统执行表示为通信结构图,结合局部不确定性与来自上游消息的不确定性估计每一步的可靠性,从而定位错误传播路径。实验表明该方法能够有效识别多智能体执行中潜在的错误步骤,为轨迹错误检测提供可靠信号。",
+      "llm_tldr": "LLM多智能体系统中,中间消息的错误会沿依赖链传播并被下游放大,现有不确定性量化方法无法捕捉这种传播。PropUQ-MAS将系统执行表示为通信结构图,结合局部不确定性与来自上游消息的不确定性估计每一步的可靠性,从而定位错误传播路径。实验表明该方法能够有效识别多智能体执行中潜在的错误步骤,为轨迹错误检测提供可靠信号。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.22510v1",
+      "source": "arxiv",
+      "title": "ClawProBench: Trace-Aware Evaluation of AI Agents with Runtime Coverage and Frozen Workplace-Style Holdouts",
+      "abstract": "Agent benchmarks often evaluate only final answers even when agents run on stateful runtimes. We argue this under-specifies what is being evaluated: the proper unit is a declared model-plus-runtime configuration whose failures can occur in evidence acquisition, runtime routing, safety boundaries, or repeated execution. We present ClawProBench, a trace-aware benchmark for runtime-native agent evaluation instantiated on OpenClaw, a live agent runtime with workspace tools and native surfaces for browsing, memory, messaging, scheduling, skills, and subagents. ClawProBench defines two tracks: a 102-scenario full profile with live workspace and native-runtime routing tasks, and a frozen 68-scenario holdout with closed-world JSON output contracts for robust ranking. Trials are scored from execution traces via a safety-gated formula combining correctness, process quality, and efficiency, preserving failure evidence for audit. Our anonymous artifact includes benchmark definitions, scoring code, manifests and sanitized traces. We evaluate 68 configurations on the full profile and 37 on holdout. The top safety-gated average trace score is 0.7671. Native-runtime tasks underperform workspace-live tasks (0.5238 vs. 0.6415). On holdout, pass@k-any outperforms strict three-trial pass (0.6638 vs. 0.2890), while full-profile and holdout rankings show weak alignment (Spearman 0.1300). Rankings based purely on correctness differ substantially from process-aware, safety-gated and strict-pass views. Final-answer leaderboards may hide native-surface weaknesses, one-off successes and trace-local agent failure modes.",
+      "authors": [
+        "YuanHang Xiao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-23T17:09:02+00:00",
+      "link": "https://arxiv.org/pdf/2608.22510v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "trace-aware benchmark for runtime agent failure evaluation",
+      "llm_evidence_cn": "轨迹感知基准，评估运行时智能体失败",
+      "llm_evidence": "轨迹感知基准，评估运行时智能体失败",
+      "canonical_evidence": "轨迹感知基准，评估运行时智能体失败",
+      "llm_tldr_en": "This paper introduces ClawProBench, a trace-aware benchmark for evaluating agents on stateful runtimes like OpenClaw. It argues failures occur in evidence acquisition, runtime routing, safety boundaries, and repeated execution, and defines a 102-scenario full profile and a 68-scenario frozen holdout. Central for monitoring agent behavior and detecting errors in trajectories.",
+      "llm_tldr_cn": "该论文提出ClawProBench，一个轨迹感知的智能体评估基准，基于OpenClaw运行时实现。它认为仅评估最终答案是不够的，失败可能出现在证据获取、运行时路由、安全边界和重复执行中。基准设有102个场景的完整画像和68个场景的冻结工作区式保留集，用于评估模型加运行时配置的轨迹级失败。",
+      "llm_tldr": "该论文提出ClawProBench，一个轨迹感知的智能体评估基准，基于OpenClaw运行时实现。它认为仅评估最终答案是不够的，失败可能出现在证据获取、运行时路由、安全边界和重复执行中。基准设有102个场景的完整画像和68个场景的冻结工作区式保留集，用于评估模型加运行时配置的轨迹级失败。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.23282v1",
+      "source": "arxiv",
+      "title": "From Natural Language Policies to Executable Obligations: A Verification Harness for Dependable In-Car LLM Agents",
+      "abstract": "Large Language Models (LLMs) agents deployed in vehicles must satisfy a written operating policy on every turn: a single hallucinated identifier, omitted mandatory side-effect, or premature completion claim fails the task. We present AgentGuardUtil, our entry to CAR-bench Track~1, which treats the AI planer (LLM) as a fallible proposer inside a grounded verify-and-revise loop. Its core novelty is a runtime policy compiler: the natural-language policy shipped with each conversation is compiled, once per policy, into typed machine-checkable rules, a subset of which receive an executable form. A deterministic obligation engine interprets these rules against live tool results and the simulated post-write state of the draft itself, emitting the exact remedial calls with computed arguments rather than natural-language reminders. Around this engine, 25 deterministic gates (identifier provenance, schema and enum validity, gather-before-act, confirmation and future-time protocols) and an LLM critic produce tiered findings that drive a bounded revision loop tuned for the pass k metric.",
+      "authors": [
+        "Radouane Bouchekir",
+        "Damir Safin",
+        "Tomas Bueno Momcilovic"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-08-24T14:06:21+00:00",
+      "link": "https://arxiv.org/pdf/2608.23282v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "runtime verification harness monitors each LLM agent action against compiled policy obligations to catch action errors",
+      "llm_evidence_cn": "运行时验证框架将自然语言策略编译为可检查规则，逐动作检测智能体动作错误",
+      "llm_evidence": "运行时验证框架将自然语言策略编译为可检查规则，逐动作检测智能体动作错误",
+      "canonical_evidence": "运行时验证框架将自然语言策略编译为可检查规则，逐动作检测智能体动作错误",
+      "llm_tldr_en": "In-car LLM agents must obey a written policy every turn. AgentGuardUtil compiles natural-language policies into executable obligations and verifies each action against live tool results and post-write state, catching errors.",
+      "llm_tldr_cn": "车载大语言模型智能体必须在每一步都满足书面运行策略，任何幻觉标识符、遗漏副作用或过早完成声明都会导致任务失败。本文提出AgentGuardUtil，将自然语言策略编译为类型化、可机检的规则，并通过确定性义务引擎对照实时工具结果和写后状态逐动作验证。该方法把大模型当作可错的提议者，在验证-修订循环中捕获动作错误。它为高风险车载智能体提供了可依赖的策略遵循保障。",
+      "llm_tldr": "车载大语言模型智能体必须在每一步都满足书面运行策略，任何幻觉标识符、遗漏副作用或过早完成声明都会导致任务失败。本文提出AgentGuardUtil，将自然语言策略编译为类型化、可机检的规则，并通过确定性义务引擎对照实时工具结果和写后状态逐动作验证。该方法把大模型当作可错的提议者，在验证-修订循环中捕获动作错误。它为高风险车载智能体提供了可依赖的策略遵循保障。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.19803v2",
+      "source": "arxiv",
+      "title": "MileGPO: Milestone Inference with Local Evidence for Graph-Based Policy Optimization of Long-Horizon LLM Agents",
+      "abstract": "Credit assignment is challenging in long-horizon agentic reinforcement learning, where supervision often comes only from final rewards. Existing methods refine trajectory-level signals into step-level credits through step grouping or graph-based advantage estimation, but can overlook meaningful intermediate milestones. We propose MileGPO (Milestone Inference with Local Evidence for Graph-Based Policy Optimization), which derives process-level credit from grouped on-policy rollouts through three designs. Milestone Discovery identifies candidate milestones on successful rollouts and recurring traps on failed ones. Reliability-Calibrated Shaping (RCS) weights these candidates by outcome-based confidence, strengthening reliable milestones and traps while down-weighting uncertain ones. Progress-Contrastive Calibration (PCC) further tests whether a candidate reflects local progress and whether its incoming transition outperforms observed alternatives from the same state. MileGPO requires neither auxiliary models nor additional environment interaction. Experiments on ALFWorld and WebShop show state-of-the-art performance and a small in-distribution to out-of-distribution gap on ALFWorld. Ablations and credit diagnostics indicate that reliability weighting, local progress, and same-state branch evidence complement milestone discovery and resolve ambiguous intermediate credit.",
+      "authors": [
+        "Bo Qian",
+        "Yuting Wu",
+        "Shuang Zeng",
+        "Huaiyu Wan",
+        "Dalin Zhang",
+        "Jiqiang Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-08-20T08:58:27+00:00",
+      "link": "https://arxiv.org/pdf/2608.19803v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Finds recurring traps on failed trajectories and uses them for credit assignment in agentic reinforcement learning",
+      "llm_evidence_cn": "在强化学习代理轨迹中识别失败轨迹上的反复陷阱并用于信用分配",
+      "llm_evidence": "在强化学习代理轨迹中识别失败轨迹上的反复陷阱并用于信用分配",
+      "canonical_evidence": "在强化学习代理轨迹中识别失败轨迹上的反复陷阱并用于信用分配",
+      "llm_tldr_en": "MileGPO derives process-level credit for long-horizon LLM agents by discovering candidate milestones on successful rollouts and recurring traps on failed ones, using reliability-calibrated shaping to improve policy optimization.",
+      "llm_tldr_cn": "长时程智能体强化学习常只有最终奖励，难以将反馈分解到每一步。论文提出 MileGPO，从成组在线轨迹中挖掘成功轨迹的里程碑和失败轨迹的周期性陷阱，并用可靠性标定的塑形权重整合候选信号。该方法将过程级信用估计用于策略优化，缓解了稀疏奖励下的信用分配问题。实验表明其能有效利用失败模式改进长程决策，为强化学习轨迹错误检测提供了新思路。",
+      "llm_tldr": "长时程智能体强化学习常只有最终奖励，难以将反馈分解到每一步。论文提出 MileGPO，从成组在线轨迹中挖掘成功轨迹的里程碑和失败轨迹的周期性陷阱，并用可靠性标定的塑形权重整合候选信号。该方法将过程级信用估计用于策略优化，缓解了稀疏奖励下的信用分配问题。实验表明其能有效利用失败模式改进长程决策，为强化学习轨迹错误检测提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.23041v1",
+      "source": "arxiv",
+      "title": "AutoSaddler: Automatic Harness Optimization with Durable Updates from Agent Execution Traces",
+      "abstract": "LLM agents remain unreliable on long-horizon tasks, where small local failures can compound over extended interactions and lead to overall task failure. Although external harnesses can substantially improve robustness, harness design remains a manual and expensive process that requires searching over a large space of prompts, tool configurations, and control logic. We propose AutoSaddler, an automatic harness optimization framework that formulates harness improvement as an offline learning problem and iteratively updates the harness using failure signals from mini-batches. AutoSaddler combines failure-trace diagnosis, structured patch generation that treats the harness as code, and validation-based update selection. Experiments on GAIA2, SWE-Bench Pro, and Terminal-Bench 2.0 show that AutoSaddler substantially improves agent performance over the corresponding base harnesses, achieving gains of 9.0, 9.6, and 10.0 percentage points, respectively. Ablation studies further suggest that effective harness optimization benefits from three ingredients: deep debugging rather than shallow reflection, targeted modifications rather than unconstrained editing, and generalization-aware selection rather than trajectory-specific repair. Together, these results suggest that automatic harness optimization is a promising path toward more performant and reliable agent systems.",
+      "authors": [
+        "Sungho Park",
+        "Wonjoong Kim",
+        "Rongyuan Tan",
+        "Jue Zhang",
+        "Wook-Shin Han",
+        "Pengfei Gao",
+        "Chanyoung Park",
+        "Yongqiang Yao",
+        "Rao Fu",
+        "Elsie Nallipogu",
+        "Qingwei Lin",
+        "Saravan Rajmohan",
+        "Dongmei Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG",
+        "cs.MA",
+        "cs.SE"
+      ],
+      "published": "2026-08-24T09:45:08+00:00",
+      "link": "https://arxiv.org/pdf/2608.23041v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Failure-trace diagnosis on agent execution logs directly targets error detection in trajectories",
+      "llm_evidence_cn": "对智能体执行轨迹进行失败诊断，直接涉及轨迹错误检测",
+      "llm_evidence": "对智能体执行轨迹进行失败诊断，直接涉及轨迹错误检测",
+      "canonical_evidence": "对智能体执行轨迹进行失败诊断，直接涉及轨迹错误检测",
+      "llm_tldr_en": "AutoSaddler automatically optimizes LLM agent harnesses by diagnosing failure traces from execution logs and applying structured patches, improving long-horizon reliability.",
+      "llm_tldr_cn": "针对大语言模型智能体在长程任务中因小错误累积导致失败的问题，提出AutoSaddler自动框架优化方法。该方法将harness改进视为离线学习问题，从执行轨迹中诊断失败原因，将harness视为代码生成结构化补丁，并通过验证选择更新。实验表明该框架能有效提升智能体在长程任务中的鲁棒性。",
+      "llm_tldr": "针对大语言模型智能体在长程任务中因小错误累积导致失败的问题，提出AutoSaddler自动框架优化方法。该方法将harness改进视为离线学习问题，从执行轨迹中诊断失败原因，将harness视为代码生成结构化补丁，并通过验证选择更新。实验表明该框架能有效提升智能体在长程任务中的鲁棒性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.22657v1",
+      "source": "arxiv",
+      "title": "Physical Agentic AI: An Architecture for Orchestrating a Robot Crew with LLMs",
+      "abstract": "Agentic AI frameworks interpret open-ended task goals and decompose them into multi-step plans. Richer information about embodiment-specific capabilities, physical preconditions, and cross-robot coordination improves grounding, but does not eliminate infeasible, mistimed, or unsafe physical actions. Physical robot crews therefore require an explicit architectural interface between semantic planning and execution, where every planned action is verified against robot capabilities, system state, and workflow constraints before actuation. This paper introduces Physical Agentic AI, a framework for skill-grounded robot agent orchestration, in which each robot exposes a typed library of executable skills while a foundation model planner decomposes a task into phases and assigns each phase to a robot-skill pair. A Robot Orchestration layer exposes the skill library, robot state, named locations, and workflow contracts to a non-actuating Mission Planner, while a deterministic Robot Orchestrator validates and authorizes one skill at a time. We evaluate on a drone-UGV search-and-dispatch mission, where every mission in every condition is executed live in Gazebo, and on a humanoid-quadruped transportation task using hardware-equivalent skill interfaces plus two physical trials on a Unitree G1 and Go2. Varying planner knowledge and runtime enforcement independently, we find that retrieval raises skill grounding from 51% to 96% yet leaves informed planners dispatching 23-29% of faulted steps. Per-dispatch enforcement reduces false dispatch to 0% with no false blocks, and a held-plan ablation confirms that the gate, not plan variation, is responsible. Live execution makes the difference physical: without enforcement all eight injected faults crossed the orchestration boundary and six produced robot motion; with enforcement all eight were refused before motion.",
+      "authors": [
+        "Xinyuan Liu",
+        "Eren Sadikoglu",
+        "Riana Chatterjee",
+        "Ransalu Senanayake"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-08-23T23:35:31+00:00",
+      "link": "https://arxiv.org/pdf/2608.22657v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Verifies every planned action against robot capabilities and constraints before actuation",
+      "llm_evidence_cn": "动作执行前校验机器人能力与约束以阻止不可行或不安全动作",
+      "llm_evidence": "动作执行前校验机器人能力与约束以阻止不可行或不安全动作",
+      "canonical_evidence": "动作执行前校验机器人能力与约束以阻止不可行或不安全动作",
+      "llm_tldr_en": "Proposes Physical Agentic AI architecture that grounds semantic planning in robot skill libraries and verifies each action against capabilities, system state, and workflow constraints to avoid infeasible or unsafe actions.",
+      "llm_tldr_cn": "针对具身智能体在物理世界中容易产生不可行、不合时宜或不安全动作的问题，提出Physical Agentic AI架构。该架构在语义规划和执行之间加入显式接口，每个计划动作在执行前都要对照机器人能力、系统状态与工作流约束进行验证。该框架以技能库为基础编排机器人群组，通过动作级校验来提前发现并阻止错误，从而提升物理环境的可靠性和安全性。",
+      "llm_tldr": "针对具身智能体在物理世界中容易产生不可行、不合时宜或不安全动作的问题，提出Physical Agentic AI架构。该架构在语义规划和执行之间加入显式接口，每个计划动作在执行前都要对照机器人能力、系统状态与工作流约束进行验证。该框架以技能库为基础编排机器人群组，通过动作级校验来提前发现并阻止错误，从而提升物理环境的可靠性和安全性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Error detection in path planning for autonomous agents",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.18389v1",
+      "source": "arxiv",
+      "title": "A Jagged Frontier: Evaluating Robustness of Code Agents to Semantics-Preserving Transformations",
+      "abstract": "AI code agents are increasingly deployed to resolve real software issues, yet their reliability under superficial code variations remains poorly understood. We evaluate whether coding agents that repair repository-level issues remain reliable when the surrounding codebase is rewritten into a semantically equivalent form. We introduce a random variant sampler that applies common semantics-preserving transformations (SPTs) - spanning control-flow rewrites, dead-code injection, and identifier renaming - to produce perturbed variants. We evaluate two agentic scaffolds (mini-SWE agent and OpenCode) each backed by one of four frontier models (Claude Opus 4.5, Kimi K2.5, MiniMax M2.5, and Qwen 3.6-27B) across instances drawn from SWE-bench Verified and SWE-bench Pro. For each instance, the agent is run multiple times on the unperturbed and perturbed variants, yielding paired resolve-rate estimates that isolate the perturbation effect from intrinsic stochasticity. We find small degradation in most configurations: up to 6.7 percentage points mean resolve-rate drop in the most affected configurations with statistically significant degradations in 6 of 16 configurations of model, scaffold, and dataset. Crucially, no single model ranking by robustness holds across scaffolds - Qwen is among the most robust under mini-SWE agent on SWE-bench Verified yet the most brittle under OpenCode - revealing a jagged robustness frontier. The simpler scaffold (mini-SWE agent) is more robust to perturbation. Our results demonstrate that even top frontier models are susceptible to semantics-preserving perturbations although the effect is not uniform, raising concerns about the deployment reliability of AI code agents in diverse real-world codebases.",
+      "authors": [
+        "Hasan Najib Mahmud",
+        "Shreya Gupta",
+        "Isha Chaudhary",
+        "Nathaniel Enis",
+        "Ravi Mangal",
+        "Gagandeep Singh",
+        "Corina Pasareanu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-08-18T23:46:11+00:00",
+      "link": "https://arxiv.org/pdf/2608.18389v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Evaluates code agent reliability under semantics-preserving transformations to expose failures and monitor behavior",
+      "llm_evidence_cn": "通过语义保持变换评估代码代理可靠性，暴露代理行为中的错误",
+      "llm_evidence": "通过语义保持变换评估代码代理可靠性，暴露代理行为中的错误",
+      "canonical_evidence": "通过语义保持变换评估代码代理可靠性，暴露代理行为中的错误",
+      "llm_tldr_en": "This paper tests whether code agents remain reliable when the surrounding codebase is rewritten into semantically equivalent forms, introducing a random variant sampler for semantics-preserving transformations and evaluating multiple scaffolds and models on SWE-bench instances.",
+      "llm_tldr_cn": "代码代理在解决真实软件问题时可能因代码库表面变化而失效，但现有研究很少考察这类可靠性。作者提出随机变体采样器，生成控制流重写、死代码注入和标识符重命名等语义保持变换，并系统评估多种代理框架和前融合模型在仓库级任务上的表现。实验显示代理对语义保持变换存在显著不稳定性，即崎岖边界现象。该工作为监控代理行为错误和提升鲁棒性提供了评测工具与洞见。",
+      "llm_tldr": "代码代理在解决真实软件问题时可能因代码库表面变化而失效，但现有研究很少考察这类可靠性。作者提出随机变体采样器，生成控制流重写、死代码注入和标识符重命名等语义保持变换，并系统评估多种代理框架和前融合模型在仓库级任务上的表现。实验显示代理对语义保持变换存在显著不稳定性，即崎岖边界现象。该工作为监控代理行为错误和提升鲁棒性提供了评测工具与洞见。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.22676v1",
+      "source": "arxiv",
+      "title": "Robustness Analysis of Agentic AI to Inconsistent and Incomplete Tool Responses",
+      "abstract": "Robustness to a bad tool return means answering it in the way that return calls for, which depends on how the tool went wrong. A tool that has failed and a tool that returns a well-formed falsehood are different problems with different remedies. We ask whether the two already differ at the moment the return arrives. This is a qualitative pilot study: we score single decision points rather than running agents to completion. We inject controlled faults into a retail customer-service domain and read two channels off the model's log-probabilities: the likelihood of the returned content under the tool schema alone and under the whole trajectory, and its distribution over the legal actions, read for both shape and where the mass sits. An incomplete return is legible in every case, being improbable under the schema alone in a range no other condition enters, and it moves the mass toward the tools that re-read state wherever there is room to move. An inconsistent return leaves the schema channel untouched and registers in the likelihood comparison on the field whose true value the context already carries verbatim, not on the one whose contradiction runs through the domain policy. The action distribution gives each condition a distinct signature, but orders them by how far the return bears on the next action rather than by fault family. Recognition is therefore asymmetric: each condition is legible in some channel, and no channel is legible on all of them.",
+      "authors": [
+        "Jiachen Xu",
+        "Torben Bach Pedersen",
+        "Zhongming Yao",
+        "Xiaoyu Zhang",
+        "Yushuai Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-24T00:26:57+00:00",
+      "link": "https://arxiv.org/pdf/2608.22676v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "decision-point analysis using trajectory likelihood to diagnose tool errors",
+      "llm_evidence_cn": "利用轨迹似然在决策点诊断工具错误",
+      "llm_evidence": "利用轨迹似然在决策点诊断工具错误",
+      "canonical_evidence": "利用轨迹似然在决策点诊断工具错误",
+      "llm_tldr_en": "This pilot study injects controlled tool faults and uses whole-trajectory likelihood plus action distributions to distinguish failure types at single decision points. It provides an analysis method for diagnosing agent execution errors, directly relevant to trajectory error detection.",
+      "llm_tldr_cn": "该试点研究在零售客服智能体中注入受控工具故障，并通过模型对数概率读取两个通道：返回内容在工具模式与整条轨迹下的似然，以及在合法动作上的分布形状。目标是在返回到达时刻区分工具真正失败与貌似合理的错误返回。该决策点诊断方法可用于智能体轨迹执行错误的检测与分析。",
+      "llm_tldr": "该试点研究在零售客服智能体中注入受控工具故障，并通过模型对数概率读取两个通道：返回内容在工具模式与整条轨迹下的似然，以及在合法动作上的分布形状。目标是在返回到达时刻区分工具真正失败与貌似合理的错误返回。该决策点诊断方法可用于智能体轨迹执行错误的检测与分析。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.22960v1",
+      "source": "arxiv",
+      "title": "What Process Evaluation of Coding Agents Actually Measures: Action, Task, and Step Are Three Different Levels",
+      "abstract": "Coding agents are increasingly evaluated not only by whether they solve a task, but also by how they execute it. However, existing process-level evaluations often treat action prediction, task uncertainty, and step attribution as if they were the same problem, which makes it unclear what such evaluations actually measure. In this paper, we introduce a measurement framework for process evaluation in coding agents and instantiate step-level causal attribution with SCAE, a replay-based estimator derived from a structural causal model of agent execution. Our framework combines prefix-conditioned identification, replay/intervention-based estimation, and controlled judge-information manipulation to study process evaluation at the action, task, and step levels. Experiments on 499 file-localization episodes from 12 repositories show that next actions are driven primarily by execution provenance rather than code-graph transitions, execution uncertainty is structured at the task rather than step level, and full-trace judges exhibit systematic collider bias, suggesting that current process evaluation often measures semantic relevance rather than certified causal contribution.",
+      "authors": [
+        "Jiawei He",
+        "Mengyu Shi",
+        "Jie jia",
+        "Xikai Yang",
+        "Dong Sun"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-24T08:27:33+00:00",
+      "link": "https://arxiv.org/pdf/2608.22960v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Provides step-level causal attribution framework for coding-agent execution, enabling measurement of which step caused an outcome.",
+      "llm_evidence_cn": "为编码智能体执行提供步骤级因果归因框架，可测量哪一步导致结果。",
+      "llm_evidence": "为编码智能体执行提供步骤级因果归因框架，可测量哪一步导致结果。",
+      "canonical_evidence": "为编码智能体执行提供步骤级因果归因框架，可测量哪一步导致结果。",
+      "llm_tldr_en": "This paper distinguishes action, task, and step levels in process evaluation of coding agents and introduces SCAE, a replay-based estimator for step-level causal attribution, improving understanding of agent execution.",
+      "llm_tldr_cn": "编码智能体的过程评估常混淆动作预测、任务不确定性与步骤归因，使评估含义不清。作者提出过程评估测量框架，并基于结构因果模型实现步骤级因果归因SCAE，结合前缀条件识别、重放干预与受控评判信息操纵。该框架能更准确地测量智能体执行过程中的步骤贡献，为错误定位与过程监控提供方法论支持。",
+      "llm_tldr": "编码智能体的过程评估常混淆动作预测、任务不确定性与步骤归因，使评估含义不清。作者提出过程评估测量框架，并基于结构因果模型实现步骤级因果归因SCAE，结合前缀条件识别、重放干预与受控评判信息操纵。该框架能更准确地测量智能体执行过程中的步骤贡献，为错误定位与过程监控提供方法论支持。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
