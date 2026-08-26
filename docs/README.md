@@ -6,51 +6,55 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-25
-- 运行时间：2026-08-25 20:29:43 UTC
+- 最新运行日期：2026-08-26
+- 运行时间：2026-08-26 21:00:22 UTC
 - 运行状态：成功
-- 本次总论文数：9
-- 精读区：5
-- 速读区：4
+- 本次总论文数：11
+- 精读区：6
+- 速读区：5
 
 ### 今日简报（AI）
-今日精读5篇、速读4篇，聚焦LLM多智能体系统与AI Agent评估。
-
-最值得关注两项高分研究：多智能体不确定性量化（PropUQ-MAS）与轨迹感知的Agent评测基准（ClawProBench），均获9.0/10。
-
-建议普通读者优先了解多智能体系统的不确定性风险，以及更贴近真实工作场景的Agent评估方法。
-- 详情：[/202608/25/README](/202608/25/README)
+今日聚焦智能体鲁棒性：11篇论文中6篇精读，重点研究工具调用与GUI代理在扰动下的失败模式。  
+最值得看：工具调用基准ToolRobustBench与代理轨迹预测双双获9分高分，揭示动态异常环境中的关键瓶颈。  
+下一步可深入精读这两篇高分论文，快速扫读故障注入与自适应RL方法以拓宽实战视角。
+- 详情：[/202608/26/README](/202608/26/README)
 
 ### 精读区论文标签
-1. [PropUQ-MAS: Propagation-Aware Uncertainty Quantification for LLM Multi-Agent Systems](/202608/25/2608.22130v1-propuq-mas-propagation-aware-uncertainty-quantification-for-llm-multi-agent-systems)  
+1. [ToolRobustBench: Stage-Wise Perturbation Evaluation and Failure Diagnosis for Tool-Calling Agents](/202608/26/2608.23635v1-toolrobustbench-stage-wise-perturbation-evaluation-and-failure-diagnosis-for-tool-calling-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：在通信结构图上传播不确定性,估计每步可靠性,捕捉继承并放大的错误
-2. [ClawProBench: Trace-Aware Evaluation of AI Agents with Runtime Coverage and Frozen Workplace-Style Holdouts](/202608/25/2608.22510v1-clawprobench-trace-aware-evaluation-of-ai-agents-with-runtime-coverage-and-frozen-workplace-style-holdouts)  
+   evidence：对工具调用智能体轨迹进行分阶段故障归因，诊断工具使用错误的起源与传播
+2. [Automata from Agent Traces: Failure and Next-Step Prediction](/202608/26/2608.23670v1-automata-from-agent-traces-failure-and-next-step-prediction)  
    标签：评分：9.0/10、query:agent-error
-   evidence：轨迹感知基准，评估运行时智能体失败
-3. [From Natural Language Policies to Executable Obligations: A Verification Harness for Dependable In-Car LLM Agents](/202608/25/2608.23282v1-from-natural-language-policies-to-executable-obligations-a-verification-harness-for-dependable-in-car-llm-agents)  
+   evidence：从智能体轨迹构建紧凑有限状态机，用于失败与下一步预测
+3. [Adaptive Influence Graphs for Failure Attribution in Multi-Agent Systems](/202608/26/2608.24361v1-adaptive-influence-graphs-for-failure-attribution-in-multi-agent-systems)  
    标签：评分：9.0/10、query:agent-error
-   evidence：运行时验证框架将自然语言策略编译为可检查规则，逐动作检测智能体动作错误
-4. [MileGPO: Milestone Inference with Local Evidence for Graph-Based Policy Optimization of Long-Horizon LLM Agents](/202608/25/2608.19803v2-milegpo-milestone-inference-with-local-evidence-for-graph-based-policy-optimization-of-long-horizon-llm-agents)  
+   evidence：将失败轨迹转化为结构化图并定位关键错误
+4. [StepGuard: Learning Step-Level Guardrails with Scalable Supervision and Safety-Utility Balancing](/202608/26/2608.24777v1-stepguard-learning-step-level-guardrails-with-scalable-supervision-and-safety-utility-balancing)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：步骤级护栏模型可审计代理轨迹并在执行前检查工具动作
+5. [CAFE: Self-Improving Search Agents Need Co-Evolving Feedback](/202608/26/2608.24794v1-cafe-self-improving-search-agents-need-co-evolving-feedback)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：定位中间错误并在错误累积前重定向轨迹；轨迹内纠正性反馈
+6. [What Guides the Agent? Adjudicating Unauthorized Behavior via Localizing Behavior-Guiding Instructions](/202608/26/2608.24022v1-what-guides-the-agent-adjudicating-unauthorized-behavior-via-localizing-behavior-guiding-instructions)  
    标签：评分：8.0/10、query:agent-error
-   evidence：在强化学习代理轨迹中识别失败轨迹上的反复陷阱并用于信用分配
-5. [AutoSaddler: Automatic Harness Optimization with Durable Updates from Agent Execution Traces](/202608/25/2608.23041v1-autosaddler-automatic-harness-optimization-with-durable-updates-from-agent-execution-traces)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：对智能体执行轨迹进行失败诊断，直接涉及轨迹错误检测
+   evidence：运行时定位行为引导指令，检测智能体未经授权的行为异常
 
 ### 速读区论文标签
-1. [Physical Agentic AI: An Architecture for Orchestrating a Robot Crew with LLMs](/202608/25/2608.22657v1-physical-agentic-ai-an-architecture-for-orchestrating-a-robot-crew-with-llms)  
+1. [AHEAD: Adaptive Hindsight with Environment-Augmented Distillation for Agentic RL](/202608/26/2608.24114v1-ahead-adaptive-hindsight-with-environment-augmented-distillation-for-agentic-rl)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：识别多轮大语言模型智能体轨迹中的关键错误步骤；面向强化学习的逐步纠正监督
+2. [Observability and Fault Injection for LLM-Based Multi-Agent Systems in Software Engineering](/202608/26/2608.24271v1-observability-and-fault-injection-for-llm-based-multi-agent-systems-in-software-engineering)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：通过分布式追踪和故障注入来监控智能体执行并对比故障行为
+3. [Are Android GUI Agents Robust Against Runtime Anomalies? AnTrap: Evaluating Agents in Dynamic Adversarial Environments](/202608/26/2608.24099v1-are-android-gui-agents-robust-against-runtime-anomalies-antrap-evaluating-agents-in-dynamic-adversarial-environments)  
    标签：评分：7.0/10、query:agent-error
-   evidence：动作执行前校验机器人能力与约束以阻止不可行或不安全动作
-2. [A Jagged Frontier: Evaluating Robustness of Code Agents to Semantics-Preserving Transformations](/202608/25/2608.18389v1-a-jagged-frontier-evaluating-robustness-of-code-agents-to-semantics-preserving-transformations)  
+   evidence：向智能体执行轨迹注入动态异常的基准
+4. [RePolicy: Reinforcement Learning for Safety-Policy Invocation in Agent Safeguards](/202608/26/2608.24275v1-repolicy-reinforcement-learning-for-safety-policy-invocation-in-agent-safeguards)  
+   标签：评分：7.0/10、query:agent-error
+   evidence：学习调用和应用安全策略，以评估完整智能体轨迹是否符合安全要求
+5. [IAPO: Influence-Aware Policy Optimization for Credit Assignment in Multi-Turn Service Agents](/202608/26/2608.24588v1-iapo-influence-aware-policy-optimization-for-credit-assignment-in-multi-turn-service-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：通过语义保持变换评估代码代理可靠性，暴露代理行为中的错误
-3. [Robustness Analysis of Agentic AI to Inconsistent and Incomplete Tool Responses](/202608/25/2608.22676v1-robustness-analysis-of-agentic-ai-to-inconsistent-and-incomplete-tool-responses)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：利用轨迹似然在决策点诊断工具错误
-4. [What Process Evaluation of Coding Agents Actually Measures: Action, Task, and Step Are Three Different Levels](/202608/25/2608.22960v1-what-process-evaluation-of-coding-agents-actually-measures-action-task-and-step-are-three-different-levels)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：为编码智能体执行提供步骤级因果归因框架，可测量哪一步导致结果。
+   evidence：识别多轮智能体轨迹中哪些动作对任务完成有贡献；为结果归因提供逐步信号
 
 
 <div class="dpr-home-promo-card">

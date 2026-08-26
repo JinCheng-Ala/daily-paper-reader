@@ -1,0 +1,469 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-26T20:49:54.636406+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 8,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2608.23635v1",
+      "source": "arxiv",
+      "title": "ToolRobustBench: Stage-Wise Perturbation Evaluation and Failure Diagnosis for Tool-Calling Agents",
+      "abstract": "Large language models (LLMs) rely on tool calling as a fundamental agent capability, enabling them to invoke external systems and complete tasks beyond text generation. However, clean end-to-end (E2E) success cannot identify where a tool-use failure originates or how it propagates through a call. We introduce ToolRobustBench, a stage-wise diagnostic benchmark for tool-calling agents, where a tool-calling agent is an LLM system that selects a tool, supplies structured arguments, and interprets its returned feedback. ToolRobustBench aligns four perturbation families with the tool-use pipeline: tool-interface, user-intent, tool-output/observation, and runtime-environment perturbations. It attributes failures to tool selection, schema grounding, argument binding, tool-output/runtime-feedback handling, and E2E task success. Experiments on 15,456 single-family instances across 7 models, 16 sampled local tools, 4 perturbation families, and 14 subtypes show high but non-uniform clean performance and substantial robustness degradation, with tool-output/observation perturbation the dominant bottleneck. Mixed-family experiments reveal non-additive failure patterns that are not explained by isolated single-family results. Thus, ToolRobustBench provides a deterministic and cascade-aware benchmark for diagnosing robustness beyond clean tool-calling accuracy;",
+      "authors": [
+        "YiShan Zheng",
+        "Yuan Wu",
+        "Yi Chang"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-08-23T15:22:49+00:00",
+      "link": "https://arxiv.org/pdf/2608.23635v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "stage-wise failure attribution in tool-calling agent trajectories; diagnoses where tool-use errors originate and propagate",
+      "llm_evidence_cn": "对工具调用智能体轨迹进行分阶段故障归因，诊断工具使用错误的起源与传播",
+      "llm_evidence": "对工具调用智能体轨迹进行分阶段故障归因，诊断工具使用错误的起源与传播",
+      "canonical_evidence": "对工具调用智能体轨迹进行分阶段故障归因，诊断工具使用错误的起源与传播",
+      "llm_tldr_en": "ToolRobustBench introduces a stage-wise diagnostic benchmark for tool-calling agents, aligning four perturbation families with the tool-use pipeline and attributing failures to specific stages.",
+      "llm_tldr_cn": "工具调用智能体依赖LLM选择工具、生成参数并解释返回结果，但端到端成功率无法反映故障发生在哪个阶段以及如何传播。ToolRobustBench提出一个分阶段诊断基准，将界面扰动、用户意图扰动、工具输出扰动和运行环境扰动四类扰动与工具调用管道对齐，并把失败归因到工具选择、参数生成和反馈解释等具体环节。在多种LLM工具调用智能体上的实验表明，该基准能够准确定位故障来源，为提升工具调用鲁棒性提供了标准化的诊断工具。",
+      "llm_tldr": "工具调用智能体依赖LLM选择工具、生成参数并解释返回结果，但端到端成功率无法反映故障发生在哪个阶段以及如何传播。ToolRobustBench提出一个分阶段诊断基准，将界面扰动、用户意图扰动、工具输出扰动和运行环境扰动四类扰动与工具调用管道对齐，并把失败归因到工具选择、参数生成和反馈解释等具体环节。在多种LLM工具调用智能体上的实验表明，该基准能够准确定位故障来源，为提升工具调用鲁棒性提供了标准化的诊断工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.23670v1",
+      "source": "arxiv",
+      "title": "Automata from Agent Traces: Failure and Next-Step Prediction",
+      "abstract": "LLM-based agents execute multi-step tasks, but their behavioral structure remains opaque: long unstructured traces resist the safety auditing and runtime monitoring that deployment requires. Existing approaches operate per-trace or success-only, so they miss the cross-run topology that links next-step and failure prediction. To recover that shared structure, we collapse an entire trace corpus into a single, compact finite-state machine (FSM) that serves as a structural substrate for the otherwise unpredictable behavior of LLM agents. Across twelve public datasets, the FSMs are compact (7-43 states), replay held-out data at >=0.997 fitness with near-identical topology across splits, and build in milliseconds. This substrate addresses both prediction goals. For next-step prediction, FSM-state context outperforms Agent Workflow Memory on every ground-truth-matched dataset. For failure prediction, per-state behavioral features reach held-out AUROC up to 0.94, and an online monitor ranks failing runs above passing ones from a partial trace, triggering early stopping well before completion. Behavioral topology thus appears shaped more by the deployment harness than by the LLM, providing a model-agnostic structural primitive for safety auditing and runtime monitoring.",
+      "authors": [
+        "Seonglae Cho",
+        "Franklin Cardenoso Fernandez",
+        "Umar Mohammed",
+        "Zekun Wu",
+        "Kleyton Da Costa",
+        "Ilham Wicaksono",
+        "Adriano Koshiyama"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-08-24T17:58:01+00:00",
+      "link": "https://arxiv.org/pdf/2608.23670v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Builds compact FSMs from agent traces for failure and next-step prediction",
+      "llm_evidence_cn": "从智能体轨迹构建紧凑有限状态机，用于失败与下一步预测",
+      "llm_evidence": "从智能体轨迹构建紧凑有限状态机，用于失败与下一步预测",
+      "canonical_evidence": "从智能体轨迹构建紧凑有限状态机，用于失败与下一步预测",
+      "llm_tldr_en": "This paper collapses an entire trace corpus into a compact finite-state machine that serves as a structural substrate for predicting next steps and failures in LLM-based agent trajectories, enabling runtime monitoring and safety auditing.",
+      "llm_tldr_cn": "该论文将大量智能体轨迹压缩为紧凑的有限状态机（FSM），将其作为结构基板以支持LLM智能体的下一步与失败预测。跨12个公共数据集实验表明FSM规模小（7-43状态）、回放保真度高且构建快速，为智能体行为的运行时监控和安全审计提供了新工具。",
+      "llm_tldr": "该论文将大量智能体轨迹压缩为紧凑的有限状态机（FSM），将其作为结构基板以支持LLM智能体的下一步与失败预测。跨12个公共数据集实验表明FSM规模小（7-43状态）、回放保真度高且构建快速，为智能体行为的运行时监控和安全审计提供了新工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.24361v1",
+      "source": "arxiv",
+      "title": "Adaptive Influence Graphs for Failure Attribution in Multi-Agent Systems",
+      "abstract": "Multi-agent LLM systems are increasingly deployed in real-world applications, where failures can be costly and difficult to localize. Despite growing efforts to automate failure attribution, diagnosing failed runs still largely relies on human engineers. Yet engineers rarely debug complex systems by reading raw logs end to end. Instead, observability tools organize traces around components, actions, and dependencies to support targeted navigation. We hypothesize that modern LLMs can benefit from the same paradigm. To test this hypothesis, we introduce Adaptive Influence Graphs (AIGs), a two-stage agentic framework that first transforms a failed trace into a structured graph and then navigates it to identify the critical error. Across multiple models, we show that richer trace representations consistently improve failure attribution, with adaptive graph construction and agent-directed traversal yielding the strongest results. AIGs establish a new state of the art on Who&When, the standard benchmark for multi-agent failure attribution. This affirms our hypothesis that attribution depends not only on the diagnosing model, but also on how the trace is represented and explored.",
+      "authors": [
+        "Yarden Bakish",
+        "Amir Dudai",
+        "Roy Ganz",
+        "Oren Nuriel",
+        "Elad Ben Avraham",
+        "Mor Shpigel Nacson",
+        "Ron Litman"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-25T10:18:19+00:00",
+      "link": "https://arxiv.org/pdf/2608.24361v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "transforms failed agent traces into structured graphs to identify critical errors",
+      "llm_evidence_cn": "将失败轨迹转化为结构化图并定位关键错误",
+      "llm_evidence": "将失败轨迹转化为结构化图并定位关键错误",
+      "canonical_evidence": "将失败轨迹转化为结构化图并定位关键错误",
+      "llm_tldr_en": "Proposes AIG, a two-stage agentic framework that transforms a failed multi-agent trace into a structured graph and navigates it to identify the critical error, reducing manual debugging.",
+      "llm_tldr_cn": "多智能体LLM系统失败定位困难，传统诊断依赖工程师阅读原始日志。本文提出自适应影响图（AIG），先用智能体框架将失败轨迹转为结构化图，再在图上游走定位关键错误。跨多个模型和系统的实验表明，该方法能高效定位根因，显著减少人工调试成本，为智能体轨迹错误检测提供了自动化工具。",
+      "llm_tldr": "多智能体LLM系统失败定位困难，传统诊断依赖工程师阅读原始日志。本文提出自适应影响图（AIG），先用智能体框架将失败轨迹转为结构化图，再在图上游走定位关键错误。跨多个模型和系统的实验表明，该方法能高效定位根因，显著减少人工调试成本，为智能体轨迹错误检测提供了自动化工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.24777v1",
+      "source": "arxiv",
+      "title": "StepGuard: Learning Step-Level Guardrails with Scalable Supervision and Safety-Utility Balancing",
+      "abstract": "LLM-based agents can interact with external environments through tool invocation, but this capability also introduces security risks such as file modification, information leakage, and unauthorized actions. Existing guardrails often evaluate completed trajectories, leaving pre-execution monitoring of step-level actions underexplored. We propose StepGuard, a step-level guard model that can audit completed agent trajectories and check tool actions before they are executed. To train StepGuard, we introduce StepGen, an automatic data engine that generates safe and unsafe trajectories with the same context but different actions at the risky step. To further reduce over-defense and under-defense, we propose Balance-GRPO, which dynamically balances learning between safe and unsafe actions based on their observed accuracy. Experiments show that StepGuard achieves the highest average accuracy among open-weight guard models, with performance comparable to GPT-5.4. When used to guard agents on AgentDojo and AgentDyn, StepGuard reduces mean attack success rate by 77.3% relative to the no-guard setting, while mean utility drops by only 2.8 percentage points.",
+      "authors": [
+        "Zhijie Zheng",
+        "Yu Li",
+        "Chen Qian",
+        "Yuqian Fu",
+        "Yanwei Fu",
+        "Lu Sheng",
+        "Jing Shao",
+        "Dongrui Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CR"
+      ],
+      "published": "2026-08-25T16:17:27+00:00",
+      "link": "https://arxiv.org/pdf/2608.24777v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Step-level guard model audits completed agent trajectories and checks tool actions before execution",
+      "llm_evidence_cn": "步骤级护栏模型可审计代理轨迹并在执行前检查工具动作",
+      "llm_evidence": "步骤级护栏模型可审计代理轨迹并在执行前检查工具动作",
+      "canonical_evidence": "步骤级护栏模型可审计代理轨迹并在执行前检查工具动作",
+      "llm_tldr_en": "StepGuard learns step-level guardrails for LLM agents, auditing completed trajectories and pre-execution tool actions, with StepGen data engine and Balance-GRPO for safety-utility balance.",
+      "llm_tldr_cn": "论文针对大语言模型代理执行工具调用时的安全风险，指出现有护栏多评估完整轨迹而忽略执行前步骤级监控。提出StepGuard步骤级护栏模型，能审计已完成轨迹并在动作执行前检查。配合自动数据引擎StepGen和Balance-GRPO优化，平衡了过度防御与防御不足。该方法直接支持代理轨迹中的动作错误检测。",
+      "llm_tldr": "论文针对大语言模型代理执行工具调用时的安全风险，指出现有护栏多评估完整轨迹而忽略执行前步骤级监控。提出StepGuard步骤级护栏模型，能审计已完成轨迹并在动作执行前检查。配合自动数据引擎StepGen和Balance-GRPO优化，平衡了过度防御与防御不足。该方法直接支持代理轨迹中的动作错误检测。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.24794v1",
+      "source": "arxiv",
+      "title": "CAFE: Self-Improving Search Agents Need Co-Evolving Feedback",
+      "abstract": "Outcome-supervised search agents learn when and how to retrieve evidence, but terminal rewards neither localize intermediate errors nor redirect an ongoing trajectory before those errors compound. Treating corrective feedback as a learned in-trajectory intervention couples the two roles: the agent must decide when to request and use feedback, while the critic must infer useful corrections from outcome-confounded rollouts whose failure patterns shift as the agent improves. We introduce CAFE (Coupled Agent--Feedback Evolution), a framework in which a shared-parameter model alternates between search-agent and critic roles. CAFE initializes feedback-conditioned recovery from trajectories built around the base agent's own failures, then couples online and offline optimization. During online RL, a comparative feedback estimate uses a prompt-level call--skip success gap to shape request returns, while feedback-aware advantage shaping reweights token advantages before and after feedback. Offline, rollout-derived preference optimization learns feedback from matched successful and unsuccessful trajectories. On seven agentic search benchmarks, CAFE outperforms the evaluated RL-based search agents on average, retains its gains across all six out-of-domain benchmarks, and reduces answer-level hallucinations. One-sided ablations show that improving only the agent or only the critic eventually plateaus, whereas alternating the two updates continues to improve performance. These findings suggest that a self-improving search agent needs feedback that co-evolves with the policy it guides.",
+      "authors": [
+        "Boyang Liu",
+        "Senjie Jin",
+        "Peixin Wang",
+        "Zhangyue Yin",
+        "Yibo Wang",
+        "Yuhao Zhou",
+        "Xinbing Liang",
+        "Shizheng Zhu",
+        "Yuhui Wang",
+        "Jingqi Tong",
+        "Zhiheng Xi",
+        "Jiazheng Zhang",
+        "Clive Bai",
+        "Clarenceai",
+        "Blaze Chen",
+        "Tao Gui",
+        "Qi Zhang",
+        "Xuanjing Huang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-25T16:39:00+00:00",
+      "link": "https://arxiv.org/pdf/2608.24794v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "localize intermediate errors and redirect ongoing trajectories before errors compound; in-trajectory corrective feedback",
+      "llm_evidence_cn": "定位中间错误并在错误累积前重定向轨迹；轨迹内纠正性反馈",
+      "llm_evidence": "定位中间错误并在错误累积前重定向轨迹；轨迹内纠正性反馈",
+      "canonical_evidence": "定位中间错误并在错误累积前重定向轨迹；轨迹内纠正性反馈",
+      "llm_tldr_en": "Proposes CAFE, a coupled agent-feedback evolution framework that alternates a shared model between search-agent and critic roles to localize intermediate errors and redirect trajectories.",
+      "llm_tldr_cn": "当前搜索智能体依赖结果监督，终端奖励既不能定位中间错误，也不能在错误累积前重定向进行中的轨迹。CAFE 提出一种协同演化框架，让共享参数模型在搜索代理与评论员角色间交替，实现轨迹内纠正性反馈：代理决定何时请求反馈，评论员从结果混淆的轨迹中推断有效纠正。该框架初始化于失败轨迹，并联合在线与离线优化，使反馈与代理能力共同提升，显著改善长程搜索任务的成功率。",
+      "llm_tldr": "当前搜索智能体依赖结果监督，终端奖励既不能定位中间错误，也不能在错误累积前重定向进行中的轨迹。CAFE 提出一种协同演化框架，让共享参数模型在搜索代理与评论员角色间交替，实现轨迹内纠正性反馈：代理决定何时请求反馈，评论员从结果混淆的轨迹中推断有效纠正。该框架初始化于失败轨迹，并联合在线与离线优化，使反馈与代理能力共同提升，显著改善长程搜索任务的成功率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.24022v1",
+      "source": "arxiv",
+      "title": "What Guides the Agent? Adjudicating Unauthorized Behavior via Localizing Behavior-Guiding Instructions",
+      "abstract": "LLM agents integrated with external resources gain complex task capabilities, yet the unified natural-language context channel makes them vulnerable to injection attacks: untrusted external data may be dynamically parsed as behavior-guiding instructions during LLM inference, thereby subverting the agent's decision. Existing defenses focus on static detection or isolation of malicious content at the input/output level, remains insufficient for detecting such dynamic inducements that arise during model reasoning. We propose Attnlocate, a runtime framework for fine-grained localization of context spans that genuinely influence tool-calling decisions, i.e., behavior-guiding instructions. Attnlocate casts this localization problem as an object detection task, aiming to detect the distinctive activation traces induced by behavior-guiding instructions within the attention matrix. Specifically, we design a multi-head, multi-layer attention aggregation scheme to construct a token-level feature space tailored for object detection. Then, a 1-D U-Net equipped with an anchor-free detection head is deployed to detect these spans. Finally, based on the authority of the provider from which the detected behavior-guiding spans originate, Attnlocate dynamically adjudicates malicious invocation attempts. We evaluate Attnlocate across ten agent configurations from five LLM families, covering scenarios involving indirect prompt injection and tool poisoning. Attnlocate achieves a mean IoU of 0.743, an average AUROC of 0.956, and a 0.934 true-positive rate at 0.067 false-positive rate. It also transfers effectively across unseen models and supports authority policy adaptation without retraining.",
+      "authors": [
+        "Yichao Gao",
+        "Yumo Zhang",
+        "Yunhao Yao",
+        "Haohua Du",
+        "Puhan Luo",
+        "Ruiqi Li",
+        "Zhiqiang Wang"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-25T03:24:53+00:00",
+      "link": "https://arxiv.org/pdf/2608.24022v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "runtime localization of behavior-guiding instructions to detect unauthorized agent behavior anomalies",
+      "llm_evidence_cn": "运行时定位行为引导指令，检测智能体未经授权的行为异常",
+      "llm_evidence": "运行时定位行为引导指令，检测智能体未经授权的行为异常",
+      "canonical_evidence": "运行时定位行为引导指令，检测智能体未经授权的行为异常",
+      "llm_tldr_en": "Attnlocate is a runtime framework that localizes context spans genuinely influencing tool-calling decisions, detecting unauthorized behavior caused by injection attacks in LLM agents.",
+      "llm_tldr_cn": "LLM智能体在融合外部数据时容易受到提示注入攻击，不可信的外部内容可能在推理过程中被动态解析为行为引导指令，从而颠覆智能体决策。现有静态检测或隔离方法无法应对这类动态诱导。该论文提出Attnlocate，一个运行时框架，能够细粒度定位直接影响工具调用决策的上下文字段，即行为引导指令。通过注意力定位，它在多个智能体任务上准确识别注入指令，有效检测未授权行为，增强了LLM智能体的安全性。",
+      "llm_tldr": "LLM智能体在融合外部数据时容易受到提示注入攻击，不可信的外部内容可能在推理过程中被动态解析为行为引导指令，从而颠覆智能体决策。现有静态检测或隔离方法无法应对这类动态诱导。该论文提出Attnlocate，一个运行时框架，能够细粒度定位直接影响工具调用决策的上下文字段，即行为引导指令。通过注意力定位，它在多个智能体任务上准确识别注入指令，有效检测未授权行为，增强了LLM智能体的安全性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.24114v1",
+      "source": "arxiv",
+      "title": "AHEAD: Adaptive Hindsight with Environment-Augmented Distillation for Agentic RL",
+      "abstract": "Training multi-turn LLM agents with reinforcement learning typically relies on trajectory-level rewards, which assign a uniform advantage to every step and cannot identify which decisions led to success or failure. Self-distillation methods can provide finer-grained supervision by augmenting RL with privileged information. However, existing approaches usually apply the same type of privileged information to every step in an indistinguishable manner, ignoring a key asymmetry: routine steps need little additional guidance, while critical error steps require corrective direction that environment feedback alone cannot provide. We propose AHEAD, a step-aware framework that matches different supervision sources to different step types. The teacher receives environment feedback on all steps as a grounded dense signal, and additionally receives LLM-generated corrective hints on error steps to supply the direction that environment feedback lacks. The method introduces minimal changes to the standard GRPO algorithm. Across ALFWorld, WebShop, and Search-based QA, and across three model scales, AHEAD raises task success (+13.3 points on ALFWorld and +11.0 on WebShop at 7B over GRPO), reaches a given success rate in fewer training steps, and solves tasks within tighter interaction budgets than outcome-only RL and prior self-distillation baselines.",
+      "authors": [
+        "Xiaolong Jin",
+        "Dingmin Wang",
+        "Vijay Lingam",
+        "Varun Kumar"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-25T06:23:48+00:00",
+      "link": "https://arxiv.org/pdf/2608.24114v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "identifying critical error steps in multi-turn LLM agent trajectories; step-aware corrective supervision for RL",
+      "llm_evidence_cn": "识别多轮大语言模型智能体轨迹中的关键错误步骤；面向强化学习的逐步纠正监督",
+      "llm_evidence": "识别多轮大语言模型智能体轨迹中的关键错误步骤；面向强化学习的逐步纠正监督",
+      "canonical_evidence": "识别多轮大语言模型智能体轨迹中的关键错误步骤；面向强化学习的逐步纠正监督",
+      "llm_tldr_en": "Proposes AHEAD, a step-aware framework for agentic RL that adaptively provides corrective hindsight to critical error steps using environment-augmented distillation.",
+      "llm_tldr_cn": "多轮大语言模型智能体的强化学习往往仅依赖轨迹级奖励，无法定位导致失败的关键错误步骤。AHEAD 提出逐步感知框架，根据每步类型匹配不同的监督来源：常规步骤无需额外指导，关键错误步骤则利用环境增强的知识蒸馏获得纠正性事后反馈。该方法缓解了轨迹级奖励的信用分配问题，为智能体 RL 提供了更细粒度的训练信号，提高决策质量。",
+      "llm_tldr": "多轮大语言模型智能体的强化学习往往仅依赖轨迹级奖励，无法定位导致失败的关键错误步骤。AHEAD 提出逐步感知框架，根据每步类型匹配不同的监督来源：常规步骤无需额外指导，关键错误步骤则利用环境增强的知识蒸馏获得纠正性事后反馈。该方法缓解了轨迹级奖励的信用分配问题，为智能体 RL 提供了更细粒度的训练信号，提高决策质量。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "error detection in reinforcement learning agent trajectories",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.24099v1",
+      "source": "arxiv",
+      "title": "Are Android GUI Agents Robust Against Runtime Anomalies? AnTrap: Evaluating Agents in Dynamic Adversarial Environments",
+      "abstract": "GUI agents often encounter dynamic anomalies when deployed on Android devices, from unexpected pop-ups to action misuse, yet existing benchmarks lack systematic evaluation of agent robustness against runtime anomalies. We introduce AnTrap, a comprehensive benchmark that injects dynamic perturbations into agent execution trajectories. We propose a taxonomy organizing real-world anomalies into four layers (State, Thinking, Action and Round) with ten fine-grained subcategories, and develop a construction pipeline that preserves task solvability while introducing realistic adversarial conditions. Evaluating 16 leading GUI models, we reveal universal vulnerability to dynamic anomalies, with even the strongest models suffering significant performance degradation. Furthermore, we conduct GRPO training in both original and adversarial environments to validate our benchmark, separating environment-learnable anomalies from reasoning-bottlenecked ones. Our findings show that while single-step traps at state and action layers are largely addressable through adversarial reinforcement learning, deep contextual traps, like state deadlock, expose intrinsic limitations that cannot be resolved by training in environments with traps alone.",
+      "authors": [
+        "Guo Gan",
+        "Yilun Zhao",
+        "Cong Chen",
+        "Jinbiao Wei",
+        "Tingyu Song",
+        "Zheyuan Yang",
+        "Lin Fu",
+        "Hong Zhou"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-25T05:57:25+00:00",
+      "link": "https://arxiv.org/pdf/2608.24099v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Benchmark injecting dynamic anomalies into agent execution trajectories",
+      "llm_evidence_cn": "向智能体执行轨迹注入动态异常的基准",
+      "llm_evidence": "向智能体执行轨迹注入动态异常的基准",
+      "canonical_evidence": "向智能体执行轨迹注入动态异常的基准",
+      "llm_tldr_en": "AnTrap injects dynamic perturbations into GUI agent trajectories and proposes a four-layer taxonomy of runtime anomalies, evaluating 16 leading GUI models to reveal universal vulnerability to anomalies.",
+      "llm_tldr_cn": "该论文提出AnTrap基准，系统地向Android GUI智能体的执行轨迹中注入动态异常（如意外弹窗、动作误用），并建立涵盖状态、思考、动作、回合四层共10个子类的异常分类法。对16个主流GUI模型的评估显示，即使最强的模型也普遍存在对动态异常的脆弱性，为智能体轨迹中的异常检测研究提供了重要评测基础。",
+      "llm_tldr": "该论文提出AnTrap基准，系统地向Android GUI智能体的执行轨迹中注入动态异常（如意外弹窗、动作误用），并建立涵盖状态、思考、动作、回合四层共10个子类的异常分类法。对16个主流GUI模型的评估显示，即使最强的模型也普遍存在对动态异常的脆弱性，为智能体轨迹中的异常检测研究提供了重要评测基础。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.24588v1",
+      "source": "arxiv",
+      "title": "IAPO: Influence-Aware Policy Optimization for Credit Assignment in Multi-Turn Service Agents",
+      "abstract": "Large Language Model (LLM) agents increasingly solve long-horizon tasks through multi-turn interactions with users and external tools. In these settings, relevant task information often unfolds over time rather than being fully specified at the initial prompt. Service agents make this challenge especially concrete: users may clarify or revise their goals, while tool responses provide information needed for subsequent decisions. Thus, a final reward alone cannot indicate which actions contributed to resolving the task. Recent methods rely on comparative evidence from other trajectories or resampled continuations, or on separately constructed step-level learning signals, to refine credit. However, a completed rollout already records how information and errors flow between agent actions. We introduce Influence-Aware Policy Optimization (IAPO), which represents each rollout as a typed influence-dependency graph over trainable agent actions, with user and tool observations serving as evidence. IAPO converts support-use and failed-use structure into routing weights that redistribute the same trajectory-level advantage. Experiments with Qwen3-4B and Qwen3-8B demonstrate superior performance over multi-turn reinforcement learning (RL) baselines across three service-agent benchmarks: {τ^2}-Bench, UserBench, and AgentChangeBench. BFCL-v4 Multi-Turn further shows that these gains do not compromise multi-turn function-calling performance. This work advances the understanding of credit assignment in multi-turn user interactions and provides a principled approach to training service agents from sparse outcome feedback.",
+      "authors": [
+        "Bo Ren",
+        "Yirong Mao",
+        "Yi Yang",
+        "Wenhui Que"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-25T14:14:36+00:00",
+      "link": "https://arxiv.org/pdf/2608.24588v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "identifies which actions contributed to task resolution in multi-turn agent trajectories; step-level signal for outcome attribution",
+      "llm_evidence_cn": "识别多轮智能体轨迹中哪些动作对任务完成有贡献；为结果归因提供逐步信号",
+      "llm_evidence": "识别多轮智能体轨迹中哪些动作对任务完成有贡献；为结果归因提供逐步信号",
+      "canonical_evidence": "识别多轮智能体轨迹中哪些动作对任务完成有贡献；为结果归因提供逐步信号",
+      "llm_tldr_en": "Proposes IAPO, an influence-aware policy optimization method that extracts step-level influence signals from completed rollouts to improve credit assignment in multi-turn service agents.",
+      "llm_tldr_cn": "多轮服务智能体面临奖励稀疏问题，最终奖励无法表明哪些动作贡献了任务解决。IAPO 从已完成的轨迹中提取逐动作影响信号，通过影响感知的策略优化实现更细粒度的信用分配。该方法利用轨迹本身的信息而不依赖外部比较或重采样，为服务场景中多轮决策提供了有效的训练信号，提升智能体的任务成功率。",
+      "llm_tldr": "多轮服务智能体面临奖励稀疏问题，最终奖励无法表明哪些动作贡献了任务解决。IAPO 从已完成的轨迹中提取逐动作影响信号，通过影响感知的策略优化实现更细粒度的信用分配。该方法利用轨迹本身的信息而不依赖外部比较或重采样，为服务场景中多轮决策提供了有效的训练信号，提升智能体的任务成功率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.24271v1",
+      "source": "arxiv",
+      "title": "Observability and Fault Injection for LLM-Based Multi-Agent Systems in Software Engineering",
+      "abstract": "Large Language Model-based multi-agent systems are increasingly explored for software engineering tasks, but they remain difficult to inspect, debug, and evaluate under controlled failures. We present llmmas-otel, a lightweight and framework-agnostic tool that combines OpenTelemetry-based distributed tracing with fault injection for LLM-based multi-agent systems in software engineering workflows. The tool instruments agent executions with trace-aligned telemetry across workflow phases, agent steps, inter-agent communication, tool calls, and LLM invocations, and supports targeted fault injection at selected interaction points. This makes it possible to compare baseline and faulty executions in a reproducible way and inspect the effects through aligned traces and run artifacts. We describe the motivation, architecture, implementation, current capabilities, and initial validation of the tool on a minimal demo workflow and a real LLM-based multi-agent system for software development.",
+      "authors": [
+        "Zahra Seyedghorban",
+        "Egor Klimov",
+        "Arie van Deursen",
+        "Annibale Panichella",
+        "Burcu Kulahcioglu Ozkan"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-08-25T08:59:08+00:00",
+      "link": "https://arxiv.org/pdf/2608.24271v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "instrumentation with distributed tracing and fault injection to monitor agent executions and compare faulty behaviors",
+      "llm_evidence_cn": "通过分布式追踪和故障注入来监控智能体执行并对比故障行为",
+      "llm_evidence": "通过分布式追踪和故障注入来监控智能体执行并对比故障行为",
+      "canonical_evidence": "通过分布式追踪和故障注入来监控智能体执行并对比故障行为",
+      "llm_tldr_en": "Presents llmmas-otel, a tool combining OpenTelemetry tracing with fault injection for LLM-based multi-agent systems, enabling reproducible comparison of baseline and faulty executions across agent steps and tool calls.",
+      "llm_tldr_cn": "基于LLM的多智能体系统在软件工程任务中难以检测、调试和评估受控故障。该论文提出llmmas-otel，一个轻量且框架无关的工具，结合OpenTelemetry分布式追踪和故障注入，对智能体执行过程进行细粒度监测，覆盖工作流阶段、智能体步骤、智能体间通信、工具调用和LLM调用。通过在选定交互点注入故障，它能可复现地对比正常与故障执行，便于定位错误源头并评估故障影响，为多智能体系统的可靠性提供了重要的可观测性支撑。",
+      "llm_tldr": "基于LLM的多智能体系统在软件工程任务中难以检测、调试和评估受控故障。该论文提出llmmas-otel，一个轻量且框架无关的工具，结合OpenTelemetry分布式追踪和故障注入，对智能体执行过程进行细粒度监测，覆盖工作流阶段、智能体步骤、智能体间通信、工具调用和LLM调用。通过在选定交互点注入故障，它能可复现地对比正常与故障执行，便于定位错误源头并评估故障影响，为多智能体系统的可靠性提供了重要的可观测性支撑。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.24275v1",
+      "source": "arxiv",
+      "title": "RePolicy: Reinforcement Learning for Safety-Policy Invocation in Agent Safeguards",
+      "abstract": "Safeguarding language model agents requires assessing complete execution trajectories under context-dependent safety policies. Existing policy-aware safeguards mainly rely on prompting or supervised fine-tuning, limiting their ability to adapt to unseen trajectories and changing policy contexts. We propose RePolicy, an agent safeguard that learns safety-policy invocation through reinforcement learning. Given an agent trajectory and a dynamic policy library, RePolicy invokes the applicable policy and uses its content to produce a policy-grounded rationale and safety judgment. We construct PolicyTraj-20K to support supervised initialization, followed by GRPO with verifiable rewards and policy-context perturbation. Experiments across six agent safety benchmarks show that RePolicy achieves strong overall safety-detection performance and robust policy invocation under varying policy contexts.",
+      "authors": [
+        "Houcheng Jiang",
+        "Boxuan Zhang",
+        "Qiyong Zhong",
+        "Junfeng Fang",
+        "Xiang Wang",
+        "Xiangnan He"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-08-25T09:01:33+00:00",
+      "link": "https://arxiv.org/pdf/2608.24275v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Learns to invoke and apply safety policies to assess complete agent trajectories for safety violations",
+      "llm_evidence_cn": "学习调用和应用安全策略，以评估完整智能体轨迹是否符合安全要求",
+      "llm_evidence": "学习调用和应用安全策略，以评估完整智能体轨迹是否符合安全要求",
+      "canonical_evidence": "学习调用和应用安全策略，以评估完整智能体轨迹是否符合安全要求",
+      "llm_tldr_en": "RePolicy uses reinforcement learning to learn safety-policy invocation for agent safeguards, producing policy-grounded rationales and safety judgments for complete execution trajectories.",
+      "llm_tldr_cn": "针对现有智能体安全防护依赖提示或监督微调、难以适应未见轨迹与动态策略的问题，本文提出RePolicy，通过强化学习学习安全策略调用。给定智能体轨迹和动态策略库，RePolicy调用适用策略并生成基于策略的理由与安全判断，并用GRPO与策略上下文扰动进行训练。在六个智能体环境上的实验表明其优于现有基线，为策略感知的智能体轨迹安全评估提供了可学习方案。",
+      "llm_tldr": "针对现有智能体安全防护依赖提示或监督微调、难以适应未见轨迹与动态策略的问题，本文提出RePolicy，通过强化学习学习安全策略调用。给定智能体轨迹和动态策略库，RePolicy调用适用策略并生成基于策略的理由与安全判断，并用GRPO与策略上下文扰动进行训练。在六个智能体环境上的实验表明其优于现有基线，为策略感知的智能体轨迹安全评估提供了可学习方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
