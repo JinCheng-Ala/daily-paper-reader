@@ -1,0 +1,487 @@
+Title: Agent Mesh: Reliability Primitives for Non-Idempotent Agent Delegation - Identity Adequacy and Evidence Adequacy
+
+URL Source: https://arxiv.org/pdf/2608.26225v1
+
+Published Time: Fri, 28 Aug 2026 00:04:47 GMT
+
+Number of Pages: 14
+
+Markdown Content:
+# Agent Mesh: Reliability Primitives for Non-Idempotent Agent Delegation 
+
+Identity Adequacy and Evidence Adequacy 
+
+Mazhar Shaikh 1 Anurag Rajkumar Bombarde 1 Harshal Pathak 2
+
+Abstract —Autonomous agents are increasingly deployed to perform bounded software tasks—generating a component, running a suite, repairing a defect—under an orchestrator that retries, resumes, and budgets them. The reliability machinery such orchestrators reach for is the service mesh’s: retry, timeout, and error-rate circuit breaking. We report a failure study of a production agentic software-delivery platform (66,185 lines, 59 modules) over 147 numbered incidents spanning 81 identified runs, each recorded with a measured cost and, in the majority of cases, a mutation proof that reverting the fix reproduces the failure. The study finds that all three assumptions those primitives rest on are violated in practice, and quantifies the consequences: a loop of fifty-four consecutive successful tool calls that no error-rate breaker could see; a progress signal computed over an identifier that was constant by construction, which guaranteed a false trip on the third repair round and drove one run from six of six components to three; twenty-one events accumulated across six invocations of one delegation, making a correct and demonstrably idempotent component unwinnable; a misrouted failure that woke five components for a two-component fault and left three bystanders regressing working code; and twelve distinct incidents in which the enforcement layer blocked correct work, the most expensive costing 107 agent turns and zero accepted writes. We find one cross-cutting cause and its dual. Identity adequacy : in five separate subsystems an identity that failed to discriminate produced a confident wrong answer, and two of them derived the corrective rule independently. Evidence adequacy : a reliability decision may be taken only on evidence capable of moving, attributable to what it measures, and deterministic under identical conditions. From the findings we derive seven reliability primitives whose enforcement unit is the delegation rather than the message, report what changed when each was deployed, and specify the controlled evaluation the study motivates but does not itself constitute. 
+
+Index Terms —agentic AI, LLM agents, multi-agent systems, reliability, failure study, idempotency, circuit breaker, failure attribution, empirical software engineering 
+
+I. I NTRODUCTION 
+
+An agent delegation is the assignment of a bounded software task to an autonomous agent that interleaves reasoning with tool invocation to accomplish it [13], composing its actions at inference time. We are deliberately agnostic to how that loop is expressed: nothing below depends on a particular framework, only on a delegation being effectful, generating its operation set at inference time, costing tokens whether or not its work 
+
+Preprint for arXiv (cs.AI; cross-listed cs.SE, cs.DC, cs.MA), August 2026. Supplementary material accompanying the preprint documents the platform’s evidence boundaries, recovery machinery, and incident corpus. 
+
+> 1
+
+Primary authors; contributed equally. 2Contributing author. 
+
+is kept, and being retried, resumed, or repaired by a peer. Orchestrators that schedule such delegations at scale need reliability machinery, and the machinery they inherit is the service mesh’s: bounded retry on failure, wall-clock timeout, and a circuit breaker driven by error rate. Those primitives rest on three assumptions—that requests are idempotent or can be made so with a developer-supplied key, that latency signals failure, and that a discarded request costs nothing. This paper reports what happens when those assumptions meet real agent traffic. Our subject is a production agentic software-delivery platform that implements, tests, and repairs multi-stack codebases from a requirements definition, and its recorded failure corpus: 147 numbered incidents across 81 identified runs. We did not construct the corpus to test a hypothesis; it accumulated as an operational record, and the analysis is retrospective. Two incidents introduce the shape of the problem. An independent-verifier agent issued the same tool call, with one distinct payload, fifty-four times over eleven minutes ,and stopped only when a human killed the run. Every one of those calls returned success. No error path was ever reached, so no error-rate breaker could have fired; the step budget, sized from the workload, bought a proportionally large licence to spin. Separately, a service’s event log—kept deliberately outside the transactional workspace so a cleanliness check would not revert it, and therefore outside everything that cleans— accumulated 21 events across four hours and six check invocations . A test asserting that exactly one event had been published failed with three, having observed effects committed by previous invocations of the same delegation . The component was unwinnable however correct its code was. The service’s own idempotency was intact: each of the six invocations published exactly three events. The duplication was in the ledger, not the producer. 
+
+a) Contributions.: (1) A failure study of a production agentic delivery platform, with the incident corpus, its col-lection method, and its costs (Sections II and III). (2) Seven findings, each supported by measured incidents, covering how agents fail, why error rate and wall clock are the wrong signals, how effects escape transactional containment, how failure attribution damages correct work, and how the enforcement layer becomes a primary source of outages (Section IV). (3) A cross-cutting result— identity adequacy —that unifies arXiv:2608.26225v1 [cs.AI] 26 Aug 2026 five otherwise unrelated subsystem failures, and which two subsystems derived independently (Section V). (4) Agent Mesh :the set of reliability primitives the findings imply, defined against an abstract delegation interface so it is not specific to our architecture, together with what changed when each was deployed (Sections VI and VII). (5) The controlled evaluation the study motivates, stated with a designed kill criterion, together with an explicit account of what is not yet built (Section VIII). 
+
+b) What this paper is not.: It is not a controlled evaluation, and we are careful throughout about which claims the design supports: findings about what fails and why are evidenced by recorded incidents; claims about how much the proposed primitives help are not made. The incidents are observed, not induced; the platform is one system; and the primitives are reported with deployment outcomes rather than with a baseline comparison. Section VIII specifies the controlled study, and Section IX states what the observational design cannot support. II. T HE SYSTEM UNDER STUDY 
+
+The subject is a deterministic-DAG agentic delivery platform in production use. A run compiles a reviewable project declaration into a set of delegations, schedules them under a dependency DAG with failure isolation between components, and drives each through a lifecycle of test design, test preflight, red validation, implementation, local verification, oracle qualification, and cross-service acceptance. The delivery agent measured throughout is 66,185 lines across 59 modules. Three properties make it a useful measurement subject. First, delegations are effectful : they write files, seed databases, publish events, install packages, and call model providers. Second, the set of effectful operations is not known when the code is written —the agent generates it at inference time—so there is no site at which a developer could attach an idempotency key. Third, delegations are expensive : tokens are spent whether or not the work is kept, so a discarded delegation is a real loss rather than a freed connection. The agent’s tool surface is closed: exactly seven tools— read, list, grep, write, edit, run-a-named-check, done—and no shell. The only routes to a subprocess are naming a declared check specification, or writing a file, which implicitly triggers the stack’s declared post-write hooks. This matters for the study because it makes effects observable at the tool boundary mechanically rather than heuristically, and it is why the observations below are attributable rather than inferred. III. M ETHOD 
+
+a) What counts as an incident.: An incident is a recorded failure of a run or a component that was diagnosed to a cause and, in the majority of cases, closed by a change. Incidents were recorded operationally as they were diagnosed, in a running implementation log, not gathered retrospectively for this paper. Each carries a numbered identifier; 81 carry a distinct run identifier of the form devrun_<hex> that indexes the run’s persisted record, event stream, and workspace. 
+
+b) How costs were measured.: Costs are taken from the platform’s own durable records—persisted attempts, recovery leases, budget documents, structured failure envelopes—and from its event stream, not from reconstruction. Where a cost is a count of agent turns or tool calls, it is a count of persisted records. Where it is a duration, it is the interval between logged events. Where a run’s component-level outcome is reported (for example six of six components completing, then three), it is taken from the scheduler’s own summary lines. 
+
+c) Validation of causes.: The platform’s guards are mutation-tested: a guard added in response to an incident is required to fail when the condition it guards is reintroduced. In the course of this work two guards were deleted because no mutation could make them fail, on the principle that a guard that cannot fail is not evidence. Where a diagnosis is reported below as confirmed, confirmation means the fix was reverted and the failure reproduced. 
+
+d) Prediction as a check on diagnosis.: For one incident the diagnosis was used to predict a specific numeric outcome in advance of the next run—the corrected value of a failing assertion—which then reproduced three times. We note this because it is the strongest form of confirmation available in an observational setting, and because it distinguishes a diagnosis from a narrative fitted after the fact. 
+
+e) Diagnoses that were withdrawn.: Several diagnoses recorded during the period were subsequently disproved by measurement and are recorded as withdrawn rather than deleted: among them, an attributed duplicate-publish defect that measurement showed did not exist (the producer was correct), and a suspected absence of a retry mechanism that was in fact present and had executed twice in the run under examination. We report this because a corpus with no withdrawn diagnoses should not be trusted. 
+
+f) Relation to established failure-study method.: The design follows the production failure-study tradition in systems research—most directly Yuan et al. [15], who analysed 198 user-reported failures across five distributed data-intensive systems to derive testable generalisations. Our corpus is comparable in size (147 incidents) and narrower in scope (one system), and differs in one respect that cuts both ways: their failures were user-reported and independently sampled, whereas ours were diagnosed by the team operating the platform. That yields deeper causal detail—we hold the durable records, and we could revert fixes to confirm—at the cost of the independence sampling provides. We treat that as the study’s principal limitation (Section IX) rather than as a detail. 
+
+g) Threats to the measurement itself: are stated in Section IX. The principal ones are that the corpus is single-system, that incidents are self-diagnosed by the team that built the platform, and that the record over-represents failures interesting enough to be written down. IV. F INDINGS 
+
+A. F1: agents fail by ceasing to converge, not by erroring 
+
+The fifty-four-call loop described in the introduction is not an outlier in kind. Across the corpus, the dominant failure Delegating agent 
+
+> task + declaration + budget
+
+Component agent 
+
+> composes actions at inference time
+
+Sub-agent / verifier 
+
+> depth 2–3 measured
+
+Execution sandbox       
+
+> copy-on-write overlay files ·events ·seeds ·installs
+
+Agent harness (any) S1 model-call 
+
+> tokens, cost, model
+
+S2 tool-invoke 
+
+> args, results, effects
+
+S3 commit 
+
+> changed paths, manifest
+
+Delegation interface M1 Progress breaker   
+
+> no-progress signatures ·constant-vocabulary filter
+
+M2 Exoneration     
+
+> boot corpus ·clamp yielding ·guard provability
+
+M3 Effect contract + ledger   
+
+> declared vs. observed ·content-addressed fingerprints
+
+M4 Budget lattice         
+
+> run ×component ×fingerprint ×strategy ×session
+
+M5 Failure routing     
+
+> typed graph ·checkpoint ladder ·abstention
+
+M6 Nondeterminism quarantine     
+
+> workspace ×env ×contract digest
+
+Verdict channel       
+
+> suppressed-as-duplicate ·refused-as-stalled exhausted-budget ·rejected-by-gate ·awaiting-waiver
+
+Agent Mesh sidecar — per delegation 
+
+Control plane     
+
+> breaker policies ·budget schedules exoneration corpus ·canonicalization escalation models
+
+Declaration authority   
+
+> staged declaration →compiler feasibility gate (admission control)
+
+Effect ledger     
+
+> fingerprints ·leases ·commits per-tenant partitions (design)
+
+Metrics     
+
+> false-reject ·divergence discriminating power ·blast radius
+
+Fig. 1. Agent Mesh architecture. The mesh is defined against an abstract delegation interface with three interception seams (S1 model-call, S2 tool-invocation, S3 commit); any orchestrator exposing these seams can host the sidecar. The data plane runs seven primitives per delegation and reports through a verdict channel whose outcomes are deliberately distinct—in particular suppressed-as-duplicate (the ledger working) must not be confused with refused-as-stalled (the breaker tripping). The declaration authority sits in the control plane because it is admission control: it decides whether a delegation set may be created at all. 
+
+Tool session     
+
+> 4 no-progress turns ·10 check runs 54 successful identical calls in 11 min: invisible to every error-based guard recovery strategy: durable lease ·graded refund failure fingerprint: max attempts per fingerprint component delegation: graded no-progress stop run: wall clock unlimited; per-check timeouts + patience
+
+Breaker scopes (nested) 
+
+Round evidence 
+
+> identifiers reported by the failed attempt
+
+Constant-vocabulary filter 
+
+> discard identifiers the strategy re-emits unchanged (e.g. the failing check name); keep evidence that can vary
+
+One shared progress function 
+
+> stall detector and budget refund read the same value
+
+Trip / refund / escalate   
+
+> discriminating power = 1 −fraction decided on all-constant evidence (was 0 for four recovery paths)
+
+Signal adequacy (per decision) 
+
+Fig. 2. Left: breaker scopes in the primary system, from run down to tool session, each with its own signal and budget; the highlighted vignette is a loop made entirely of successful calls. Right: the signal-adequacy pipeline. Round evidence is filtered against the delegation’s constant vocabulary before both progress guards read one shared function, so the stall detector and the budget refund cannot disagree about what a round measured. 
+
+mode of a delegation is not an exception but a sequence of individually successful actions that stops changing the outcome. This has a direct consequence for the inherited primitive: an error-rate breaker observes nothing. In the verifier incident every call returned success, so every error-based guard in the system—and there were several—was structurally blind. The loop ended because a human noticed. The platform now runs progress-based breakers at five nested scopes (Figure 2, left): four byte-identical tool calls, four session turns yielding no new grounding or mutation, a per-fingerprint repeat bound, a per-component graded stop, and a run-level bound. Session progress is content-keyed rather than path-keyed: a read returns the file’s digest with its content, so re-reading a file whose bytes changed is grounding while an identical re-read is not. That distinction was itself forced by an incident in which post-write verification reads were being counted as wandering. 
+
+B. F2: a progress signal can be constant by construction 
+
+Progress-based breaking replaces one failure mode with another. Our stall detector fingerprinted the identifiers a failed attempt reported. For one whole class of failure those identifiers were the failing check name —a property of the recovery strategy, identical whether the agent had fixed four defects or none. Both progress guards read that constant. The stall detector saw a fixed hash and tripped on the third round regardless of progress; the graded budget refund, which exists precisely to stop count-based ceilings killing converging loops, saw a fixed count of one and could never fire. Every model-driven repair 0123456failing tests r1 r2 r3 repair rounds inside the killed window collection crash 5 failing   
+
+> 2 failing , 3 newly passing breaker verdict at r3:
+> “evidence has not moved”
+> What both guards hashed each round: ["stock-integration"] — the failing
+> check name . Constant by construction, so the stall detector saw a fixed hash and the graded refund saw a fixed count of one. Two guards, one blind spot.
+
+Fig. 3. Signal adequacy, measured. Inside the window that killed the leading component the evidence moved monotonically toward green—one missing dictionary key from passing—while the breaker declared it unmoved, because the identifier it fingerprinted was a property of the strategy rather than of the round.        
+
+> 0612 18 21 events in the log i1 i2 i3 i4 i5 i6 check invocations of the same delegation test asserts 121
+> The producer was correct: exactly three events per invocation , six times. The duplication was in the ledger, not the producer. The log lived outside the workspace so the cleanliness check would not revert it — and therefore outside everything that cleans. 35 such logs on disk.
+
+Fig. 4. A measured duplicate-effect harm. Effects committed by previous invocations of the same delegation remained visible to the current one, so a correct, idempotent component became unwinnable. This is the boundary transactional containment does not reach. 
+
+in the system was therefore guaranteed to be declared stalled on its third round. The measured cost: one run peaked at six of six components with cross-service acceptance executing and ended at three. Neither step down was a model defect. Inside the window that killed the leading component the evidence had moved from a collection crash, to five failing tests, to two failing with three newly passing—both survivors a single missing dictionary key from green (Figure 3). Two further recovery paths were found to fingerprint on constants by replay—one on a failure-class enumeration value, one on check names—and would have failed identically on their third round. 
+
+The finding generalizes. A no-progress signal computed over identifiers that are constant by construction is not a conservative breaker; it is a guaranteed false trip. Signal adequacy must be demonstrated, not assumed. 
+
+C. F3: effects outlive the delegations that commit them 
+
+The platform contains transactional containment: mutating sessions run in a copy-on-write overlay whose commit refuses 
+
+command accepted event published subscriber received state committed route read           
+
+> absent →publisher / transport absent →transport / subscriber lifecycle absent →consumer / repository present but stale →transform / commit bad read →route / query binding
+
+The first missing checkpoint localizes the transition   
+
+> One correlation id per test, propagated across five process boundaries. Bounded metadata only — component, stage, channel, operation. Never payloads. Ambiguous evidence →abstain and fall back, never exclude the true owner.
+
+Fig. 5. Failure routing by checkpoint ladder. Spans are effect transitions rather than RPC calls; the owner of the first unproven transition is the routing target. 
+
+any changed path outside a declared writable set. Containment works, and for the effect class it contains a crashed or retried delegation commits nothing twice. It does not contain everything. The event-log incident above occurred at a boundary deliberately placed outside the workspace, and therefore outside every mechanism that cleans it: 21 events across six invocations, 35 such logs on disk, the oldest four days old (Figure 4). The producer was correct. The asymmetry that named the cause is that the acceptance harness truncated its log every test while the per-service path never did. Four further effect classes escape containment and are undeduplicated: package-registry resolution and installation, per-service database writes, post-write hook execution, and model-provider calls. The last is the most expensive and the least visible—provider retries spend tokens with no ledger of what was already spent. 
+
+One effect class in the platform is deduplicated , and its design is instructive: recovery actions acquire a durable lease keyed on failure, strategy, strategy version, and budget key, with a unique-index violation as the deduplication signal and orphan reconciliation on orchestrator restart. This is the developer-enumerated-key design, working exactly for the class someone thought to enumerate—and the measured duplicate-effect failure occurred in a class nobody did. 
+
+D. F4: misrouted failure attribution damages correct work 
+
+In a fleet where delegations repair one another, attributing a failure to the wrong delegation is not a wasted retry. It is a mandate handed to a correct component to edit code that was already right. Acceptance recovery originally mapped a failing test to its declared scenario identifiers and reopened every dependency whose artifacts declared one of them. That rule conflates three distinct facts: that a component has tests covering a scenario, that it participates in the scenario’s runtime path, and that it owns the transition that failed. In one incident a failure caused by two components woke five, and three bystanders regressed working code . In another, a failing assertion polling one service’s endpoint was routed to two components that merely declared the scenario, while the service that owned the stale state was never nominated. A second cost is diagnostic rather than destructive. When repair briefs for cross-process failures nominated only unmod-ifiable files—a frozen test, a platform conftest, a third-party plugin—one repair window consumed 943 tool turns, 451 of them read or search operations, across 71 minutes : 48% of the effort spent re-deriving causality the platform had already computed and discarded. 
+
+E. F5: the enforcement layer is a primary source of outages 
+
+This is the finding we did not anticipate and consider the most transferable. When an enforcement layer rejects work that is in fact correct, the agent complies, is rejected again, produces byte-identical evidence, and burns its entire budget against a wall. The delegation is unwinnable , and every reliability primitive above it is measuring a fiction. We recorded twelve distinct instances (Table I). The most expensive cost 107 agent turns and zero accepted writes , because a repair clamp restricted both writes and reads to a mis-diagnosed target set, so the delegation could not even read the file that held its defect. Two sub-patterns are worth separating. First, several gates blocked correct work because they encoded one mode’s assumptions—a shape with direct analogues in distributed systems. Zhang et al. [14] show that upgrade failures arise when a component’s assumptions and its environment diverge, and Yin et al. [6] find that a majority of misconfigurations are parameter mistakes that violate a rule the system itself holds — an assumption encoded in a checker rather than in the checked. Ours differ in that the diverging assumption belongs to the checker rather than to the system under change: a gate rejected a framework’s own documented base-class idiom sixteen times across four services; another read the platform’s 
+
+own generated dispatch seam as “nothing is seeded” because it matched handlers by callee name. Second, and less obvious, a wrongly-permissive enforcement decision can be worse than a wrongly-restrictive one . An appeal mechanism intended as the escape hatch resolved a correct diagnosis against the wrong file and accepted it, returning a verdict that foreclosed every remaining repair route. A rejection leaves the delegation a path; a mistaken acceptance does not. 
+
+F. F6: some effects are observable only when the whole system runs 
+
+Effects exist that no tool-boundary, sandbox, or per-service check can reach: cross-service authentication, an empty database, a navigation route linked but never generated. Booting the generated application—every backend service as a real out-of-process server, the frontend as a real dev server—and probing it as a gateway and a browser would, caught three escapes that every other boundary had passed: a frontend shipping a complete design system with no pipeline to compile it (a green build, an unstyled application), and a multi-page navigation wired over routes that were never generated (a green build, a 404 on prefetch). The same boundary immediately produced its own instance of F5. A run reached this gate fully green and verifier-approved, then looped six times over roughly an hour on one finding with a byte-identical signature . The probe recognized only bearer tokens; the platform’s scaffolded services authenticate via gateway-injected identity headers and declare no security scheme because authentication lives upstream. The probe called without those headers, the service correctly returned 401, and the finding was unwinnable by repair—declaring security in the service merely inverted it. A new evidence boundary is also a new surface on which correct work can be blocked. 
+
+G. F7: a stable oracle cannot be assumed 
+
+Consistent checkpointing of a distributed computation is well understood [12], and stream processors achieve exactly-once state by combining it with deterministic replay — Carbone et al.’s asynchronous barrier snapshotting [4] persists operator state at consistent cuts and replays records from the cut on recovery. The platform’s resume path relies on the same idea: a delegation’s durable checkpoint is only meaningful if the state it names can be reconstructed. What both approaches assume, and what agent delegation violates, is that re-executing from a checkpoint against un-changed inputs yields the same outcome. A dataflow operator replayed over the same records is deterministic by construction; a delegation replayed over the same workspace composes its actions afresh at inference time, and its oracle is a suite the delegation itself authored. Replay therefore recovers position but not behaviour, which is why the platform quarantines rather than retries. Microservice retry assumes that the same request against the same state yields the same verdict, so a differing result is information. For agent delegation the oracle is a test suite the agent itself authored. A flaky oracle makes every primitive above it lie: the breaker trips on noise, a ledger would fingerprint a non-reproducible effect, the router attributes a phantom. The platform keys every check observation on a triple—a content digest of the workspace, a digest of the resolved execution environment, and a digest of the check contract—and quarantines the evidence when two observations under one key disagree, rather than retrying. 
+
+H. Corpus statistics and measurement scope a) What the corpus supports, and what it does not.: The incident record is a chronological operational log in which incidents are numbered and cross-referenced, not a structured database with a category field. A category distribution over all 147 incidents would therefore have to be assigned retro-spectively by the same people who diagnosed them, and we do not report one: a distribution produced that way would measure our labelling more than the system. What we report instead are quantities that were recorded mechanically at the time—workspace contents, persisted run records, and the event what the layer blocked measured cost why it was wrong 
+
+Repair clamp restricted reads and writes to a mis-diagnosed target set 107 turns, zero accepted writes ,component lost The one file holding the defect was outside the diagnosis; the delegation could not even read it Husk check rejected a framework’s documented base-class idiom 16 rejected writes across 4 services Each rejection costs a turn against the no-progress budget Seed gate matched a handler by callee name 3 corrections + 2 stronger-model rounds, component lost The platform’s own generated dispatch seam read as “nothing is seeded” Appeal verified a citation against only the file the model named 3 real quoted lines refused Every frozen source is shown to the model; all must therefore be citable Appeal accepted against a platform-generated artifact Component killed holding a correct diagnosis A wrongly-permissive verdict forecloses every remaining route Stall detector fingerprinted a constant identifier Run 6/6 → 3/6 Every model-driven repair guaranteed stalled on round three Scenario coverage used as causal identity Blast radius 5; 3 bystanders re-gressed working code 
+
+Coverage is not causation; the true owner was never nominated Preview oracle recognized only bearer tokens 6 loops, ∼1 hour, byte-identical signature Services authenticate via gateway-injected headers; repair could not satisfy it either way Provenance walls demanded ratchet-only arti-facts Fully-green verifier-approved run failed A freeze record and an optional cache entry required in a mode that produces neither Seed gate unioned every dependency’s fixtures 11 unsatisfiable identifiers; recov-ery budget burned Deriving rather than copying the set col-lapsed it to 3 real rows Toolchain defaults left unstated (async mode; fixture dry run) 6 and 8 escalated corrections Failures named only plugin internals; no edit the model could make would help Stray zero-byte file from a test runner Byte-identical evidence until termi-nal A subprocess artifact was indistinguishable from an undeclared agent write      
+
+> TABLE I ENFORCEMENT -LAYER FAILURES :THE LAYER BLOCKING correct WORK . E ACH ROW IS A DISTINCT PRODUCTION INCIDENT WITH A MEASURED COST . T HIS FAILURE MODE ,NOT PERMITTING A FORBIDDEN ACTION ,IS THE CHARACTERISTIC FAILURE OF AN ENFORCEMENT LAYER FOR AGENT DELEGATION .
+
+stream—together with the per-incident costs of the subset the paper analyses directly. For the same reason, no inferential statistics are reported. The corpus is a single system’s operational record, not a sample from a population, and incidents were neither randomly selected nor independently observed; significance testing against it would be a category error. Descriptive statistics with explicit 
+
+N and ranges are the strongest claim the design supports, and the controlled evaluation of Section VIII is what would license anything stronger. 
+
+b) Workload scale ( N = 15 archived runs).: Median 78 source files and 2,231 lines of Python and TypeScript per run; range 4–110 files and 507–12,240 lines; maximum two backend services plus a frontend. Three of the fifteen produced no source at all —runs that terminated before any component committed work. That failure-severity rate ( 3/15 ) is itself a measurement, and it is the one figure here that generalises least: it reflects the platform’s state during a period of active change rather than a steady-state defect rate. 
+
+c) Enforcement-layer incidents ( N = 12 ).: The costs in Table I are recorded in heterogeneous units—agent turns, rejected writes, repair loops, failed tests—because the incidents terminate at different stages, and we do not aggregate across them. Of the four measured in agent turns, the range is 107 turns (zero accepted writes) to 943 turns (451 of them read or search operations). Of the twelve, all ended in either a component’s terminal failure or an exhausted recovery budget on work that was subsequently confirmed correct. 
+
+I. Workload and a fully-traced run 
+
+One run is recorded in full, and is reported here because it shows the machinery converging rather than failing. 
+
+a) A run traced end to end.: One run (devrun_228979e8 ) is recorded in full: four hours fifty-five minutes, five components, ten scheduler cycles across two attempts. Its persisted record contains 12 terminal component failures, 23 stall verdicts, 3 escalated rounds granted by the graded stop, and 3 checkpoints discarded as stale on re-entry. Nine consecutive scheduler cycles in the first attempt ended with the cross-service acceptance component failing. The second attempt reached 21 of 21 required checks passing , and the independent verifier—which had returned approved=False fourteen minutes earlier—returned 
+
+approved=True with zero findings. We report this run because it shows the machinery working as designed rather than the failures the rest of the paper documents: a rejection followed by repair followed by approval, with the stall detector firing 23 times without terminating a component that was still converging, and the escalation path spending three stronger-model rounds rather than three funerals. V. T HE CROSS -CUTTING FINDING : IDENTITY ADEQUACY AND EVIDENCE ADEQUACY 
+
+Five subsystem failures in the corpus share a cause that is not visible from any one of them (Table II): an identity that failed to discriminate produced a confident wrong answer. A progress fingerprint over a check name; a commit identifier keyed on a transaction rather than on content; a graph node named for a logical projection, collapsing two physically distinct service databases; scenario coverage used as causal identity; and a work planner measuring coupling across components rather than per component. 
+
+a) Evidence adequacy, the dual.: The same corpus yields a second requirement that is not a restatement of the first. Identity adequacy asks whether a signal can distinguish two states that differ; evidence adequacy asks whether the signal can 
+
+change at all , and whether it is entitled to be acted upon. Four instances recur. A stop may fire only on evidence capable of moving (F2): a fingerprint over identifiers constant by construction is not conservative, it is a guaranteed false trip. A router must abstain when evidence is ambiguous rather than confidently exclude the true owner (F4). A mutation kill counts only when it is attributable to the rule it targets—otherwise a mutant that anchored on load-bearing code reports safety that was never demonstrated. And a check may be trusted only when its outcome is deterministic under identical workspace and environment conditions (F7), since a flaky oracle makes every primitive above it lie. The two halves fail differently and must be checked separately. An inadequate identity produces a confident wrong answer; inadequate evidence produces a confident answer to a question that was never measured. Both were present in our corpus, and in the breaker they were present simultaneously— the same constant identifier defeated the stall detector and the graded refund at once, which is why a single fix repaired both and why we now require both guards to read one function. 
+
+b) The rule was derived twice, independently.: The strongest evidence that this is a property of the problem rather than a habit of one team is that two subsystems arrived at it separately, for different objects, without inheriting it from each other. The topology graph refuses to collapse identically-shaped state living in different processes. The work planner, written for a different purpose by a different path, refuses to collapse a scenario that two components both assert—its coupling is measured per component, so a shared scenario forms a cluster in each of them and never welds their artifact sets together. Both arrived there after the naive version produced a confident wrong answer. VI. P RIMITIVES IMPLIED BY THE FINDINGS 
+
+The findings imply a set of reliability primitives whose enforcement unit is the delegation rather than the message: the logical task that carries a declaration, holds a budget, acquires a lease, commits effects, and can be retried or resumed as a unit. Figure 1 situates them against three interception seams—the model-call boundary, the tool-invocation boundary, and the commit boundary—so the design is stated against an interface rather than against our architecture. 
+
+a) P1: progress-based breaking under a signal-adequacy obligation (F1, F2).: Trip on no-progress signatures rather than error rate, and compute the signal against the delegation’s con-stant vocabulary —the identifiers a strategy re-emits unchanged by construction— discarding evidence drawn entirely from it. Both progress guards must read one function so they cannot disagree about what a round measured. The corresponding metric is discriminating power : the fraction of breaker decisions taken on evidence not wholly constant. Before the fix it was zero for four recovery paths. 
+
+b) P2: the effect contract (F3).: Declaration alone is a comment; observation alone has no reference. The mesh is a hybrid: declarations are compiled rather than hand-authored (Figure 7), and committed effects are observed at boundaries requiring no agent cooperation, with divergence as the enforcement signal (Figure 6). Observation is mechanical here only because the tool surface is closed; enumerability of the surface, not of the effect set, is the enabling property .
+
+c) P3: the effect ledger (F3).: A fingerprint over commit-ted effects—canonicalized tool calls, argument digests, external mutation identifiers—against which a retried or resumed delegation deduplicates. This is the one primitive that is 
+
+specified but not built , and we mark it as such throughout. The delta is small and named: the platform’s transaction already returns a commit identifier over transaction, component, phase and content manifest, and dropping the transaction identifier makes it content-addressed. Nothing in the study demonstrates this primitive works; the study demonstrates the harm it addresses. 
+
+d) P4: budget attenuation over a scope lattice, degrading rather than killing (F1).: Budgets key per run, per component, per failure-evidence fingerprint, per recovery strategy, and per session (Figure 8). Per-fingerprint and per-component limits are separate quantities because they fail in opposite directions: a fingerprint cap alone lets distinct failures drain one component; a component cap alone lets one recurring failure starve every other repair. Exhaustion degrades—the first graded stop grants one round on a stronger model, with the credit written inside the same atomic reservation that consumes the attempt—rather than killing on a clock. 
+
+e) P5: failure routing (F4).: A typed topology graph with scoped node identities and evidence-graded edges, plus a five-stage checkpoint ladder carried by a correlation identifier across process boundaries, in which the first missing checkpoint localizes the transition (Figure 5). This is distributed tracing whose spans are effect transitions rather than remote calls. Abstention is a first-class outcome: ambiguous evidence falls back rather than confidently excluding the true owner. Structure is necessary and never sufficient—a green graph never marks acceptance passed. 
+
+f) P6: enforcement-layer exoneration (F5, F6).: The layer must be proven not to block correct traffic, at runtime rather than by review. Three mechanisms: boot-time exoneration, where the service refuses to start if any gate rejects a member subsystem identity that failed to discriminate consequence 
+
+circuit breaker progress fingerprint over the failing check name —a property of the strategy, identical whether four defects were fixed or none every model-driven repair guaranteed stalled on round three; the run went 6/6 
+
+→ 3/6 effect ledger commit id keyed on transaction id , so identical content from two transactions hashes differently cannot deduplicate; the fingerprint is prove-nance, not identity topology graph a logical node name collapsing two different service databases 
+
+into one projection false edge, false green graph failure attribution scenario coverage used as causal identity five components woken for a two-component fault; three bystanders re-gressed working code work planner coupling measured across components rather than per component two components asserting one scenario would have had their artifact sets welded into a single slice 
+
+TABLE II ONE FAILURE , FIVE SUBSYSTEMS : AN IDENTITY THAT DOES NOT DISCRIMINATE PRODUCES A CONFIDENT WRONG ANSWER . T HE LAST TWO ROWS DERIVED THE SAME RULE INDEPENDENTLY , FOR DIFFERENT OBJECTS .              
+
+> 1. Delegate
+> task + budget + declaration
+> 2. Execute
+> overlay sandbox; actions at inference
+> 3. Observe
+> tool + sandbox boundary
+> 4. Verify
+> observed vs. declared; divergence is the signal
+> 5. Commit
+> fingerprint effects →ledger
+> Fault
+> crash ·timeout ·restart ·partition
+> Retry / resume
+> same logical delegation
+> Effect-ledger check
+> fingerprint present? yes →suppress / reconcile no →execute + record verdict: suppressed-as-duplicate naive mesh retry (no ledger): re-executes committed effects →duplicate events, seeds, installs, provider calls
+
+Fig. 6. Delegation lifecycle under the effect contract. Effects observed at the tool and sandbox boundaries are verified against the declaration and fingerprinted into the ledger at commit. A retried or resumed delegation deduplicates at the effect boundary; the suppressed-as-duplicate verdict is what distinguishes correct deduplication from a breaker trip. The dashed path is the naive mesh policy the baseline arm measures. 
+
+of a corpus of independently-verified-correct artifacts (thirteen gates, ∼36 ms, each proven armed by mutating its corpus artifact); clamp yielding, where an enforcement scope derived from a diagnosis admits a file refused twice, on the reasoning that a delegation which owns a file and keeps naming it is telling you the diagnosis was wrong; and guard provability, where a guard no mutation can make fail is deleted. Refusal semantics are part of the contract: suppressed-as-duplicate ,
+
+refused-as-stalled , exhausted-budget , and rejected-by-gate must be distinct observable verdicts, because in our own system all three of the first conditions collapsed into one fatal outcome and the duplicate-lease case is the deduplication mechanism 
+
+working correctly .
+
+g) P7: nondeterminism quarantine (F7).: Key observa-tions on workspace, environment, and contract digests, and quarantine rather than retry when two observations under one key disagree. VII. D EPLOYMENT OUTCOMES 
+
+Table III records what is running, what is specified, and what is designed. Where a primitive was deployed, the observed effect was:  
+
+> •
+
+Signal adequacy (P1). The constant-vocabulary filter made repeated-evidence stops rare rather than routine; the converging replay that previously died on round three now proceeds, and the stuck replay still stops. Verified by reverting in both directions.  
+
+> •
+
+Clamp yielding (P6). Five admissions in one run, includ-ing the exact file that had killed a component the previous day. Before the change the count was structurally zero.  
+
+> •
+
+Failure routing (P5). Blast radius fell from five compo-nents to two on the arrangement case.  
+
+> •
+
+Running-system verification (P6, F6). Three escapes caught that no other boundary reaches, each subsequently closed at its own layer.  
+
+> •
+
+Declaration admission control (P2). Two services com-plied with a newly-declared physical schema contract on the first attempt, with no correction round, where the previous undeclared arrangement had cost seven of eight acceptance tests twice from two different causes. The platform now carries a project end to end to a live browser preview, and the run traced in Section IV-I completed fully green. On the test-driven substrate the best acceptance result remains seven of eight tests passing. 
+
+A. Ablation: removing the verification ladder 
+
+The platform supports an explicit, labelled direct implementa-tion mode that removes the test-driven ratchets—cluster slicing, mechanism status evidence, or what remains 
+
+Effect declaration + trans-parent verification running, measured Overlay commit refuses undeclared writes; agent/subprocess writes discriminated by declaration. Divergence rate computable today and backfillable from archived workspaces. Declaration authority + fea-sibility gate running Staged declaration, deterministic compile, dry-run admission control; refuses unsliceable units and obligations with no executable check. Progress breaker + signal adequacy running, measured Constant-vocabulary filter; both guards read one function. Pre-fix discriminating power was zero for four recovery paths. Budget lattice + degrada-tion running, measured Graded refund on strict improvement; unlimited wall clock; one stronger-model round before the stop (four of eleven strategies wired). Per-delegation token ledger 
+
+not built .Failure routing (graph + ladder) running; success criteria unvalidated Blast radius 5 → 2 measured. Two-point graph build and checkpoint ladder running; the motivating routing case is not yet observed live .Enforcement exoneration running, measured Thirteen gates checked at boot; clamp yielding fired five times (previously structurally zero); unprovable guards deleted. Nondeterminism quaran-tine running Workspace × environment × contract digest; conflicting outcomes quarantined. Running-system verifica-tion running, measured Preview oracle over the booted multi-service app; three escapes caught that no other boundary reaches. Browser-behaviour oracle designed, unbuilt .Effect ledger (content-addressed fingerprint) 
+
+specified delta One field dropped from an existing commit identifier; the manifest function already exists. One measured duplicate-effect incident motivates it. Not built. 
+
+Distinct refusal verdicts specified delta Admission control currently collapses stall, exhaustion, and duplicate-lease into one outcome. Required before breaker precision/recall means anything. Not built. 
+
+Per-tenant ledger partition-ing 
+
+designed, unbuilt The deployed platform is single-tenant; the tenancy model is evaluated on the reference harness only. Effect trace store; token/cost ledger 
+
+designed, unbuilt Prerequisites for every Phase 1 and Phase 2 number. The application log is not a substitute.  
+
+> TABLE III MECHANISM STATUS . T HE UPPER BLOCK IS RUNNING IN PRODUCTION ;THE LOWER BLOCK IS WHAT THE EVALUATION STILL REQUIRES . W E STATE THIS AS A TABLE BECAUSE THE PAPER ’S CENTRAL CLAIM ABOUT ITSELF IS THAT THE DISTINCTION IS NEVER BLURRED .
+
+test preflight, oracle qualification, red validation, mutation qualification, and freeze—for a component too large to slice. Runs in this mode are the first that reached a live browser preview, which makes them an ablation of the verification ladder conducted in production rather than in a harness (Table IV). The design is quasi-experimental rather than randomised: the mode is selected for architectural reasons, not assigned, so the two arms differ in workload as well as in treatment. What it does establish is which defects each rung was absorbing ,because every defect in Table IV surfaced only once its rung was removed, and each was subsequently closed at a layer that operates in both modes. Two smaller ablations validate individual mechanisms by reversion rather than by removal of a whole stage. The constant-vocabulary filter of F2 was verified in both directions: with the rule reverted, a converging replay is declared stalled on its third round; with the diagnostics fallback reverted, a genuinely stuck replay never stops. Guard provability is applied the same way as a standing policy—a guard that no mutation can make fail is deleted, and two were removed on those grounds during the period. 
+
+a) What the ablation does and does not show.: It does not show the ladder is necessary for delivery: the ablated runs reached a live preview, which the non-ablated ones had not. It shows what each rung was holding up —every defect it exposed is an identity-or-evidence defect of the shape Section V predicts, and each had been absorbed silently rather than reported. The ablation was therefore productive in the diagnostic sense, and it is the reason the last-mile mechanisms it forced into existence (preview oracle, seed derivation, mode-scoped provenance) apply in both modes. VIII. T HE CONTROLLED EVALUATION THIS STUDY MOTIVATES 
+
+This study is observational. The controlled evaluation it motivates is a two-arm fault-injection design (Figure 9) over the same workload: a baseline arm applying naive service-mesh policies with transactional containment disabled —without which the harm number measures a property of our imple-mentation rather than of agent delegation—and a mesh arm enabling the primitives with distinct refusal verdicts. Co-primary metrics are duplicate-effect rate at the boundaries containment does not reach, and work destroyed per fault. Two measurements from this study bound the second in advance: the 943-turn repair window of F4, and the 107-turn zero-write component of F5. If neither primary metric is material under realistic fault injection, the premise is weak and the work stops—a designed kill criterion. Table V separates the metrics already derivable from the operating record from those gated on an instrument or on the rung removed defect that surfaced measured cost, and closure 
+
+Cluster slicing An atomic component the planner could not slice was admitted without a size gate Convergence-complexity 120 against a budget of 6; closed by making the mode an explicit flag the feasibility gate consults Oracle qualification and seed gating Required-fixture set derived as a raw union over every dependency 11 unsatisfiable identifiers; recovery budget exhausted on a correct component. Closed by 
+
+deriving the set rather than copying it: 11 → 3real rows Freeze and provenance Final verifier demanded a freeze record, and sepa-rately an optional cache entry, for every component A fully-green, verifier-approved run failed. Closed by scoping the provenance requirement to modes that produce the artifact (none — new boundary) Preview oracle recognised only bearer tokens while services authenticate via gateway-injected headers 6 repair loops, ∼1 hour, byte-identical signature; unwinnable by repair. Closed by making the oracle authenticate as the gateway does 
+
+TABLE IV ABLATION OF THE VERIFICATION LADDER . E ACH DEFECT SURFACED ONLY WHEN ITS RUNG WAS REMOVED , AND EACH WAS CLOSED AT A LAYER THAT OPERATES IN BOTH MODES —SO THE LADDER ’S CONTRIBUTION IS DIAGNOSTIC RATHER THAN MERELY PROCEDURAL . T HE FINAL ROW IS THE DUAL RESULT : A new EVIDENCE BOUNDARY INTRODUCED ITS OWN INSTANCE OF F5. 
+
+Staged project declaration     
+
+> structure →behaviour →delivery each stage validated against the prior stage’s identifier catalog
+
+Authority projection   
+
+> typed refs ×five evidence kinds raises when unsatisfiable — never degrades
+
+Compiler   
+
+> declaration →delegation set (contract ops, channels, schema)
+
+Work planner  
+
+> coupling measured per component , never welded across
+
+Feasibility gate — admission control         
+
+> refuse: atomic unsliceable unit refuse: proof obligation with no executable check digest: declaration ×plan ×compiler ×planner ×archetypes
+
+Approved delegation set   
+
+> content-digested: same declaration ⇒same delegations
+
+Fig. 7. The declaration authority. Declarations are compiled, not hand-written per delegation, and approval is gated by a dry-run compile that refuses a declaration the platform cannot build. This is enforcement-layer exoneration at declaration altitude: prove the layer can be satisfied before committing work to it. 
+
+study itself. The instruments not yet built are stated plainly: a per-delegation token and cost ledger; an effect trace as a persisted store rather than the application log; the content-addressed effect fingerprint; sidecar observation of network destinations and spawned processes; distinct refusal verdicts; and per-tenant ledger partitioning, which the single-tenant deployed platform does not implement. IX. T HREATS TO VALIDITY 
+
+Observational, not controlled. This is the study’s defining limitation and we state it first. Incidents were observed, not induced; no baseline arm ran; and the deployment outcomes of Section VII are before/after observations on a system that was changing for other reasons at the same time. Confounding 
+
+per run per component 
+
+> caps total spend on one unit
+
+per fingerprint 
+
+> caps repeats of one failure
+
+per session       
+
+> turn + check-run caps Two limits because they fail in opposite directions: fingerprint cap alone →distinct failures drain one component component cap alone →one recurring failure starves every repair Exhaustion →degrade, not kill: 1. first graded stop grants one stronger-model round 2. credit written inside the reservation that spends the attempt 3. rolled-back txn keeps own artifacts; retry starts from the draft 4. futility counts reset on resume; spend ceilings survive it
+
+Fig. 8. The budget scope lattice, and the degradation ladder that replaces wall-clock kill. Budgets attach per run, component, failure fingerprint, strategy, and session; the per-fingerprint and per-component limits are separate quantities because they fail in opposite directions. 
+
+is therefore possible for every one of them, and none should be read as an effect size. We claim the genre rather than the guarantee. Production failure studies are an established instrument in systems research precisely because some failure classes appear only at deploy-ment scale: Yuan et al. [15] derive testable generalisations from 198 observed failures without a controlled arm, and Zhang et al. [14] do the same for upgrade failures. What such studies license is the identification and characterisation of failure classes, not measurement of how much a proposed remedy helps. That boundary governs what we assert: the seven findings are claims about what goes wrong and why , each traceable to recorded incidents; the primitives of Section VI are the response those findings imply, and their effectiveness is unmeasured . Section VIII specifies the two-arm design that would measure it, with a designed kill criterion, and Table V states which quantities are already derivable and which are Effectful delegation workload     
+
+> multi-stack codegen ·test execution ·repository mutation
+
+Fault schedule 
+
+> crash in txn staging orchestrator restart (the resume path) hung check (runner timeout) network partition (install/lockfile) provider interruption nondeterminism (monitor raises) identical schedule to both arms; every seam pre-exists
+
+Arm A — naive mesh (baseline)     
+
+> bounded retry ·wall-clock timeout ·error-rate breaker transactional containment DISABLED otherwise harm is masked by an implementation property measured at escape boundaries: transport, per-service DBs, package registry, provider calls Phase 1 — go/no-go gate
+
+Arm B — Agent Mesh         
+
+> M1 breaker + adequacy ·M2 exoneration ·M3 ledger M4 budget lattice ·M5 routing ·M6 quarantine distinct refusal verdicts enabled required for breaker precision/recall to mean anything same schedule, same workload, same escape boundaries Phase 2 — mechanism
+
+Substrate 1: production platform     
+
+> deterministic-DAG scheduler ·durable checkpoints 66,185 LOC / 59 modules ·147-incident corpus
+
+Substrate 2: reference harness (released) 
+
+> minimal orchestrator over the three seams hosts M1 + a minimal M3; shares no code with substrate 1
+
+Fig. 9. Evaluation design. One workload and one fault schedule drive two arms: the baseline runs naive service-mesh policies with transactional containment disabled—without which the harm number measures a property of our implementation rather than of agent delegation—and the mesh arm enables the seven primitives with distinct refusal verdicts. 
+
+metric status 
+
+Obtainable from the existing record 
+
+Delegation depth distribution reported (1/8/7 at depths 1/2/3) Discriminating power, pre-fix reported (0 for four paths) Declaration–observation divergence backfillable from archived workspaces Enforcement incidents reported (Table I) Blast radius, before/after reported (5 → 2) 
+
+Blocked on an instrument 
+
+Work destroyed per fault needs token/cost ledger Tokens discarded by timeout kills needs token ledger + base-line arm Duplicate-effect rate (mesh arm) needs fingerprint + effect trace Fingerprint collision / miss needs the fingerprint Breaker precision/recall needs distinct refusal ver-dicts Sidecar overhead (p50/p99) no sidecar boundary exists yet Ledger storage per tenant no ledger; no tenancy 
+
+Blocked on the experiment 
+
+Duplicate-effect rate (baseline) needs the containment-disabled arm Task success at fixed budget needs both arms to com-plete the workload 
+
+TABLE V METRIC INVENTORY . F IVE QUANTITIES ARE ALREADY DERIVABLE FROM THE OPERATING RECORD ; THE REST ARE GATED ON INSTRUMENTS OR ON THE TWO -ARM STUDY , AND WE SAY WHICH .
+
+gated on instruments that do not yet exist. Section VII-A is the one quasi- experimental element, and it is quasi-experimental rather than controlled because the treatment is selected for architectural reasons rather than assigned. 
+
+Single system, self-diagnosed. One platform, diagnosed by the team that built it. Mitigations: causes were confirmed by reverting the fix and reproducing the failure wherever the paper says “confirmed”; guards are mutation-tested and two were deleted for being unprovable; withdrawn diagnoses are recorded rather than removed. None of that substitutes for an independent replication, which the released fault schedules and reference harness are intended to enable. 
+
+Survivorship in the corpus. The record over-represents fail-ures interesting enough to write down. Routine failures that were fixed without comment are under-represented, so fre-quencies should not be inferred from it. Costs attached to individual incidents are measured; the corpus’s composition is not a sample. 
+
+The effect ledger is unbuilt. P3 is specified, not demon-strated. The study establishes the harm it addresses—a mea-sured duplicate-effect failure at a boundary containment does not reach—and specifies the delta. It does not show the primitive works. 
+
+Strict-platform bias. F5 is partly a consequence of how much this platform enforces. A permissive orchestrator has fewer gates and therefore fewer opportunities to block correct work— and correspondingly weaker guarantees. We think the trade is general and the failure mode under-reported, but the frequencies we observed are ours. 
+
+Prior-art engagement. The related-work positioning below is stated at the level of research lanes. Specific systems are cited only where we could resolve them to a verified record; several named in an earlier draft were removed rather than cited from memory. This is a deliberate under-citation, and closing it is the first task before any venue submission. X. P OSITIONING AND RELATED WORK 
+
+Two lanes of agent-infrastructure work are adjacent to this study and neither asks its question. The authorization 
+
+lane—capability metadata attached to values, information-flow labelling, control-flow-integrity checking of agent invocations— governs whether an action should be permitted , under an adversarial model of prompt injection. The transport lane— generative-AI deframing proxies, Model Context Protocol [23] interceptors, agent-to-agent gateways built on sidecar infrastruc-ture [20]–[22]—enforces on JSON-RPC syntax. Neither asks whether an authorized action has already been committed, whether a delegation is still converging, or whether the enforcement layer itself is wrong. 
+
+A. Durable execution and exactly-once semantics 
+
+The nearest prior art is durable workflow execution [16], [24]–[26], whose semantics are formalised by Burckhardt et al. [16]: durable state is reconstructed by deterministic replay against a log of externally-observed effects, and exactly-once activity semantics rest on developer-supplied idempotency keys at enumerated activity boundaries. The distinction this study sharpens is empirical rather than argued: our platform contains that design and we can show where it stops. Recovery actions, the one class enumerated in advance, are deduplicated by a durable lease and it works; the measured duplicate-effect failure of F3 occurred in a class nobody enumerated, because an agent generates its effectful operations at inference time and there is no site at which the key could have been attached. Table VI places this work against the approaches an agent orchestrator would otherwise reach for. The comparison is capability-based rather than quantitative because no shared benchmark exists: the systems compared do not accept the same workload, and constructing one is the subject of Section VIII rather than of this study. Two columns are empty for every prior approach. Effect-level deduplication is provided only where the effectful operation set is enumerated in advance, which agent delegation precludes by construction. Enforcement correctness —whether the layer can be shown not to block correct traffic—is, as far as our survey extends, claimed by no existing system in either lane. 
+
+B. Agent orchestration frameworks 
+
+Multi-agent orchestration frameworks [11] compose agents that converse, delegate, and invoke tools, typically over the reasoning-and-acting loop formalised by Yao et al. [13], with tool invocation itself the subject of a line of work from Toolformer [9] onward. They provide the delegation structure this paper’s findings concern, and their reliability affordances are those of ordinary application code: retry on exception, a step or recursion ceiling, and a timeout. None of the findings here is a criticism of a particular framework—F1 through F7 are stated against any hierarchical agent–subagent orchestration exposing the three seams of Figure 1, and we deliberately avoid claiming a framework-specific result we did not measure. 
+
+C. Empirical failure studies 
+
+The closest prior work is empirical rather than architectural. Cemri et al. [17] construct a failure taxonomy for multi-agent LLM systems from over 200 tasks across seven frameworks, identifying fourteen failure modes in three categories: specifi-cation issues, inter-agent misalignment, and task verification. Our study is complementary and differs on three axes. Theirs is cross-framework and task-level , ours is single-system and infrastructure-level : the failures we report are not failures of agents reasoning or coordinating but of the reliability machinery around them—a breaker tripping on a constant, a ledger outliving its delegation, an enforcement gate blocking correct work. Theirs is annotated from traces by external raters; ours is recorded operationally with costs taken from the platform’s own durable records and causes confirmed by reverting fixes. And where MAST asks why a multi-agent system produces a wrong answer, we ask why a correct agent is prevented from producing a right one—the unwinnable-delegation class of F5, which a task-level taxonomy does not surface because the agent’s own behaviour is not at fault. 
+
+D. Automated program repair 
+
+The delegations studied here repair code, which places the work adjacent to automated program repair [7], [8]. That field asks how to generate a correct patch given a failing test, and evaluates repair techniques by the correctness of the patches they produce. Our concern is upstream of the patch and orthogonal to its quality: whether the repair loop is allowed to run at all, whether the failure was routed to the delegation that owns it, whether the evidence the loop stops on can move, and whether the effects of a repeated attempt are committed twice. A repair technique that generates perfect patches still fails if the enforcement layer refuses its writes (F5), if the fault is attributed to a component that cannot fix it (F4), or if the loop is declared stalled while converging (F2). The two literatures compose: repair supplies the patch, the mesh supplies the conditions under which attempting one is safe and terminating. 
+
+E. Tracing, attribution, and evaluation 
+
+Relative to distributed tracing [10], [19], the contribution implied by F4 is spans that are effect transitions rather than remote calls. Dapper established the span-and-trace model and OpenTelemetry [10] standardised it, but a span in both records that a call happened; the checkpoint ladder records whether an effect was committed, which is what a routing decision needs and what a call-level span cannot supply. The distinction matters for a delegation whose failure mode is an absent write rather than a failed request. Benchmarks for autonomous software-engineering agents [18] and for agent capability more broadly [5] measure task resolution under controlled conditions, and Yehudai et al. [3] survey the field, noting that cost-efficiency, safety and robustness remain under-assessed relative to capability. This study sits in that gap on the reliability side: benchmarks measure task resolution; this study measures what the surrounding orchestrator must do for such an agent to be retried, resumed, and repaired safely at all. Finally, the findings are stated against any hierarchical agent– subagent orchestration, not against a particular framework. Nothing in F1–F7 depends on how delegations are expressed; they depend only on a delegation being effectful, generating its operation set at inference time, costing tokens whether or not its work is kept, and being retried, resumed, or repaired by a peer. Any orchestrator with the three seams of Figure 1 exhibits the same surface. effect-level progress-based failure enforcement unit of approach dedup breaking attribution correctness enforcement 
+
+Service mesh [20]–[22] — (key required) — (error rate) — — request Durable execution [16], [24], [25] enumerated boundaries — (retry policy) — — activity Agent authorization [1], [2] — — — partial a action Transport proxies [23] — — — — message Distributed tracing [19] — — spans (RPC) — call MAS failure taxonomy [17] — — task-level — task 
+
+Agent Mesh (this work) inference-time signal-adequate effect transitions boot + runtime delegation 
+
+TABLE VI CAPABILITY COMPARISON . “—” DENOTES NOT PROVIDED BY THE APPROACH , NOT A DEFICIENCY : EACH ROW SOLVES A DIFFERENT PROBLEM WELL . T HE GAP THIS PAPER ADDRESSES IS THE EMPTY effect-level deduplication COLUMN FOR OPERATION SETS GENERATED AT INFERENCE TIME , AND THE EMPTY 
+
+enforcement correctness COLUMN ENTIRELY . a AUTHORIZATION SYSTEMS VERIFY THAT A POLICY IS ENFORCED , NOT THAT THE ENFORCEMENT LAYER ADMITS CORRECT TRAFFIC .
+
+XI. C ONCLUSION 
+
+We studied 147 recorded failures in a production agentic delivery platform and found that the three assumptions service-mesh reliability rests on—idempotence, latency as the failure signal, and free discards—are each violated, with measured consequences: a fifty-four-call loop invisible to every error-based guard, a progress signal that was constant by construction and drove a run from six of six components to three, twenty-one events surviving across six invocations of one delegation to make a correct component unwinnable, an attribution rule that woke five components for a two-component fault and left three regressing working code, and twelve incidents in which the enforcement layer blocked correct work. The cross-cutting result is that five otherwise unrelated subsystems failed the same way—an identity that did not discriminate, producing a confident wrong answer—and that two of them derived the corrective rule independently, which is our best evidence that it is a property of the problem rather than an artifact of one team. The primitives we derive follow from that: reliability for agent delegation requires identities that discriminate and evidence that can move, and an enforcement layer must be proven at runtime not to block correct work. What this study does not do is compare against a controlled baseline. Section VIII specifies that evaluation, with a designed kill criterion, and states plainly which instruments must exist before it can produce numbers. 
+
+a) Availability.: Supplementary material accompanying this preprint documents the platform’s evidence boundaries, recovery machinery, declaration pipeline, and incident corpus, with an explicit statement of what is not built. The fault schedules, workloads, and framework-neutral reference harness of Section VIII are released with the controlled evaluation. REFERENCES [1] E. Debenedetti, I. Shumailov, T. Fan, J. Hayes, N. Carlini, D. Fabian, C. Kern, C. Shi, A. Terzis, and F. Tramèr, “Defeating prompt injections by design,” arXiv:2503.18813, 2025. [2] M. Costa, B. Köpf, A. Kolluri, A. Paverd, M. Russinovich, A. Salem, S. Tople, L. Wutschitz, and S. Zanella-Béguelin, “Securing AI agents with information-flow control,” arXiv:2505.23643, 2025. [3] A. Yehudai, L. Eden, A. Li, G. Uziel, Y. Zhao, R. Bar-Haim, A. Cohan, and M. Shmueli-Scheuer, “Survey on evaluation of LLM-based agents,” arXiv:2503.16416, 2025. [4] P. Carbone, G. Fóra, S. Ewen, S. Haridi, and K. Tzoumas, “Lightweight asynchronous snapshots for distributed dataflows,” arXiv:1506.08603, 2015. [5] X. Liu, H. Yu, H. Zhang, et al., “AgentBench: evaluating LLMs as agents,” arXiv:2308.03688, 2023. [6] Z. Yin, X. Ma, J. Zheng, Y. Zhou, L. N. Bairavasundaram, and S. Pasupathy, “An empirical study on configuration errors in commercial and open source systems,” in Proc. 23rd ACM Symp. Operating Systems Principles (SOSP) ,2011. [7] C. Le Goues, M. Pradel, and A. Roychoudhury, “Automated program repair,” Commun. ACM , vol. 62, no. 12, pp. 56–65, 2019. [8] M. Monperrus, “Automatic software repair: a bibliography,” ACM Comput. Surv. , vol. 51, no. 1, pp. 1–24, 2018. [9] T. Schick, J. Dwivedi-Yu, R. Dessì, R. Raileanu, M. Lomeli, L. Zettlemoyer, N. Cancedda, and T. Scialom, “Toolformer: language models can teach themselves to use tools,” arXiv:2302.04761, 2023. [10] OpenTelemetry Authors, “OpenTelemetry: an observability framework and toolkit,” Cloud Native Computing Foundation, https://opentelemetry.io. Accessed 2026. [11] Q. Wu et al., “AutoGen: enabling next-gen LLM applications via multi-agent conversation,” arXiv:2308.08155, 2023. [12] K. M. Chandy and L. Lamport, “Distributed snapshots: determining global states of distributed systems,” ACM Trans. Comput. Syst. , vol. 3, no. 1, pp. 63–75, 1985. [13] S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. Narasimhan, and Y. Cao, “ReAct: synergizing reasoning and acting in language models,” in Proc. Int. Conf. Learning Representations (ICLR) , 2023; arXiv:2210.03629. [14] Y. Zhang, J. Yang, Z. Jin, U. Sethi, K. Rodrigues, S. Lu, and D. Yuan, “Understanding and detecting software upgrade failures in distributed systems,” in Proc. 28th ACM Symp. Operating Systems Principles (SOSP) ,2021. [15] D. Yuan, Y. Luo, X. Zhuang, G. R. Rodrigues, X. Zhao, Y. Zhang, P. U. Jain, and M. Stumm, “Simple testing can prevent most critical failures: an analysis of production failures in distributed data-intensive systems,” in 
+
+Proc. 11th USENIX Symp. Operating Systems Design and Implementation (OSDI) , 2014. [16] S. Burckhardt, C. Gillum, D. Justo, K. Kallas, C. McMahon, and C. Meiklejohn, “Durable functions: semantics for stateful serverless,” Proc. ACM Program. Lang. , vol. 5, no. OOPSLA, art. 133, 2021. [17] M. Cemri, M. Z. Pan, S. Yang, et al., “Why do multi-agent LLM systems fail?,” arXiv:2503.13657, 2025. [18] C. E. Jimenez, J. Yang, A. Wettig, S. Yao, K. Pei, O. Press, and K. Narasimhan, “SWE-bench: can language models resolve real-world GitHub issues?,” arXiv:2310.06770, 2023. [19] B. H. Sigelman, L. A. Barroso, M. Burrows, P. Stephenson, M. Plakal, D. Beaver, S. Jaspan, and C. Shanbhag, “Dapper, a large-scale distributed systems tracing infrastructure,” Google Technical Report, 2010. [20] Istio Authors, “Istio: connect, secure, control, and observe services,” https://istio.io. Accessed 2026. [21] Linkerd Authors, “Linkerd: a service mesh for Kubernetes,” https:// linkerd.io. Accessed 2026. [22] Envoy Project Authors, “Envoy proxy,” https://www.envoyproxy.io. Accessed 2026. [23] Model Context Protocol, “Specification,” https://modelcontextprotocol.io. Accessed 2026. [24] Temporal Technologies, “Temporal: durable execution,” https://temporal. io. Accessed 2026. [25] Uber, “Cadence: a distributed, scalable, durable workflow orchestrator,” https://cadenceworkflow.io. Accessed 2026. [26] Microsoft, “Durable Functions overview,” https://learn.microsoft.com/ azure/azure-functions/durable/. Accessed 2026.

@@ -1,0 +1,513 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-29T02:33:25.915761+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2608.24275v2",
+      "source": "arxiv",
+      "title": "RePolicy: Reinforcement Learning for Safety-Policy Invocation in Agent Safeguards",
+      "abstract": "Safeguarding language model agents requires assessing complete execution trajectories under context-dependent safety policies. Existing policy-aware safeguards mainly rely on prompting or supervised fine-tuning, limiting their ability to adapt to unseen trajectories and changing policy contexts. We propose RePolicy, an agent safeguard that learns safety-policy invocation through reinforcement learning. Given an agent trajectory and a dynamic policy library, RePolicy invokes the applicable policy and uses its content to produce a policy-grounded rationale and safety judgment. We construct PolicyTraj-20K to support supervised initialization, followed by GRPO with verifiable rewards and policy-context perturbation. Experiments across six agent safety benchmarks show that RePolicy achieves strong overall safety-detection performance and robust policy invocation under varying policy contexts.",
+      "authors": [
+        "Houcheng Jiang",
+        "Boxuan Zhang",
+        "Qiyong Zhong",
+        "Junfeng Fang",
+        "Xiang Wang",
+        "Xiangnan He"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-08-25T09:01:33+00:00",
+      "link": "https://arxiv.org/pdf/2608.24275v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Reinforcement learning-based safeguard invokes safety policies from agent trajectories and makes safety judgments.",
+      "llm_evidence_cn": "基于强化学习的防护机制从智能体轨迹中调用安全策略并作出安全判断。",
+      "llm_evidence": "基于强化学习的防护机制从智能体轨迹中调用安全策略并作出安全判断。",
+      "canonical_evidence": "基于强化学习的防护机制从智能体轨迹中调用安全策略并作出安全判断。",
+      "llm_tldr_en": "RePolicy learns safety-policy invocation via RL; given a trajectory, it selects the applicable policy and produces a grounded safety judgment.",
+      "llm_tldr_cn": "语言模型智能体的安全防护需要根据完整的执行轨迹和上下文相关的安全策略进行判断，而现有基于提示或监督微调的防护方法难以适应未见轨迹和动态策略变化。本文提出RePolicy，通过强化学习学习策略调用，输入轨迹和策略库即可选择适用的安全策略，并输出有依据的安全判定和理由。作者构建PolicyTraj-20K数据集用于监督初始化，再用GRPO算法结合策略上下文扰动进行训练。在六个智能体数据集上的实验表明，RePolicy在未知轨迹和策略变化下的泛化能力显著优于现有方法，为智能体安全防护提供了可扩展的学习范式。",
+      "llm_tldr": "语言模型智能体的安全防护需要根据完整的执行轨迹和上下文相关的安全策略进行判断，而现有基于提示或监督微调的防护方法难以适应未见轨迹和动态策略变化。本文提出RePolicy，通过强化学习学习策略调用，输入轨迹和策略库即可选择适用的安全策略，并输出有依据的安全判定和理由。作者构建PolicyTraj-20K数据集用于监督初始化，再用GRPO算法结合策略上下文扰动进行训练。在六个智能体数据集上的实验表明，RePolicy在未知轨迹和策略变化下的泛化能力显著优于现有方法，为智能体安全防护提供了可扩展的学习范式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.25690v1",
+      "source": "arxiv",
+      "title": "Trust-Aware Sequential Decision Making and Rollout Planning for Resilient Multi-Robot Systems",
+      "abstract": "Sequential decision-making in multi-robot systems typically assumes that planning information is reliable and that agents execute the actions anticipated by the planner. Compromised agents can violate both assumptions, creating a mismatch between the planning model and physical execution. We study this problem in online multi-robot routing under localization spoofing. We introduce a distance-constrained spoofing model for monitor-aware adversaries, together with a tiered bipartite matching strategy that maximizes assignment influence while limiting spoofing magnitude. To mitigate such attacks, we develop a trust-aware monitor that combines probabilistic localization trust, calibrated using real GPS spoofing data, with behavioral evidence from task execution to classify agents and remove detected adversaries from subsequent planning. We further show that undetected adversaries can cause rollout to lose its expected cost-improvement behavior by violating planner-execution consistency. Trust-aware removal restores this consistency after detection, enabling stable routing and recovery of rollout's empirical advantage over the base policy. Experiments using real GPS spoofing datasets and San Francisco taxicab demand demonstrate effective detection and resilient routing across varying spoofing capabilities, adversarial fleet sizes, adaptive attacks, monitoring configurations, and rollout horizons.",
+      "authors": [
+        "Roee M. Francos",
+        "Daniel Garces",
+        "Orhan Eren Akgün",
+        "Nathaniel D. Bastian",
+        "Stephanie Gil"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.RO"
+      ],
+      "published": "2026-08-26T12:09:08+00:00",
+      "link": "https://arxiv.org/pdf/2608.25690v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Trust-aware monitor detects deviations between planned and executed robot trajectories under spoofing attacks.",
+      "llm_evidence_cn": "信任感知监控器检测欺骗攻击下机器人计划与执行轨迹之间的偏差。",
+      "llm_evidence": "信任感知监控器检测欺骗攻击下机器人计划与执行轨迹之间的偏差。",
+      "canonical_evidence": "信任感知监控器检测欺骗攻击下机器人计划与执行轨迹之间的偏差。",
+      "llm_tldr_en": "Proposes a trust-aware monitor combining localization trust and behavioral signals to detect compromised multi-robot agents and maintain resilient routing.",
+      "llm_tldr_cn": "在线多机器人路由中，受损智能体会使实际执行偏离规划模型，造成系统脆弱。本文引入距离约束欺骗模型，并提出一种信任感知监控器，将概率定位信任与行为信号结合，用于检测轨迹偏差和受损节点。同时采用层级二分匹配策略，在限制欺骗影响幅度的前提下最大化任务分配效果。基于真实GPS欺骗数据的校准和实验表明，该方法能有效识别失配并恢复多机器人系统的路径规划韧性。",
+      "llm_tldr": "在线多机器人路由中，受损智能体会使实际执行偏离规划模型，造成系统脆弱。本文引入距离约束欺骗模型，并提出一种信任感知监控器，将概率定位信任与行为信号结合，用于检测轨迹偏差和受损节点。同时采用层级二分匹配策略，在限制欺骗影响幅度的前提下最大化任务分配效果。基于真实GPS欺骗数据的校准和实验表明，该方法能有效识别失配并恢复多机器人系统的路径规划韧性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.25920v1",
+      "source": "arxiv",
+      "title": "Repair or Resample? Rethinking Failure Debugging in LLM Multi-Agent Systems",
+      "abstract": "As large language model (LLM)-based multi-agent systems (MASs) are increasingly applied to long-horizon complex tasks, their reliability has emerged as the core bottleneck hindering their real-world deployment. Existing MAS debugging and repair methods typically rely on rerunning and resampling the entire execution trajectory. However, a fundamental question remains to be answered: do these methods causally repair MAS failures or merely stochastically repair by leveraging the randomness of LLM sampling? To evaluate the effectiveness of MAS repair methods, we introduce SymTrace, a controlled evaluation framework that records the MAS execution trajectory and establishes intervention anchors. During replay, it effectively reconstructs the execution before the anchor using recorded logs and only regenerates the downstream trajectory, thereby enabling the reliable reproduction of MAS failures. We further construct the dataset SymFail, comprising 536 human-annotated failure trajectories with graph-linked locations, categories, and trace evidence. Based on these foundations, we conduct a large-scale empirical study across three mainstream MAS frameworks. Our findings reveal that existing unguided rerun methods are highly unreliable, exhibiting low failure reproduction and repair rates (only 67.97% and 6.90%, respectively). Building upon these findings, we further explore the effectiveness of a symptom-driven intervention method, which successfully repairs 20.15% of the failed cases (a 191.89% improvement to state-of-the-art repair methods). This study aims to provide actionable insights for MAS debugging and repair research, paving the way for the robust deployment of multi-agent systems.",
+      "authors": [
+        "Zhongwen Luan",
+        "Xiaoyu Zhang",
+        "Ming Hu",
+        "Yue Yang",
+        "Jiongchi Yu",
+        "Xiaohong Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-08-26T15:33:47+00:00",
+      "link": "https://arxiv.org/pdf/2608.25920v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Traces MAS execution trajectories and uses intervention anchors to evaluate error repair, directly addressing failure debugging in agent systems.",
+      "llm_evidence_cn": "记录多智能体执行轨迹并设置干预锚点以评估错误修复，直接面向智能体系统的失败调试。",
+      "llm_evidence": "记录多智能体执行轨迹并设置干预锚点以评估错误修复，直接面向智能体系统的失败调试。",
+      "canonical_evidence": "记录多智能体执行轨迹并设置干预锚点以评估错误修复，直接面向智能体系统的失败调试。",
+      "llm_tldr_en": "SymTrace is a controlled evaluation framework that records MAS execution trajectories and uses intervention anchors during replay to distinguish causal repair from stochastic resampling repairs.",
+      "llm_tldr_cn": "LLM多智能体系统在长时程任务中的可靠性是关键瓶颈，但既有修复方法多为重跑和重采样，难以判断是否真正修复。SymTrace通过记录执行轨迹并建立干预锚点，在重放时重构执行过程以区分因果修复与随机修复。该框架为评估MAS失败调试方法提供了受控实验手段。",
+      "llm_tldr": "LLM多智能体系统在长时程任务中的可靠性是关键瓶颈，但既有修复方法多为重跑和重采样，难以判断是否真正修复。SymTrace通过记录执行轨迹并建立干预锚点，在重放时重构执行过程以区分因果修复与随机修复。该框架为评估MAS失败调试方法提供了受控实验手段。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.27141v1",
+      "source": "arxiv",
+      "title": "Safety Does Not Compose: Non-Decaying Loop State for Autonomous LLM Agents",
+      "abstract": "Large language model agents are increasingly deployed as autonomous loops. Starting from one human goal, such a system repeatedly discovers work, plans, executes tool calls, verifies outcomes and persists state across many unattended iterations. The agent safeguards in wide use, however, are defined over a single trajectory, and their safety state is re-initialized when the next trajectory begins. We show that this is a failure of composition rather than an implementation detail. Our central result is a separation: against an attack whose evidence is fragmented across several iterations, every trajectory-scoped monitor has a true-positive rate equal to its false-positive rate, however expressive it is, because the evidence it would need never appears in the window it sees, whereas a monitor retaining cross-iteration state separates the two perfectly. We further show that the obvious repair of carrying a geometrically decaying risk score is insufficient, because the cooling-off period a patient adversary must wait is a constant that does not grow with the horizon $N$. We then present LoopHarness, which restores a persistent, non-decaying safety state at the loop level. Under mediated commits and an arbiter detection floor $δ_M$, it bounds the expected number of unauthorized irreversible actions by $B+m-1+m/δ_M$, a constant in $N$, of which the $B+m-1$ term is decided by a model-free rule and therefore survives a fully colluding verifier. We give a complete evaluation protocol on native Agent-SafetyBench tasks with paired clean and attacked episodes, an outer-state attack suite whose decisive evidence exists only across iterations, per-module ablations, and an adaptive white-box red team.",
+      "authors": [
+        "Chenhao Wu",
+        "Haoxuan Jia",
+        "Yang Liu",
+        "Yingguang Yang",
+        "Yuhan Lin",
+        "Chongyang Zhang",
+        "Hao Zheng",
+        "Yulin Huang",
+        "Jianshen Zhang",
+        "Yongzhi Qi",
+        "Shang Luo",
+        "Kefu Xu",
+        "Jifeng Zhu",
+        "Bin Chong"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-27T13:52:31+00:00",
+      "link": "https://arxiv.org/pdf/2608.27141v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "trajectory-scoped monitors for safety error detection across autonomous loops",
+      "llm_evidence_cn": "面向自主循环的轨迹级监控器，用于安全错误检测",
+      "llm_evidence": "面向自主循环的轨迹级监控器，用于安全错误检测",
+      "canonical_evidence": "面向自主循环的轨迹级监控器，用于安全错误检测",
+      "llm_tldr_en": "This paper proves that trajectory-scoped monitors for autonomous LLM agents fail against attacks whose evidence is fragmented across iterations, requiring non-decaying loop state for composed safety.",
+      "llm_tldr_cn": "针对自主大语言模型智能体以循环方式持续运行、而广泛应用的安全防护仅覆盖单条轨迹的问题，论文证明安全防护存在组合性失败。当攻击证据分散在多次迭代中时，任何轨迹级监控器的真阳性率都等于假阳性率，即使监控器表达力再强也无法检测。该结果说明需要在循环层面维护不衰减的状态才能保证整体安全，对智能体行为监控与错误检测具有重要理论意义。",
+      "llm_tldr": "针对自主大语言模型智能体以循环方式持续运行、而广泛应用的安全防护仅覆盖单条轨迹的问题，论文证明安全防护存在组合性失败。当攻击证据分散在多次迭代中时，任何轨迹级监控器的真阳性率都等于假阳性率，即使监控器表达力再强也无法检测。该结果说明需要在循环层面维护不衰减的状态才能保证整体安全，对智能体行为监控与错误检测具有重要理论意义。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.27348v1",
+      "source": "arxiv",
+      "title": "INTENT-AS-A-TOOL Makes it Easy to Track Agentic Misalignment",
+      "abstract": "As large language models (LLMs) are deployed as autonomous agents, safety failures increasingly involve consequential actions. We study agentic misalignment, where agents take harmful actions under goal conflicts and pressures. Using chain-of-thought (CoT) monitoring, we find that harmful execution is often preceded by intent signals in reasoning. However, post-hoc CoT labels are too coarse to show how intent changes during generation. We introduce INTENT-AS-A-TOOL, an approach that adds intent-targeted tools to give the model a dedicated channel for expressing commitment to a target behavior. The probability of calling an intent tool provides a judge-free, fine-grained signal of the model's tendency to pursue that behavior. Our results show that INTENT-AS-A-TOOL complements CoT monitoring, expands post-hoc CoT labels into dense trajectories, and identifies critical steps for online intervention. These findings suggest that action preferences are useful for tracking agentic misalignment during reasoning. Our code and data are accessible: https://github.com/RebeccaZhang22/intent-as-a-tool.",
+      "authors": [
+        "Yutong Zhang",
+        "Jianshuo Dong",
+        "Peng Xu",
+        "Long Wang",
+        "Jie Zhang",
+        "Tianwei Zhang",
+        "Xiaoping Zhang",
+        "Han Qiu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-08-27T16:47:19+00:00",
+      "link": "https://arxiv.org/pdf/2608.27348v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Tracks agentic misalignment via intent tools, providing a fine-grained signal of harmful behavior in trajectories",
+      "llm_evidence_cn": "通过意图工具追踪智能体失配，在轨迹中提供细粒度的有害行为信号",
+      "llm_evidence": "通过意图工具追踪智能体失配，在轨迹中提供细粒度的有害行为信号",
+      "canonical_evidence": "通过意图工具追踪智能体失配，在轨迹中提供细粒度的有害行为信号",
+      "llm_tldr_en": "INTENT-AS-A-TOOL adds intent-targeted tools to give LLM agents a dedicated channel for expressing commitments, enabling judge-free, fine-grained monitoring of harmful behavior in agent trajectories.",
+      "llm_tldr_cn": "大模型智能体部署中常出现目标冲突下的有害行为，即智能体失配。现有事后思维链标注过粗，难以捕捉生成过程中的意图变化。提出INTENT-AS-A-TOOL方法，为模型增加意图目标工具，通过工具调用概率提供无需判别的细粒度偏离信号。实验表明该方法能有效追踪有害行为倾向，为监控智能体轨迹中的错误提供新手段。",
+      "llm_tldr": "大模型智能体部署中常出现目标冲突下的有害行为，即智能体失配。现有事后思维链标注过粗，难以捕捉生成过程中的意图变化。提出INTENT-AS-A-TOOL方法，为模型增加意图目标工具，通过工具调用概率提供无需判别的细粒度偏离信号。实验表明该方法能有效追踪有害行为倾向，为监控智能体轨迹中的错误提供新手段。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.25777v1",
+      "source": "arxiv",
+      "title": "LocalLSTC: A Long Short-Term Control Architecture for Locally Deployed GUI Agents",
+      "abstract": "Modern GUI-agent frameworks achieve strong desktop task performance with frontier API models, yet persistent control information often remains implicit in growing interaction trajectories. At each step, the planner reconstructs the active task stage, accumulated evidence, and runtime feedback before deciding the next action. This dependence becomes more pronounced under weaker local reasoning backbones. Across four representative state-of-the-art frameworks, replacing GPT-5 with Qwen3.5-9B reduces average OSWorld SR-100 from 60.9\\% to 37.7\\%. Trajectory annotation further identifies at least one control failure in 91.6\\% of failed trajectories. To address this problem, we introduce LocalLSTC, a training-free architecture that organizes control by temporal scope, maintaining persistent cross-step state to guide short-term execution commitments. Long-Term Control maintains the active subgoal, subgoal-aligned evidence, and runtime feedback across interactions, while Short-Term Execution realizes bounded commitments for the current step. Long-to-Short Planning forms each commitment from persistent state, and Short-to-Long Control integrates execution outcomes back into that state for progress assessment, recovery, and termination. With Qwen3.6-27B, LocalLSTC reaches 64.7\\% SR-100 on OSWorld and 65.3\\% on WindowsAgentArena, outperforming the strongest prior local results on both benchmarks. Ablations further support contributions from mechanisms on both sides of execution. These findings identify temporal organization of control information as a distinct architectural dimension for locally deployed GUI agents.",
+      "authors": [
+        "Weiming Li",
+        "Helen Paik",
+        "Yulei Sui"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-26T13:20:27+00:00",
+      "link": "https://arxiv.org/pdf/2608.25777v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Trajectory annotation identifies control failures in failed GUI agent runs",
+      "llm_evidence_cn": "轨迹标注识别出失败GUI智能体运行中的控制错误",
+      "llm_evidence": "轨迹标注识别出失败GUI智能体运行中的控制错误",
+      "canonical_evidence": "轨迹标注识别出失败GUI智能体运行中的控制错误",
+      "llm_tldr_en": "LocalLSTC organizes persistent control information in GUI agent trajectories to reduce control failures; trajectory annotation reveals 91.6% of failed runs contain at least one control failure, motivating a training-free control architecture.",
+      "llm_tldr_cn": "现代GUI智能体框架在任务过程中通常依赖隐式轨迹信息来重构控制状态，这导致控制信息不持久，且在与较弱本地推理模型结合时失败率大幅上升。通过轨迹标注发现91.6%的失败轨迹至少存在一次控制失败。为此提出LocalLSTC，一种无需训练的长短时控制架构，显式组织轨迹中的长期控制信息来辅助每一步决策，从而降低控制失败并提升本地推理下的任务成功率。该结果表明轨迹中控制信息的持久化是改善GUI智能体可靠性的关键。",
+      "llm_tldr": "现代GUI智能体框架在任务过程中通常依赖隐式轨迹信息来重构控制状态，这导致控制信息不持久，且在与较弱本地推理模型结合时失败率大幅上升。通过轨迹标注发现91.6%的失败轨迹至少存在一次控制失败。为此提出LocalLSTC，一种无需训练的长短时控制架构，显式组织轨迹中的长期控制信息来辅助每一步决策，从而降低控制失败并提升本地推理下的任务成功率。该结果表明轨迹中控制信息的持久化是改善GUI智能体可靠性的关键。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.22678v1",
+      "source": "arxiv",
+      "title": "RACO: Reliability-Aware Coarse-Goal Optimization for Inspection-Oriented UAV Vision-Language Navigation",
+      "abstract": "UAV vision-language navigation (UAV-VLN) is commonly evaluated as goal reaching, but inspection-oriented deployment requires the agent to stop within a valid inspection region and avoid falsely confirming visually or semantically similar distractors. This requirement exposes a key weakness in existing coarse-to-fine UAV-VLN policies: the coarse goal predicted before local refinement is often treated as reliable, although it may drift toward plausible but incorrect object regions and limit the ability of the local stage to recover. To systematically evaluate this problem, we introduce LG-UVI, an object-centric inspection evaluation setting derived from CityNav/CityRefer. LG-UVI extends standard UAV-VLN episodes with target objects, hard distractors, type-aware inspection regions, and diagnostics for inspection-region arrival and object-level confirmation. To address this inspection-oriented setting, we further propose RACO, a reliability-aware adaptive coarse-to-fine navigation framework. Instead of treating the predicted coarse goal as a fixed waypoint, RACO views it as a runtime hypothesis and uses object-level candidate anchors to check and correct coarse localization before Stage 1 and at the Stage 1-to-Stage 2 boundary. RACO also applies scale-adaptive terminal refinement to handle terminal near-miss cases using runtime-observable geometric and anchor-based evidence. Under a unified online evaluation protocol, RACO improves SR over the reproduced HETT baseline by 9.53 and 7.98 percentage points on validation-unseen and test-unseen, respectively. It also improves inspection-region arrival and reduces false verification risk, showing that coarse-goal reliability optimization is an effective complement to existing coarse-to-fine UAV-VLN policies.",
+      "authors": [
+        "Sen Wang",
+        "Yiming Sun",
+        "Jiaxuan He",
+        "Pengfei Zhu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-08-24T00:32:51+00:00",
+      "link": "https://arxiv.org/pdf/2608.22678v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "detecting coarse-goal drift and false confirmation in UAV navigation agent trajectories",
+      "llm_evidence_cn": "检测UAV导航智能体轨迹中粗粒度目标漂移与错误确认",
+      "llm_evidence": "检测UAV导航智能体轨迹中粗粒度目标漂移与错误确认",
+      "canonical_evidence": "检测UAV导航智能体轨迹中粗粒度目标漂移与错误确认",
+      "llm_tldr_en": "Introduces LG-UVI, an object-centric inspection evaluation setting, and RACO, a reliability-aware coarse-goal optimization that prevents coarse goals from drifting to incorrect regions in UAV vision-language navigation.",
+      "llm_tldr_cn": "无人机视觉语言导航的粗粒度目标常被当作可靠信号，但可能漂移到相似干扰物体上，导致错误确认。作者提出对象中心检查评估集LG-UVI和可靠性感知粗目标优化方法RACO，在局部细化前评估粗目标的可靠性并纠正。实验表明RACO显著减少了导航轨迹中的虚假确认。该工作为检测和纠正智能体路径偏差提供了新思路。",
+      "llm_tldr": "无人机视觉语言导航的粗粒度目标常被当作可靠信号，但可能漂移到相似干扰物体上，导致错误确认。作者提出对象中心检查评估集LG-UVI和可靠性感知粗目标优化方法RACO，在局部细化前评估粗目标的可靠性并纠正。实验表明RACO显著减少了导航轨迹中的虚假确认。该工作为检测和纠正智能体路径偏差提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting path deviations in agent trajectories",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.26237v1",
+      "source": "arxiv",
+      "title": "How Do LLM Agents Actually Get the Flag? Trace-Level Provenance for Agentic Offensive Security Evaluation",
+      "abstract": "Capture-the-Flag (CTF) benchmarks are widely used to assess the offensive security capabilities of autonomous language-model agents. Evaluations rely on shallow binary judgments or aggregate scores, overlooking the agent's trajectory to the flag. Consequently actual exploitation is conflated with direct flag exposure, memorized recall, external lookup, guessing, and unsupported claims, potentially overstating the agent's cybersecurity capability. We introduce CTF-ABACUS, a trace-based agent auditing framework that reconstructs each run as an evidence-grounded solve profile. By decomposing agent actions into penetration-testing phases and categorical techniques, it identifies where exploitation occurs, where the flag first appears, and whether the recovered flag is supported by demonstrated behavior. Aggregating solve profiles across agents yields challenge signatures that reveal whether success was achieved via the intended exploit or via shortcut pathways. We apply CTF-ABACUS to 1,435 CTF attempts by six frontier and open-source models on 240 challenges, yielding 2,870 solve profiles under two judge lenses. Trace-verified exploits account for only 62-87% of recovered flags across benchmarks, while shortcut recoveries follow substantially shallower trajectories. These findings shift CTF evaluation from counting recovered flags to verifying demonstrated exploitation and provide a basis for designing benchmarks that better isolate the offensive capabilities.",
+      "authors": [
+        "Kimberly Milner",
+        "Minghao Shao",
+        "Nanda Rani",
+        "Haoran Xi",
+        "Venkata Sai Charan Putrevu",
+        "Meet Udeshi",
+        "Sandeep K. Shukla",
+        "Prashanth Krishnamurthy",
+        "Farshad Khorrami",
+        "Muhammad Shafique",
+        "Ramesh Karri"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-26T17:50:34+00:00",
+      "link": "https://arxiv.org/pdf/2608.26237v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Trace-level auditing decomposes agent trajectories to identify unsupported guesses and actual exploitation.",
+      "llm_evidence_cn": "轨迹级审计分解智能体轨迹，识别无依据猜测与实际利用行为。",
+      "llm_evidence": "轨迹级审计分解智能体轨迹，识别无依据猜测与实际利用行为。",
+      "canonical_evidence": "轨迹级审计分解智能体轨迹，识别无依据猜测与实际利用行为。",
+      "llm_tldr_en": "CTF-ABACUS reconstructs agent runs as evidence-grounded profiles, decomposing actions into phases to expose unsupported claims and unsupported trajectory steps.",
+      "llm_tldr_cn": "现有CTF评估依赖二元结果或聚合分，忽略了智能体到flag的轨迹细节，难以区分真实利用与直接暴露、记忆召回、外部查找或猜测。本文提出CTF-ABACUS轨迹级审计框架，将每次运行重建为证据化的求解档案，按渗透测试阶段和技术类别分解智能体动作。实验表明，该框架能精确识别实际利用发生的位置，并剔除无依据的声称，从而防止对智能体网络安全能力的高估，为智能体攻防评估提供了更细粒度的轨迹溯源方法。",
+      "llm_tldr": "现有CTF评估依赖二元结果或聚合分，忽略了智能体到flag的轨迹细节，难以区分真实利用与直接暴露、记忆召回、外部查找或猜测。本文提出CTF-ABACUS轨迹级审计框架，将每次运行重建为证据化的求解档案，按渗透测试阶段和技术类别分解智能体动作。实验表明，该框架能精确识别实际利用发生的位置，并剔除无依据的声称，从而防止对智能体网络安全能力的高估，为智能体攻防评估提供了更细粒度的轨迹溯源方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.24937v1",
+      "source": "arxiv",
+      "title": "Multi-Modal Anomaly Detection: A Survey",
+      "abstract": "Multi-Modal Anomaly Detection (MMAD) detects rare abnormal events from heterogeneous data sources and is increasingly used in safety- and reliability-critical applications such as industrial inspection and cybersecurity. Yet the literature is fragmented across domains and modality combinations, and existing surveys usually group methods by architecture rather than by how abnormality is defined and separated in multi-modal settings. We survey MMAD from an assumption-driven perspective. We formalize the problem, identify five intrinsic characteristics underlying its core challenges, and organize prior work into two complementary paradigms. The first, normality-assumption methods, models regularity via representation learning, cross-modal alignment, and knowledge enhancement. The second, anomaly-assumption methods, sharpens decision boundaries through coarse-grained, structural, and semantic anomaly injection. We also investigate how foundation models are reshaping MMAD through scalable pretraining, flexible cross-modal transfer, and emerging reasoning capabilities. Finally, we compile representative benchmarks and evaluation protocols across domains and highlight open problems and future directions for robust, adaptive, and interpretable MMAD systems.",
+      "authors": [
+        "Xudong Mou",
+        "Zexin Wu",
+        "Chuan Luo",
+        "Shiru Chen",
+        "Xudong Liu",
+        "Chunming Hu",
+        "Renyu Yang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-24T01:53:22+00:00",
+      "link": "https://arxiv.org/pdf/2608.24937v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Survey of anomaly detection methods transferable to trajectory anomaly detection",
+      "llm_evidence_cn": "综述多模态异常检测方法，可迁移至轨迹异常检测",
+      "llm_evidence": "综述多模态异常检测方法，可迁移至轨迹异常检测",
+      "canonical_evidence": "综述多模态异常检测方法，可迁移至轨迹异常检测",
+      "llm_tldr_en": "Surveys multi-modal anomaly detection from an assumption-driven perspective, categorizing methods into normality-assumption and deviation-based paradigms, offering transferable techniques for agent trajectory monitoring.",
+      "llm_tldr_cn": "针对多模态异常检测文献碎片化的问题，本文从假设驱动角度系统梳理现有方法，划分为正态性假设和偏差检测两大范式，并形式化问题、归纳五个核心挑战。该综述为将通用异常检测技术应用于Agent轨迹异常识别提供了系统的方法论参考。",
+      "llm_tldr": "针对多模态异常检测文献碎片化的问题，本文从假设驱动角度系统梳理现有方法，划分为正态性假设和偏差检测两大范式，并形式化问题、归纳五个核心挑战。该综述为将通用异常检测技术应用于Agent轨迹异常识别提供了系统的方法论参考。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.25711v1",
+      "source": "arxiv",
+      "title": "Reassembling Distributed Risk: Trajectory-Conditioned Action Generation for Multi-Turn Agent Safety",
+      "abstract": "Tool-using LLM agents extend security risks beyond generated text to actions that affect external systems. Under multi-turn decomposition attacks, a harmful objective can be distributed across individually plausible requests and tool calls, becoming apparent only from the accumulated trajectory. Existing defenses either rely on auxiliary online reasoning to recover long-horizon security evidence or assess actions after generation, often incurring additional inference cost or depending on runtime-specific action representations.   We propose \\emph{Reassembling Distributed Risk} (ReDiR), a generation-time defense that conditions action generation on trajectory-level security evidence. Before each action, ReDiR compresses the current trajectory into a compact latent safety representation and injects it into the frozen base model. The representation is learned through same-model, cross-view supervision, where safe behavior from an explicit task view provides supervision for recovering distributed safety evidence from the original multi-turn trajectory. This design enables ReDiR to integrate cross-turn security information directly within the generation process without relying on a separate action-level safety module. We evaluate ReDiR on two agent-safety benchmarks across three model families and eight held-out tool domains. ReDiR reduces attack success rates to below 8\\%, transfers to unseen tool domains, and preserves benign fidelity with low computational overhead.",
+      "authors": [
+        "Yanbo Dai",
+        "Zhenlan Ji",
+        "Zongjie Li",
+        "Shuai Wang"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR"
+      ],
+      "published": "2026-08-26T12:28:35+00:00",
+      "link": "https://arxiv.org/pdf/2608.25711v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Trajectory-conditioned action generation to mitigate multi-turn security risks in agent trajectories.",
+      "llm_evidence_cn": "基于轨迹级安全证据的条件动作生成，用于缓解多轮智能体轨迹中的安全风险。",
+      "llm_evidence": "基于轨迹级安全证据的条件动作生成，用于缓解多轮智能体轨迹中的安全风险。",
+      "canonical_evidence": "基于轨迹级安全证据的条件动作生成，用于缓解多轮智能体轨迹中的安全风险。",
+      "llm_tldr_en": "ReDiR compresses trajectory-level security evidence to condition action generation, preventing distributed harmful actions in multi-turn LLM agents.",
+      "llm_tldr_cn": "针对多轮分解攻击中危害目标被分散到多个看似合理的请求和工具调用、只有从累积轨迹中才能识别的安全风险，本文提出生成期防御方法ReDiR。ReDiR在每个动作前将轨迹级安全证据压缩为条件信号，并基于该信号重新生成动作，避免执行有害步骤。该方法不需要额外的在线推理开销，也不依赖特定运行时的动作表示。实验表明ReDiR能有效降低多轮分解攻击的成功率，为工具型LLM智能体提供了一种轻量级且具有泛化能力的安全防御方式。",
+      "llm_tldr": "针对多轮分解攻击中危害目标被分散到多个看似合理的请求和工具调用、只有从累积轨迹中才能识别的安全风险，本文提出生成期防御方法ReDiR。ReDiR在每个动作前将轨迹级安全证据压缩为条件信号，并基于该信号重新生成动作，避免执行有害步骤。该方法不需要额外的在线推理开销，也不依赖特定运行时的动作表示。实验表明ReDiR能有效降低多轮分解攻击的成功率，为工具型LLM智能体提供了一种轻量级且具有泛化能力的安全防御方式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.26225v1",
+      "source": "arxiv",
+      "title": "Agent Mesh: Reliability Primitives for Non-Idempotent Agent Delegation - Identity Adequacy and Evidence Adequacy",
+      "abstract": "Autonomous agents increasingly perform bounded software tasks under an orchestrator that retries, resumes, and budgets them. The machinery such orchestrators reach for is the service mesh's: retry, timeout, and error-rate circuit breaking. We report a failure study of a production agentic software-delivery platform over 147 numbered incidents spanning 81 runs, each with a measured cost and, in most cases, a mutation proof reproducing the failure. All three assumptions those primitives rest on are violated in practice, and we quantify the consequences: a loop of fifty-four consecutive successful tool calls no error-rate breaker could see; a progress signal constant by construction, guaranteeing a false trip on the third repair round and driving one run from six of six components to three; twenty-one events accumulated across six invocations of one delegation, making a correct, idempotent component unwinnable; a misrouted failure that woke five components for a two-component fault, leaving three bystanders regressing working code; and twelve incidents in which the enforcement layer blocked correct work, the most expensive costing 107 agent turns and zero accepted writes. We find one cross-cutting cause and its dual. Identity adequacy: in five separate subsystems an identity that failed to discriminate produced a confident wrong answer, and two of them derived the corrective rule independently. Evidence adequacy: a reliability decision may be taken only on evidence capable of moving, attributable to what it measures, and deterministic under identical conditions. From the findings we derive seven reliability primitives whose enforcement unit is the delegation rather than the message, and specify the controlled evaluation the study motivates but does not constitute.",
+      "authors": [
+        "Mazhar Shaikh",
+        "Anurag Rajkumar Bombarde",
+        "Harshal Pathak"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.DC",
+        "cs.MA",
+        "cs.SE"
+      ],
+      "published": "2026-08-26T15:38:21+00:00",
+      "link": "https://arxiv.org/pdf/2608.26225v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Failure study of production agentic platform, proposing reliability primitives to detect inadequate delegation evidence",
+      "llm_evidence_cn": "对生产智能体平台进行故障研究，提出可靠性原语检测委托证据不足",
+      "llm_evidence": "对生产智能体平台进行故障研究，提出可靠性原语检测委托证据不足",
+      "canonical_evidence": "对生产智能体平台进行故障研究，提出可靠性原语检测委托证据不足",
+      "llm_tldr_en": "Agent Mesh analyzes 147 incidents in a production agentic platform, showing why retry/timeout/error-rate breakers fail for non-idempotent delegation, and introduces identity adequacy and evidence adequacy as reliability primitives.",
+      "llm_tldr_cn": "生产环境中的自治智能体在编排器控制下执行软件任务，但传统重试、超时和错误率熔断机制对非幂等委托并不适用。Agent Mesh报告了147起事故，量化了这些原语假设如何被违反，例如连续成功调用可绕过错误率熔断，并提出身份充分性与证据充分性两个可靠性原语，用于检测和防止错误委托。",
+      "llm_tldr": "生产环境中的自治智能体在编排器控制下执行软件任务，但传统重试、超时和错误率熔断机制对非幂等委托并不适用。Agent Mesh报告了147起事故，量化了这些原语假设如何被违反，例如连续成功调用可绕过错误率熔断，并提出身份充分性与证据充分性两个可靠性原语，用于检测和防止错误委托。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.26530v1",
+      "source": "arxiv",
+      "title": "PILOT in the Loop: Live Self-Improvement for Long-Horizon Agents",
+      "abstract": "Long-horizon agent runs generate experience that can improve both the current run and future work. Most self-improvement methods process this experience only after execution ends, so they cannot redirect the active run or immediately apply and validate lessons learned from it. We argue that self-improvement should instead be live, using emerging experience both to redirect the active run and to update the persistent harness. Existing agent architectures do not fully support this goal. Single-agent self-correction combines task execution and trajectory assessment within one context, while subagent delegation separates execution but typically cannot redirect an active subagent. We present PILOT, a supervisor-worker harness for live self-improvement through two coupled mechanisms: (1) live steering lets a separate supervisor redirect or abort the active worker during execution; and (2) live self-evolution distils procedures and failure modes revealed during execution into reusable skills and memory. Across two frozen backbones and three benchmarks, PILOT ranks first in five of six configurations. On Terminal-Bench 2.0, PILOT outperforms counterpart harnesses by up to 9.8 percentage points. In the self-improvement setting, PILOT gains 14.6 points with GLM-5.1 and 12.4 points with Kimi-K2.6. Mean output tokens fall by 42.9% and 47.4%, while successful evaluations per million output tokens rise by 110.3% and 134.0%, respectively.",
+      "authors": [
+        "Yang Xiao",
+        "Yusong Sun",
+        "Haoyi Wu",
+        "Wenyang Hui",
+        "Wen Da",
+        "Zhaokai Luo",
+        "Mu Chuan",
+        "Yao Hu",
+        "Wenjie Li",
+        "Chengyue Jiang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-27T02:06:22+00:00",
+      "link": "https://arxiv.org/pdf/2608.26530v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Live trajectory assessment and redirection of long-horizon agent runs, supporting error and inefficiency detection during execution.",
+      "llm_evidence_cn": "在线评估并重定向长时程智能体轨迹，支持在执行中检测错误与低效环节。",
+      "llm_evidence": "在线评估并重定向长时程智能体轨迹，支持在执行中检测错误与低效环节。",
+      "canonical_evidence": "在线评估并重定向长时程智能体轨迹，支持在执行中检测错误与低效环节。",
+      "llm_tldr_en": "Proposes PILOT, a live self-improvement harness that assesses long-horizon agent trajectories during execution to redirect the current run and update future behavior, reducing reliance on post-hoc processing.",
+      "llm_tldr_cn": "长时程智能体运行中产生的经验大多在结束后才被利用，难以及时纠偏。本文提出PILOT，一种监督者-工作者架构的在线自改进框架，在执行中评估轨迹并实时重定向当前运行，同时将经验更新到持久化辅助系统。初步实验表明该机制能提升长时程任务表现，为实时轨迹监控与纠错提供新思路。",
+      "llm_tldr": "长时程智能体运行中产生的经验大多在结束后才被利用，难以及时纠偏。本文提出PILOT，一种监督者-工作者架构的在线自改进框架，在执行中评估轨迹并实时重定向当前运行，同时将经验更新到持久化辅助系统。初步实验表明该机制能提升长时程任务表现，为实时轨迹监控与纠错提供新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
