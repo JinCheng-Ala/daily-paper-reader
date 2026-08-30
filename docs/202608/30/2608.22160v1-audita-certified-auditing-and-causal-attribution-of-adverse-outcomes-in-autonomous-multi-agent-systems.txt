@@ -1,0 +1,852 @@
+Title: AUDITA: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems
+
+URL Source: https://arxiv.org/pdf/2608.22160v1
+
+Published Time: Tue, 25 Aug 2026 00:53:36 GMT
+
+Number of Pages: 44
+
+Markdown Content:
+# Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Zhixu Du 1,∗∗, Yiran Chen 11Department of Electrical and Computer Engineering, Duke University, Durham, North Carolina, USA 
+
+# Abstract 
+
+Physical automation is scaling toward fleets of embodied machines commanded by an AI brain. Early deployments already run factories and warehouses at production rates beyond any human line, and their adoption is accelerating. But when their joint decisions cause harm, everyone involved has reason to blame everyone else, the machine vendor, the algorithm provider, the factory operator, the insurer, and the regulator, and no method can divide the responsibility between them. Existing methods read logs whose origin they cannot verify and name a single culprit, misrepresenting outcomes that are overdetermined, preempted, or caused by an omission. We present Audita, an audit layer pairing a tamper-evident record of every inter-agent command with a certified, graded causal-attribution engine. We prove its verdict cannot be gamed: a rule-following agent can never be made to look guilty, an attempt to shift blame is itself caught and graded, and we establish the exact limit of what an evidence-based auditor can certify. On live language-model pipelines it reduces the standard judge baseline’s responsibility error roughly threefold; on a benchmark of accident-grounded structures it recovers responsibility where single-culprit baselines fail, and stays invariant under forgery. Audita turns the question of who is to blame from an argument about logs into a calculation over evidence. 
+
+# 1. Introduction 
+
+The coming operating model for physical automation is an AI brain commanding fleets of embodied machines. Language-model planners already ground instructions into robot actions 1,2 , vision-language-action models put general-purpose control onto physical platforms 3,4 , foundation models target one brain commanding many bodies 5, and orchestration frameworks wire specialised agents into pipelines that plan, delegate, execute, and verify 6,7 . As these collectives enter fabrication cells, warehouses, and shared public spaces, their joint decisions carry physical and economic consequence: a mistimed handoff can injure a worker, and a hallucinated instruction can propagate through three delegations before any actuator moves. When such an adverse outcome occurs, a specific question follows, asked by the operator deciding what to fix, the insurer pricing the loss, the regulator demanding an account, and the vendor whose component stands accused: which agents, through which commands, bear how much of the responsibility, and which are demonstrably innocent? Today that question has no defensible answer. Execution logs exist for debugging. Nothing in them proves origin, order, or completeness once liability is at stake. Regulation sharpens the demand into an obligation: the European Union’s AI Act requires high-risk systems to record events so that operation can be traced and audited 8, and collaborative-robot standards presume incidents can be reconstructed 9,10 . What the obligation lacks is a mechanism. 
+
+> ∗Correspondence E-mail: zhixu.du@duke.edu arXiv:2608.22160v1 [cs.AI] 23 Aug 2026
+
+Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems Research attention has recently turned to the attribution half of the problem. The Who&When benchmark formalised failure attribution for multi-agent systems and found the best judge-style methods reach only 53 .5% agent-level and 14 .2% step-level accuracy 11 ; a taxonomy showed that much failure lies in inter-agent coordination rather than any single model 12 . Trained attributors inject and replay faults 13 , step-level counterfactual scoring converts failures into validated repairs 14 , and replay engines validate an estimator against synthetic ground truth 15 . Concurrent work argues that agent systems cannot be accountable without an auditability layer and maps its requirement dimensions 16 (a full survey is in the Supplementary Information). Beneath this progress sit two structural absences. First, an evidence layer . Every method operates on logs it must take on faith: nothing binds authorship, order, or completeness, so the output inherits the corruptibility of its input, and in any setting with liability at stake the records will be contested. Second, causal semantics that match how blame behaves : attribution targets a single culprit, but adverse outcomes are routinely overdetermined (two commands, either sufficient), preempted (the blamed command’s effect never arrived), or caused by omission (a supervisor who never issued the required halt), and responsibility is then a matter of degree, not a pointer. A century of legal doctrine 17,18 and two decades of formal work on actual causality 19–21 treat exactly these structures; the attribution literature for agent systems has yet to absorb them. We present Audita (Figure 1), an audit layer that closes both gaps and couples them, so the causal analysis is computed only over evidence that survives verification. Every inter-agent message is signed by its author, cites the messages it acts on, and is sealed into an append-only, Merkle-committed record 22–24 , which makes authorship, order, and completeness cryptographically checkable. Any declared predicate over the world or the work product triggers the audit, so the same machinery handles an injury and a ruined batch. A production-gated causal test scores each principal by counterfactual dependence under the modified Halpern–Pearl definition 20 , returning a responsibility degree 𝜌 ∈ [ 0, 1] 21 that handles redundancy, preemption, and omission natively; every reported cause is re-executed under intervention 25 , so claims arrive with verification receipts. A negligence-structured verdict separates duty, breach, causation, and harm 17 , and reports a graded, evidence-linked account intended as an input to human and legal judgment, not a substitute. The composition carries a package of guarantees we prove under three explicit, standard assumptions (Methods): a replayable stack, a recorded channel, and sound key custody, meaning keys are never stolen while the insiders holding them may be arbitrarily malicious. Involvement can be manufactured against a compliant principal, but culpability cannot, because every culpability finding is witnessed by the accused’s own certified conduct violating a declared duty (Theorem 1); a coalition that shifts blame onto a compliant principal is itself named and graded by a machine-checkable certificate (Theorem 2), a guarantee that persists at every meta-order (Theorem 5); destroying evidence cannot silently exonerate a certified culprit (Theorem 3); and a completeness barrier bounds what any record-confined auditor can certify (Theorem 4). We evaluate Audita under a pre-registered protocol on two registers: live language-model multi-agent pipelines solving GSM8K 26 , where it cuts judge attribution error roughly threefold; and a benchmark of physical incident structures grounded in public robot-accident records, where it recovers planted responsibility exactly, refuses to blame anyone on genuine accidents where judges always name someone, and holds its verdict invariant under record forgery. Audita audits the event , not the model: it answers, for a concrete adverse outcome, who did what, whether it mattered, and to what degree, with evidence that would survive a hostile audience. We argue this layer is a precondition for autonomous collectives operating anywhere accountability is demanded. 2Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Evidence layer: a public, verifiable command record                                                     
+
+> machine fleet commands sensor data
+> LLM
+> planner
+> LLM
+> solver
+> LLM
+> solver
+> LLM
+> aggregator
+> AI brain: one controller, many LLMs
+> signed commands prev # ·root 𝜎
+> m45 planner →agv 2move(aisle 2) m46 agv 2→arm 1pick(crate 7) m47 checker →agv 2halt
+> epoch 𝑡
+> prev # ·root 𝜎
+> m42 planner →agv 1move(dock) m43 agv 1→arm 2pick(bin 4) m44 verifier →planner report ok
+> 𝑡 −1
+> prev # ·root 𝜎
+> m39 planner →arm 2align m40 arm 2→planner done m41 checker →arm 2resume
+> 𝑡 −2
+> each header cites the previous hash append-only, Merkle-sealed command record
+> every message 𝑚 =(𝑎, 𝜋, 𝐶, 𝜑, 𝜎 )signed by its author (Definition 1)
+> machine vendor algorithm provider factory operator insurer regulator any party can verify; none can rewrite
+
+Causal layer: one investigation, end to end 
+
+Adverse outcome 
+
+declared 
+
+predicate 
+
+𝑌 =1
+
+1. Slice + integrity partition   
+
+> certified suspect missing
+
+2. Production gate 
+
+keep intact 
+
+certified paths 3. Two-layer engine 
+
+propose (𝑋 ∗, 𝑊 ∗)
+
+certify by replay 
+
+4. Graded verdict (per principal)      
+
+> planner 𝑎 1
+> planner 𝑎 2
+> checker duty! operator bars: 𝜌 + interval; teal: omission
+
+every bar links back to its certified evidence sub-graph 
+
+> an incident triggers a backward slice across all sealed epochs
+
+Figure 1 | Audita’s two layers. Top, evidence layer. An AI brain, one controller running many language models (a planner, parallel solvers, an aggregator), commands a machine fleet and receives its sensor data. Every inter-agent command is a signed message 𝑚 = (𝑎, 𝜋, 𝐶, 𝜑, 𝜎 ), author, payload, citations, committed effect, signature, appended with its delivery receipt to a public record in the blockchain sense (Definition 1). An epoch is a fixed window of this message stream: at its close the recorder signs the Merkle root over the window’s messages and chains it to the previous block’s hash, so the record is append-only and tamper-evident. The blocks show illustrative episodes of one shift (agv, an automated guided vehicle; arm, a manipulator arm): in the newest block the planner routes an AGV, the AGV hands a crate to an arm, and the checker issues a halt; the sealed blocks hold earlier, already-committed windows. The machine vendor, the algorithm provider, the factory operator, the insurer, and the regulator all hold the same root: any party can verify the record, and none can rewrite it. Bottom, causal layer. A declared adverse outcome 𝑌 =1 triggers a backward slice of the entire sealed record, reaching across epochs to every certified message with a citation path into the outcome; each message in the slice is coloured by the verification partition (certified, suspect, missing). The production gate keeps only messages with an intact certified path into the outcome. Surviving candidates enter the two-layer engine (Extended Data Fig. 2), which proposes minimal cause–witness sets and certifies them by counterfactual replay. The output is a graded verdict per principal: duty and breach findings, a responsibility interval [𝜌, 𝜌 ] with verification receipts, and conduit or exoneration flags, with every bar linked to the certified sub-graph that justifies it. Suspect and missing evidence widens intervals but, by Proposition 3, can never raise the involvement bound of a fully certified principal; and by Theorem 1, culpability additionally requires that principal’s own certified breach. 
+
+# Results 
+
+We evaluate Audita on two families of multi-agent failures. The first is a live corpus, a language-model multi-agent pipeline solving public GSM8K problems 26 whose failures arise from real model behaviour; the second is a library of physical incident structures in a deterministic multi-robot facility whose responsibility ground truth is computed by exact counterfactual re-execution. Across both we compare Audita against the field’s 3Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems                                     
+
+> Table 1 |Attribution error on live multi-agent failures (GSM8K pipeline; responsibility error against duty-aware Chockler–Halpern ground truth; mean over 𝑛 =145 adverse incidents; lower is better). Baselines are the LLM judge of the Who&When benchmark, our implementation of CAR / CausalFlow single-site scoring, and Shapley-value attribution. Audita appears in three variants that differ only in what the verdict uses: causal-only ablates the duty layer and reports graded causation alone; full is the complete duty–breach–causation verdict, with a breach standard permitted to consult the gold answer (gold-informed); deployable is the same verdict under a breach standard that reads no answer key, the variant that can run in production. Errors are mean ±s.d. of the corpus-level mean across the three independently generated corpora. Paired reduction of Audita (full) over the judge: 0 .418 (95% CI [− 0.445 ,−0.391 ]). Method Responsibility error ↓
+> LLM judge (field baseline) 11 0.589 ±0.017 CAR / CausalFlow (single-site) 14,15 0.408 ±0.020 Shapley-value attribution 27 0.223 ±0.042 Audita causal-only (duty layer ablated) 0.408 ±0.020 Audita (full, gold-informed) 0.170 ±0.035 Audita (deployable, no answer key) 0.159 ±0.030
+
+attribution baselines: the large-language-model judge in the three formats of the Who&When benchmark 11 ,single-site counterfactual scoring as published in CAR and CausalFlow 14,15 , Shapley-value attribution 27 , and a statistical anomaly detector. The primary metric is responsibility error, the ℓ1 distance between the reported and the true graded responsibility profile (lower is better); on the external Who&When benchmark we additionally report that benchmark’s own agent- and step-accuracy. 
+
+Attribution on live multi-agent failures 
+
+The first question is whether Audita attributes real failures better than the methods the field currently uses. A four-role pipeline, a planner, three parallel solvers, an aggregator that carries a declared normative duty, and a verifier, solves GSM8K problems; three independently generated corpora (480 cases each, one development corpus and two holdouts) supply the incidents, with disclosed fault injection calibrated to the empirical multi-agent failure taxonomy 12 and replay-verified labels. Re-deriving ground truth from causal structure rather than from injection bookkeeping produces this corpus’s first, and unexpected, finding, which refuted our registered prediction. We predicted that joint causation would account for 28–42% of single-fault incidents. Instead, under duty-aware graded ground truth, 95–98% of adverse incidents (56 /57, 43 /47, 39 /41 across the three corpora) are joint solver–aggregator incidents, and not one is the monotone single-culprit structure the field’s metric presumes. An aggregator holding a declared duty is a but-for co-cause of nearly every adverse outcome that duty would have prevented, so the single-culprit label, which names only the erring solver, discards a co-cause in almost every incident. The field’s own benchmark shows the same pattern: in 58 .7% of Who&When traces a duty-bearing role (a verifier or orchestrator, by the benchmark authors’ own role names) stayed silent through the decisive error and is not the labelled culprit. On that ground truth (Table 1), the graded negligence verdict reduces the judge’s responsibility error from 0.589 to 0 .170, a paired reduction of 0 .418 (95% CI [− 0.445 , −0.391 ], 𝑛 = 145). The deployable variant, whose breach standard reads no answer key (Definition 3), matches the gold-informed one at 0 .159, so the improvement is not an artifact of privileged access to the correct answer. Ablating the duty layer (causal-only) lands midway at 0.408, which reproduces on live data the component lesson of the benchmark below. Offering the judge the aggregator as an explicit candidate does not change its error, so the deficit is a limit of the single-culprit format itself. 4Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Table 2 | Attribution on the benchmark structures (responsibility error against planted graded ground truth; mean over 300 draws per structure; lower is better). Cells are mean ± s.d. across the three generation seeds (100 draws each); the exact, LLM-free arms are seed-invariant, so their s.d. is identically zero. The Average column is the mean of the five structure means. The LLM judge (in the field’s three formats), our implementation of CAR / CausalFlow single-site scoring, Shapley-value attribution, and the anomaly detector are the prior-method baselines; causal-only is Audita with the duty layer ablated. The judge returns one verdict for the bitwise-identical redundancy and inert-twin structures, so its low inert-twin error is the mirror of its 0 .500 redundancy error. Audita’s exact-match rate is 1 .000 in every structure. Method Redundancy ↓ Inert twin ↓ Preemption ↓ Omission ↓ Chain ↓ Average ↓                                                                                                                                
+
+> Audita (certified, graded) 0.000 ±0.000 0.000 ±0.000 0.000 ±0.000 0.000 ±0.000 0.000 ±0.000 0.000
+> Audita causal-only (ablation) 0.667 ±0.000 0.667 ±0.000 0.000 ±0.000 0.500 ±0.000 0.000 ±0.000 0.367 LLM judge (all-at-once) 0.500 ±0.000 0.017 ±0.029 0.000 ±0.000 0.500 ±0.000 0.500 ±0.000 0.303 LLM judge (step-wise) 0.500 ±0.000 0.000 ±0.000 0.017 ±0.029 0.500 ±0.000 0.500 ±0.000 0.303 LLM judge (binary-search) 0.567 ±0.038 0.150 ±0.050 0.000 ±0.000 0.500 ±0.000 0.500 ±0.000 0.343 CAR / CausalFlow (single-site) 14,15 1.000 ±0.000 0.667 ±0.000 0.000 ±0.000 0.500 ±0.000 0.000 ±0.000 0.433 Shapley-value attribution 27 0.833 ±0.000 0.667 ±0.000 0.095 ±0.000 0.667 ±0.000 0.000 ±0.000 0.452 Statistical anomaly detector 1.000 ±0.000 1.000 ±0.000 1.000 ±0.000 1.000 ±0.000 0.500 ±0.000 0.900
+
+A benchmark of causal-attribution structures 
+
+Certifying what a method recovers requires planted, analytically derived ground truth. We therefore contribute a benchmark of physical incident structures that provides it, so estimator correctness is measured against causal structure instead of agreement with our own analysis. Its structures are grounded in 42 public robot-accident records (OSHA and NIOSH reports; Supplementary Information), its scale of over one thousand incidents is roughly ten times the 184-trace field benchmark, and we release it as a resource for attribution research. Extended Data Table 1 lists the structures; each targets a specific way single-culprit attribution fails. On the core structures (Table 2), the certified graded verdict (Figure 2) recovers every one exactly (responsibility error 0 .000, mean over 300 draws per structure), including the 12 , 12 split of an overdetermined accident and the omission graded through its absence variable. The baselines fail structurally and predictably. Single-site counterfactual scoring cannot represent overdetermination (error 1 .000 on redundancy: deleting either sufficient cause alone leaves the outcome standing, so it assigns zero to both), cannot see an omission (there is no message to score), and cannot separate the inert twin; its average error is 0 .433. The anomaly detector, which always has a most-anomalous message, cannot say “no one is responsible” and averages 0 .900. Shapley-value attribution is graded but blind to duty: it spreads mass across non-culpable candidates, erring most on the redundancy split (0 .833) and averaging 0 .452. Language-model judges, run on the same incidents, clear the single-culprit floor exactly (error 0 .000 on the trivial control) but err by 0 .500–0 .567 on redundancy, 0 .500–0 .517 on omission, and 0.500 on the delegation chain, because a single-culprit output cannot express a shared or an absent cause however well the model reasons. The transcript-identical twin isolates what the certified evidence buys: the redundancy and inert-twin structures present bitwise-identical records and differ only in whether the second command’s effect physically reached the world, so every transcript-level method returns one verdict for both and is right on one structure and wrong on the other, while the certified graded engine separates them in 300 /300 draws. Composition holds too: on a sampled distribution of 1 ,002 incidents drawing redundancy width, delegation depth, omission placement, and the adverse predicate independently (57 .8% adverse), Audita attains error 0 .000 and exact cause-set match 1.000 on the 579 adverse draws, against single-site’s 0 .370. 
+
+Negative controls. The most falsifying test is the accident with no culprit. On 300 no-cause draws Audita manufactures a culprit in zero cases, and on the same incidents the anomaly detector manufactures one in every case and language-model judges name someone in 100% of runs across all three formats and a neutral prompt 5Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Verdict ( 𝑝 ) = duty ∈ {0, 1}, breach ∈ {∅ , 𝜎 spec , 𝜎 ra }, [𝜌, 𝜌 ] + receipts , flags 
+
+Duty 
+
+duty ( 𝑝 ) =
+
+[ 𝑝 ∈ dom (𝐷 ) ] 
+
+delegation & duty registry 𝐷 
+
+Breach 
+
+𝑅 ( 𝑝 )̸ |= 𝜎 
+
+receipts 𝑅 ( 𝑝 ) vs. standards 𝜎 spec , 𝜎 ra 
+
+Causation 
+
+𝜌 𝑝 = 1
+
+| 𝑋 ∗ | + | 𝑊 ∗ |
+
+minimal cause 𝑋 ∗,witness 𝑊 ∗;replay-certified 
+
+Harm 
+
+sev (𝑌 )
+
+recorded terminal state & severity 
+
+## Breach × causation: what the quadruple can express 
+
+causation: 𝜌 𝑝 > 0 no causation: 𝜌 𝑝 = 0breach no breach 
+
+culpable 
+
+cited & responsible (𝜌 𝑝 > 0) 
+
+cited, exonerated 
+
+negligent-but-inert 
+
+conduit 
+
+grounded framing (Thm. 5) 
+
+cleared 
+
+no breach, no cause 
+
+> the amber cell, breach without causation, is expressible here (Thm. 3) and impossible for a single-culprit label
+
+Figure 2 | The verdict schema and what it can express. Audita’s output is not a single culprit but a typed verdict per principal 𝑝 : a duty bit, a breach label assessed under two standards, a graded responsibility interval with receipts, and conduit or exoneration flags (top). Each leg is computed from a concrete record artifact and a formal object: duty from the machine-readable delegation and duty registry 𝐷 ; breach from the receipts 𝑅 ( 𝑝 ) tested against both a specification standard 
+
+𝜎 spec and a reasonable-agent standard 𝜎 ra ; causation from the graded score 𝜌 𝑝 = 1/(| 𝑋 ∗ | + | 𝑊 ∗ |) over the minimal cause set 
+
+𝑋 ∗ and witness set 𝑊 ∗, certified by replay (Eq. (1)); and harm from the recorded terminal state and the declared severity of 
+
+𝑌 . Because breach and causation are separate axes, the quadruple expresses cases a single-culprit label cannot (bottom): a principal in breach but not a cause is cited and simultaneously exonerated for the outcome, the negligent-but-inert principal (Theorem 3), while a principal that is a cause but in no breach is framed as a conduit rather than a culprit (Theorem 5). 
+
+that explicitly offers “NONE”. A judge shown a genuine accident always blames a principal; Audita does not. 
+
+Generalisation beyond the authors’ own scenarios. With the engine, oracle, and arms frozen at a recorded commit, two out-of-loop evaluations were scored. The first is an unexpected-startup structure, the modal fatal pattern in the accident corpus 28 : a worker is struck during maintenance because the pre-entry halt was never issued, so every command is duty-compliant and the sole breach is the omission. On 74 held-out incidents Audita is exact (0 .000) and blames the omission alone, while single-site pins the innocent sole actor in 74 /74. Judges offered only the principals who spoke convict an innocent in 67–100% of runs; given the duty and the silent role as a candidate, the same judges recover the culprit in 92–100%. The failure is the format’s information regime, not the judge, and Audita requires neither telling nor offering: the culprit is the principal who did nothing. The second is a facility with its own duty roster and sixty scenarios, authored by a separate agent given only the world’s programming interface. On the 20 authored incidents with causal structure, the frozen engine is exact (20 /20) with zero oracle disagreement. 6Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems Qwen-7B Llama-8B Qwen-72B 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7       
+
+> responsibility error ↓  LLM judge CAR/ CausalFlow Shapley
+> AUDITA
+> aAUDITA overtakes the strongest baseline as models scale
+> 010 20 30 40
+> record corruption rate (%)
+> 0.00 0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40
+> responsibility error ↓
+> bForgery cannot move a certified verdict
+> unsigned substrate AUDITA (certified)
+
+Figure 3 | Scaling and adversarial robustness. a , Four methods across model families (Qwen2.5-7B, Llama-3.1-8B, Qwen2.5-72B). The gap over the LLM judge and the single-site baseline (CAR/CausalFlow) holds at every scale. Shapley-value attribution, the strongest baseline, is the exception on the weakest model: on Qwen2.5-7B it attains 0 .041 against Audita’s 0 .111 (paired 95% CI of the difference [− 0.141 , −0.004 ], 𝑛 = 27), but Audita overtakes it on the 8B and 72B models, its margin growing from −0.070 to +0.037 to +0.053 as model capability rises. b, Under record forgery at rising corruption rates, an unsigned substrate is driven to 0 .365 error and frames an innocent victim in 450 of 450 probes, while the certified verdict stays exact. 
+
+Robustness to tampering and manipulation 
+
+An audit layer must survive an adversary. We test three attack classes, with forgery summarised in Figure 3b: record forgery and deletion, volume manipulation, and, hardest, insiders with valid keys attacking through conduct rather than the log. 
+
+Record attacks. On the certified substrate, forgery leaves the verdict bitwise unchanged (error 0 .000) while the same forgeries on an unsigned substrate drive error to 0 .365 and frame an innocent victim in 450 /450 probes; deleting certified evidence only widens the reported interval (coverage stays 1 .000, error ≤ 0.122) and is detected in 450 /450 cells, so erasure never silently exonerates. Volume manipulation. Flooding the log with an innocent principal’s causally-inert commands moves Audita not at all ( 𝛽 = 0 by construction); we had predicted the judge would be misled, and it was not ( 𝛽 = 0.000), a refuted prediction and evidence that the baselines are not naive. 
+
+Conduct attacks by valid-key insiders. The strongest adversary never touches the record. Two constructions manufacture a compliant victim’s causal involvement to 1 .0 in 600 /600 incidents, which no record machinery prevents, yet culpability stays 0 .000 (Theorem 1) and a machine-checkable certificate names and grades the attacker in 600 /600 (Theorem 2). The certificate cannot itself be weaponised: framing the framer is refused by the culpability layer in 0 /330 cases while it names the true attacker in 330 /330 (Theorem 5), and padding with inert decoys changes no grade (Proposition 4). 
+
+Ablations and analysis 
+
+Removing the duty layer breaks exactly the structures where involvement and culpability diverge (redundancy and inert twin: error 0 .667 in Table 2; live error rises from 0 .170 to 0 .408), while the production gate is load-bearing on preemption and the inert twin, where it retires commands whose effects never reached the outcome. The deployable breach standard, which reads no answer key, matches the gold-informed one on live data (0 .159 versus 0.170), and on a stratum of 86 honest errors the gold-informed-minus-gold-free difference spans zero ( +0.0058, 7Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems                 
+
+> Table 3 |Comparability on the Who&When benchmark (184 static traces; the benchmark’s own agent- and step-accuracy; higher is better; same Qwen2.5-72B model for every arm, all reproduced here). Audita-structural is the degraded static-log variant (no counterfactual replay, no cryptography). The step-wise judge reproduces the published 0 .535 agent-accuracy of Zhang et al. 11 within sampling error. Method Agent-accuracy ↑Step-accuracy ↑
+> LLM judge, all-at-once 0.413 0.255 LLM judge, step-wise 0.511 0.304 LLM judge, binary-search 0.418 0.337 Audita-structural (ours, no replay) 0.408 0.321
+
+95% CI [− 0.0116 , +0.0291 ]); this refuted a registered prediction that ground-truth access confers an edge, and confirms that the completeness barrier (Theorem 4) bounds what an auditor can certify , not average performance. Verdicts are relative to the registered duty standard: holding causal facts fixed and varying only the standard leaves the causal profile identical (457 /457 incidents) but flips culpability in 69 .8% of them, so a verdict must ship with its standard attached, which no prior method does because none has one. The advantage transfers across model families, a three- to fivefold gap over the judge on both Qwen2.5-7B and Llama-3.1-8B (Figure 3a). Against Shapley-value attribution, the strongest baseline, the comparison is scale-dependent and we report it in full: on the weakest model Shapley is the more accurate of the two (0 .041 versus 0 .111, paired 95% CI of the difference [− 0.141 , −0.004 ], 𝑛 = 27), but the graded verdict overtakes it on the 8B and 72B models, its margin widening with model capability from −0.070 to +0.037 to +0.053; and Shapley alone among the four baselines carries no duty verdict, no certificate, and no resistance to the record forgery of Figure 3b. Exact recovery holds at every tested incident width while compute doubles per added candidate (Extended Data Table 2), so the boundary is computational, near 𝑘 ≈ 8 at a one-second budget; the record’s perimeter is measured: 0 .157 of responsibility becomes invisible when 31% of coordination runs off-bus, while over-attribution stays 0 .000 across all 1 ,200 draws; and repair guided by the verdict averts 2 .4× the physical harm of a budget-matched random fix at one edit. Finally, exactness on served models is a protocol property: a parallelised scoring pass once fabricated an innocence violation through floating-point drift, which serial replay eliminates (0 /16 drifting probes at 7B, 0 /12 at 72B), so serial replay is part of the pinned-stack definition and the deterministic facility benchmark is immune by construction. 
+
+Comparability on the field benchmark 
+
+Audita’s attribution advantage requires counterfactual access, which live pipelines and the facility provide but a static log does not. On the Who&When benchmark 11 , whose 184 traces are static logs that cannot be re-executed, Audita’s counterfactual and cryptographic machinery does not apply; what remains is a duty- and structure-aware attributor that reads the trace alone. We evaluate this degraded variant on Who&When’s own task and metric, against the same model running the field’s judge formats (Table 3). It performs comparably: agent-accuracy 0 .408 against the judge band of 0 .41–0 .51 (the strongest judge format, step-wise, reaches 0 .511 and reproduces the published 0 .535 within sampling error), and step-accuracy 0 .321, above two of the three judge formats. We claim non-inferiority here: where the log cannot be re-executed, Audita matches the field’s methods, and its advantage appears only where counterfactual access exists. 8Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+# Discussion 
+
+Audita supplies what multi-agent systems lack: an evidentiary and causal account of a concrete adverse event, produced by machinery in place before the event and checkable by a hostile audience afterwards. Auditing the event requires both an evidence substrate and a causal calculus, and the central claim is that the two are useful only together: semantics without certified evidence can be framed by whoever edits the log, and certified evidence without causal semantics reproduces the single-culprit errors that redundancy, preemption, and omission induce. The evaluation tests the two separately (substrate × attributor arms), so the composition claim is falsifiable. Together the results map a possibility frontier for post-incident accountability, tight in both directions. Each impossibility is realised by a construction: an attacker controlling the record can always force widened uncertainty; an insider with valid keys can make an innocent principal a genuine cause of harm; and the completeness barrier (Theorem 4) shows no record-confined auditor can certify all outcome-guilt without solving the audited task. Each possibility is realised by the running system, and the composition prevents manufactured certainty and 
+
+silent innocence : culpability moves only on the accused’s own certified conduct (Theorem 1), shifted blame is itself graded by the calculus it abused (Theorem 2), and erased evidence yields flagged, author-attributed uncertainty, never certified innocence (Theorem 3). The design does not assume the presumption of innocence; it proves it for certified records. The barrier also predicts where record-level attribution can only reach parity with ground-truth-informed judges: culprit identification, which is the pattern our field-benchmark comparison shows. The guarantees are scoped by three assumptions, each paired with a measured price of violation. Under a 
+
+replayable stack receipts are exact; on hosted non-deterministic models they degrade to statistical corroboration, so exact accountability favours replayable deployments; we read this as a fact about accountability itself. Under a 
+
+recorded channel exonerations are complete; coordination through side channels is invisible, so the verdict clears a principal only “on the certified evidence, to residual 𝑟 ,” and we measure 𝑟 under deliberate off-bus coordination instead of assuming it is small. Under sound key custody authorship equals conduct; the assumption concedes nothing else, since insiders holding valid keys may be arbitrarily malicious, and the theorems state what they still cannot achieve. Two boundaries of the formalism remain. Incidents are discrete, a predicate that becomes true at a time, so cumulative harms without a threshold event are out of scope. And the quantitative evidence is simulated: the structures are grounded in public accident reports and the framework is domain-agnostic, but we do not yet demonstrate physical robots or production stacks. Analytically-derived ground truth from an independent oracle, and scoring against a re-executed world, are what make the simulated evidence meaningful; an embodied simulator with contact dynamics and live planners is the natural next cycle. The path outward follows the regulation that motivated the design: the EU AI Act requires that records exist 8; Audita proposes what they must be , signed, cited, sealed, and causally analysable, for those obligations to purchase accountability. The layer ports beyond factories to logistics fleets, laboratory automation, service robots, and digital agent economies, where the adverse outcome is a corrupted transaction. As AI brains take command of physical fleets, “who did what, and how much did it matter?” will be asked with growing force, and Audita is our proposal for answering it with evidence. 
+
+# Methods 
+
+Setting, threat model, and assumptions 
+
+We consider a collective of principals 𝑃 = {𝑝 1, . . . , 𝑝 𝑛 }: language-model planners, tool agents, robot controllers, and human supervisors, interacting through an asynchronous message bus and, for embodied members, through actuators in a shared environment. Principals hold signing keys; a designated (replicated) recorder appends 9Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems messages to the audit record. The adversary may control any subset of principals and the network in the Dolev–Yao sense 29 : it can read, delay, reorder, replay, drop, and inject traffic, may equivocate (present different histories to different parties 30 ), and may attack the record itself by forging entries or deleting them after the fact. An insider who signs malicious content with a valid key is not an attack on the record: their messages certify normally and are attributed to them, which is the desired outcome, and their misconduct is surfaced by the verdict’s breach analysis rather than by integrity machinery, an informal claim that Theorem 1 makes precise and proves. The guarantees below rest on three explicit assumptions, each standard in its home literature. 
+
+A1 (Replayable stack). The audited deployment runs on components that can be re-executed exactly: pinned model weights, deterministic serving, and seeded environments. Under A1 every replay receipt in this paper is exact and bitwise checkable. On hosted or non-deterministic components the same checks degrade to statistical corroboration with reported action-match; the serving conditions under which exactness holds are established empirically in Results. 
+
+A2 (Recorded channel). Inter-principal influence traverses the recorded bus. Under A2 exonerations are complete. Influence outside the bus (shared environment state, out-of-band instruction) is invisible to any record-level auditor, and a dedicated experiment in Results measures the attribution mass at stake when A2 is violated deliberately. 
+
+A3 (Sound key custody). Signing keys are never stolen, so certified authorship equals conduct. A3 restricts nothing about behaviour: key holders, including insiders, may be arbitrarily malicious. Key management itself is inherited from the transparency-log tradition 24 rather than re-solved here. The asymmetry in A3 is deliberate and load-bearing: the adversary keeps every capability that matters for accountability, including acting maliciously during the incident under a valid identity. The guarantees are statements about what such an adversary still cannot achieve. 
+
+The accountable command graph. The unit of evidence is the message. 
+
+Definition 1 (Accountable message and command graph) . A message is a tuple 𝑚 = (𝑎, 𝜋, 𝐶, 𝜑, 𝜎 ): author 
+
+𝑎 ∈ 𝑃 , payload 𝜋 , citation set 𝐶 (hashes of the messages 𝑚 acts upon), effect predicate 𝜑 (the world- or work-state change the author commits to, enabling later verification), and signature 𝜎 over (𝑎, 𝜋, 𝐶, 𝜑 ) with 𝑎 ’s key 22 .The record 𝑅 is the multiset of received messages together with delivery receipts; epochs of 𝑅 are sealed by a Merkle commitment 23 published append-only in the style of transparency logs 24 . The command graph 𝐺 (𝑅 ) has messages as nodes and citation edges 𝑚 ′ → 𝑚 for each 𝑐 ∈ 𝐶 (𝑚 ) resolving to 𝑚 ′.
+
+Citation is consent: by citing 𝑚 ′, the author of 𝑚 attests that 𝑚 was issued because of 𝑚 ′, making the edge an authored causal claim rather than an inferred correlation. Verification partitions the record into 𝐺 cert (signature valid, citations resolve, receipts consistent, Merkle path intact), a suspect set (any check fails), and a missing set (cited or receipted but absent). All attribution downstream operates on 𝐺 cert ; the suspect and missing sets enter only as explicit uncertainty (Proposition 3). Extended Data Fig. 1 shows the anatomy and the partition. 
+
+Adverse outcomes and incident slices. Audita is outcome-agnostic: the trigger is a declared predicate, not a category of accident. 
+
+Definition 2 (Adverse outcome and incident slice) . An adverse outcome is a predicate 𝑌 over the recorded world-and work-state that evaluates true at some time 𝑡 ∗: for example, a safety predicate (minimum human–robot 
+
+10 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+separation below the collaborative-operation threshold 10 ) or a quality predicate (a work product failing its declared acceptance test). The incident slice 𝑆 (𝑌 ) is the causal past of 𝑌 in 𝐺 cert : all certified messages with a citation path into the actuation events referenced by 𝑌 , closed under the duties active in the window (below). 
+
+Because 𝑌 is arbitrary, the same machinery audits an injury, a near-miss, and a ruined batch; the facility case study instantiates both a safety and a quality 𝑌 (Results). 
+
+Certified causal attribution: gate, grade, certify 
+
+From the slice we build a structural causal model 19,31 𝑀 𝑆 whose binary variables are the certified messages (present/absent), duty-indexed absence variables for required-but-unissued interventions (an omission such as a never-sent halt is a first-class variable, not a gap), and the mechanism equations induced by the citation structure and the recorded actuation semantics. Attribution is a two-part test. 
+
+Gate (factual production). A candidate set of messages 𝑋 enters consideration only if each member has an intact production path to 𝑌 in 𝐺 cert : its committed effect 𝜑 was realised and propagated, link by verified link, into the state that made 𝑌 true. The gate retires preempted candidates (commands whose effect never reached the outcome) before any counterfactual is computed, in the spirit of the law’s insistence on causation-in-fact 17,18 .
+
+Grade (counterfactual dependence). Surviving candidates are graded under the modified Halpern–Pearl definition of actual causality 20,32 : 𝑋 ∗ is an actual cause of 𝑌 if there is a witness set 𝑊 ∗, frozen at its actual values, such that setting 𝑋 ∗ to its counterfactual values falsifies 𝑌 , with 𝑋 ∗ minimal. Following the responsibility calculus of Chockler and Halpern 21 , each minimal cause–witness pair receives the grade 
+
+𝜌 (𝑋 ∗, 𝑊 ∗) = 1
+
+|𝑋 ∗ | + | 𝑊 ∗ | , (1) recovering the classical degree of responsibility 1 /( 𝑘 +1) through the size correspondence between the modified and original definitions 20 . A principal’s responsibility is the strongest grade any of their messages participates in: 
+
+𝜌 𝑝 = max 
+
+n
+
+𝜌 (𝑋 ∗, 𝑊 ∗) : 𝑋 ∗ a minimal certified cause of 𝑌 containing a message authored by 𝑝 
+
+o
+
+, (2) and 𝜌 𝑝 = 0 with an explicit exoneration note if no such cause exists. Redundancy (two independently sufficient commands) yields 𝜌 = 12 each rather than an arbitrary single culprit; omission is graded through its absence variable; a principal whose messages merely relay upstream content faithfully is additionally flagged as a conduit ,so that the verdict can distinguish originating from transmitting responsibility. Because Eq. (2) takes a maximum over causes, the grade is invariant to how a principal chunks its own output across messages; a canonical contraction of same-author conjunctive groups makes this invariance explicit and is proven in Supplementary Note 8. 
+
+Certify (counterfactual replay). Grades proposed on the structural model are not reported until re-executed. For each reported cause, the replay engine intervenes on 𝑋 ∗ (holding 𝑊 ∗ at actuals), re-runs the slice, and checks that the certified risk of 𝑌 falls by at least a declared margin 𝛿 . On a pinned stack (open-weight models, seeded simulation, versioned tools, and the serial replay protocol , under which replays execute one at a time on an otherwise idle server 25 ) replay is exact, in the lineage of record-and-replay systems 33 . Serial execution is part of the pinned definition, not an optimization: concurrent batching perturbs floating-point reduction order and voids bitwise exactness even in batch-invariant serving modes, so a pinned receipt certifies the protocol along with the seeds. On a hosted stack (closed models, non-deterministic serving) the same check is statistically corroborated :repeated replays yield a confidence interval on the risk reduction, reported together with an action-match score measuring how faithfully the replayed trajectory tracks the recorded one. Every reported cause therefore carries a verification receipt, exact or statistical, and a cause that fails its replay is not reported (Proposition 1). Deciding 11 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems actual causation is NP-hard in general 34 ; Audita computes exhaustively over incident slices and we measure the practical boundary (slice width at which exact computation exceeds an interactive budget) rather than assert scalability. Extended Data Fig. 2 shows the propose–certify pipeline. 
+
+Proposition 1 (Soundness by certification) . Every cause reported by Audita is replay-verified: intervening on 
+
+𝑋 ∗ with 𝑊 ∗ frozen reduces the certified risk of 𝑌 by at least 𝛿 : exactly on a pinned stack, and at confidence 1 − 𝛼 
+
+with reported action-match on a hosted stack. Consequently certified false positives are excluded on pinned stacks and bounded by 𝛼 on hosted ones; the engine’s failure mode is abstention (a missed cause), not a false accusation. Proof in Supplementary Note 2. 
+
+Proposition 2 (Preemption retirement) . A message with no intact production path to 𝑌 in 𝐺 cert receives 𝜌 = 0
+
+and an exoneration note, regardless of its content. Proof in Supplementary Note 2. 
+
+Remark 1. On monotone incident models, which include all scenario families in this paper, the gate-and-grade test coincides with the minimal sufficient-set analysis of the NESS (necessary element of a sufficient set) test from tort doctrine 17 ; the correspondence is stated and proven in Supplementary Note 2. This is deliberate: the quantity Audita computes is one a legal audience already recognises. 
+
+Guarantees under record attack and conduct attack 
+
+The composition of verification and attribution is designed to survive an adversary with liability at stake. Audita reports each 𝜌 𝑝 as an interval [𝜌, 𝜌 ] 𝑝 : the range of Eq. (2) over all admissible completions of the certified record: assignments of present/absent to the suspect and missing sets consistent with the verified receipts and commitments. The lower end 𝜌 𝑝 is the involvement bound : the causal involvement that the certified evidence alone forces. Involvement is deliberately not culpability: the verdict layer (next subsection) finds a principal culpable only on breach and causation together, and the guarantees below attach to exactly that composition. Formal statements, the attack constructions, and full proofs are in Supplementary Note 3; the record-layer proposition is proven in Supplementary Note 2. 
+
+Proposition 3 (Record-edit monotonicity) . Let 𝑝 be a principal all of whose messages verify (fully certified), and let an adversary modify the record by (i) injecting messages that fail verification (forged signatures, unresolvable citations, broken Merkle paths) and/or (ii) deleting messages (deletions against sealed epochs; Supplementary Note 2). Then the involvement bound 𝜌 𝑝 does not increase: forgeries leave 𝐺 cert , and hence the entire reported verdict, unchanged; deletions can only widen the reported interval [𝜌, 𝜌 ] 𝑝 , never raise its lower end. 
+
+Proposition 3 is a mechanism check , and we label it as one: non-verifying items never enter 𝐺 cert , and a deletion enlarges the completion set over which a minimum is taken. It is silent about the strongest adversary the threat model admits, a coalition holding valid keys and acting during the incident. Such a coalition needs no forgery. An insider running the live policy “if the victim’s message is present, emit the harmful command, citing it; otherwise behave” turns an innocent principal into a true but-for cause of the outcome: every item certifies, the production gate passes through the attacker’s own citation, and honest replay certifies 𝜌 𝑣 = 1 (Supplementary Note 3, Attack I). A second construction (Attack II) achieves the same raise with a deviation that lies on no path from the victim to the outcome and is not itself a cause of the outcome: it rigs an otherwise-inevitable harm so that only the victim could have prevented it. Causal involvement is therefore manufacturable by validly-signed conduct, and no record machinery can prevent it. The following results state what remains impossible. 
+
+Definition 3 (Content-determined duty) . A duty for principal 𝑝 is a computable predicate Φ𝑝 over exactly (i) the certified messages authored by 𝑝 (and 𝑝 ’s duty-registered absences) and (ii) their certified input frontiers. Φ𝑝 
+
+12 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+takes no ground-truth label and no third-party assertion about 𝑝 : another principal’s payload bears on 𝑝 ’s verdict only as an input that 𝑝 acted on. The duties in this paper are of this form; for example, an aggregator must output the declared normative aggregation of its certified inputs, and a solver’s emitted answer must match the answer derived in its own certified working. 
+
+Theorem 1 (Culpability groundedness) . Under any content-determined duty roster, for every valid-key coalition, every principal 𝑝 , and every coalition-induced run with any record edits of Proposition 3’s class applied: if the verdict finds 𝑝 culpable (breach with 𝜌 𝑝 > 0), then the breach finding is witnessed by 𝑝 ’s own certified conduct violating Φ𝑝 . Equivalently, a principal whose own certified conduct was duty-compliant is never found culpable; the strongest verdict against such a principal is causal involvement with exoneration for breach .
+
+Theorem 2 (Blame-shift accountability) . Declare a reference standard: a registered duty-compliant policy per principal. If a coalition’s conduct deviations from that standard raise a compliant, fully-certified principal’s involvement bound, then the deviations are an actual cause of that principal’s pivotality , and a minimal 
+
+blame-shift certificate exists: a set of deviations whose restoration to the declared standard destroys the raise, machine-checkable by replay, grading each framer by the same responsibility calculus ( 𝜌 frame  
+
+> 𝑎
+
+). No stronger localization holds: by Attack II the deviation need lie on no path to the outcome and need not cause the outcome. 
+
+Theorem 3 (No silent exoneration) . Let 𝑞 be a certified culprit, 𝜌 𝑞 (𝑅 ) = 𝑟 > 0 on the sealed record. Any record edit that lowers 𝜌 𝑞 leaves a nonempty missing set meeting every family of certified items that forced level 𝑟 ,each missing item reported with its author and citation frontier; and the upper end 𝜌 𝑞 never falls below 𝑟 . The same holds for the breach prong: erasing or corrupting the certified witnesses of a breach finding moves them, author-attributed, to the missing or suspect set rather than yielding a clean non-breach. Destruction converts forced responsibility into flagged, pre-attributed uncertainty, never into certified innocence, on either prong. 
+
+Theorem 4 (Completeness barrier) . Call a content-determined breach standard sound if it passes all duty-compliant conduct, and complete if it fires on all conduct whose committed output was wrong with respect to ground truth and caused the adverse outcome. Wherever duty-compliant conduct is fallible (honest errors exist), no content-determined standard is both sound and complete; and any standard that closes the gap decides output correctness for the audited task itself. Innocence is certifiable from the record alone; outcome-guilt-completeness is not. 
+
+Theorem 1 formalizes the presumption of innocence for certified records: culpability moves only on the accused’s own certified conduct. Theorem 2 makes manufactured involvement itself attributable: the framing is graded by the calculus it abused. Three adjacent lines sharpen what this certificate is and is not. Security-protocol accountability treats deviations from a specification as actual causes of a violation 35,36 ; here the deviations are causes of another principal’s pivotality , one level up. Non-frameability notions guarantee that honest parties are never falsely blamed 37,38 ; the blame-shift victim is genuinely pivotal, a case those definitions cannot express, and the certificate shows the true pivotality was manufactured. And higher-order responsibility in strategic games asks who could have prevented a responsibility gap 39 ; the certificate instead grades who created aresponsibility surplus on a compliant victim. To our knowledge it is the first causal certificate of manufactured true pivotality with graded framer responsibility, and we claim exactly that. Theorem 3 is the dual guarantee against manufactured innocence. 
+
+Theorem 5 (Grounded framing at every order) . Fix the certified record and the registered content-determined duty roster, and let the order-one certificate be as in Theorem 2. For 𝑘 ≥ 1 define the order-𝑘 certificate by taking as endogenous variables deviation selectors over conduct on the record, each owned by the signer of its realized conduct, and as outcome event any pivotality predicate definable from the order-(𝑘 − 1) analysis. Then 
+
+13 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+(i) completeness : whenever the outcome predicate differs between the all-realized and all-reference assignments, the certificate exists and every graded variable is a deviation signed by its owner; and (ii) groundedness : a culpable-framing finding against principal 𝑝 , a positive grade on a deviation of 𝑝 ’s that itself breaches the registered roster, is witnessed by 𝑝 ’s own certified conduct. Principals with no deviating conduct receive no grade at any order, and principals whose deviations are duty-compliant appear in the involvement layer only. The involvement and culpability separation of Theorem 1 is therefore preserved under meta-lifting at every order. Proof in Supplementary Note 3. 
+
+Proposition 4 (Dilution is not free) . Padding the deviation set with causally inert deviations changes neither the existence of the certificate nor any grade: minimal witness sets exclude variables on which the outcome predicate does not depend. Contrapositively, any deviation whose inclusion changes a grade is causally active conduct, certified and signed, and itself subject to Theorem 5. Proof in Supplementary Note 3. 
+
+Theorem 5 answers the natural question about Theorem 2: whether the certificate can itself be turned into a weapon, by scapegoating a principal whose deviation was benign, or by flooding the analysis with decoys. It cannot, and both halves are exercised empirically in Results by a registered level-2 attack construction. Theorem 4 bounds what any auditor confined to the record, human or algorithmic, can certify, and predicts in particular that attribution without ground-truth access should reach parity with, not superiority over, ground-truth-informed judges on culprit identification. 
+
+From causes to verdicts 
+
+Causation alone is not culpability. The verdict layer maps the certified causal analysis into the four-element structure that negligence doctrine has used for a century 17,18 . Duty asks which declared obligations, such as safety envelopes, review requirements, and halt authorities, were active for each principal in the window. Breach 
+
+asks which certified messages, or duty-indexed absences, violated them, assessed under both a specification standard and a reasonable-agent standard, each declared and content-determined in the sense of Definition 3, as Theorem 1 requires. Causation is the certified cause sets and grades of Eqs. (1)–(2). Harm is the declared 𝑌 
+
+with its measured severity. The output for each principal is the quadruple (duty findings, breach findings, [𝜌, 𝜌 ] 𝑝 
+
+with receipts, conduit and exoneration flags), illustrated in Figure 2. Two commitments bound its meaning. The verdict is an input to insurers, regulators, and courts: an evidence-linked account, not an apportionment of legal liability, which involves doctrine and discretion beyond causal structure 40 . And breach without causation is reported as exactly that (the negligent-but-inert principal is named for the breach and exonerated for the outcome), which single-culprit formats cannot express. 
+
+Implementation and models 
+
+The reference implementation is a Python harness: Ed25519 message signing 22 , Merkle epoch commitments 23 ,a deterministic discrete-event facility simulator, structural-model construction with exhaustive gate-and-grade search over incident slices, and replay by seeded re-execution. In the live register, language models play three distinct roles: as subjects , they are the planner, solvers, aggregator, and verifier whose failures are audited; as the baseline , the same model runs the field’s judge formats; and as Audita’s attributor , a model reasons over the certified record only where the degraded static-log variant applies. All served models are open-weight (Qwen2.5-72B-Instruct as the primary model, with Qwen2.5-7B-Instruct and Llama-3.1-8B-Instruct for the family-transfer study), run under vLLM 25 with tensor-parallel serving on NVIDIA A100-80GB GPUs, greedy decoding (temperature 0) with a fixed seed, and the serial replay protocol that makes receipts bitwise exact. Each experiment uses three generation seeds; negative-control counts ( 𝑛 = 300) are sized so the manufacture rate is estimated to within ±5%. 14 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+# Data availability 
+
+The scenario library, ground-truth specifications, and all experiment artifacts (result files for every run, indexed by experiment identifier and seed) will be released at https://github.com/ZhixuDu/audita , and archived with a permanent DOI, when the paper is published. 
+
+# Code availability 
+
+The complete Audita reference implementation, comprising the accountable record substrate, the attribution engine, the scenario injectors, all baselines, and the experiment runners, will be released under the MIT license at https://github.com/ZhixuDu/audita when the paper is published, with the commit used for every reported number recorded in the experiment log. 
+
+# Author contributions 
+
+Z.D. conceived the method, designed and performed the experiments, analysed the results, and wrote the manuscript. Y.C. supervised the project and reviewed the manuscript. 
+
+# Competing interests 
+
+The authors declare no competing interests. 
+
+# References 
+
+[1] Michael Ahn, Anthony Brohan, Noah Brown, Yevgen Chebotar, Omar Cortes, Byron David, Chelsea Finn, et al. Do as I can, not as I say: Grounding language in robotic affordances, 2022. arXiv:2204.01691. [2] Danny Driess, Fei Xia, Mehdi S. M. Sajjadi, Corey Lynch, Aakanksha Chowdhery, Brian Ichter, Ayzaan Wahid, et al. PaLM-E: An embodied multimodal language model, 2023. arXiv:2303.03378. [3] Moo Jin Kim, Karl Pertsch, Siddharth Karamcheti, Ted Xiao, Ashwin Balakrishna, Suraj Nair, Rafael Rafailov, Ethan Foster, Grace Lam, Pannag Sanketi, et al. OpenVLA: An open-source vision-language-action model. arXiv preprint arXiv:2406.09246 , 2024. [4] Kevin Black, Noah Brown, Danny Driess, Adnan Esmail, Michael Equi, Chelsea Finn, Niccolo Fusai, Lachy Groom, Karol Hausman, Brian Ichter, et al. 𝜋 0: A vision-language-action flow model for general robot control. arXiv preprint arXiv:2410.24164 , 2024. [5] NVIDIA, Johan Bjorck, Fernando Castaneda, Nikita Cherniadev, Xingye Da, Runyu Ding, Linxi Fan, Yu Fang, Dieter Fox, Fengyuan Hu, et al. GR00T N1: An open foundation model for generalist humanoid robots. arXiv preprint arXiv:2503.14734 , 2025. [6] Qingyun Wu, Gagan Bansal, Jieyu Zhang, Yiran Wu, Beibin Li, Erkang Zhu, Li Jiang, et al. AutoGen: Enabling next-gen LLM applications via multi-agent conversation, 2023. arXiv:2308.08155. [7] Sirui Hong, Xiawu Zheng, Jonathan Chen, Yuheng Cheng, Jinlin Wang, Ceyao Zhang, et al. MetaGPT: Meta programming for multi-agent collaborative framework, 2023. arXiv:2308.00352. 15 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems [8] European Parliament and Council. Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), 2024. Official Journal of the European Union, L series, 12 July 2024. [9] International Organization for Standardization. ISO 10218-1: Robots and robotic devices — safety requirements for industrial robots — part 1: Robots, 2011. [10] International Organization for Standardization. ISO/TS 15066: Robots and robotic devices — collaborative robots, 2016. [11] Shaokun Zhang, Ming Yin, Jieyu Zhang, Jiale Liu, Zhiguang Han, Jingyang Zhang, Beibin Li, Chi Wang, Huazheng Wang, Yiran Chen, and Qingyun Wu. Which agent causes task failures and when? On automated failure attribution of LLM multi-agent systems. In Proceedings of the 42nd International Conference on Machine Learning (ICML) , 2025. arXiv:2505.00212. [12] Mert Cemri, Melissa Z. Pan, Shuyi Yang, Lakshya A. Agrawal, Bhavya Chopra, Rishabh Tiwari, Kurt Keutzer, Aditya Parameswaran, Dan Klein, Kannan Ramchandran, Matei Zaharia, Joseph E. Gonzalez, and Ion Stoica. Why do multi-agent LLM systems fail?, 2025. arXiv:2503.13657. [13] Guibin Zhang, Junhao Wang, Junjie Chen, Wangchunshu Zhou, Kun Wang, and Shuicheng Yan. AgenTracer: Who is inducing failure in the LLM agentic systems?, 2025. arXiv:2509.03312. [14] Akash Bonagiri, Devang Borkar, Gerard Janno Anderias, Setareh Rafatirad, and Houman Homayoun. CausalFlow: Causal attribution and counterfactual repair for LLM agent failures, 2026. arXiv:2605.25338. [15] Jaineet Shah. Causal agent replay: Counterfactual attribution for LLM-agent failures, 2026. arXiv:2606.08275. [16] Yi Nian, Aojie Yuan, Haiyue Zhang, Jiate Li, and Yue Zhao. Auditable agents. arXiv preprint arXiv:2604.05485 , 2026. [17] Richard W. Wright. Causation in tort law. California Law Review , 73(6):1735–1828, 1985. [18] H. L. A. Hart and Tony Honoré. Causation in the Law . Oxford University Press, 2nd edition, 1985. [19] Joseph Y. Halpern and Judea Pearl. Causes and explanations: A structural-model approach. Part I: Causes. 
+
+The British Journal for the Philosophy of Science , 56(4):843–887, 2005. [20] Joseph Y. Halpern. A modification of the Halpern-Pearl definition of causality. In Proceedings of the 24th International Joint Conference on Artificial Intelligence (IJCAI) , pages 3022–3033, 2015. [21] Hana Chockler and Joseph Y. Halpern. Responsibility and blame: A structural-model approach. Journal of Artificial Intelligence Research , 22:93–115, 2004. [22] Daniel J. Bernstein, Niels Duif, Tanja Lange, Peter Schwabe, and Bo-Yin Yang. High-speed high-security signatures. Journal of Cryptographic Engineering , 2(2):77–89, 2012. [23] Ralph C. Merkle. A digital signature based on a conventional encryption function. In Advances in Cryptology — CRYPTO ’87 , volume 293 of Lecture Notes in Computer Science , pages 369–378. Springer, 1988. [24] Ben Laurie. Certificate transparency. Communications of the ACM , 57(10):40–46, 2014. 16 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems [25] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, Cody Hao Yu, Joseph E. Gonzalez, Hao Zhang, and Ion Stoica. Efficient memory management for large language model serving with PagedAttention. In Proceedings of the 29th Symposium on Operating Systems Principles (SOSP) ,pages 611–626, 2023. [26] Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser, Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, Christopher Hesse, and John Schulman. Training verifiers to solve math word problems. arXiv preprint arXiv:2110.14168 , 2021. [27] Guoqing Ma, Jia Zhu, Hanghui Guo, Weijie Shi, Jiawei Shen, Jingjiang Liu, and Yidan Liang. Automatic failure attribution and critical step prediction method for multi-agent systems based on causal inference, 2025. arXiv:2509.08682. [28] Larry A. Layne. Robot-related fatalities at work in the United States, 1992–2017. American Journal of Industrial Medicine , 66(6):454–461, 2023. [29] Danny Dolev and Andrew C. Yao. On the security of public key protocols. IEEE Transactions on Information Theory , 29(2):198–208, 1983. [30] Leslie Lamport, Robert Shostak, and Marshall Pease. The Byzantine generals problem. ACM Transactions on Programming Languages and Systems , 4(3):382–401, 1982. [31] Judea Pearl. Causality: Models, Reasoning, and Inference . Cambridge University Press, 2nd edition, 2009. [32] Joseph Y. Halpern. Actual Causality . MIT Press, Cambridge, MA, 2016. [33] Robert O’Callahan, Chris Jones, Nathan Froyd, Kyle Huey, Albert Noll, and Nimrod Partush. Engineering record and replay for deployability. In Proceedings of the USENIX Annual Technical Conference (ATC) ,pages 377–389, 2017. [34] Thomas Eiter and Thomas Lukasiewicz. Complexity results for structure-based causality. Artificial Intelligence , 142(1):53–89, 2002. [35] Anupam Datta, Deepak Garg, Dilsun Kaynar, Divya Sharma, and Arunesh Sinha. Program actions as actual causes: a building block for accountability. In IEEE 28th Computer Security Foundations Symposium (CSF) , pages 261–275, 2015. [36] Robert Künnemann, Ilkan Esiyok, and Michael Backes. Automated verification of accountability in security protocols. In IEEE 32nd Computer Security Foundations Symposium (CSF) , pages 397–413, 2019. [37] Ralf Küsters, Tomasz Truderung, and Andreas Vogt. Accountability: definition and relationship to verifiability. In Proceedings of the 17th ACM Conference on Computer and Communications Security (CCS) , pages 526–535, 2010. [38] Andreas Haeberlen, Petr Kouznetsov, and Peter Druschel. PeerReview: practical accountability for distributed systems. In Proceedings of the 21st ACM Symposium on Operating Systems Principles (SOSP) ,pages 175–188, 2007. [39] Junli Jiang and Pavel Naumov. Higher-order responsibility. In Proceedings of the AAAI Conference on Artificial Intelligence , 2026. arXiv:2506.01003. 17 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems [40] Meir Friedenberg and Joseph Y. Halpern. Blameworthiness in multi-agent settings. In Proceedings of the 33rd AAAI Conference on Artificial Intelligence , pages 525–532, 2019. [41] Wassily Hoeffding. Probability inequalities for sums of bounded random variables. Journal of the American Statistical Association , 58:13–30, 1963. [42] Stelios Triantafyllou, Adish Singla, and Goran Radanovic. On blame attribution for accountable multi-agent sequential decision making. In Advances in Neural Information Processing Systems 34 , pages 15774–15786, 2021. [43] Chunyan Mu and Muhammad Najib. Counterfactual reasoning for causal responsibility attribution in probabilistic multi-agent systems. arXiv preprint arXiv:2605.13077 , 2026. [44] Dylan Slack, Sophie Hilgard, Emily Jia, Sameer Singh, and Himabindu Lakkaraju. Fooling LIME and SHAP: Adversarial attacks on post hoc explanation methods. In Proceedings of the AAAI/ACM Conference on AI, Ethics, and Society (AIES) , 2020. [45] Andreas Haeberlen, Petr Kuznetsov, and Peter Druschel. PeerReview: Practical accountability for distributed systems. In Proceedings of the 21st ACM Symposium on Operating Systems Principles (SOSP) , 2007. [46] Jason Z. Wang. The verification tax: Fundamental limits of AI auditing in the rare-error regime. arXiv preprint arXiv:2604.12951 , 2026. [47] Ned Hall. Two concepts of causation. In John Collins, Ned Hall, and L. A. Paul, editors, Causation and Counterfactuals , pages 225–276. MIT Press, 2004. [48] Joseph Y. Halpern and Christopher Hitchcock. Graded causation and defaults. The British Journal for the Philosophy of Science , 66(2):413–457, 2015. [49] Tobias Gerstenberg, Noah D. Goodman, David A. Lagnado, and Joshua B. Tenenbaum. A counterfactual simulation model of causal judgments for physical events. Psychological Review , 128(5):936–975, 2021. [50] Andreas Matthias. The responsibility gap: Ascribing responsibility for the actions of learning automata. 
+
+Ethics and Information Technology , 6(3):175–183, 2004. [51] Filippo Santoni de Sio and Giulio Mecacci. Four responsibility gaps with artificial intelligence: Why they matter and how to address them. Philosophy & Technology , 34:1057–1084, 2021. [52] Helen Nissenbaum. Accountability in a computerized society. Science and Engineering Ethics , 2(1):25–42, 1996. [53] Alan Chan, Carson Ezell, Max Kaufmann, Kevin Wei, Lewis Hammond, Herbie Bradley, Emma Bluemke, Nitarshan Rajkumar, David Krueger, Noam Kolt, Lennart Heim, and Markus Anderljung. Visibility into AI agents. In Proceedings of the ACM Conference on Fairness, Accountability, and Transparency (FAccT) ,2024. arXiv:2401.13138. [54] Tobin South, Samuele Marro, Thomas Hardjono, Robert Mahari, Cecilia Deslandes Whitney, Dazza Greenwood, Alan Chan, and Alex Pentland. Authenticated delegation and authorized AI agents, 2025. arXiv:2501.09674. [55] Ethereum Foundation dAI team. ERC-8004: Trustless agents — on-chain identity, reputation, and validation registries, 2026. https://eips.ethereum.org/EIPS/eip-8004 .18 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems [56] Laura Waltersdorfer, Anna Breit, Fajar J. Ekaputra, and Marta Sabou. AuditMAI: Towards an infrastructure for continuous AI auditing, 2024. arXiv:2406.14243. [57] Linda Fernsel, Yannick Kalff, and Katharina Simbeck. Assessing the auditability of AI-integrating systems: A framework and learning analytics case study, 2024. arXiv:2411.08906. [58] Andreas Haeberlen, Paarijaat Aditya, Rodrigo Rodrigues, and Peter Druschel. Accountable virtual machines. In Proceedings of the 9th USENIX Symposium on Operating Systems Design and Implementation (OSDI) ,2010. [59] Michael Backes, Peter Druschel, Andreas Haeberlen, and Dominique Unruh. CSAR: A practical and provable technique to make randomized systems accountable. In Proceedings of the Network and Distributed System Security Symposium (NDSS) , 2009. [60] Ralf Küsters, Tomasz Truderung, and Andreas Vogt. Accountability: Definition and relationship to verifiability. In Proceedings of the 17th ACM Conference on Computer and Communications Security (CCS) , 2010. [61] Scott A. Crosby and Dan S. Wallach. Efficient data structures for tamper-evident logging. In Proceedings of the 18th USENIX Security Symposium , 2009. [62] Jinyuan Li, Maxwell Krohn, David Mazières, and Dennis Shasha. Secure untrusted data repository (SUNDR). In Proceedings of the 6th USENIX Symposium on Operating Systems Design and Implementation (OSDI) ,2004. [63] Bruce Schneier and John Kelsey. Secure audit logs to support computer forensics. ACM Transactions on Information and System Security , 2(2):159–176, 1999. [64] IETF Internet-Draft. Agent audit trail (draft-sharif-agent-audit-trail-00), 2026. https://datatracker. ietf.org/doc/draft-sharif-agent-audit-trail/ .[65] Xing, Li, Liu, Zheng, Liu, and Xie. A verifiable transcript system for LLM conversations, 2026. arXiv:2606.23003. [66] OpenTelemetry GenAI Special Interest Group. Semantic conventions for generative AI and agent telemetry, 2025. https://github.com/open-telemetry/semantic-conventions .[67] Benjamin H. Sigelman, Luiz André Barroso, Mike Burrows, Pat Stephenson, Manoj Plakal, Donald Beaver, Saul Jaspan, and Chandan Shanbhag. Dapper, a large-scale distributed systems tracing infrastructure. Technical Report dapper-2010-1, Google, Inc., 2010. [68] Liming Dong, Qinghua Lu, and Liming Zhu. AgentOps: Enabling observability of LLM agents, 2024. arXiv:2411.05285. [69] Moshkovich and Zeltyn. Taming uncertainty via automation: Observing, analyzing, and optimizing agentic AI systems, 2025. arXiv:2507.11277. [70] Alexander Robey, Zachary Ravichandran, Vijay Kumar, Hamed Hassani, and George J. Pappas. Jailbreaking LLM-controlled robots. In Proceedings of the IEEE International Conference on Robotics and Automation (ICRA) , 2025. 19 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems [71] Zhen Huang, Zhihuang Liu, Mengxuan Luo, Weishang Wu, and Zhiping Cai. Propagating unsafe actions in LLM controlled multi-robot collaboration via single robot compromise, 2026. arXiv:2605.15641. [72] Li et al. A survey of LLM-driven AI agent communication: Protocols, security risks, and defense countermeasures, 2025. arXiv:2506.19676. [73] Sai Teja Reddy Adapala and Yashwanth Reddy Alugubelly. The aegis protocol: A foundational security framework for autonomous AI agents, 2025. arXiv:2508.19267. [74] Zhenkai Zou, Zines Liu, Longtao Zhao, and Qiusi Zhan. BlockA2A: Towards secure and verifiable agent-to-agent interoperability, 2025. arXiv:2508.01332. [75] Nancy G. Leveson. Engineering a Safer World: Systems Thinking Applied to Safety . MIT Press, Cambridge, MA, 2011. [76] Alan F. T. Winfield and Marina Jirotka. The case for an ethical black box. In Towards Autonomous Robotic Systems (TAROS) , Lecture Notes in Computer Science. Springer, 2017. [77] Volker Strobel, Alexandre Pacheco, and Marco Dorigo. Robot swarms neutralize harmful Byzantine robots using a blockchain-based token economy. Science Robotics , 8, 2023. [78] Marco Dorigo, Alexandre Pacheco, Andreagiovanni Reina, and Volker Strobel. Blockchain technology for mobile multi-robot systems. Nature Reviews Electrical Engineering , 1:264–274, 2024. [79] Thomas Pasquier, Xueyuan Han, Mark Goldstein, Thomas Moyer, David Eyers, Margo Seltzer, and Jean Bacon. Practical whole-system provenance capture. In Proceedings of the ACM Symposium on Cloud Computing (SoCC) , 2017. [80] George K. Baah, Andy Podgurski, and Mary Jean Harrold. Causal inference for statistical fault localization. In Proceedings of the 19th International Symposium on Software Testing and Analysis (ISSTA) , 2010. [81] Jakob Foerster, Gregory Farquhar, Triantafyllos Afouras, Nantas Nardelli, and Shimon Whiteson. Counter-factual multi-agent policy gradients. In Proceedings of the 32nd AAAI Conference on Artificial Intelligence ,pages 2974–2982, 2018. [82] Lloyd S. Shapley. A value for 𝑛 -person games. In Harold W. Kuhn and Albert W. Tucker, editors, 
+
+Contributions to the Theory of Games II , pages 307–317. Princeton University Press, 1953. [83] Anthony Brohan, Noah Brown, Justice Carbajal, Yevgen Chebotar, Xi Chen, Krzysztof Choromanski, et al. RT-2: Vision-language-action models transfer web knowledge to robotic control, 2023. arXiv:2307.15818. [84] Guanzhi Wang, Yuqi Xie, Yunfan Jiang, Ajay Mandlekar, Chaowei Xiao, Yuke Zhu, Linxi Fan, and Anima Anandkumar. Voyager: An open-ended embodied agent with large language models, 2023. arXiv:2305.16291. [85] Guohao Li, Hasan Hammoud, Hani Itani, Dmitrii Khizbullin, and Bernard Ghanem. CAMEL: Commu-nicative agents for “mind” exploration of large language model society, 2023. arXiv:2303.17760. [86] Grégoire Mialon, Clémentine Fourrier, Thomas Wolf, Yann LeCun, and Thomas Scialom. GAIA: A benchmark for general AI assistants. In The Twelfth International Conference on Learning Representations (ICLR) , 2024. 20 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems [87] Ori Yoran, Samuel Joseph Amouyal, Chaitanya Malaviya, Ben Bogin, Ofir Press, and Jonathan Berant. AssistantBench: Can web agents solve realistic and time-consuming tasks?, 2024. arXiv:2407.15711. [88] Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and Karthik Narasimhan. SWE-bench: Can language models resolve real-world GitHub issues? In The Twelfth International Conference on Learning Representations (ICLR) , 2024. 21 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+# Extended Data                                    
+
+> a signed message 𝑚 =(𝑎, 𝜋, 𝐶, 𝜑, 𝜎 )(every field covered by 𝜎 )
+> id 𝑚 47 author 𝑎 =planner-A dst robot-3 t1024 .6
+> payload 𝜋 move(aisle_2, v=0.8)
+> cites 𝐶 ={𝑚 31 , 𝑚 44 }←authored lineage
+> effect 𝜑 =commitment to the state change ←replay checkpoint
+> seed/model (𝜃 , 𝜉 )←reproducible replay
+> sig 𝜎 𝑎 (𝑎, 𝜋, 𝐶, 𝜑 )
+> amber fields are absent from standard agent logs and are exactly what the attribution engine consumes
+> 1. Write
+> all fields
+> 2. Sign
+> author key
+> 3. Cite
+> or reject
+> 4. Receipt
+> co-sign
+> 5. Seal
+> Merkle epoch
+> 6. Store
+> content-addressed
+> ack
+> six stamps per message; the receipt (dashed) makes a dropped message detectable
+
+Extended Data Fig. 1 | Anatomy of one accountable message and its lifecycle. Top: the fields of a single message (Definition 1); the three amber fields, the authored citation set 𝐶 , the committed effect predicate 𝜑 , and the pinned seed/model identifiers, are absent from standard agent-observability logs and are exactly what gate, grade, and replay consume. Bottom: the six stamps every message collects on the bus. Citation and receipt are enforced (an uncited command is rejected; every delivery is acknowledged), so the recorded graph is correct by construction and silent drops become detectable, which is what moves deletions into the missing set of Proposition 3 rather than out of history. 
+
+22 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems                        
+
+> discretise slice
+> →structural model
+> exact search over
+> gated candidates
+> enumerate minimal
+> (𝑋 ∗, 𝑊 ∗)pairs
+> Engine A: surrogate proposer
+> freeze 𝑊 ∗at
+> recorded values
+> re-execute: seeded
+> models + simulator
+> risk drop ≥𝛿 ?
+> exact / CI + match
+> Engine B: replay certifier
+> in: certified subgraph 𝐺 cert
+> out: candidates +
+> 𝜌 =1/( | 𝑋 ∗|+| 𝑊 ∗| )
+> in: (𝑋 ∗, 𝑊 ∗),𝜑
+> checkpoints, seeds
+> out: certified causes, risk curves, receipts
+> propose
+> refine: failed candidate ⇒split abstraction, re-propose
+> grading is definitional: smaller cause–witness set ⇒
+> higher 𝜌
+
+Extended Data Fig. 2 | The two-layer attribution engine. Engine A works on a discrete structural abstraction of the certified subgraph: an exact search over the gated candidates enumerates minimal cause sets with their witness sets, so the responsibility grade 𝜌 = 1/(| 𝑋 ∗ | + | 𝑊 ∗ |) of Eq. (1) is produced directly by the enumeration. Engine B certifies each proposal by re-execution: witnesses frozen at recorded values, seeded models and simulator rolled forward from the 𝜑 
+
+checkpoints, and the risk reduction checked against the margin 𝛿 , exactly on a pinned stack, with a confidence interval and action-match score on a hosted one. A failed proposal is not reported; it triggers abstraction refinement. The split keeps the worst-case-hard search tractable on incident slices while keeping the verdict sound: Engine B never trusts Engine A’s abstraction (Proposition 1). 
+
+Extended Data Table 1 | The causal-attribution benchmark. Each structure carries planted graded ground truth and probes a distinct attribution challenge. Complete generators and the analytic oracle are in the Supplementary Information. Structure Graded ground truth Attribution challenge it probes Redundancy 𝜌 = 12 , 12 ; two certified causes overdetermination Inert twin one cause 𝜌 =1; twin: breach, 𝜌 =0 transcript-identical evidence Preemption preempted command exonerated effect that never arrived Omission absence variable graded; omitter blamed responsibility for inaction Delegation chain chain graded; faithful relay flagged originator versus conduit Unexpected startup omitted halt graded; sole actor innocent the culprit who did nothing Record attack verdict per Proposition 3 tampered evidence No-cause control universal exoneration manufacturing a culprit Trivial control one culprit, 𝜌 =1 the single-culprit floor 
+
+Extended Data Table 2 | Exactness holds; the cost is computational (facility register). Responsibility error stays 0 .000 at every tested incident width 𝑘 , while wall-clock per incident-slice query roughly doubles per added candidate. Record overhead is modest: 393 B per signed message and 118 KB per complete incident. Interacting candidates 𝑘 2 8 12 14 Responsibility error ↓ 0.000 0.000 0.000 0.000 Wall-clock per query (s) 0.02 0.92 15 .0 62 .1
+
+23 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+# Supplementary Information 
+
+This document contains the formal model and notation (Note S1), proofs of the record-layer results together with two supporting propositions (Note S2), the guarantees against valid-key adversaries—the two attack constructions, culpability groundedness, blame-shift accountability, the completeness barrier, and exoneration accountability, with full proofs (Note S3)—the framing attacks as implemented and what their success does not show (Note S4), the scenario library with planted ground truth and the analytic oracle (Note S5), the canonical form and granularity-invariance result (Note S6), record-substrate and replay details (Note S7), reproducibility information (Note S8), the registered disclosures and measurement history (Note S9), and an extended survey of related work across every line of literature this project engaged (Note S10). Citations are numbered superscripts resolved against the reference list of this document, which the supplementary notes share with the article and which precedes the Extended Data; main-text equation numbers are written as “Eq. (1) of the main text.” 
+
+# S1. Notation and formal model 
+
+Record and verification. A message is 𝑚 = (𝑎, 𝜋, 𝐶, 𝜑, 𝜎 ) as in Definition 1 of the main text: author 𝑎 , payload 
+
+𝜋 , citation set 𝐶 of message hashes, effect predicate 𝜑 , and signature 𝜎 over the preceding fields. The record 𝑅 is the multiset of items held by the recorder, together with delivery receipts (co-signatures acknowledging receipt) and per-epoch Merkle commitments over the hashes of sealed items. The verification predicate 𝑉 (𝑚 ; 𝑅 ) holds when (i) 𝜎 verifies under 𝑎 ’s public key, (ii) every hash in 𝐶 resolves to an item of 𝑅 satisfying 𝑉 (well-founded because citations point backwards in sealed order), (iii) receipts referencing 𝑚 are consistent, and (iv) 𝑚 ’s hash carries a valid inclusion proof in its epoch commitment. This induces the partition of 𝑅 into the certified graph 
+
+𝐺 cert (𝑅 ) = {𝑚 : 𝑉 (𝑚 ; 𝑅 )} with citation edges, the suspect set (present, failing some check), and the missing set 
+
+𝑀 (𝑅 ) = { ℎ : ℎ is cited by some 𝑚 ∈ 𝐺 cert (𝑅 ), or appears in a receipt or a sealed epoch commitment, and no item of 𝑅 hashes to ℎ }. (S1) 
+
+Slice model. For a declared adverse predicate 𝑌 true at 𝑡 ∗, the incident slice 𝑆 (𝑌 ) is the citation-ancestry of the actuation events referenced by 𝑌 within 𝐺 cert , closed under the duties active in the window. The slice model M𝑆 
+
+is a structural causal model whose variables are (a) one binary presence variable per certified message in 𝑆 (𝑌 ),(b) one binary absence variable per active duty whose required message was not issued (recorded as a first-class fact by the duty registry), and (c) the outcome 𝑌 ; mechanisms are induced by the citation structure and the recorded actuation semantics. Messages excluded by the production gate (main text, Methods) do not enter M𝑆 ;as a consequence of this encoding convention, preemption is resolved at the evidence layer, and the graded model over gated candidates is monotone in all scenario families of this paper: every mechanism is nondecreasing in the presence variables, with omissions represented positively by their absence variables. 
+
+Attribution and completions. On a fixed model, the modified Halpern–Pearl test 19,20 and the grades of Eqs. (1)–(2) of the main text define 𝜌 𝑝 (M) for each principal 𝑝 . To account for imperfect records, Audita evaluates 𝜌 𝑝 over admissible completions : assignments 𝑐 : 𝑀 (𝑅 ) → { present , absent } of the missing set that are consistent with the verified receipts, commitments, and the recorded actuation facts (in particular the occurrence of 𝑌 ), each inducing a model M𝑐 (a missing node participates through the citation edges declared by the certified messages that cite it; suspect items are treated as absent for grading and reported separately). Writing C( 𝑅 ) for the set of admissible completions, 
+
+𝜌 𝑝 (𝑅 ) = min  
+
+> 𝑐 ∈ C ( 𝑅 )
+
+𝜌 𝑝 (M 𝑐 ), 𝜌 𝑝 (𝑅 ) = max  
+
+> 𝑐 ∈ C ( 𝑅 )
+
+𝜌 𝑝 (M 𝑐 ), (S2) 24 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems and the reported interval is [𝜌, 𝜌 ] 𝑝 . The lower end 𝜌 𝑝 is the involvement bound : the causal involvement that every reading of the evidence consistent with the certified record must concede. Involvement alone is never culpability: the verdict finds a principal culpable only on breach and causation together (Note S3). 
+
+# S2. Proofs 
+
+Assumptions 
+
+Assumption A1 (Unforgeable signatures) . The signature scheme is existentially unforgeable under chosen-message attack; an adversary without 𝑝 ’s signing key cannot produce a new item passing signature verification as 𝑝 22 .
+
+Assumption A2 (Collision-resistant hashing) . The hash used for citations, receipts, and Merkle commitments is collision-resistant; an adversary cannot produce a second preimage for a committed hash 23 .
+
+Assumption A3 (Sealed epochs) . Attacks on the record occur against sealed epochs: every certified message is covered by a published, append-only epoch commitment before the attack 23,24 . (Deletion inside an unsealed window is a compromise of the live recorder, bounded operationally by epoch length and recorder replication; it is outside the theorem’s scope, as stated in the main-text threat model.) 
+
+Assumption A4 (Key custody) . A certified message is attributed to the holder of the signing key. An insider signing with a valid key is outside the record-attack adversary class: their items certify and are attributed to them. 
+
+Two lemmas 
+
+Lemma S1 (Verification soundness) . Let 𝑅 ′ be obtained from 𝑅 by injecting items that fail verification (forged signatures, unresolvable citations, or invalid inclusion proofs). Then 𝐺 cert (𝑅 ′) = 𝐺 cert (𝑅 ), 𝑀 (𝑅 ′) = 𝑀 (𝑅 ),and the suspect set grows by exactly the injected items. Proof. Each injected item fails 𝑉 by construction (Assumptions A1–A3 guarantee the adversary cannot make a new item pass: it cannot forge a signature, cannot mint a preimage for an existing committed hash, and cannot fabricate an inclusion proof for an unsealed item), so no injected item enters 𝐺 cert . Membership of the original items in 𝐺 cert is unaffected: 𝑉 (𝑚 ; 𝑅 ) depends on 𝑚 ’s own signature, on the resolvability of 𝑚 ’s citations to 
+
+certified items, and on 𝑚 ’s inclusion proof, none of which is altered by the presence of additional non-verifying items. 𝑀 collects unresolved hashes referenced from the certified side, which is unchanged. □
+
+Lemma S2 (Completion monotonicity) . Let 𝑅 ′ be obtained from 𝑅 by deleting a set 𝐷 of items. Then every admissible completion of 𝑅 corresponds to an admissible completion of 𝑅 ′ inducing the same slice model; hence 
+
+C( 𝑅 ) ↩→ C( 𝑅 ′) model-preservingly, and C( 𝑅 ′) may in addition contain completions with no counterpart in 
+
+C( 𝑅 ).Proof. Consider first a deleted item 𝑑 ∈ 𝐺 cert (𝑅 ). By Assumption A3, 𝑑 ’s hash remains in its published epoch commitment (and, if 𝑑 was cited or receipted, in those references), so 𝑑 ∈ 𝑀 (𝑅 ′): the deletion is detectable and 𝑑 becomes a missing node rather than vanishing from the analysis. For any completion 𝑐 ∈ C( 𝑅 ), define 
+
+𝑐 ′ ∈ C( 𝑅 ′) by 𝑐 ′ (ℎ) = 𝑐 (ℎ) on 𝑀 (𝑅 ) and 𝑐 ′ (hash (𝑑 )) = present for each 𝑑 ∈ 𝐷 ∩ 𝐺 cert (𝑅 ). Since a present missing node participates through exactly the citation edges declared by its certified citers—which are the edges 
+
+𝑑 carried when certified— M𝑐 ′ over 𝑅 ′ equals M𝑐 over 𝑅 . Deleting a suspect item changes neither 𝐺 cert nor 𝑀 
+
+nor any M𝑐 . Completions of 𝑅 ′ assigning absent to some deleted certified item are new members of C( 𝑅 ′) with no counterpart in C( 𝑅 ), which establishes the (possibly strict) enlargement. □
+
+25 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Proposition 3 (record-edit monotonicity) 
+
+Proposition 3 (record-edit monotonicity; restated from the main text). Let 𝑝 be a principal all of whose messages verify, and let an adversary modify the record by (i) injecting items that fail verification and/or (ii) deleting items. Then the involvement bound 𝜌 𝑝 does not increase. Under (i) alone, 𝐺 cert —and hence the entire reported verdict—is unchanged; under (ii), the reported interval [𝜌, 𝜌 ] 𝑝 can only widen. Proof. Under (i), Lemma S1 gives 𝐺 cert (𝑅 ′) = 𝐺 cert (𝑅 ) and 𝑀 (𝑅 ′) = 𝑀 (𝑅 ), so C( 𝑅 ′) = C( 𝑅 ) and every reported quantity, including [𝜌, 𝜌 ] 𝑝 , is bitwise identical. Under (ii), 𝑝 ’s own messages remain certified ( 𝑝 is fully certified and deletion of other items cannot invalidate 𝑝 ’s signatures, citations to certified items, or inclusion proofs; deletion of one of 𝑝 ’s own items moves it to 𝑀 by Lemma S2, where completions may restore it). By Lemma S2, C( 𝑅 ) embeds model-preservingly into C( 𝑅 ′), so 
+
+𝜌 𝑝 (𝑅 ′) = min    
+
+> 𝑐 ′∈ C ( 𝑅 ′)
+
+𝜌 𝑝 (M 𝑐 ′ ) ≤ min  
+
+> 𝑐 ∈ C ( 𝑅 )
+
+𝜌 𝑝 (M 𝑐 ) = 𝜌 𝑝 (𝑅 ),
+
+a minimum over a superset. The same embedding gives 𝜌 𝑝 (𝑅 ′) ≥ 𝜌 𝑝 (𝑅 ), i.e. widening. Composing (i) and (ii) in any order composes an equality with a non-increase. □
+
+Remark S1 (Why the guarantee is stated for the lower end) . Deletion can raise 𝜌 𝑝 , and should. In the redundancy the redundancy family ( 𝑌 true if either of two independently sufficient commands 𝑎 1, 𝑎 2 executes; ground truth 
+
+𝜌 = 12 , 12 ), deleting 𝑎 2 from the record leaves a completion in which 𝑎 2 is absent—and in that reading 𝑎 1 is the sole cause with 𝜌 = 1. Audita then reports [𝜌, 𝜌 ]𝑎 1 = [ 12 , 1]: the evidence no longer excludes sole responsibility, and pretending otherwise would be dishonest. What the proposition guarantees is that no such attack moves the 
+
+involvement bound : the certified evidence still forces only 12 , the widened upper end is explicitly labelled as uncertainty created by missing evidence, and a consumer applying an in-dubio-pro-reo standard is unaffected. This is the formal sense in which the design privileges the presumption of innocence. 
+
+Proposition 1 (soundness by certification) 
+
+Proposition 1 (restated from the main text). Every cause reported by Audita is replay-verified: intervening on 
+
+𝑋 ∗ with 𝑊 ∗ frozen at recorded values reduces the certified risk of 𝑌 by at least 𝛿 —exactly on a pinned stack, and at confidence 1 − 𝛼 with reported action-match on a hosted stack. Certified false positives are excluded on pinned stacks and occur with probability at most 𝛼 per reported cause on hosted ones. Proof. The certifier is a filter on Engine A’s proposals: a proposal is reported only if its replay check passes, so the claim reduces to the semantics of the check. Pinned stack. All components are deterministic given recorded seeds and versions under the serial replay protocol (one replay at a time on an idle server; concurrency perturbs reduction order and is excluded from the pinned definition), so the factual replay reproduces the recorded trajectory exactly (a mismatch aborts certification and is itself a reportable integrity finding), and the interventional replay 𝑑𝑜 (𝑋 ∗←𝑥 ′, 𝑊 ∗←recorded ) computes the counterfactual outcome exactly; the check passes iff the risk of 𝑌 drops by at least 𝛿 , which is then a verified fact, not an estimate. Hosted stack. Let 𝑞 0 and 𝑞 1 be the true probabilities of 𝑌 under the factual and interventional distributions induced by the non-deterministic components, and let ˆ 𝑞 0, ˆ𝑞 1 be empirical frequencies over 𝑛 independent replays each. The certifier reports only if ˆ𝑞 0 − ˆ𝑞 1 ≥ 𝛿 + 2𝜀 (𝑛, 𝛼 ) with 𝜀 (𝑛, 𝛼 ) =√︁ ln (4/𝛼 )/( 2𝑛 ). By Hoeffding’s inequality 41 , Pr [ | ˆ𝑞 𝑖 − 𝑞 𝑖 | ≥ 𝜀 ] ≤ 𝛼 /2for each 𝑖 ∈ { 0, 1}, so by a union bound, with probability at least 1 − 𝛼 both estimates are 𝜀 -accurate, and on that event 𝑞 0 − 𝑞 1 ≥ ( ˆ𝑞 0 − ˆ𝑞 1) − 2𝜀 ≥ 𝛿 whenever the report fires. A cause whose true reduction is below 𝛿 is therefore reported with probability at most 𝛼 . The action-match score (Note S7) is reported alongside to expose distributional drift between the recorded and replayed trajectories, which the probabilistic guarantee alone does 26 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems not surface. In both stacks the engine’s failure mode under check failure is abstention and refinement, never assertion. □
+
+Proposition 2 (preemption retirement) 
+
+Proposition 2 (restated from the main text). A message with no intact production path to 𝑌 in 𝐺 cert receives 
+
+𝜌 = 0 and an exoneration note, regardless of its content. Proof. The gate defines the candidate universe: a production path for 𝑚 is a citation path 𝑚 → 𝑚 1 → · · · → 
+
+𝑚 𝑘 → act (𝑌 ) in 𝐺 cert whose every link is verified and whose every committed effect 𝜑 𝑚 𝑖 is confirmed by the recorded state deltas; 𝑚 enters the slice model only if such a path exists. Cause sets are subsets of the slice model’s variables, so a gated-out 𝑚 belongs to no 𝑋 ∗, the maximum in Eq. (2) of the main text ranges over no set containing 𝑚 , and 𝜌 -mass attributable to 𝑚 is zero; if the principal has no gated message at all, Eq. (2) is a maximum over the empty set, defined as 0 and emitted with an exoneration note. When a path is broken only by a member of the missing set, intactness is evaluated per completion, and the candidate contributes to 𝜌 in completions restoring the link but not to the involvement bound—consistent with Proposition 3 of the main text. □
+
+Correspondence with the NESS test on monotone models 
+
+The modified Halpern–Pearl definition 20 evaluates a pair (𝑋 ∗, 𝑊 ∗): with 𝑊 ∗ held at its recorded values, setting 
+
+𝑋 ∗ to counterfactual values must falsify 𝑌 , with 𝑋 ∗ minimal. The NESS test from tort doctrine 17 declares 𝑥 acause when 𝑥 is a necessary element of a set of actual conditions sufficient for the outcome. On the monotone slice models of Note S1 the two agree at the level of causal membership, and the witness machinery becomes vacuous: 
+
+Lemma S3 (Witness vacuity on monotone models) . In a monotone slice model, if (𝑋 ∗, 𝑊 ∗) satisfies the modified test, then so does (𝑋 ∗, ∅) . Consequently every minimal cause–witness pair has 𝑊 ∗ = ∅ and grade 𝜌 = 1/| 𝑋 ∗ |.Proof. Consider the intervention 𝑋 ∗ ← 0 (falsifying counterfactual values in a monotone model set the relevant presences to absent). Propagating through monotone mechanisms, every non-intervened variable’s value is weakly below its recorded value, since inputs only decreased. Freezing 𝑊 ∗ at recorded values holds those variables weakly above their propagated values, and by monotonicity of every mechanism downstream, 𝑌 with the freeze is weakly above 𝑌 without it. The modified test with witness requires 𝑌 = 0 under the freeze; therefore 
+
+𝑌 = 0 without it, which is the test for (𝑋 ∗, ∅) . Minimality then forces the empty witness (any nonempty 𝑊 ∗
+
+only enlarges |𝑋 ∗ | + | 𝑊 ∗ |), and Eq. (1) of the main text reduces to 1 /| 𝑋 ∗ |. This also exhibits the consistency of Eq. (1) with the classical degree of responsibility 1 /( 𝑘 +1) 21 : the size-(𝑘 +1) minimal causes of the modified definition correspond to singleton causes with size-𝑘 contingencies under the original definition 19,20 . □
+
+Proposition S1 (NESS correspondence) . Let M be a monotone slice model with 𝑌 true at the recorded assignment, and let 𝑇 1, . . . , 𝑇 𝑟 be the satisfied prime implicants of 𝑌 (the minimal sets of recorded-true variables sufficient for 𝑌 ; an antichain). Then: (a) the minimal causes of the modified test are exactly the minimal transversals of the hypergraph {𝑇 1, . . . , 𝑇 𝑟 }; and (b) a variable belongs to some minimal cause iff it is a NESS cause, i.e. belongs to some 𝑇 𝑖 .Proof. (a) By Lemma S3 it suffices to consider empty witnesses. Setting 𝑋 ∗ ← 0 falsifies 𝑌 iff no satisfied prime implicant survives, i.e. iff 𝑋 ∗ ∩ 𝑇 𝑖 ≠ ∅ for every 𝑖 : 𝑋 ∗ is a transversal. Minimal causes are therefore exactly minimal transversals. 27 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems (b) ( ⇒) If 𝑣 lies in a minimal transversal 𝑋 ∗, then by minimality there is an edge 𝑇 𝑖 with 𝑋 ∗ ∩ 𝑇 𝑖 = {𝑣 }
+
+(otherwise 𝑋 ∗ \ { 𝑣 } would still be a transversal), so 𝑣 ∈ 𝑇 𝑖 and 𝑣 is a NESS cause: 𝑇 𝑖 is a set of actual conditions sufficient for 𝑌 , and 𝑇 𝑖 \ { 𝑣 } is insufficient by primality. ( ⇐) Let 𝑣 ∈ 𝑇 𝑗 for some 𝑗 . Because the prime implicants form an antichain, no other edge is contained in 𝑇 𝑗 , so every 𝑇 𝑖 (𝑖 ≠ 𝑗 ) contains a vertex 𝑤 𝑖 ∉ 𝑇 𝑗 . The set 
+
+𝑋 0 = {𝑣 } ∪ { 𝑤 𝑖 : 𝑖 ≠ 𝑗 } is a transversal, and 𝑋 0 ∩ 𝑇 𝑗 = {𝑣 } since each 𝑤 𝑖 ∉ 𝑇 𝑗 . Any transversal subset of 
+
+𝑋 0 must therefore contain 𝑣 ; pruning 𝑋 0 to a minimal transversal preserves 𝑣 . Hence 𝑣 belongs to a minimal transversal, i.e. to a minimal cause by (a). □
+
+Remark S2 . The correspondence is deliberately stated at the membership level: NESS is a binary test, while Eqs. (1)–(2) of the main text refine it with a degree (1 /| 𝑋 ∗ | on monotone models) and, on non-monotone models arising outside the gate convention, with witness sets. The practical consequence claimed in the main text is exactly this: the quantity Audita computes specialises, on the model class where legal intuition is sharpest, to a test the legal literature already recognises. 
+
+# S3. Guarantees against valid-key adversaries: groundedness, blame-shift ac-countability, and the completeness barrier 
+
+Record-edit monotonicity (Proposition 3 of the main text, proven in Note S2) concerns an adversary who attacks the record : it injects items that fail verification or deletes sealed items, and the guarantee follows from verification soundness and completion monotonicity. This note upgrades the adversary to the strongest one admitted by the main-text threat model: a coalition holding valid keys , acting during the incident. Such a coalition needs no forgery — it can attack through conduct. We first exhibit two in-model attacks showing that raw causal responsibility is manufacturable by conduct (and that two natural localization claims are false); we then prove what the composed verdict still guarantees. 
+
+Adversary model. A valid-key coalition is a set 𝐴 ⊆ 𝑃 of principals that may (a) choose their live policies adaptively, including policies that condition on other principals’ messages; (b) author arbitrary payload content, including false assertions about other principals; and (c) apply, after the incident, any record modification of the record-edit class (injection of non-verifying items; deletion against sealed epochs; Proposition 3, main text). Assumptions A1–A4 of Note S2 are in force; in particular, by key custody (A4), every coalition message certifies normally and is attributed to its coalition author. 
+
+Two attacks within the model 
+
+Remark S3 (Attack I: conditioning) . Let 𝑣 be an honest principal and 𝑞 ∈ 𝐴 run the live policy: if a message authored by 𝑣 appears in my input frontier, emit the harmful command 𝑠 𝑞 , citing 𝑣 ’s message; otherwise behave normally. In the realized run 𝑣 emits its ordinary compliant message 𝑚 𝑣 ; 𝑞 emits 𝑠 𝑞 citing 𝑚 𝑣 ; the adverse outcome 𝑌 occurs. Every item certifies, so the missing and suspect sets are empty, the completion set is a singleton, and 𝜌 𝑣 = 𝜌 𝑣 . The production gate passes for 𝑚 𝑣 : the path 𝑚 𝑣 → 𝑠 𝑞 → act (𝑌 ) exists in 𝐺 cert by the attacker’s own citation , which is an authored claim about 𝑞 ’s conduct and therefore not excludable as hearsay. The modified Halpern–Pearl test with 𝑋 ∗ = {𝑚 𝑣 }, 𝑊 ∗ = ∅ succeeds: intervening 𝑑𝑜 (𝑚 𝑣 ←absent ) sends 𝑞 ’s policy down its normal branch and 𝑌 is falsified. Hence 𝜌 𝑣 = 1, and the replay honestly certifies it — the counterfactual is true. Raw responsibility is thus manufacturable by conduct alone, with no record attack; record-edit monotonicity is not violated but silent. Note that here the attacking node lies on the production path and is itself an actual cause of 𝑌 — properties that Remark S4 shows are not general. 28 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Remark S4 (Attack II: inevitability rigging) . Binary slice model: victim message 𝑚 𝑣 (actual value 1), a coalition-authored configuration 𝑐 with realized (deviated) value dev and reference value ref (Definition S3), outcome mechanism 𝑌 = 𝑓 (𝑚 𝑣 , 𝑐 ) with 
+
+𝑚 𝑣 𝑐 𝑌 = 𝑓 (𝑚 𝑣 , 𝑐 )
+
+1 dev 1 (realized: adverse) 0 dev 01 ref 10 ref 1Under the reference value the harm is inevitable (𝑌 = 1 regardless of 𝑚 𝑣 ), so 𝜌 𝑣 = 0 there. Under the deviation, 
+
+𝑑𝑜 (𝑚 𝑣 ←0) falsifies 𝑌 , so 𝜌 𝑣 = 1 with 𝑊 ∗ = ∅: the deviation converts an inevitable harm into one that hinged on the victim. Two further facts, checked directly against the modified HP definition: (i) 𝑐 is not an actual cause of 𝑌 in the realized model — 𝑑𝑜 (𝑐 ←ref ) leaves 𝑌 = 1 (row 3), with or without freezing 𝑚 𝑣 , and no superset of 
+
+{𝑐 } helps; and (ii) 𝑐 lies on no production path from 𝑚 𝑣 to 𝑌 . Consequently, both of the following tempting strengthenings of our guarantees are false : “every manufactured-involvement path carries a coalition-authored node” (path localization), and “any raise of a victim’s responsibility implies some coalition variable has positive responsibility for 𝑌 ” (object-level localization). The correct level of analysis is meta -causal (Theorem S2): 𝑐 is 
+
+an actual cause of 𝑣 ’s pivotality — writing 𝑃 𝑣 ≡ [ 𝑌 ∧ ( 𝑑𝑜 (𝑚 𝑣 ←0) ⇒ ¬ 𝑌 ) ] , we have 𝑃 𝑣 = 1 in the realized model while 𝑑𝑜 (𝑐 ←ref ) falsifies it (row 4). 
+
+Remark S5 (Lineage) . An earlier design iteration repaired record-level framing: adversarial completions could raise an honest principal’s computed 𝜌 , which the restriction of verdict evidence to 𝐺 cert eliminated (the setting of Proposition 3, main text). Remarks S3–S4 are the conduct-level analogue, which no record restriction can repair; Theorems S1 and S2 are its fix. 
+
+Content-determined duties and groundedness 
+
+Definition S1 (Content-determined duty roster) . A duty roster {Φ𝑝 }𝑝 ∈ 𝑃 is content-determined if each Φ𝑝 is a computable predicate over exactly (i) the certified messages authored by 𝑝 , together with 𝑝 ’s duty-registered absence variables, and (ii) the certified input frontier of each such item (the certified items it cites, and the certified items deliverable to 𝑝 at issue time per the recorded receipts). In particular Φ𝑝 takes no ground-truth label, no post-hoc information, and no third-party payload about 𝑝 except through channel (ii), where such a payload bears only on the compliance of 𝑝 ’s response to it. Concrete instances used in this paper: the aggregator duty (output equals the declared normative aggregation of its certified inputs) and the solver self-consistency duty (the emitted final answer equals the answer derived in the solver’s own certified working). 
+
+Definition S2 (Culpability finding) . The verdict finds 𝑝 culpable iff it reports a breach finding for 𝑝 and 𝜌 𝑝 > 0. Following the evidence-chain rule (verdicts may cite only evidence inside 𝐺 cert ; Note S1), a breach finding must cite a witness inside 𝐺 cert : certified 𝑝 -authored items (or 𝑝 ’s duty-registered absences) on whose content Φ𝑝 
+
+fails. 
+
+Lemma S4 (Breach locality and edit-invariance) . Under a content-determined roster, for a principal 𝑝 all of whose messages verify: (a) the breach finding for 𝑝 is computable from 𝐺 cert alone; (b) no record modification of the record-edit class creates a breach finding for 𝑝 : injections leave the finding unchanged, and deletions can only destroy its witness (moving the finding to “non-evaluable / evidence missing”), never create one. 
+
+29 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Proof. (a) is Definition S1. For (b): injected items fail verification and never enter 𝐺 cert (Lemma S1), so the arguments of Φ𝑝 are unchanged. A deletion moves items to the missing set (Lemma S2). By Definition S2 a breach finding must cite a certified witness; the witness set after deletion is a subset of the witness set before, so the set of assertable breach findings shrinks monotonically. No new 𝑝 -authored certified content appears under either operation, so no new witness — hence no new finding — can arise. □
+
+Proposition S2 (Hearsay-freeness of the verdict pipeline) . For 𝑞 ≠ 𝑝 , a 𝑞 -authored certified item enters the computation of 𝑝 ’s verdict through exactly two channels: as a variable of the slice model attributed to 𝑞 
+
+(mechanism channel: its presence and content may causally influence outcomes, and interventions on it are graded against 𝑞 ), or as an element of 𝑝 ’s certified input frontier (context channel: it bears on whether 𝑝 ’s response was compliant). In particular, if two certified records agree on 𝑝 ’s authored items and on their input frontiers, they yield the same breach finding for 𝑝 , whatever any other principal asserts; and the causal prong for 𝑝 is computed by interventions on 𝑝 ’s variables only. There is no testimony channel: no assertion by 𝑞 is ever evaluated as evidence of 𝑝 ’s conduct. Proof. By inspection of the pipeline’s dependency structure, which the definitions fix: the breach prong is Φ𝑝 ,whose argument list (Definition S1) contains no 𝑞 -authored item outside 𝑝 ’s frontier; the causal prong applies the gate–grade–certify test to candidate sets of 𝑝 -authored variables in M𝑆 , in which every 𝑞 -authored item occurs solely as a variable with its own mechanism, attributed to 𝑞 (Definition 1, main text). The two channels are exhaustive because M𝑆 contains no other occurrence of 𝑞 -authored content. □
+
+Theorem S1 (Culpability groundedness) . Fix any content-determined duty roster. For every valid-key coalition 
+
+𝐴 , every principal 𝑝 , and every coalition-induced run with any record modification of the record-edit class applied: if the verdict finds 𝑝 culpable, then the breach finding is witnessed by 𝑝 ’s own certified conduct — certified 𝑝 -authored items (or duty-registered absences of 𝑝 ’s required items) whose content violates Φ𝑝 on 𝑝 ’s certified input frontier. Equivalently: a principal whose own certified conduct satisfied Φ𝑝 in the realized run is never found culpable; the strongest verdict against such a principal is causal involvement with exoneration for breach .Proof. By Definition S2 a culpability finding contains a breach finding citing a certified witness; by Definition S1 and Proposition S2 that witness consists of 𝑝 -authored certified content (or 𝑝 ’s duty-registered absences) evaluated on 𝑝 ’s certified frontier, and no coalition conduct, payload assertion, or record edit can substitute for it (Lemma S4(b)). The contrapositive is immediate. □
+
+Corollary S1 (Ex-ante safety) . Call 𝑝 robustly duty-compliant if its policy satisfies Φ𝑝 on every admissible input frontier. A robustly duty-compliant principal is never found culpable under any valid-key coalition strategy. □
+
+Remark S6 (What this theorem is and is not) . Theorem S1 is sound by careful construction : it verifies that the composed pipeline realizes a dependency restriction, and we present it as such. Its content lies in two external facts. Necessity: Remark S3 shows the causal prong alone violates groundedness — responsibility without breach is manufacturable — so the breach ∧causation composition is what carries the guarantee. Tightness: 
+
+Theorem S3 shows that strengthening the breach prong to close its completeness gap is impossible without ground truth; groundedness sits at the exact boundary of what a record-level auditor can certify. 
+
+Blame-shift accountability 
+
+Definition S3 (Declared reference standard; deviation set) . A reference standard for principal 𝑎 is a declared policy 𝜋 ref  
+
+> 𝑎
+
+— for example, the vendor’s own agent under clean prompt, or a certified checker — registered in 30 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems the duty registry before the incident, or declared by the investigator with disclosure. Given a realized run on a pinned stack, the deviation set 𝐷 of a coalition 𝐴 is the set of authored-variable families at which the realized conduct differs from 𝜋 ref ’s conduct on the same certified input frontier; it is computable by pinned replay of 𝜋 ref 
+
+on that frontier. All results below are parametric in the declared standard: different standards yield different certificates, each valid relative to its declaration. 
+
+Definition S4 (Deviation-indexed extension; pivotality) . Let 𝑀 be the realized slice model and 𝐷 a deviation set. The extension b𝑀 [𝐷 ] adds one binary selector 𝜎 𝑖 per deviation ( 𝜎 𝑖 = 1: realized mechanism; 𝜎 𝑖 = 0: reference mechanism); its variable universe is the union of the potential messages of the 2 |𝐷 | selector settings (a message not issued under a setting is absent), which is finite on a pinned stack since each setting determines one finite run; all other mechanisms are unchanged; the actual context is 𝜎 ≡ 1. For a fully certified principal 𝑣 and level 𝑟 , the 
+
+pivotality event is 𝑃 𝑟 𝑣 ≡ [ 𝜌 𝑣 ≥ 𝑟 ], an event of b𝑀 [𝐷 ] whose value under a setting 𝜎 is computed on the run that 
+
+𝜎 induces. 
+
+Theorem S2 (Blame-shift accountability) . Let 𝑣 ∉ 𝐴 be fully certified and duty-compliant in the realized run, and suppose the coalition’s conduct deviations raised 𝑣 ’s involvement bound: 𝜌 𝑣 (𝑀 ) = 𝑟 > 𝜌 𝑣 (𝑀 ref ), where 
+
+𝑀 ref = b𝑀 [𝐷 ]| 𝜎 ≡0 and 𝜌 𝑣 := 0 when the induced run is not adverse. Then: 1. (Existence.) There is a nonempty minimal 𝑋 ⊆ 𝐷 and a witness 𝑊 ⊆ 𝐷 \ 𝑋 , frozen at deviated values, such that 𝑑𝑜 (𝜎 𝑋 ←0, 𝜎 𝑊 ←1) falsifies 𝑃 𝑟 𝑣 : under the modified Halpern–Pearl definition, the coalition’s deviations are an actual cause of the victim’s pivotality .2. (Certificate.) Any such minimal pair (𝑋, 𝑊 ) is a machine-checkable blame-shift certificate : it names concrete deviations whose restoration to the declared standard destroys the raise, and it is verifiable by replaying the two runs it distinguishes. 3. (Graded framing responsibility.) Each 𝑎 ∈ 𝐴 receives 𝜌 frame  
+
+> 𝑎
+
+= max { 1/(| 𝑋 | + | 𝑊 |) : (𝑋, 𝑊 ) minimal for 
+
+𝑃 𝑟 𝑣 , 𝑋 contains a deviation authored by 𝑎 }: the framers are graded by the same responsibility calculus they abused. 4. (No stronger localization.) Clause 1 cannot be strengthened to place a deviation on a production path from 𝑣 ’s messages to 𝑌 , nor to make some deviation an actual cause of 𝑌 itself: Remarks S3 and S4 realize the raise with and without those properties. Proof. Clause 1. With all non-selector exogenous conditions fixed, 𝑃 𝑟 𝑣 is a function of 𝜎 ∈ { 0, 1}𝐷 . By hypothesis 𝑃 𝑟 𝑣 (𝜎 ≡1) = 1 and 𝑃 𝑟 𝑣 (𝜎 ≡0) = 0. Hence the pair 𝑋 = 𝐷 , 𝑊 = ∅ satisfies the modified-HP falsification condition at the actual context 𝜎 ≡ 1; the family of satisfying sets is nonempty and finite, so it contains a minimal element 𝑋 , and 𝑋 ≠ ∅ since 𝑃 𝑟 𝑣 (𝜎 ≡1) = 1. Freezing sets arising in minimization are frozen at their actual — that is, deviated — values, as the modified definition requires. Clause 2 restates clause 1’s witness operationally; verifiability is pinned-stack replay (Proposition 1, main text). Clause 3 is Chockler–Halpern applied in b𝑀 [𝐷 ].Clause 4 is by the two exhibited attacks. □
+
+Corollary S2 (Composition with record attacks) . Against a coalition using conduct deviations and record-edit-class attacks together, the guarantees compose: the edits do not raise 𝜌 𝑣 beyond its pre-edit value (Proposition 3, main text), any conduct-driven raise above the declared-reference value is certificated by Theorem S2 on the pre-edit record, and no combination yields a culpability finding against a compliant 𝑣 (Theorem S1). □
+
+Remark S7 (Verdict integration) . When the engine reports involvement-without-breach for a compliant principal (Theorem S1) and a reference standard is declared, it may additionally emit the blame-shift certificate and the 31 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+𝜌 frame grades: “you can be framed into the causal story” becomes “. . . and the framing itself is attributed and graded.” Computing certificates is exhaustive search over deviation subsets, the same regime as the main engine; the tractability boundary is measured, not asserted, as elsewhere in the paper. 
+
+The completeness barrier 
+
+Throughout this subsection fix a task family with gold labels 𝑔 , and call certified conduct of a principal 
+
+outcome-culpable (relative to gold) if its emitted final answer differs from 𝑔 on the task instance and the conduct receives a positive certified causal grade for the adverse outcome. This is the field’s culprit notion (a wrong answer that caused the failure); note that it is gold-referenced by definition. 
+
+Definition S5 (Soundness and completeness of a breach standard) . A content-determined Φ is sound if it passes every conduct producible by a duty-compliant policy on its realized certified frontier; it is complete (relative to gold) if it fires on every outcome-culpable conduct, over all well-formed certified records. 
+
+Definition S6 (Honest fallibility; template-uniform realizability) . A domain exhibits honest fallibility if some duty-compliant policy, on some certified frontier, produces outcome-culpable conduct (a compliant honest error that causes harm). It exhibits template-uniform realizability if there is a constructor 𝐾 mapping any task instance 
+
+𝑡 and candidate answer 𝑎 to a well-formed certified record 𝐾 (𝑡, 𝑎 ) — a single-solver incident whose aggregation passes the answer through, so that the conduct is outcome-culpable iff 𝑎 ≠ 𝑔 (𝑡 ) — whose focal conduct is producible by a duty-compliant policy for every (𝑡, 𝑎 ) in a dense subset of instances. Free-form LLM solvers satisfy both in our corpora: honest errors exist (measured), and an internally consistent derivation ending in an arbitrary candidate answer is compliant-producible conduct. 
+
+Theorem S3 (Completeness barrier) . 1. Under honest fallibility, no content-determined breach standard is both sound and complete: the requirements contradict on the honest-error conduct. 2. Under template-uniform realizability, any sound content-determined Φ that is complete decides answer correctness: Φ(𝐾 (𝑡, 𝑎 )) fires iff 𝑎 ≠ 𝑔 (𝑡 ), so a single record evaluation answers “is 𝑎 the correct answer to 𝑡 ?”. Hence breach-completeness is at least as hard as answer verification for the task family, and any auditor restricted to the certified record — human or algorithmic — inherits the same barrier. Proof. (1) Let 𝐶 ∗ be the conduct witnessing honest fallibility. Soundness requires Φ to pass 𝐶 ∗ (it is compliant-produced); completeness requires Φ to fire on 𝐶 ∗ (it is outcome-culpable). Contradiction. (2) For 𝑎 ≠ 𝑔 (𝑡 ): the focal conduct of 𝐾 (𝑡, 𝑎 ) is outcome-culpable by construction, so completeness forces Φ to fire. For 𝑎 = 𝑔 (𝑡 ):the conduct is compliant-producible (realizability) and not outcome-culpable, so soundness forces Φ to pass. Thus Φ(𝐾 (𝑡, 𝑎 )) = [ 𝑎 ≠ 𝑔 (𝑡 ) ] on the dense subset, and Φ is computable from the record, which contains (𝑡, 𝑎 )
+
+and no gold label. □
+
+Remark S8 (Empirical shadow; semantics of the culprit metric) . The barrier retro-dicts the measured structure of the accuracy experiments: a gold-free (deployable) arm cannot match a gold-informed judge on culprit identification — it would otherwise decide answer correctness — so parity of the gold-informed arms is the ceiling, and the deployable arm’s misses must concentrate on honest-error and non-monotonic cases, which the diagnosis confirms independently. The deeper reading: the field’s culprit-ID metric conflates outcome-culpability with breach-culpability, and Theorem S3 shows the conflation is unrecoverable from certified records alone. Either one adopts negligence semantics — and then declining to convict honest errors is correct behavior, not an accuracy deficit — or one demands gold at audit time, and the judge baseline becomes an oracle rather than a deployable auditor. 32 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Exoneration accountability 
+
+Assumption A5 (Attributed commitments) . Epoch commitments published at sealing time record, for every sealed item, an item identifier that binds the author’s principal identity together with the item’s hash; delivery receipts are signed by recipients over the item identifier. Consequently, for a deleted item, its authorship (from the sealed identifier) and its certified citers (the surviving certified items whose citation sets name it) remain recoverable without the item’s payload. The reference implementation satisfies this: item identifiers embed the author’s principal identity, sealed blocks retain the identifier list, and Merkle leaves commit the full signed content. 
+
+Theorem S4 (No silent exoneration) . Let 𝑞 have 𝜌 𝑞 (𝑅 ) = 𝑟 > 0 on the sealed record 𝑅 (a certified culprit), and let 𝑅 ′ be obtained by any record modification of the record-edit class. Then: 1. (Detectability with attribution.) If 𝜌 𝑞 (𝑅 ′) < 𝑟 , then the missing set 𝑀 (𝑅 ′) is nonempty and meets every forcing family for level 𝑟 (defined in the proof); under Assumption A5 each such missing item is reported with its author and its certified citers. The verdict states: the exoneration of 𝑞 rests on evidence recorded-but-now-missing, and names whose evidence it was. 2. (Guilt persistence in the interval.) 𝜌 𝑞 (𝑅 ′) ≥ 𝜌 𝑞 (𝑅 ) = 𝑟 : the modified record still admits 𝑞 ’s responsibility at the original level; the attack converts forced guilt into flagged uncertainty, never into certified innocence. 3. (Public verifiability.) With the multi-keeper seal and an honest-majority keeper set, the pre-edit commitments are available to any auditor, so clauses 1–2 are checkable by parties who never saw 𝑅 .4. (Breach-erasure accountability.) The same holds for the other prong of culpability: any edit that destroys a breach finding against 𝑞 — deleting the certified witness items, or corrupting stored copies so that they fail verification and become suspect — moves those witnesses to the missing or suspect set, author-attributed under Assumption A5, and the verdict reports breach evaluation degraded by missing/suspect evidence authored by 𝑞 rather than a clean non-breach. Exoneration by erasure is impossible silently on either prong. Proof. (1) Injections do not change any reported quantity (Lemma S1), so a strict drop requires deletions. Call a set 𝐹 ⊆ 𝐺 cert (𝑅 ) a forcing family for level 𝑟 if every admissible completion in which all of 𝐹 is present yields 
+
+𝜌 𝑞 ≥ 𝑟 ; since 𝜌 𝑞 (𝑅 ) = 𝑟 , the set of all certified items is itself a forcing family, so forcing families exist. Suppose some forcing family 𝐹 survived intact, 𝐹 ⊆ 𝐺 cert (𝑅 ′). Every admissible completion of 𝑅 ′ contains every certified item, in particular all of 𝐹 , hence yields 𝜌 𝑞 ≥ 𝑟 — contradicting 𝜌 𝑞 (𝑅 ′) < 𝑟 . Therefore every forcing family for level 𝑟 lost at least one member; each lost member is a deleted certified item, which by Lemma S2 moved to 
+
+𝑀 (𝑅 ′) (deletion against a sealed epoch is detectable), and Assumption A5 recovers its authorship and frontier. (2) By Lemma S2, C( 𝑅 ) embeds model-preservingly in C( 𝑅 ′), so 𝜌 𝑞 (𝑅 ′) ≥ 𝜌 𝑞 (𝑅 ) ≥ 𝜌 𝑞 (𝑅 ) = 𝑟 . (3) is the standard transparency-log argument and is cited, not reproved. (4) A breach finding must cite certified witnesses (Definition S2); by Lemma S4(b) edits can only remove such witnesses, and a removed witness is either a sealed deletion (missing, by Lemma S2) or a verification failure (suspect), both visible partitions; authorship attribution is Assumption A5. □
+
+Remark S9 (The two-sided characterization) . Record-edit monotonicity and Theorem S4 together replace the informal asymmetry claim of the Discussion with a two-sided statement: manufactured certainty is impossible for the fully certified (Proposition 3 of the main text, strengthened to conduct adversaries by Theorems S1–S2), and manufactured innocence is impossible silently (Theorem S4): destruction buys uncertainty, and the uncertainty arrives pre-attributed. 33 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Proof of Theorem 5 of the main text (grounded framing at every order) 
+
+(i) Completeness. The order-𝑘 model is a finite boolean structural model over deviation selectors. If the outcome predicate takes different values at the all-realized and all-reference assignments, then the predicate depends on the selector vector, so there is a nonempty minimal set 𝑋 ∗ of selectors satisfying the modified Halpern–Pearl conditions for the realized value (flip 𝑋 ∗ under a witness 𝑊 ∗ and the predicate changes; minimality by finiteness). Every selector is, by construction, attached to a realized message on the certified record, and its owner is the signer of that message; under sound key custody (A3) the attribution of every graded variable to its owner is therefore witnessed by a signature the owner cannot repudiate. 
+
+(ii) Groundedness, by induction on the order 𝑘 . The base case 𝑘 = 1 is the separation of Theorem S1 applied to deviating conduct: a culpable-framing finding is defined as a positive grade on a deviation that itself breaches the registered content-determined roster, and breach is computable from the owner’s own certified conduct alone. For the inductive step, observe that the lifting from order 𝑘 − 1 to order 𝑘 preserves the two properties on which the base case rests: every endogenous variable remains a deviation selector of signed conduct (so ownership remains signature-attributed), and the breach predicate remains the same registered content-determined roster evaluated on that conduct (so culpability remains witnessed by the owner’s own record). A principal with no deviating conduct contributes no variable to any order-𝑘 model and can therefore receive no grade; a principal whose deviations are all duty-compliant can receive involvement grades but never satisfies the breach conjunct. □
+
+Proof of Proposition 4 of the main text (dilution is not free) 
+
+Let 𝑑 be a causally inert deviation: the outcome predicate takes the same value at every pair of selector assignments differing only at 𝑑 . Then 𝑑 cannot belong to any minimal 𝑋 ∗ (flipping it changes nothing, so removing it from a candidate cause preserves the counterfactual clause and contradicts minimality) and is never required in any minimal witness 𝑊 ∗ (its value never affects the evaluation). Existence and all grades 1/(| 𝑋 ∗ | + | 𝑊 ∗ |) are computed from minimal sets only and are therefore unchanged. Contrapositively, a deviation whose inclusion changes any grade must appear in some minimal set, hence the predicate depends on it, hence it is causally active; it is realized, signed conduct on the record and Theorem 5 applies to it. □
+
+Attack III: the level-2 scapegoat, and why it fails 
+
+The registered level-2 construction (EXP-N4) arranges a benign deviation to be pivotal for the victim’s pivotality. A compliant victim routes a unit late in the episode; the attacker launches a breaching-speed near miss timed against the human’s pass; a supervisor-role principal halts the victim’s unit, citing the attacker’s hazard as its reason, then resumes the victim’s task at the duty limit, and the delay retimes the unit into the human’s return pass. The supervisor’s deviation from its declared plan is duty-compliant (a halt, then a resume at the limit), and in every kept draw the certified supervisor policy, replayed offline over the recorded sensor reports, would itself have demanded the halt: the deviation is not merely standard-compliant but operationally justified. A naive reading of the order-one certificate blames this benign deviator, and the involvement layer indeed grades it in every kept incident. The culpability layer never does: the finding requires the framer’s own deviation to breach the registered roster, which the halt does not and the attacker’s speeding does. The construction also surfaced an instrument defect in the arm (not the oracle): a physical-path-only production gate that missed citation-created production, the very semantics the record layer is built on; the repair and its full re-verification against all prior facility results are recorded in Supplementary Note 11. 34 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+# S4. Framing attacks as implemented, and what their success does not show 
+
+Note S3 states the two conduct-level attacks abstractly. Their facility instantiation is as follows. In the conditioning 
+
+attack the attacker issues a harmful speed command whose citation set names the victim’s compliant message; because citation is an authored causal claim (Definition 1 of the main text), that citation is what creates the certified production path, and suppressing the victim’s message consequently silences the attacker’s. In the 
+
+inevitability-rigging attack the victim issues a duty-compliant route, a separate principal breaches the speed duty, and the attacker’s realised conduct is an innocuous command whose declared reference counterpart would have routed a second unit through the corridor—making the collision inevitable regardless of the victim. Deviating from that reference removes the redundant cause and leaves the victim’s compliant routing as the remaining but-for link, without the attacker ever acting on the victim’s path. The certificate is computed by the responsibility calculus applied to selector variables that switch each deviation between realised and reference conduct, with the victim’s pivotality as the outcome event; counterfactuals are decided by exact world re-execution with citation-chain propagation, so a suppressed trigger silences the conduct that cited it. 
+
+What this does not establish. We designed the attacks, the defence and the scoring, and a defence always survives the attacks its author imagined. Three things limit the damage: the attacks are derived from the theorems rather than searched for, so the experiment checks an implementation against a prediction rather than hunting a favourable case; the successful half is reported (both attacks drive a compliant principal’s involvement bound to 1.0, which no record machinery prevents); and the certificate is machine-checkable by replaying the two runs it names, so a sceptical reader can verify it without trusting us. Adversaries outside the stated class remain future work, and we claim nothing about them. 
+
+# S5. Scenario library, planted ground truth, and the analytic oracle 
+
+How the families are instantiated. The abstract family definitions below fix the causal structure each scenario must realise; the facility register instantiates them with physical semantics, and this paragraph records that instantiation so the two can be checked against each other. In the facility, principals issue typed commands (move_to , set_speed , halt , set_param ) carrying declared effect predicates; a deterministic kinematic world advances at 0 .1 s ticks; the safety predicate fires at the first tick with human–robot separation below 0 .5 m, with severity 12 𝑚𝑣 2 at that tick, and the quality predicate at a batch parameter outside its acceptance range. 
+
+Redundancy is two independently sufficient speed-up commands from distinct principals; the inert twin is the same record with the second command’s actuator locked out, so the two families’ transcripts are bitwise identical and differ only in whether an effect propagated; preemption is an accused command physically halted before its effect reaches the corridor, with the incident produced by a later command; omission is a registered halt duty left unfulfilled; delegation is a reckless route relayed by faithful conduits. 
+
+The physics oracle and its independence. Ground truth on the facility register is computed by exact world re-execution: for a candidate set the world is re-run from its initial state with those command messages treated as absent, and the declared predicate is evaluated on the resulting trajectory. No language model participates at any point, so this register is immune to the serving-stack nondeterminism that the live-corpus register must manage by protocol. The responsibility profile is then the Chockler–Halpern grade over that outcome function, computed by an analytic implementation written against the definitions and sharing no code with the gate-and-interval engine under test. We exploit this to run a standing cross-implementation check: on the causal layer, where the two share nothing, ground truth and engine must agree. The check is reported in the main text together 35 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems with the defect it caught—a gate that retired halt commands by kind rather than by production path, producing systematic under-attribution on incidents where a halt caused harm through timing. Two semantics matter for reproducibility. Interventions act at the consumption level: the record is fixed, and a counterfactual world treats a set of command messages as absent, where a command is world-effective unless it or a policy-chain ancestor is absent. The omission variable inserts the dutiful halt obtained by running the certified supervisor policy offline over the recorded sensor reports—a corrected value sourced from the registered duty specification, never imagined. Ground truth is reported in two layers: the causal profile (Chockler–Halpern responsibility over the physics) and the culpable profile (causal responsibility restricted to principals in breach of a content-determined duty). The layers differ routinely and instructively: a compliant route-issuer is often a genuine but-for enabler of a collision, and appears with positive causal responsibility and zero culpability—involvement without breach, which is the groundedness distinction of Theorem S1 made physical. The sampled register draws these dimensions independently (redundancy width, preemption, lockout, delegation depth, omission, unit, and the declared predicate) rather than composing a single incident type with parameter noise; only 57 .8% of draws are adverse, so structure, not construction, decides whether harm occurs. Each family below is given by its slice-model composition; all are monotone under the gate convention of Note S1. Ground truth is computed by an analytic oracle implementing Proposition S1 directly—prime-implicant extraction followed by minimal-transversal enumeration on the composed outcome function—written against the definitions and sharing no code with the engine under test. Supplementary Figure S1 walks the redundancy family end to end. 
+
+Redundancy (true overdetermination). Planners 𝑎 1, 𝑎 2 each issue an independently sufficient command; a dispatcher 𝑑 cites both; the robot 𝑟 executes. Composed outcome 𝑌 = 𝑎 1 ∨ 𝑎 2 through conduits 𝑑, 𝑟 . Ground truth: 𝜌 𝑎 1 = 𝜌 𝑎 2 = 12 (minimal cause {𝑎 1, 𝑎 2}); 𝜌 𝑑 = 𝜌 𝑟 = 1 as singleton but-for causes, conduit-flagged ; no breach findings. 
+
+Inert twin. Transcript-identical to redundancy, but the dispatcher’s command cites only 𝑎 1; 𝑎 2’s proposal has no production path (and 𝑎 2 skipped a required review step). Ground truth: 𝜌 𝑎 1 = 1; 𝜌 𝑎 2 = 0 with an exoneration note and a breach finding—the family exists to force the breach-without-causation output. Separating redundancy from the inert twin requires the citation structure; transcripts are indistinguishable by construction. 
+
+Preemption. 𝑎 1 issues a hazardous command; a supervisor halt arrives first and the dispatcher discards 𝑎 1’s command (no realised effect); a later command 𝑎 3 produces 𝑌 . Ground truth: 𝜌 𝑎 3 = 1; 𝑎 1 exonerated for 𝑌 
+
+(gated out, Proposition 2) with a breach finding for the hazardous issuance. 
+
+Omission. A sensor records human entry; the duty registry obliges the supervisor 𝑠 to issue a halt within 𝜏 ;none is issued (absence variable ¯ 𝐻 𝑠 = 1); the standing motion command 𝑐 proceeds and 𝑌 = 𝑐 ∧ ¯𝐻 𝑠 . Ground truth: 𝜌 ¯𝐻 𝑠 = 1 and 𝜌 𝑐 = 1 (each conjunct is a singleton but-for cause), breach finding for 𝑠 only. The family makes explicit that causation and culpability separate: the duty-compliant issuer of 𝑐 is causally implicated and cleared on breach, which the verdict states rather than hides. 
+
+Delegation chain. 𝑢 → 𝑝 1 → 𝑝 2 → 𝑑 → actuation, with the erroneous transformation introduced at 𝑝 1 and relayed faithfully thereafter. Ground truth: every chain member is a singleton but-for cause ( 𝜌 = 1); 𝑝 2, 𝑑 are conduit-flagged by the faithful-relay test; the breach finding localises to 𝑝 1. The family exercises the design position that 𝜌 is an input to judgment: but-for chains grade everyone, and the verdict’s flags and breach findings carry the discrimination. 36 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems                
+
+> (a) production gate
+> human lead
+> 𝑎 1
+> pln
+> 𝑎 2
+> pln
+> 𝑑
+> disp
+> 𝑣 𝑅
+> rob 𝑌 𝑣 𝑆
+> sens
+> planning ensemble
+> 𝑑 ’s command cites both proposals ⇒
+> both live. Had it cited only 𝑎 1, then
+> 𝑎 2= preempted backup, gated to 𝜌 =0(breach still reported). 𝑣 𝑆 : no path, gated.
+> (b) test 𝑎 1, freeze 𝑊 ={𝑎 2}
+> human lead
+> 𝑎 ′
+> 1
+> 𝑎 2
+> 𝑑 𝑣 𝑅 𝑌 ′
+
+♦                                       
+
+> freeze 𝑎 2at its logged value (teal lock), intervene 𝑎 1:𝑌 ′=1 still — 𝑎 1alone is not decisive. Changing the pair
+> gives 𝑌 ′=0⇒minimal cause {𝑎 1, 𝑎 2},
+> 𝜌 =12each; 𝑑 ,𝑣 𝑅 :𝜌 =1 as conduits .
+> (c) seeded replay →risk
+> 𝑎 ′
+> 1
+> roll 1 roll 2 roll 𝐾 𝑌 =0
+> 𝑌 =0
+> 𝑌 =1text steps re-run under logged seeds; physics
+> rolled from the 𝜙 checkpoint; 𝐾 rollouts give ˆ 𝑟 =Pr [𝑌 =1|𝑑𝑜 (·) ] with a CI.
+
+Extended Data Fig. S1 | The causal machinery on an intra-ensemble redundancy incident. Inside the planning ensemble, planners 𝑎 1 and 𝑎 2 each produce the unsafe plan (either alone suffices); a single dispatcher 𝑑 emits the one command the robot executes. (a) The production gate keeps exactly the messages whose signed chain reaches the harm—and here the record is decisive: whether 𝑎 2 is a half-responsible joint cause or a preempted backup with 𝜌 = 0 is decided by which proposals 𝑑 ’s command cites , a fact the enforced lineage records and no transcript reconstruction can recover. 
+
+(b) Grading: intervening on 𝑎 1 while freezing 𝑎 2 at its recorded value leaves the incident intact; only changing the pair flips it, so {𝑎 1, 𝑎 2 } is the minimal cause and each carries 𝜌 = 12 —where single-site counterfactual scoring returns zero for both. The dispatcher and robot are but-for causes ( 𝜌 =1) flagged as conduits by clean-input replay (Supplementary Note 7). 
+
+(c) Counterfactual outcomes are estimated by seeded re-execution plus physics rollouts from the 𝜙 checkpoints. 
+
+Record attack. Any of the above with an attack overlay: forge (inject items failing verification), drop (delete sealed items), reorder, equivocate. Ground truth: the clean-family verdict transformed exactly as Theorem 1 prescribes—bitwise unchanged under forgery, interval-widened under deletion, with 𝜌 of fully-certified principals never raised. 
+
+Negative controls. NoCause : 𝑌 is produced by an exogenous environmental event with no principal in the slice; correct output is universal exoneration. TrivialCause : a single command with a direct path; correct output is that command’s author at 𝜌 = 1. 
+
+Parameterised generator. Beyond the named families, incidents are sampled by composing monotone gadgets—disjunction of width 𝑤 (ground truth 1 /𝑤 each), conjunction of width 𝑘 (each member 1), chains of depth 𝑑 with a planted deviation, and duty-conditioned absences—into a random series-parallel outcome function, then realising the function as a message topology. The oracle computes ground truth on the composed function; because gadget composition preserves monotonicity, Proposition S1 applies throughout, and the sampled register measures the estimator against an implementation-independent target. 
+
+S5.1. Grounding the incident library in public accident data 
+
+The register’s incident structures are grounded in a corpus of public robot-accident records compiled for this paper (42 entries: OSHA IMIS accident narratives under the keyword “robot,” 1984–2024, with 28 detail records fetched individually; NIOSH and state FACE investigation reports; a published analysis of 41 robot-related fatalities in United States CFOI data 1992–2017; and published accident-pattern taxonomies). The mapping from observed causal shapes to register families, with per-shape counts from the corpus, is: single-site command error (11) to preemption and record attack and the sampled register’s single-fault draws; omission of a duty-bearing safeguard, lockout not applied, guarding defeated, supervisor absent (11), to omission and the sampled register’s 37 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems                                                       
+
+> Extended Data Table S1 |Planted ground truth for the named families. Grades from the analytic oracle; flags and breach findings from the family specification. Conduit-flagged grades are reported with the flag attached, per the main text. Family Principal 𝜌 gt Flags Breach Redundancy 𝑎 1,𝑎 212,12——
+> 𝑑 ,𝑟 1, 1 conduit —Inert twin 𝑎 11——
+> 𝑎 20exonerated review skipped Preemption 𝑎 31——
+> 𝑎 10exonerated (gated) hazardous issuance Omission 𝑠 (via ¯ 𝐻 𝑠 )1omission halt duty issuer of 𝑐 1——Delegation chain 𝑢, 𝑝 1, 𝑝 2, 𝑑 1 each 𝑝 2, 𝑑 : conduit 𝑝 1: deviation No-cause control all 0exonerated —Trivial control author 1—(as drawn)
+
+omission axis; unexpected startup during maintenance (7), the modal fatal pattern in the CFOI analysis, to the held-out unexpected-startup family, in which every issued command is duty-compliant and the sole breach is the omitted pre-entry halt; preemption and defeated protections (6) to the inert twin and the lockout axis; mixed conjunctive failures (6) to the sampled register’s compositional draws; chain delegation (1) to the delegation chain. Two provenance limits are stated rather than smoothed over. Overdetermination (the redundancy family) is absent from the accident corpus: every multi-failure incident in it is conjunctive. Its provenance is the legal and causal-theory literature on overdetermined harm, not accident data, and we keep it because a graded calculus must handle the structure the doctrine treats as hard. Chain delegation appears exactly once in the corpus; its prominence in our register reflects the delegation depth of agent systems, not the frequency observed in industrial records to date. 
+
+# S6. Canonical form and granularity invariance 
+
+A principal should not be able to change its responsibility by re-chunking its own output—splitting one command into three messages or merging three into one. Two mechanisms make this so: the per-principal maximum of Eq. (2) of the main text, and a canonical contraction. 
+
+Definition S7 (Same-author conjunctive group) . Messages 𝑚 1, . . . , 𝑚 𝑘 by the same author form a conjunctive group in M𝑆 if every mechanism depends on them only through the conjunction 𝑚 1 ∧ · · · ∧ 𝑚 𝑘 (formally: the composed outcome function is invariant under permuting the group and under replacing the group by a single variable equal to their conjunction). The canonical contraction replaces the group by one representative variable 
+
+𝑔 .
+
+Proposition S3 (Granularity invariance) . On monotone slice models, canonical contraction leaves every principal’s grade unchanged: 𝜌 𝑝 (M) = 𝜌 𝑝 (M/ 𝑔 ) for all 𝑝 .Proof. By Lemma S3, minimal causes are minimal transversals of the satisfied prime implicants (Proposition S1), so it suffices to show the contraction induces a size-preserving correspondence between minimal transversals touching the group and those containing 𝑔 .
+
+No minimal cause contains two group members. If 𝑚 1, 𝑚 2 ∈ 𝑋 ∗, note that setting 𝑚 1 ← 0 already sets the conjunction to 0; since mechanisms see the group only through the conjunction, the propagated evaluation of 
+
+𝑋 ∗ \ { 𝑚 2} equals that of 𝑋 ∗, so 𝑋 ∗ was not minimal. 38 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+Projection. Let 𝑋 ∗ be a minimal cause containing exactly one member 𝑚 𝑖 . Replacing 𝑚 𝑖 by 𝑔 yields a set of equal size that falsifies 𝑌 in M/ 𝑔 (setting 𝑔 ← 0 has the same effect on every mechanism as setting 𝑚 𝑖 ← 0), and it is minimal there: a strictly smaller falsifying subset would lift (below) to a strictly smaller falsifying subset in M, contradicting minimality. Causes disjoint from the group are unaffected. 
+
+Lift. Let 𝑋 ∗ ∋ 𝑔 be a minimal cause in M/ 𝑔 . Replacing 𝑔 by any single member 𝑚 𝑖 yields an equal-size set falsifying 𝑌 in M (same effect on all mechanisms), and it is minimal by the symmetric argument. The correspondence preserves sizes and authorship of the group (all members share the author), so the sets over which each principal’s maximum in Eq. (2) ranges have identical grade multisets, and 𝜌 𝑝 is unchanged. □
+
+Remark S10 . Even without contraction, Eq. (2)’s maximum absorbs a principal’s own chunking: if a size-𝑠 
+
+minimal cause uses one of 𝑝 ’s chunks, its grade 1 /𝑠 is what 𝑝 receives no matter how many sibling chunks exist. The contraction is a normalisation that additionally stabilises the grades of other principals whose causes interact with the group, and it is applied before grading in all experiments, and the released test suite checks the invariance on a re-chunked record. 
+
+# S7. Record substrate and replay details 
+
+Storage tiers. The record is held in three tiers: a hot append-only log at the recorder; a warm content-addressed store for payloads (only hashes are sealed, so bulky or personal payloads can be encrypted and crypto-shredded for data protection without breaking the seal); and cold sealed epochs whose Merkle roots are published append-only. Two deployment profiles instantiate the seal: Profile A (single operator) publishes roots to a signed transparency log with periodic external anchoring; Profile B (multi-stakeholder) has a keeper set—operator, vendors, insurer—co-sign each epoch, so no single party can rewrite or fork history. Under either profile the record a reader verifies is the one drawn in Figure 1 of the main text: hash-chained blocks, each sealing an epoch of signed messages under a Merkle root. 
+
+Equivocation. Presenting different histories to different parties is defeated by the single sealed sequence: receipts and epoch commitments bind every consumer to the same root, and divergent roots are themselves cryptographic evidence of recorder misbehaviour, surfacing in the suspect set. 
+
+Replay stacks and action-match. The pinned stack fixes model weights, decoding parameters, seeds, tool versions, and the simulator build, making factual replay bit-exact and interventional replay deterministic. The hosted stack replays against components that cannot be pinned; certification then reports the confidence interval of Proposition 1 together with an action-match score: under an order-preserving alignment of the replayed and recorded actuation sequences, the fraction of aligned events agreeing in type, target, and parameters within declared tolerances. A low action-match flags that the replayed system is no longer the recorded system, independent of the risk estimate. 
+
+# S8. Reproducibility 
+
+The reference implementation is a Python package organised as record/ (accountable messages, verification, Merkle sealing), engine/ (gate, grade, certify), verdict/ (analytic responsibility, intervals, canonical form), 
+
+facility/ (incident families, generator, analytic oracle), corpus/ (live pipeline, replay oracle), baselines/ ,and metrics/ , with one registered runner per experiment identifier under scripts/ . Each runner writes a JSON artifact under results/ carrying the configuration, per-incident outputs, and summary statistics, and every 39 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems run sweeps generation seeds 𝑘 ∈ { 0, 1, 2} where the register is stochastic. All numbers, figures, and tables in the main text are regenerated from those artifacts by scripts included in the release, and a verification script re-checks every reported quantity against its artifact before submission. The simulation layer is CPU-deterministic; pinned-stack replay of open-weight planners uses seeded deterministic serving. Experiments ran on NVIDIA A100-SXM4-80GB GPUs under Python 3.11, NumPy 2.4, and SciPy 1.17, with open-weight models served by vLLM 0.14.1; the archived release pins exact package versions and the container digest. 
+
+# S9. Registered disclosures and measurement history 
+
+This note consolidates, in one place, every deviation from registration, every refuted prediction, and every measurement whose history bears on how much weight it deserves. The experiment log in the released repository records each item with its registration date. 
+
+Refuted predictions (six). (i) The regime decomposition predicted that 28–42% of live-corpus incidents would exhibit joint solver–aggregator causation; the measured share is 95–98% at 72B. (ii) The volume-confound prediction expected judge attributions to track message volume; under a fair manipulation the measured slope is 
+
+𝛽 = 0.000. (iii) The completeness-barrier bite prediction expected ground-truth access to confer a measurable advantage on honest errors; the paired difference spans zero. (iv) The repair-curve prediction expected unranked arms to stay flat across budgets; they brute-force upward. (v) The Shapley baseline was predicted to recover the redundancy split and to land in 0 .30–0 .55 on the live register; it does neither, erring 0 .833 on redundancy while attaining 0 .223 live, which makes it the strongest baseline in the paper rather than a weak one. (vi) Shapley was predicted to stay above Audita in every model family; on Qwen2.5-7B it is below (0 .041 versus 0 .111, paired 95% CI [− 0.141 , −0.004 ]), the one register in this paper where a baseline is more accurate than the graded verdict. Each refutation is reported in Results with the analysis it forced. 
+
+Measurement history of the cross-family argmax cell. The Llama-3.1-8B cell first yielded 13 scoreable incidents, on which the judge led argmax culprit identification 1 .000 to 0 .615. Because extending collection after an unfavourable result is optional stopping, we fixed in advance of the extension that the enlarged cell would be reported in whichever direction it moved, with no change to arms, metrics, or exclusion rules. The extension to 25 incidents (offsets disjoint from the original draw, labels serially re-verified, 139 /142 reproduce) moved the gap from thirty-eight points to twelve (0 .960 versus 0 .840). Both estimates appear in the log; the main text reports the extended cell together with this history’s existence. Readers preferring the conservative reading should treat the small first sample as the less reliable of the two, which is also what its width implies. 
+
+Amended designs (two). The second-family experiment was registered for Llama-3.3-70B and amended to a matched-scale contrast (Qwen2.5-7B versus Llama-3.1-8B) when cluster capacity made a second 70B unservable on four dated attempts; the amendment isolates family at fixed scale and adds a within-family scale arm. The external-benchmark experiment was registered for Who&When Pro and executed on Who&When when Pro’s data and code remained unreleased at run time; no Pro number appears anywhere in this paper. 
+
+Instrument defects caught before any number reached the paper (seven). A kind-filter in the production gate that excluded halt commands (caught by the engine-versus-oracle independence check); a tautological residual design; a repair operator that set rather than clamped speeds; a tie-break that under-scored a baseline; a budget-unfair random control; a rigging construction whose victim was not in fact compliant; a duty-sensitivity population that could not span the registered standards; and a physical-path-only production gate that missed 40 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems citation-created production (surfaced by the level-2 construction; after repair, full re-runs of the principle-family and record-attack experiments reproduced every previously published mean exactly); a judge cell whose candidate list omitted the silent duty-holder, making the correct answer unnameable (the cell was rerun in two registered variants, actor-only and duty-informed, and both are reported); and a first-version geometry for the unexpected-startup family in which the worker walked into the halted robot, so the omission was not a cause and a compliance check passed vacuously (the family was re-parameterised so the derived halt averts the harm, the keep condition was made non-vacuous, and every cell was rerun). Each was repaired and re-registered before its experiment’s numbers were accepted. 
+
+# S10. Extended related work 
+
+The main-body Related Work covers the lines closest to Audita: failure attribution in multi-agent systems, actual causality and graded responsibility, and the manipulation-of-attribution literature that flanks our blame-shift certificate. This note provides the extended survey across the remaining lines the project engaged, organized by the role each plays relative to Audita. 
+
+Strategic and adversarial manipulation of attribution 
+
+A small adjacent literature studies attribution when the attributed parties are strategic, and none of it, to our knowledge, addresses the framing problem our guarantees target. In cooperative sequential decision making, game-theoretic blame attributions provably misalign incentives (non-performance-incentivizing Shapley, over-blaming Banzhaf), motivating attribution methods with better structural properties under uncertainty , but the agents there do not attack the attribution of others 42 . Recent work on retrospective counterfactual responsibility in concurrent stochastic games lets agents trade their own expected responsibility against reward in equilibrium, forward-looking strategy synthesis, with no adversarial manufacture of a victim’s responsibility and no evidence layer 43 . In the explanation literature, adversarially crafted models can fool perturbation-based feature attributions such as LIME and SHAP 44 ; the object manipulated there is a model explanation, not a principal’s graded responsibility over a certified record. Accountability systems in the PeerReview tradition guarantee that correct nodes are never exposed, but detect protocol deviation against a deterministic reference implementation 45 ;our Attack I is protocol-compliant conduct, invisible to deviation detection by construction. Our blame-shift accountability theorem differs from all four lines in both question and machinery: it asks whether a coalition can raise a victim’s responsibility, answers by applying the Halpern–Pearl test at the meta level (deviations as causes of the victim’s pivotality), and returns a replay-checkable certificate that grades the framers. On the barrier side, concurrent work establishes statistical limits of ground-truth-free auditing, worst-case calibration error of any label-free estimator in the rare-error regime 46 ; our completeness barrier is the per-instance, adversarially-relevant counterpart: a logical soundness/completeness contradiction for content-determined breach standards, tied to negligence semantics rather than to estimator calibration. 
+
+Causation in law, defaults, and omissions 
+
+The legal doctrine Audita answers to is the NESS test, a cause as a necessary element of a sufficient set of actual conditions 17 , and the broader treatment of causation in the law by Hart and Honoré 18 , from which the verdict’s duty–breach–causation–harm structure is drawn. The philosophical literature distinguishes dependence from production as two concepts of causation 47 , precisely the distinction our gate-and-grade test operationalizes; graded causation with defaults and normality gives omissions their standing as causes 48 , which our duty-indexed absence variables implement mechanically. Empirically, human causal judgments track counterfactual simulation 49 , and 41 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems human responsibility intuitions are sensitive to factors, such as how critical or salient a contributor appears, that a defensible audit must not inherit; our volume-confound experiment tests the machine analogue of exactly this failure. 
+
+The responsibility gap and AI accountability 
+
+That learning systems open a gap between harm and accountable agent is the seminal observation of Matthias 50 ,refined into four distinct gaps, culpability, moral accountability, public accountability, and active responsibility 51 ,and rooted in the older problem of many hands 52 . Audita targets the culpability and public-accountability gaps by manufacturing the evidentiary object they presuppose. Governance work on agent visibility proposes identifiers, real-time monitoring, and activity logs 53 ; authenticated-delegation frameworks issue scoped, auditable authority from humans to agents 54 ; and on-chain identity registries are commoditizing agent identity at scale 55 ,Audita consumes these primitives (its delegation certificates and duty clauses are exactly such tokens) and adds what they do not attempt: post-hoc causal attribution over the recorded conduct. System- and process-level AI auditing assesses documentation, monitoring, and governance of deployed systems 56,57 ; regulation demands event recording and traceability 8 within safety regimes that presume incidents can be reconstructed 9,10 . Audita audits the event rather than the system, and proposes what the mandated records must be for those obligations to purchase accountability. 
+
+Accountability systems and tamper-evident records 
+
+The distributed-systems ancestry of the record is direct. PeerReview established that nodes signing all messages into tamper-evident logs, audited by witnesses, yields two guarantees, detected faults are irrefutably linked to a faulty node, and correct nodes can always defend against false accusation 45 ; Theorem 1 is our generalization of the second guarantee from protocol deviation to graded semantic responsibility. Accountable Virtual Machines extended the recipe to record-replay-blame over full executions 58 , and its stated limits are exactly our deltas: it requires a deterministic reference implementation and cannot fault faithful execution of flawed software, language-model principals have no reference implementation, are nondeterministic, and act on the physical world. CSAR made accountability survive randomness by logging application inputs and random choices 59 , the ancestor of our seed-and-model-hash fields; formal definitions of accountability via judge-rendered verdicts, and their relation to verifiability, come from Küsters, Truderung and Vogt 60 . The data structures beneath the seal are the tamper-evident history trees of Crosby and Wallach 61 , fork consistency against equivocating servers from SUNDR 62 , forward-secure audit logs 63 , Merkle commitments 23 , and transparency logging at Internet scale 24 ,under classical Byzantine and network-adversary models 29,30 . Practitioner standardization is beginning: an IETF draft specifies hash-chained, optionally signed audit records for agents with an explicit mapping to the AI Act’s logging article 64 , a single-writer schema without lineage, receipts, or physical binding, whose spirit our record extends. The nearest new relative is the verifiable-transcript line, which applies SUNDR-style signed digests and fork detection to LLM conversation transcripts under an untrusted-provider threat model 65 ; it certifies a two-party transcript, whereas Audita certifies a multi-principal command graph with authored lineage, actuation binding, and attribution on top. 
+
+Agent observability tooling 
+
+Industry telemetry for agents is consolidating around vendor-neutral semantic conventions for agent, tool, and model spans 66 , on the pedigree of large-scale distributed tracing 67 ; academic work taxonomizes what agent operations should trace 68 and how agentic systems can be observed and optimized in operation 69 . The gap this cluster leaves is the one Audita fills: telemetry captures what happened without identity, integrity, or assessment, 42 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems no field binds a span to a signing principal, nothing proves the trace complete, and no semantics turns spans into responsibility. Our message format is deliberately close to these conventions so that the three fields standard logs lack (authored citations, committed effects, pinned seeds) read as an extension rather than a replacement. 
+
+Threats to agent and robot collectives 
+
+The attack literature supplies both motivation and the record-corruption manipulations used in our evaluation. Jailbreaking attacks produce harmful physical actions on deployed LLM-controlled robots 70 ; in LLM-coordinated multi-robot teams, compromising a single entry robot propagates malicious intent through peer communication, with obedience reaching 1.00 and full-team compromise in as few as three rounds in the strongest reported cases 71 , the staged version of the incidents Audita investigates. Surveys of agent communication protocols document tool poisoning, injection, and cross-boundary provenance gaps 72 . Prevention-oriented security frameworks harden the channel: the Aegis Protocol combines decentralized identifiers, post-quantum signatures, and zero-knowledge policy compliance under an extended Dolev–Yao adversary 73 , and BlockA2A anchors agent-to-agent interoperability in verifiable identity 74 . These are complements, not competitors: they aim to prevent the incident, Audita to adjudicate it, and a hardened channel makes the certified record’s assumptions easier to discharge. 
+
+Safety science and incident investigation 
+
+The incumbent methodology for accident analysis is systems-theoretic: STAMP models accidents as control-structure failures and CAST analyses them deliberately blame-free, asking why and how rather than who 75 .Audita is designed to feed, not replace, that practice: the same certified record supports a blame-free learning analysis and the evidentiary who-and-how-much account that liability, insurance, and regulation additionally demand. The ethical black box argued that robots need flight recorders specified for accident investigation 76 ; our record is its multi-principal, agentic-era successor, and it attributes as well as logs. Adjacent blockchain-robotics work uses ledgers for swarm coordination and Byzantine defence, token economies that neutralize harmful robots 77 , reviewed for mobile multi-robot systems in the Nature portfolio 78 ; that line secures coordination at run time, while Audita uses ledger machinery for post-incident causal attribution. 
+
+Neighbouring methodological fields 
+
+Three method families adjoin ours and mark its boundary. Root-cause analysis for microservices computes type-level causal effects over inferred dependency graphs, increasingly with partial identification under latent confounding and robustness to graph misspecification; our problem is token-level actual causation over a graph that is signed by construction rather than inferred, with uncertainty that is adversarial rather than statistical, and with graded responsibility, exoneration, and an innocence guarantee that root-cause outputs do not carry. Provenance-based forensics captures whole-system operating-system provenance and reconstructs attack stories over it 79 , the mature syscall-level analogue of our problem, without message semantics, duties, or embodiment. Causal statistical fault localization pioneered causal inference over program dependence graphs 80 , and its slicing-to-the-cause-effect-chain pattern prefigures our production gate, ported here to signed cross-principal command graphs with physical outcomes. Finally, counterfactual credit assignment in cooperative multi-agent reinforcement learning 81,82 shares the counterfactual core but serves training-time reward shaping; post-hoc evidentiary attribution differs in object (a concrete incident), in adversary (the record itself is attacked), and in consumer (parties with legal stakes), which is why the game-theoretic attributions it favours misbehave as responsibility measures 42 .43 Audita: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems 
+
+The deployment substrate 
+
+The systems whose incidents Audita is built to audit are documented in the main text: language-grounded robot planners and vision-language-action models 1,2,83 , open-ended and communicative agents 84,85 , and orchestration frameworks 6,7 , evaluated on field-standard task suites 86–88 whose shapes our facility simulation abstracts. Across all these clusters, the pattern is the one the paper argues: each ingredient of Audita has deep roots in its home field, and what is new is the composition, certified evidence, production-gated graded causation, and replay verification bound into one pipeline whose output is designed to survive a hostile audience. 44

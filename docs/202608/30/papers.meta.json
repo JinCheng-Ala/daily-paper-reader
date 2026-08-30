@@ -1,0 +1,39 @@
+{
+  "label": "2026-08-30",
+  "date": "2026-08-30",
+  "generated_at": "2026-08-30T21:54:02",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202608/30/2608.22160v1-audita-certified-auditing-and-causal-attribution-of-adverse-outcomes-in-autonomous-multi-agent-systems",
+      "section": "deep",
+      "title_en": "AUDITA: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems",
+      "authors": "Zhixu Du, Yiran Chen",
+      "date": "2026-08-23",
+      "pdf": "https://arxiv.org/pdf/2608.22160v1",
+      "score": "9.0",
+      "evidence": "审计自主多智能体日志中的不利后果并进行因果归因，与智能体轨迹错误检测高度契合",
+      "tldr": "多智能体系统造成伤害时责任归属困难，现有审计依赖不可验证日志且只能归因单一责任人。提出AUDITA审计层，结合防篡改命令记录与分级因果归因引擎，证明裁决不可博弈。在语言模型流水线上责任错误降低约三倍，并能恢复被单一归因掩盖的责任。将责任认定从日志争论转变为基于证据的可靠计算。",
+      "tags": "query:agent-error",
+      "abstract_en": "Physical automation is scaling toward fleets of embodied machines commanded by an AI brain. Early deployments already run factories and warehouses at production rates beyond any human line, and their adoption is accelerating. But when their joint decisions cause harm, everyone involved has reason to blame everyone else, the machine vendor, the algorithm provider, the factory operator, the insurer, and the regulator, and no method can divide the responsibility between them. Existing methods read logs whose origin they cannot verify and name a single culprit, misrepresenting outcomes that are overdetermined, preempted, or caused by an omission. We present \\audita{}, an audit layer pairing a tamper-evident record of every inter-agent command with a certified, graded causal-attribution engine. We prove its verdict cannot be gamed: a rule-following agent can never be made to look guilty, an attempt to shift blame is itself caught and graded, and we establish the exact limit of what an evidence-based auditor can certify. On live language-model pipelines it reduces the standard judge baseline's responsibility error roughly threefold; on a benchmark of accident-grounded structures it recovers responsibility where single-culprit baselines fail, and stays invariant under forgery. \\audita{} turns the question of who is to blame from an argument about logs into a calculation over evidence.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/30/2608.24937v1-multi-modal-anomaly-detection-a-survey",
+      "section": "quick",
+      "title_en": "Multi-Modal Anomaly Detection: A Survey",
+      "authors": "Xudong Mou, Zexin Wu, Chuan Luo, Shiru Chen, Xudong Liu, Chunming Hu, Renyu Yang",
+      "date": "2026-08-24",
+      "pdf": "https://arxiv.org/pdf/2608.24937v1",
+      "score": "6.0",
+      "evidence": "异常检测方法综述，可应用于轨迹",
+      "tldr": "多模态异常检测（MMAD）从异构数据中识别罕见异常事件，广泛应用于工业检测与网络安全等领域，但现有文献分散且缺乏统一视角。本文从假设驱动的角度系统梳理MMAD，将其分为正常性假设与异常假设两类互补范式，并探讨了基础模型带来的变革。最后汇总了基准与评估协议，指出了未来研究方向，为构建鲁棒、自适应、可解释的MMAD系统提供了指导。",
+      "tags": "query:agent-error",
+      "abstract_en": "Multi-Modal Anomaly Detection (MMAD) detects rare abnormal events from heterogeneous data sources and is increasingly used in safety- and reliability-critical applications such as industrial inspection and cybersecurity. Yet the literature is fragmented across domains and modality combinations, and existing surveys usually group methods by architecture rather than by how abnormality is defined and separated in multi-modal settings. We survey MMAD from an assumption-driven perspective. We formalize the problem, identify five intrinsic characteristics underlying its core challenges, and organize prior work into two complementary paradigms. The first, normality-assumption methods, models regularity via representation learning, cross-modal alignment, and knowledge enhancement. The second, anomaly-assumption methods, sharpens decision boundaries through coarse-grained, structural, and semantic anomaly injection. We also investigate how foundation models are reshaping MMAD through scalable pretraining, flexible cross-modal transfer, and emerging reasoning capabilities. Finally, we compile representative benchmarks and evaluation protocols across domains and highlight open problems and future directions for robust, adaptive, and interpretable MMAD systems.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
