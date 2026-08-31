@@ -6,30 +6,35 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-30
-- 运行时间：2026-08-30 21:53:57 UTC
+- 最新运行日期：2026-08-31
+- 运行时间：2026-08-31 23:22:25 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：1
-- 速读区：1
+- 本次总论文数：5
+- 精读区：3
+- 速读区：2
 
 ### 今日简报（AI）
-今日精读1篇、速读1篇，重点聚焦自主多智能体系统的安全审计与多模态异常检测。
-
-最值得关注的是《AUDITA》，评分9.0，提出对多智能体系统不良后果的可认证审计与因果归因方法，是该领域的高价值参考。
-
-建议优先精读《AUDITA》，并可将多模态异常检测综述作为背景延伸，以补齐安全监控视角。
-- 详情：[/202608/30/README](/202608/30/README)
+今日精读2篇高分论文并速读2篇，聚焦LLM智能体安全与多智能体协作失败归因。最值得关注的是“安全不组合”的循环状态问题，以及基于失败归因的自动化反思框架。建议先深入“失败归因”方向，对提升多智能体协作可靠性更实用。
+- 详情：[/202608/31/README](/202608/31/README)
 
 ### 精读区论文标签
-1. [AUDITA: certified auditing and causal attribution of adverse outcomes in autonomous multi-agent systems](/202608/30/2608.22160v1-audita-certified-auditing-and-causal-attribution-of-adverse-outcomes-in-autonomous-multi-agent-systems)  
+1. [Safety Does Not Compose: Non-Decaying Loop State for Autonomous LLM Agents](/202608/31/2608.27141v2-safety-does-not-compose-non-decaying-loop-state-for-autonomous-llm-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：审计自主多智能体日志中的不利后果并进行因果归因，与智能体轨迹错误检测高度契合
+   evidence：证明轨迹级安全监控器无法检测跨迭代分散证据，真阳率等于假阳率
+2. [Finding Where the Buck Stops: An Automated Failure Attribution-Based Reflection Framework for Multi-Agent Collaboration](/202608/31/2608.28264v1-finding-where-the-buck-stops-an-automated-failure-attribution-based-reflection-framework-for-multi-agent-collaboration)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：在多智能体轨迹中定位决定性错误步骤与智能体
+3. [TACIT-Switch: Cost-Aware Model Escalation for LLM Agents from Censored Supervision](/202608/31/2608.27911v1-tacit-switch-cost-aware-model-escalation-for-llm-agents-from-censored-supervision)  
+   标签：评分：8.0/10、query:agent-error
+   evidence：基于轨迹证据预测智能体失败并触发模型升级
 
 ### 速读区论文标签
-1. [Multi-Modal Anomaly Detection: A Survey](/202608/30/2608.24937v1-multi-modal-anomaly-detection-a-survey)  
+1. [TRACE: A Self-Evolving Skill Bank for Consistent, Limit-Aware LLM Agents](/202608/31/2608.22793v1-trace-a-self-evolving-skill-bank-for-consistent-limit-aware-llm-agents)  
    标签：评分：6.0/10、query:agent-error
-   evidence：异常检测方法综述，可应用于轨迹
+   evidence：监控智能体行为的一致性与边界感知
+2. [Grounded Checklist Partial Credit for Agent Skill Trajectories](/202608/31/2608.27487v1-grounded-checklist-partial-credit-for-agent-skill-trajectories)  
+   标签：评分：6.0/10、query:agent-error
+   evidence：基于检查表的细粒度评估，可暴露轨迹中的步骤级错误
 
 
 <div class="dpr-home-promo-card">

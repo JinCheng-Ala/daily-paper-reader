@@ -1,0 +1,218 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-31T23:18:13.152939+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2608.27141v2",
+      "source": "arxiv",
+      "title": "Safety Does Not Compose: Non-Decaying Loop State for Autonomous LLM Agents",
+      "abstract": "Large language model agents are increasingly deployed as autonomous loops. Starting from one human goal, such a system repeatedly discovers work, plans, executes tool calls, verifies outcomes and persists state across many unattended iterations. The agent safeguards in wide use, however, are defined over a single trajectory, and their safety state is re-initialized when the next trajectory begins. We show that this is a failure of composition rather than an implementation detail. Our central result is a separation: against an attack whose evidence is fragmented across several iterations, every trajectory-scoped monitor has a true-positive rate equal to its false-positive rate, however expressive it is, because the evidence it would need never appears in the window it sees, whereas a monitor retaining cross-iteration state separates the two perfectly. We further show that the obvious repair of carrying a geometrically decaying risk score is insufficient, because the cooling-off period a patient adversary must wait is a constant that does not grow with the horizon $N$. We then present LoopHarness, which restores a persistent, non-decaying safety state at the loop level. Under mediated commits and an arbiter detection floor $δ_M$, it bounds the expected number of unauthorized irreversible actions by $B+m-1+m/δ_M$, a constant in $N$, of which the $B+m-1$ term is decided by a model-free rule and therefore survives a fully colluding verifier. We give a complete evaluation protocol on native Agent-SafetyBench tasks with paired clean and attacked episodes, an outer-state attack suite whose decisive evidence exists only across iterations, per-module ablations, and an adaptive white-box red team.",
+      "authors": [
+        "Chenhao Wu",
+        "Haoxuan Jia",
+        "Yang Liu",
+        "Yingguang Yang",
+        "Yuhan Lin",
+        "Chongyang Zhang",
+        "Hao Zheng",
+        "Yulin Huang",
+        "Jianshen Zhang",
+        "Yongzhi Qi",
+        "Shang Luo",
+        "Kefu Xu",
+        "Jifeng Zhu",
+        "Bin Chong"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-27T13:52:31+00:00",
+      "link": "https://arxiv.org/pdf/2608.27141v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "proves trajectory-scoped safety monitors fail to detect evidence fragmented across iterations, true-positive rate equals false-positive rate",
+      "llm_evidence_cn": "证明轨迹级安全监控器无法检测跨迭代分散证据，真阳率等于假阳率",
+      "llm_evidence": "证明轨迹级安全监控器无法检测跨迭代分散证据，真阳率等于假阳率",
+      "canonical_evidence": "证明轨迹级安全监控器无法检测跨迭代分散证据，真阳率等于假阳率",
+      "llm_tldr_en": "Proves that safety monitors scoped to a single trajectory cannot detect attacks fragmented across iterations; for any such monitor true-positive rate equals false-positive rate when evidence is distributed over multiple trajectories.",
+      "llm_tldr_cn": "自主LLM智能体通常以循环方式长期运行，而现有安全监控器按单条轨迹定义并在轨迹切换时重置状态。本文证明面对跨多次迭代分散证据的攻击，任意轨迹级监控器的真阳率都等于假阳率，无法优于随机猜测。这一分离结果表明安全状态不能随轨迹结束而丢失，需要为非衰减循环设计跨迭代的持久化监控机制，对智能体轨迹错误检测的理论基础有重要影响。",
+      "llm_tldr": "自主LLM智能体通常以循环方式长期运行，而现有安全监控器按单条轨迹定义并在轨迹切换时重置状态。本文证明面对跨多次迭代分散证据的攻击，任意轨迹级监控器的真阳率都等于假阳率，无法优于随机猜测。这一分离结果表明安全状态不能随轨迹结束而丢失，需要为非衰减循环设计跨迭代的持久化监控机制，对智能体轨迹错误检测的理论基础有重要影响。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.28264v1",
+      "source": "arxiv",
+      "title": "Finding Where the Buck Stops: An Automated Failure Attribution-Based Reflection Framework for Multi-Agent Collaboration",
+      "abstract": "Multi-agent systems (MAS) powered by large language models have shown promise for complex tasks but suffer from high failure rates. Current self-reflection methods for MAS require all agents to reflect upon failure, overlooking a critical reality: failures typically stem from a specific agent leading the task astray, namely the decisive error agent, while others merely fulfill their regular duties. Forcing regular-behaving agents to reflect contaminates their memory with wrong insights. Hence, we propose DoCtOR (Diagnose-then-Correct PPO-enhanced Reflection), a novel reflection framework that enhances multi-agent collaboration. DoCtOR first identifies the decisive error step and decisive error agent through automated failure attribution, then employs counterfactual reasoning to generate a corrected decisive error step, and finally engages only the decisive error agent to produce targeted reflections. Experimental results show DoCtOR achieves 22%, 26%, and 27% improvements over initial success rates on HotPotQA, ChartQAPro, and Mind2Web datasets, outperforming Reflexion, Retroformer, and COPPER. We further establish the generalizability of our diagnose-then-correct paradigm and demonstrate that in low-resource settings, focusing reflection on reasoning steps after the decisive error step achieves comparable quality to reflecting on the complete failure trajectory.",
+      "authors": [
+        "Xiaoqing Wang",
+        "Keman Huang",
+        "Bin Liang",
+        "Hongyu Li",
+        "Xiaoyong Du",
+        "Wuqiong Pan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-28T12:26:03+00:00",
+      "link": "https://arxiv.org/pdf/2608.28264v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "identifies decisive error step and agent in multi-agent trajectories",
+      "llm_evidence_cn": "在多智能体轨迹中定位决定性错误步骤与智能体",
+      "llm_evidence": "在多智能体轨迹中定位决定性错误步骤与智能体",
+      "canonical_evidence": "在多智能体轨迹中定位决定性错误步骤与智能体",
+      "llm_tldr_en": "DoCtOR identifies decisive error steps and agents in multi-agent LLM trajectories, enabling targeted PPO-enhanced reflection that improves collaboration success.",
+      "llm_tldr_cn": "多智能体系统失败率高，但现有反思方法让所有智能体都反思，反而污染正常智能体的记忆。论文提出DoCtOR框架，先自动定位导致失败的关键步骤和关键错误智能体，再让该智能体进行针对性反思，并用PPO增强纠正策略。实验证明该方法能更有效地提升多智能体协作成功率，避免错误记忆传播。",
+      "llm_tldr": "多智能体系统失败率高，但现有反思方法让所有智能体都反思，反而污染正常智能体的记忆。论文提出DoCtOR框架，先自动定位导致失败的关键步骤和关键错误智能体，再让该智能体进行针对性反思，并用PPO增强纠正策略。实验证明该方法能更有效地提升多智能体协作成功率，避免错误记忆传播。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.27911v1",
+      "source": "arxiv",
+      "title": "TACIT-Switch: Cost-Aware Model Escalation for LLM Agents from Censored Supervision",
+      "abstract": "Agents with smaller language-model backbones are less expensive but can drift into persistent failure modes, whereas those with larger backbones are generally more reliable but more costly. This reliability-cost trade-off motivates routing methods that decide when to invoke an agent with a larger backbone: before execution, after a fixed trajectory prefix, or locally at individual steps. Our method, TACIT-SWITCH, learns permanent handoff policies from accumulated trajectory evidence and Teacher-Annotated Censored Intervention Times (TACIT). It represents each annotation as an interval-censored observation on a cumulative-risk scale. The resulting mixture-cure threshold model estimates the probability that the paired Strong rollout succeeds and, conditional on success, the handoff threshold; no teacher is required at deployment. In a mechanism-based multi-step simulation, TACIT-SWITCH improves success by 7.4-11.1 percentage points over task-level, step-level, and fixed-prefix routing baselines at comparable cost. Within that controlled simulation, ablations show that task features and cumulative trajectory risk provide complementary information. With operating points selected on development data, TACIT-SWITCH achieves the highest held-out success among learned policies on both ALFWorld (48.5% with 4B Cheap; 45.5% with 9B Cheap) and DABench (73.1%).",
+      "authors": [
+        "Ji'an Lei",
+        "Jian Huang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-28T04:33:11+00:00",
+      "link": "https://arxiv.org/pdf/2608.27911v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Predicts agent failure from trajectory evidence to trigger model escalation",
+      "llm_evidence_cn": "基于轨迹证据预测智能体失败并触发模型升级",
+      "llm_evidence": "基于轨迹证据预测智能体失败并触发模型升级",
+      "canonical_evidence": "基于轨迹证据预测智能体失败并触发模型升级",
+      "llm_tldr_en": "TACIT-Switch learns handoff policies from trajectory evidence and teacher-annotated censored intervention times to predict strong rollout success and detect looming agent failures for cost-aware model escalation.",
+      "llm_tldr_cn": "小型LLM智能体成本低但易陷入持续失败，大型模型更可靠却昂贵。TACIT-SWITCH利用累积轨迹证据和教师标注的删失干预时间，构建混合治愈阈值模型来估计强模型rollout的成功概率，从而在执行前缀或单步上智能判断是否升级到更大模型。该方法能够在轨迹层面监测到潜在失败风险，在预算约束下提升智能体可靠性。",
+      "llm_tldr": "小型LLM智能体成本低但易陷入持续失败，大型模型更可靠却昂贵。TACIT-SWITCH利用累积轨迹证据和教师标注的删失干预时间，构建混合治愈阈值模型来估计强模型rollout的成功概率，从而在执行前缀或单步上智能判断是否升级到更大模型。该方法能够在轨迹层面监测到潜在失败风险，在预算约束下提升智能体可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.22793v1",
+      "source": "arxiv",
+      "title": "TRACE: A Self-Evolving Skill Bank for Consistent, Limit-Aware LLM Agents",
+      "abstract": "Reliable deployment of LLM agents in user-facing products depends not on raw task-solving ability but on consistency and limit-awareness: behaving the same way across repeated trials, and recognizing when a request cannot, or cannot yet, be safely fulfilled. CAR-bench exposes this reliability gap in the domain of in-car assistants: an LLM-simulated user issues incomplete or ambiguous requests, requiring the agent to resolve uncertainty through multi-turn dialogue and tool use while strictly adhering to domain policies. Even frontier models show a substantial gap between what they can solve at least once (Pass@3) and what they solve consistently across trials (Pass^k). We bridge this gap with TRACE (TRAjectory-Contrastive Evolution), which iteratively improves a skill-based agent's behavioral knowledge without modifying model weights. This knowledge is organized as a Skill Bank of modular, retrievable skills, each encoding a self-contained set of tool-use rules and behavioral guidelines. TRACE evolves this bank through an agentic self-evolution loop: after each evaluation round, it groups trajectories by the skills invoked and refines each skill by contrasting successful and failed behaviors. The updated bank then guides subsequent rounds, while during deployment the Actor performs state-conditioned skill orchestration at every turn. On GPT-5.5, TRACE improves consistency (Pass^3) by 34.6 points, from 59.9% to 94.5%, while shrinking the gap between potential and reliable performance to just 4.0 points. On the official hidden set, TRACE achieved first place using GPT-5.6-Sol, attaining a Pass^3 score of 70%-a 40% relative improvement over the baseline. These results show that TRACE converts high model potential into stable, consistent performance gain. Project homepage: https://darwin-agent.github.io/Car-bench-TRACE.",
+      "authors": [
+        "Wenhao Wu",
+        "Menghao Zhang",
+        "Xin Wang",
+        "Zhi Wang",
+        "Kun Shao",
+        "Jian Luan"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-08-24T04:36:03+00:00",
+      "link": "https://arxiv.org/pdf/2608.22793v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "monitors agent behavior for consistency and limit-awareness",
+      "llm_evidence_cn": "监控智能体行为的一致性与边界感知",
+      "llm_evidence": "监控智能体行为的一致性与边界感知",
+      "canonical_evidence": "监控智能体行为的一致性与边界感知",
+      "llm_tldr_en": "TRACE builds a self-evolving skill bank via trajectory-contrastive evolution to improve consistent, limit-aware LLM agent behavior across repeated trials.",
+      "llm_tldr_cn": "面向用户产品的LLM智能体不仅需要任务完成能力，还需要跨尝试的一致性和对无法安全完成请求的边界感知。CAR-bench评测发现，即使前沿模型也普遍存在Pass@3与Pass^k之间的可靠性差距。TRACE通过轨迹对比式进化迭代构建技能库，让智能体在重复尝试中保持一致并识别自身限制，显著提升了可靠部署性。",
+      "llm_tldr": "面向用户产品的LLM智能体不仅需要任务完成能力，还需要跨尝试的一致性和对无法安全完成请求的边界感知。CAR-bench评测发现，即使前沿模型也普遍存在Pass@3与Pass^k之间的可靠性差距。TRACE通过轨迹对比式进化迭代构建技能库，让智能体在重复尝试中保持一致并识别自身限制，显著提升了可靠部署性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.27487v1",
+      "source": "arxiv",
+      "title": "Grounded Checklist Partial Credit for Agent Skill Trajectories",
+      "abstract": "Language-model agents increasingly tackle long-horizon tasks in interactive environments, yet their evaluation commonly relies on task-level success rates by reducing an entire execution trajectory to whether the task passes an official verifier. This binary score hides partial progress and is particularly limited for procedural agent skill evaluations, since a skill can alter execution without changing the final outcome. While checklists provide finer-grained evaluation by scoring individual task requirements, costly manual authoring and unreliable automatic generation make trustworthy evaluation difficult to scale. To address these challenges, we introduce Grounded Checklist Partial Credit (GCPC), a human-governed and LLM-instantiated partial-credit evaluation of agent trajectories. Humans define reusable rules once, from which an LLM instantiates a task-specific checklist grounded in the task instruction and official verifier. To keep judgment tied to evidence, a judge scores each item from execution log evidence alone and abstains when evidence is missing. A separate scripted step then applies the official verifier outcome to the score. Across a 4,455-trajectory, deduplicated SkillsBench evaluation population, GCPC better discriminates official PASS and FAIL outcomes than holistic judging on the shared subset (AUC 0.689 vs. 0.619). Human evaluation on 96 trajectories from 12 tasks shows that GCPC aligns more closely with human assessments of progress. Applied to 1,946 matched with/without-skill pairs, GCPC exposes the effects hidden by pass@1: among 879 pairs whose binary outcome does not change, 20.9% improve by more than 0.10 while 18.7% regress by the same margin. The GCPC pipeline also transfers to Terminal-Bench and SWE-bench, demonstrating applicability beyond skill-conditioned evaluation.",
+      "authors": [
+        "Suliu Qin",
+        "Lu Yin",
+        "Xilu Wang"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-08-26T06:17:19+00:00",
+      "link": "https://arxiv.org/pdf/2608.27487v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Provides fine-grained checklist-based evaluation that can expose step-level errors in trajectories",
+      "llm_evidence_cn": "基于检查表的细粒度评估，可暴露轨迹中的步骤级错误",
+      "llm_evidence": "基于检查表的细粒度评估，可暴露轨迹中的步骤级错误",
+      "canonical_evidence": "基于检查表的细粒度评估，可暴露轨迹中的步骤级错误",
+      "llm_tldr_en": "GCPC is a human-governed, LLM-instantiated partial-credit evaluation that scores individual checklist items in agent trajectories, revealing intermediate progress and skill-level errors.",
+      "llm_tldr_cn": "语言模型智能体在长程任务中的评估常依赖最终成功与否，掩盖过程表现。GCPC提出人类主导、LLM实例化的部分评分方法，将执行轨迹拆分为检查表逐项评分，在保留人类监督的同时实现可扩展的细粒度过程评价。该方法能够揭示轨迹中技能级别的错误与局部进展，为智能体行为监测与错误评估提供更细致的工具。",
+      "llm_tldr": "语言模型智能体在长程任务中的评估常依赖最终成功与否，掩盖过程表现。GCPC提出人类主导、LLM实例化的部分评分方法，将执行轨迹拆分为检查表逐项评分，在保留人类监督的同时实现可扩展的细粒度过程评价。该方法能够揭示轨迹中技能级别的错误与局部进展，为智能体行为监测与错误评估提供更细致的工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
