@@ -1,0 +1,495 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-01T22:14:38.111327+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 7,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2608.22676v2",
+      "source": "arxiv",
+      "title": "Robustness Analysis of Agentic AI to Inconsistent and Incomplete Tool Responses",
+      "abstract": "Tool-using agents increasingly rely on external tools to complete multi-step tasks, but tool returns can fail in different ways and require different recovery actions. Existing robustness studies often use uncertainty-based measures to detect when an agent becomes unreliable. These measures can reveal that something has gone wrong, but they do not directly identify the type of tool failure or the appropriate response. We address this limitation by analyzing tool failures at the moment a return enters the agent context. Our approach combines two complementary signals. The first compares the likelihood of the returned content under the tool schema and under the full trajectory prefix. The second measures the agent's probability distribution over its legal next actions. We evaluate the approach by injecting incomplete and inconsistent returns into a retail customer-service benchmark. The results show that likelihood-based signals clearly capture incomplete returns and some direct inconsistencies, while action-based signals reveal how strongly a failure changes the next decision. Some failures that are weak under likelihood signals can still redirect the agent toward state-changing actions. These findings show that tool failures can be recognized at the return boundary, but reliable diagnosis requires combining multiple signals.",
+      "authors": [
+        "Jiachen Xu",
+        "Torben Bach Pedersen",
+        "Zhongming Yao",
+        "Xiaoyu Zhang",
+        "Yushuai Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-24T00:26:57+00:00",
+      "link": "https://arxiv.org/pdf/2608.22676v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "analyzes tool failures at the moment returns enter agent context and identifies failure type using schema likelihood and trajectory prefix",
+      "llm_evidence_cn": "在工具返回进入智能体上下文时分析工具失败，利用模式似然和轨迹前缀识别失败类型",
+      "llm_evidence": "在工具返回进入智能体上下文时分析工具失败，利用模式似然和轨迹前缀识别失败类型",
+      "canonical_evidence": "在工具返回进入智能体上下文时分析工具失败，利用模式似然和轨迹前缀识别失败类型",
+      "llm_tldr_en": "Proposes a method to identify types of tool failures in agentic AI by combining schema likelihood and trajectory-prefix signals, going beyond uncertainty-based detection to classify failures and guide recovery.",
+      "llm_tldr_cn": "针对现有鲁棒性研究只能检测异常而无法识别工具失败类型的问题，提出在工具返回进入上下文时结合两种信号：返回内容在工具模式下的似然和完整轨迹前缀下的似然，以及智能体概率分布变化。该方法能分类不一致和不完整工具响应，指导恢复动作，实验验证其有效性。",
+      "llm_tldr": "针对现有鲁棒性研究只能检测异常而无法识别工具失败类型的问题，提出在工具返回进入上下文时结合两种信号：返回内容在工具模式下的似然和完整轨迹前缀下的似然，以及智能体概率分布变化。该方法能分类不一致和不完整工具响应，指导恢复动作，实验验证其有效性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.28704v1",
+      "source": "arxiv",
+      "title": "ORDDAR: Observation-Driven Reasoning for Distortion-Resilient Decision, Action, and Cognitive Recovery",
+      "abstract": "AI agents increasingly perform long-term reasoning, planning, tool use, memory integration, and autonomous decision making, yet erroneous intermediate states can propagate and cause inconsistent decisions and unreliable outputs. Existing reasoning approaches mainly rely on iterative planning, self-reflection, augmented memory, or verification, but rarely localize and selectively repair faulty reasoning. We present ORDDAR (Observation-Driven Reasoning for Distortion-Resilient Decision, Action, and Cognitive Recovery), a reasoning framework that models reasoning as cognitive state transitions, detects localized distortions, retrieves related reasoning from prior experiences, and repairs only the affected states. ORDDAR therefore performs recovery at the local reasoning-transition level rather than regenerating the complete trajectory. Experiments across mathematical, commonsense, multi-hop, and clinical reasoning benchmarks demonstrate improved reasoning quality, recovery ability, and interpretability over multiple evaluated reasoning baselines.",
+      "authors": [
+        "Deblina Kar",
+        "Anant Nawalgaria",
+        "Shyamal Kumar Das Mandal"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-08-27T17:05:54+00:00",
+      "link": "https://arxiv.org/pdf/2608.28704v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "detects and repairs localized distortions in agent reasoning trajectories",
+      "llm_evidence_cn": "检测并修复智能体推理轨迹中的局部扭曲",
+      "llm_evidence": "检测并修复智能体推理轨迹中的局部扭曲",
+      "canonical_evidence": "检测并修复智能体推理轨迹中的局部扭曲",
+      "llm_tldr_en": "ORDDAR models reasoning as cognitive state transitions, detects localized distortions, and selectively repairs only affected states to prevent error propagation.",
+      "llm_tldr_cn": "针对智能体长期推理中错误中间状态传播导致决策不可靠的问题，提出ORDDAR，将推理建模为认知状态转移，先定位检测局部扭曲，再从先前经验检索相关推理并仅修复受影响状态。该方法能降低错误传播，提高长程任务中决策的一致性与可靠性。",
+      "llm_tldr": "针对智能体长期推理中错误中间状态传播导致决策不可靠的问题，提出ORDDAR，将推理建模为认知状态转移，先定位检测局部扭曲，再从先前经验检索相关推理并仅修复受影响状态。该方法能降低错误传播，提高长程任务中决策的一致性与可靠性。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.29228v1",
+      "source": "arxiv",
+      "title": "Localizing Emergent Failures in Agentic AI: Recovering Minimal Repair Families via Counterfactual Replay",
+      "abstract": "Failures in agentic AI systems can arise from interactions among messages exchanged by multiple large language model (LLM) agents. Pointwise attribution cannot distinguish a jointly necessary repair from alternative singleton repairs. We formulate Minimal Repair Family Recovery (MRFR): recovering all inclusion-minimal event sets whose counterfactual replay restores task success within a declared size bound. We propose Graph-Constrained Joint Replay (GCJR), which slices failure-relevant events from an execution dependency graph, constructs graph-feasible singleton and pair candidates, and verifies them by replay with paired clean counterparts. For fixed replay outcomes, GCJR is exact within its declared graph domain. On 90 in-scope cases from a 120-DAG controlled benchmark, GCJR achieves 1.000 Family Exact Match while reducing mean replay calls from 56.3 to 25.3 (55.1%) relative to exhaustive search. On a 24-case, four-agent LLM pilot, it again achieves 1.000 Family Exact Match and reduces mean model calls from 21.0 to 10.0 (52.4%); single-event replay misses jointly necessary repairs.",
+      "authors": [
+        "Bingjie Li",
+        "Yumeng Song",
+        "Zhongming Yao",
+        "Tianyi Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-08-29T12:34:08+00:00",
+      "link": "https://arxiv.org/pdf/2608.29228v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "localizes emergent failures in agentic AI trajectories via counterfactual replay",
+      "llm_evidence_cn": "通过反事实重放定位Agentic AI轨迹中的突现失败",
+      "llm_evidence": "通过反事实重放定位Agentic AI轨迹中的突现失败",
+      "canonical_evidence": "通过反事实重放定位Agentic AI轨迹中的突现失败",
+      "llm_tldr_en": "Introduces Minimal Repair Family Recovery to localize emergent failures in multi-agent trajectories, proposing graph-constrained joint replay to recover all minimal event sets whose counterfactual replay restores task success.",
+      "llm_tldr_cn": "针对多智能体交互中失败由多条消息共同导致、逐点归因无法区分联合修复与单点修复的问题，提出最小修复族恢复（MRFR）这一形式化任务，目标是恢复所有包含最小事件集合的修复家族。提出图约束联合重放（GCJR），从执行依赖图中切出失败相关事件，构造可行候选并通过与干净对照重放验证。在固定重放结果下，GCJR在声明的图域内精确，为代理轨迹中的失败定位提供了可验证的新方法。",
+      "llm_tldr": "针对多智能体交互中失败由多条消息共同导致、逐点归因无法区分联合修复与单点修复的问题，提出最小修复族恢复（MRFR）这一形式化任务，目标是恢复所有包含最小事件集合的修复家族。提出图约束联合重放（GCJR），从执行依赖图中切出失败相关事件，构造可行候选并通过与干净对照重放验证。在固定重放结果下，GCJR在声明的图域内精确，为代理轨迹中的失败定位提供了可验证的新方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.29646v1",
+      "source": "arxiv",
+      "title": "Detect Before You Attribute: Cascade Failure Attribution for Multi-Agent Systems",
+      "abstract": "Large language model (LLM)-based agents have shown strong potential in solving complex tasks through multi-step reasoning, yet they remain vulnerable to execution failures. Accurate failure attribution is therefore critical for improving agent reliability. Existing topology- and spectrum-based methods exploit trajectory structures but often overlook fine-grained semantics, while LLM-based attribution methods capture semantic cues but suffer from long-context degradation over lengthy trajectories. To address these challenges, we propose DUOTRACE, a plug-and-play detection filter for LLM-based failure attribution. DUOTRACE follows a detect-before-attribute paradigm: it first detects anomalous executions and then supplies focused trajectory evidence to downstream LLM-based attribution methods. For effective VAE-based anomaly detection on agent trajectories, DUOTRACE integrates dual-view semantic-structural node representations, a Tree-LSTM-based trajectory encoder, and prefix-chain- and LLM-based data augmentation to handle heterogeneous nodes, hierarchical execution structures, and limited failure data. Experiments with six LLM-based attribution baselines show that DUOTRACE improves agent-level and step-level attribution accuracy by 8.7% and 7.0%, respectively.",
+      "authors": [
+        "Jiayi Zhang",
+        "Zexin Wang",
+        "Degang Sun",
+        "Changhua Pei",
+        "Fei Sun",
+        "Gaogang Xie",
+        "Jingjing Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-08-30T08:17:42+00:00",
+      "link": "https://arxiv.org/pdf/2608.29646v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "detects anomalous executions in trajectories",
+      "llm_evidence_cn": "检测轨迹中的异常执行",
+      "llm_evidence": "检测轨迹中的异常执行",
+      "canonical_evidence": "检测轨迹中的异常执行",
+      "llm_tldr_en": "The DUOTRACE filter detects anomalous executions in long agent trajectories before attribution, supplying focused evidence to improve LLM-based cascade failure attribution while avoiding long-context degradation.",
+      "llm_tldr_cn": "针对LLM智能体多步推理易发生执行失败、现有归因方法无法兼顾轨迹结构与细粒度语义的问题，提出DUOTRACE，一种即插即用的检测过滤器。它遵循先检测后归因的范式，先检测异常执行，再向归因模块提供聚焦的轨迹证据。实验表明该方法能有效提升级联失败的归因准确性，为提升LLM智能体可靠性提供了模块化的前后端改进思路。",
+      "llm_tldr": "针对LLM智能体多步推理易发生执行失败、现有归因方法无法兼顾轨迹结构与细粒度语义的问题，提出DUOTRACE，一种即插即用的检测过滤器。它遵循先检测后归因的范式，先检测异常执行，再向归因模块提供聚焦的轨迹证据。实验表明该方法能有效提升级联失败的归因准确性，为提升LLM智能体可靠性提供了模块化的前后端改进思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.29685v1",
+      "source": "arxiv",
+      "title": "Last Step Matters: Early Uncertainty Cannot Predict Failure in Long-Horizon Agents",
+      "abstract": "Early failure prediction is important for long-horizon agents, as it enables timely intervention and can reduce inference and tool-use costs. Uncertainty quantification, such as verbal confidence and perplexity, offers a promising approach to detecting agent failures; however, it has not been explored whether these signals retain their discriminative power during the intermediate stages of long-horizon execution. We evaluate mainstream uncertainty signals on deep-research tasks and find that verbal confidence reliably distinguishes failures at trajectory completion, achieving a mean AUROC of 0.85, whereas all evaluated signals offer limited predictive value earlier in execution, with none exceeding a mean AUROC of 0.60 at 50% trajectory progress. We identify an underlying mechanism explaining this gap: path switching, where agents frequently abandon their current search direction in-trajectory, breaking the link between early signal and final outcome. These findings challenge the assumption that intermediate uncertainty can reliably guide early intervention. They also motivate a practical recommendation for agent harnesses in deep-research settings: use final-step confidence to decide whether to restart, an approach that our experiments find more effective than in-trajectory intervention.",
+      "authors": [
+        "Zongyue Li",
+        "Chengyue Yu",
+        "Lei Zang",
+        "Chenyi Zhuang",
+        "Linjian Mo",
+        "Leilei Gan"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-30T09:43:08+00:00",
+      "link": "https://arxiv.org/pdf/2608.29685v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "evaluates uncertainty signals for detecting agent failures at trajectory levels",
+      "llm_evidence_cn": "评估不确定性信号用于轨迹级别代理失败检测",
+      "llm_evidence": "评估不确定性信号用于轨迹级别代理失败检测",
+      "canonical_evidence": "评估不确定性信号用于轨迹级别代理失败检测",
+      "llm_tldr_en": "Evaluates uncertainty signals for early failure prediction in long-horizon agents, finding verbal confidence achieves AUROC 0.85 at trajectory completion but no signal predicts failure before 50% progress.",
+      "llm_tldr_cn": "围绕长程代理的早期失败预测问题，系统评估了言语置信度与困惑度等不确定性信号。结果显示，在轨迹结束处言语置信度能以平均AUROC 0.85可靠区分失败，但在执行中途（50%轨迹处）所有信号的AUROC均不超过0.60，说明早期信号无法预测失败。这一发现表明需要开发能在中间阶段捕捉失败线索的新信号，对长程代理的及时干预研究具有重要启示。",
+      "llm_tldr": "围绕长程代理的早期失败预测问题，系统评估了言语置信度与困惑度等不确定性信号。结果显示，在轨迹结束处言语置信度能以平均AUROC 0.85可靠区分失败，但在执行中途（50%轨迹处）所有信号的AUROC均不超过0.60，说明早期信号无法预测失败。这一发现表明需要开发能在中间阶段捕捉失败线索的新信号，对长程代理的及时干预研究具有重要启示。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.30147v1",
+      "source": "arxiv",
+      "title": "CAST: Critique-Aware Supervision for Training Reliable Long-Horizon Tool-Calling Agents",
+      "abstract": "Large language model (LLM) agents are increasingly deployed in long-horizon, interactive, and stateful environments. In these settings, a single wrong action, such as refunding the wrong purchase, can cause irreversible task failure and must be intercepted before execution. Such failures may not appear in every single run, but can emerge across repeated trials, making reliability across steps and trials critical. However, ensuring agentic reliability is challenging: even frontier LLMs struggle to explain why an action may be wrong, especially in long, intertwined trajectories governed by domain-specific policies. Much recent work relies on prompt-based critique agents, while optimization-based methods lack a systematic way to produce rich verification rationales for training. We address this gap with CAST, a critique-aware training framework that converts sparse task outcomes into action-level supervision for critique learning and policy optimization. CAST analyzes agent trajectories to synthesize structured rationales explaining action validity under partial observability. The resulting critique model is used to construct critique-aware training data for optimizing the policy model. Fine-tuning Qwen3-family models on dynamic tool-calling benchmarks, CAST improves reliability across domains, outperforming GPT-OSS-120B by over 10% pass^4 on Retail tasks and yielding an additional 9% improvement on Telehealth in an out-of-domain setting. These results demonstrate that critique-aware training improves the robustness of LLM agents in realistic dynamic environments.",
+      "authors": [
+        "Amir Saeidi",
+        "Zehua Zhang",
+        "Rishitosh Singh",
+        "Naman Ahuja",
+        "Vivek Gupta",
+        "Ali Payani",
+        "Gaowen Liu",
+        "Jayanth Srinivasa",
+        "Chitta Baral"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-08-31T01:59:51+00:00",
+      "link": "https://arxiv.org/pdf/2608.30147v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "identifies and intercepts wrong actions in long-horizon tool-calling agent trajectories",
+      "llm_evidence_cn": "在长程工具调用轨迹中识别并拦截错误动作",
+      "llm_evidence": "在长程工具调用轨迹中识别并拦截错误动作",
+      "canonical_evidence": "在长程工具调用轨迹中识别并拦截错误动作",
+      "llm_tldr_en": "Proposes critique-aware supervision to train long-horizon tool-calling agents to identify and intercept wrong actions before execution, targeting failures that emerge across repeated trials.",
+      "llm_tldr_cn": "针对长程交互式环境中单个错误动作即导致任务失败的问题，提出批评感知监督方法，系统性地生成和利用批评信号来识别轨迹中的错误动作。通过优化方法提升代理在多步与多次试验中的可靠性，使错误在真正执行前被截获。实验表明该方法能有效提高代理对错误动作的判别能力。这为可靠工具调用代理的训练提供了新范式。",
+      "llm_tldr": "针对长程交互式环境中单个错误动作即导致任务失败的问题，提出批评感知监督方法，系统性地生成和利用批评信号来识别轨迹中的错误动作。通过优化方法提升代理在多步与多次试验中的可靠性，使错误在真正执行前被截获。实验表明该方法能有效提高代理对错误动作的判别能力。这为可靠工具调用代理的训练提供了新范式。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.29971v1",
+      "source": "arxiv",
+      "title": "EDGE: Engine for Deterministic Graph Evaluation through Conversation Simulation from Graph Structured DSL Configuration",
+      "abstract": "As agentic systems evolve into complex multi agent orchestration workflows, there is a growing and critical need for systematic frameworks that measures an agent's behavioral consistency and determinism. In this paper, we introduce a formal evaluation methodology that is grounded in AgentGraph, a planner powered by a domain specific language that represents agent reasoning through a dynamically adjustable directed graph. We leverage this structural formalism and utilize graph traversal algorithms that exhaustively enumerate conversational paths, forming a comprehensive evaluation set that captures the agent's complete behavioral space. We then systematically replay these reproducible trajectories to compare observed outputs and state transitions against the intended DSL specification. To quantify reliability, we define novel metrics that measure response and trajectory determinism, structural adherence and semantic consistency across both exact replays and their linguistic variants. Our system's results demonstrate that agents configured using frameworks like AgentGraph and LangGraph with explicitly structured node transitions show superior determinism over agents that are not configured with controlled transitions.",
+      "authors": [
+        "Ram Kulathumani",
+        "Regunathan Radhakrishnan",
+        "Anupam Tripathi",
+        "Xiangbo Mao",
+        "Roshanak Omrani",
+        "Keshav Somani",
+        "Shwet Kamal Mishra",
+        "Shayna Lurya"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-08-30T18:56:53+00:00",
+      "link": "https://arxiv.org/pdf/2608.29971v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Exhaustively enumerates conversational agent trajectories and replays them to measure behavioral consistency and determinism",
+      "llm_evidence_cn": "通过图遍历穷举并重放智能体对话轨迹，衡量行为一致性与确定性",
+      "llm_evidence": "通过图遍历穷举并重放智能体对话轨迹，衡量行为一致性与确定性",
+      "canonical_evidence": "通过图遍历穷举并重放智能体对话轨迹，衡量行为一致性与确定性",
+      "llm_tldr_en": "Introduces EDGE, a formal evaluation engine that uses a graph-based DSL to exhaustively enumerate agent reasoning paths and replay trajectories, enabling systematic measurement of agent behavioral consistency and determinism.",
+      "llm_tldr_cn": "智能体系统日益复杂，需要系统化评估其行为一致性与确定性。EDGE基于AgentGraph这一由领域特定语言驱动的规划器，把智能体推理表示为可动态调整的有向图，并用图遍历算法穷举会话路径形成完整行为空间，再对这些可复现轨迹进行系统重放与比较。该方法为检测行为异常和路径偏离提供了可操作的评估框架，尤其适合多智能体编排工作流的稳定性验证。",
+      "llm_tldr": "智能体系统日益复杂，需要系统化评估其行为一致性与确定性。EDGE基于AgentGraph这一由领域特定语言驱动的规划器，把智能体推理表示为可动态调整的有向图，并用图遍历算法穷举会话路径形成完整行为空间，再对这些可复现轨迹进行系统重放与比较。该方法为检测行为异常和路径偏离提供了可操作的评估框架，尤其适合多智能体编排工作流的稳定性验证。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.25920v2",
+      "source": "arxiv",
+      "title": "Repair or Resample? Rethinking Failure Debugging in LLM Multi-Agent Systems",
+      "abstract": "As large language model (LLM)-based multi-agent systems (MASs) are increasingly applied to long-horizon complex tasks, their reliability has emerged as the core bottleneck hindering their real-world deployment. Existing MAS debugging and repair methods typically rely on rerunning and resampling the entire execution trajectory. However, a fundamental question remains to be answered: do these methods causally repair MAS failures or merely stochastically repair by leveraging the randomness of LLM sampling? To evaluate the effectiveness of MAS repair methods, we introduce SymTrace, a controlled evaluation framework that records the MAS execution trajectory and establishes intervention anchors. During replay, it effectively reconstructs the execution before the anchor using recorded logs and only regenerates the downstream trajectory, thereby enabling the reliable reproduction of MAS failures. We further construct the dataset SymFail, comprising 536 human-annotated failure trajectories with graph-linked locations, categories, and trace evidence. Based on these foundations, we conduct a large-scale empirical study across three mainstream MAS frameworks. Our findings reveal that existing unguided rerun methods are highly unreliable, exhibiting low failure reproduction and repair rates (only 67.97% and 6.90%, respectively). Building upon these findings, we further explore the effectiveness of a symptom-driven intervention method, which successfully repairs 20.15% of the failed cases (a 191.89% improvement to state-of-the-art repair methods). This study aims to provide actionable insights for MAS debugging and repair research, paving the way for the robust deployment of multi-agent systems.",
+      "authors": [
+        "Zhongwen Luan",
+        "Xiaoyu Zhang",
+        "Ming Hu",
+        "Yue Yang",
+        "Jiongchi Yu",
+        "Xiaohong Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-08-26T15:33:47+00:00",
+      "link": "https://arxiv.org/pdf/2608.25920v2",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Trajectory-level failure debugging and causal repair evaluation in LLM multi-agent systems.",
+      "llm_evidence_cn": "针对LLM多智能体系统的轨迹级故障调试与因果修复评估",
+      "llm_evidence": "针对LLM多智能体系统的轨迹级故障调试与因果修复评估",
+      "canonical_evidence": "针对LLM多智能体系统的轨迹级故障调试与因果修复评估",
+      "llm_tldr_en": "Proposes SymTrace, a controlled evaluation framework that records execution trajectories and replays with intervention anchors to assess whether LLM MAS repair methods causally fix failures or merely resample.",
+      "llm_tldr_cn": "大型语言模型多智能体系统在长程复杂任务中可靠性不足，现有调试修复方法常依赖整体重跑重采样，但无法判断其是否真正因果修复故障。为此提出SymTrace框架，记录执行轨迹并设置干预锚点，通过重放重构执行过程来评估修复方法的因果有效性。实验结果显示许多修复效果来源于LLM采样的随机性而非真实修复。该工作为多智能体故障调试提供了可控评估工具，有助于提升系统的可靠修复能力。",
+      "llm_tldr": "大型语言模型多智能体系统在长程复杂任务中可靠性不足，现有调试修复方法常依赖整体重跑重采样，但无法判断其是否真正因果修复故障。为此提出SymTrace框架，记录执行轨迹并设置干预锚点，通过重放重构执行过程来评估修复方法的因果有效性。实验结果显示许多修复效果来源于LLM采样的随机性而非真实修复。该工作为多智能体故障调试提供了可控评估工具，有助于提升系统的可靠修复能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.26867v1",
+      "source": "arxiv",
+      "title": "BekchiAI: Measuring, Observing, and Controlling LLM Agents in One Click",
+      "abstract": "Large language model agents reason, call tools, and act autonomously over many steps, but their agentic skills-correctly sequencing tools, planning under dependencies, judging untrusted inputs, and grounding generated arguments-are hard to measure with accuracy-only leaderboards. We present BekchiAI, which addresses both sides: a benchmark for measuring agentic skill and a platform for observing and controlling live agents. The BekchiAI-Benchmark, a suite of 13 tool-using ReAct agents across 7 task categories (arithmetic, structured/SQL, security detection, URL grounding, planning, orchestration, and tool-policy), totalling 2,057 deterministic, committed test tasks. Every task is verifier-checkable gold answers are computed by running canonical SQL against a real database, computing the exact schedule of a directed acyclic graph (DAG), or evaluating closed-form lambdas including adversarial security samples paired with deliberately imperfect signature scanners so a score reflects the model's own judgment, not the copying of an oracle. We define a small set of behavioral metrics beyond accuracy-tool-call adherence, URL hallucination and source-match, and per-model token cost and report a four-model comparison (Qwen3.7-Max, gemma-4-31B-it, gemma4:26b, gpt-oss-120b) whose story is in the per-family spread, not the aggregate. The benchmark runs are executed using the provided evaluation scripts. BekchiAI-Platform is a complementary web-based observability and control layer for deployed agents, providing full token and latency telemetry as well as remote run termination. The benchmark, evaluation tools, and platform are publicly released.",
+      "authors": [
+        "Mesut Toruk"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-27T09:30:08+00:00",
+      "link": "https://arxiv.org/pdf/2608.26867v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Platform for observing and controlling live agents with verifier-checkable tasks to measure where agents fail",
+      "llm_evidence_cn": "提供观察与控制智能体平台，用可验证任务度量代理在哪些环节出错",
+      "llm_evidence": "提供观察与控制智能体平台，用可验证任务度量代理在哪些环节出错",
+      "canonical_evidence": "提供观察与控制智能体平台，用可验证任务度量代理在哪些环节出错",
+      "llm_tldr_en": "BekchiAI provides a benchmark and live agent platform that goes beyond accuracy, using verifier-checkable tasks across 13 ReAct agents to measure agentic skills and observe/control behavior.",
+      "llm_tldr_cn": "LLM智能体的技能难以用准确率排行榜衡量，特别是工具排序、规划依赖和论据落地等环节。BekchiAI提供两部分：基准套件包含13个使用工具的ReAct智能体和7类共2057个确定性可验证任务；平台支持对在线智能体进行观察与控制。它能够帮助研究者定位智能体在特定技能上的失败模式，从而支撑行为监控与错误分析。",
+      "llm_tldr": "LLM智能体的技能难以用准确率排行榜衡量，特别是工具排序、规划依赖和论据落地等环节。BekchiAI提供两部分：基准套件包含13个使用工具的ReAct智能体和7类共2057个确定性可验证任务；平台支持对在线智能体进行观察与控制。它能够帮助研究者定位智能体在特定技能上的失败模式，从而支撑行为监控与错误分析。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.29772v1",
+      "source": "arxiv",
+      "title": "Self-Aware Active Learning Enables Continual Improvement in Autonomous Driving",
+      "abstract": "Learning-based autonomous driving (AD) systems can perform reliably in familiar conditions, yet rare distribution shifts and long-tail events remain a major source of abrupt failure. A central limitation is that most agents learn primarily from passive experience and lack mechanisms to estimate when their competence is insufficient, seek timely assistance, and convert safety-critical encounters into targeted improvement. Here we present self-aware guided exploration (SAGE), an active learning framework for post-training adaptation in AD. SAGE learns a predictive world model that generates two online intrinsic signals: fear, which estimates short-horizon predictive risk and model uncertainty, and curiosity, which measures novelty through prediction error. Curiosity adaptively calibrates the intervention threshold for fear, allowing the agent to regulate risk in a context-dependent manner. When predicted fear exceeds this adaptive threshold, the agent transfers control to an expert or fallback policy and uses the resulting takeover trajectories for focused imitation learning. In parallel, fear is integrated into policy optimization and evaluation as a safety-oriented constraint to reduce performance regressions during adaptation. We evaluate SAGE in simulated route-transfer tasks, Waymo-based logged driving scenarios, CARLA occlusion hazards, and real-world mobile robot navigation tests. Across these settings, SAGE improves robustness in novel and safety-critical scenarios, reduces safety violations, and maintains task performance comparable to strong baseline policies. These results suggest that agents can improve after initial training by estimating the limits of their competence, requesting guidance when needed, and learning selectively from rare high-value events.",
+      "authors": [
+        "Dong Hu",
+        "Chao Huang",
+        "Carman K. M. Lee",
+        "Dimitrios Kanoulas"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-30T13:01:32+00:00",
+      "link": "https://arxiv.org/pdf/2608.29772v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Predictive world model generates fear and curiosity signals to detect competence insufficiency and safety-critical anomalies in autonomous driving.",
+      "llm_evidence_cn": "利用预测世界模型生成恐惧与好奇信号，检测自动驾驶中的能力不足与安全关键异常",
+      "llm_evidence": "利用预测世界模型生成恐惧与好奇信号，检测自动驾驶中的能力不足与安全关键异常",
+      "canonical_evidence": "利用预测世界模型生成恐惧与好奇信号，检测自动驾驶中的能力不足与安全关键异常",
+      "llm_tldr_en": "SAGE is an active learning framework for autonomous driving that learns a predictive world model and uses online fear and curiosity signals to estimate predictive risk, detect novelty, and seek timely assistance for continual improvement.",
+      "llm_tldr_cn": "自动驾驶系统在熟悉条件下可靠，但罕见分布偏移和长尾事件常导致突发故障，而现有智能体缺乏自我评估与求助机制。提出自感知引导探索（SAGE）主动学习框架，通过预测世界模型生成恐惧信号估计短期风险与不确定性，用好奇信号度量新颖性。实现在线辅助请求与针对性改进。实验表明该方法能促使智能体在危险情境下主动寻求帮助并持续提升性能，对自动驾驶安全性具有实用价值。",
+      "llm_tldr": "自动驾驶系统在熟悉条件下可靠，但罕见分布偏移和长尾事件常导致突发故障，而现有智能体缺乏自我评估与求助机制。提出自感知引导探索（SAGE）主动学习框架，通过预测世界模型生成恐惧信号估计短期风险与不确定性，用好奇信号度量新颖性。实现在线辅助请求与针对性改进。实验表明该方法能促使智能体在危险情境下主动寻求帮助并持续提升性能，对自动驾驶安全性具有实用价值。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.30685v1",
+      "source": "arxiv",
+      "title": "ATLAS: Dual-Horizon Diagnostic Evaluation for Industrial Tool-Use Agents",
+      "abstract": "Large language model (LLM) agents are increasingly deployed in user-facing services that require iterative tool use under dynamic business conditions. Reliable evaluation is essential for sustained improvement: it must reveal capability deficiencies, inform priorities, and assess interventions. Yet industrial agent service unfolds both through the iterative trajectory of a current request and through continued user interaction. Final-outcome assessment can therefore obscure where deficiencies arise and whether later service remains aligned with context from earlier exchanges. We propose ATLAS, a dual-horizon diagnostic evaluation framework for industrial tool-use agents. At the request horizon, trajectory-wise diagnostic signals relate deficiencies to execution locations and capability concerns. At the interaction horizon, user-wise signals assess whether service remains responsive across continued interaction. Together, these views provide structured diagnostic evidence for analyzing execution deficiencies and sustained service behavior. ATLAS instantiates them as executable signals with explicit evidence scopes and decision boundaries. LLM judge interfaces are calibrated against high-confidence references from real business logs; when needed, their decision behavior is distilled into efficient diagnostic models for lower-latency, lower-cost evaluation. The resulting feedback supports policy optimization. We evaluate ATLAS on Meituan Xiaotuan production traffic. Offline experiments assess diagnostic-signal fidelity and replay-based policy improvement, while online A/B experiments show concurrent gains in user engagement, downstream business outcomes, and sampled human-audit quality.",
+      "authors": [
+        "Wei Chen",
+        "Peilun Zhou",
+        "Zhaoyu Hu",
+        "Jiajun Chai",
+        "Zhongni Hou",
+        "Yufei Zhang",
+        "Derong Xu",
+        "Guojun Yin",
+        "Wei Lin",
+        "Zhi Zheng",
+        "Tong Xu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-31T12:25:24+00:00",
+      "link": "https://arxiv.org/pdf/2608.30685v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Trajectory-wise diagnostic signals reveal deficiencies and context misalignment in tool-use agent trajectories.",
+      "llm_evidence_cn": "利用轨迹级诊断信号揭示工具使用智能体轨迹中的能力不足与上下文偏差",
+      "llm_evidence": "利用轨迹级诊断信号揭示工具使用智能体轨迹中的能力不足与上下文偏差",
+      "canonical_evidence": "利用轨迹级诊断信号揭示工具使用智能体轨迹中的能力不足与上下文偏差",
+      "llm_tldr_en": "ATLAS is a dual-horizon diagnostic evaluation framework that leverages trajectory-wise signals at the request horizon and continued interaction context to locate where deficiencies arise in industrial tool-use agents.",
+      "llm_tldr_cn": "工业环境中的工具使用智能体评估常只关注最终结果，难以定位缺陷出现的环节。ATLAS提出双时间尺度诊断框架，在请求层面采用轨迹级诊断信号，并结合持续交互层面的上下文一致性分析，从而解释能力缺陷与干预效果。实验表明该方法能更细致地揭示轨迹中的问题来源。为工业智能体的诊断评估提供了新思路。",
+      "llm_tldr": "工业环境中的工具使用智能体评估常只关注最终结果，难以定位缺陷出现的环节。ATLAS提出双时间尺度诊断框架，在请求层面采用轨迹级诊断信号，并结合持续交互层面的上下文一致性分析，从而解释能力缺陷与干预效果。实验表明该方法能更细致地揭示轨迹中的问题来源。为工业智能体的诊断评估提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.30672v1",
+      "source": "arxiv",
+      "title": "HiRS-Agent: A Hierarchical Multi-Agent System for Reliable Long-Horizon Remote Sensing Task Solving",
+      "abstract": "Recent advances in large language models and multimodal models have pushed remote sensing (RS) processing from simple perception models to agentic systems designed to tackle complex, long-horizon RS tasks. However, existing systems often rely on monolithic decision-making frameworks, which fail to accommodate the multi-stage, interdependent nature of RS tasks. This centralized approach leads to challenges such as unstable task execution, incorrect tool usage, and error propagation across stages. To address these issues, we propose HiRS-Agent, a hierarchical multi-agent system for long-horizon RS task solving. HiRS-Agent adopts a two-level collaborative architecture: the Manager Layer handles dynamic routing, step-level verification, replanning, and termination control, while the Specialist Layer organizes domain-specific tools according to the RS workflow and is responsible for subtask reasoning and tool execution. To further enhance the system's capability, we introduce a two-stage supervised tuning strategy and a verification-guided hierarchical reinforcement learning stage to jointly optimize coordination and tool-use policies. Experiments on Earth-Agent Benchmark and ThinkGeo show that HiRS-Agent substantially improves long-horizon tool-use capability and final-task correctness, demonstrating the effectiveness of structured multi-agent collaboration for reliable RS agents. The code is publicly available at https://github.com/IntelliSensing/HiRS-Agent.",
+      "authors": [
+        "Boyang Mu",
+        "Zhiwei Wei",
+        "Mugen Peng",
+        "Wenjia Xu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.MA",
+        "cs.MM"
+      ],
+      "published": "2026-08-31T12:13:41+00:00",
+      "link": "https://arxiv.org/pdf/2608.30672v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Uses step-level verification to monitor long-horizon execution and address incorrect tool usage and error propagation",
+      "llm_evidence_cn": "通过步骤级验证监控长时执行过程，应对工具误用与错误传播",
+      "llm_evidence": "通过步骤级验证监控长时执行过程，应对工具误用与错误传播",
+      "canonical_evidence": "通过步骤级验证监控长时执行过程，应对工具误用与错误传播",
+      "llm_tldr_en": "HiRS-Agent proposes a hierarchical multi-agent architecture with a manager layer for dynamic routing and step-level verification to reduce unstable execution, incorrect tool usage, and error propagation in long-horizon remote sensing tasks.",
+      "llm_tldr_cn": "长时遥感任务复杂且阶段间相互依赖，现有单体决策框架易导致执行不稳定、工具使用错误和跨阶段错误传播。HiRS-Agent采用两层协作架构：管理层负责动态路由和步骤级验证，执行层执行具体任务。该设计能及时发现动作错误并阻断误差传播，提升长时遥感任务求解的可靠性与成功率。",
+      "llm_tldr": "长时遥感任务复杂且阶段间相互依赖，现有单体决策框架易导致执行不稳定、工具使用错误和跨阶段错误传播。HiRS-Agent采用两层协作架构：管理层负责动态路由和步骤级验证，执行层执行具体任务。该设计能及时发现动作错误并阻断误差传播，提升长时遥感任务求解的可靠性与成功率。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

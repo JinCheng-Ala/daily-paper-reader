@@ -1,0 +1,213 @@
+Title: Localizing Emergent Failures in Agentic AI: Recovering Minimal Repair Families via Counterfactual Replay
+
+URL Source: https://arxiv.org/pdf/2608.29228v1
+
+Published Time: Tue, 01 Sep 2026 00:42:27 GMT
+
+Number of Pages: 5
+
+Markdown Content:
+# Localizing Emergent Failures in Agentic AI: Recovering Minimal Repair Families via Counterfactual Replay 
+
+Bingjie Li ∗, Yumeng Song †, Zhongming Yao ‡, and Tianyi Li †∗ School of Computer Science and Engineering, Northeastern University, Shenyang, China libingjie@mails.neu.edu.cn 
+
+† Department of Computer Science, Aalborg University, Aalborg, Denmark 
+
+{yumengs,tianyi }@cs.aau.dk 
+
+‡ College of Computer Science and Technology, Zhejiang University, Hangzhou, China yaozzzm@gmail.com 
+
+Abstract —Failures in large language model (LLM) multi-agent systems are difficult to diagnose because an incorrect outcome may depend on several interacting messages. Pointwise localization or ranking cannot distinguish a jointly necessary repair, where multiple events must change together, from al-ternative repairs, where any one of several events is sufficient. We formulate failure localization as recovery of the complete family of inclusion-minimal successful interventions within adeclared size bound. We propose Graph-Constrained Joint Re-play (GCJR), which constructs an event dependency graph, tests graph-feasible singleton and pair interventions through paired-clean counterfactual replay, and filters non-minimal successes. For fixed replay outcomes, GCJR is exact within its declared graph domain while avoiding graph-blind pair enumeration. On 90 in-scope cases from a 120-DAG controlled benchmark, GCJR achieves 1.000 Family Exact Match and reduces mean replay calls from 56.3 to 25.3 (55.1%). In a 24-case, four-agent LLM pilot, it again achieves 1.000 Family Exact Match and reduces mean model calls from 21 to 10 (52.4%), whereas single-event replay misses jointly necessary repairs. Edge masking substantially degrades recovery, showing that graph completeness is a substantive assumption. These results provide a controlled, oracle-assisted proof of concept for set-valued multi-agent failure localization rather than open-world automatic repair. 
+
+Index Terms —LLM multi-agent systems, failure localization, counterfactual replay, minimal repair family, event dependency graph 
+
+I. I NTRODUCTION 
+
+Agentic AI systems composed of multiple large language model (LLM) agents solve complex tasks by assigning special-ized roles and exchanging intermediate results. Frameworks such as AutoGen, MetaGPT, and ChatDev illustrate the ben-efits of role-based collaboration [1]–[3], while MultiAgent-Bench shows that communication protocols and interaction topologies materially affect task outcomes [4]. This distributed interaction structure also complicates debugging: an incorrect final answer does not reveal which earlier interaction must change, because an error may originate in a single message, propagate through downstream agents, or arise only through the joint effect of multiple messages. Existing diagnostic work has catalogued multi-agent failure modes [5] and localized failures to responsible agents or decisive steps [6], [7]. Graph-based methods use information dependencies, hierarchical causal structure, or paired success-ful traces to narrow root-step search [8]–[10]. Intervention-based methods validate edited trajectories [11], construct step-level counterfactual repairs [12], or distribute responsibility across interacting steps [13]. These advances make localization increasingly actionable, but leave a set-level question under-specified: which smallest combinations of interactions can re-store success? A pointwise label or ranking cannot distinguish a jointly necessary failure, where two messages must both be repaired, from an alternative-repair failure, where either message is sufficient. We study this question with Graph-Constrained Joint Re-play (GCJR). GCJR represents an execution trace as a directed interaction graph, replaces selected candidate messages with matched clean counterparts, and validates each intervention by replaying the workflow from an available checkpoint. It tests graph-feasible message sets in increasing cardinality and retains every inclusion-minimal successful intervention within a declared search bound. For convenience, we call this collection the minimal repair family . Unlike a scalar responsibility score, the returned family can express single-ton faults, jointly necessary repairs, and multiple alternative repairs. The method is deliberately oracle-assisted: it localizes failures under controlled replay but does not generate repair messages automatically. Our contributions are threefold:  
+
+> •
+
+We expose a blind spot of pointwise failure attribution by separating joint necessity from alternative sufficiency, and define a replay-verifiable, set-level target over all inclusion-minimal successful interventions within an ex-plicit search bound.  
+
+> •
+
+We develop GCJR, a dependency-aware procedure that searches singleton and pair interventions, uses replay as a success certificate, and returns the complete family within its declared graph-feasible domain without collapsing it arXiv:2608.29228v1 [cs.AI] 29 Aug 2026 into per-event scores.  
+
+> •
+
+We provide controlled evidence on both symbolic work-flows and a real LLM multi-agent system. GCJR matches exhaustive search in repair-family recovery while re-ducing replay calls by 52–55%, and identifies jointly necessary repairs missed by pointwise baselines. II. P ROBLEM FORMULATION AND GCJR We first define the set-valued diagnostic target, then present Graph-Constrained Joint Replay (GCJR) for recovering it, and finally state the method’s exactness and replay cost. 
+
+A. Problem Formulation 
+
+We represent a failed multi-agent execution as a directed acyclic graph G = ( V, E ), where each node is an observable message or action and each edge encodes an execution depen-dency. Let a(v) denote the agent responsible for event v, let 
+
+o be the observed failure sink, and let C ⊆ V be the declared set of intervenable events. For an intervention set S ⊆ C, the replay backend replaces the corresponding events with their paired clean messages, or equivalently removes their injected corruptions, and reruns the downstream workflow. Let Yj (S) ∈ { 0, 1} be the outcome of repeat j, where one denotes task success. Using common replay seeds across interventions, we define 
+
+bp(S) = 1
+
+r
+
+> r
+
+X
+
+> j=1
+
+Yj (S), hθ (S) = I[bp(S) ≥ θ]. (1) We assume hθ (∅) = 0 , i.e., the unmodified execution remains a failure under the replay protocol. Given a maximum repair size q, our target is the family of all successful interventions whose strict subsets fail: 
+
+Fq,θ = S ⊆ C : 1 ≤ | S| ≤ q, hθ (S) = 1 , hθ (T ) = 0 ∀T ⊊ S . (2) Minimality is defined by set inclusion. Hence {{ u, v }} denotes a jointly necessary repair, whereas {{ u}, {v}} denotes two alternative repairs. 
+
+B. Graph-Constrained Joint Replay 
+
+GCJR recovers the target through three stages: failure slicing, graph-constrained candidate construction, and replay verification. We study singleton and pair repairs, i.e., q ≤ 2.
+
+a) Failure slicing.: GCJR first removes events that can-not structurally affect the observed failure. It restricts inter-vention candidates to the backward slice of o:
+
+B(o) = Anc G(o) ∪ { o}, Co = C ∩ B(o). (3) This screening is sound when the dependency graph contains every influence path relevant to the replay outcome. Failed Exrcution DAG Failure X
+
+> ex
+
+eA
+
+> AD
+> O
+
+eB 
+
+> B
+
+eC
+
+> C
+> X
+
+ex C0 ={ eB ，eC }  
+
+> eA
+> AD
+> OeB
+> BeC
+> C
+> Failure Slice GCJR
+> ①
+> Pair Singletons
+> ②Partial-Order-Aware Candidates
+
+## {eB ，eC }{eB } {eC } 
+
+> ③Replay Verification
+
+## {eB ，eC }{eB }{eC }   
+
+> Fail X
+> Fail X
+> Success √
+> Minimal Repair Family
+
+## {eB ，eC } 
+
+> Fig. 1. Overview of the proposed framework.
+
+b) Candidate construction.: Write u ∥G v when neither event reaches the other. Besides all singletons in Co, GCJR admits a pair only if its events come from different agents, are causally incomparable, and meet at a downstream join: 
+
+PG = {u, v } ⊆ Co : a(u)̸ = a(v),u ∥G v, ∃z ∈ B(o) : u, v ⇝ z, deg −
+
+> G
+
+(z) ≥ 2 ,
+
+DG = {{ v} : v ∈ Co} ∪ P G.
+
+(4) The graph thus proposes a bounded candidate domain DG; it does not by itself certify that any candidate repairs the task. 
+
+c) Replay verification and family recovery.: GCJR eval-uates DG in increasing cardinality. After confirming the empty intervention fails, it replays every singleton in Co and retains each successful singleton. Any pair containing such a singleton is skipped because it cannot be inclusion-minimal. GCJR then replays every remaining pair in PG and retains the successful ones. Requests are memoized, and the same replay seeds are shared across interventions. Consequently, a returned singleton 
+
+{u} satisfies hθ (∅) = 0 and hθ ({u}) = 1 , while a returned pair {u, v } additionally satisfies hθ ({u}) = hθ ({v}) = 0 and 
+
+hθ ({u, v }) = 1 .
+
+C. Domain Exactness and Replay Cost a) Domain exactness.: For fixed replay outcomes, GCJR returns exactly the inclusion-minimal successful sets in DG. It TABLE I STATISTICS OF THE EXPERIMENTAL WORKLOADS .Statistic Controlled-DAG DualSolve-MAS Cases 120 24 Schedules 360 –Agents 4 4Candidates 6–14 3Families S/J/A/SJ S/J/A Replay Simulator Qwen ( r = 3 )
+
+tests every singleton and skips an admissible pair only when a successful singleton has already certified that pair as non-minimal; every other admissible pair is tested. Therefore, if 
+
+F2,θ ⊆ DG, GCJR recovers the complete bounded repair family F2,θ .
+
+b) Replay cost.: Let n = |C|, m = |Co|, and p be the number of admissible pairs remaining after successful-singleton pruning. With r repeats per intervention, 
+
+QGCJR = r(1 + m + p), p ≤
+
+m
+
+2
+
+
+
+,Qexh = r
+
+
+
+1 + n +
+
+n
+
+2
+
+ 
+
+.
+
+(5) The reduction comes from failure slicing, structural pair screening, and minimality pruning. III. E XPERIMENTAL EVALUATION 
+
+We evaluate whether GCJR recovers the complete minimal repair family and whether graph constraints reduce replay cost without changing that family. Both questions are tested in a symbolic benchmark and a real-agent pilot. 
+
+A. Benchmarks and Protocol 
+
+Table I summarizes two controlled workloads. The 
+
+Controlled-DAG suite instantiates a four-agent fork–join work-flow A → { B, C } → D with integer operations and Boolean outcome checks. It contains 30 logical DAGs for each of Single, Joint-AND, Alternative-OR, and Sequential-Joint. The first three types form the 90-DAG in-scope set; Sequential-Joint is an out-of-scope control because its two faulty events are causally comparable. Each DAG contains 6–14 candidates, including irrelevant distractors, and is executed under three valid topological schedules. 
+
+DualSolve-MAS is a 24-case real-agent pilot with eight program-generated arithmetic cases per in-scope type. Plan-ner A, Solvers B/C, and Aggregator D are instantiated by a local Qwen2.5-1.5B-Instruct model. An exact arithmetic executor supplies correct tool results to the solvers so that the experiment isolates communication localization rather than arithmetic ability. We deterministically corrupt the numeric message sent by B and/or C; an intervention restores the corresponding paired clean message and reruns D. The third candidate is an irrelevant audit event. Methods observe only the graph, candidate set, agent identities, and replay outcomes, not fault labels or clean values. Controlled-DAG uses deterministic replay with seed 20260826; confidence intervals use 2,000 DAG-level bootstrap samples after aggregating the three schedules. DualSolve-MAS uses temperature 0, at most 80 new tokens, r = 3 , and success threshold θ = 2 /3.
+
+B. Baselines and Metrics 
+
+All replay methods share the same candidates and interven-tion backend. Graph-blind exhaustive enumerates every set with |S| ≤ 2 and is the primary accuracy–cost comparator. 
+
+Single-event replay tests only first-order interventions, while 
+
+execution-window replay uses proximity in the linear log instead of partial-order constraints. Exact Shapley top-2 [14], betweenness-centrality top-2 [15], and a seeded random pair produce fixed-cardinality rankings rather than repair families. The real-agent pilot also includes a one-call LLM judge that predicts a family from the failed log without intervention. Family Exact Match (FEM) is one iff the predicted an-tichain equals the exhaustive minimal-repair family. Antichain Jaccard (AJ) measures partial overlap, Repair Success at 1 (RS@1) tests the first returned set, Minimality Violation (MV) detects non-minimal outputs, and Schedule Consistency (SC) measures agreement across symbolic linearizations. We report replay executions for Controlled-DAG and real LLM calls for DualSolve-MAS in separate tables. 
+
+C. Main Results 
+
+GCJR recovers all 90 in-scope symbolic families, with AJ, RS@1, and SC of 1.000 and MV=0. Its mean replay cost is 25.3 (95% CI: 23.1–27.5), versus 56.3 (51.0–61.9) for exhaustive search, a 55.1% reduction. Single-event and execution-window replay miss jointly necessary repairs. Exact Shapley top-2 attains RS@1=1.000 but only 0.333 macro FEM and 0.667 MV because it represents Alternative-OR cases as a successful but non-minimal pair. Thus, a set-valued target preserves distinctions lost by fixed-cardinality rankings. In the real-agent pilot, GCJR matches the exhaustive family on all 24 cases, with RS@1=1.000 and MV=0, while reducing mean LLM calls from 21.0 to 10.0 (52.4%). Single-event, execution-window, and log-only methods obtain Joint-AND FEM=0. 
+
+D. Ablations and Boundary Tests 
+
+Restricting GCJR to singleton interventions ( q = 1 ) re-duces Joint-AND FEM from 1.000 to 0.000, confirming that singleton-only replay cannot recover jointly necessary repairs. Removing the minimality filter reduces Alternative-OR FEM from 1.000 to 0.000 and increases MV from 0 to 0.783, showing that successful replay alone is insufficient to recover the complete minimal repair family. GCJR abstains on all 30 out-of-scope Sequential-Joint controls, consistent with its re-striction to causally incomparable pairs. Across three sampled topological linearizations of each DAG, GCJR returns identical repair families (SC=1.000), demonstrating invariance to the ordering of causally independent events in our deterministic setting. TABLE II FAMILY RECOVERY AND REPLAY COST ON THE 90 IN -SCOPE CONTROLLED -DAG CASES .
+
+Method Family recovery Replay efficiency J FEM ↑ Macro FEM ↑ Calls ↓ Matched saving ↑
+
+Graph-blind exhaustive 1.000 1.000 56.3 0.0% Single-event replay 0.000 0.667 10.7 N/A Execution-window replay 0.100 0.700 14.4 N/A Exact Shapley top-2 1.000 0.333 3285.3 N/A Centrality top-2 0.033 0.011 0.0 N/A Random pair 0.011 0.004 0.0 N/A 
+
+GCJR (ours) 1.000 1.000 25.3 55.1% 
+
+TABLE III FAMILY RECOVERY AND LLM-CALL COST ON THE 24-CASE 
+
+DUAL SOLVE -MAS PILOT .Method Family recovery LLM efficiency J FEM ↑ Macro FEM ↑ Calls ↓ Saving ↑
+
+Exhaustive 1.000 1.000 21.0 0.0% Single-event 0.000 0.667 12.0 N/A Execution-window 0.000 0.667 13.0 N/A LLM log-only 0.000 0.333 1.0 N/A 
+
+GCJR (ours) 1.000 1.000 10.0 52.4% 
+
+GCJR assumes that the observed dependency graph pre-serves the causal paths relevant to the failure. When 10% of its edges are randomly hidden from the diagnostic method, in-scope macro FEM decreases from 1.000 to 0.552. Although at least one ground-truth minimal repair set remains fully visible in the failure slice for 73.3% of the cases, missing edges can exclude valid candidates during slicing or structural screening, preventing recovery of the complete repair family. IV. R ELATED WORK 
+
+Failure analysis in multi-agent systems. Recent work has moved beyond end-task accuracy toward diagnosing why an LLM-based multi-agent system fails. MAST organizes recurrent failure modes, while Who&When, Seeing the Whole Elephant, and SCOPE identify responsible agents, steps, or components from execution traces [6], [7], [16], [17]. These methods provide useful taxonomies or attribution signals. Our target is different: the output is not one label or a ranking, but the complete family of inclusion-minimal event sets within a declared size-bounded intervention domain. 
+
+Graph-guided attribution and replay. GraphTracer, CHIEF, and HPFA show that structural or causal graphs can improve failure attribution [8]–[10]; thus, using a graph is not itself our novelty. AgenTracer, DoVer, CausalFlow, and Causal Agent Replay further use replay or counterfactual interventions to identify decisive steps, validate diagnoses, or estimate re-sponsibility [11]–[13], [18]. Most recently, SymTrace records execution prefixes and intervention anchors to separate causal repair from stochastic resampling [19]. These systems primar-ily return a failure location, an intervention effect, or a selected repair. In contrast, GCJR enumerates the complete bounded minimal repair family within a declared graph domain. This set-valued output preserves the distinction between jointly necessary events (AND) and alternative singleton repairs (OR), which a single attribution ranking cannot represent. 
+
+Minimal diagnosis and fault localization. Minimal diag-noses and causes have long been studied through consistency, structural counterfactuals, delta debugging, and program repair [20]–[23]. Accordingly, we do not claim that minimal sets or counterfactual testing are new in the abstract. Our contribution is a bounded instantiation for multi-agent event graphs: replay-validated repair families, an explicit antichain target, and graph-based pruning whose exactness is stated only for the declared candidate domain. REFERENCES [1] Q. Wu, G. Bansal, J. Zhang, Y. Wu, B. Li, E. Zhu, L. Jiang, X. Zhang, S. Zhang, J. Liu et al. , “Autogen: Enabling next-gen llm applications via multi-agent conversation,” arXiv:2308.08155 , 2023. [2] S. Hong, M. Zhuge, J. Chen, X. Zheng, Y. Cheng, J. Wang, C. Zhang, S. Yau, Z. Lin, L. Zhou et al. , “Metagpt: Meta programming for a multi-agent collaborative framework,” in ICLR , vol. 2024, 2024, pp. 23 247–23 275. [3] C. Qian, W. Liu, H. Liu, N. Chen, Y. Dang, J. Li, C. Yang, W. Chen, Y. Su, X. Cong et al. , “Chatdev: Communicative agents for software development,” in ACL 2024 , 2024, pp. 15 174–15 186. [4] K. Zhu, H. Du, Z. Hong, X. Yang, S. Guo, D. Z. Wang, Z. Wang, C. Qian, X. Tang, H. Ji et al. , “Multiagentbench: Evaluating the collaboration and competition of llm agents,” in ACL 2025 , 2025, pp. 8580–8622. [5] M. Cemri, M. Z. Pan, S. Yang, L. A. Agrawal, B. Chopra, R. Tiwari, K. Keutzer, A. Parameswaran, D. Klein, K. Ramchandran et al. , “Why do multi-agent llm systems fail?” NeurIPS , vol. 38, 2026. [6] S. Zhang, M. Yin, J. Zhang, J. Liu, Z. Han, J. Zhang, B. Li, C. Wang, H. Wang, Y. Chen et al. , “Which agent causes task failures and when? on automated failure attribution of llm multi-agent systems,” 
+
+arXiv:2505.00212 , 2025. [7] M. Chen, J. Wang, F. Mu, Y. Wang, Z. Liu, H. Feng, and Q. Wang, “Seeing the whole elephant: A benchmark for failure attribution in llm-based multi-agent systems,” in ACL 2026 , 2026, pp. 19 888–19 905. [8] H. Zhang, Y. Shi, X. Gu, H. You, Z. Zhang, L. Gan, Y. Yuan, and J. Huang, “Graphtracer: Graph-guided failure tracing in llm agents for robust multi-turn deep search,” arXiv:2510.10581 , 2025. [9] Y. Wang, W. Wu, J. Wang, and Q. Wang, “From flat logs to causal graphs: Hierarchical failure attribution for llm-based multi-agent sys-tems,” arXiv:2602.23701 , 2026. [10] R. Zhu, H. Lai, B. Jiang, J. Zhang, Z. Li, O. Kilbasovych, and J. Hong, “Hpfa: Hypergraph-based paired failure attribution for llm reasoning,” 
+
+arXiv:2608.02026 , 2026. [11] M. Ma, J. Zhang, F. Yang, Y. Kang, Q. Lin, S. Rajmohan, and D. Zhang, “Dover: Intervention-driven auto debugging for llm multi-agent systems,” in ICLR , vol. 2026, 2026, pp. 28 059–28 087. [12] A. Bonagiri, D. Borkar, G. J. Anderias, S. Rafatirad, and H. Homayoun, “Causalflow: Causal attribution and counterfactual repair for llm agent failures,” arXiv:2605.25338 , 2026. [13] J. Shah, “Causal agent replay: Counterfactual attribution for llm-agent failures,” arXiv:2606.08275 , 2026. [14] L. S. Shapley et al. , “A value for n-person games,” 1953. [15] L. C. Freeman, “Centrality in social networks conceptual clarification,” 
+
+Social networks , vol. 1, no. 3, pp. 215–239, 1978. [16] D. Hu, L. Chen, H. Fang, Z. Fang, T. Li, and Y. Gao, “Spatio-temporal trajectory similarity measures: A comprehensive survey and quantitative study,” 2023. [Online]. Available: https://arxiv.org/abs/2303.05012 [17] K. Sun, W. Li, B. Dong, Y. Lin, J. Zhang, and B. Shi, “Scope delineation before localization: A two-stage framework for enhancing failure attribution in multi-agent systems,” in AAAI , vol. 40, no. 39, 2026, pp. 33 108–33 116. [18] G. Zhang, J. Wang, J. Chen, W. Zhou, K. Wang, and S. Yan, “Agentracer: Who is inducing failure in the llm agentic systems?” in ICLR , vol. 2026, 2026, pp. 11 377–11 399. [19] Z. Luan, X. Zhang, M. Hu, Y. Yang, J. Yu, and X. Chen, “Repair or resample? rethinking failure debugging in llm multi-agent systems,” 2026. [Online]. Available: https://arxiv.org/abs/2608.25920 [20] R. Reiter, “A theory of diagnosis from first principles,” Artificial intelligence , vol. 32, no. 1, pp. 57–95, 1987. [21] J. Y. Halpern and J. Pearl, “Causes and explanations: A structural-model approach. part i: Causes,” Br. J. Philos. Sci. , 2005. [22] A. Zeller and R. Hildebrandt, “Simplifying and isolating failure-inducing input,” IEEE Transactions on software engineering , vol. 28, no. 2, pp. 183–200, 2002. [23] B.-C. Rothenberg and O. Grumberg, “Must fault localization for program repair,” in CAV . Springer, 2020, pp. 658–680.

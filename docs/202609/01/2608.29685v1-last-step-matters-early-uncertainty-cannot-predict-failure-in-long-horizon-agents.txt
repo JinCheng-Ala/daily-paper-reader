@@ -1,0 +1,616 @@
+Title: Last Step Matters: Early Uncertainty Cannot Predict Failure in Long-Horizon Agents
+
+URL Source: https://arxiv.org/pdf/2608.29685v1
+
+Published Time: Tue, 01 Sep 2026 01:16:29 GMT
+
+Number of Pages: 19
+
+Markdown Content:
+## Last Step Matters: Early Uncertainty Cannot Predict Failure in Long-Horizon Agents 
+
+Zongyue Li 1,2 *, Chengyue Yu 2*, Lei Zang 2*,Chenyi Zhuang 2, Linjian Mo 2, Leilei Gan 1† 1Zhejiang University 2Ant Group 
+
+zongyueli@zju.edu.cn, yuchengyue.ycy@antgroup.com zanglei.zl@antgroup.com, chenyi.zcy@antgroup.com linyi01@antgroup.com, leileigan@zju.edu.cn 
+
+Abstract 
+
+Early failure prediction is important for long-horizon agents, as it enables timely intervention and can reduce inference and tool-use costs. Uncertainty quantification, such as verbal con-fidence and perplexity, offers a promising ap-proach to detecting agent failures; however, it has not been explored whether these signals retain their discriminative power during the in-termediate stages of long-horizon execution. We evaluate mainstream uncertainty signals on deep-research tasks and find that verbal confi-dence reliably distinguishes failures at trajec-tory completion, achieving a mean AUROC of 0.85, whereas all evaluated signals offer lim-ited predictive value earlier in execution, with none exceeding a mean AUROC of 0.60 at 50% trajectory progress. We identify an underlying mechanism explaining this gap: path switching ,where agents frequently abandon their current search direction in-trajectory, breaking the link between early signal and final outcome. These findings challenge the assumption that interme-diate uncertainty can reliably guide early inter-vention. They also motivate a practical recom-mendation for agent harnesses in deep-research settings: use final-step confidence to decide whether to restart, an approach that our exper-iments find more effective than in-trajectory intervention. 
+
+1 Introduction 
+
+Large language model (LLM) agents can now au-tonomously tackle complex, long-horizon tasks through iterative information seeking, reasoning, and answer synthesis (Yao et al., 2023; Schick et al., 2023; Deng et al., 2023). However, these agents remain prone to execution failures: they may get stuck in action loops (Lu et al., 2025), pursue in-correct reasoning paths (Zhu et al., 2025), or hallu-
+
+> *
+
+Equal contribution. 
+
+> †
+
+Corresponding author. 0% 10% 20% 30% 40% 50% 60% 70% 80% 90%100% 
+
+Progress (%) 
+
+> 0.5 0.6 0.7 0.8 0.9
+> Predictive power (AUROC)
+> Poor predictive ability Predictive only at final steps
+> Verbal Confidence PPL Entropy Max NLL Max Entropy
+
+Figure 1: Predictive ability of uncertainty metrics for agent failure (measured by AUROC) across normal-ized trajectory progress. All metrics remain weak until 80–90% progress, then rise sharply at completion (tra-jectories with ≥11 steps; AUROC averaged across five models and three deep research benchmarks). This pat-tern is consistent across the 15 combinations of models and benchmarks (Appendix D). 
+
+cinate information (Huang et al., 2025a). Such fail-ures are particularly costly in long-horizon tasks, as each additional step incurs inference and tool-use costs (Xiao et al., 2026; Wang et al., 2025). Early failure prediction could therefore enable timely in-tervention before these costs accumulate (Lu et al., 2025). Uncertainty quantification (UQ), including verbal confidence methods (Tian et al., 2023; Ka-davath et al., 2022), token probability methods (Je-linek et al., 1977; Shannon, 1948), and consistency-based methods (Farquhar et al., 2024; Manakul et al., 2023), has emerged as a promising approach for predicting such failures (Xia et al., 2025; Oh et al., 2026). Prior work has shown that these met-rics are discriminative in single-turn settings, while recent studies have extended their evaluation to multi-step agentic tasks (Zhao et al., 2025; Duan et al., 2025; Zhang et al., 2026b). However, ex-isting studies generally focus on relatively short arXiv:2608.29685v1 [cs.LG] 30 Aug 2026 Figure 2: Illustration of three agent trajectories (T1, T2, and T3) showing how path switching can weaken the relationship between intermediate confidence and the final outcome. A low confidence signal at an intermediate stage (T2) does not indicate eventual failure when the agent subsequently switches to a new search direction, while a high confidence signal at an intermediate stage (T3) does not guarantee eventual success. 
+
+trajectories and assess failure detection only at task completion. It therefore remains unclear whether these metrics can reliably predict failures during 
+
+long-horizon execution and how early they become informative. To fill this gap, we systematically evaluate uncer-tainty signals for failure prediction throughout long-horizon agent execution. We consider three signal families (verbal confidence, token-probability met-rics, and consistency-based metrics) across three deep-research benchmarks: BrowseComp (Wei et al., 2025), BrowseComp-zh (Zhou et al., 2025), and Humanity’s Last Exam (Center for AI Safety et al., 2026). Our experiments cover five models with parameter counts ranging from 27B to 1T and address two questions: (1) Effectiveness. How reli-ably can established uncertainty metrics distinguish failed from successful trajectories at task comple-tion? (2) Timeliness. More critically, when do these signals become informative? Can they iden-tify failures early enough to support intervention before task completion? Our answer to the first question is encouraging: final-step verbal confidence is a strong baseline, achieving an average AUROC (area under the re-ceiver operating characteristic curve) of 0.85 across the 15 model-benchmark combinations. The an-swer to the second question is sobering: all eval-uated signals have poor early predictive ability ,with none exceeding a mean AUROC of 0.60 at 50% progress. As Figure 1 shows, all metrics re-main weak until 80–90% progress, then rise sharply only upon completion. We identify path switching as an underlying mechanism explaining this gap. Agents frequently abandon their current search direction during a tra-jectory. Figure 2 illustrates how path switching weakens the link between intermediate confidence and the eventual outcome. After the final switch, verbal confidence becomes substantially more pre-dictive. We also observe a pronounced separation near trajectory completion. Relative to the mean confidence over the first 70% of each trajectory, final-step confidence is 15 percentage points higher for correct trajectories and 6 percentage points lower for incorrect trajectories. These findings indicate that intermediate uncertainty has limited utility for early failure prediction. Our intervention experiments further show that confidence-guided post-completion retries outperform in-trajectory in-tervention. Our contributions are threefold: (1) We provide the first systematic study of how the predictive ability of uncertainty signals changes throughout long-horizon agent trajectories in deep-research tasks. Our evaluation spans three representative UQ families and distinguishes failure detection at completion from failure prediction before comple-tion. (2) We identify path switching as a behav-ioral phenomenon that helps explain the weak pre-dictive ability of early uncertainty signals. (3) We derive practical recommendations for agent har-nesses : our results favor post-completion retries guided by final-step confidence over in-trajectory interventions triggered by intermediate confidence. 2 Theoretical Background 
+
+Following Oh et al. (2026), we frame uncertainty in LLM agents at two levels. At the step level, the uncertainty of the agent’s action distribution is defined as: SLU t(x) = U [P (at | et−1, o t−1)] (1) where x denotes the task input, at denotes the ac-tion at step t, and et−1 and ot−1 denote the environ-ment state and observation, respectively. U (·) is a generic uncertainty measure (e.g., entropy H[P ],perplexity exp H[P ], or 100 −conf t for verbal con-fidence). At the trajectory level, step-level values are aggregated into a scalar: TLU (τ ) = A[SLU 1(x), . . . , SLU T (x)] (2) where τ denotes the trajectory generated for input 
+
+x, and A may be the mean, last-step value, tail-weighted mean, or other aggregation operators. 
+
+3 Experimental Setup 
+
+3.1 Datasets and Models 
+
+We evaluate on three benchmarks (Table 1). 
+
+BrowseComp (Wei et al., 2025) is a web-browsing question-answering benchmark comprising 1,266 questions that require persistently navigating the internet to find hard-to-find, entangled informa-tion. BrowseComp-zh (Zhou et al., 2025) is its Chinese-language counterpart. HLE (Center for AI Safety et al., 2026) is a multimodal benchmark of 2,500 expert-level questions spanning mathemat-ics, humanities, and natural sciences. Following Li et al. (2025), we use the full BrowseComp-zh set (289 questions) and a randomly sampled subset of BrowseComp (200 questions); for HLE, we use only the text-only subset (157 questions). We evaluate open-weight models spanning 27B to 1T parameters (Table 2) (Qwen Team, 2026; GLM Team et al., 2025; Z.AI, 2025; DeepSeek-AI et al., 2025; Moonshot AI, 2026). We restrict our evaluation to open-weight models because comput-ing entropy and related uncertainty metrics requires token-level probability distributions, which are un-available for closed-weight models. Correctness is determined by comparing the agent’s final answer to the ground truth using an LLM as a judge (Gu et al., 2026).                                   
+
+> Dataset # Tasks Acc. Avg Steps Max Steps
+> BrowseComp 200 32.0% 31.6 80 BrowseComp-zh 289 49.8% 20.7 80 HLE 157 34.1% 13.5 80
+> Table 1: Dataset statistics.
+> Model Total Activated Arch.
+> Qwen3.5-27B 27B 27B Dense Qwen3.5-122B-A10B 122B 10B MoE GLM-4.7 355B 32B MoE DeepSeek-V3.2 671B 37B MoE Kimi K2.6 1T 32B MoE
+> Table 2: Evaluated models, spanning 27B to 1T total pa-rameters. All are open-weight models, allowing access to token probabilities throughout each trajectory.
+
+3.2 Agentic Setting 
+
+We follow the agent setup of Ou et al. (2026). The agent has access to two tools: (1) Search , which queries the Google search engine and returns the top 10 results per query (each with a title, snippet, and URL), and (2) Visit , which extracts the full content of designated webpages via Jina 1 and then summarizes goal-relevant information. No memory compression, context folding, or other auxiliary tools are used. All models are configured with a temperature of 1.0, a top-p value of 0.95, a context length of 128K tokens, and a maximum of 80 tool calls per trajectory. We perform eight rollouts per task for each model across all three benchmarks. 
+
+3.3 Uncertainty Metrics 
+
+We evaluate the following families of uncertainty metrics: 
+
+Verbal confidence. Following the practice of prompting models to verbally state their uncer-tainty (Tian et al., 2023; Wei et al., 2024), we ex-tend this to the agentic setting by requiring the agent to output a confidence score (0–100) at each step, producing a verbal confidence sequence over the trajectory. 
+
+Token probability metrics. We compute four metrics from log probabilities at each step: perplex-ity (PPL) (Jelinek et al., 1977), maximum token negative log-likelihood (Max NLL) (Manakul et al., 2023), Shannon entropy (Shannon, 1948), and max-imum token entropy (Manakul et al., 2023). 
+
+Metric aggregation. All metrics above are com-puted at each step, producing a sequence for                                                                                                     
+
+> 1https://jina.ai/ Qwen3.5-27B Qwen3.5-122B-A10B GLM-4.7 DeepSeek-V3.2 Kimi K2.6 Metric Best agg. BC BC-zh HLE BC BC-zh HLE BC BC-zh HLE BC BC-zh HLE BC BC-zh HLE
+> Single-trajectory
+> Verbal Confidence (Tian et al., 2023) last step .921 .867 .801 .904 .864 .763 .915 .854 .744 .906 .860 .862 .794 .816 .790
+> PPL (Jelinek et al., 1977) last step .842 .692 .580 .853 .752 .601 .816 .790 .692 .745 .492 .481 .575 .534 .547 Entropy (Shannon, 1948) max .702 .689 .667 .736 .705 .695 .692 .748 .695 .750 .575 .469 .607 .548 .669 Max NLL (Manakul et al., 2023) max .692 .672 .681 .700 .710 .682 .720 .763 .673 .757 .631 .565 .665 .622 .705 Max token entropy (Manakul et al., 2023) max .717 .668 .706 .714 .708 .679 .741 .733 .690 .701 .613 .618 .761 .742 .736
+
+Table 3: Best AUROC for each single-trajectory uncertainty metric across 15 combinations of models and bench-marks. The aggregation operator with the most wins across settings is shown for each metric. Bold : best in column; underlined: second best. Full results in Appendix B. 
+
+each trajectory. We reduce each sequence to a scalar using six operators: mean , running max ,
+
+running min , last step , last-3 mean ,and last-5 mean . Applying these six operators to the five base metrics yields 30 scalar features. 
+
+Consistency-based metrics. Consistency-based metrics (Xia et al., 2025) require multiple rollouts per task and quantify uncertainty from the variation across answers or trajectories. These metrics are not suitable for our goal of early prediction: they require N × compute for N rollouts and rely on completed answers or trajectories, preventing them from being computed from partial trajectories. We nevertheless include ten such metrics (diversity, se-mantic entropy, predictive entropy, etc.) in Table 4 for completeness, with abbreviations and brief de-scriptions in Appendix C. 
+
+3.4 Evaluation Protocol AUROC. We use the area under the ROC curve (AUROC) to measure the predictive ability of each uncertainty metric. An AUROC of 0.5 indicates chance-level discrimination, whereas an AUROC of 1.0 indicates perfect discrimination. At each trajectory progress point, we compute AUROC sep-arately for each of the 15 model–benchmark com-binations and report their mean. 
+
+Backward truncation analysis. Since trajecto-ries vary in length, we first normalize trajectory progress into 11 equally spaced points (0%, 10%, 20%, . . . , 100%). We restrict the analysis to tra-jectories with at least 11 steps to ensure adequate coverage of these progress points. At each point, we use only the information available up to that point to predict the final trajectory outcome. We then compute the AUROC of each uncertainty sig-nal across trajectories, revealing how its predictive ability changes over the course of execution. 
+
+4 Discriminative Ability of Uncertainty Metrics 
+
+4.1 Full-Trajectory Failure Detection 
+
+Our first question is whether uncertainty quantifica-tion remains effective for failure detection in long-horizon agents when the full trajectory is available. We find that it does: final-step verbal confidence achieves a mean AUROC of 0.85 across the 15 model–benchmark combinations. Table 3 summa-rizes the results, with complete results provided in Appendix B. These results suggest that the model itself serves as both an effective uncertainty estimator and a tem-poral information aggregator: its verbal confidence is more discriminative than token-probability met-rics, while its final-step assessment outperforms hand-designed temporal aggregators such as mean 
+
+and max .Among consistency metrics (Table 4), answer-frequency- and graph-based metrics (diversity and degree uncertainty) generally outperform log-probability-based metrics, but still trail verbal con-fidence overall. The sole exception is HLE, where discrete semantic entropy outperforms verbal con-fidence for both evaluated models. 
+
+4.2 Early Failure Prediction 
+
+We next ask whether failures can be identified be-fore the agent reaches its conclusion. Figure 1 shows how the failure-prediction ability of five un-certainty metrics, measured by AUROC, changes over trajectory progress. We evaluate intermedi-ate stages using the backward truncation protocol (§3.4). At each progress point, we report the mean AUROC across the 15 model–benchmark combina-tions. Predictive ability remains limited: at 50% progress, no metric exceeds a mean AUROC of 0.60; even at 90%, all metrics remain below 0.70. Verbal confidence performs best throughout, but its mean AUROC rises sharply to 0.85 only at comple-tion. 0% 10% 20% 30% 40% 50% 60% 70% 80% 90%100%  
+
+> Progress (%)
+> 0.5 0.6 0.7 0.8 0.9
+> Predictive power (AUROC)  (a)
+> Conf. (last step) Conf. (running mean) Conf. (running min) Conf. (running max) Conf. (last-3 mean) Conf. (last-5 mean)
+> 0% 10% 20% 30% 40% 50% 60% 70% 80% 90%100%
+> Progress (%)
+> 0.5 0.6 0.7 0.8 0.9
+> Predictive power (AUROC)  (b)
+> Verbal Confidence LR-L1 LR-L2 LightGBM
+> Aggregation Across Time / Metrics Does Not Help
+
+Figure 3: Temporal aggregation and feature combina-tion do not improve early prediction. (a) Verbal confi-dence with six temporal aggregation methods; running minimum provides only a small improvement in early AUROC. (b) Classifiers combining five uncertainty met-rics do not outperform verbal confidence at any progress point. 
+
+4.3 Can Feature Aggregation/Combination Help? 
+
+We ask whether aggregating verbal confidence over time or combining multiple uncertainty metrics can improve early prediction. Figure 3(a) com-pares six temporal aggregation methods for verbal confidence. At 50% trajectory progress, running minimum performs best, but improves mean AU-ROC only modestly (0.60 to 0.62). At comple-tion, no temporal aggregation method outperforms final-step confidence. Figure 3(b) tests whether combining five uncertainty features improves early prediction using L1- and L2-regularized logistic regression and LightGBM (Ke et al., 2017), evalu-ated with five-fold stratified cross-validation. None of the combined models outperforms verbal con-fidence alone at any progress point, showing that feature combination provides no benefit for early prediction. 
+
+5 Path Switching and Poor Early Predictive Ability 
+
+5.1 Path Switching 
+
+We observe frequent path switching , in which an agent abandons its current search direction during a trajectory. This behavior may help explain the lim-ited predictive ability of intermediate uncertainty signals. Table 5 illustrates this with an example trajectory from BrowseComp. The agent first searches by the “ambassador” constraint alone (Steps 1–2), then switches to the “Nobel Prize” constraint (Step 3),                                                                          
+
+> Qwen3.5-122B-A10B GLM-4.7 Metric BC BC-zh HLE BC BC-zh HLE
+> Single-trajectory
+> Verbal Confidence (Tian et al., 2023) .904 .864 .763 .915 .854 .744
+> Consistency-based (8 rollouts per task)
+> Disc. sem. ent. (Farquhar et al., 2024) .838 .800 .783 .844 .823 .822
+> Deg. unc. (Lin et al., 2024) .849 .839 .748 .827 .839 .799 Diversity (Cole et al., 2023) .840 .789 .778 .837 .820 .811 Variation ratio (Huang et al., 2025b) .862 .814 .714 .823 .817 .743 Lexical sim. (Fomicheva et al., 2020) .861 .814 .714 .823 .817 .742 FSD (Lyu et al., 2025) .804 .776 .777 .801 .789 .779 LN pred. ent. (Malinin and Gales, 2021) .827 .716 .624 .782 .772 .669 Pred. entropy (Kadavath et al., 2022) .832 .667 .613 .745 .745 .666 SentSAR (Duan et al., 2024) .720 .685 .546 .757 .733 .649 Sem. entropy (Kuhn et al., 2023) .746 .709 .690 .750 .576 .538
+
+Table 4: AUROC at trajectory completion for verbal confidence and consistency-based methods. Bold : best; underlined: second best per column. 
+
+and then further refines by combining “ambassador” and “Nobel Prize” (Step 4). It is only after this second switch, which synthesizes all three key con-straints (headmaster, Nobel laureate, ambassador), that the search yields a productive lead. The pre-switch confidence scores (70% and 65%) reflect the agent’s assessment of partial search directions that are later abandoned and thus provide little in-dication of eventual success. 
+
+Q: Who was headmaster of a school in the 1940s–60s, taught a future Nobel laureate, and later became ambas-sador in the 1970s? 
+
+A: Francis L. Bartels 
+
+Step Tool Conf Sw. Search query / Action 
+
+1 search 70% headmaster turned ambassador 1970s 2 search 65% former headmaster became am-bassador 1970s 3 search 60% ← headmaster 1940s 1960s student won Nobel Prize 
+
+4 search 55% ← Nobel laureate attended school headmaster ambassador 
+
+5 visit 85% Francis L. Bartels (Wikipedia) 6 search 90% Mfantsipim School alumni Nobel Prize winner 7 visit 95% Confirm answer 
+
+Table 5: Example of path switching in a BrowseC-omp trajectory. Sw. = path switch. Confidence before the switch reflects search directions that are later aban-doned. 
+
+Benchmark % traj. with switch Avg # switches / traj. 
+
+Detected by keywords such as “try a different approach” 
+
+BrowseComp 86.8% 8.5 BrowseComp-zh 69.7% 4.7 HLE 36.9% 1.3 
+
+Table 6: Prevalence of path switches. 
+
+Path switch detection. We detect switches using 24 regular expressions matching explicit changes of direction, such as “let me try a different approach.” To validate the detector, we manually annotate 200 BrowseComp trajectories generated by GLM-4.7 and compare the detected switch steps against hu-man annotations. The detector achieves 91.58% accuracy, 99.93% precision, 75.91% recall, and 86.28% F1, making it a high-precision but conser-vative proxy for path switching. 
+
+Prevalence of path switching. Path switching is prevalent across all three benchmarks: 86.8%, 69.7%, and 36.9% of trajectories contain a detected switch on BrowseComp, BC-zh, and HLE, respec-tively, with averages of 8.5, 4.7, and 1.3 switches per trajectory (Table 6). 
+
+Predictive ability around path switches. If path switches weaken the relationship between inter-mediate uncertainty and the final outcome, uncer-tainty metrics should be less predictive before a switch than afterward. Figure 4(a) tests this predic-tion using |Spearman ρ| between confidence and correctness at each position relative to the last de-tected switch (step t). Before the switch (steps t−5
+
+to t−1), |ρ| remains below 0.15 across all model– benchmark combinations; afterward, it rises mono-tonically to 0.3–0.5 by step t+5 . To account for task difficulty as a potential confounder, we repeat the analysis within difficulty strata and observe the same pattern in each group (Appendix F). t-5 t-4 t-3 t-2 t-1 t t+1 t+2 t+3 t+4 t+5  
+
+> Steps from last path switch 0.0 0.1 0.2 0.3 Confidence--Failure Correlation ( |Spearman  |)
+> Low correlation before path switch High correlation after path switch
+> Mean ± 95% CI Last switch (step t)0123510
+> Steps before end
+> 0.50 0.60 0.70 0.80 0.90 1.00
+> Verbal Confidence  Correct Correct (avg. of first 70%) Incorrect Incorrect (avg. of first 70%)
+
+Figure 4: Path switching and poor early predictive abil-ity. (a) Absolute Spearman correlation between confi-dence and correctness before and after the last detected path switch (step t). (b) Confidence surge relative to the average over the first 70% of the trajectory. Correct tra-jectories exhibit a confidence increase, while incorrect trajectories decline slightly. 
+
+5.2 Post-Switch Confidence Surge 
+
+Frequent path switching may delay reliable confi-dence assessment until the agent settles on its final direction. We therefore expect confidence to be-come informative only near trajectory completion, rising on successful trajectories but not on unsuc-cessful ones. We quantify this confidence surge as the dif-ference between final-step verbal confidence and mean verbal confidence over the first 70% of the trajectory. Figure 4(b) supports this prediction: confidence increases by 15 points on average for correct trajectories but decreases by 6 points for incorrect trajectories. The dashed lines indicate each group’s mean confidence over the first 70% of the trajectory. This late-stage divergence appears across all 15 model–benchmark combinations (Ap-pendix I). Together, these findings support a path-switching account of the temporal gap in predictive ability: confidence reflects transient search paths early in execution and becomes aligned with final correct-ness only after the agent settles on a direction near trajectory completion. 
+
+6 Discussion 
+
+6.1 Sensitivity to Confidence Elicitation 
+
+In our main experiments, confidence is collected alongside each tool call (Appendix A). A natural concern is whether the observed weak early-stage predictive power is an artifact of this specific elic-itation method. We evaluate two alternatives: In-content , where the model reports its confidence in 
+
+<confidence> tags after its reasoning and be-fore the tool call; and Two-stage , where confidence is obtained through a separate model call after each step (Tian et al., 2023). Results for Qwen3.5-122B-A10B, averaged across two benchmarks (BrowseComp and BrowseComp-zh) are shown in Figure 5(a). All three elicitation methods exhibit the same qualitative trend: weak predictive performance early in the trajectory, followed by a sharp increase toward completion. 
+
+6.2 Calibration of Verbal Confidence 
+
+LLMs tend to be overconfident when asked to re-port their confidence as a numerical value (Wei et al., 2024). A natural concern is whether such miscalibration affects our main findings. We indeed find substantial overconfidence in long-horizon tasks at both intermediate and final stages. At 50% trajectory progress, mean confi-dence is 77.05%, compared with an actual success rate of 30.77%, and the expected calibration error (ECE) is 0.4629 (Guo et al., 2017). At trajectory completion, mean confidence decreases to 64.99%, while the ECE falls to 0.3422. Thus, although final-step confidence is better calibrated than in-termediate confidence, substantial overconfidence remains. However, this miscalibration does not affect our main conclusions regarding discriminative power. We measure discriminative power using AUROC, which depends on the relative ranking of con-fidence scores rather than their absolute values. Therefore, any monotonic recalibration that pre-serves this ranking leaves the AUROC unchanged. On the other hand, recalibration may affect pre-cision and recall computed at fixed absolute confi-dence thresholds. Figure 6 reports these metrics at thresholds of 0.8 and 0.9. To ensure that our con-clusions do not depend on these particular choices, Appendix J presents full precision–recall curves obtained by sweeping the threshold over its entire range. Failure-detection performance at 50% tra-jectory progress is consistently and substantially worse than at 100% regardless of the threshold cho-sen. 
+
+6.3 Beyond Deep Research Tasks 
+
+The weak association between intermediate uncer-tainty signals and final outcomes may partly de-pend on whether agent actions produce persistent changes to the environment. In our deep-research tasks, search and page-visit actions are largely read-only, allowing an agent to abandon one search di-rection and explore another without lasting con-sequences. Coding tasks, by contrast, are more path-dependent: commands can create files, mod-ify code, or otherwise alter the system state, caus-ing earlier actions to constrain subsequent ones. Such persistence increases the cost of changing direction and may make intermediate uncertainty signals more predictive of the eventual task out-come. To examine this hypothesis, we first compare the predictive ability of intermediate confidence across the two task types while holding the under-lying model fixed. Figure 5(b) contrasts the perfor-mance of GLM-4.7 on TerminalBench 2.0 (Merrill et al., 2026) with its performance on the three deep-research benchmarks. TerminalBench 2.0 com-prises 89 tasks in realistic command-line environ-ments. In each trajectory, the agent executes shell commands, observes their outputs, and reports a confidence score at every step. Across intermediate progress points, GLM-4.7 achieves AUROC values of 0.66–0.72 on TerminalBench, compared with 0.56–0.62 on the deep-research tasks. At trajectory completion, its AUROC reaches 0.79 on Terminal-Bench, compared with 0.78–0.93 across the deep-research benchmarks. These results are consistent with the hypothesis that intermediate confidence re-tains more predictive information in state-changing, path-dependent coding environments. To determine whether this pattern extends be-yond GLM-4.7, we further evaluate two Qwen3.5 models on TerminalBench. As shown in Table 7, both models exhibit substantial intermediate pre-dictive power, with AUROC values ranging from 0.655 to 0.781 across the evaluated progress points and exceeding 0.85 at completion. Together with the GLM-4.7 results, these findings show a con-sistent pattern across all three models: intermedi-ate confidence is more predictive on coding agents benchmarks than on the deep-research benchmarks. As a behavioral check on the proposed path-dependence explanation, we compare how fre-quently agents switch between solution paths across task types. Path switching is substantially less frequent on TerminalBench than on BrowseC-omp (Appendix E), consistent with the idea that persistent state changes constrain changes in direc-tion during coding tasks. The alignment between reduced path switching and higher intermediate AUROC provides supporting evidence that path de-pendence may make intermediate confidence more informative. 0% 10% 20% 30% 40% 50% 60% 70% 80% 90%100%  
+
+> Progress (%)
+> 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90 0.95
+> Predictive power (AUROC)  (a)
+> In-tool-call In-content Two-stage
+> 0% 10% 20% 30% 40% 50% 60% 70% 80% 90%100%
+> Progress (%)
+> 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90 0.95
+> Predictive power (AUROC)  (b)
+> TerminalBench BrowseComp BrowseComp-zh HLE
+> Predictive ability (AUROC) Predictive ability (AUROC)
+
+Figure 5: Sensitivity analysis. (a) Sensitivity to confi-dence elicitation: predictive ability (AUROC) by nor-malized progress, comparing three elicitation methods. All methods show the same qualitative trend of poor predictive ability early followed by a confidence surge. (b) Sensitivity to task type: coding tasks (Terminal-Bench 2.0) vs. deep research benchmarks. Coding tasks show higher intermediate AUROC. 
+
+7 Implications for Agent Harnesses 
+
+What implications do our findings carry for the de-sign of agent harnesses? Our findings suggest that intermediate uncertainty may offer limited benefit for guiding intervention in these tasks, for two rea-sons. First, intermediate uncertainty signals have poor predictive ability for the final outcome. Sec-ond, since the agent already revises its search di-Model 20% 50% 70% 100% 
+
+GLM-4.7 0.660 0.717 0.716 0.789 Qwen3.5-122B-A10B 0.760 0.781 0.781 0.866 Qwen3.5-27B 0.674 0.655 0.710 0.851 
+
+Table 7: Verbal confidence AUROC across normalized trajectory progress on TerminalBench 2.0. At 50% progress, AUROC ranges from 0.655 to 0.781 across the three models. 
+
+rection through path switching, additional inter-vention based on intermediate uncertainty seems redundant. To make this concrete, Figure 6 shows the pre-cision and recall of failure detection at two confi-dence thresholds ( τ =0 .8 and τ =0 .9), evaluated at 50% and 100% trajectory progress and aver-aged across all 15 model–benchmark combinations. At 50% progress, performance is limited at both thresholds: τ =0 .8 yields a precision of 0.68 and a recall of 0.62, whereas τ =0 .9 achieves a recall of 0.96 but a precision of only 0.64, only slightly above the average failure rate of 0.62. Neither threshold provides acceptable performance in real-world settings. At 100% progress, the picture im-proves: τ =0 .8 achieves a precision of 0.95 and a recall of 0.46, whereas τ =0 .9 achieves a precision of 0.88 and a recall of 0.76, indicating that confi-dence signals are useful for guiding interventions primarily at task completion. 0.0 0.2 0.4 0.6 0.8 1.0           
+
+> = 0.8
+> Recall
+> better
+> At 50% progress
+> Model Qwen3.5-27B Qwen3.5-122B-A10B GLM-4.7 DeepSeek-V3.2 Kimi-2.6 Dataset BC BC-zh HLE
+> better
+> At 100% progress
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Precision
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> = 0.9
+> Recall
+> better
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Precision
+> better
+
+Figure 6: Failure detection precision and recall at two confidence thresholds ( τ =0 .8 and τ =0 .9; predict fail-ure when confidence < τ ). Columns compare 50% vs. 100% trajectory progress. At 50%, performance is lim-ited at both thresholds; at 100%, the precision–recall tradeoff improves. Each point is one combination of model and benchmark. Full precision–recall curves in Appendix J. 
+
+Existing work has already explored confidence-based intervention at two distinct points in the agent 50 100 150 30 40 50 60          
+
+> GLM-4.7 Accuracy (%)
+> BrowseComp
+> BrowseConf-Neg AUQ ReAct
+> 40 60
+> better
+> BrowseComp-zh
+> 20 40 60
+> better
+> HLE
+> 50 100 150
+> Avg. Steps per Question
+> 30 40 50 60
+> Qwen3.5-122B-A10B Accuracy (%)
+> better
+> 20 40 60
+> Avg. Steps per Question
+> better
+> 25 50 75
+> Avg. Steps per Question
+> better
+
+Figure 7: Agent harness: accuracy vs. efficiency. Post-completion intervention (BrowseConf-Neg) Pareto-dominates In-trajectory intervention (AUQ) across both evaluated models and all three benchmarks. Upper-left is better (fewer steps, higher accuracy). 
+
+loop: • In-trajectory intervention (AUQ; Zhang et al. 2026a): monitors verbal confidence at each step; when it drops below a threshold, the agent pauses to reflect and replan within the current trajectory, consuming additional steps before continuing. • Post-completion intervention (BrowseConf-Neg; Ou et al. 2026): waits until the agent finishes a full trajectory, then checks the final verbal confidence; if it falls below a thresh-old, the agent restarts the entire task while informed that the previous answer was likely incorrect. We reproduce both methods on our benchmarks. ReAct (no intervention) serves as the shared base-line. AUQ is configured with the reflection thresh-old τ =0 .8 (as in the original paper) and a best-of-N reflection budget, where the agent keeps try-ing until confidence rises above the threshold or the maximum step count is reached. BrowseConf-Neg is run with up to 10 total rollouts, restarting from scratch whenever the final confidence falls below τ =0 .9 (as in the original paper), and con-ditioning each retry on the negation of the prior low-confidence answer. Figure 7 compares the two strategies in the accuracy-efficiency plane. Each BrowseConf-Neg point corresponds to a rollout budget ranging from 1 to 10. The horizontal axis measures effec-tive steps , including regular agent steps, AUQ’s in-trajectory reflection steps, and all steps from BrowseConf-Neg retry. Thus, points with similar horizontal coordinates represent comparable aver-age interaction budgets. Post-completion intervention (BrowseConf-Neg) Pareto-dominates in-trajectory intervention (AUQ) across both evaluated models and all three bench-marks: with comparable step budget, it achieves higher accuracy. Furthermore, its accuracy rises steadily with each additional retry, showing that this specific confidence-guided restart policy con-verts additional compute into accuracy gains. 
+
+7.1 Recommendations for Agent Harnesses 
+
+Based on the analysis above, we offer three recom-mendations for agent harnesses in deep-research settings: (1) Use final-step verbal confidence to identify failures. Verbal confidence reliably dis-tinguishes failures at trajectory completion but of-fers limited predictive value earlier in execution. 
+
+(2) When final-step confidence is low, restart with prior answer awareness (Ou et al., 2026). Intervention based on intermediate uncertainty may incur false-positive costs and disrupt path switch-ing that would otherwise allow the agent to recover. 
+
+(3) Move beyond standard uncertainty quan-tification for early failure detection. Standard uncertainty signals have limited predictive power early in a trajectory. Reliable early failure detec-tion may therefore require richer trajectory-aware methods or broader harness designs, such as self-critique or multi-agent monitoring. Our illustrative external-monitor experiment provides preliminary support for this broader direction (Appendix H). 
+
+8 Related Work 
+
+Verbal confidence methods (Tian et al., 2023), methods based on token probabilities (Kadavath et al., 2022), and consistency-based methods (Far-quhar et al., 2024; Manakul et al., 2023) have been widely studied in single-turn settings. Recent work on uncertainty quantification for LLM agents (Oh et al., 2026) spans two related themes: quantify-ing uncertainty over agent trajectories and using uncertainty to guide in-trajectory interventions or post-completion retries. For uncertainty quantification, SAUP (Zhao et al., 2025) aggregates step-level uncertainty using situation-dependent weights, while UProp (Duan et al., 2025) distinguishes uncertainty inherent in the current decision from uncertainty propagated by preceding decisions. By incorporating interme-diate uncertainty into a trajectory-level estimate, both methods implicitly assume that intermediate steps contribute useful information to the final pre-diction, but neither directly evaluates this assump-tion by measuring predictive ability throughout the trajectory. Agentic Confidence Calibration (Zhang et al., 2026b) finds that final-step token confidence can outperform full-trajectory averaging, but does not empirically evaluate early prediction during execution. Prior work has also used uncertainty signals to guide agent execution. BrowseConf (Ou et al., 2026) uses final-step verbal confidence to guide retry decisions. ParallelMuse (Li et al., 2025) partitions trajectories into functional regions and uses uncertainty to guide path reuse and branch-ing during partial rollouts. AUQ (Zhang et al., 2026a) monitors intermediate verbal confidence and triggers reflection during the trajectory. The AUQ study also reports that confidence at the final step outperforms average confidence on ALFWorld (0.913 vs. 0.783 AUROC), but does not explain why intermediate confidence is less informative. Our work addresses this gap by systematically analyzing whether and when uncertainty metrics become predictive of failure in long-horizon deep research tasks. 
+
+9 Conclusion 
+
+Across the evaluated deep-research benchmarks, verbal confidence reliably detects failures at task completion (mean AUROC 0.85) but has limited predictive ability at intermediate stages, with no evaluated metric exceeding a mean AUROC of 0.60 at 50% progress; neither additional features nor fea-ture combinations close this gap. Path switching, where agents abandon their current search direc-tion in-trajectory, weakens the relationship between intermediate uncertainty and final outcomes, and helps explain why discriminative signal becomes strong only near completion. Our intervention ex-periments therefore support a practical recommen-dation for agent harnesses in deep-research set-tings: use final-step confidence to decide whether to restart, as confidence-guided post-completion retries outperform in-trajectory intervention. Limitations 
+
+Our evaluation primarily focuses on long-horizon deep research tasks, with TerminalBench 2.0 pro-viding an additional comparison with coding tasks. The results suggest that uncertainty dynamics vary across task types, potentially depending on whether agent actions modify the environment state and how frequently agents switch paths. Examining these differences across a broader range of tasks, in-cluding mathematical reasoning, coding, multi-turn dialogue, shopping, and desktop control, remains an important direction for future work. In addi-tion, our experiments focus on mainstream uncer-tainty quantification metrics, including verbal con-fidence, token probability metrics, and consistency-based metrics. Richer trajectory-aware methods and broader harness designs, such as self-critique and multi-agent monitoring, may enable more re-liable early failure detection and warrant further study. 
+
+Acknowledgments 
+
+This work was supported in part by the Na-tional Natural Science Foundation of China (No. 62602580), the Ningbo Youth Science and Tech-nology Innovation Leading Talent Program (No. 2025QL059), the Ant Group Research Fund, and the “Pioneer and Leading Goose” R&D Program of Zhejiang (No. 2025C02037). 
+
+References 
+
+Center for AI Safety, Scale AI, and HLE Contributors Consortium. 2026. A benchmark of expert-level aca-demic questions to assess ai capabilities. Nature ,649(8099):1139–1146. Jeremy Cole, Michael Zhang, Daniel Gillick, Julian Eisenschlos, Bhuwan Dhingra, and Jacob Eisenstein. 2023. Selectively answering ambiguous questions. In Proceedings of the 2023 Conference on Empiri-cal Methods in Natural Language Processing , pages 530–543, Singapore. Association for Computational Linguistics. DeepSeek-AI, Aixin Liu, Aoxue Mei, Bangcai Lin, Bing Xue, Bingxuan Wang, Bingzheng Xu, Bochao Wu, Bowei Zhang, Chaofan Lin, Chen Dong, Chengda Lu, Chenggang Zhao, Chengqi Deng, Chen-hao Xu, Chong Ruan, Damai Dai, Daya Guo, De-jian Yang, and 245 others. 2025. DeepSeek-V3.2: Pushing the frontier of open large language models. 
+
+Preprint , arXiv:2512.02556. Xiang Deng, Yu Gu, Boyuan Zheng, Shijie Chen, Sam Stevens, Boshi Wang, Huan Sun, and Yu Su. 2023. Mind2web: Towards a generalist agent for the web. In Advances in Neural Information Processing Sys-tems , volume 36, pages 28091–28114. Curran Asso-ciates, Inc. Jinhao Duan, Hao Cheng, Shiqi Wang, Alex Zavalny, Chenan Wang, Renjing Xu, Bhavya Kailkhura, and Kaidi Xu. 2024. Shifting attention to relevance: To-wards the predictive uncertainty quantification of free-form large language models. In Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) ,pages 5050–5063, Bangkok, Thailand. Association for Computational Linguistics. Jinhao Duan, James Diffenderfer, Sandeep Madireddy, Tianlong Chen, Bhavya Kailkhura, and Kaidi Xu. 2025. Uprop: Investigating the uncertainty propaga-tion of llms in multi-step agentic decision-making. 
+
+arXiv preprint arXiv:2506.17419 .Sebastian Farquhar, Jannik Kossen, Lorenz Kuhn, and Yarin Gal. 2024. Detecting hallucinations in large language models using semantic entropy. Nature ,630(8017):625–630. Marina Fomicheva, Shuo Sun, Lisa Yankovskaya, Frédéric Blain, Francisco Guzmán, Mark Fishel, Nikolaos Aletras, Vishrav Chaudhary, and Lucia Spe-cia. 2020. Unsupervised quality estimation for neural machine translation. Transactions of the Association for Computational Linguistics , 8:539–555. GLM-5 Team, Aohan Zeng, Xin Lv, Zhenyu Hou, Zhengxiao Du, Qinkai Zheng, Bin Chen, Da Yin, Chendi Ge, Chenghua Huang, Chengxing Xie, Chenzheng Zhu, Congfeng Yin, Cunxiang Wang, Gengzheng Pan, Hao Zeng, Haoke Zhang, Haoran Wang, Huilong Chen, and 167 others. 2026. GLM-5: from vibe coding to agentic engineering. Preprint ,arXiv:2602.15763. GLM Team, Aohan Zeng, Xin Lv, Qinkai Zheng, Zhenyu Hou, Bin Chen, Chengxing Xie, Cunxiang Wang, Da Yin, Hao Zeng, Jiajie Zhang, Kedong Wang, Lucen Zhong, Mingdao Liu, Rui Lu, Shulin Cao, Xiaohan Zhang, Xuancheng Huang, Yao Wei, and 152 others. 2025. GLM-4.5: Agentic, reason-ing, and coding (arc) foundation models. Preprint ,arXiv:2508.06471. Jiawei Gu, Xuhui Jiang, Zhichao Shi, Hexiang Tan, Xuehao Zhai, Chengjin Xu, Wei Li, Yinghan Shen, Shengjie Ma, Honghao Liu, Saizhuo Wang, Kun Zhang, Zhouchi Lin, Bowen Zhang, Lionel Ni, Wen Gao, Yuanzhuo Wang, and Jian Guo. 2026. A survey on llm-as-a-judge. The Innovation , 7(6). Chuan Guo, Geoff Pleiss, Yu Sun, and Kilian Q. Wein-berger. 2017. On calibration of modern neural net-works. In Proceedings of the 34th International Con-ference on Machine Learning - Volume 70 , ICML’17, pages 1321–1330. JMLR.org. Lei Huang, Weijiang Yu, Weitao Ma, Weihong Zhong, Zhangyin Feng, Haotian Wang, Qianglong Chen, Weihua Peng, Xiaocheng Feng, Bing Qin, and Ting Liu. 2025a. A survey on hallucination in large lan-guage models: Principles, taxonomy, challenges, and open questions. ACM Trans. Inf. Syst. , 43(2). Yuheng Huang, Jiayang Song, Zhijie Wang, Sheng-ming Zhao, Huaming Chen, Felix Juefei-Xu, and Lei Ma. 2025b. Look before you leap: An exploratory study of uncertainty analysis for large language mod-els. IEEE Transactions on Software Engineering ,51(2):413–429. Fred Jelinek, Robert L Mercer, Lalit R Bahl, and James K Baker. 1977. Perplexity-a measure of the difficulty of speech recognition tasks. The journal of the Acoustical Society of America , 62(S1):S63–S63. Saurav Kadavath, Tom Conerly, Amanda Askell, Tom Henighan, Dawn Drain, Ethan Perez, Nicholas Schiefer, Zac Hatfield-Dodds, Nova DasSarma, Eli Tran-Johnson, Scott Johnston, Sheer El-Showk, Andy Jones, Nelson Elhage, Tristan Hume, Anna Chen, Yuntao Bai, Sam Bowman, Stanislav Fort, and 17 others. 2022. Language models (mostly) know what they know. arXiv preprint arXiv:2207.05221 .Guolin Ke, Qi Meng, Thomas Finley, Taifeng Wang, Wei Chen, Weidong Ma, Qiwei Ye, and Tie-Yan Liu. 2017. Lightgbm: a highly efficient gradient boosting decision tree. In Proceedings of the 31st Interna-tional Conference on Neural Information Processing Systems , NIPS’17, pages 3149–3157, Red Hook, NY, USA. Curran Associates Inc. Lorenz Kuhn, Yarin Gal, and Sebastian Farquhar. 2023. Semantic uncertainty: Linguistic invariances for un-certainty estimation in natural language generation. In The Eleventh International Conference on Learn-ing Representations .Baixuan Li, Dingchu Zhang, Jialong Wu, Wenbiao Yin, Zhengwei Tao, Yida Zhao, Liwen Zhang, Haiyang Shen, Runnan Fang, Pengjun Xie, Jingren Zhou, and Yong Jiang. 2025. Parallelmuse: Agentic parallel thinking for deep information seeking. arXiv preprint arXiv:2510.24698 .Zhen Lin, Shubhendu Trivedi, and Jimeng Sun. 2024. Generating with confidence: Uncertainty quantifica-tion for black-box large language models. Transac-tions on Machine Learning Research .Qingyu Lu, Liang Ding, Siyi Cao, Xuebo Liu, Kan-jian Zhang, Jinxia Zhang, and Dacheng Tao. 2025. Runaway is ashamed, but helpful: On the early-exit behavior of large language model-based agents in embodied environments. In Findings of the Associ-ation for Computational Linguistics: EMNLP 2025 ,pages 24014–24027, Suzhou, China. Association for Computational Linguistics. Qing Lyu, Kumar Shridhar, Chaitanya Malaviya, Li Zhang, Yanai Elazar, Niket Tandon, Marianna Apidianaki, Mrinmaya Sachan, and Chris Callison-Burch. 2025. Calibrating large language models with sample consistency. In Proceedings of the AAAI Con-ference on Artificial Intelligence , volume 39, pages 19260–19268. Andrey Malinin and Mark Gales. 2021. Uncertainty estimation in autoregressive structured prediction. In 
+
+International Conference on Learning Representa-tions .Potsawee Manakul, Adian Liusie, and Mark Gales. 2023. SelfCheckGPT: Zero-resource black-box hallucina-tion detection for generative large language models. In Proceedings of the 2023 Conference on Empiri-cal Methods in Natural Language Processing , pages 9004–9017, Singapore. Association for Computa-tional Linguistics. Mike A Merrill, Alexander Glenn Shaw, Nicholas Car-lini, Boxuan Li, Harsh Raj, Ivan Bercovich, Lin Shi, Jeong Yeon Shin, Thomas Walshe, E. Kelly Buchanan, Junhong Shen, Guanghao Ye, Haowei Lin, Jason Poulos, Maoyu Wang, Marianna Nezhu-rina, Di Lu, Orfeas Menis Mastromichalakis, Zhiwei Xu, and 65 others. 2026. Terminal-bench: Bench-marking agents on hard, realistic tasks in command line interfaces. In The Fourteenth International Con-ference on Learning Representations .Moonshot AI. 2026. Kimi K2.6: Advancing open-source coding. Official blog. Changdae Oh, Seongheon Park, To Eun Kim, Jiatong Li, Wendi Li, Samuel Yeh, Sean Du, Hamed Hassani, Paul Bogdan, Dawn Song, and Sharon Li. 2026. Un-certainty quantification in LLM agents: Foundations, emerging challenges, and opportunities. In Proceed-ings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) ,pages 16219–16250, San Diego, California, United States. Association for Computational Linguistics. Litu Ou, Kuan Li, Huifeng Yin, Liwen Zhang, Zhong-wang Zhang, Xixi Wu, Rui Ye, Zile Qiao, Yong Jiang, Pengjun Xie, Fei Huang, and Jingren Zhou. 2026. BrowseConf: Confidence-guided test-time scaling for web agents. In Findings of the Association for Computational Linguistics: ACL 2026 , pages 446– 465, San Diego, California, United States. Associa-tion for Computational Linguistics. Qwen Team. 2026. Qwen3.5: Towards native multi-modal agents. Timo Schick, Jane Dwivedi-Yu, Roberto Dessi, Roberta Raileanu, Maria Lomeli, Eric Hambro, Luke Zettle-moyer, Nicola Cancedda, and Thomas Scialom. 2023. Toolformer: Language models can teach themselves to use tools. In Thirty-seventh Conference on Neural Information Processing Systems .Claude Elwood Shannon. 1948. A mathematical theory of communication. The Bell system technical journal ,27(3):379–423. Katherine Tian, Eric Mitchell, Allan Zhou, Archit Sharma, Rafael Rafailov, Huaxiu Yao, Chelsea Finn, and Christopher Manning. 2023. Just ask for cali-bration: Strategies for eliciting calibrated confidence scores from language models fine-tuned with human feedback. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Process-ing , pages 5433–5442, Singapore. Association for Computational Linguistics. Ningning Wang, Xavier Hu, Pai Liu, He Zhu, Yue Hou, Heyuan Huang, Shengyu Zhang, Jian Yang, Jia-heng Liu, Ge Zhang, Changwang Zhang, Jun Wang, Yuchen Eleanor Jiang, and Wangchunshu Zhou. 2025. Efficient agents: Building effective agents while re-ducing cost. arXiv preprint arXiv:2508.02694 .Jason Wei, Nguyen Karina, Hyung Won Chung, Yunxin Joy Jiao, Spencer Papay, Amelia Glaese, John Schulman, and William Fedus. 2024. Measuring short-form factuality in large language models. arXiv preprint arXiv:2411.04368 .Jason Wei, Zhiqing Sun, Spencer Papay, Scott McK-inney, Jeffrey Han, Isa Fulford, Hyung Won Chung, Alex Tachard Passos, William Fedus, and Amelia Glaese. 2025. Browsecomp: A simple yet challeng-ing benchmark for browsing agents. arXiv preprint arXiv:2504.12516 .Zhiqiu Xia, Jinxuan Xu, Yuqian Zhang, and Hang Liu. 2025. A survey of uncertainty estimation methods on large language models. In Findings of the Asso-ciation for Computational Linguistics: ACL 2025 ,pages 21381–21396, Vienna, Austria. Association for Computational Linguistics. Yuan-An Xiao, Pengfei Gao, Chao Peng, and Yingfei Xiong. 2026. Reducing cost of llm agents with tra-jectory reduction. Proc. ACM Softw. Eng. , 3(FSE). Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and Yuan Cao. 2023. ReAct: Synergizing reasoning and acting in language models. In International Conference on Learning Representations (ICLR) .Z.AI. 2025. GLM-4.7: Advancing the coding capability. Official blog. Z.AI. 2026. GLM-5.1: Towards long-horizon tasks. Official blog. Jiaxin Zhang, Prafulla Kumar Choubey, Kung-Hsiang Huang, Caiming Xiong, and Chien-Sheng Wu. 2026a. Agentic uncertainty quantification. arXiv preprint arXiv:2601.15703 .Jiaxin Zhang, Caiming Xiong, and Chien-Sheng Wu. 2026b. Agentic confidence calibration. arXiv preprint arXiv:2601.15778 .Qiwei Zhao, Dong Li, Yanchi Liu, Wei Cheng, Yiyou Sun, Mika Oishi, Takao Osaki, Katsushi Matsuda, Huaxiu Yao, Chen Zhao, Haifeng Chen, and Xujiang Zhao. 2025. Uncertainty propagation on llm agent. In Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , pages 6064–6073, Vienna, Austria. Association for Computational Linguistics. Peilin Zhou, Bruce Leon, Xiang Ying, Can Zhang, Yi-fan Shao, Qichen Ye, Dading Chong, Zhiling Jin, Chenxuan Xie, Meng Cao, Yuxin Gu, Sixin Hong, Jing Ren, Jian Chen, Chao Liu, and Yining Hua. 2025. Browsecomp-zh: Benchmarking web brows-ing ability of large language models in chinese. arXiv preprint arXiv:2504.19314 .Kunlun Zhu, Zijia Liu, Bingxuan Li, Muxin Tian, Yingx-uan Yang, Jiaxun Zhang, Pengrui Han, Qipeng Xie, Fuyang Cui, Weijia Zhang, Xiaoteng Ma, Xiaodong Yu, Gowtham Ramesh, Jialian Wu, Zicheng Liu, Pan Lu, James Zou, and Jiaxuan You. 2025. Where llm agents fail and how they can learn from failures. 
+
+arXiv preprint arXiv:2509.25370 .Appendix A Sensitivity to Confidence Elicitation 
+
+We evaluate three confidence elicitation methods that differ in where and how confidence is obtained. Despite differences in elicitation location and con-fidence scope, the results show the same qualitative trend across all three methods. 
+
+In-tool-call. In our main experiments, the model reports confidence as the final field of each tool call, after generating its reasoning and the other tool-call arguments. 
+
+An integer between 0 and 100 representing your confidence that this step will yield high-value, rel-evant information. Think: “How likely is it that executing this action will retrieve information rel-evant for the current reasoning step?” Lower the score (e.g., below 50) if: 1) The parameters/-queries are too broad, vague, or highly specula-tive; 2) The expected results are likely repetitive or redundant with existing context; 3) The action is based on an unverified or weak intermediate hypothesis; 4) Previous tool calls with similar parameters failed to yield valuable information. 
+
+In-content. The model reports its confidence be-tween <confidence> and </confidence> 
+
+tags after generating its reasoning and before is-suing each tool call. 
+
+IMPORTANT PROTOCOL: When you need to call a tool, your output must follow this exact order: <think>...</think> <confidence>...</confidence> <tool_call>...</tool_call> .The <confidence> block is manda-tory after every </think> . The token 
+
+<tool_call> must never appear un-less it is immediately preceded by a valid 
+
+<confidence>...</confidence> block. Confidence level must be a number between 0 and 100. It represents the probability that continuing along the current solution path will eventually lead to the correct final answer. 
+
+Two-stage. Following Tian et al. (2023), confi-dence is obtained through an additional model call after each step. 
+
+You are reviewing a problem-solving trajectory prefix. The trajectory stops immediately after one assistant message. Based only on this pre-fix, estimate the probability that continuing along this same problem-solving path from this point will eventually produce the correct final answer. Give ONLY the probability, no other words or explanation. For example: Probability: <the probability between 0 and 100> 
+
+Summary. Table 8 summarizes the three meth-ods.         
+
+> In-tool-call In-content Two-stage
+> Confidence location Final tool field Content tag Separate call Elicited during agent execution Yes Yes No
+
+Table 8: Comparison of three confidence elicitation methods. 
+
+B Full-Trajectory Failure Detection by Metric Family 
+
+Table 9 reports full-trajectory AUROC for all single-trajectory metric families and aggregation operators across 15 model and benchmark combi-nations. 
+
+C Consistency-Based Metric Descriptions 
+
+Table 4 uses abbreviated metric names; their full names and definitions are provided below. 
+
+Discrete semantic entropy (Disc. sem. ent.). Re-sponses are grouped into semantic equivalence classes, and uncertainty is the entropy of the em-pirical class-frequency distribution (Farquhar et al., 2024). 
+
+Degree-based uncertainty (Deg. unc.). Re-sponses form nodes in a graph weighted by pairwise semantic similarity, and uncertainty is computed from the normalized degrees of this graph (Lin et al., 2024). 
+
+Sampling diversity (Diversity). This metric measures the proportion of distinct answers among sampled responses, with greater diversity indicat-ing greater uncertainty (Cole et al., 2023). 
+
+Variation ratio. Variation ratio measures dis-agreement among sampled responses using pair-wise answer similarity (Huang et al., 2025b). 
+
+Lexical similarity (Lexical sim.). Originally denoted D-Lex-Sim, this metric averages pair-wise lexical similarity among sampled outputs, with lower similarity indicating greater uncer-tainty (Fomicheva et al., 2020). 
+
+First–second distance (FSD). FSD is the differ-ence between the frequencies of the most common and second-most-common answers, providing a confidence score based on the separation between the two leading answers (Lyu et al., 2025). 
+
+Length-normalized predictive entropy (LN pred. ent.). This metric averages length-normalized negative log-likelihood across sampled responses, Qwen3.5-27B Qwen3.5-122B-A10B GLM-4.7 DeepSeek-V3.2 Kimi K2.6 Metric Aggregation BC BC-zh HLE BC BC-zh HLE BC BC-zh HLE BC BC-zh HLE BC BC-zh HLE 
+
+Single-trajectory Verbal Confidence (Tian et al., 2023) last step .921 .867 .801 .904 .864 .763 .915 .854 .744 .906 .860 .862 .794 .816 .790 last 3 steps .878 .821 .740 .845 .783 .740 .897 .825 .749 .863 .781 .806 .790 .722 .813 
+
+last 5 steps .859 .753 .722 .813 .719 .714 .879 .804 .732 .844 .748 .794 .783 .717 .807 max .917 .865 .800 .865 .848 .731 .863 .834 .694 .836 .830 .800 .791 .794 .787 min .737 .650 .634 .757 .652 .662 .804 .724 .626 .730 .618 .680 .690 .672 .738 mean .753 .736 .654 .739 .712 .691 .764 .746 .667 .682 .682 .713 .703 .686 .761 
+
+PPL (Jelinek et al., 1977) last step .842 .692 .580 .853 .752 .601 .816 .790 .692 .745 .492 .481 .575 .534 .547 last 3 steps .794 .589 .647 .821 .693 .626 .830 .788 .697 .679 .517 .443 .532 .505 .573 last 5 steps .738 .488 .673 .784 .636 .610 .813 .765 .689 .635 .510 .448 .529 .462 .527 max .698 .669 .667 .722 .716 .690 .699 .755 .697 .742 .557 .514 .636 .556 .664 
+
+min .367 .401 .504 .493 .516 .513 .497 .522 .503 .307 .290 .319 .314 .421 .430 mean .671 .575 .674 .731 .693 .678 .731 .724 .708 .392 .273 .347 .446 .486 .505 
+
+Entropy (Shannon, 1948) last step .841 .697 .590 .860 .765 .606 .833 .791 .687 .746 .486 .424 .553 .547 .517 last 3 steps .786 .606 .658 .825 .706 .627 .837 .784 .694 .659 .531 .415 .494 .500 .532 last 5 steps .730 .500 .690 .793 .653 .612 .818 .756 .686 .600 .512 .415 .481 .458 .486 max .702 .689 .667 .736 .705 .695 .692 .748 .695 .750 .575 .469 .607 .548 .669 
+
+min .373 .397 .530 .517 .527 .516 .509 .518 .505 .355 .294 .294 .313 .430 .403 mean .677 .583 .691 .743 .699 .675 .736 .721 .705 .376 .268 .331 .435 .488 .496 
+
+Max NLL (Manakul et al., 2023) last step .741 .603 .627 .750 .654 .599 .694 .765 .680 .761 .547 .565 .744 .604 .533 last 3 steps .702 .576 .692 .690 .619 .635 .743 .767 .697 .587 .568 .458 .742 .590 .600 last 5 steps .642 .535 .750 .677 .589 .627 .754 .748 .684 .548 .551 .482 .766 .583 .665 max .692 .672 .681 .700 .710 .682 .720 .763 .673 .757 .631 .565 .665 .622 .705 
+
+min .350 .346 .549 .413 .452 .507 .418 .450 .493 .269 .308 .332 .454 .468 .485 mean .618 .578 .704 .662 .652 .654 .683 .683 .681 .349 .379 .353 .688 .552 .627 
+
+Max token entropy (Manakul et al., 2023) last step .780 .638 .652 .796 .701 .617 .736 .778 .688 .812 .493 .491 .700 .573 .546 last 3 steps .748 .573 .695 .746 .645 .644 .767 .741 .699 .654 .592 .415 .818 .666 .679 last 5 steps .700 .500 .718 .707 .620 .631 .775 .709 .677 .583 .544 .450 .812 .697 .693 max .717 .668 .706 .714 .708 .679 .741 .733 .690 .701 .613 .618 .761 .742 .736 min .340 .357 .568 .473 .483 .531 .460 .467 .494 .292 .259 .324 .643 .479 .542 mean .655 .527 .704 .691 .667 .659 .713 .664 .679 .399 .313 .370 .754 .682 .753 
+
+Table 9: Full-trajectory AUROC for all single-trajectory metric families and aggregation operators across 15 model and benchmark combinations (companion to Table 3). max /min denote running extrema. Within each family, bold 
+
+marks the best and underlined marks the second best in each column. 
+
+reducing the effect of response length on predictive entropy (Malinin and Gales, 2021). 
+
+Predictive entropy (Pred. entropy). Predictive entropy estimates the entropy of the answer distri-bution by averaging the negative log-likelihood of sampled responses (Kadavath et al., 2022). 
+
+Sentence-shifted predictive entropy (SentSAR). 
+
+SentSAR adjusts the probability of each sampled response using its semantic similarity to other re-sponses before computing predictive entropy (Duan et al., 2024). 
+
+Semantic entropy (Sem. entropy). Responses are clustered by semantic equivalence, and uncer-tainty is computed over the probability mass as-signed to the resulting semantic classes (Kuhn et al., 2023). 
+
+D Predictive Ability by Model and Benchmark 
+
+Figure 8 shows AUROC by normalized trajectory progress for each of the 15 model and benchmark combinations, complementing the averaged results in Figure 1 of the main paper. Across the evaluated settings, uncertainty metrics show limited predic-tive ability at intermediate stages and become more informative near trajectory completion. 
+
+E Comparison of Path Switching Between Two Task Types 
+
+Table 10 compares path switching between deep-research agents on BrowseComp and coding agents on TerminalBench. Under the same detection cri-terion, path switching is less frequent in coding tasks. This pattern is consistent with the stronger Setting Traj. with switch Avg. switches 
+
+BrowseComp 86.8% 8.50 TerminalBench 50.0% 2.13 
+
+Table 10: Comparison of path switching between deep research and coding tasks.                       
+
+> Difficulty Acc. Traj. with switch # Switches AUROC t−1AUROC t+5
+> Hard 4.8% 95.0% 10.55 0.490 0.742 Medium 50.3% 86.4% 7.12 0.539 0.821 Easy 90.9% 64.1% 3.19 0.567 0.766
+
+Table 11: Path switching and confidence AUROC before and after the last switch across task difficulty groups. 
+
+predictive ability of intermediate uncertainty sig-nals observed in coding tasks. 
+
+F Controlling for Task Difficulty 
+
+The observed relationship between path switching and the low predictive ability of intermediate uncer-tainty may be confounded by task difficulty. Harder tasks may simultaneously cause agents to switch paths more frequently and make early uncertainty signals less predictive. To control for this potential confounder, we stratify tasks by difficulty and ex-amine whether the relationship persists within each group. We conduct this analysis on BrowseComp trajec-tories generated by GLM-4.7. We define difficulty using the success rate across eight rollouts for each task. Tasks with 0–2, 3–5, and 6–8 successful roll-outs are categorized as hard, medium, and easy, respectively. Within each group, we measure the prevalence of path switching and compare confi-dence AUROC immediately before and five steps after the last switch. The results are reported in Table 11. Path switching remains prevalent within all three difficulty groups, although it is more frequent on harder tasks: 95.0% of hard, 86.4% of medium, and 64.1% of easy trajectories contain at least one switch. More importantly, confidence becomes more predictive after the last switch within every group. AUROC increases from 0.490 to 0.742 for hard tasks, from 0.539 to 0.821 for medium tasks, and from 0.567 to 0.766 for easy tasks. The per-sistence of this within-group pattern indicates that task difficulty alone does not explain the relation-ship between path switching and predictive ability.                                     
+
+> Model Total parameters Success 20% 50% 70% 100%
+> Qwen3.5-27B 27B 0.411 0.533 0.583 0.532 0.855 Qwen3.5-122B-A10B 122B 0.394 0.561 0.585 0.593 0.851 GLM-4.7 355B 0.384 0.576 0.594 0.625 0.852 DeepSeek-V3.2 671B 0.497 0.564 0.561 0.567 0.876 Kimi K2.6 1T 0.624 0.645 0.671 0.647 0.820
+
+Table 12: Relationship between model size and the early failure-prediction ability of verbal confidence. AUROC is reported at different trajectory progress points for each model and averaged across the three benchmarks. Success denotes the mean task success rate. Model size refers to total rather than activated parameters. 
+
+G Model Scale and Early Predictive Ability 
+
+The evaluated models vary in parameter count and overall task performance, raising the question of whether model scale or capability is related to pre-dictive ability at intermediate stages. To examine this relationship, we aggregate verbal confidence AUROC across the three evaluated benchmarks for each model. Table 12 reports the macro-averaged success rate and AUROC at four stages of trajectory progress. The models at the two ends of the parameter count range show a clear difference in early predic-tive ability. Qwen3.5-27B, the smallest evaluated model, has the weakest early predictive ability, with AUROC values of 0.533 at 20% progress and 0.583 at 50%. Kimi K2.6, which has the largest total pa-rameter count and the highest average success rate among the evaluated models, achieves the highest AUROC at the same stages, reaching 0.645 at 20% progress and 0.671 at 50%. However, the three intermediate models do not follow a monotonic or-dering by either total parameter count or success rate. For example, DeepSeek-V3.2 has a higher success rate than GLM-4.7 but lower AUROC at both 50% and 70% progress. These results show that early predictive ability varies across models, but the present comparison does not establish a systematic relationship with either model scale or task performance. The mod-els also differ in architecture, activated parameter count, and training procedure. Confidence at com-pletion remains more informative than intermedi-ate confidence for every model. Even for Kimi K2.6, which achieves the highest AUROC at 50% progress, AUROC increases from 0.671 at 50% to 0.820 at completion. Progress Verbal confidence Repeated failed search             
+
+> 10% 0.555 0.622 30% 0.584 0.663 50% 0.560 0.680 70% 0.584 0.727 90% 0.701 0.767 100% 0.933 0.806
+> Table 13: AUROC of verbal confidence and repeated failed searches identified by an external monitor on GLM-4.7 BrowseComp trajectories.
+
+H Early Failure Detection with an External Monitor 
+
+The limited early predictive power of standard un-certainty signals suggests that reliable early fail-ure detection may require richer trajectory-aware methods or broader harness designs, such as self-critique or multi-agent monitoring. As an illustra-tive experiment, we use GLM-5.1 (GLM-5 Team et al., 2026; Z.AI, 2026) as an external monitor for GLM-4.7 trajectories on BrowseComp. At each progress point, the monitor observes only the tra-jectory prefix, without access to future steps, the final answer, or the ground truth, and assesses fail-ure risk from behavioral patterns such as repeated unsuccessful searches. Table 13 compares its AU-ROC with that of verbal confidence throughout trajectory progress. The external monitor signal yields higher AU-ROC than verbal confidence at every evaluated point within the first 90% of trajectory progress. At 50% progress, its AUROC is 0.680, compared with 0.560 for verbal confidence. At completion, verbal confidence becomes more informative, reaching 0.933 AUROC compared with 0.806 for the mon-itor. These results provide initial evidence that trajectory diagnostics can offer useful early failure signals beyond the UQ metrics evaluated in our main experiments. They motivate future work on richer trajectory monitors, critic agents, and archi-tectures with planner and executor components. 
+
+I Verbal Confidence Trajectories by Model and Benchmark 
+
+Figure 9 shows verbal confidence over the last 10 steps for each model and benchmark combination, complementing the averaged results in Figure 4(b) of the main paper. 
+
+J Failure Detection Precision–Recall Curves 
+
+Figure 10 shows precision–recall curves for failure detection using verbal confidence at 50% and 100% trajectory progress for each model and benchmark combination. At 50% progress, precision remains close to the failure rate across much of the recall range, indicating limited discriminative ability at in-termediate stages. At 100% progress, the precision– recall tradeoff improves, showing that confidence becomes more informative near trajectory comple-tion. 0.5 0.6 0.7 0.8 0.9 
+
+> Predictive power (AUROC)
+
+Qwen3.5-27B (BC) 
+
+> Verbal Confidence PPL Entropy Max NLL Max Entropy
+
+Qwen3.5-27B (BC-zh) Qwen3.5-27B (HLE) 
+
+> 0.5 0.6 0.7 0.8 0.9
+> Predictive power (AUROC)
+
+Qwen3.5-122B-A10B (BC) Qwen3.5-122B-A10B (BC-zh) Qwen3.5-122B-A10B (HLE) 
+
+> 0.5 0.6 0.7 0.8 0.9
+> Predictive power (AUROC)
+
+GLM-4.7 (BC) GLM-4.7 (BC-zh) GLM-4.7 (HLE) 
+
+> 0.5 0.6 0.7 0.8 0.9
+> Predictive power (AUROC)
+
+DeepSeek-V3.2 (BC) DeepSeek-V3.2 (BC-zh) DeepSeek-V3.2 (HLE)           
+
+> 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+Progress (%) 
+
+> 0.5 0.6 0.7 0.8 0.9
+> Predictive power (AUROC)
+
+Kimi K2.6 (BC)           
+
+> 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+Progress (%) 
+
+Kimi K2.6 (BC-zh)           
+
+> 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+Progress (%) 
+
+Kimi K2.6 (HLE) 
+
+Predictive Power by Normalized Progress Per Model Per Dataset Predictive Ability by Normalized Progress — Per Model Per Benchmark 
+
+> Predictive Ability (AUROC) Predictive Ability (AUROC) Predictive Ability (AUROC) Predictive Ability (AUROC) Predictive Ability (AUROC)
+
+Figure 8: Predictive ability of uncertainty metrics for agent failure across normalized trajectory progress for each model and benchmark combination. Each subplot shows five uncertainty metrics: verbal confidence, PPL, entropy, max NLL, and max entropy. Across the 15 settings, predictive ability is limited at intermediate stages and increases near trajectory completion. 0.5 0.6 0.7 0.8 0.9 1.0 
+
+> Verbal Confidence
+
+Qwen3.5-27B (BC) 
+
+> Correct Correct (avg. of first 70%) Incorrect Incorrect (avg. of first 70%)
+
+Qwen3.5-27B (BC-zh) Qwen3.5-27B (HLE) 
+
+> 0.5 0.6 0.7 0.8 0.9 1.0
+> Verbal Confidence
+
+Qwen3.5-122B-A10B (BC) Qwen3.5-122B-A10B (BC-zh) Qwen3.5-122B-A10B (HLE) 
+
+> 0.5 0.6 0.7 0.8 0.9 1.0
+> Verbal Confidence
+
+GLM-4.7 (BC) GLM-4.7 (BC-zh) GLM-4.7 (HLE) 
+
+> 0.5 0.6 0.7 0.8 0.9 1.0
+> Verbal Confidence
+
+DeepSeek-V3.2 (BC) DeepSeek-V3.2 (BC-zh) DeepSeek-V3.2 (HLE) 
+
+> 0-1 -2 -3 -5 -10
+
+Steps before end 
+
+> 0.5 0.6 0.7 0.8 0.9 1.0
+> Verbal Confidence
+
+Kimi K2.6 (BC) 
+
+> 0-1 -2 -3 -5 -10
+
+Steps before end 
+
+Kimi K2.6 (BC-zh) 
+
+> 0-1 -2 -3 -5 -10
+
+Steps before end 
+
+Kimi K2.6 (HLE) 
+
+Verbal Confidence Trajectories (Last 10 Steps, Mean ± SEM) Per Model Per Dataset Verbal Confidence Trajectories (Last 10 Steps, Mean ± SEM) — Per Model Per Benchmark Verbal Confidence Trajectories (Last 10 Steps, Mean ± SEM) — Per Model Per Benchmark Figure 9: Verbal confidence over the last 10 steps for each model and benchmark combination (shaded area: ±1SEM). Dashed lines indicate the average confidence over the first 70% of the trajectory for correct (green) and incorrect (red) trajectories. The confidence surge near trajectory completion is observed across all settings, although its magnitude varies. 0.0 0.2 0.4 0.6 0.8 1.0 
+
+> Precision (failure)
+> AUROC=0.66 AUROC=0.94
+
+Qwen3.5-27B (BC) 
+
+50% 100% 
+
+> AUROC=0.49 AUROC=0.84
+
+Qwen3.5-27B (BC-zh) 
+
+> AUROC=0.60 AUROC=0.79
+
+Qwen3.5-27B (HLE) 
+
+0.0 0.2 0.4 0.6 0.8 1.0 
+
+> Precision (failure)
+> AUROC=0.59 AUROC=0.93
+
+Qwen3.5-122B-A10B (BC) 
+
+> AUROC=0.48 AUROC=0.86
+
+Qwen3.5-122B-A10B (BC-zh) 
+
+> AUROC=0.59 AUROC=0.74
+
+Qwen3.5-122B-A10B (HLE) 
+
+0.0 0.2 0.4 0.6 0.8 1.0 
+
+> Precision (failure)
+> AUROC=0.57 AUROC=0.93
+
+GLM-4.7 (BC) 
+
+> AUROC=0.59 AUROC=0.87
+
+GLM-4.7 (BC-zh) 
+
+> AUROC=0.58 AUROC=0.79
+
+GLM-4.7 (HLE) 
+
+0.0 0.2 0.4 0.6 0.8 1.0 
+
+> Precision (failure)
+> AUROC=0.52 AUROC=0.91
+
+DeepSeek-V3.2 (BC) 
+
+> AUROC=0.57 AUROC=0.85
+
+DeepSeek-V3.2 (BC-zh) 
+
+> AUROC=0.59 AUROC=0.87
+
+DeepSeek-V3.2 (HLE) 
+
+0.0 0.2 0.4 0.6 0.8 1.0 
+
+Recall (failure) 
+
+0.0 0.2 0.4 0.6 0.8 1.0 
+
+> Precision (failure)
+> AUROC=0.65 AUROC=0.81
+
+Kimi K2.6 (BC) 
+
+0.0 0.2 0.4 0.6 0.8 1.0 
+
+Recall (failure) 
+
+> AUROC=0.65 AUROC=0.84
+
+Kimi K2.6 (BC-zh) 
+
+0.0 0.2 0.4 0.6 0.8 1.0 
+
+Recall (failure) 
+
+> AUROC=0.72 AUROC=0.81
+
+Kimi K2.6 (HLE) 
+
+Failure Detection Precision-Recall Curves by Model and Dataset Failure Detection Precision-Recall Curves by Model and Benchmark Failure Detection Precision-Recall Curves by Model and Benchmark Figure 10: Precision–recall curves for failure detection using verbal confidence at 50% (blue dashed) and 100% (red solid) trajectory progress. Each subplot corresponds to one model and benchmark combination. At 50% progress, precision remains close to the failure rate (gray dotted line) across much of the recall range; at 100% progress, the precision–recall tradeoff improves.
