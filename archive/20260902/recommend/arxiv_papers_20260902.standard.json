@@ -1,0 +1,347 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-02T22:59:14.297901+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2609.01360v1",
+      "source": "arxiv",
+      "title": "EDGE: Error Dependency Graph-Guided Multi-Error Attribution in Multi-Agent LLM Systems",
+      "abstract": "Large language model (LLM) agent failures often contain multiple related errors rather than a single mistake. Existing attribution methods usually identify a responsible agent, step, or root cause, but do not explicitly model dependency between errors. We introduce EDGE, an Error Dependency Graph-guided multi-Error attribution framework. EDGE constructs an error dependency graph from observed error events and validates a reliable causal subset through counterfactual rollout. The inference graph guides a two-stage LLM-as-judge detector for error attribution, and the intervention-validated subgraph provides a more reliable basis for explanation and repair analysis. Experiments on TRAIL and MAST show that EDGE improves category-level multi-error attribution across most evaluated models and settings. Experiments with adapted Who&When-style prompts show that the graph helps across prompting strategies. These results suggest that dependency structure is a useful diagnostic prior for agent failures beyond isolated root-cause prediction.",
+      "authors": [
+        "Jun Hou",
+        "Priya Pitre",
+        "Yi Fang",
+        "Xuan Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-01T15:00:54+00:00",
+      "link": "https://arxiv.org/pdf/2609.01360v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Detects and attributes multiple related errors in LLM agent trajectories by constructing an error dependency graph",
+      "llm_evidence_cn": "通过构建错误依赖图检测并归因LLM智能体轨迹中多个相互关联的错误",
+      "llm_evidence": "通过构建错误依赖图检测并归因LLM智能体轨迹中多个相互关联的错误",
+      "canonical_evidence": "通过构建错误依赖图检测并归因LLM智能体轨迹中多个相互关联的错误",
+      "llm_tldr_en": "Builds an error dependency graph from observed LLM agent failure events, uses counterfactual rollout and a two-stage LLM-as-judge detector to attribute multiple related errors in multi-agent trajectories reliably.",
+      "llm_tldr_cn": "大语言模型智能体的失败往往包含多个相互关联的错误，而既有归因方法通常只定位单个根因，未建模错误间依赖。EDGE从观测到的错误事件中构建错误依赖图，并通过反事实展开验证可靠的因果子集；推理图引导两阶段LLM评判器完成多错误检测与归因。在TRAIL和MAST基准上，EDGE显著提升了类别级多错误归因效果。该框架为多智能体系统轨迹中的错误定位、解释和修复提供了更可靠的依据。",
+      "llm_tldr": "大语言模型智能体的失败往往包含多个相互关联的错误，而既有归因方法通常只定位单个根因，未建模错误间依赖。EDGE从观测到的错误事件中构建错误依赖图，并通过反事实展开验证可靠的因果子集；推理图引导两阶段LLM评判器完成多错误检测与归因。在TRAIL和MAST基准上，EDGE显著提升了类别级多错误归因效果。该框架为多智能体系统轨迹中的错误定位、解释和修复提供了更可靠的依据。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.00069v1",
+      "source": "arxiv",
+      "title": "Auditing Harness Tampering in Self-Improving Agents",
+      "abstract": "Self-improving agents iteratively modify their own harness to push the frontier of their performance. However, such modifications can produce illusory performance gains or compromise integrity constraints such as authorization, provenance, and completeness without genuinely improving capability. We term this phenomenon as harness tampering, which extends the concept from reward and measurement tampering to the full self-improvement lifecycle. To systematically study this problem, we propose a two-axis taxonomy that categorizes each misaligned edit by the harness functional role in which it occurs and the obligation it violates. Then we build an annotated corpus by seeding tampered-benign edit pairs into the real trajectories of self-improving agents. We adapt and benchmark diverse audit methods on tampering classification and localization tasks. Finally we systematically audit real trajectories of self-improving agents. The results demonstrate that harness tampering consistently occurs in real runs from different agents, often persists in the lineage of the best agent, and forms distinct system-specific profiles across the taxonomy.",
+      "authors": [
+        "Xing Wang",
+        "Xiaoyi Zhang",
+        "Jie Shao"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-08-30T17:18:56+00:00",
+      "link": "https://arxiv.org/pdf/2609.00069v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "introduces taxonomy and annotated corpus for detecting tampered edits in self-improving agent trajectories",
+      "llm_evidence_cn": "提出篡改编辑分类体系并构建带篡改标注的轨迹语料，支撑轨迹层错误检测",
+      "llm_evidence": "提出篡改编辑分类体系并构建带篡改标注的轨迹语料，支撑轨迹层错误检测",
+      "canonical_evidence": "提出篡改编辑分类体系并构建带篡改标注的轨迹语料，支撑轨迹层错误检测",
+      "llm_tldr_en": "Harness tampering in self-improving agents causes illusory gains and integrity violations. The paper defines the problem, proposes a two-axis taxonomy, creates annotated tampered-benign trajectory pairs, and benchmarks detection methods.",
+      "llm_tldr_cn": "自我改进智能体修改自身框架时可能产生表面上成功但违反授权、来源与完整性的篡改，导致虚假性能提升。本文将这类轨迹编辑违规定义为框架篡改，并提出按框架功能角色与违背义务划分的两轴分类体系。通过在真实自我改进轨迹中注入篡改-良性编辑对构建标注语料，并适配多种审计检测方法。该工作为追踪和检测智能体轨迹中的篡改型错误提供了分类学基础与公开评测资源。",
+      "llm_tldr": "自我改进智能体修改自身框架时可能产生表面上成功但违反授权、来源与完整性的篡改，导致虚假性能提升。本文将这类轨迹编辑违规定义为框架篡改，并提出按框架功能角色与违背义务划分的两轴分类体系。通过在真实自我改进轨迹中注入篡改-良性编辑对构建标注语料，并适配多种审计检测方法。该工作为追踪和检测智能体轨迹中的篡改型错误提供了分类学基础与公开评测资源。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.00823v1",
+      "source": "arxiv",
+      "title": "Polished but Unresolved: Identifying Late-Stage Pressure States in Long-Horizon Tool-Use Agents",
+      "abstract": "Long-horizon tool-use agents need not only to search and plan, but also to decide when to finalize. We study late-stage pressure states, in which an agent is biased toward submitting a final answer that appears complete and polished while key constraints remain unresolved. We first train a linear probe to show that this pressure state is identifiable from the agent's hidden states. Then, we use activation interventions along this pressure direction and find that shifting the hidden states changes both the pressure score and whether the agent continues tool use or submits early. Through controlled context manipulations, we further see that the pressure is mitigated by constraint clarity and action mapping. Based on these findings, we propose Probe-Sensed Pressure Relief (PSPR), a plugin that applies lightweight pressure relief direction under moderate pressure and moves to structured organization under high pressure risk. Experiments on multiple long-horizon benchmarks show that our method consistently strengthens existing agent methods.",
+      "authors": [
+        "Haoyang Chen",
+        "Yi Liu",
+        "Jianzhi Shao",
+        "Xiaozhou Xu",
+        "Zhe Sun",
+        "Wei Hu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-09-01T07:24:53+00:00",
+      "link": "https://arxiv.org/pdf/2609.00823v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "detects late-stage pressure states where tool-use agents submit polished but unresolved answers during long-horizon trajectories",
+      "llm_evidence_cn": "检测长时程工具使用智能体在轨迹后期出现的压力状态，即提交看似完善但关键约束未解决的答案",
+      "llm_evidence": "检测长时程工具使用智能体在轨迹后期出现的压力状态，即提交看似完善但关键约束未解决的答案",
+      "canonical_evidence": "检测长时程工具使用智能体在轨迹后期出现的压力状态，即提交看似完善但关键约束未解决的答案",
+      "llm_tldr_en": "Long-horizon tool-use agents may enter a late-stage pressure state, submitting polished but unresolved answers. A linear probe can identify this state from hidden states, and activation interventions shift the pressure score and the agent's choice to continue tool use or submit early.",
+      "llm_tldr_cn": "长时程工具使用智能体常被后期压力状态影响，在关键约束未解决时就提交看似完善的最终答案。作者训练线性探针证明该状态能从智能体隐藏状态中识别，并通过激活干预改变压力评分及是否继续工具使用。实验还表明约束清晰度与动作映射能缓解压力。该工作为监测和干预智能体的过早提交错误提供了可解释的新途径。",
+      "llm_tldr": "长时程工具使用智能体常被后期压力状态影响，在关键约束未解决时就提交看似完善的最终答案。作者训练线性探针证明该状态能从智能体隐藏状态中识别，并通过激活干预改变压力评分及是否继续工具使用。实验还表明约束清晰度与动作映射能缓解压力。该工作为监测和干预智能体的过早提交错误提供了可解释的新途径。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.01281v1",
+      "source": "arxiv",
+      "title": "EmbodiedSkills: A Unified Framework for Orchestrating, Training, and Deploying VLA Agents",
+      "abstract": "Vision-language-action (VLA) models map visual observations and language instructions directly to robot actions, but long-horizon tasks require more than action prediction. An agent must coordinate perception, planning, execution, progress verification, and recovery as the physical state evolves. An action prediction or a model-generated skill decision does not, by itself, guarantee that the proposed operation is valid in the current state or that its outcome will be verified. We propose EmbodiedSkills, a unified framework that treats each skill decision as an execution proposal: the runtime checks its prerequisites before execution and verifies the outcome afterward. A shared executable-skill interface connects high-level skill selection, bounded low-level VLA execution, and post-action verification within a single agent loop. Because this interface remains fixed, low-level VLA policies can be replaced or adapted without changing the agent loop. The interface also records planning, execution, verification, and recovery events as structured trajectories, which provide supervision for individual components and can support optional online adaptation when interactive feedback is available. We instantiate EmbodiedSkills with Qwen3-VL and OpenPI/pi0.5 on RoboTwin 2.0 and LIBERO. Task-adapted low-level VLA policies achieve an average success rate of 86.20% across 50 RoboTwin 2.0 tasks and 97.40% across the four LIBERO suites. These results establish the execution performance of the task-adapted low-level VLA policies used in EmbodiedSkills. On four memory-dependent RMBench tasks, the same task-adapted execution approach achieves 12.5% average success. The framework provides a trainable and inspectable agent layer for turning these policies into closed-loop embodied systems.",
+      "authors": [
+        "Wei Wang",
+        "Wenqiao Zhang",
+        "Yutong Lin",
+        "Yuqian Yuan",
+        "Tianwei Lin",
+        "Jinhao Mao",
+        "Zhenxuan Fan",
+        "Mingjian Gao",
+        "Yang Dai",
+        "Wentong Li",
+        "Zheqi Lv",
+        "Zheng Dong",
+        "Yingjie Niu",
+        "Jiaqi Zhu",
+        "Jun Xiao",
+        "Chao Li",
+        "Yueting Zhuang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-09-01T14:14:47+00:00",
+      "link": "https://arxiv.org/pdf/2609.01281v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Checks skill prerequisites before execution and verifies outcomes after execution to catch invalid actions in VLA agent trajectories",
+      "llm_evidence_cn": "在执行前检查前提、执行后验证结果，以捕获VLA智能体轨迹中的无效动作",
+      "llm_evidence": "在执行前检查前提、执行后验证结果，以捕获VLA智能体轨迹中的无效动作",
+      "canonical_evidence": "在执行前检查前提、执行后验证结果，以捕获VLA智能体轨迹中的无效动作",
+      "llm_tldr_en": "For vision-language-action agents, EmbodiedSkills treats every skill decision as an execution proposal, checking prerequisites before execution and verifying outcomes after execution to catch invalid actions and trigger recovery.",
+      "llm_tldr_cn": "视觉-语言-动作模型可以把观察和语言直接映射为机器人动作，但长程任务还需要验证当前状态下所提操作是否有效并确认结果。EmbodiedSkills将每个技能决策作为执行提案处理，运行时先检查前提条件再执行，执行后再验证结果。统一的可执行技能接口连接高层技能选择与底层动作，能够在物理状态演化中及时发现无效操作并触发恢复。该方法为具身智能体轨迹中的动作错误检测和执行间验证提供了统一框架。",
+      "llm_tldr": "视觉-语言-动作模型可以把观察和语言直接映射为机器人动作，但长程任务还需要验证当前状态下所提操作是否有效并确认结果。EmbodiedSkills将每个技能决策作为执行提案处理，运行时先检查前提条件再执行，执行后再验证结果。统一的可执行技能接口连接高层技能选择与底层动作，能够在物理状态演化中及时发现无效操作并触发恢复。该方法为具身智能体轨迹中的动作错误检测和执行间验证提供了统一框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.01466v1",
+      "source": "arxiv",
+      "title": "Parsing the Stream: A Live Trace Model for Long-Horizon Agents and Their Observers",
+      "abstract": "A long-horizon agent's trace outgrows both of its consumers: the human observer monitoring the run, and the agent itself, whose bounded context the trace must be folded back into. We present a live trace model, an append-only event ledger folded incrementally into typed run state and compiled into per-consumer views, and evaluate it for both consumers against deterministic ground truth. For the observer side, evaluated with an LLM reader as proxy, the compiled view answers monitoring questions using approximately 14x and 15x fewer input tokens (by reader) and at 5-7x lower cost than a budget-capped single-call reading of the raw trace, with higher accuracy (0.85-0.87 versus 0.48). Because the questions were co-designed with the view schema, we treat the token and cost reduction, conditional on schema coverage, as the transferable result. For the agent, on 120-link sequential-dependency tasks, mechanisms that maintain the task's running statistic in per-step state succeed where full-context prompting fails (30/30 versus 8/30 under a clean protocol, n=30, labeled descriptive owing to benchmark-system co-development); a prompt-level scratchpad matches the fold's accuracy at lower cost, and a two-arm decomposition attributes the fold's accuracy to its deterministic aggregate and its cost advantage to its compactness. The fold's remaining value over cheaper alternatives is deterministic auditability and serving the observer from the same state. We derive eleven candidate requirements for trace folding from observed failures and delimit them with an order-sensitive task family on which the fold ceases to help. Code, benchmarks, a regenerable synthetic corpus, and all workbench traces are released.",
+      "authors": [
+        "Egor Pakhomov",
+        "Erik Nijkamp"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-01T16:03:54+00:00",
+      "link": "https://arxiv.org/pdf/2609.01466v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Live trace model that compiles long-horizon agent traces into views enabling efficient monitoring by observers",
+      "llm_evidence_cn": "实时迹模型将长时程智能体轨迹编译为视图，使观察者能高效监控运行状态",
+      "llm_evidence": "实时迹模型将长时程智能体轨迹编译为视图，使观察者能高效监控运行状态",
+      "canonical_evidence": "实时迹模型将长时程智能体轨迹编译为视图，使观察者能高效监控运行状态",
+      "llm_tldr_en": "Long-horizon agent traces overwhelm both human observers and the agent context. A live trace model folds an append-only event ledger into typed run state and per-consumer views, answering monitoring questions with 14x fewer tokens and 5-7x lower cost while improving accuracy from 0.48 to 0.85-0.87.",
+      "llm_tldr_cn": "长时程智能体的原始迹会超出人类观察者的阅读负担，也无法完全折回智能体自身上下文。本文提出实时迹模型，将追加式事件账本增量折叠为有类型的运行状态，并编译为面向不同使用者的视图。用LLM阅读器代替人类观察者的实验中，编译视图能以更少输入token和5-7倍更低成本回答监控问题，准确率从0.48提高到0.85-0.87。这为大规模监控智能体行为以及后续异常发现提供了高效基础设施。",
+      "llm_tldr": "长时程智能体的原始迹会超出人类观察者的阅读负担，也无法完全折回智能体自身上下文。本文提出实时迹模型，将追加式事件账本增量折叠为有类型的运行状态，并编译为面向不同使用者的视图。用LLM阅读器代替人类观察者的实验中，编译视图能以更少输入token和5-7倍更低成本回答监控问题，准确率从0.48提高到0.85-0.87。这为大规模监控智能体行为以及后续异常发现提供了高效基础设施。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.28266v1",
+      "source": "arxiv",
+      "title": "CoCoBench: A Cooperative Coordination Benchmark for Embodied Multi-Agent Task Planning",
+      "abstract": "Agent systems powered by multimodal large language models (MLLMs) have advanced rapidly in recent years, yet existing embodied-agent benchmarks still lack fine-grained diagnostics for multi-agent coordination. Most benchmarks either focus on single-agent task completion or summarize multi-agent behavior with overall task success rates, which can obscure coordination failures such as duplicated work, violations of ordering constraints, resource contention, and desynchronized handoffs. In this paper, we introduce CoCoBench, a construct-level benchmark for evaluating multi-agent embodied coordination in executable household tasks. CoCoBench contains 897 oracle-validated instances organized around four recurring coordination constructs: task allocation, sequential ordering, mutual exclusion, and handoff coordination. In addition to task success rate, CoCoBench provides construct-level scores that measure whether agents coordinate effectively. We evaluate 11 leading MLLMs across different coordination modes, observation inputs, and numbers of agents. The results show that coordination ability is highly construct-specific: strong overall performance does not imply balanced competence across different coordination types. These findings point to new directions for designing targeted model architectures and improving multi-agent coordination ability.",
+      "authors": [
+        "Yang Chen",
+        "Ye-Xin Xie",
+        "Lirong Che",
+        "Danyang Peng",
+        "Yuzhe Yang",
+        "Peiwen Lin",
+        "Xu Cao",
+        "Chuang Wang",
+        "Lei Yuan",
+        "Jian Su",
+        "Lan-Zhe Guo"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-28T12:29:23+00:00",
+      "link": "https://arxiv.org/pdf/2608.28266v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "construct-level benchmark diagnoses coordination failures (duplicated work, order violations, resource contention, desynchronized handoffs) in multi-agent trajectories",
+      "llm_evidence_cn": "结构级基准可检测多智能体轨迹中的重复劳动、顺序违规、资源竞争和交接失步等行动错误",
+      "llm_evidence": "结构级基准可检测多智能体轨迹中的重复劳动、顺序违规、资源竞争和交接失步等行动错误",
+      "canonical_evidence": "结构级基准可检测多智能体轨迹中的重复劳动、顺序违规、资源竞争和交接失步等行动错误",
+      "llm_tldr_en": "CoCoBench creates 897 oracle-validated embodied household task instances around recurring coordination constructs to expose multi-agent coordination failures hidden by task success rate, enabling fine-grained error diagnosis in trajectories.",
+      "llm_tldr_cn": "现有具身多智能体基准通常只报告整体任务成功率，无法细粒度捕捉重复劳动、违反顺序约束、资源竞争以及交接失步等协调失败。为此提出CoCoBench，一个面向可执行家庭任务的结构级多智能体协作协调基准，将897个经Oracle验证的实例组织为四个常见协调结构。该基准可对多智能体轨迹进行构造级的细粒度诊断，为识别行动层协调错误提供系统化评测工具。",
+      "llm_tldr": "现有具身多智能体基准通常只报告整体任务成功率，无法细粒度捕捉重复劳动、违反顺序约束、资源竞争以及交接失步等协调失败。为此提出CoCoBench，一个面向可执行家庭任务的结构级多智能体协作协调基准，将897个经Oracle验证的实例组织为四个常见协调结构。该基准可对多智能体轨迹进行构造级的细粒度诊断，为识别行动层协调错误提供系统化评测工具。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.27311v1",
+      "source": "arxiv",
+      "title": "Verify Smarter, Evolve Further: Efficient Harness Evolution through Behavior-Aware Verification",
+      "abstract": "Agent harnesses shape how language-model agents use instructions, tools, and runtime components, but adapting these harnesses requires costly verification. Existing propose-and-verify methods typically score every candidate on a fixed task set, wasting rollouts on unrelated behaviors and allowing aggregate scores to obscure specific regressions. We introduce HarnessLens, a budget-aware framework for automated harness evolution. HarnessLens jointly explores the task space and user-configurable components, derives candidate modifications from execution trajectories, and selectively verifies each candidate on behavior-relevant tasks using an attributable-evidence gate. Across three agent harnesses and four benchmarks, HarnessLens improves average held-out performance by 7.6-13.6% while consuming substantially less evaluation budget than competing baselines. These results demonstrate that behavior-aware verification with explicit attribution enables more reliable and sample-efficient harness evolution under constrained interaction budgets. Our code is available at https://github.com/jhxu5214/HarnessLens.",
+      "authors": [
+        "Jinghan Xu",
+        "Yikai Zhang",
+        "Aili Chen",
+        "Weiyuan Li",
+        "Jiaqing Liang",
+        "Deqing Yang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-27T16:12:23+00:00",
+      "link": "https://arxiv.org/pdf/2608.27311v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "trajectory-derived candidate modifications with behavior-relevant selective verification to reveal agent regressions",
+      "llm_evidence_cn": "从执行轨迹推导智能体框架修改，并在行为相关任务上选择性验证以发现智能体行为回退",
+      "llm_evidence": "从执行轨迹推导智能体框架修改，并在行为相关任务上选择性验证以发现智能体行为回退",
+      "canonical_evidence": "从执行轨迹推导智能体框架修改，并在行为相关任务上选择性验证以发现智能体行为回退",
+      "llm_tldr_en": "HarnessLens is a budget-aware framework that derives candidate modifications from execution trajectories and selectively verifies them via an attributable-evidence gate, saving rollouts and revealing isolated regressions.",
+      "llm_tldr_cn": "现有的智能体框架演化验证方法在固定任务集上评估全部候选，成本高且会掩盖特定回退。HarnessLens 提出预算感知框架，从执行轨迹中推导候选修改，借助可归因证据门只在与行为相关的任务上进行选择性验证。在多种智能体框架和基准上的实验显示，它显著节约验证资源并能捕捉原本被掩盖的行为回退。这是一种基于轨迹监测智能体行为错误的通用框架。",
+      "llm_tldr": "现有的智能体框架演化验证方法在固定任务集上评估全部候选，成本高且会掩盖特定回退。HarnessLens 提出预算感知框架，从执行轨迹中推导候选修改，借助可归因证据门只在与行为相关的任务上进行选择性验证。在多种智能体框架和基准上的实验显示，它显著节约验证资源并能捕捉原本被掩盖的行为回退。这是一种基于轨迹监测智能体行为错误的通用框架。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.00829v1",
+      "source": "arxiv",
+      "title": "HarnessEvolve: Learning from Reference Trajectories for Reliable Agent Self-Evolution",
+      "abstract": "Self-evolving agents advance toward autonomy by optimizing their harness---prompts, skills, tools, and execution logic---based on environmental feedback. This paradigm, however, is hampered by three challenges: \\textit{credit assignment failure}, where terminal success/failure feedback makes it ambiguous which step caused the error; \\textit{shortcut learning}, where agents memorize task-specific patterns rather than acquire generalizable capabilities; and \\textit{catastrophic forgetting}, where unguarded updates degrade previously acquired competence. In this paper, we introduce HarnessEvolve, a self-evolving framework that learns from reference trajectories to achieve reliable agent self-evolution. HarnessEvolve decouples the execution agent from the evolutionary pipeline, assigning execution, evaluation, optimization, and gating to independent agent modules, enabling generalizable and stable harness improvements. Specifically, HarnessEvolve overcomes credit assignment failure by generating reference trajectories (execution paths produced when given the ground-truth answers) and aligning failed executions against them to extract error signals, which are clustered to reveal systematic failure patterns. To prevent shortcut learning and catastrophic forgetting, candidate harness updates must pass two gates: a quality gate that filters data leakage and prompt bloat, and a performance gate that accepts each update if it improves on the current batch without degrading recent batches, with epoch-end validation on a held-out set selecting the best-performing accepted agent snapshot. We conduct extensive experiments on several benchmarks spanning open-domain and enterprise scenarios, using different models and agent frameworks. Results demonstrate that HarnessEvolve consistently outperforms state-of-the-art baselines across all benchmarks and settings, confirming reliability across task domains.",
+      "authors": [
+        "Wen Jiang",
+        "Mingmin Chu",
+        "Yimeng Tian",
+        "Qianxin Zhang",
+        "Haofei Yang",
+        "Rui Yang",
+        "Yang Liu",
+        "Tao Lv",
+        "Fangming Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-01T07:31:18+00:00",
+      "link": "https://arxiv.org/pdf/2609.00829v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Addresses credit-assignment failure by identifying which step caused an error from reference trajectories for reliable agent self-evolution",
+      "llm_evidence_cn": "借鉴参考轨迹解决信用分配失败，定位导致错误的关键步骤以支撑可靠自我进化",
+      "llm_evidence": "借鉴参考轨迹解决信用分配失败，定位导致错误的关键步骤以支撑可靠自我进化",
+      "canonical_evidence": "借鉴参考轨迹解决信用分配失败，定位导致错误的关键步骤以支撑可靠自我进化",
+      "llm_tldr_en": "Targets credit-assignment failure in self-evolving LLM agents where terminal success/failure makes it ambiguous which step caused an error; learning from reference trajectories helps localize erroneous steps for reliable self-evolution.",
+      "llm_tldr_cn": "自我进化智能体依据环境反馈优化提示、技能与工具，但终局成败反馈会造成信用分配失败，难以判断哪一步出错。HarnessEvolve提出从参考轨迹学习中解耦执行与调优，降低对单一成败信号的信赖，从而定位导致错误的轨迹步骤。该方法缓解了信用分配失败、捷径学习和灾难性遗忘等挑战。它为基于轨迹级错误定位的智能体自我进化提供了重要方法论支撑，可迁移到智能体行为诊断场景。",
+      "llm_tldr": "自我进化智能体依据环境反馈优化提示、技能与工具，但终局成败反馈会造成信用分配失败，难以判断哪一步出错。HarnessEvolve提出从参考轨迹学习中解耦执行与调优，降低对单一成败信号的信赖，从而定位导致错误的轨迹步骤。该方法缓解了信用分配失败、捷径学习和灾难性遗忘等挑战。它为基于轨迹级错误定位的智能体自我进化提供了重要方法论支撑，可迁移到智能体行为诊断场景。",
+      "llm_tags": [
+        "query:agent-error:composite"
+      ],
+      "matched_query_tag": "query:agent-error:composite",
+      "matched_query_text": "Papers central to 检索关于 agent 轨迹错误检测的论文，要求是 26 年至今的, especially work that connects or combines: detecting errors in agent trajectories; anomaly detection in agent trajectories; monitoring agent behavior for errors; detecting action errors in agent trajectories; detecting path deviations in agent trajectories; error detection in reinforcement learning agent trajectories; How to detect errors in agent trajectories?; Methods for anomaly detection in agent trajectories; Error detection in path planning for autonomous agents.",
+      "matched_requirement_id": "req-composite-agent-error",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
