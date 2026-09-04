@@ -1,0 +1,849 @@
+Title: Using Grounded Theory for Agent Behavior Analysis at Scale
+
+URL Source: https://arxiv.org/pdf/2608.30391v1
+
+Published Time: Tue, 01 Sep 2026 02:47:38 GMT
+
+Number of Pages: 33
+
+Markdown Content:
+AutoTraceGT 
+
+# Using Grounded Theory for Agent Behavior Analysis at Scale 
+
+Zhuoran Lu 1, Yangyang Yu 2, Zhuoyan Li 1, Yibo Meng 3, Nan Jiang 4, Chengxi Zang 3, Jie Gao 5 and Ziang Xiao 51Purdue University, 2Stevens Institute of Technology, 3Cornell University, 4University of Texas at El Paso, 
+
+> 5
+
+Johns Hopkins University 
+
+Understanding agent behavior requires methods that scale to thousands of trajectories and surface new patterns in long, often unfamiliar tasks where pre-built classifiers fall short. We propose to bring 
+
+grounded theory into agent trajectory analysis: a six-decade-old qualitative method from the social sciences, with a principled saturation criterion and an auditable trail from data to theory. We propose 
+
+AutoTraceGT 1, the first multi-agent pipeline that automates grounded theory on agent trajectories: it iteratively performs open, axial, and theoretical coding until saturation, producing a behavioral taxonomy tailored to each task. Across six trajectory corpora, AutoTraceGT produces codebooks that recover 73 − 91% of the failure modes in human-annotated taxonomies and surface additional patterns that those taxonomies miss. The emergent theoretical narrative aligns with prior expert accounts. Used as a deductive feature space, the codebook outperforms zero-shot and few-shot LLM baselines on downstream failure prediction. These results suggest Grounded Theory offers a scalable analytic tool for ML researchers and agent developers studying what agents actually do. 
+
+## 1. Introduction 
+
+Recent advances in large language models (LLMs) have enabled agents to address increasingly complex tasks, including software engineering (Jimenez et al., 2024; Yang et al., 2024), web browsing (Deng et al., 2023; Zhou et al., 2024), computer use (Xie et al., 2024), and deep research (Mialon et al., 2024). These systems typically operate through agentic frameworks, in which an LLM interacts with external environments over multi-step trajectories consisting of planning, actions, observations, and revisions. However, stronger task-solving ability does not eliminate brittleness. Agents may still fail after long sequences of locally reasonable decisions, making it difficult to understand which behaviors support successful problem solving and which behaviors lead to failure. This motivates a critical question: what do agents actually do while solving tasks, and how can we characterize these behaviors at scale? 
+
+Existing analyses fall into two methodologically constrained regimes. Lightweight quantitative metadata (length, action counts, task success) scales easily but explains little about the underlying problem-solving process (Jimenez et al., 2024; Yang et al., 2024). Human analysis is interpretable but expensive, especially for agent trajectories with hundreds of steps (Cemri et al., 2025; Gao et al., 2026). A hybrid approach that builds behavioral classifiers based on pre-defined, often expert-derived, behavioral patterns is too rigid to generalize to novel tasks and emergent agent behaviors. The deeper gap is that the ML community currently lacks a methodology for studying agent behavior that is 
+
+scalable and generalizable , a problem the social sciences have long faced and for which they have developed methodological responses. 
+
+We propose to bring a six-decade-old methodology widely used across qualitative research, 
+
+Grounded Theory , into ML as a new analytic method for agents. Grounded theory (Charmaz, 2014; Glaser and Strauss, 1967) is an inductive qualitative methodology in which theories and  
+
+> Corresponding author(s): Ziang Xiao, ziang.xiao@jhu.edu
+> Code: https://github.com/ZhuoranLu/Qual-Agent-Behavior-Analysis arXiv:2608.30391v1 [cs.CL] 31 Aug 2026
+
+AutoTraceGT 2Quantitative Metadata New Approach: extracting behavioral descriptions inductively through 
+
+Automated Grounded Theory 
+
+Agent Trajectory | WebArena Agent, Failed  
+
+> Length # bash # file edits # retries tokens exit_status 47 Actions 812 31842
+> failed
+
+“Why did my agent fail?” 
+
+Canʼt tell from the table Overall pattern: keeps acting without diagnostic checks Behavior X: ignores its own clues Behavior Y: retries without re-checking 
+
+(a) step 2-3 seek appropriate tool 
+
+> “I should click on the 'Find directions between two points' button to access the route calculation tool”
+
+(b) step 8-9 attempt direct input 
+
+> “fill in the 'From' textbox with 'Brooklyn Bridge' and the 'To' textbox with 'Hudson River Park”
+
+Process-blined (c) step 12-15 retries without testing 
+
+> “The combobox does not have a direct option labeled 'Brooklyn Bridge', so I need to select the 'Bicycle(OSRM)' option first”
+
+(d) step 17-20 probes element affordance 
+
+> “I will first try to focus on the 'From' textbox and then attempt to enter 'Brooklyn Bridge” • click('149') • fill('156', 'Brooklyn Bridge') • select_option('166', 'Brooklyn Bridge') • select_option('166', 'Bicycle (OSRM)') • fill('156', 'Brooklyn Bridge') • click('156')...
+
+Figure 1 | Quantitative metadata records that an agent failed but is process-blind to why . Automated 
+
+grounded theory (Glaser and Strauss, 1967; Saldaña, 2015) surfaces behavioral patterns from the agent’s own reasoning, e.g., keeps acting without diagnostic checks , decomposed into sub-behaviors (ignores its own clues , retries without re-checking ) with step-level quoted evidence. categories emerge from the data itself rather than from prior hypotheses: researchers label concrete incidents, group them into categories, and iteratively refine those categories against newly sampled data (Saldaña, 2015; Williams and Moser, 2019). This process terminates at theoretical saturation ,when new sampling no longer surfaces new structure. This makes it well-suited to agent trajectory analysis on three counts: it is inductive, and thus open to novel tasks and emergent behaviors; it offers a principled, data-driven stopping criterion via theoretical saturation; and it yields an auditable trail from raw trajectories to theoretical claims. To this end, we introduce AutoTraceGT , the first end-to-end pipeline that operationalizes grounded theory for analyzing agent trajectories. Three agents perform layered semantic com-pression: OpenCode annotates a single trajectory with descriptive codes for “what happens at which steps”; AxialCode groups a batch of coded trajectories into a series of behavioral categories; AutoTraceGT 3and TheoreticalCode integrates these categories into a theoretical account. Running in parallel, 
+
+Manage drives the methodology’s iterative core: strategic sampling and constant comparison against the running codebook, repeated until saturation. We evaluate AutoTraceGT along two axes. For process reliability , we show that across multiple datasets and backbone LLMs, AutoTraceGT drives codebooks toward saturation and produces codebooks reproducible across independent runs at a level clearly separated from the noise floor of differing data or model inductive biases. For artifact quality , the induced codebooks cover the majority of failure modes in independently constructed human taxonomies while surfacing additional patterns those taxonomies systematically miss; the theoretical narrative independently converges with cascade-of-errors accounts articulated by prior expert analyses; and the codebook can be repurposed as a deductive feature space for failure prediction, outperforming few-shot LLM baselines across multiple backend models. Our contributions are: • A new analytic method for ML. We argue that grounded theory, a six-decade-old method from the social sciences, can be brought into ML as a productive analytic tool for scalable analysis of agent behavior and trajectories. • AutoTraceGT . We build the first end-to-end pipeline for automated grounded theory, implementing open, axial, and theoretical coding as role-specialized agents coordinated by a codebook manager, with every intermediate artifact machine-readable and auditable. • Empirical validation. On 7,500+ trajectories across six datasets and four backbone LLMs, we show that AutoTraceGT reaches saturation and produces reproducible codebooks, covers the majority of human-taxonomy failure modes, recovers prior expert theoretical accounts, and yields a deductive feature space for failure prediction. 
+
+## 2. Related Work 
+
+Grounded theory is an inductive qualitative methodology (Charmaz, 2014; Glaser and Strauss, 1967) widely used across the social sciences, with close analogues in thematic analysis (Braun and Clarke, 2006) and content analysis (Krippendorff, 2018). Its core idea is to build theories grounded 
+
+in data rather than test pre-existing hypotheses, which suits phenomena where established theories do not apply or new insights are sought. The method is realized through qualitative coding (Saldaña, 2015; Williams and Moser, 2019), in which the analyst proceeds in three layered stages. Open coding labels salient meanings in each document with descriptive tags. Axial coding links these tags across documents (e.g., by cause, condition, consequence) and groups them into higher-level categories. Theoretical (or selective ) coding integrates the saturated categories into a coherent account of the phenomenon. Because every category and claim stays linked to the incidents that produced it, grounded theory yields human-readable patterns with an auditable trail back to the raw data, a natural fit for analyzing open-ended agent trajectories at scale. 
+
+LLM-assisted Qualitative Analysis. LLMs have been used to scale qualitative coding, including thematic analysis on interview transcripts (De Paoli, 2024; Xiao et al., 2023), hierarchical inductive coding (Gao et al., 2024; Zhong et al., 2025), multi-agent thematic analysis (Lin et al., 2026; Yi et al., 2025), and dedicated grounded-theory pipelines (Pi et al., 2025; Übellacker, 2024). We focus on the last category, where two gaps remain. First, grounded theory’s multi-stage structure is rarely preserved end-to-end: AcademiaOS (Übellacker, 2024) offers limited cross-stage orchestration, and LOGOS (Pi et al., 2025) replaces axial and selective coding with semantic clustering, foregoing the role-differentiated analytic stance the methodology relies on. Second, theoretical saturation (grounded theory’s own termination criterion) is not empirically verified by these pipelines, which instead stop after a fixed number of iterations; whether the produced codebook reflects conceptual breadth or AutoTraceGT 4Codebook State 
+
+Revision log Categories & relations 
+
+one entry per codebook edit (append-only) 
+
+members and relations (revised every round)    
+
+> Theoretical Coding Agent
+> (code, span, quote)
+> Output: Output:
+> (categories, members and relations)
+> Output:
+> (updated codebook, revision log)
+> Frame current saturated codebook and its revision log into structures
+> Condition Context Strategy Consequence
+> Core Category
+> Output:
+> Revises the codebook:
+> For categories: add, merge, split, flag
+> For relations: confirm, extend, add, contradict
+> Manager Agent
+> Compares new categories with the global codebook; provides edits; merge first
+> Axial Coding Agent
+> Labels codes into categories and memo
+> Open Coding Agent
+> For every trajectory, labels behavioral patterns as code Appends to the log Read once when the codebook is saturated
+
+repeat until saturation: a ₜ < ε for W consecutive rounds (a ₜ = actions logged this round )
+
+> N trajectories from round 2 on, the trajectories are sampled based on the codebook
+
+Figure 2 | Overview of our multi-agent qualitative coding pipeline. an arbitrary stop is left unclear. AutoTraceGT addresses both: it implements the three stages as role-specialized agents with an explicit cross-batch manager, and verifies saturation through codebook convergence across iterations. 
+
+Agent Behavior Analysis. LLM-based agents are typically benchmarked by task-completion success on suites such as SWE-bench (Jimenez et al., 2024) and WebArena (Zhou et al., 2024) which report whether trajectories succeed but reveal little about why they fail. A growing line of work addresses this through structured failure analysis: AgentErrorTaxonomy (Zhu et al., 2025) decomposes failures into five operational modules, MAST (Cemri et al., 2025) applies grounded theory by hand to 150+ multi-agent traces and produces a 14-mode taxonomy, and others target subproblems such as tool-parameter failures (Xiong et al., 2025) or rubric-based trajectory verification (Raghavendra et al., 2026). Across this literature, taxonomies are built either by researchers iterating on small samples or by LLMs prompted to enumerate failure modes in one pass—neither route makes the inductive process auditable or guarantees a verifiable stopping criterion. AutoTraceGT operationalizes the full Grounded Theory loop algorithmically and scales it to thousands of trajectories, with theoretical saturation verified empirically. 
+
+## 3. Multi-Agent Framework 
+
+AutoTraceGT takes a corpus of 𝑁 agent trajectories and conducts grounded theory analysis over it. The framework comprises four agents operating at three scales: OpenCode works on a single trajectory, 
+
+AxialCode on a batch of trajectories, and TheoreticalCode on the full corpus to synthesize the emergent theory; orthogonal to these, Manage maintains analytic state and continuity across batches. Figure 2 presents the framework overview, and we describe each term below. AutoTraceGT 5
+
+Algorithm 1: Automated Grounded Theory for Agent Trajectories 
+
+Input: Pool of 𝑁 trajectories; batch size 𝐵 ; sampling policy 𝜋 ; saturation threshold 𝜖 ; stability window 𝑊 
+
+Output: Saturated codebook 𝐾 , theoretical account (𝑐 ∗, N)  
+
+> 1
+
+Initialize 𝐾 ← ∅ ; 𝑡 ← 0;  
+
+> 2
+
+repeat // Saturate after continuous 𝑊 rounds with additions < 𝜖   
+
+> 3𝑡
+
+← 𝑡 + 1;  
+
+> 4
+
+Draw a batch of 𝐵 trajectories from the pool via 𝜋 , conditioned on 𝐾 ; 
+
+> 5
+
+foreach trajectory in the batch do  
+
+> 6
+
+Run OpenCode chunk by chunk, carrying a segment memo;   
+
+> 7𝐴
+
+← AxialCode (coded batch ); 𝐾 ← Manage (𝐾, 𝐴 ); 𝑎 𝑡 ← #add actions logged this round;  
+
+> 8
+
+until 𝑡 ≥ 𝑊 and 𝑎 𝑗 < 𝜖, for all 𝑗 ∈ { 𝑡 − 𝑊 + 1, . . . , 𝑡 }; 
+
+> 9
+
+(𝑐 ∗, N ) ← TheoreticalCode (𝐾 ); 
+
+> 10
+
+return 𝐾, (𝑐 ∗, N) 
+
+Open coding (per trajectory). The open-coding agent, OpenCode : Trajectory → Records, labels behavioral incidents on a trajectory with conceptual codes. Each output record takes the form 
+
+(code , span , quote ): a 2–5 word conceptual code describing what happens, a sub-step span indicating where it happens, a short verbatim quote as the evidence. The number of codes per trajectory is chosen adaptively by the agent. We instruct it to abstract behavioral patterns rather than restate surface-level actions to use the conceptual code captures recurrent modes of conduct (e.g., diagnose environment constraints , persist through validation hurdles ) instead of literal tool calls. Operationally, to keep each LLM call within context, we partition the message sequence m into chunks and run 
+
+OpenCode chunk by chunk, carrying a segment memo across calls to preserve analytic continuity (see Algorithm 1). Coding is sequential within a trajectory but parallelizable across trajectories. 
+
+Axial coding (per sampling round). Following the iterative structure of grounded theory, analysis proceeds round by round: each round is a batch of open-coded trajectories drawn under a sampling policy and fed to the axial-coding agent. AxialCode : CodedTrajectories → Categories × Relations groups the round’s conceptual codes into categories and the typed relations between them, and emits an axial memo 𝜇 ax summarizing the round. Each induced category carries a textual definition, the set of code records supporting it, and a status tag 𝜎 ∈ { succ , fail , both } derived by aggregating the terminal status of each member’s source trajectory. The membership pointers preserve an explicit link from each category back to its supporting episodes and source trajectories. 
+
+Codebook management (constant comparison across rounds). Grounded theory’s practice of continuously revising codes against incoming data is realized explicitly as the codebook-manager 
+
+Manage : Codebook × RoundStructure → Codebook, which reconciles each round’s axial output against the running codebook. We maintain a versioned codebook state 𝐾 𝑡 = (C 𝑡 , R𝑡 , 𝐿 𝑡 ) with a revision log 𝐿 𝑡 ; on each new round, Manage produces 𝐾 𝑡 +1 by selecting for each new category an action from 
+
+{add , merge , split , flag } and for each new relation from {confirm , extend , add , contradict },with every action appended to 𝐿 𝑡 +1. We adopt a merge-first policy, aligning new categories to existing structure whenever a compatible match exists. Define the number of newly added categories in round  
+
+> 𝑡
+
+as 𝑎 𝑡 = |{ ℓ ∈ 𝐿 𝑡 \ 𝐿 𝑡 −1 : ℓ. action = add }| . We operationalize theoretical saturation as the criterion   
+
+> 𝑎 𝑡 < 𝜖
+
+and 𝑎 𝑡 −1 < 𝜖 for two consecutive rounds, and define 𝑇 as the first round at which the criterion is met. The resulting 𝐿 𝑇 provides an auditable history of theory evolution. AutoTraceGT 6T h e o re t i c a l C o d i n g A x i a l C o d i n g ( C a te g o r y ) A x i a l C o d i n g ( G ro u p i n g ) Tra j e c to r y Open Coding Keeps doing the same thing when stuck Following the error   
+
+> Edits that break others … +18 more
+> batch 7 · Targeted diagnosi... batch 9 · Defensive fallbac...
+> batch 9 · Iterative local d... … +6 more pandas-dev_pandas-53073_0 dask_dask-8820_8 Project-MONAL_MO NAI -5423_1 … +3 more steps 15-20 · apply direct... steps 21-24 · introduce ad-...
+> Agent Trajectory Theoretical Patterns
+
+The Automated Grounded Theory process 
+
+> Applying local fix steps 25-31 · move accessor...
+
+Figure 3 | An example of AutoTraceGT ’s coding process. OpenCode annotates a raw trajectory with conceptual open codes; AxialCode groups open codes across batches into categories and typed relations; TheoreticalCode integrates the saturated codebook into a theoretical account. Every code, category, and claim points back to its supporting evidence, making each step auditable. 
+
+Theoretical coding (global level). After saturation, the codebook stabilizes at 𝐾 𝑇 , and the theoretical-coding agent, TheoreticalCode : Codebook → CoreCategory × Narrative, produces (𝑐 ∗, N) where 
+
+𝑐 ∗ ∈ C 𝑇 is the core category and N is a narrative account that arranges the remaining categories around 𝑐 ∗ as conditions, contexts, strategies, and consequences. Crucially, this stage depends only on 
+
+𝐾 𝑇 and the revision log 𝐿 𝑇 , introducing no new local evidence: it consolidates the global structure produced by earlier agents while preserving unresolved tensions and ambiguous cases. 
+
+## 4. Experiments 
+
+In this section, we conduct a comprehensive evaluation of AutoTraceGT on multiple agent trajectory datasets, primarily to answer the following two research questions: • RQ1 – Process Reliability: Does AutoTraceGT instantiate grounded theory methodology faith-fully and stably? • RQ2 – Artifact Quality: Are AutoTraceGT outputs, including codebooks and theoretical accounts, grounded, interpretable, and useful? To answer these two research questions, we used two types of corpora (see details in Ap-pendix A.2): 
+
+Trajectories with outcome labels. These corpora span three environments covering different task and reasoning profiles: Tau-Bench (Yao et al., 2024), Go-Browse (Gandhi and Neubig, 2026), and SWE-Agent (Yang et al., 2024). From each environment, we sample 2,000 trajectories. Each trajectory carries only an environment-provided outcome label (i.e., success or failure). 
+
+Trajectories with annotated failure reasoning. These corpora consist of agent trajectories from three single-agent environments spanning diverse interaction patterns and reasoning demands: ALFWorld, GAIA, and WebShop. Each trajectory is paired with expert annotations identifying failure types and their causal reasoning (Zhu et al., 2025). 
+
+4.1. RQ1: Process Reliability 
+
+AutoTraceGT drives codebooks toward saturation. Figure 4 reports four diagnostics over nor-malized coding progress: two on the operations Manage issues each round (a, b), and two on the resulting state of the codebook (c, d). As coding progresses, add actions taper off while merge and confirm take over (a, b), as new patterns are increasingly absorbed into existing categories rather AutoTraceGT 7
+
+Figure 4 | Saturation diagnostics for AutoTraceGT . All four panels share an 𝑥 -axis of normalized coding progress : because different runs use different numbers of rounds, each run’s timeline is rescaled to [0, 1] so that runs of varying lengths can be overlaid. (a) Per-round fraction of Manage actions that are add. (b) Per-round fraction of Manage actions that are merge or confirm. (c) Total number of categories in the running codebook. (d) Cosine similarity between the running codebook and the terminal saturated codebook. add tapers while merge/confirm rise (a, b); the codebook stabilizes in size (c) and content (d), thus indicating saturation. than spawning new ones—the behavioral signature of theoretical saturation, where additional data ceases to yield new categories (Saunders et al., 2018). This taper is also the algorithmic stopping signal: AutoTraceGT terminates when 𝑎 𝑡 < 𝜖 for consecutive rounds (Algorithm 1). The codebook itself stabilizes accordingly: category count plateaus at a dataset-specific value and cosine similarity to the terminal codebook approaches 1 (c, d). 
+
+Within-configuration replicate stability. We first test whether AutoTraceGT produces stable code-books under repeated runs of the same configuration. For each dataset–model configuration, we run AutoTraceGT three times on disjoint trajectory subsets and compare the resulting saturated codebooks. Codebooks produced within the same configuration are significantly more similar than codebooks produced across configurations (Mann–Whitney 𝑈 , 𝑝 < 10 −20 ). Moreover, all configuration-level means exceed a data-derived reproducibility threshold estimated from cross-configuration comparisons (Figure 5a). Full construction and distributional statistics are reported in Appendix A.3. 
+
+Cross-LLM stability on the same dataset. We next test whether the induced codebooks reflect trajectory-specific structure rather than backend-model priors. Holding the dataset fixed, we compare codebooks produced by different backend LLMs and contrast them against null comparisons that break the dataset correspondence. Across all datasets, cross-LLM coverage remains above the null baselines, with permutation tests significant for every dataset ( 𝑝 < 0.001; Figure 5b). This suggests that 
+
+AutoTraceGT recovers dataset-specific behavioral structure that is stable across backend models. Details of the null construction and permutation procedure are reported in Appendix A.3. 
+
+4.2. RQ2: Artifact Quality 
+
+We evaluate whether AutoTraceGT ’s outputs are grounded, interpretable, and useful. This section presents two complementary analyses: coverage against human failure annotations (Section 4.2.1), and downstream failure detection (Section 4.2.2). 
+
+4.2.1. Do AutoTraceGT ’s findings echo expert analyses of trajectories? Coverage against Human Taxonomy We compare AutoTraceGT ’s inductively derived codebook against an independently constructed human taxonomy of agent failure modes from prior work, which manually analyzed trajectories on three benchmarks (ALFWorld (Shridhar et al., 2021), GAIA (Mialon et al., 2024), WebShop (Yao et al., 2022)), where domain experts inductively coded 
+
+∼500 trajectories per benchmark to produce a closed list of failure types, denoted H , along with AutoTraceGT 8
+
+(a) Within-config replicate coverage vs. cross-config null 
+
+(b) Cross-LLM same-dataset coverage vs. null baselines Figure 5 | (a) Pairwise coverage between final codebooks from replicate runs under the same dataset– model configuration. (b) Cross-LLM coverage within each dataset compared against cross-dataset and permutation-based null baselines. Full null statistics and permutation details are reported in Appendix A.3. per-trajectory free-text reasoning 𝑟 𝑡 explaining the specific failure mechanism. We run AutoTraceGT 
+
+with GPT-5-mini on the same trajectories, producing codebook C. The comparison between C and H
+
+measures how much two independent inductive analyses (one human, one computational) converge on the same behavioral patterns. For each trajectory, we use GPT-5 as an LLM judge to determine whether any candidate covers 𝑟 𝑡 (see Appendix A.8 for details). We report the coverage precision and recall between the two codebooks, and the fraction of trajectories whose human-written reasoning is covered by C.Table 1 reports mutual coverage across datasets. The codebook covers ≥70% of human failure modes on all three datasets (peaking at 90.9% on WebShop), and matches 58–88% of individual trajectories’ reasonings. Notably, the recall can exceed precision for H as the reference, indicating that AutoTraceGT 
+
+surfaces categories absent from the predefined human-induced taxonomy. These uncovered modes are not random gaps but systematic limitations of pre-specified failure taxonomies. We identified one ex-ample code per benchmark (full definitions in App. A.5) that was not covered by H . First, granularity: AutoTraceGT 9Dataset |𝐻 | |𝐶 | Recall Precision Match ALFWorld 15 20 75.0 60.0 82.4 GAIA 11 17 73.7 63.2 58.0 WebShop 10 13 90.9 88.9 87.9 Table 1 | Mutual coverage between the AutoTraceGT codebook and human failure annotations. |H | 
+
+/ |C| : human / AutoTraceGT codebook categories. Metrics are defined in Section 4.2.1. ALFWorld’s noncompliant inaction , in which the agent produces no admissible action when one is re-quired, is distinguishable from human-authored invalid_action and impossible_action (both of which presuppose an attempted action) only by the complete absence of action, a distinction that pre-specified taxonomies often collapse. Second, cross-module structure: GAIA’s signaled-but-unrealized shifts , in which the agent announces a pivot in plan that is never enacted, is a planning–execution decoupling that no single cognitive-module label can express because the failure spans the boundary between modules. Third, catch-all labeling: the generic inefficient_plan label collapses WebShop’s mode oscillation without synthesis, rapid toggling between paging and resets without feedback integration, into a single bucket alongside distinct inefficiencies that call for different remediations. 
+
+Theoretical convergence with human-authored analyses. The theoretical coding stage of AutoTraceGT 
+
+produces a narrative account of failure that converges in substance with—while remaining comple-mentary in framing to—the cascade-of-errors view articulated by the same prior work (Zhu et al., 2025), which theorized that early errors propagate downstream as upstream cognitive modules distort subsequent planning. Without access to their analysis, AutoTraceGT ’s theoretical coding recovers the same mechanism at the behavioral surface: across all three benchmarks, the core category names an action stream that has stopped integrating environmental feedback, preserving and re-enacting the original error ( feedback-decoupled control on ALFWorld, persistent repetition without adapta-tion on GAIA, and ritualized non-diagnostic search on WebShop). The two accounts identify the same underlying phenomenon, an agent locked out of adaptive feedback integration, but frame it at different levels of abstraction: prior work attributes the cascade to specific upstream cognitive modules, whereas our action-grounded narrative specifies what this lockout looks like as observable behavior, without positing internal modules. We read this level-complementarity as a strength: two independent inductive analyses, working from the same trajectories but at different framings, arriving at the same mechanism is exactly the cross-validation grounded theory aims for. Theory GLM features 𝛽 
+
+T1 × Uses sweeping workaround. +4.10 SWE-Agent ✓ Builds minimal reproducer after reconnaissance. −1.82 
+
+T2 ✓ Clicks visible UI affordance. −2.59 Go-Browse × Clicks UI; closes without verification. +3.28 
+
+T3 ✓ Executes after consent and reconciliation. −0.99 Tau-Bench × Finds payment error late; escalates. +1.64 Table 2 | GLM support for T1 –T3 . ✓/×: associated with success/failure. AutoTraceGT 10 Tau-Bench Go-Browse SWE-Agent                                                                                                                                              
+
+> Model Method MCC ROC AUC MCC ROC AUC MCC ROC AUC GPT-4.1-mini Few-shot 0.038 0.516 0.220 0.620 0.243 0.720 Few-shot Codebook Feature Engineering 0.245 0.656 0.325 0.738 0.274 0.712
+> AutoTraceGT -Codebook Feature Engineering †0.153 0.612 0.282 0.706 0.314 ↑0.765 ↑
+> AutoTraceGT Complementary Feature Engineering †0.227 0.656 0.379 ↑0.773 ↑0.343 ↑0.780 ↑
+> GPT-5 Few-shot 0.061 0.550 0.358 0.679 0.351 0.804 Few-shot Codebook Feature Engineering 0.202 0.622 0.343 0.736 0.320 0.708
+> AutoTraceGT Codebook Feature Engineering †0.120 0.596 0.498 ↑0.807 ↑0.326 0.769
+> AutoTraceGT Complementary Feature Engineering †0.206 ↑0.669 ↑0.499 ↑0.828 ↑0.372 ↑0.785 GPT-5-mini Few-shot 0.061 0.531 0.291 0.635 0.222 0.702 Few-shot Codebook Feature Engineering 0.257 0.663 0.370 0.749 0.272 0.724
+> AutoTraceGT Codebook Feature Engineering †0.151 0.624 0.374 ↑0.751 ↑0.350 ↑0.770 ↑
+> AutoTraceGT Complementary Feature Engineering †0.306 ↑0.699 ↑0.425 ↑0.788 ↑0.318 ↑0.772 ↑
+> GPT-OSS-120B Few-shot 0.028 0.516 0.239 0.609 0.262 0.713 Few-shot Codebook Feature Engineering 0.211 0.654 0.244 0.638 0.126 0.607
+> AutoTraceGT Codebook Feature Engineering †0.190 0.615 0.383 ↑0.755 ↑0.278 ↑0.704
+> AutoTraceGT Complementary Feature Engineering †0.289 ↑0.672 ↑0.390 ↑0.744 ↑0.240 0.726 ↑
+
+Table 3 | MCC and ROC AUC on test sets. Codebook Feature Engineering = AutoML over codebook annotations. bold ↑ = exceed both baselines. † = benefits from adding the AutoTraceGT codebook. See App. A.6 for details. 
+
+4.2.2. How does AutoTraceGT characterize agent behavior in successful and failed trajectories? 
+
+AutoTraceGT produces codebooks and derived theories that characterize agent trajectories. We use them in two ways: to interpret behavioral patterns in trajectories, and to operationalize the patterns for downstream failure detection. 
+
+Interpreting behavioral patterns in trajectories. Theoretical coding allows us to derive behavior-level explanations of why trajectories succeed or fail. We illustrate this with one representative theoretical finding from each benchmark. In SWE-Agent, we observe ( T1 ) that successful trajectories tend to ground a proposed fix in executable evidence before modifying the code. Concretely, they first construct or identify a runnable reproducer, connect the observed failure to a specific code region, and then make a targeted edit. Failed trajectories, by contrast, often act without this grounding: they rely on broad rewrites, plausible but unchecked assumptions, or superficial tests that do not reproduce the original failure. In Go-Browse, we find ( T2 ) that clicking visible UI affordances is not inherently predictive of success or failure. What separates resolved from failed trajectories is whether the agent inserts a substantive verification step between the action and the closure that declares the task complete. In Tau-Bench, we highlight ( T3 ) that successful trajectories resolve the relevant task state before taking irreversible actions. In these trajectories, the agent aligns the user’s identity, retrieved records, constraints, and payment status into a coherent action plan before execution. Failed trajectories often postpone this alignment until after they have already committed to an action, which leads to inconsistent state assumptions, failed execution, or escalation to a human handoff. In addition to these narrative explanations, AutoTraceGT provides an exploratory quantitative layer for triangulating the derived theories. We repurpose the codebook as a deductive feature schema and construct two types of trajectory-level features. First, for each codebook category, we define a presence feature indicating whether the trajectory contains concrete steps that instantiate the category definition. Second, for each relationship empirically confirmed during axial coding, we define co-occurrence indicating whether the related categories appear together in the same trajectory. Each trajectory is therefore represented as a fixed-length binary vector consisting of presence and AutoTraceGT 11 co-occurrence features defined by the codebook. We use these vectors as predictors and the trajectory outcome as the dependent variable, with failure coded as 1 and success coded as 0. We then fit an interpretive generalized linear model (GLM) whose coefficients can be read alongside the qualitative theory, with positive/negative coefficients indicating features associated with failure/success. We use GPT-5-mini codebooks to annotate category presence and co-occurrence across all trajec-tories from the three datasets, and fit the GLM described above (see Appendix 5 for fit diagnostics). Table 2 further shows how the annotated features empirically support the derived theories. For exam-ple, in Go-Browse, clicking visible UI affordances alone is associated with successful trajectories (𝛽 = −2.59), suggesting that UI clicking is not inherently a failure signal. However, clicking a UI affordance and then declaring completion without substantive verification substantially increases the likelihood of failure ( 𝛽 = +3.28). This contrast supports T2 derived from Go-Browse: the decisive behavioral pattern is not whether to click, but whether the agent verifies the task state before closure. 
+
+Codebook for deductive annotation supports failure detection. The preceding sections show that 
+
+AutoTraceGT artifacts characterize agent failures interpretively. We now examine whether the artifacts can also support predictive use. Given only a partial trajectory, we ask whether a model can use the behavioral signals encoded in the codebook to forecast eventual failure. To test this, we use codebook annotations as features for failure classification (Li et al., 2026). Following Section 4.2.2, each trajectory prefix is represented as a fixed-length vector of presence and co-occurrence features over codebook categories. We feed this vector to FLAML (Wang et al., 2021) AutoML to train a classifier. We compare four variants. The first uses the AutoTraceGT codebook. The second uses a baseline codebook induced through few-shot prompting, where the prompt asks the LLM to identify concrete behavioral categories from example trajectories. The third uses the union of features from both codebooks. The fourth is a few-shot baseline in which an LLM directly predicts failure without structured codebook features. For the three AutoML variants, we keep the downstream annotation and modeling procedure identical, changing only the source of the codebook features. Table 3 reports the MCC and ROC AUC to measure the performance of different approaches on this imbalanced detection problem. The results show that the AutoTraceGT codebook provides useful predictive signal, though not always as a standalone replacement for baselines. AutoTraceGT 
+
+features outperform all baselines on some datasets, while their combination with few-shot codebook performs best on others, suggesting complementary high- and low-level behavioral signals. 
+
+## 5. Conclusion 
+
+We bring grounded theory as a scalable, inductive method for studying LLM agent behavior, and build 
+
+AutoTraceGT , a multi-agent pipeline that runs open, axial, and theoretical coding with an auditable trail from trajectories to theory. On 7,500+ trajectories across six environments, AutoTraceGT 
+
+reaches saturation, yields codebooks reproducible stably, covers 74–91% of failure modes in human taxonomies while surfacing patterns they miss, recovers prior expert accounts, and benefits both interpretive and predictive analysis of trajectories. We scale up grounded theory analysis to thousands of trajectories while preserving its grounding and interpretability, thus enabling richer behavioral descriptions and supporting more human-centered agent evaluation. 
+
+Future work. Future work could explore richer saturation criteria that account for both the density of examples within each category and the stability of relationships between categories. This would make the algorithmic stopping rule more closely match the methodological idea of saturation. It AutoTraceGT 12 is also worth exploring how AutoTraceGT can support downstream training and evaluation. For example, they can be used to construct targeted training data, identify behaviors that should be reinforced or discouraged, design behavior-aware evaluation metrics, and build process-level reward signals (Mahmood et al., 2024; Setlur et al., 2025). 
+
+## Acknowledgment 
+
+We thank the reviewers for their valuable comments. We gratefully acknowledge support from Google.org through the Google Cloud Research Credits Program as part of the Gemma Academic Program. This work was also supported by Schmidt Sciences, and the Texas Advanced Computing Center under grant CCR25054. 
+
+Limitations. Our study has several limitations. First, every coding stage in AutoTraceGT is per-formed by an LLM, so the resulting codebooks can inherit blind spots of the backbone model; our cross-LLM stability results show the recovered structure is not dominated by any single backbone but do not rule out biases shared across frontier models. Second, the evaluations against human taxonomies and the downstream feature annotation rely on an LLM as judge, so absolute coverage and prediction numbers are conditional on the judge’s reading. Third, AutoTraceGT issues many LLM calls per trajectory and runs to saturation rather than a fixed budget, making it suitable for offline corpus analysis rather than per-trajectory online use. Fourth, we instantiate one qualitative method-ology (grounded theory) on one behavioral surface (single-agent trajectories with success/failure outcomes) and on English-language trajectories from publicly available benchmarks; transfer to other methodologies, multi-agent or dialogue surfaces, and other languages is left to future work. Finally, the algorithmic stopping criterion operationalizes theoretical saturation but is not identical to the methodological notion. 
+
+License and terms of use. All benchmark trajectories used in this work (ALFWorld, GAIA, Web-Shop, Tau-Bench, Go-Browse, and SWE-Agent) are accessed under their original licenses (Apache-2.0, MIT, or research-use), and our use is consistent with their intended research purpose. Access to OpenAI models (GPT-4.1-mini, GPT-5, GPT-5-mini) is governed by OpenAI’s API terms of service; the open-weight GPT-OSS-120B is used under its released model license. All of these benchmarks were released as agent-evaluation datasets, and we use them solely to analyze agent behavior on the tasks they were designed for, which matches their intended research use. 
+
+Potential risks. We also note potential risks of this line of work. Because every coding stage is run by an LLM, using the resulting codebooks to draw conclusions about agent populations can amplify biases of the backbone model, so the discovered categories should be treated as hypotheses for human review rather than ground truth about agent behavior. The framework is intended for offline analysis of publicly released benchmark trajectories and does not involve private user data; applying it to logs that contain user content would require separate consent and privacy review. 
+
+Use of AI Assistants. The authors used AI assistants (Claude and GPT-series models) during the preparation of this manuscript and the supporting code. The assistants were used for prose copy-editing, LaTeX formatting, and code refactoring. All scientific content, experimental design, analysis, and conclusions are the authors’ own. AutoTraceGT 13 
+
+## References 
+
+Virginia Braun and Victoria Clarke. Using thematic analysis in psychology. Qualitative research in psychology , 3(2):77–101, 2006. Mert Cemri, Melissa Z Pan, Shuyi Yang, Lakshya A Agrawal, Bhavya Chopra, Rishabh Tiwari, Kurt Keutzer, Aditya Parameswaran, Dan Klein, Kannan Ramchandran, Matei Zaharia, Joseph E. Gon-zalez, and Ion Stoica. Why do multi-agent LLM systems fail? In The Thirty-ninth Annual Con-ference on Neural Information Processing Systems Datasets and Benchmarks Track , 2025. URL 
+
+https://openreview.net/forum?id=fAjbYBmonr .Kathy Charmaz. Constructing grounded theory . sage, 2014. Stefano De Paoli. Performing an inductive thematic analysis of semi-structured interviews with a large language model: An exploration and provocation on the limits of the approach. Social Science Computer Review , 42(4):997–1019, 2024. Xiang Deng, Yu Gu, Boyuan Zheng, Shijie Chen, Samuel Stevens, Boshi Wang, Huan Sun, and Yu Su. Mind2web: Towards a generalist agent for the web. In Conference on Neural Information Processing Systems (NeurIPS 2023) Track on Datasets and Benchmarks , volume 36, pages 28091– 28114, 2023. URL https://proceedings.neurips.cc/paper_files/paper/2023/file/ 5950bf290a1570ea401bf98882128160-Paper-Datasets_and_Benchmarks.pdf .Apurva Gandhi and Graham Neubig. Go-browse: Training web agents with structured exploration. In 
+
+ICLR , 2026. URL https://openreview.net/forum?id=IpzRWE52yw .Jie Gao, Yuchen Guo, Gionnieve Lim, Tianqin Zhang, Zheng Zhang, Toby Jia-Jun Li, and Simon Tangi Perrault. Collabcoder: a lower-barrier, rigorous workflow for inductive collaborative qualitative analysis with large language models. In Proceedings of the 2024 CHI conference on human factors in computing systems , 2024. URL https://doi.org/10.1145/3613904.3642002 .Jie Gao, Kaiser Sun, Jen-tse Huang, Katherine Van Koevering, Sijie Ji, Heyuan Huang, Weiyan Shi, Zhuoran Lu, Ziang Xiao, Daniel Khashabi, and Mark Dredze. How to interpret agent behavior. 
+
+CoRR , abs/2605.13625, 2026. Barney G. Glaser and Anselm L. Strauss. The Discovery of Grounded Theory: Strategies for Qualitative Research . Aldine Publishing Company, Chicago, 1967. ISBN 978-0202302607. Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and Karthik R. Narasimhan. Swe-bench: Can language models resolve real-world github issues? In ICLR . OpenRe-view.net, 2024. URL https://openreview.net/forum?id=VTF8yNQM66 .Klaus Krippendorff. Content analysis: An introduction to its methodology . Sage publications, 2018. Zhuoyan Li, Aditya Bansal, Jinzhao Li, Shishuang He, Zhuoran Lu, Mutian Zhang, Qin Liu, Yiwei Yang, Swati Jain, Ming Yin, et al. Human-llm collaborative feature engineering for tabular data. 
+
+arXiv preprint arXiv:2601.21060 , 2026. Zhimin Lin, Kun Cheng, Fan Bai, and Jie Gao. Agent-as-peer-debriefer: A multi-agent framework with perspective-based refinement for qualitative analysis. CoRR , abs/2605.24600, 2026. Syed Hasan Amin Mahmood, Zhuoran Lu, and Ming Yin. Designing behavior-aware AI to improve the human-AI team performance in AI-assisted decision making. International Joint Conferences on Artificial Intelligence Organization, 2024. AutoTraceGT 14 Grégoire Mialon, Clémentine Fourrier, Thomas Wolf, Yann LeCun, and Thomas Scialom. GAIA: a benchmark for general AI assistants. In ICLR . OpenReview.net, 2024. URL https://openreview. net/forum?id=fibxvahvs3 .Xinyu Pi, Qisen Yang, and Chuong Nguyen. Logos: Llm-driven end-to-end grounded theory develop-ment and schema induction for qualitative research. arXiv preprint arXiv:2509.24294 , 2025. Mohit Raghavendra, Anisha Gunjal, Bing Liu, and Yunzhong He. Agentic rubrics as contextual verifiers for SWE agents. In ACL , pages 15265–15290. Association for Computational Linguistics, 2026. doi: 10.18653/v1/2026.acl-long.697. URL https://aclanthology.org/2026.acl-long.697/ .Johnny Saldaña. The coding manual for qualitative researchers . SAGE Publications Ltd, 2015. Benjamin Saunders, Julius Sim, Tom Kingstone, Shula Baker, Jackie Waterfield, Bernadette Bartlam, Heather Burroughs, and Clare Jinks. Saturation in qualitative research: exploring its conceptual-ization and operationalization. Quality & quantity , 52(4):1893–1907, 2018. Amrith Setlur, Chirag Nagpal, Adam Fisch, Xinyang Geng, Jacob Eisenstein, Rishabh Agarwal, Alekh Agarwal, Jonathan Berant, and Aviral Kumar. Rewarding progress: Scaling automated process verifiers for LLM reasoning. In International Conference on Learning Representations , volume 2025, pages 60808–60838, 2025. Mohit Shridhar, Xingdi Yuan, Marc-Alexandre Côté, Yonatan Bisk, Adam Trischler, and Matthew J. Hausknecht. Alfworld: Aligning text and embodied environments for interactive learning. In ICLR .OpenReview.net, 2021. URL https://openreview.net/forum?id=0IOX0YcCdTn .Thomas Übellacker. Academiaos: automating grounded theory development in qualitative research with large language models. arXiv preprint arXiv:2403.08844 , 2024. Chi Wang, Qingyun Wu, Markus Weimer, and Erkang Zhu. FLAML: A fast and lightweight automl library. In MLSys . mlsys.org, 2021. URL https://proceedings.mlsys.org/paper_files/ paper/2021/file/1ccc3bfa05cb37b917068778f3c4523a-Paper.pdf .Michael Williams and Tami Moser. The art of coding and thematic exploration in qualitative research. 
+
+International management review , 15(1):45–55, 2019. Ziang Xiao, Xingdi Yuan, Q. Vera Liao, Rania Abdelghani, and Pierre-Yves Oudeyer. Supporting qualitative analysis with large language models: Combining codebook with GPT-3 for deductive coding. In IUI Companion , pages 75–78. ACM, 2023. Tianbao Xie, Danyang Zhang, Jixuan Chen, Xiaochuan Li, Siheng Zhao, Ruisheng Cao, Toh Jing Hua, Zhoujun Cheng, Dongchan Shin, Fangyu Lei, Yitao Liu, Yiheng Xu, Shuyan Zhou, Silvio Savarese, Caiming Xiong, Victor Zhong, and Tao Yu. Osworld: Benchmarking multimodal agents for open-ended tasks in real computer environments. In NeurIPS , volume 37, pages 52040–52094, 2024. Qian Xiong, Yuekai Huang, Ziyou Jiang, Zhiyuan Chang, Yu Zheng, Tianhao Li, and Mingyang Li. Butterfly effects in toolchains: A comprehensive analysis of failed parameter filling in LLM tool-agent systems. In EMNLP (Findings) , pages 16712–16729. Association for Computational Linguistics, 2025. John Yang, Carlos E. Jimenez, Alexander Wettig, Kilian Lieret, Shunyu Yao, Karthik Narasimhan, and Ofir Press. Swe-agent: Agent-computer interfaces enable automated software engineering. In 
+
+NeurIPS , volume 37, pages 50528–50652, 2024. URL https://openreview.net/forum?id= mXpq6ut8J3 .AutoTraceGT 15 Shunyu Yao, Howard Chen, John Yang, and Karthik Narasimhan. Webshop: Towards scalable real-world web interaction with grounded language agents. In NeurIPS , volume 35, pages 20744–20757, 2022. URL https://openreview.net/forum?id=R9KnuFlvnU .Shunyu Yao, Noah Shinn, Pedram Razavi, and Karthik Narasimhan. 𝜏 -bench: A benchmark for tool-agent-user interaction in real-world domains. arXiv preprint arXiv:2406.12045 , 2024. Seungjun Yi, Joakim Nguyen, Huimin Xu, Terence Lim, Andrew Well, Mia K. Markey, and Ying Ding. Auto-ta: Towards scalable automated thematic analysis (TA) via multi-agent large language models with reinforcement learning. CoRR , abs/2506.23998, 2025. Mian Zhong, Pristina Wang, and Anjalie Field. Hicode: Hierarchical inductive coding with llms. In EMNLP , pages 31060–31078. Association for Computational Linguistics, 2025. URL https: //aclanthology.org/2025.emnlp-main.1580/ .Shuyan Zhou, Frank F. Xu, Hao Zhu, Xuhui Zhou, Robert Lo, Abishek Sridhar, Xianyi Cheng, Tianyue Ou, Yonatan Bisk, Daniel Fried, Uri Alon, and Graham Neubig. Webarena: A realis-tic web environment for building autonomous agents. In ICLR . OpenReview.net, 2024. URL 
+
+https://openreview.net/forum?id=oKn9c6ytLx .Kunlun Zhu, Zijia Liu, Bingxuan Li, Muxin Tian, Yingxuan Yang, Jiaxun Zhang, Pengrui Han, Qipeng Xie, Fuyang Cui, Weijia Zhang, Xiaoteng Ma, Xiaodong Yu, Gowtham Ramesh, Jialian Wu, Zicheng Liu, Pan Lu, James Zou, and Jiaxuan You. Where LLM agents fail and how they can learn from failures. CoRR , abs/2509.25370, 2025. Contents 
+
+1 Introduction 12 Related Work 33 Multi-Agent Framework 44 Experiments 6
+
+4.1 RQ1: Process Reliability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 64.2 RQ2: Artifact Quality . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+
+5 Conclusion 11 A Details of AutoTraceGT 17 
+
+A.1 Detailed algorithm with explicit state . . . . . . . . . . . . . . . . . . . . . . . . . . . 17 A.2 Details of Corpora . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17 A.3 Coverage Stability Analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17 A.4 GLM Fit Diagnositic . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18 A.5 Example emergent categories . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19 A.6 Reproducibility . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19 A.7 Additional Validation and Ablations . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20 A.8 Prompts used for LLM-as-a-Judge in Coverage Analysis . . . . . . . . . . . . . . . . . 25 16 AutoTraceGT 17 
+
+Algorithm 2: Automated Grounded Theory for Agent Trajectories (detailed) 
+
+Input: Trajectory pool D = {( 𝜏 𝑖 , 𝑠 𝑖 )} 𝑁 𝑖 =1, batch size 𝐵 , sampling policy 𝜋 , saturation threshold 
+
+𝜖 , stability window 𝑊 
+
+Output: Final codebook 𝐾 𝑇 , theoretical account (𝑐 ∗, N)  
+
+> 1
+
+Initialize Dremain ← D , 𝐾 0 ← ∅ , 𝑡 ← 0;  
+
+> 2
+
+repeat  
+
+> 3
+
+𝑡 ← 𝑡 + 1;  
+
+> 4
+
+X𝑡 ← 𝜋 (D remain , 𝐾 𝑡 −1, 𝐵 ) ; // theoretical sampling  
+
+> 5
+
+Dremain ← D remain \ X 𝑡 ; 
+
+> 6
+
+𝑅 𝑡 ← ∅ ; 
+
+> 7
+
+foreach trajectory (𝜏, 𝑠 ) ∈ X 𝑡 do  
+
+> 8
+
+Partition 𝜏 into message chunks m1, . . . , m𝑀 𝜏 ; 
+
+> 9
+
+𝜇 ← ∅ ; // segment memo  
+
+> 10
+
+for 𝑘 = 1, . . . , 𝑀 𝜏 do  
+
+> 11
+
+(codes 𝑘 , 𝜇 ) ← OpenCode (m𝑘 , 𝜇 ); 
+
+> 12
+
+𝑅 𝑡 ← 𝑅 𝑡 ∪ {( codes 𝑘 , 𝜏, 𝑠 )} ; 
+
+> 13
+
+𝐴 𝑡 ← AxialCode (𝑅 𝑡 ) ; // categories + relations + memo  
+
+> 14
+
+𝐾 𝑡 ← Manage (𝐾 𝑡 −1, 𝐴 𝑡 ) ; // constant comparison  
+
+> 15
+
+𝑎 𝑡 ← #{add actions in 𝐿 𝑡 \ 𝐿 𝑡 −1} ; // new categories this round  
+
+> 16
+
+until 𝑡 ≥ 𝑊 and 𝑎 𝑗 < 𝜖, for all 𝑗 ∈ { 𝑡 − 𝑊 + 1, . . . , 𝑡 }; 
+
+> 17
+
+𝑇 ← 𝑡 ; 
+
+> 18
+
+(𝑐 ∗, N ) ← TheoreticalCode (𝐾 𝑇 ); 
+
+> 19
+
+return 𝐾 𝑇 , (𝑐 ∗, N) ;
+
+## A. Details of AutoTraceGT 
+
+A.1. Detailed algorithm with explicit state 
+
+Algorithm 1 in the main paper gives a compact view of the pipeline. Algorithm 2 below restates the same procedure with explicit state: the remaining pool Dremain , the per-round trajectory batch X𝑡 
+
+and coded record set 𝑅 𝑡 , the chunk-level partition (m1, . . . , m𝑀 𝜏 ) of each trajectory and the segment memo 𝜇 carried across chunks, the axial output 𝐴 𝑡 , and the versioned codebook 𝐾 𝑡 with revision log 𝐿 𝑡 . The set-builder form makes the data-flow between agents fully explicit and is the version we implement. 
+
+A.2. Details of Corpora 
+
+Table 4 summarizes the two trajectory corpora used in our experiments: a failure-annotated corpus, in which each trajectory carries expert-coded failure reasoning over three single-agent environments (ALFWorld, GAIA, WebShop), and an outcome-labeled corpus, in which each trajectory carries only a binary success/failure outcome over three environments spanning customer-service tool use (Tau-Bench), web browsing (Go-Browse), and software engineering (SWE-Agent). 
+
+A.3. Coverage Stability Analysis 
+
+Within-configuration replicate stability. We define a cell as a dataset–backend-model tuple. With 3 datasets (Tau-Bench, Go-Browse, SWE-Agent) and 4 backend models, this yields 12 cells. For each cell, we run AutoTraceGT three times under a random sampling policy, producing three AutoTraceGT 18 Dataset Domain Total trajectories #Successful #Failed trajectories trajectories 
+
+Failure-annotated (expert failure reasoning) 
+
+ALFWorld Embodied household tasks 100 𝑁 /𝐴 100 GAIA General assistant / web reasoning 50 𝑁 /𝐴 50 WebShop E-commerce web navigation 50 𝑁 /𝐴 50 
+
+Outcome-labeled (success/failure only) 
+
+Tau-Bench Customer service / tool use 1980 1183 797 Go-Browse Web browsing 2000 728 1272 SWE-Agent Software engineering 2000 167 1833 Table 4 | Trajectory corpora used in this work. #Successful / #Failed trajectories: counts by outcome label. saturated codebooks from disjoint trajectory subsets. We compare two distributions of codebook-pair similarities. The in-cell distribution contains pairs from replicate runs of the same cell. The cross-cell distribution contains pairs from different cells, spanning different domains or different backend-model inductive biases. We use the cross-cell distribution as a data-derived null for calibrating reproducibility, avoiding an arbitrary similarity cutoff. Specifically, we use the 95th percentile of the cross-cell distribution as the high-reproducibility threshold. In-cell codebook pairs have median cosine similarity 0.929 and mean cosine similarity 0.923. The 594 cross-cell pairs have median 0.791, range 0.57–0.94, and 95th percentile 0.901. We therefore adopt 0.901 as the data-derived high-reproducibility threshold. The in-cell and cross-cell distributions differ significantly under a Mann–Whitney 𝑈 test ( 𝑝 < 10 −20 ), and all 12 cell means exceed the 0.901 threshold. Expanding the analysis along the sample-size axis to 20 dataset–model–sample-size groups, all 20 group means remain above the same threshold. 
+
+Cross-LLM stability on the same dataset. To test whether AutoTraceGT extracts structure from the trajectories rather than projecting backend-LLM priors onto them, we hold the dataset fixed and compute pairwise coverage between codebooks produced by different backend LLMs. We compare this observed cross-LLM coverage against three null distributions. The first null is cross-dataset any-model , which pairs codebooks from different datasets with arbitrary backend-model assignments. The second is cross-dataset same-model , which pairs codebooks from different datasets while matching the backend model, thereby absorbing model-specific inductive bias. The third is a dataset-label permutation null , which shuffles dataset labels across all codebooks and recomputes the corresponding coverage statistic over 1 ,000 permutations. As shown in Figure 5b, for every dataset, observed cross-LLM coverage lies above all three null distributions. The permutation test yields 𝑝 < 0.001 for each dataset. These results suggest that cross-LLM agreement is not explained by shared model priors or generic codebook similarity, but by dataset-specific behavioral structure extracted from the trajectories. 
+
+A.4. GLM Fit Diagnositic 
+
+Table 5 reports the model fit statistics and representative coefficients. The significant likelihood-ratio test ( 𝑝 < 0.001) indicates that the codebook-derived features carry information for distinguishing AutoTraceGT 19 Explanatory Distributional Dataset 𝑁 df Nagelkerke 𝑅 2 (↑) LR 𝑝 (↓) Pearson 𝜒 2/df ≈ 1Tau-Bench 170 36 0.618 < . 001 1.809 Go-Browse 734 49 0.431 < . 001 0.992 SWE-Agent 396 68 0.483 < . 001 1.037 Tau-Bench 792 30 0.106 < . 001 1.035 Table 5 | GLM fit diagnostics on max-balanced training subsets. Arrows indicate the preferred direction: higher 𝑅 2, lower LR 𝑝 , and Pearson 𝜒 2/df closer to 1. Dataset Category Definition ALFWorld noncompliant inaction Refusing to select any admissible action when an action is required. GAIA signaled-but-unrealized shifts 
+
+Announcing a pivot or new plan that is not enacted in subsequent actions, leaving behavior unchanged. WebShop mode oscillation without synthesis 
+
+Rapidly toggling between paging and resets (or similar moves) without integrating page feedback into a new tactic. Table 6 | Example emergent categories. successful from failed trajectories, while the 𝜒 2-based fit statistics provide an additional diagnostic check on model fit. 
+
+A.5. Example emergent categories 
+
+Three emergent failure-mode categories that the open-coding codebook surfaced but the human failure-mode taxonomy does not enumerate, one per dataset. Each is a behavioral pattern at the agent’s decision / action level that the human taxonomy’s module × failure_type schema cannot express. 
+
+A.6. Reproducibility 
+
+The main-text results are produced with a batch size of 𝐵 = 30 trajectories per round, an open-coding chunk size of 50 messages, the GPT-series default temperature of 1 across all coding agents, an add-rate saturation threshold of 𝜖 = 0.2 enforced over two consecutive rounds, and a disjoint uniform random sampling policy over Dremain . During development, we varied each of these settings and found the qualitative findings to be robust; what changes is primarily the rate at which saturation is reached. Concretely, we tried 𝐵 ∈ { 10 , 20 } and observed no meaningful difference in the saturated codebooks, with smaller batches simply taking more rounds to converge. The chunk size of 50 is an engineering choice driven by the backbone’s context-window budget rather than a methodological one: other values produced no qualitative effect on the resulting codes provided the chunk plus the running segment memo fit comfortably within the context window. Codebook quality was likewise insensitive to temperature within the range we explored. For the saturation threshold, smaller values of 𝜖 
+
+produced systematically slower convergence without changing the qualitative shape of the saturated codebook, while larger values terminated earlier at the cost of weaker saturation guarantees; we adopted 0 .2 as the smallest value that still terminated within a reasonable compute budget on all AutoTraceGT 20 Dataset Method |C| Recall (%) Precision (%) Match (%) ALFWorld AutoTraceGT 20 75 .0 60 .0 82 .4Single pass 10 60 .0 70 .0 60 .8GAIA AutoTraceGT 17 73 .7 63 .2 58 .0Single pass 12 54 .5 41 .7 46 .0WebShop AutoTraceGT 13 90 .9 88 .9 87 .9Single pass 10 63 .6 70 .0 78 .8Table 7 | Coverage of AutoTraceGT and a direct one-pass baseline. Both methods use gpt-5-mini 
+
+to construct the codebook and the same gpt-5 coverage judge. datasets. Finally, we also experimented with different sampling policies, such as stratified sampling policies along semantic clustering centers, and sampling weights proportional to distance to sampled trajectories, and these can accelerate convergence on some datasets but do not yield consistent gains across different datasets, so we report the simpler random policy for comparability. 
+
+A.7. Additional Validation and Ablations 
+
+One-pass coverage baseline. To isolate the effect of iterative coding, we compare AutoTraceGT 
+
+with a direct one-pass baseline using the same gpt-5-mini backbone. The baseline codes as many trajectories as fit within one context window and returns the same codebook schema as AutoTraceGT .We evaluate both codebooks against the human taxonomy with the same gpt-5 judge and the Recall, Precision, and Match metrics defined in Section 4.2.1. Table 7 shows that AutoTraceGT achieves higher Recall and Match on all three datasets. This result supports a practical benefit of iteration under the tested setup, but does not cover all possible one-pass procedures. 
+
+Human validation of the coverage judge. We sample 100 human-failure-mode/codebook-category pairs, balanced across judge-labeled matches and non-matches. Two graduate students with AI/ML backgrounds independently label each pair as a match or non-match using only the two category definitions, without access to the LLM judge’s decision or rationale. Table 8 reports inter-annotator and annotator–judge agreement. The annotators attain Cohen’s 𝜅 = 0.74 (87% raw agreement); their respective agreement with the judge is 𝜅 = 0.66 and 0 .76. Disagreements are asymmetric. Annotators A and B relabel 13 and 9 judge-labeled non-matches as matches, respectively, but only 4 and 3 judge-labeled matches as non-matches. Among the 87 pairs on which the annotators agree, they reverse seven judge-labeled non-matches and one judge-labeled match. On this sample, the judge is therefore more conservative than permissive relative to the human labels. 
+
+Human audit of unmatched categories. The same two annotators independently review all 17 
+
+AutoTraceGT categories unmatched to the human taxonomy. Using each category’s definition, trajectory excerpts, surrounding context, and coding memos, they label each category as a valid failure-related behavior, a valid but failure-neutral behavior, or a spurious category. Both annotators judge all 17 categories to be valid, with complete agreement on the valid-versus-spurious decision. Fourteen categories are unanimously labeled as failure-related; the remaining three capture valid behaviors correlated with failure but are not themselves failure modes. Table 9 gives the per-dataset results. AutoTraceGT 21 
+
+(A) Inter-annotator and annotator–judge agreement 
+
+Dataset 𝑛 Annotator–annotator Annotator–judge  
+
+> 𝜅
+
+Agreement (%) 𝜅 (A) 𝜅 (B) ALFWorld 36 0.70 86 0.51 0.67 GAIA 28 0.64 82 0.71 0.79 WebShop 36 0.83 92 0.78 0.83 Overall 100 0.74 87 0.66 0.76 
+
+(B) Direction of annotator–judge disagreements 
+
+Comparison Human match / judge non-match Human non-match / judge match Annotator A 13 4Annotator B 9 3Both annotators agree ( 𝑛 = 87) 7 1Table 8 | Human validation of the LLM coverage judge on 100 category pairs. Panel A reports Cohen’s  
+
+> 𝜅
+
+and raw agreement; Panel B gives the direction of disagreements. Dataset Total Valid failure (A / B) Valid neutral (A / B) Spurious ALFWorld 7 6/5 1/2 0GAIA 8 7/8 1/0 0WebShop 2 2/2 0/0 0Table 9 | Human audit of all 17 AutoTraceGT categories unmatched to the human taxonomy. A and B denote the two annotators. 
+
+Saturation and sampling robustness. Merge-first instruction. We test whether the merge-first instruction mechanically suppresses add by rerunning the downstream stages on SWE-Agentwith gpt-5-mini .The modified prompt places equal burden on add and merge; all other settings remain fixed, and early stopping is disabled. The mean add rate changes from 0.125 to 0.129, and the run still satisfies the 𝜖 = 0.20 stopping criterion. The resulting codebook contains 26 rather than 20 categories and has cosine similarity 0.957 to the original, above both the 0.923 reseed reference and the 0.791 unrelated-codebook baseline. 
+
+Stopping threshold. Across the 12 canonical SWE-Agentruns, the median terminal add rate is 0.056; 9 of 12 runs terminate below 0.10, and the maximum is 0.167. Tightening the threshold to 0.10 requires gpt-4.1-mini to process an average of 7.0 additional batches before convergence. The similarity curve in Figure 4 approaches 1 by construction because it is measured against the terminal codebook. We therefore interpret the trajectory, rather than its endpoint, as evidence of gradual stabilization. 
+
+Sampling policy. On SWE-Agent, we compare uniform random sampling, stratified sampling by semantic clusters, weighted sampling of representative instances within clusters, and codebook-conditioned sampling. We use three seeds for each policy. No policy consistently dominates. Uniform random sampling reaches saturation in the fewest batches while producing codebooks of comparable final size. Codebook-conditioned sampling attains approximately 0.99 Chao1 coverage and produces fewer low-frequency categories, but converges more slowly. We therefore retain uniform random sampling as a simple and competitive default. AutoTraceGT 22 Comparison Mean cosine similarity Different prompts 0.932 Same prompt, 0.929 different trajectory orders Cross-dataset null 0.777 Paper Q2 reseed reference 0.923 Table 10 | Prompt-sensitivity ablation on ALFWorldwith gpt-5-mini . Similarity uses the codebook-centroid metric with text-embedding-3-large .Tau-Bench SWE-Agent Go-Browse Feature MCC ROC AUC MCC ROC AUC MCC ROC AUC Semantic clustering ( 𝐾 = 10) 0.268 0.687 0.305 0.767 0.180 0.620 Table 11 | Semantic-clustering baseline with the downstream classifier held fixed. Cluster membership is supplied to the same AutoML pipeline used for the codebook features. 
+
+Cross-family ablation. The four principal coding backbones belong to the GPT family. Agreement among them therefore tests within-family stability but cannot exclude shared family-level or frontier-model biases. We run a cross-family ablation on SWE-Agentwith Gemini-3-Flash. The runs converge after a median of four batches, with a mean per-run add rate of 0.15 and a median final codebook size of 11 categories. This ablation extends the evidence beyond the GPT family, but one model on one dataset cannot establish broad cross-family robustness. 
+
+Prompt-sensitivity ablation. We vary only the open-coding system prompt for gpt-5-mini on ALFWorld. V0 is the main-experiment prompt, V1 reorders and rephrases the instructions and changes the worked examples, and V2 is a shorter rewrite. We run each variant with two trajectory orders. All six runs reach saturation after four codebook versions and produce 16–20 categories. Table 10 shows that across-prompt similarity is comparable to the variation induced by trajectory order and exceeds both the 0.901 high-reproducibility threshold and the cross-dataset null. 
+
+Semantic-clustering baseline. To hold the downstream classifier fixed, we embed each trajectory prefix with text-embedding-3-large , apply 𝐾 -means clustering with 𝐾 = 10, and encode cluster membership as a one-hot feature vector. We then train the same AutoML pipeline with the same splits and labels. Table 11 reports MCC and ROC AUC. Semantic clustering outperforms the gpt-5-mini AutoTraceGT features only on Tau-Bench, underperforms them on SWE-Agentand Go-Browse, and does not outperform the complementary feature set on any dataset. 
+
+Computational cost. OpenAI Batch records provide open-coding usage for the OpenAI-hosted models, including hidden reasoning tokens. Complete usage records are unavailable for the downstream axial-coding, codebook-management, and theoretical-coding stages, so we reconstruct their token AutoTraceGT 23 
+
+(A) Open-coding cost and tokens per trajectory 
+
+Dataset gpt-4.1-mini gpt-5-mini gpt-5 gpt-oss-120b 
+
+Tau-Bench $0 .0019 (6k) $0 .0047 (9k) $0 .0314 (11k) ∼ 9k tokens ∗
+
+SWE-Agent $0 .0043 (17k) $0 .0067 (21k) $0 .0399 (22k) ∼ 17k tokens ∗
+
+Go-Browse $0 .0042 (19k) $0 .0054 (22k) $0 .0305 (22k) ∼ 19k tokens ∗
+
+(B) Cost of one complete gpt-5-mini codebook 
+
+Dataset Batches Open-coding calls Open-coding cost Other-stage cost Total cost Tau-Bench 3 91 $0 .42 $0 .32 $0 .74 SWE-Agent 6 274 $1 .21 $0 .70 $1 .91 Go-Browse 4 120 $0 .65 $0 .43 $1 .08 Table 12 | Computational cost of AutoTraceGT . Parenthesized values in Panel A are token counts per trajectory. ∗Token counts are estimated from call inputs because complete usage records are unavailable. Other-stage costs in Panel B are reconstructed from the artifacts read by each call. counts from the artifacts read by each call and mark them as estimates. Table 12 reports open-coding cost per trajectory and the total cost of producing one gpt-5-mini codebook. Across the OpenAI-hosted models, open coding costs less than $0.04 per trajectory in every setting and usually less than $0.01. A complete gpt-5-mini codebook costs $0.74–$1.91 across the three datasets. For scale, eight minutes of human coding per trajectory at $25 per hour would cost $3.33 per trajectory. This estimate depends on the assumed annotation time and labor rate and does not represent a universal human-coding cost. 
+
+Code-manager audit trail. Table 13 traces edit application errors across ten SWE-Agentcodebook versions produced with gpt-5-mini . Version 1 adds the category with 9 supporting members. Two later versions extend its definition, and ten proposals are merged into it as near-duplicates or lower-level subpatterns. By version 10, the category contains 84 supporting members. The trace shows how the code manager consolidates related proposals while preserving each revision’s recorded action and rationale. 
+
+Implementation of failure prediction For the downstream failure-prediction experiments in Sec-tion 4.2.2, we set up the task as forecasting eventual failure from a partially observed trajectory and take care to prevent label leakage at every stage. We first split each corpus into disjoint training and test trajectories at the trajectory level, induce the codebook (both AutoTraceGT -induced and the few-shot baseline) on the training split only, and never expose the test trajectories to any coding agent. At annotation time, every trajectory—training and test alike—is uniformly truncated to its first 50% of steps before the LLM annotator is asked to flag the presence of each codebook category and the co-occurrence of each axial-coding relationship; the same prefix-only view is used to fit the FLAML classifier on the training split and to evaluate it on the test split. Outcome labels are used only as the supervision target for the classifier and are never visible to either the coding agents or the annotation agent. This protocol ensures that the predictive signal reported in Table 3 comes from behavioral patterns observable in the first half of a trajectory rather than from any portion of the trajectory that overlaps with the outcome. AutoTraceGT 24 Version Members Code-manager action Justification from the update log v1 9 add edit application errors 
+
+Failures in which an edit is rejected or im-mediately breaks the code, including syntax, indentation, linting, and wrong-file errors. v2 15 Definition extended; merge 
+
+← misapplied edits 
+
+Wrong-file and wrong-scope edits are already covered; the proposal and existing category have no clear behavioral distinction (Tests 1 and 2). v4 40 Definition extended; merge ←
+
+misdirected-or-speculative-editing 
+
+Speculative or misdirected edits produce the same misapplication or syntax-failure mecha-nism. merge ← syntax-and-edit-recovery 
+
+Short syntax-recovery cycles are lower-level subpatterns rather than distinct categories. v5 47 merge ← misapplied edits and corruption 
+
+The proposal describes the same mechanism: wrong-file, wrong-scope, or syntactically cor-rupting edits (Test 1). v6 55 merge ← fragile edit outcomes 
+
+Brittle or failed edits, including duplication, overwriting, and syntax damage, are instances of the existing category (Test 1). v7 64 merge ← syntax/error introduction 
+
+The proposal describes syntax or runtime er-rors caused by edits and is already covered by the existing category (Test 1). merge ← misapplied edits 
+
+This proposal describes the same edit-induced failure mechanism and is likewise covered by the existing category (Test 1). v9 77 merge ← editing/tool misuse errors 
+
+Mechanical or tool-mediated editing mistakes that immediately damage the code fall under the same failure mechanism (Test 1). v10 84 merge ← editing mistakes and duplication 
+
+Wrong-file edits and duplicate insertions are concrete instances or well-represented sub-types of the existing category (Test 1). merge ←
+
+syntax-breaking edits 
+
+Syntax-breaking changes are also concrete in-stances of the existing category (Test 1). Table 13 | Evolution of edit application errors across ten codebook versions. Versions with multiple merge proposals span multiple rows; each row preserves the recorded code-manager action and justification. AutoTraceGT 25 
+
+A.8. Prompts used for LLM-as-a-Judge in Coverage Analysis 
+
+OpenCode System 
+
+You are deciding whether two failure-mode descriptions (A and B) refer to the same underlying agent failure. ↩→
+
+A and B are symmetric: either could be a codebook category, an annotation taxon, or an analyst note - there is no reference side. ↩→
+
+Mark match=true when A and B name the same specific agent move, INCLUDING: - one description is the general behavioral pattern and the other is a concrete instance squarely under that pattern, in EITHER direction. The abstraction relationship is valid only when the abstract side, read on its own, would predict THIS specific mechanism - not when it is equally compatible with several unrelated mechanisms. 
+
+> ↩→
+> ↩→
+> ↩→
+> ↩→
+
+- both describe the same agent move expressed in different vocabulary or framed at slightly different granularity (e.g. naming the immediate sub-step vs the broader process around it). 
+
+> ↩→
+> ↩→
+
+- one is positively framed (the missing behavior) and the other is negatively framed (the failure outcome of that same behavior), but both point at the same underlying move. 
+
+> ↩→
+> ↩→
+
+- the descriptions agree on the core agent action / inaction and on why that action / inaction is the failure. ↩→
+
+Mark match=false when A and B describe distinct underlying mechanisms. The test is: would a fix that addresses A's mechanism also address B's? If not, they are different mechanisms. Surface-level overlap (shared tool, outcome, or keyword) is not enough on its own. 
+
+> ↩→
+> ↩→
+> ↩→
+
+Two descriptions name different mechanisms when they disagree about WHICH agent-side move, decision, or cognitive posture is the cause of failure -when the locus of failure in the agent's loop, or the character of the failed move, is genuinely different in A and B. 
+
+> ↩→
+> ↩→
+> ↩→
+
+Also mark match=false when one description is a broad umbrella covering many distinct mechanisms and the other is just one of those mechanisms. An umbrella is not the same as an abstraction. An abstraction predicts the specific instance; an umbrella merely includes it alongside other, unrelated cases. Self-check: if you can readily think of several distinct mechanisms that would fit equally well under the broader side, it is an umbrella --match=false. 
+
+> ↩→
+> ↩→
+> ↩→
+> ↩→
+> ↩→
+> ↩→
+
+When A and B point at the same specific agent move (possibly at different abstraction levels), prefer match=true. Sharing a broad task family, domain, or co-occurring failure tendency is not enough on its own -only same move counts. 
+
+> ↩→
+> ↩→
+> ↩→
+
+A: {a} B: {b} AutoTraceGT 26 
+
+Reply with exactly one JSON object: {{"match": true|false, "rationale": "<one short sentence naming the shared mechanism if match=true, or the divergence if match=false>"}} 
+
+> ↩→
+> ↩→
+
+""" 
+
+Main prompts used to build AutoTraceGT Here are the main prompts used for OpenCode , AxialCode ,and TheoreticalCode agents. 
+
+OpenCode System 
+
+You are a qualitative researcher performing open coding on behavioral logs. Your goal is to identify and name behavioral patterns -- not to describe what happened, and not to diagnose why it happened. 
+
+> ↩→
+> ↩→
+
+---## THE CORE DISTINCTION A code is not a description of what happened. A code is a conceptual label for the behavioral quality of what happened. Ask yourself: what is this sequence of actions AN INSTANCE OF? 
+
+> ↩→
+> ↩→
+
+Not: "what did the system do?" But: "what KIND OF behavior is this?" Examples of the distinction: What happened -> "system requests the same directory three times" Bad code -> "requests directory listing repeatedly" [describes the action] ↩→
+
+Good code -> "re-examines same ground without advancing" [names the behavior] ↩→
+
+What happened -> "system tries approach A, fails, tries approach A again" Bad code -> "retries failed action" [describes the action] Good code -> "persists without adjusting strategy" [names the behavior] If your code could serve as a caption for the log excerpt, it is too descriptive. A good code could appear in a taxonomy of behavioral patterns across many different kinds of systems, not just this one. 
+
+> ↩→
+> ↩→
+
+---## CHUNKING Read the full log before doing anything. Then segment it into chunks and code each chunk. ↩→
+
+A chunk is a sequence of steps that form a coherent behavioral episode. You decide the boundaries. A chunk can be 1 step or many steps. ↩→
+
+Draw the boundary where the behavioral quality changes -- not where the step type changes, not at every request-response pair. ↩→
+
+If several consecutive steps are all instances of the same behavioral pattern, they belong in one chunk, even if they look structurally different. ↩→
+
+---## FOR EACH CHUNK, PRODUCE: STEPS -- which step numbers belong to this chunk (e.g., "4-7"). Use the original step numbers from the log. ↩→
+
+QUOTE -- the most telling fragment, copied verbatim from the log. Maximum 3 lines. Choose the fragment that best justifies your code -- not necessarily the first or last line. 
+
+> ↩→
+> ↩→
+
+CODE -- a conceptual label of 2-5 words in verb + noun format. AutoTraceGT 27 
+
+* Use the pattern: verb + noun (e.g., "abandon partial fix", "repeat failed approach", "narrow diagnostic scope") ↩→
+
+* Must name a behavioral quality, not an action type * Must be grounded in this specific log -- not imported from prior knowledge about how AI systems fail ↩→
+
+* If this code could have been written before reading this log, it is not grounded. Rewrite it. ↩→
+
+* Forbidden vocabulary: "hallucination", "context window", "tool call", "token", "prompt", "LLM", "model", "agent", or any AI/ML technical term 
+
+> ↩→
+> ↩→
+
+MEMO -- 2-4 sentences of analytic thinking. * Why did you draw the boundary here? * Why is this code the right conceptual label? * What is uncertain or ambiguous? * What would change your interpretation? ---## CONSTRAINTS * QUOTE and CODE capture what happened and what kind of thing it is. MEMO is where you may speculate about causes or meaning. ↩→
+
+* Do not code the final status. It is the outcome. Code the process that produced it. ↩→
+
+* Do not produce codes that merely name the step type: "calls a tool", "produces output", "requests listing" are not codes. ↩→
+
+* If prior context is provided, use it only for continuity. If a behavior clearly continues from before, note it in the memo. ↩→
+
+---## OUTPUT FORMAT Return exactly the structure below. Do not add any text before ===CODES=== or after ===END===. ↩→
+
+===CODES=== [{ "steps": "<start>-<end>", "quote": "<verbatim fragment>", "code": "<2-5 word conceptual label>", "memo": "<2-4 sentences>" }] ===SKIPPED=== <one line listing skipped step numbers and a brief reason, or "none"> ===SEGMENT_MEMO=== <3-4 sentences of plain prose. The arc of this segment: its shape, turning point, and how it connects to or breaks from what preceded it. Write it for the next reader. Do not summarize the codes.> 
+
+> ↩→
+> ↩→
+
+===END=== 
+
+AxialCode System 
+
+You are a qualitative researcher performing axial coding. You have received open coding results from multiple behavioral logs. Your job is not to produce more codes. 
+
+> ↩→
+> ↩→
+
+Your job is to find the structure that connects the codes that already exist. AutoTraceGT 28 
+
+---## WHAT AXIAL CODING IS Open coding broke the logs into labeled episodes. Axial coding asks: what do these labels have in common, and how do they relate? ↩→
+
+You are looking for two things: 1. CATEGORIES A category is an abstract concept that names what several codes are all instances of. Example: ↩→
+
+codes: "orients by scanning", "orients by repository anatomy", "maps workspace before acting" ↩→
+
+category: "initial spatial orientation" These codes are all instances of the same behavioral pattern, appearing at different trajectories' beginnings. ↩→
+
+A category is not just a grouping label. It should be specific enough to distinguish itself from other categories, and abstract enough to apply beyond any single trajectory. 
+
+> ↩→
+> ↩→
+
+2. RELATIONSHIPS BETWEEN CATEGORIES Once you have categories, ask: how do they connect? What conditions produce a category? What does a category lead to? Does one category modify or interrupt another? You are not required to use a fixed framework. Let the relationships emerge from the data. But for each relationship you claim, you must show it in the codes. 
+
+> ↩→
+> ↩→
+> ↩→
+> ↩→
+
+---## WHAT YOU ARE NOT DOING * Do not rename or re-code individual episodes. Work with the codes as given. If a code is ambiguous, note it in a memo. ↩→
+
+* Do not impose a structure you decided before reading. If the codes do not support a relationship, do not claim it. ↩→
+
+* Do not produce a category for every code. Some codes may be outliers, one-offs, or not yet theoretically developed. Name these explicitly as UNDERDEVELOPED rather than forcing them into a category. 
+
+> ↩→
+> ↩→
+
+* Do not treat co-occurrence as causation. "These two codes often appear together" is an observation. Claim a causal relationship only when the memos support it. 
+
+> ↩→
+> ↩→
+
+---## INSTRUCTIONS Read all the open coding results below before doing anything. Pay attention to: codes, memos, and segment memos. The memos often contain the reasoning that justifies grouping decisions. 
+
+> ↩→
+> ↩→
+
+Then produce: 1. CATEGORIES -- each with: * A name (2-6 words, conceptual not descriptive) AutoTraceGT 29 
+
+* A definition (what behavioral quality does this category capture?) * The member codes from the input, with their trajectory IDs * status_distribution: whether the category appears in failed only, resolved only, or both ↩→
+
+* status_differentiation: if the category appears in both, describe how the behavioral quality differs between failed and resolved instances. This is not about whether the category appears -- it is about whether what it looks like differs. If no difference is visible, write "none observed". 
+
+> ↩→
+> ↩→
+> ↩→
+
+* A category memo: what makes these codes instances of the same thing? What varies across instances? What is invariant? ↩→
+
+2. RELATIONSHIPS -- each with: * The two (or more) categories involved * The nature of the relationship (one or two sentences) * Evidence: which specific codes / memos support this claim? 3. UNDERDEVELOPED CODES -- codes that do not yet fit any category, with a brief note on why and what additional data might develop them. ↩→
+
+4. AXIAL MEMO -- your overall analytic reading of this batch. What structure is beginning to emerge? What is still unclear or contested? What would the next batch of data need to show to develop the theory? ↩→
+
+---## CONSTRAINTS * Every category must be grounded: list the member codes by trajectory ID. A category with only one member is allowed but must be flagged as thin. ↩→
+
+* Every relationship must cite evidence from the codes or memos. Do not claim relationships from general knowledge about how systems fail. ↩→
+
+* Forbidden vocabulary in category names and relationship descriptions: "hallucination", "context window", "token", "prompt", "LLM", "model", "agent", or any AI/ML technical term. 
+
+> ↩→
+> ↩→
+
+* The status field (failed/resolved) is available to you. Use status_distribution to record where each category appears. Use status_differentiation to record how it behaves differently across statuses. Do not treat status as an explanation -- treat it as a pattern to explain. 
+
+> ↩→
+> ↩→
+> ↩→
+
+---## OUTPUT FORMAT Return exactly the structure below. Do not add any text before ===CATEGORIES=== or after ===END===. ↩→
+
+===CATEGORIES=== [{"category_name": "<2-6 word conceptual label>", "definition": "<one sentence: what behavioral quality does this capture?>", "member_codes": [ {"trajectory_id": "<instance_id>", "code": "<exact code from input>"} ], ↩→
+
+"status_distribution": "<failed only | resolved only | both>", "status_differentiation": "<if both: how does the behavioral quality differ between failed and resolved instances? If not both: n/a>", ↩→AutoTraceGT 30 
+
+"thin": <true if only one member, false otherwise>, "category_memo": "<3-5 sentences: what is invariant across members, what varies, what is uncertain>" ↩→
+
+}]===RELATIONSHIPS=== [{"categories": ["<category A>", "<category B>"], "relationship": "<1-2 sentences describing the nature of the connection>", "evidence": "<which specific codes or memo passages support this?>" }]===UNDERDEVELOPED=== [{"trajectory_id": "<instance_id>", "code": "<exact code>", "note": "<why it does not fit any category, what data would develop it>" }]===AXIAL_MEMO=== <4-6 sentences. What structure is emerging? What is contested or unclear? What would the next batch need to show?> ↩→
+
+===END=== 
+
+TheoreticalCode System 
+
+You are a qualitative researcher performing selective coding. This is the final stage of a grounded theory analysis. ↩→
+
+You have received a mature codebook and the update log that records how the theory evolved across batches. ↩→
+
+Your job is to produce a theoretical account of why these trajectories fail --not a summary of what was found, but an explanation that could not have been written before the analysis. 
+
+> ↩→
+> ↩→
+
+---## WHAT SELECTIVE CODING IS Selective coding does three things: 1. IDENTIFY THE CORE CATEGORY One category, or a new concept that subsumes several, that sits at the center of the phenomenon. The core category should: ↩→
+
+* Have the most connections to other categories * Appear across the widest range of trajectories * Be abstract enough to anchor a theoretical statement * Explain not just what happens but what governs whether a trajectory succeeds or fails ↩→AutoTraceGT 31 
+
+The core category may be an existing codebook category, or it may be a new concept that names something the existing categories collectively point toward but do not individually capture. 
+
+> ↩→
+> ↩→
+
+2. INTEGRATE THE OTHER CATEGORIES Show how every other category relates to the core -- as a precondition, a consequence, a modifier, or an interruption. Not all categories will have equal weight. Some will be central; others will be peripheral or conditional. 
+
+> ↩→
+> ↩→
+> ↩→
+
+For each category, state: * Its role relative to the core (precondition / consequence / modifier / interrupter / alternative path) ↩→
+
+* Whether it appears in failed trajectories, resolved trajectories, or both -- and what that distribution means theoretically ↩→
+
+3. WRITE THE THEORETICAL NARRATIVE A prose account of the failure mechanism. This is not a list of findings. It is an argument: given what this data shows, here is what determines whether a trajectory succeeds or fails, and why. 
+
+> ↩→
+> ↩→
+
+The narrative should be falsifiable in principle -- it should make claims specific enough that a new trajectory could contradict them. ↩→
+
+---## WHAT YOU ARE NOT DOING * Do not summarize the codebook category by category. * Do not list findings. Argue from them. * Do not use the final execution status as an explanation. Status is what you are trying to explain, not the explanation itself. * Do not introduce concepts not grounded in the codebook or update log. * Do not produce a core category that is just the most frequent category. Frequency is not theoretical centrality. ↩→
+
+---## INSTRUCTIONS Read the full codebook and update log before doing anything. Pay attention to: * Which categories are failed only vs both * Which relationships have the highest batch_confirmed count * Which open questions were never resolved * How categories were merged, split, or flagged across batches --this evolution often reveals where the theory is most alive Then produce: AutoTraceGT 32 
+
+1. CORE CATEGORY -- name, definition, and a justification for why this is the center of the phenomenon rather than another category ↩→
+
+2. CATEGORY INTEGRATION -- for each codebook category, its role relative to the core and what its status distribution means ↩→
+
+3. THEORETICAL NARRATIVE -- 6-10 sentences of prose that states the theory. Write it so that someone who has not seen the data could understand the failure mechanism and use it to generate predictions about new trajectories. 
+
+> ↩→
+> ↩→
+
+4. UNRESOLVED TENSIONS -- open questions or contradictions in the codebook that the theory cannot yet account for. These are not failures of the analysis; they are its honest boundaries. 
+
+> ↩→
+> ↩→
+
+---## CONSTRAINTS * The core category must be justified by its connections, not its frequency. Show which relationships make it central. ↩→
+
+* Every claim in the theoretical narrative must be traceable to at least one codebook category or relationship. ↩→
+
+* Forbidden vocabulary: "hallucination", "context window", "token", "prompt", "LLM", "model", "agent", or any AI/ML technical term. * The narrative must name the failure mechanism, not just describe the failure pattern. ↩→
+
+---## OUTPUT FORMAT Return exactly the structure below. Do not add any text before ===CORE_CATEGORY=== or after ===END===. ===CORE_CATEGORY=== {"name": "<2-6 words>", "definition": "<one sentence: what does this concept capture that no single existing category captures alone?>", ↩→
+
+"justification": "<3-5 sentences: why is this the center? Which relationships converge on it? What does it explain that other candidates cannot?>" ↩→
+
+}===CATEGORY_INTEGRATION=== [{ "category_name": "<existing codebook category name>", "role": "<precondition | consequence | modifier | interrupter | alternative path>", ↩→
+
+"relation_to_core": "<1-2 sentences>", "status_significance": "<what does its status distribution mean theoretically?>" ↩→
+
+}] ===THEORETICAL_NARRATIVE=== <6-10 sentences of plain prose. State the failure mechanism as a theory. Make claims specific enough to be contradicted by new data. Do not use lists or headers inside this section.> 
+
+> ↩→
+> ↩→
+
+===UNRESOLVED_TENSIONS=== AutoTraceGT 33 
+
+["<one sentence per unresolved question or contradiction>"] ===END===

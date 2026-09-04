@@ -6,46 +6,44 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-09-02
-- 运行时间：2026-09-02 23:09:12 UTC
+- 最新运行日期：2026-09-04
+- 运行时间：2026-09-04 22:50:05 UTC
 - 运行状态：成功
-- 本次总论文数：8
+- 本次总论文数：7
 - 精读区：5
-- 速读区：3
+- 速读区：2
 
 ### 今日简报（AI）
-今日精读5篇聚焦多智能体LLM系统错误归因与自进化智能体安全，速读覆盖协作基准与进化验证。
-最高分《EDGE》9.0分提出错误依赖图多错误归因方法，另《Auditing Harness Tampering》8.0分关注自我改进智能体的篡改审计，二者值得优先深入。
-建议先读EDGE理解多智能体排错思路，再结合篡改审计思考AI安全边界，后续可扩展至协作任务规划方向。
-- 详情：[/202609/02/README](/202609/02/README)
+- 今日共生成 7 篇推荐（精读 5 篇，速读 2 篇）
+- 精读：《Safety Does Not Compose: Non-Decaying Loop State for Autonomous LLM Agents》（9.0/10）, 《Monitoring Web Agents Without Internal Signals: Observable Trajectories and Key-Step Supervision》（9.0/10）
+- 速读：《VerNav: Verifier-First Low-Latency Vision-and-Language Navigation》（7.0/10）, 《Using Grounded Theory for Agent Behavior Analysis at Scale》（6.0/10）
+- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
+- 详情：[/202609/04/README](/202609/04/README)
 
 ### 精读区论文标签
-1. [EDGE: Error Dependency Graph-Guided Multi-Error Attribution in Multi-Agent LLM Systems](/202609/02/2609.01360v1-edge-error-dependency-graph-guided-multi-error-attribution-in-multi-agent-llm-systems)  
+1. [Safety Does Not Compose: Non-Decaying Loop State for Autonomous LLM Agents](/202609/04/2608.27141v4-safety-does-not-compose-non-decaying-loop-state-for-autonomous-llm-agents)  
    标签：评分：9.0/10、query:agent-error
-   evidence：通过构建错误依赖图检测并归因LLM智能体轨迹中多个相互关联的错误
-2. [Auditing Harness Tampering in Self-Improving Agents](/202609/02/2609.00069v1-auditing-harness-tampering-in-self-improving-agents)  
+   evidence：证明轨迹范围监控器无法发现证据分散在多次自动循环迭代中的智能体安全错误
+2. [Monitoring Web Agents Without Internal Signals: Observable Trajectories and Key-Step Supervision](/202609/04/2609.02057v1-monitoring-web-agents-without-internal-signals-observable-trajectories-and-key-step-supervision)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：基于可观测轨迹信号做前缀级风险预测，判断Web智能体是否仍在正确路径上
+3. [Diagnosing with Insights: Structured Analysis of Agent Failures via Behavioral Abstractions](/202609/04/2609.02371v1-diagnosing-with-insights-structured-analysis-of-agent-failures-via-behavioral-abstractions)  
+   标签：评分：9.0/10、query:agent-error
+   evidence：从复杂轨迹中通过行为抽象诊断智能体失败模式
+4. [Safety Does Not Compose: Non-Decaying Loop State for Autonomous LLM Agents](/202609/04/2608.27141v3-safety-does-not-compose-non-decaying-loop-state-for-autonomous-llm-agents)  
    标签：评分：8.0/10、query:agent-error
-   evidence：提出篡改编辑分类体系并构建带篡改标注的轨迹语料，支撑轨迹层错误检测
-3. [Polished but Unresolved: Identifying Late-Stage Pressure States in Long-Horizon Tool-Use Agents](/202609/02/2609.00823v1-polished-but-unresolved-identifying-late-stage-pressure-states-in-long-horizon-tool-use-agents)  
+   evidence：分析轨迹范围监控器在检测自主智能体跨迭代攻击时的失效机理，直接关系智能体错误监测
+5. [HarnessEvolve: Learning from Reference Trajectories for Reliable Agent Self-Evolution](/202609/04/2609.00829v1-harnessevolve-learning-from-reference-trajectories-for-reliable-agent-self-evolution)  
    标签：评分：8.0/10、query:agent-error
-   evidence：检测长时程工具使用智能体在轨迹后期出现的压力状态，即提交看似完善但关键约束未解决的答案
-4. [EmbodiedSkills: A Unified Framework for Orchestrating, Training, and Deploying VLA Agents](/202609/02/2609.01281v1-embodiedskills-a-unified-framework-for-orchestrating-training-and-deploying-vla-agents)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：在执行前检查前提、执行后验证结果，以捕获VLA智能体轨迹中的无效动作
-5. [Parsing the Stream: A Live Trace Model for Long-Horizon Agents and Their Observers](/202609/02/2609.01466v1-parsing-the-stream-a-live-trace-model-for-long-horizon-agents-and-their-observers)  
-   标签：评分：8.0/10、query:agent-error
-   evidence：实时迹模型将长时程智能体轨迹编译为视图，使观察者能高效监控运行状态
+   evidence：着眼于智能体执行轨迹中的错误归因，通过参考轨迹识别出错步骤，解决信用分配失败问题
 
 ### 速读区论文标签
-1. [CoCoBench: A Cooperative Coordination Benchmark for Embodied Multi-Agent Task Planning](/202609/02/2608.28266v1-cocobench-a-cooperative-coordination-benchmark-for-embodied-multi-agent-task-planning)  
+1. [VerNav: Verifier-First Low-Latency Vision-and-Language Navigation](/202609/04/2609.00920v1-vernav-verifier-first-low-latency-vision-and-language-navigation)  
    标签：评分：7.0/10、query:agent-error
-   evidence：结构级基准可检测多智能体轨迹中的重复劳动、顺序违规、资源竞争和交接失步等行动错误
-2. [Verify Smarter, Evolve Further: Efficient Harness Evolution through Behavior-Aware Verification](/202609/02/2608.27311v1-verify-smarter-evolve-further-efficient-harness-evolution-through-behavior-aware-verification)  
+   evidence：在视觉-语言导航的每一步用验证器批量检验候选动作，从而在轨迹生成过程中筛除错误动作
+2. [Using Grounded Theory for Agent Behavior Analysis at Scale](/202609/04/2608.30391v1-using-grounded-theory-for-agent-behavior-analysis-at-scale)  
    标签：评分：6.0/10、query:agent-error
-   evidence：从执行轨迹推导智能体框架修改，并在行为相关任务上选择性验证以发现智能体行为回退
-3. [HarnessEvolve: Learning from Reference Trajectories for Reliable Agent Self-Evolution](/202609/02/2609.00829v1-harnessevolve-learning-from-reference-trajectories-for-reliable-agent-self-evolution)  
-   标签：评分：6.0/10、query:agent-error
-   evidence：借鉴参考轨迹解决信用分配失败，定位导致错误的关键步骤以支撑可靠自我进化
+   evidence：在数千条智能体轨迹上自动化扎根理论分析，无需预构建分类器即可挖掘新行为模式，可用于异常行为发现
 
 
 <div class="dpr-home-promo-card">

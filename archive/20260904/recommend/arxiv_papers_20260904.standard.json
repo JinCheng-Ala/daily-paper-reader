@@ -1,0 +1,319 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-04T22:44:22.927540+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2608.27141v4",
+      "source": "arxiv",
+      "title": "Safety Does Not Compose: Non-Decaying Loop State for Autonomous LLM Agents",
+      "abstract": "Large language model agents are increasingly deployed as autonomous loops. Starting from one human goal, such a system repeatedly discovers work, plans, executes tool calls, verifies outcomes and persists state across many unattended iterations. The agent safeguards in wide use, however, are defined over a single trajectory, and their safety state is re-initialized when the next trajectory begins. We show that this is a failure of composition rather than an implementation detail. Our central result is a separation: against an attack whose evidence is fragmented across several iterations, every trajectory-scoped monitor has a true-positive rate equal to its false-positive rate, however expressive it is, because the evidence it would need never appears in the window it sees, whereas a monitor retaining cross-iteration state separates the two perfectly. We further show that the obvious repair of carrying a geometrically decaying risk score is insufficient, because the cooling-off period a patient adversary must wait is a constant that does not grow with the horizon $N$. We then present LoopHarness, which restores a persistent, non-decaying safety state at the loop level. Under mediated commits and an arbiter detection floor $δ_M$, it bounds the expected number of unauthorized irreversible actions by $B+m-1+m/δ_M$, a constant in $N$, of which the $B+m-1$ term is decided by a model-free rule and therefore survives a fully colluding verifier. We give a complete evaluation protocol on native Agent-SafetyBench tasks with paired clean and attacked episodes, an outer-state attack suite whose decisive evidence exists only across iterations, per-module ablations, and an adaptive white-box red team.",
+      "authors": [
+        "Chenhao Wu",
+        "Haoxuan Jia",
+        "Yang Liu",
+        "Yingguang Yang",
+        "Yuhan Lin",
+        "Chongyang Zhang",
+        "Hao Zheng",
+        "Yulin Huang",
+        "Jianshen Zhang",
+        "Yongzhi Qi",
+        "Shang Luo",
+        "Kefu Xu",
+        "Jifeng Zhu",
+        "Bin Chong"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-27T13:52:31+00:00",
+      "link": "https://arxiv.org/pdf/2608.27141v4",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Proves trajectory-scoped monitors cannot detect agent safety errors with evidence fragmented across multiple autonomous loop iterations",
+      "llm_evidence_cn": "证明轨迹范围监控器无法发现证据分散在多次自动循环迭代中的智能体安全错误",
+      "llm_evidence": "证明轨迹范围监控器无法发现证据分散在多次自动循环迭代中的智能体安全错误",
+      "canonical_evidence": "证明轨迹范围监控器无法发现证据分散在多次自动循环迭代中的智能体安全错误",
+      "llm_tldr_en": "Autonomous LLM agents run in loops but safety monitors reset each trajectory; this paper proves trajectory-scoped monitors have equal true-positive and false-positive rates on cross-iteration attacks, so safe error detection requires non-decaying loop state.",
+      "llm_tldr_cn": "自主LLM智能体以无人值守循环方式运行，而现有安全监控以单条轨迹为界，每条轨迹结束即重置状态。本文证明，面对证据分散在多次迭代中的攻击，任何轨迹范围监控器都无法区分正常行为和异常行为，真阳率与假阳率相等。该缺陷不是实现细节，而是监控状态缺乏跨迭代复合性造成的。因此要实现安全的自主循环，必须设计不随轨迹重置的非衰减循环状态监控机制。",
+      "llm_tldr": "自主LLM智能体以无人值守循环方式运行，而现有安全监控以单条轨迹为界，每条轨迹结束即重置状态。本文证明，面对证据分散在多次迭代中的攻击，任何轨迹范围监控器都无法区分正常行为和异常行为，真阳率与假阳率相等。该缺陷不是实现细节，而是监控状态缺乏跨迭代复合性造成的。因此要实现安全的自主循环，必须设计不随轨迹重置的非衰减循环状态监控机制。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.02057v1",
+      "source": "arxiv",
+      "title": "Monitoring Web Agents Without Internal Signals: Observable Trajectories and Key-Step Supervision",
+      "abstract": "Reliable web-agent monitoring is difficult when model-internal uncertainty signals such as token logits are unavailable. In this work, we study prefix-level risk prediction for web agents using observable trajectory signals: given an evolving prefix, estimate whether the current execution remains on track or is tending toward failure. We derive two observable trajectory representations: Macro features summarize cross-step agent--environment behavior and feedback, while Micro features measure the consistency of intention, action, and anticipated state change through repeated black-box queries. Instead of inheriting the final result label, we label the first critical error that remains uncorrected in the observed continuation and is associated with final failure as a key-step boundary, preserving valid early prefixes of failed trajectories as on track. Across WebArena-Lite and Online Mind2Web web agent benchmarks with five open- and closed-source backbones, observable trajectory signals are competitive with internal-signal baselines. The resulting predictors also support early intervention under fixed false-cut budgets and transfer across held-out website categories. These findings show that observable trajectory signals support valuable risk prediction abilities.",
+      "authors": [
+        "Sitong Pan",
+        "Yipeng Shen",
+        "Yilin Lu",
+        "Caiwen Ding",
+        "Lu Cheng",
+        "Qianwen Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-02T03:34:47+00:00",
+      "link": "https://arxiv.org/pdf/2609.02057v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Prefix-level risk prediction for web agents using observable trajectory features to tell whether execution stays on track",
+      "llm_evidence_cn": "基于可观测轨迹信号做前缀级风险预测，判断Web智能体是否仍在正确路径上",
+      "llm_evidence": "基于可观测轨迹信号做前缀级风险预测，判断Web智能体是否仍在正确路径上",
+      "canonical_evidence": "基于可观测轨迹信号做前缀级风险预测，判断Web智能体是否仍在正确路径上",
+      "llm_tldr_en": "Proposes observable trajectory representations and first-critical-error labels for prefix-level risk prediction of web agents when token logits are unavailable, enabling monitoring of whether execution is drifting toward failure.",
+      "llm_tldr_cn": "论文针对缺乏token logits等模型内部信号时难以可靠监控网页智能体的问题，研究前缀级风险预测。作者提炼宏观跨步行为与反馈特征以及微观意图-动作一致性特征，并采用首个未被纠正的关键错误作为监督标签，而非沿用最终失败结果。实验表明这些可观测轨迹信号能有效判断执行是否还在正轨或走向失败，为无内部信号的Agent行为监测提供了可行方案。",
+      "llm_tldr": "论文针对缺乏token logits等模型内部信号时难以可靠监控网页智能体的问题，研究前缀级风险预测。作者提炼宏观跨步行为与反馈特征以及微观意图-动作一致性特征，并采用首个未被纠正的关键错误作为监督标签，而非沿用最终失败结果。实验表明这些可观测轨迹信号能有效判断执行是否还在正轨或走向失败，为无内部信号的Agent行为监测提供了可行方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.02371v1",
+      "source": "arxiv",
+      "title": "Diagnosing with Insights: Structured Analysis of Agent Failures via Behavioral Abstractions",
+      "abstract": "With the proliferation of LLM agents, the ability to understand and diagnose failures in agents is essential to achieving superior effectiveness and trustworthiness. As agent failures often manifest via long and complex trajectories, manually finding the needles in the haystack is untenable. However, traditional diagnosis techniques for software bugs can hardly address LLM agent failures, while completely relying on LLMs as the judge yields unreliable diagnosis results. To overcome these challenges, this paper presents AGENTSCOPE, a new neuro-symbolic approach for agent failure mode diagnosis. The key principle of AGENTSCOPE is to abstract agent behavior, based on its trajectories, into structured representations. Furthermore, AGENTSCOPE introduces the concept of neural invariants to specify agent behavior properties. AGENTSCOPE leverages LLM-guided reasoning atop the structured representation against neural invariants to pinpoint both the failure step and its type in the trajectory. We show the effectiveness of AGENTSCOPE on publicly available agent failure datasets (Who&When) and a more comprehensive dataset created by us (AgentErrata), where AGENTSCOPE significantly outperforms the current state of the art in fault localization and attribution accuracy. Our work shows that integrating structured abstractions with LLM-guided reasoning enables effective, reliable, and interpretable diagnosis for agent failures.",
+      "authors": [
+        "Jiayi Bi",
+        "Yanjie Gao",
+        "Yuanmin Xie",
+        "Liqun Li",
+        "Tianyin Xu",
+        "Fan Yang",
+        "Mao Yang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-02T09:42:38+00:00",
+      "link": "https://arxiv.org/pdf/2609.02371v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Diagnose agent failure modes from long complex trajectories through behavioral abstractions",
+      "llm_evidence_cn": "从复杂轨迹中通过行为抽象诊断智能体失败模式",
+      "llm_evidence": "从复杂轨迹中通过行为抽象诊断智能体失败模式",
+      "canonical_evidence": "从复杂轨迹中通过行为抽象诊断智能体失败模式",
+      "llm_tldr_en": "AGENTSCOPE is a neuro-symbolic agent failure diagnosis approach that abstracts LLM agent trajectories into structured behavioral representations, enabling reliable failure mode detection without manual inspection or unreliable LLM-only judging.",
+      "llm_tldr_cn": "智能体失败常表现为冗长复杂的轨迹，人工排查低效，传统软件诊断不适用，仅靠LLM评判又不可靠。为此论文提出神经符号方法AGENTSCOPE，将智能体轨迹抽象为结构化行为表示后再诊断失败模式。实验表明相比人工与纯LLM判别，AGENTSCOPE能更准确识别复杂轨迹中的失败类型。这种基于行为抽象的诊断技术为理解和调试智能体轨迹错误提供了系统化方案。",
+      "llm_tldr": "智能体失败常表现为冗长复杂的轨迹，人工排查低效，传统软件诊断不适用，仅靠LLM评判又不可靠。为此论文提出神经符号方法AGENTSCOPE，将智能体轨迹抽象为结构化行为表示后再诊断失败模式。实验表明相比人工与纯LLM判别，AGENTSCOPE能更准确识别复杂轨迹中的失败类型。这种基于行为抽象的诊断技术为理解和调试智能体轨迹错误提供了系统化方案。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.27141v3",
+      "source": "arxiv",
+      "title": "Safety Does Not Compose: Non-Decaying Loop State for Autonomous LLM Agents",
+      "abstract": "Large language model agents are increasingly deployed as autonomous loops. Starting from one human goal, such a system repeatedly discovers work, plans, executes tool calls, verifies outcomes and persists state across many unattended iterations. The agent safeguards in wide use, however, are defined over a single trajectory, and their safety state is re-initialized when the next trajectory begins. We show that this is a failure of composition rather than an implementation detail. Our central result is a separation: against an attack whose evidence is fragmented across several iterations, every trajectory-scoped monitor has a true-positive rate equal to its false-positive rate, however expressive it is, because the evidence it would need never appears in the window it sees, whereas a monitor retaining cross-iteration state separates the two perfectly. We further show that the obvious repair of carrying a geometrically decaying risk score is insufficient, because the cooling-off period a patient adversary must wait is a constant that does not grow with the horizon $N$. We then present LoopHarness, which restores a persistent, non-decaying safety state at the loop level. Under mediated commits and an arbiter detection floor $δ_M$, it bounds the expected number of unauthorized irreversible actions by $B+m-1+m/δ_M$, a constant in $N$, of which the $B+m-1$ term is decided by a model-free rule and therefore survives a fully colluding verifier. We give a complete evaluation protocol on native Agent-SafetyBench tasks with paired clean and attacked episodes, an outer-state attack suite whose decisive evidence exists only across iterations, per-module ablations, and an adaptive white-box red team.",
+      "authors": [
+        "Chenhao Wu",
+        "Haoxuan Jia",
+        "Yang Liu",
+        "Yingguang Yang",
+        "Yuhan Lin",
+        "Chongyang Zhang",
+        "Hao Zheng",
+        "Yulin Huang",
+        "Jianshen Zhang",
+        "Yongzhi Qi",
+        "Shang Luo",
+        "Kefu Xu",
+        "Jifeng Zhu",
+        "Bin Chong"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-08-27T13:52:31+00:00",
+      "link": "https://arxiv.org/pdf/2608.27141v3",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "analyzes limitations of trajectory-scoped monitors for detecting cross-iteration attacks in autonomous agent loops, directly relevant to monitoring agent errors",
+      "llm_evidence_cn": "分析轨迹范围监控器在检测自主智能体跨迭代攻击时的失效机理，直接关系智能体错误监测",
+      "llm_evidence": "分析轨迹范围监控器在检测自主智能体跨迭代攻击时的失效机理，直接关系智能体错误监测",
+      "canonical_evidence": "分析轨迹范围监控器在检测自主智能体跨迭代攻击时的失效机理，直接关系智能体错误监测",
+      "llm_tldr_en": "For autonomous LLM agents, this paper proves that trajectory-scoped monitors cannot detect attacks whose evidence is fragmented across multiple iterations: their true-positive rate equals their false-positive rate. This theoretical separation shows cross-trajectory state is necessary for effective safety monitoring.",
+      "llm_tldr_cn": "大型语言模型智能体常以自主循环方式运行，跨多次迭代持续规划与执行任务，而现有安全监控只在单条轨迹内生效，状态随着轨迹开始而重置。本文证明这是一种组合性失效：对于证据分散在多次迭代中的攻击，任何表达能力足够的轨迹范围监控器都会出现真阳性率等于假阳性率，即无法区分攻击与正常行为。该结论强调为保障跨迭代安全必须引入不衰减的循环状态机制，为智能体错误检测与监控设计提供了关键的理论边界。",
+      "llm_tldr": "大型语言模型智能体常以自主循环方式运行，跨多次迭代持续规划与执行任务，而现有安全监控只在单条轨迹内生效，状态随着轨迹开始而重置。本文证明这是一种组合性失效：对于证据分散在多次迭代中的攻击，任何表达能力足够的轨迹范围监控器都会出现真阳性率等于假阳性率，即无法区分攻击与正常行为。该结论强调为保障跨迭代安全必须引入不衰减的循环状态机制，为智能体错误检测与监控设计提供了关键的理论边界。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "monitoring agent behavior for errors",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.00829v1",
+      "source": "arxiv",
+      "title": "HarnessEvolve: Learning from Reference Trajectories for Reliable Agent Self-Evolution",
+      "abstract": "Self-evolving agents advance toward autonomy by optimizing their harness---prompts, skills, tools, and execution logic---based on environmental feedback. This paradigm, however, is hampered by three challenges: \\textit{credit assignment failure}, where terminal success/failure feedback makes it ambiguous which step caused the error; \\textit{shortcut learning}, where agents memorize task-specific patterns rather than acquire generalizable capabilities; and \\textit{catastrophic forgetting}, where unguarded updates degrade previously acquired competence. In this paper, we introduce HarnessEvolve, a self-evolving framework that learns from reference trajectories to achieve reliable agent self-evolution. HarnessEvolve decouples the execution agent from the evolutionary pipeline, assigning execution, evaluation, optimization, and gating to independent agent modules, enabling generalizable and stable harness improvements. Specifically, HarnessEvolve overcomes credit assignment failure by generating reference trajectories (execution paths produced when given the ground-truth answers) and aligning failed executions against them to extract error signals, which are clustered to reveal systematic failure patterns. To prevent shortcut learning and catastrophic forgetting, candidate harness updates must pass two gates: a quality gate that filters data leakage and prompt bloat, and a performance gate that accepts each update if it improves on the current batch without degrading recent batches, with epoch-end validation on a held-out set selecting the best-performing accepted agent snapshot. We conduct extensive experiments on several benchmarks spanning open-domain and enterprise scenarios, using different models and agent frameworks. Results demonstrate that HarnessEvolve consistently outperforms state-of-the-art baselines across all benchmarks and settings, confirming reliability across task domains.",
+      "authors": [
+        "Wen Jiang",
+        "Mingmin Chu",
+        "Yimeng Tian",
+        "Qianxin Zhang",
+        "Haofei Yang",
+        "Rui Yang",
+        "Yang Liu",
+        "Tao Lv",
+        "Fangming Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-01T07:31:18+00:00",
+      "link": "https://arxiv.org/pdf/2609.00829v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Explicitly tackles credit assignment failure by locating which step caused an error in agent execution trajectories and improves the agent via reference trajectories",
+      "llm_evidence_cn": "着眼于智能体执行轨迹中的错误归因，通过参考轨迹识别出错步骤，解决信用分配失败问题",
+      "llm_evidence": "着眼于智能体执行轨迹中的错误归因，通过参考轨迹识别出错步骤，解决信用分配失败问题",
+      "canonical_evidence": "着眼于智能体执行轨迹中的错误归因，通过参考轨迹识别出错步骤，解决信用分配失败问题",
+      "llm_tldr_en": "HarnessEvolve learns from reference trajectories to improve agent self-evolution by breaking down execution and attributing errors to the responsible step, countering shortcut learning and catastrophic forgetting.",
+      "llm_tldr_cn": "自进化智能体依赖终端成功或失败反馈来调整提示、技能与工具等配置，但常因无法判断哪一步出错而难以更新，还伴随捷径学习与灾难性遗忘。HarnessEvolve 通过解耦执行过程并学习参考轨迹，在轨迹层面定位错误步骤，据此引导智能体更新已学习技能。这一机制把稀疏的全局奖励转换为更细粒度的过程监督，使智能体在积累经验时既减小错误传播，也保持已有能力，从而获得更可靠的自主进化能力。",
+      "llm_tldr": "自进化智能体依赖终端成功或失败反馈来调整提示、技能与工具等配置，但常因无法判断哪一步出错而难以更新，还伴随捷径学习与灾难性遗忘。HarnessEvolve 通过解耦执行过程并学习参考轨迹，在轨迹层面定位错误步骤，据此引导智能体更新已学习技能。这一机制把稀疏的全局奖励转换为更细粒度的过程监督，使智能体在积累经验时既减小错误传播，也保持已有能力，从而获得更可靠的自主进化能力。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting errors in agent trajectories",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.00920v1",
+      "source": "arxiv",
+      "title": "VerNav: Verifier-First Low-Latency Vision-and-Language Navigation",
+      "abstract": "Vision-and-Language Navigation (VLN) requires an agent to navigate through unseen 3D environments according to natural-language instructions. Explicit reasoning can improve instruction understanding and semantic grounding, but autoregressive generation at every step accumulates large decision-stage latency over multi-step navigation. We propose VerNav, a verifier-first framework for low-latency LLM-based VLN. The verifier reduces decision-stage latency by replacing per-step autoregressive generation with batched action verification, while an entropy-based adaptive generator is invoked only for uncertain decisions to produce compact state evidence. To further improve navigation performance with the verifier, we introduce a two-stage alignment scheme: (i) VPO improves local action-preference alignment in static verifier training, and (ii) step-level reinforcement fine-tuning provides dense progress rewards over multi-step navigation rollouts during dynamic task execution. Experiments on the Room-to-Room (R2R) benchmark show that the verifier-only decision path of VerNav achieves competitive navigation performance among representative LLM-based VLN agents while reducing average decision-stage LLM latency per step by more than $10\\times$ compared with autoregressive methods.",
+      "authors": [
+        "Zhixin Wang",
+        "Chengzheyi Yao",
+        "Leyuan Liu",
+        "Xiaosong Zhang",
+        "Yongzhao Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-09-01T08:45:15+00:00",
+      "link": "https://arxiv.org/pdf/2609.00920v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Uses a verifier to validate batched candidate actions in vision-and-language navigation, pruning faulty action choices within the agent trajectory generation loop",
+      "llm_evidence_cn": "在视觉-语言导航的每一步用验证器批量检验候选动作，从而在轨迹生成过程中筛除错误动作",
+      "llm_evidence": "在视觉-语言导航的每一步用验证器批量检验候选动作，从而在轨迹生成过程中筛除错误动作",
+      "canonical_evidence": "在视觉-语言导航的每一步用验证器批量检验候选动作，从而在轨迹生成过程中筛除错误动作",
+      "llm_tldr_en": "VerNav is a verifier-first LLM-based VLN framework that checks batched candidate actions instead of autoregressively generating each step, lowering trajectory-level decision latency while using adaptive generation for uncertain decisions.",
+      "llm_tldr_cn": "在视觉-语言导航中，基于大模型逐步自回归推理虽有较强的语义能力，却在多步决策中带来高延迟，且难以及时纠正错误动作。VerNav 将验证器前置，用批量动作验证取代每步生成，仅在不确定时启用熵驱动的生成器补充状态证据，从而更快地识别并排除无效动作。通过两阶段对齐方案，该方法兼顾低延迟与高成功率，为大模型导航智能体的逐动作可靠性提供了新思路。",
+      "llm_tldr": "在视觉-语言导航中，基于大模型逐步自回归推理虽有较强的语义能力，却在多步决策中带来高延迟，且难以及时纠正错误动作。VerNav 将验证器前置，用批量动作验证取代每步生成，仅在不确定时启用熵驱动的生成器补充状态证据，从而更快地识别并排除无效动作。通过两阶段对齐方案，该方法兼顾低延迟与高成功率，为大模型导航智能体的逐动作可靠性提供了新思路。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "detecting action errors in agent trajectories",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.30391v1",
+      "source": "arxiv",
+      "title": "Using Grounded Theory for Agent Behavior Analysis at Scale",
+      "abstract": "Understanding agent behavior requires methods that scale to thousands of trajectories and surface new patterns in long, often unfamiliar tasks where pre-built classifiers fall short. We propose to bring grounded theory into agent trajectory analysis: a six-decade-old qualitative method from the social sciences, with a principled saturation criterion and an auditable trail from data to theory. We propose AutoTraceGT (Automated Trace analysis through Grounded Theory), the first multi-agent pipeline that automates grounded theory on agent trajectories. It iteratively performs open, axial, and theoretical coding until saturation, producing a behavioral taxonomy tailored to each task. Across six trajectory corpora, AutoTraceGT produces codebooks that recover 73-91 percent of the failure modes in human-annotated taxonomies and surface additional patterns that those taxonomies miss. The emergent theoretical narrative aligns with prior expert accounts. Used as a deductive feature space, the codebook outperforms zero-shot and few-shot LLM baselines on downstream failure prediction. These results suggest Grounded Theory offers a scalable analytic tool for ML researchers and agent developers studying what agents actually do.",
+      "authors": [
+        "Zhuoran Lu",
+        "Yangyang Yu",
+        "Zhuoyan Li",
+        "Yibo Meng",
+        "Nan Jiang",
+        "Chengxi Zang",
+        "Jie Gao",
+        "Ziang Xiao"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-08-31T07:47:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.30391v1",
+      "tags": [
+        "keyword:agent-error",
+        "query:agent-error"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Automated grounded-theory pipeline over thousands of agent trajectories surfaces new behavior patterns without prebuilt classifiers, useful for discovering anomalous behavior",
+      "llm_evidence_cn": "在数千条智能体轨迹上自动化扎根理论分析，无需预构建分类器即可挖掘新行为模式，可用于异常行为发现",
+      "llm_evidence": "在数千条智能体轨迹上自动化扎根理论分析，无需预构建分类器即可挖掘新行为模式，可用于异常行为发现",
+      "canonical_evidence": "在数千条智能体轨迹上自动化扎根理论分析，无需预构建分类器即可挖掘新行为模式，可用于异常行为发现",
+      "llm_tldr_en": "AutoTraceGT is a multi-agent pipeline automating grounded-theory coding over agent trajectories until saturation, producing task-specific behavior codebooks that recover 73-91% of human categories across six corpora.",
+      "llm_tldr_cn": "理解智能体行为需要能够扩展到数千条轨迹并发现新模式的方法。该文把扎根理论引入智能体轨迹分析，提出首个自动化多智能体管线AutoTraceGT，对轨迹迭代执行开放、轴向与理论编码直至饱和，生成符合具体任务的类别体系并保留从数据到理论的可审计链条。在六个轨迹语料库上，生成的编码本能覆盖人类标注的73%-91%，为在长而陌生的任务中发现异常行为模式提供了可扩展的底层方法。",
+      "llm_tldr": "理解智能体行为需要能够扩展到数千条轨迹并发现新模式的方法。该文把扎根理论引入智能体轨迹分析，提出首个自动化多智能体管线AutoTraceGT，对轨迹迭代执行开放、轴向与理论编码直至饱和，生成符合具体任务的类别体系并保留从数据到理论的可审计链条。在六个轨迹语料库上，生成的编码本能覆盖人类标注的73%-91%，为在长而陌生的任务中发现异常行为模式提供了可扩展的底层方法。",
+      "llm_tags": [
+        "query:agent-error"
+      ],
+      "matched_query_tag": "query:agent-error",
+      "matched_query_text": "Methods for anomaly detection in agent trajectories",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
